@@ -9,7 +9,19 @@ export default defineConfig({
       nappletType: 'hostile-egress',
       title: 'Hostile egress probe',
       description: 'Test-only direct browser and native authority probe.',
-      requires: [],
+      requires: { explicit: ['config'], infer: true, mode: 'error' },
+      configSchema: {
+        type: 'object',
+        properties: {
+          sentinel: {
+            type: 'string',
+            description: 'Unique live unprivileged http://127.0.0.1 sentinel URL.',
+            default: 'unset',
+          },
+        },
+        required: ['sentinel'],
+        additionalProperties: false,
+      },
       artifactMode: 'single-file',
     }),
   ],

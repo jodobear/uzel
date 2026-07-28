@@ -1,8 +1,10 @@
 import '@napplet/shim';
+import { get as getConfig } from '@napplet/nap/config/sdk';
 
 import { nativeSurface, sentinelTargets, workerLoad } from './probes.js';
 
-const target = sentinelTargets();
+const config = await getConfig();
+const target = sentinelTargets(config.sentinel);
 const results = nativeSurface();
 
 async function denied(name, operation) {

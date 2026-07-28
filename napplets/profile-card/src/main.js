@@ -45,7 +45,7 @@ async function openProfile(payload) {
     name.textContent = profile.name;
     about.textContent = profile.about;
     status.textContent = result.incomplete ? 'Latest-known profile; evidence incomplete.' : 'Latest-known profile.';
-    evidence.textContent = `event ${profile.eventId} · ${new Date(profile.createdAt * 1_000).toISOString()}`;
+    evidence.textContent = `event ${profile.eventId} · ${profile.observedAt}`;
   } catch (error) {
     if (!profileRequests.isCurrent(requestGeneration)) return;
     status.textContent = `Profile unavailable: ${error instanceof Error ? error.message : String(error)}`;

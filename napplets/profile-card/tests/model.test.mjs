@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { canonicalProfile, createLatestRequestGate, PROFILE_RESULT_LIMIT } from '../src/model.js';
+import {
+  canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS, PROFILE_RESULT_LIMIT,
+} from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
 
@@ -19,10 +21,20 @@ test('projects the single canonical kind 0 returned by NMP', () => {
       pubkey: PUBKEY,
       eventId: 'canonical',
       createdAt: 30,
+      observedAt: '1970-01-01T00:00:30.000Z',
       name: 'New',
       about: 'Evidence-backed.',
     },
   );
+});
+
+test('rejects timestamps outside the JavaScript Date range before projection', () => {
+  assert.equal(
+    canonicalProfile([result('maximum', MAXIMUM_DATE_SECONDS, '{}')], PUBKEY)?.observedAt,
+    '+275760-09-13T00:00:00.000Z',
+  );
+  assert.equal(canonicalProfile([result('too-large', MAXIMUM_DATE_SECONDS + 1, '{}')], PUBKEY), null);
+  assert.equal(canonicalProfile([result('negative', -1, '{}')], PUBKEY), null);
 });
 
 test('never selects among provider rows or revives a replaced profile', () => {

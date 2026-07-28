@@ -13,16 +13,16 @@ test('hostile fixture keeps required probe inventory explicit', () => {
 
 test('hostile fixture requires an explicit unprivileged loopback sentinel', () => {
   assert.deepEqual(
-    sentinelTargets('?sentinel=http%3A%2F%2F127.0.0.1%3A43129%2Fhostile-egress%3Frun%3Dabc'),
+    sentinelTargets('http://127.0.0.1:43129/hostile-egress?run=abc'),
     {
       http: 'http://127.0.0.1:43129/hostile-egress?run=abc',
       websocket: 'ws://127.0.0.1:43129/hostile-egress?run=abc',
     },
   );
-  assert.throws(() => sentinelTargets(''), /required/);
-  assert.throws(() => sentinelTargets('?sentinel=http://127.0.0.1:9/probe'), /unprivileged/);
-  assert.throws(() => sentinelTargets('?sentinel=https://127.0.0.1:43129/probe'), /unprivileged/);
-  assert.throws(() => sentinelTargets('?sentinel=http://example.com:43129/probe'), /unprivileged/);
+  assert.throws(() => sentinelTargets(), /required/);
+  assert.throws(() => sentinelTargets('http://127.0.0.1:9/probe'), /unprivileged/);
+  assert.throws(() => sentinelTargets('https://127.0.0.1:43129/probe'), /unprivileged/);
+  assert.throws(() => sentinelTargets('http://example.com:43129/probe'), /unprivileged/);
 });
 
 test('worker probe waits for the load outcome', async () => {

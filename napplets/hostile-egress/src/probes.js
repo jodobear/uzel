@@ -14,8 +14,7 @@ export const PROBE_NAMES = Object.freeze([
   'rawWebkitTransport',
 ]);
 
-export function sentinelTargets(search = globalThis.location.search) {
-  const configured = new URLSearchParams(search).get('sentinel');
+export function sentinelTargets(configured) {
   if (!configured) throw new Error('loopback sentinel URL is required');
 
   const http = new URL(configured);

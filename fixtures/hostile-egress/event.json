@@ -1,6 +1,6 @@
 {
   "kind": 35129,
-  "created_at": 1785271079,
+  "created_at": 1785272358,
   "tags": [
     [
       "d",
@@ -9,11 +9,11 @@
     [
       "path",
       "/index.html",
-      "01f37719d33342f8a43e2f3344741cabf2793baf972191b0aea63a388a51ee85"
+      "94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9"
     ],
     [
       "x",
-      "5b1e9415d5e872eafb5f1531dec0beaa0a0ac4b07a36792c92c18515434675ee",
+      "6dcafdf3a2622d7daa6544f1c668ffce7b5dd1f0c7984d658ae0803da93410c0",
       "aggregate"
     ],
     [
@@ -27,10 +27,14 @@
     [
       "description",
       "Test-only direct browser and native authority probe."
+    ],
+    [
+      "requires",
+      "config"
     ]
   ],
   "content": "",
-  "id": "2b30d2cf4f383a96b34fa95ef047611edbfb283b3968af8d976ba00b30f3ecba",
-  "pubkey": "982292232bb86f3ac576680af64b193be8eba814e539d42624637ff92800e3fa",
-  "sig": "63b23fb8a77d18be7c8e7ecd72b0defe73f20c4646fa7e781206110129059a984672411f485e82b5c6c3577fb7fed609374c4455898bf2be0fbf790446230dca"
+  "id": "a4141f4162db8032985f635dfa181b1e3ef0208b9a8db6832212b49a6eae0435",
+  "pubkey": "b0e591472ce87429291f883c1101f54b4ba2c082074aded52b97a8dcbc87a4cd",
+  "sig": "e4d0f26cbcebf15baa94cfdfca219487efba8ea2de3380e0f7a3ecdf858a188d8156986f1af795556521ca2c893050261c46f7cf6d1f779f20ab1e4b7613a352"
 }
