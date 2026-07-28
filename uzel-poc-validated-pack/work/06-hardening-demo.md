@@ -6,8 +6,9 @@ Make the POC reproducible, honest, and presentable.
 
 ## Tasks
 
-- Run the hostile frame suite across all listed egress/native/identity probes.
-- Retain the Gate 0 top-frame-only Tauri/Wry configuration and exact child CSP; fail if the raw WebKit handler can execute a command without the invoke key or if any sentinel connection occurs.
+- Start a live TCP sentinel on an ephemeral unprivileged `127.0.0.1` port, prove it accepts a control connection, and pass its unique HTTP URL to the hostile fixture through the required `sentinel` query parameter.
+- Run the hostile frame suite across all listed egress/native/identity probes. A missing, dead, privileged-port, or non-loopback sentinel is a test setup failure, never a network-denial pass.
+- Retain the Gate 0 top-frame-only Tauri/Wry configuration and exact child CSP; after all probes settle, separately assert that the live sentinel accepted zero probe connections. Also fail if the raw WebKit handler can execute a command without the invoke key.
 - Verify user mode hides diagnostics and unsafe fixture controls.
 - Run clean Fedora and Debian gates.
 - Run Rust, frontend, Fallow, conformance, and documentation checks.

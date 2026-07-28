@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `19394f2440a58ac0006240493eba74ffef79b02f8c289ba960ea32582ded1001` |
-| follow-list | event `976efcd4...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `e51a7606...`; aggregate `f9c2dff6...`; index `3aeb7d40...`; 59849 bytes |
-| hostile-egress | event `04fb4b1a...`; aggregate `f04ae934...`; index `9afed7b8...`; 57941 bytes |
+| fixture author | `bd1b2477aab9b03761a3c419cce68d71b39268348f44ac1ed61033ca60d9c63d` |
+| follow-list | event `bfacbe07...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `ad090e3c...`; aggregate `f9c2dff6...`; index `3aeb7d40...`; 59849 bytes |
+| hostile-egress | event `bec66ce1...`; aggregate `5b1e9415...`; index `01f37719...`; 58378 bytes |
 | `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -93,7 +93,7 @@ pnpm smoke:debian
 All commands run in the pinned Nix development shell. Observed:
 
 - contract tests: 2 pass;
-- napplet unit tests: follow-list 1, profile-card 2, hostile-egress 1 pass;
+- napplet unit tests: follow-list 1, profile-card 3, hostile-egress 3 pass;
 - Rust workspace: napd 4 and protocol 1 pass, including three signed-fixture
   verifications and queryless runtime INC delivery;
 - conformance: follow-list and profile-card each 6 passed, 0 failed, 4 skipped;
@@ -124,6 +124,13 @@ as not-proven-denied rather than producing a false pass. Both behaviors have
 regression coverage, and the official CLI regenerated and repinned the affected
 exact-build fixtures again.
 
+Codex's third review found that the hostile fixture's dead port could turn
+connection refusal into false network-denial evidence. The fixture now requires
+an explicit unprivileged `127.0.0.1` sentinel URL and rejects missing, privileged,
+TLS, or non-loopback targets. Work 06 must preflight a live sentinel and assert
+its accept counter remains zero independently of browser-side error results.
+The exact signed fixtures were regenerated and repinned again.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
@@ -134,7 +141,10 @@ matching the environment failure already preserved by Slice 02. The documented d
 Work 03 proves that `hostile-egress` is separate, single-file, unit-covered,
 signed, byte-pinned, and accepted by the exact-build verifier. It does not
 claim the full hostile browser matrix passed. Work 06 must execute it under the
-strict CSP and attest network/native denials.
+strict CSP against an explicitly configured live, preflighted, unprivileged
+loopback sentinel, then separately attest that the sentinel accepted zero probe
+connections. Missing/dead sentinel configuration fails fixture startup instead
+of turning connection refusal into false denial evidence.
 
 ## Upstream result
 

@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2222,
-      "sha256": "18b9d64f58555be2019cd6f7702043e7971c2b3f03c43533b21bc631151b5088"
+      "bytes": 2334,
+      "sha256": "fad91df5f0230a2dbab03f158ce7c9e9c99163d476c840ec56951ceb1762b829"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "88ade13430b9dd83a5cb415988073655e2b019cda8b9d49236e66569754e6c0d"
+      "sha256": "0d70c1786908f750b4b25d194f0487031d064b9f5a621cbcaf4d43e33caf1c3b"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 16149,
-      "sha256": "b0f44bbd1bd691918e51f720ee54865d588f400996fddbcd7d0939f3507ff00b"
+      "bytes": 16290,
+      "sha256": "a428c5a4f144e533bb70fb68337d6a5584c004acc692d967dae336de494cd50c"
     },
     {
       "path": "config/fallow.jsonc",
@@ -177,8 +177,8 @@
     },
     {
       "path": "reports/slice-03-preflight.md",
-      "bytes": 6819,
-      "sha256": "73dae8758d2a75b3004c4d99382f2542eabc69b5e2aebfcb915c6c453d3e0f38"
+      "bytes": 7525,
+      "sha256": "236c46978ec8325f5639b291cb0d2d3708db9224f2136c7d4972f6dbfe0c4053"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
@@ -237,8 +237,8 @@
     },
     {
       "path": "work/06-hardening-demo.md",
-      "bytes": 1044,
-      "sha256": "3de378a7d8cc1b34f389dc6f10998a258c811c7c5a1b5b2600ba479d2fc58cbe"
+      "bytes": 1439,
+      "sha256": "1bdec42946720a7565dc0825d155b1cad9e222d17652e86a6143d24066ce178f"
     }
   ]
 }
