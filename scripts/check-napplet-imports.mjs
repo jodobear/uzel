@@ -18,6 +18,7 @@ const dependencyGroups = [
 ];
 const directNetworkIdentifiers = new Set([
   'Audio',
+  'DOMParser',
   'EventSource',
   'Image',
   'RTCPeerConnection',
@@ -562,6 +563,7 @@ function runSelfTest() {
     'const { constructor: compile } = () => {}; compile("return fetch")()(remote)',
     "const anchor = document.createElement('a'); Object.assign(anchor, { href: remote }); anchor.click()",
     'new RTCPeerConnection({ iceServers: [{ urls: remote }] })',
+    `new DOMParser().parseFromString('<img src="https://example.test/x">', 'text/html')`,
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
