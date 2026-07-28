@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `b0e591472ce87429291f883c1101f54b4ba2c082074aded52b97a8dcbc87a4cd` |
-| follow-list | event `ce54276d...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `a019be60...`; aggregate `71c7c91d...`; index `f294c630...`; 59872 bytes |
-| hostile-egress | event `a4141f41...`; aggregate `6dcafdf3...`; index `94fd9d4e...`; 58909 bytes |
+| fixture author | `5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2` |
+| follow-list | event `1dd1a665...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `dd3a9f4f...`; aggregate `9ee2d7bf...`; index `eeb03777...`; 59795 bytes |
+| hostile-egress | event `c942cb13...`; aggregate `6dcafdf3...`; index `94fd9d4e...`; 58909 bytes |
 | `pnpm-lock.yaml` | `4912ecf4dc1ae316b7133bab5f3ea54d3acf880745110d8134e0a5b4a16738cc` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -277,13 +277,11 @@ Codex's twenty-third review found reflective constructor recovery through
 prototype introspection methods. Self-tests cover the reported Reflect form and
 `Object.getOwnPropertyDescriptor` recovery.
 
-Codex's twenty-fourth review found destructured constructor recovery and
-`Object.assign` DOM mutation. Constructor bindings are rejected; only
-`Object.freeze` is allowed on the guarded `Object` global. Exact probes cover both.
-
-Codex's twenty-fifth review found raw `RTCPeerConnection` authority; it is now
-denied with an exact ICE-server probe. Its graph-commit claim was rejected:
-code (`0729925`), evidence (`aebbb0c`), and graph (`ecef25a`) were already separate.
+Rounds 24–26 deny destructured constructors, non-freeze `Object` use, raw
+`RTCPeerConnection`, and Window-returning event targets, each with exact probes.
+Round 25's graph claim was rejected: code (`0729925`), evidence (`aebbb0c`), and
+graph (`ecef25a`) were separate. Round 26 rebuilt and re-signed all fixtures
+with a disposable key, then updated exact runtime and asset pins.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
