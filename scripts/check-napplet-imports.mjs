@@ -42,7 +42,6 @@ const guardedBrowserGlobals = new Set([
 const allowedGuardedGlobalAccesses = new Set([
   'document.createElement',
   'document.querySelector',
-  'window.addEventListener',
 ]);
 const globalReturningProperties = new Set([
   'contentDocument',
@@ -480,6 +479,7 @@ function runSelfTest() {
     "const root = element.ownerDocument.defaultView; root['fetch'](remote)",
     "const root = top; root['fetch'](remote)",
     'const { fetch: send } = window; send(remote)',
+    "window.addEventListener('load', event => event.currentTarget['fetch'](remote))",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
@@ -495,7 +495,6 @@ function runSelfTest() {
     }
   }
   for (const source of [
-    "window.addEventListener('load', ready)",
     "document.querySelector('#target')",
     "document.createElement('button')",
   ]) {

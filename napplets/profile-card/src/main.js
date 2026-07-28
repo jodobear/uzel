@@ -52,12 +52,9 @@ async function openProfile(payload) {
   }
 }
 
-let subscription = null;
 try {
-  subscription = incOn(PROFILE_OPEN_TOPIC, (payload) => void openProfile(payload));
+  incOn(PROFILE_OPEN_TOPIC, (payload) => void openProfile(payload));
   status.textContent = 'Waiting for profile/open…';
 } catch (error) {
   status.textContent = `INC unavailable: ${error instanceof Error ? error.message : String(error)}`;
 }
-
-window.addEventListener('pagehide', () => subscription?.close(), { once: true });
