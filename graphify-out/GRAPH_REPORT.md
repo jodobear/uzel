@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 96 files · ~41,197 words
+- 96 files · ~41,326 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 657 nodes · 733 edges · 82 communities (55 shown, 27 thin omitted)
+- 659 nodes · 735 edges · 81 communities (55 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c74adb53`
+- Built from commit: `5e6e99b8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -87,7 +87,6 @@
 - Work 05 — composed demo
 - Work 06 — hardening and demo acceptance
 - README.md
-- fact.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 16 edges
@@ -116,7 +115,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (82 total, 27 thin omitted)
+## Communities (81 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -127,8 +126,8 @@ Cohesion: 0.23
 Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), decodeResourceBlob(), exactFields(), isBoundedEnvelope(), isPlainObject(), isVerifiedArtifactBaseURL() (+10 more)
 
 ### Community 2 - "check-napplet-imports.mjs"
-Cohesion: 0.10
-Nodes (23): anyResourceAttribute, { compile: compileSvelte, parse: parseSvelte }, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers, guardedBrowserGlobals, isLocalViteEntry() (+15 more)
+Cohesion: 0.09
+Nodes (25): allowedGuardedGlobalAccesses, anyResourceAttribute, { compile: compileSvelte, parse: parseSvelte }, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers, globalReturningProperties (+17 more)
 
 ### Community 3 - "Provisional component design"
 Cohesion: 0.20
@@ -303,9 +302,9 @@ Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ## Knowledge Gaps
-- **344 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+339 more)
+- **346 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+341 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -315,9 +314,9 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _344 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _346 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.09686609686609686 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08866995073891626 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
