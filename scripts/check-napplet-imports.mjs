@@ -29,6 +29,7 @@ const directNetworkIdentifiers = new Set([
   'sendBeacon',
   'serviceWorker',
 ]);
+const guardedBrowserGlobals = new Set(['globalThis', 'self', 'window']);
 const resourceAssignmentProperties = new Set([
   'action',
   'background',
@@ -261,6 +262,16 @@ function programmaticNetworkViolations(path, source) {
     if (ts.isIdentifier(node) && directNetworkIdentifiers.has(node.text)) {
       add(node, `browser network API ${node.text}`);
     }
+    if (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) {
+      const owner = propertyName(node.expression);
+      const member = propertyName(node);
+      if (
+        guardedBrowserGlobals.has(owner) &&
+        (member === null || directNetworkIdentifiers.has(member) || member === 'open')
+      ) {
+        add(node, `guarded browser-global access ${member ?? '<dynamic>'}`);
+      }
+    }
 
     if (
       ts.isBinaryExpression(node) &&
@@ -308,7 +319,8 @@ function programmaticNetworkViolations(path, source) {
       }
       if (
         called === 'open' &&
-        ts.isPropertyAccessExpression(node.expression) &&
+        (ts.isPropertyAccessExpression(node.expression) ||
+          ts.isElementAccessExpression(node.expression)) &&
         ['globalThis', 'window'].includes(propertyName(node.expression.expression))
       ) {
         add(node, 'window.open navigation');
@@ -412,6 +424,10 @@ function runSelfTest() {
   }
   for (const source of [
     "const socket = new WebSocket('wss://example.test')",
+    "globalThis['fetch'](remote)",
+    "new globalThis['WebSocket'](remote)",
+    "window['open'](remote)",
+    'globalThis[capability](remote)',
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
