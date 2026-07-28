@@ -1,0 +1,21 @@
+{
+  "name": "@uzel/shell",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:web": "vite --host 127.0.0.1 --port 1420 --strictPort",
+    "build": "vite build",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "tauri": "cargo tauri"
+  },
+  "dependencies": {
+    "svelte": "5.56.8"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "svelte-check": "4.7.4",
+    "typescript": "6.0.3",
+    "vite": "8.1.5"
+  }
+}

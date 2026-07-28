@@ -1,0 +1,25 @@
+{
+  "name": "uzel-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.8.0",
+  "engines": {
+    "node": ">=22.12 <23"
+  },
+  "devDependencies": {
+    "fallow": "3.9.1"
+  },
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "build": "pnpm --filter @uzel/shell build && cargo build --workspace",
+    "check": "pnpm --filter @uzel/shell check && pnpm --filter @uzel/shell build && cargo check --workspace",
+    "test": "cargo test --workspace",
+    "lint": "cargo clippy --workspace --all-targets -- -D warnings && bash scripts/check-boundaries.sh",
+    "format:check": "cargo fmt --all -- --check",
+    "docs:check": "python3 uzel-poc-validated-pack/scripts/audit_docs.py",
+    "fallow": "fallow --root . --config config/fallow.jsonc --format json --quiet --fail-on-issues",
+    "smoke": "bash scripts/smoke.sh",
+    "smoke:fedora": "bash scripts/fedora-run-smoke.sh",
+    "smoke:debian": "bash scripts/debian-build-smoke.sh"
+  }
+}

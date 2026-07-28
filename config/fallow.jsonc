@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/AdrianGonz97/fallow/main/schema.json",
+  "rules": {
+    "unresolved-imports": "error",
+    "unlisted-dependencies": "error",
+    "unused-files": "error",
+    "unused-dependencies": "error"
+  },
+  "ignorePatterns": [
+    "graphify-out/**",
+    "uzel-poc-validated-pack/**",
+    "**/dist/**",
+    "**/target/**"
+  ]
+}
