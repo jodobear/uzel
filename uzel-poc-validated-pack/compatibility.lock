@@ -330,6 +330,7 @@ codex_review_round_7 = "addressed: reject commented dynamic imports, including m
 codex_review_round_8 = "addressed: replace regex import matching with the pinned TypeScript parser and reject nonliteral dynamic imports"
 codex_review_round_9 = "addressed: scan all supported JavaScript and TypeScript module extensions"
 codex_review_round_10 = "addressed: inspect dependency names and targets and reuse the complete source set for direct-network denial"
+codex_review_round_11 = "addressed: compile Svelte components and scan executable template expressions"
 
 [gates]
 V_01 = "pass"

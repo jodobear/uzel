@@ -188,6 +188,13 @@ The direct-network guard now runs inside the parser-backed traversal and
 therefore shares its complete source-extension set. Executable self-tests cover
 an aliased Tauri package and a direct WebSocket constructor.
 
+Codex's eleventh review found that extracting only Svelte `<script>` blocks
+omitted executable template expressions. `.svelte` files are now compiled with
+the shell's already-pinned Svelte 5.56.8 compiler, and the resulting JavaScript
+is passed through the same import and direct-network checks. Executable
+self-tests cover a template `{#await import(...)}` and an event-handler
+`fetch(...)`.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
