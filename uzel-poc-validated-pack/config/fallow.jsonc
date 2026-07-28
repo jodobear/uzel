@@ -1,0 +1,12 @@
+{
+  // Starter only. Work 00 must validate rule names and CLI behavior
+  // against the server-installed/pinned Fallow version and real source tree.
+  "audit": { "gate": "new-only" },
+  "rules": {
+    "unresolved-imports": "error",
+    "unlisted-dependencies": "error",
+    "unused-files": "error",
+    "unused-dependencies": "error"
+  },
+  "ignore": ["**/generated/**", "**/dist/**", "**/target/**"]
+}
