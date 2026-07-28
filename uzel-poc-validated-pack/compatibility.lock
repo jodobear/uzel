@@ -331,6 +331,7 @@ codex_review_round_8 = "addressed: replace regex import matching with the pinned
 codex_review_round_9 = "addressed: scan all supported JavaScript and TypeScript module extensions"
 codex_review_round_10 = "addressed: inspect dependency names and targets and reuse the complete source set for direct-network denial"
 codex_review_round_11 = "addressed: compile Svelte components and scan executable template expressions"
+codex_review_round_12 = "addressed: retain Svelte type imports and reject declarative resource loads"
 
 [gates]
 V_01 = "pass"

@@ -195,6 +195,15 @@ is passed through the same import and direct-network checks. Executable
 self-tests cover a template `{#await import(...)}` and an event-handler
 `fetch(...)`.
 
+Codex's twelfth review found that Svelte compilation erased type-only imports
+and that resource-bearing markup and CSS can initiate network access without a
+browser API call. Original instance/module script bodies are now checked beside
+the compiled output. Product Svelte components also fail closed on browser
+resource attributes, dynamic or resource-capable inline styles, and CSS
+`url(...)`, `image-set(...)`, or `@import`. Executable self-tests cover a type
+import, image and iframe sources, dynamic elements, raw HTML, a dynamic
+background-image directive, and component CSS URL loading.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command

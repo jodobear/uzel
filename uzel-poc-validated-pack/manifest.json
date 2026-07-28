@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "20f176114caff49cddf987f5a4a9718279538cf6222b2ec045a1fcfd91fadb10"
+      "sha256": "f7695bf05fbb0448c98414334e9451d473cb033c392d59b024c5a2ac004ba93f"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 17264,
-      "sha256": "caa93aa8735dacab67e3874d6f6ec14e2e01194bba6cdb9c907bb7664c242089"
+      "bytes": 17366,
+      "sha256": "c378d7602da116393b10354f82a12fb0bf98d2d5ab932eefd76c313bb6ac6257"
     },
     {
       "path": "config/fallow.jsonc",
@@ -177,8 +177,8 @@
     },
     {
       "path": "reports/slice-03-preflight.md",
-      "bytes": 11572,
-      "sha256": "22b759208fbbe975e33ce91dbb9a6ece676537b71357cd906d6a31a806f1983b"
+      "bytes": 12167,
+      "sha256": "488a5e0d8ce832da4746d0cba7bf0ba46f74a3446f71d0709544722ef2903e46"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
