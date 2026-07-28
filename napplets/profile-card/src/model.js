@@ -4,6 +4,19 @@ function optionalText(value) {
   return typeof value === 'string' && value.length > 0 ? value : undefined;
 }
 
+export function createLatestRequestGate() {
+  let generation = 0;
+  return Object.freeze({
+    begin() {
+      generation += 1;
+      return generation;
+    },
+    isCurrent(requestGeneration) {
+      return requestGeneration === generation;
+    },
+  });
+}
+
 export function latestProfile(results, pubkey) {
   if (!isCanonicalPubkey(pubkey) || !Array.isArray(results)) return null;
   const candidates = results

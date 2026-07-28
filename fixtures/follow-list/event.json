@@ -1,6 +1,6 @@
 {
   "kind": 35129,
-  "created_at": 1785266912,
+  "created_at": 1785268730,
   "tags": [
     [
       "d",
@@ -38,7 +38,7 @@
     ]
   ],
   "content": "",
-  "id": "d1d7e93c32c2bf32ee4fab9f83b9121fe5944ebbcfe60e787ed8be4f723323c6",
-  "pubkey": "ba01ffeffa841a7e48beb131a08d4e81d07232eacc7c178558b84e5ad9a8ca86",
-  "sig": "5746ac6a27e6d7fba2954fe404d9ca146358b2626a6a48d4f047bf4b079290010147d108bdac5fdc45d23f819c0f2c07c492109fdb74da4c69f9523d83ccadae"
+  "id": "567a7fb72d70d695ab2e35e27d360ba4db686e5021a835b8cd0f7d1cb03c2826",
+  "pubkey": "2c5cfba1117344eecebb730d440380ede068512d0c3982807e22075ef59ee362",
+  "sig": "1bb44588e0ac99439ac20b9717b9869dd0955299ed73ece54b8082c44bbc46a39185e7b731cc2f47ad80a9f69a19ce5fb95020a6763a29e1ef7f2ef0cc8f458d"
 }
