@@ -248,6 +248,12 @@ longer registers a Window lifecycle callback; iframe teardown owns release of
 its runtime subscription. Window has no allowed product-napplet API. An exact
 self-test covers the rejected callback form.
 
+Codex's nineteenth review found that wrapping `location.assign` in
+`Function.prototype.call` bypassed call-name inspection. `location`, `history`,
+and `navigation` are now zero-access guarded globals, and bare `open` is a
+forbidden capability. Self-tests cover wrapped location assignment, History,
+Navigation API, and bare-open forms.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command

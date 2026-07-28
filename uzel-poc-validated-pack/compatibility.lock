@@ -338,6 +338,7 @@ codex_review_round_15 = "addressed: reject computed and nonliteral guarded brows
 codex_review_round_16 = "addressed: reject aliases and destructuring that expose guarded browser globals"
 codex_review_round_17 = "addressed: allowlist required global APIs and reject browser-global-returning chains"
 codex_review_round_18 = "addressed: remove Window event callback authority and rely on frame teardown"
+codex_review_round_19 = "addressed: reject wrapped and bare browser navigation authority"
 
 [gates]
 V_01 = "pass"
