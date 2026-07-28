@@ -267,6 +267,11 @@ outside the AST capability walk. `eval`, `Function`, `setTimeout`, and
 Svelte `on*` attribute is rejected. Self-tests cover constructed/evaluated
 `fetch`, string timers, and a body `onload` handler.
 
+Codex's twenty-second review found indirect `Function` recovery through a
+function object's `.constructor`. Product napplets now reject every literal
+`constructor` property access; nonliteral computed access was already rejected.
+An executable self-test covers the reported arrow-function constructor form.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command

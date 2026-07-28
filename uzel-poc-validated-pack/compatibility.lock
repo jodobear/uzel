@@ -341,6 +341,7 @@ codex_review_round_18 = "addressed: remove Window event callback authority and r
 codex_review_round_19 = "addressed: reject wrapped and bare browser navigation authority"
 codex_review_round_20 = "addressed: reject meta refresh, transitive location, and dynamic property access"
 codex_review_round_21 = "addressed: reject dynamic code execution and executable HTML event attributes"
+codex_review_round_22 = "addressed: reject indirect Function recovery through constructor access"
 
 [gates]
 V_01 = "pass"
