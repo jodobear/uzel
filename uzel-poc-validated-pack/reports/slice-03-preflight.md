@@ -277,11 +277,13 @@ Codex's twenty-third review found reflective constructor recovery through
 prototype introspection methods. Self-tests cover the reported Reflect form and
 `Object.getOwnPropertyDescriptor` recovery.
 
-Codex's twenty-fourth review found constructor recovery through a binding
-pattern and DOM resource setters reached through `Object.assign`. Binding
-elements named `constructor` are now rejected. `Object` is a guarded global
-with only `Object.freeze` allowed for current product code, so bulk mutation and
-all other Object capabilities fail closed. Self-tests cover both reported forms.
+Codex's twenty-fourth review found destructured constructor recovery and
+`Object.assign` DOM mutation. Constructor bindings are rejected; only
+`Object.freeze` is allowed on the guarded `Object` global. Exact probes cover both.
+
+Codex's twenty-fifth review found raw `RTCPeerConnection` authority; it is now
+denied with an exact ICE-server probe. Its graph-commit claim was rejected:
+code (`0729925`), evidence (`aebbb0c`), and graph (`ecef25a`) were already separate.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
