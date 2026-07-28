@@ -16,8 +16,34 @@ const dependencyGroups = [
   'optionalDependencies',
   'peerDependencies',
 ];
-const directNetworkAuthority =
-  /(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|serviceWorker)/;
+const directNetworkIdentifiers = new Set([
+  'Audio',
+  'EventSource',
+  'Image',
+  'SharedWorker',
+  'WebSocket',
+  'Worker',
+  'XMLHttpRequest',
+  'fetch',
+  'importScripts',
+  'sendBeacon',
+  'serviceWorker',
+]);
+const resourceAssignmentProperties = new Set([
+  'action',
+  'background',
+  'backgroundImage',
+  'cssText',
+  'data',
+  'formAction',
+  'href',
+  'innerHTML',
+  'location',
+  'outerHTML',
+  'poster',
+  'src',
+  'srcset',
+]);
 const cssNetworkAuthority = /(@import\b|\b(?:image-set|url)\s*\()/i;
 const resourceStyleDirective =
   /^(background|background-image|border-image|border-image-source|content|cursor|list-style|list-style-image|mask|mask-image)$/i;
@@ -44,6 +70,20 @@ const resourceAttributes = new Map([
 const anyResourceAttribute = new Set(
   [...resourceAttributes.values()].flatMap((attributes) => [...attributes]),
 );
+const resourceCreationElements = new Set([
+  'audio',
+  'embed',
+  'iframe',
+  'image',
+  'img',
+  'link',
+  'object',
+  'script',
+  'source',
+  'track',
+  'use',
+  'video',
+]);
 const sourceExtensions = new Set([
   '.cjs',
   '.cts',
@@ -56,6 +96,24 @@ const sourceExtensions = new Set([
   '.ts',
   '.tsx',
 ]);
+
+function literalAttributeValue(element, name) {
+  const attribute = element.attributes?.find(
+    (candidate) => candidate.type === 'Attribute' && candidate.name === name,
+  );
+  return attribute &&
+    Array.isArray(attribute.value) &&
+    attribute.value.length === 1 &&
+    attribute.value[0].type === 'Text'
+    ? attribute.value[0].data
+    : null;
+}
+
+function isLocalViteEntry(element) {
+  return (element.name === 'script' || element.type === 'Script') &&
+    literalAttributeValue(element, 'type') === 'module' &&
+    literalAttributeValue(element, 'src') === '/src/main.js';
+}
 
 function declarativeNetworkViolations(parsed, source) {
   const found = [];
@@ -76,23 +134,7 @@ function declarativeNetworkViolations(parsed, source) {
           found.push(`unverifiable spread attributes on ${node.name}`);
         }
         if (attribute.type === 'Attribute' && attributes?.has(attribute.name)) {
-          const localViteEntry =
-            node.name === 'script' &&
-            attribute.name === 'src' &&
-            node.attributes.some(
-              (candidate) =>
-                candidate.type === 'Attribute' &&
-                candidate.name === 'type' &&
-                Array.isArray(candidate.value) &&
-                candidate.value.length === 1 &&
-                candidate.value[0].type === 'Text' &&
-                candidate.value[0].data === 'module',
-            ) &&
-            Array.isArray(attribute.value) &&
-            attribute.value.length === 1 &&
-            attribute.value[0].type === 'Text' &&
-            attribute.value[0].data === '/src/main.js';
-          if (!localViteEntry) {
+          if (!isLocalViteEntry(node)) {
             found.push(`resource attribute ${node.name}.${attribute.name}`);
           }
         }
@@ -110,6 +152,9 @@ function declarativeNetworkViolations(parsed, source) {
       }
       if (node.name === 'style' && cssNetworkAuthority.test(source.slice(node.start, node.end))) {
         found.push('resource-capable HTML style block');
+      }
+      if (node.name === 'script' && !isLocalViteEntry(node)) {
+        found.push('inline or noncanonical HTML script');
       }
     }
     if (node.type === 'HtmlTag') {
@@ -135,8 +180,14 @@ function declarativeNetworkViolations(parsed, source) {
 function sourceAnalysis(path, source) {
   if (extname(path) === '.html') {
     const parsed = parseSvelte(source, { modern: true });
+    const declarative = declarativeNetworkViolations(parsed, source);
+    for (const script of [parsed.module, parsed.instance]) {
+      if (script && !isLocalViteEntry(script)) {
+        declarative.push('inline or noncanonical HTML script');
+      }
+    }
     return {
-      declarative: declarativeNetworkViolations(parsed, source),
+      declarative,
       units: [],
     };
   }
@@ -185,6 +236,97 @@ function literalValue(node) {
     return node.text;
   }
   return null;
+}
+
+function propertyName(node) {
+  if (ts.isPropertyAccessExpression(node)) {
+    return node.name.text;
+  }
+  if (ts.isElementAccessExpression(node)) {
+    return literalValue(node.argumentExpression);
+  }
+  return ts.isIdentifier(node) ? node.text : null;
+}
+
+function programmaticNetworkViolations(path, source) {
+  const parsed = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
+  const found = new Set();
+
+  function add(node, capability) {
+    const position = parsed.getLineAndCharacterOfPosition(node.getStart(parsed));
+    found.add(`${position.line + 1}:${position.character + 1}: ${capability}`);
+  }
+
+  function visit(node) {
+    if (ts.isIdentifier(node) && directNetworkIdentifiers.has(node.text)) {
+      add(node, `browser network API ${node.text}`);
+    }
+
+    if (
+      ts.isBinaryExpression(node) &&
+      node.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+      node.operatorToken.kind <= ts.SyntaxKind.LastAssignment &&
+      resourceAssignmentProperties.has(propertyName(node.left))
+    ) {
+      add(node, `DOM resource assignment ${propertyName(node.left)}`);
+    }
+
+    if (ts.isCallExpression(node)) {
+      const called = propertyName(node.expression);
+      const first = literalValue(node.arguments[0]);
+      const qualified = literalValue(node.arguments[1]);
+      const resourceName = (called === 'createElementNS' || called === 'setAttributeNS')
+        ? qualified?.toLowerCase() ?? null
+        : first?.toLowerCase() ?? null;
+      if (
+        (called === 'createElement' || called === 'createElementNS') &&
+        (resourceName === null || resourceCreationElements.has(resourceName))
+      ) {
+        add(node, `resource element creation ${resourceName ?? '<dynamic>'}`);
+      }
+      if (
+        (called === 'setAttribute' || called === 'setAttributeNS') &&
+        (resourceName === null || anyResourceAttribute.has(resourceName))
+      ) {
+        add(node, `DOM resource attribute ${resourceName ?? '<dynamic>'}`);
+      }
+      if (
+        called === 'setProperty' &&
+        (first === null || resourceStyleDirective.test(first))
+      ) {
+        add(node, `CSS resource property ${first ?? '<dynamic>'}`);
+      }
+      if (['insertAdjacentHTML', 'insertRule', 'replaceSync'].includes(called)) {
+        add(node, `unverifiable DOM/CSS sink ${called}`);
+      }
+      if (
+        called === 'write' &&
+        ts.isPropertyAccessExpression(node.expression) &&
+        propertyName(node.expression.expression) === 'document'
+      ) {
+        add(node, 'document.write HTML sink');
+      }
+      if (
+        called === 'open' &&
+        ts.isPropertyAccessExpression(node.expression) &&
+        ['globalThis', 'window'].includes(propertyName(node.expression.expression))
+      ) {
+        add(node, 'window.open navigation');
+      }
+      if (
+        ['assign', 'replace'].includes(called) &&
+        ts.isPropertyAccessExpression(node.expression) &&
+        propertyName(node.expression.expression) === 'location'
+      ) {
+        add(node, `location.${called} navigation`);
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(parsed);
+  return [...found];
 }
 
 function violations(path, source) {
@@ -268,8 +410,21 @@ function runSelfTest() {
   ) {
     throw new Error('boundary self-test rejected an allowed NAP dependency');
   }
-  if (!directNetworkAuthority.test("const socket = new WebSocket('wss://example.test')")) {
-    throw new Error('boundary self-test accepted direct network authority');
+  for (const source of [
+    "const socket = new WebSocket('wss://example.test')",
+    'const image = new Image(); image.src = remote;',
+    "document.createElement('img')",
+    "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
+    "element.setAttribute('src', remote)",
+    "element.setAttributeNS(null, 'href', remote)",
+    'element.style.backgroundImage = remote',
+    'window.open(remote)',
+    'document.write(markup)',
+    'target.innerHTML = markup',
+  ]) {
+    if (programmaticNetworkViolations('<boundary-self-test>', source).length === 0) {
+      throw new Error(`boundary self-test accepted programmatic network authority: ${source}`);
+    }
   }
   const svelteImport = sourceAnalysis(
     '<boundary-self-test>.svelte',
@@ -282,7 +437,11 @@ function runSelfTest() {
     '<boundary-self-test>.svelte',
     '<button onclick={() => fetch(url)}>go</button>',
   );
-  if (!svelteNetwork.units.some((unit) => directNetworkAuthority.test(unit.source))) {
+  if (
+    !svelteNetwork.units.some(
+      (unit) => programmaticNetworkViolations(unit.path, unit.source).length > 0,
+    )
+  ) {
     throw new Error('boundary self-test accepted Svelte template network authority');
   }
   const svelteTypeImport = sourceAnalysis(
@@ -311,6 +470,14 @@ function runSelfTest() {
   );
   if (allowedEntry.declarative.length > 0) {
     throw new Error('boundary self-test rejected the local Vite module entry');
+  }
+  for (const source of [
+    '<script type="module">fetch(remote)</script>',
+    '<script>import("../../../apps/uzel/src/main.ts")</script>',
+  ]) {
+    if (sourceAnalysis('<boundary-self-test>.html', source).declarative.length === 0) {
+      throw new Error(`boundary self-test accepted inline HTML script: ${source}`);
+    }
   }
   for (const source of [
     '<img src="https://example.test/avatar.png">',
@@ -366,11 +533,14 @@ for (const path of sourceFiles(nappletsRoot)) {
   }
   const analysis = sourceAnalysis(path, source);
   for (const unit of analysis.units) {
-    if (productNapplet && directNetworkAuthority.test(unit.source)) {
-      console.error(
-        `${relative(repositoryRoot, unit.path)}: direct browser network authority is forbidden`,
-      );
-      failed = true;
+    if (productNapplet) {
+      for (const violation of programmaticNetworkViolations(unit.path, unit.source)) {
+        console.error(
+          `${relative(repositoryRoot, unit.path)}:${violation}: ` +
+            'direct browser network authority is forbidden',
+        );
+        failed = true;
+      }
     }
     for (const violation of violations(unit.path, unit.source)) {
       console.error(
