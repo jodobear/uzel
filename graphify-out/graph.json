@@ -3470,10 +3470,20 @@
       "norm_label": "ts"
     },
     {
+      "label": "sourceExtensions",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_sourceextensions",
+      "community": 2,
+      "norm_label": "sourceextensions"
+    },
+    {
       "label": "sourceUnits()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L13",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_sourceunits",
       "community": 2,
@@ -3483,7 +3493,7 @@
       "label": "importedSpecifier()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L23",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_importedspecifier",
       "community": 2,
@@ -3493,7 +3503,7 @@
       "label": "literalValue()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L43",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_literalvalue",
       "community": 2,
@@ -3503,7 +3513,7 @@
       "label": "violations()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L50",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_violations",
       "community": 2,
@@ -3513,7 +3523,7 @@
       "label": "runSelfTest()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L75",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_runselftest",
       "community": 2,
@@ -3523,7 +3533,7 @@
       "label": "sourceFiles()",
       "file_type": "code",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L97",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "scripts_check_napplet_imports_sourcefiles",
       "community": 2,
@@ -4712,7 +4722,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution",
-      "community": 10,
+      "community": 65,
       "norm_label": "04-execution.md"
     },
     {
@@ -4722,7 +4732,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_execution_slices",
-      "community": 10,
+      "community": 69,
       "norm_label": "execution slices"
     },
     {
@@ -4732,7 +4742,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_dependency_graph",
-      "community": 10,
+      "community": 69,
       "norm_label": "dependency graph"
     },
     {
@@ -4742,7 +4752,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slices",
-      "community": 10,
+      "community": 69,
       "norm_label": "slices"
     },
     {
@@ -4752,7 +4762,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_parallel_work",
-      "community": 10,
+      "community": 69,
       "norm_label": "parallel work"
     },
     {
@@ -4762,7 +4772,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slice_entry_gate",
-      "community": 10,
+      "community": 69,
       "norm_label": "slice entry gate"
     },
     {
@@ -4772,7 +4782,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_handoff",
-      "community": 10,
+      "community": 69,
       "norm_label": "handoff"
     },
     {
@@ -5662,7 +5672,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight",
-      "community": 12,
+      "community": 65,
       "norm_label": "slice-02-preflight.md"
     },
     {
@@ -5672,7 +5682,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
-      "community": 12,
+      "community": 62,
       "norm_label": "slice 02 preflight"
     },
     {
@@ -5682,7 +5692,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_verdict",
-      "community": 12,
+      "community": 62,
       "norm_label": "verdict"
     },
     {
@@ -5692,7 +5702,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_exact_dependency_and_asset_record",
-      "community": 12,
+      "community": 62,
       "norm_label": "exact dependency and asset record"
     },
     {
@@ -5702,7 +5712,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_runtime_evidence",
-      "community": 12,
+      "community": 62,
       "norm_label": "runtime evidence"
     },
     {
@@ -5712,7 +5722,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_commands_and_observed_results",
-      "community": 12,
+      "community": 62,
       "norm_label": "commands and observed results"
     },
     {
@@ -5722,7 +5732,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_preserved_failed_fedora_probe",
-      "community": 12,
+      "community": 62,
       "norm_label": "preserved failed fedora probe"
     },
     {
@@ -5732,7 +5742,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_required_design_correction",
-      "community": 12,
+      "community": 62,
       "norm_label": "required design correction"
     },
     {
@@ -5742,7 +5752,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_upstream_result",
-      "community": 12,
+      "community": 62,
       "norm_label": "upstream result"
     },
     {
@@ -5752,7 +5762,7 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight_next_step",
-      "community": 12,
+      "community": 62,
       "norm_label": "next step"
     },
     {
@@ -5762,7 +5772,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight",
-      "community": 10,
+      "community": 65,
       "norm_label": "slice-03-preflight.md"
     },
     {
@@ -5839,7 +5849,7 @@
       "label": "Hostile fixture scope",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L183",
+      "source_location": "L188",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
       "community": 10,
@@ -5849,7 +5859,7 @@
       "label": "Upstream result",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L193",
+      "source_location": "L198",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
       "community": 10,
@@ -5859,7 +5869,7 @@
       "label": "Next step",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L200",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
       "community": 10,
@@ -5952,7 +5962,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_templates_fact",
-      "community": 8,
+      "community": 80,
       "norm_label": "fact.md"
     },
     {
@@ -5962,7 +5972,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_templates_fact_fact_xxx_title",
-      "community": 8,
+      "community": 80,
       "norm_label": "fact-xxx \u2014 title"
     },
     {
@@ -5972,7 +5982,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_templates_handoff",
-      "community": 10,
+      "community": 65,
       "norm_label": "handoff.md"
     },
     {
@@ -5982,7 +5992,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_templates_handoff_slice_handoff",
-      "community": 10,
+      "community": 65,
       "norm_label": "slice handoff"
     },
     {
@@ -6162,7 +6172,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner",
-      "community": 12,
+      "community": 65,
       "norm_label": "02-linux-runner.md"
     },
     {
@@ -6172,7 +6182,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
-      "community": 12,
+      "community": 66,
       "norm_label": "work 02 \u2014 linux exact-build runner"
     },
     {
@@ -6182,7 +6192,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_goal",
-      "community": 12,
+      "community": 66,
       "norm_label": "goal"
     },
     {
@@ -6192,7 +6202,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_entry_status_and_pins",
-      "community": 12,
+      "community": 66,
       "norm_label": "entry status and pins"
     },
     {
@@ -6202,7 +6212,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_read",
-      "community": 12,
+      "community": 66,
       "norm_label": "read"
     },
     {
@@ -6212,7 +6222,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_tasks",
-      "community": 12,
+      "community": 66,
       "norm_label": "tasks"
     },
     {
@@ -6222,7 +6232,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_acceptance",
-      "community": 12,
+      "community": 66,
       "norm_label": "acceptance"
     },
     {
@@ -6232,7 +6242,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_non_goals",
-      "community": 12,
+      "community": 66,
       "norm_label": "non-goals"
     },
     {
@@ -6242,7 +6252,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets",
-      "community": 10,
+      "community": 65,
       "norm_label": "03-napplets.md"
     },
     {
@@ -6252,7 +6262,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_work_03_portable_napplets",
-      "community": 10,
+      "community": 71,
       "norm_label": "work 03 \u2014 portable napplets"
     },
     {
@@ -6262,7 +6272,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_goal",
-      "community": 10,
+      "community": 71,
       "norm_label": "goal"
     },
     {
@@ -6272,7 +6282,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_entry_status_and_pins",
-      "community": 10,
+      "community": 71,
       "norm_label": "entry status and pins"
     },
     {
@@ -6282,7 +6292,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_read",
-      "community": 10,
+      "community": 71,
       "norm_label": "read"
     },
     {
@@ -6292,7 +6302,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_tasks",
-      "community": 10,
+      "community": 71,
       "norm_label": "tasks"
     },
     {
@@ -6302,7 +6312,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_acceptance",
-      "community": 10,
+      "community": 71,
       "norm_label": "acceptance"
     },
     {
@@ -6312,7 +6322,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp",
-      "community": 10,
+      "community": 65,
       "norm_label": "04-daemon-nmp.md"
     },
     {
@@ -6322,7 +6332,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 10,
+      "community": 67,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -6332,7 +6342,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 10,
+      "community": 67,
       "norm_label": "goal"
     },
     {
@@ -6342,7 +6352,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 10,
+      "community": 67,
       "norm_label": "entry status and pins"
     },
     {
@@ -6352,7 +6362,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 10,
+      "community": 67,
       "norm_label": "read"
     },
     {
@@ -6362,7 +6372,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 10,
+      "community": 67,
       "norm_label": "tasks"
     },
     {
@@ -6372,7 +6382,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 10,
+      "community": 67,
       "norm_label": "acceptance"
     },
     {
@@ -6382,7 +6392,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 10,
+      "community": 67,
       "norm_label": "non-goals"
     },
     {
@@ -6392,7 +6402,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate",
-      "community": 10,
+      "community": 78,
       "norm_label": "05-integrate.md"
     },
     {
@@ -6402,7 +6412,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_work_05_composed_demo",
-      "community": 10,
+      "community": 78,
       "norm_label": "work 05 \u2014 composed demo"
     },
     {
@@ -6412,7 +6422,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_goal",
-      "community": 10,
+      "community": 78,
       "norm_label": "goal"
     },
     {
@@ -6422,7 +6432,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_tasks",
-      "community": 10,
+      "community": 78,
       "norm_label": "tasks"
     },
     {
@@ -6432,7 +6442,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_acceptance",
-      "community": 10,
+      "community": 78,
       "norm_label": "acceptance"
     },
     {
@@ -6442,7 +6452,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_non_goals",
-      "community": 10,
+      "community": 78,
       "norm_label": "non-goals"
     },
     {
@@ -6452,7 +6462,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo",
-      "community": 10,
+      "community": 79,
       "norm_label": "06-hardening-demo.md"
     },
     {
@@ -6462,7 +6472,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_work_06_hardening_and_demo_acceptance",
-      "community": 10,
+      "community": 79,
       "norm_label": "work 06 \u2014 hardening and demo acceptance"
     },
     {
@@ -6472,7 +6482,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_goal",
-      "community": 10,
+      "community": 79,
       "norm_label": "goal"
     },
     {
@@ -6482,7 +6492,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_tasks",
-      "community": 10,
+      "community": 79,
       "norm_label": "tasks"
     },
     {
@@ -6492,7 +6502,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_acceptance",
-      "community": 10,
+      "community": 79,
       "norm_label": "acceptance"
     }
   ],
@@ -10853,7 +10863,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L23",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_importedspecifier",
@@ -10863,7 +10873,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L43",
+      "source_location": "L54",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_literalvalue",
@@ -10893,7 +10903,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L75",
+      "source_location": "L86",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_runselftest",
@@ -10903,7 +10913,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L97",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_sourceextensions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L125",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_sourcefiles",
@@ -10913,7 +10933,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L13",
+      "source_location": "L24",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_sourceunits",
@@ -10933,7 +10953,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L50",
+      "source_location": "L61",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports",
       "target": "scripts_check_napplet_imports_violations",
@@ -10944,7 +10964,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/check-napplet-imports.mjs",
-      "source_location": "L88",
+      "source_location": "L116",
       "weight": 1.0,
       "source": "scripts_check_napplet_imports_runselftest",
       "target": "scripts_check_napplet_imports_violations",
@@ -13128,7 +13148,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L202",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight",
       "target": "uzel_poc_validated_pack_work_04_daemon_nmp",
@@ -13188,7 +13208,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L183",
+      "source_location": "L188",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
@@ -13208,7 +13228,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L200",
+      "source_location": "L205",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
@@ -13218,7 +13238,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L193",
+      "source_location": "L198",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
@@ -13766,5 +13786,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7a527156bd7d3f11e21ef47741ed33fa6ce91582"
+  "built_at_commit": "30355beec2f567b346f7691e0d55e5041a1531d7"
 }

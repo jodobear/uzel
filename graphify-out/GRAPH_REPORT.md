@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 96 files · ~39,364 words
+- 96 files · ~39,450 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 640 nodes · 709 edges · 72 communities (47 shown, 25 thin omitted)
+- 641 nodes · 710 edges · 81 communities (54 shown, 27 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7a527156`
+- Built from commit: `30355bee`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -71,13 +71,22 @@
 - package.json
 - profile-open-v1.schema.json
 - Assumption validation and decision gates
+- Slice 02 preflight
 - Upstream contribution ledger
 - main.js
+- 04-execution.md
+- Work 02 — Linux exact-build runner
+- Work 04 — daemon, NMP, and persistence
 - Uzel single-repository POC
+- Execution slices
 - POC status
+- Work 03 — portable napplets
 - README.md
 - build-signed-napplet-fixtures.sh
 - FACT-010-portable-napplets.md
+- Work 05 — composed demo
+- Work 06 — hardening and demo acceptance
+- fact.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 16 edges
@@ -106,7 +115,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (72 total, 25 thin omitted)
+## Communities (81 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -117,8 +126,8 @@ Cohesion: 0.23
 Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), decodeResourceBlob(), exactFields(), isBoundedEnvelope(), isPlainObject(), isVerifiedArtifactBaseURL() (+10 more)
 
 ### Community 2 - "check-napplet-imports.mjs"
-Cohesion: 0.22
-Nodes (5): repositoryRoot, requireFromShell, runSelfTest(), ts, violations()
+Cohesion: 0.20
+Nodes (6): repositoryRoot, requireFromShell, runSelfTest(), sourceExtensions, ts, violations()
 
 ### Community 3 - "Provisional component design"
 Cohesion: 0.20
@@ -145,16 +154,16 @@ Cohesion: 0.29
 Nodes (6): Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 10 - "Work 00 — validate assumptions"
-Cohesion: 0.04
-Nodes (39): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices, API and ownership evidence, Automated review corrections (+31 more)
+Cohesion: 0.20
+Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
 Cohesion: 0.25
 Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — validate assumptions
 
 ### Community 12 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.06
-Nodes (32): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+24 more)
+Cohesion: 0.11
+Nodes (16): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+8 more)
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.12
@@ -244,6 +253,10 @@ Nodes (14): additionalProperties, $id, properties, pubkey, version, pattern, typ
 Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
+### Community 62 - "Slice 02 preflight"
+Cohesion: 0.22
+Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
+
 ### Community 63 - "Upstream contribution ledger"
 Cohesion: 0.33
 Nodes (6): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Upstream contribution ledger
@@ -252,30 +265,54 @@ Nodes (6): Active contributions, Authority and ownership, Entry template, Slice 
 Cohesion: 0.15
 Nodes (9): results, target, nativeSurface(), PROBE_NAMES, sentinelTargets(), workerLoad(), LoadedWorker, RejectedWorker (+1 more)
 
+### Community 66 - "Work 02 — Linux exact-build runner"
+Cohesion: 0.29
+Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
+
+### Community 67 - "Work 04 — daemon, NMP, and persistence"
+Cohesion: 0.29
+Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
+
 ### Community 68 - "Uzel single-repository POC"
 Cohesion: 0.33
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
+
+### Community 69 - "Execution slices"
+Cohesion: 0.33
+Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
 ### Community 70 - "POC status"
 Cohesion: 0.40
 Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
+### Community 71 - "Work 03 — portable napplets"
+Cohesion: 0.33
+Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
+
+### Community 78 - "Work 05 — composed demo"
+Cohesion: 0.33
+Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
+
+### Community 79 - "Work 06 — hardening and demo acceptance"
+Cohesion: 0.40
+Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
+
 ## Knowledge Gaps
-- **334 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+329 more)
+- **335 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+330 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **25 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Slice 03 preflight` connect `Work 00 — validate assumptions` to `04-execution.md`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _334 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+  _335 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Work 02 — Linux exact-build runner` be split into smaller, more focused modules?**
-  _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
