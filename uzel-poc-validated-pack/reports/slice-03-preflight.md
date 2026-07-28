@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `2c5cfba1117344eecebb730d440380ede068512d0c3982807e22075ef59ee362` |
-| follow-list | event `567a7fb7...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `d189cbd9...`; aggregate `1c17d749...`; index `c5c33e1e...`; 59849 bytes |
-| hostile-egress | event `2f4dc9c6...`; aggregate `0514a281...`; index `2687d474...`; 57701 bytes |
+| fixture author | `19394f2440a58ac0006240493eba74ffef79b02f8c289ba960ea32582ded1001` |
+| follow-list | event `976efcd4...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `e51a7606...`; aggregate `f9c2dff6...`; index `3aeb7d40...`; 59849 bytes |
+| hostile-egress | event `04fb4b1a...`; aggregate `f04ae934...`; index `9afed7b8...`; 57941 bytes |
 | `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -115,6 +115,14 @@ boundary audit now matches side-effect imports as well as static/dynamic
 imports and export-from statements, with built-in regression cases. Source
 changes triggered official CLI regeneration and repinning of all signed fixture
 events; the stale pre-review artifact was not retained.
+
+Codex's second review found that a one-event outbox limit made the tested
+malformed-newest fallback unreachable, and that Worker construction completed
+before its network load outcome. The query now requests a bounded five
+candidates. The worker probe waits for `message` or `error`; silence times out
+as not-proven-denied rather than producing a false pass. Both behaviors have
+regression coverage, and the official CLI regenerated and repinned the affected
+exact-build fixtures again.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
