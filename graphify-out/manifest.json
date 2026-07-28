@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785270504.2699811,
-    "ast_hash": "1e89b647a8036d27954e711930002293",
+    "mtime": 1785271237.9124017,
+    "ast_hash": "f492d764def39b905a5230070d5c70b8",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785270504.2711253,
-    "ast_hash": "8b053fb91b899608b5a38341ca9fdfea",
+    "mtime": 1785271237.9135602,
+    "ast_hash": "46833c4520c06c1769881a260436202b",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785270487.3076644,
-    "ast_hash": "5e22c0fda5fe4ba0f55824dfa33257a1",
+    "mtime": 1785271232.6285896,
+    "ast_hash": "c1806f6721f135787b491e148497d958",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/runner.rs": {
-    "mtime": 1785270312.9288094,
-    "ast_hash": "7a7fd6dc190a845c71c2a0c6a2fdc8bf",
+    "mtime": 1785271135.1435535,
+    "ast_hash": "939cdfb99122267382e0c7a7c9a426bc",
     "semantic_hash": ""
   },
   "fixtures/good-morning/event.json": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785270312.8188083,
-    "ast_hash": "cb51636b661b86e68f0f3d3e0b506d60",
+    "mtime": 1785271135.0525525,
+    "ast_hash": "6df2f042e420aedf2ff76247bc998a54",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
@@ -405,18 +405,18 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/event.json": {
-    "mtime": 1785270249.3191328,
-    "ast_hash": "e1fdd779df1bcc96d8678b1de6f65cb1",
+    "mtime": 1785271078.1309476,
+    "ast_hash": "84234e8e56dc48a0216099636e00ac32",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/event.json": {
-    "mtime": 1785270250.8821495,
-    "ast_hash": "298d8f86caec8f21a34d6e9f9c14a11d",
+    "mtime": 1785271079.6039631,
+    "ast_hash": "f63d2f54f7a34ea211c709f17ec7f366",
     "semantic_hash": ""
   },
   "fixtures/profile-card/event.json": {
-    "mtime": 1785270250.0861409,
-    "ast_hash": "c95985733916c959404f2e9adb401a6d",
+    "mtime": 1785271078.8799555,
+    "ast_hash": "8a1f11bd5c151f7213dc763c4a904289",
     "semantic_hash": ""
   },
   "napplets/follow-list/package.json": {
@@ -475,18 +475,18 @@
     "semantic_hash": ""
   },
   "napplets/profile-card/src/main.js": {
-    "mtime": 1785269549.2226856,
-    "ast_hash": "c0e5682696850a4e1c657ce4276bf593",
+    "mtime": 1785271065.481813,
+    "ast_hash": "19d8ef4021a6820aa7b1341b6c086d8b",
     "semantic_hash": ""
   },
   "napplets/profile-card/src/model.js": {
-    "mtime": 1785269549.063684,
-    "ast_hash": "38e18f2ecd2d8b91df8027b454b02691",
+    "mtime": 1785271065.3278115,
+    "ast_hash": "186a1c77adac1d09dce7d2f06a5ed9cb",
     "semantic_hash": ""
   },
   "napplets/profile-card/tests/model.test.mjs": {
-    "mtime": 1785269549.3136866,
-    "ast_hash": "058e39f3325d38f9b84f37e95642a123",
+    "mtime": 1785271065.6438148,
+    "ast_hash": "87f62d5d9a0453c4682a49255eceb878",
     "semantic_hash": ""
   },
   "napplets/profile-card/vite.config.js": {
@@ -500,18 +500,18 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/index.html": {
-    "mtime": 1785270249.3175888,
+    "mtime": 1785271078.1278384,
     "ast_hash": "0e264b91bea0a9ffc7bb6d093cd97855",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/index.html": {
-    "mtime": 1785270250.8814054,
+    "mtime": 1785271079.6016657,
     "ast_hash": "21d5fb77f46e359d48755cd06632b661",
     "semantic_hash": ""
   },
   "fixtures/profile-card/index.html": {
-    "mtime": 1785270250.0854216,
-    "ast_hash": "65f0d3e70b06683a9c864b72a83d2f56",
+    "mtime": 1785271078.8772616,
+    "ast_hash": "3224abe40d7de854037a25d53824b3c4",
     "semantic_hash": ""
   },
   "napplets/follow-list/index.html": {
@@ -530,13 +530,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-010-portable-napplets.md": {
-    "mtime": 1785267774.9978251,
-    "ast_hash": "96b2e7e633fe89ed75882c180254d765",
+    "mtime": 1785271065.9408178,
+    "ast_hash": "643c15327c69d33a2d47d91a2249dc1a",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-03-preflight.md": {
-    "mtime": 1785270487.2146635,
-    "ast_hash": "9d37329b8530980eb5956c7a6edf34a7",
+    "mtime": 1785271232.5395887,
+    "ast_hash": "0ecb9b58b5feac86cd60c91e5fd300c0",
     "semantic_hash": ""
   }
 }

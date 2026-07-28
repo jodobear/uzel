@@ -1,7 +1,7 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 95 files · ~38,297 words
+- 95 files · ~38,447 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ec4031a0`
+- Built from commit: `bbe54da4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,7 +106,7 @@
   apps/uzel/src-tauri/src/main.rs → crates/napd/src/runner.rs
 - `directFollows()` --calls--> `isCanonicalPubkey()`  [EXTRACTED]
   napplets/follow-list/src/model.js → contracts/profile-open.js
-- `latestProfile()` --calls--> `isCanonicalPubkey()`  [EXTRACTED]
+- `canonicalProfile()` --calls--> `isCanonicalPubkey()`  [EXTRACTED]
   napplets/profile-card/src/model.js → contracts/profile-open.js
 
 ## Import Cycles
