@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 96 files · ~39,651 words
+- 96 files · ~39,758 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 644 nodes · 714 edges · 81 communities (54 shown, 27 thin omitted)
+- 645 nodes · 716 edges · 80 communities (54 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `021c56f0`
+- Built from commit: `7c01d948`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -86,7 +86,6 @@
 - FACT-010-portable-napplets.md
 - Work 05 — composed demo
 - Work 06 — hardening and demo acceptance
-- fact.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 16 edges
@@ -115,7 +114,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (81 total, 27 thin omitted)
+## Communities (80 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -127,7 +126,7 @@ Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), 
 
 ### Community 2 - "check-napplet-imports.mjs"
 Cohesion: 0.16
-Nodes (9): dependencyGroups, dependencyViolations(), nappletsRoot, repositoryRoot, requireFromShell, runSelfTest(), sourceExtensions, ts (+1 more)
+Nodes (11): { compile: compileSvelte }, dependencyGroups, dependencyViolations(), nappletsRoot, repositoryRoot, requireFromShell, runSelfTest(), sourceExtensions (+3 more)
 
 ### Community 3 - "Provisional component design"
 Cohesion: 0.20
@@ -282,7 +281,7 @@ Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
 ### Community 70 - "POC status"
-Cohesion: 0.40
+Cohesion: 0.33
 Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 71 - "Work 03 — portable napplets"
@@ -298,9 +297,9 @@ Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ## Knowledge Gaps
-- **337 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+332 more)
+- **338 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+333 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -310,7 +309,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _337 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _338 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Work 02 — Linux exact-build runner` be split into smaller, more focused modules?**
   _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
