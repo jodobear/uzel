@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `982292232bb86f3ac576680af64b193be8eba814e539d42624637ff92800e3fa` |
-| follow-list | event `2576373c...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `db922c94...`; aggregate `25a3863c...`; index `173eedae...`; 59793 bytes |
-| hostile-egress | event `2b30d2cf...`; aggregate `5b1e9415...`; index `01f37719...`; 58378 bytes |
+| fixture author | `b0e591472ce87429291f883c1101f54b4ba2c082074aded52b97a8dcbc87a4cd` |
+| follow-list | event `ce54276d...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `a019be60...`; aggregate `71c7c91d...`; index `f294c630...`; 59872 bytes |
+| hostile-egress | event `a4141f41...`; aggregate `6dcafdf3...`; index `94fd9d4e...`; 58909 bytes |
 | `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -95,7 +95,7 @@ pnpm smoke:debian
 All commands run in the pinned Nix development shell. Observed:
 
 - contract tests: 2 pass;
-- napplet unit tests: follow-list 1, profile-card 3, hostile-egress 3 pass;
+- napplet unit tests: follow-list 1, profile-card 4, hostile-egress 3 pass;
 - Rust workspace: napd 4 and protocol 1 pass, including three signed-fixture
   verifications and queryless runtime INC delivery;
 - conformance: follow-list and profile-card each 6 passed, 0 failed, 4 skipped;
@@ -144,6 +144,14 @@ selects the replaceable winner by timestamp then event ID, and
 winner. `nampplets` `nmp-adapter/src/nap.rs` projects those NMP observation rows
 through `outbox.query`; its filter limit bounds output without moving winner
 selection into the napplet.
+
+Codex's fifth review found two boundary errors. The hostile artifact was reading
+the sentinel from `location.search`, but the trusted shell executes it as
+`about:srcdoc`; it now reads the value through the existing source-bound
+NAP-CONFIG provider. Work 06 must commit the live URL to the exact running
+artifact session before mounting its frame. Profile projection now rejects
+timestamps outside JavaScript's Date range and computes the display timestamp
+before returning any content for rendering.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
