@@ -30,6 +30,7 @@ const directNetworkIdentifiers = new Set([
   'sendBeacon',
   'serviceWorker',
 ]);
+const dynamicCodeIdentifiers = new Set(['Function', 'eval', 'setInterval', 'setTimeout']);
 const guardedBrowserGlobals = new Set([
   'document',
   'frames',
@@ -164,6 +165,12 @@ function declarativeNetworkViolations(parsed, source) {
       for (const attribute of node.attributes ?? []) {
         if (attribute.type === 'SpreadAttribute') {
           found.push(`unverifiable spread attributes on ${node.name}`);
+        }
+        if (
+          attribute.type === 'Attribute' &&
+          attribute.name.toLowerCase().startsWith('on')
+        ) {
+          found.push(`executable event attribute ${attribute.name}`);
         }
         if (attribute.type === 'Attribute' && attributes?.has(attribute.name)) {
           if (!isLocalViteEntry(node)) {
@@ -312,6 +319,9 @@ function programmaticNetworkViolations(path, source) {
   function visit(node) {
     if (ts.isIdentifier(node) && directNetworkIdentifiers.has(node.text)) {
       add(node, `browser network API ${node.text}`);
+    }
+    if (ts.isIdentifier(node) && dynamicCodeIdentifiers.has(node.text)) {
+      add(node, `dynamic code execution ${node.text}`);
     }
     if (
       ts.isIdentifier(node) &&
@@ -510,6 +520,10 @@ function runSelfTest() {
     'history.pushState(null, "", remote)',
     'navigation.navigate(remote)',
     'open(remote)',
+    "Function('return fetch')()(remote)",
+    'eval("fetch(remote)")',
+    'setTimeout("fetch(remote)", 0)',
+    'setInterval("fetch(remote)", 1000)',
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
@@ -590,6 +604,7 @@ function runSelfTest() {
     '<link rel="stylesheet" href="https://example.test/theme.css">',
     '<iframe src="https://example.test"></iframe>',
     '<meta http-equiv="refresh" content="0;url=http://127.0.0.1:43129/leak">',
+    '<body onload="fetch(remote)"></body>',
     '<style>.avatar { background-image: url(https://example.test/avatar.png); }</style>',
   ]) {
     if (sourceAnalysis('<boundary-self-test>.html', source).declarative.length === 0) {
