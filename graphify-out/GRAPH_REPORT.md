@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 95 files · ~37,989 words
+- 95 files · ~38,297 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 620 nodes · 684 edges · 72 communities (48 shown, 24 thin omitted)
+- 622 nodes · 688 edges · 78 communities (52 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `780b71d8`
+- Built from commit: `ec4031a0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,6 +20,7 @@
 - README.md
 - Provisional component design
 - Tests, quality gates, and demo
+- Uzel POC agent instructions
 - POC architecture
 - Observed facts
 - POC documentation audit
@@ -58,6 +59,7 @@
 - check-boundaries.sh
 - smoke.sh
 - lib.rs
+- POC documentation audit
 - ExactFixtureSource
 - trusted-shell-policy.js
 - Window
@@ -70,12 +72,16 @@
 - profile-open-v1.schema.json
 - Assumption validation and decision gates
 - Slice 03 preflight
+- Upstream contribution ledger
 - main.js
 - Work 02 — Linux exact-build runner
 - Work 04 — daemon, NMP, and persistence
 - Execution slices
+- Uzel single-repository POC
 - Work 05 — composed demo
+- POC status
 - Work 06 — hardening and demo acceptance
+- README.md
 - build-signed-napplet-fixtures.sh
 - FACT-010-portable-napplets.md
 
@@ -106,7 +112,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (72 total, 24 thin omitted)
+## Communities (78 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -128,6 +134,10 @@ Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local
 Cohesion: 0.20
 Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
 
+### Community 5 - "Uzel POC agent instructions"
+Cohesion: 0.22
+Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
+
 ### Community 6 - "POC architecture"
 Cohesion: 0.22
 Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
@@ -135,10 +145,6 @@ Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repositor
 ### Community 7 - "Observed facts"
 Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
-
-### Community 8 - "POC documentation audit"
-Cohesion: 0.05
-Nodes (37): Uzel agent instructions, Development, Uzel, Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries (+29 more)
 
 ### Community 9 - "Post-POC extraction"
 Cohesion: 0.29
@@ -212,6 +218,10 @@ Nodes (8): forward_surface_envelope(), HostileProbe, report_hostile_probe(), Mut
 Cohesion: 0.07
 Nodes (35): Arc, ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource, AsRef, Condvar, EventBuffer, EventSink (+27 more)
 
+### Community 48 - "POC documentation audit"
+Cohesion: 0.25
+Nodes (7): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict
+
 ### Community 49 - "ExactFixtureSource"
 Cohesion: 0.10
 Nodes (20): dependencies, @napplet/nap, @napplet/shim, devDependencies, @napplet/conformance-cli, @napplet/vite-plugin, vite, @napplet/conformance-cli (+12 more)
@@ -240,9 +250,13 @@ Nodes (9): Assumption validation and decision gates, Current observed baseline, 
 Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
+### Community 63 - "Upstream contribution ledger"
+Cohesion: 0.33
+Nodes (6): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Upstream contribution ledger
+
 ### Community 64 - "main.js"
-Cohesion: 0.16
-Nodes (7): results, nativeSurface(), PROBE_NAMES, workerLoad(), LoadedWorker, RejectedWorker, SilentWorker
+Cohesion: 0.15
+Nodes (9): results, target, nativeSurface(), PROBE_NAMES, sentinelTargets(), workerLoad(), LoadedWorker, RejectedWorker (+1 more)
 
 ### Community 65 - "Work 02 — Linux exact-build runner"
 Cohesion: 0.29
@@ -256,28 +270,36 @@ Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work
 Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
+### Community 68 - "Uzel single-repository POC"
+Cohesion: 0.33
+Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
+
 ### Community 69 - "Work 05 — composed demo"
 Cohesion: 0.33
 Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
+
+### Community 70 - "POC status"
+Cohesion: 0.40
+Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 71 - "Work 06 — hardening and demo acceptance"
 Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ## Knowledge Gaps
-- **328 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+323 more)
+- **329 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+324 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **24 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Slice 03 preflight` connect `Slice 03 preflight` to `Work 01 — scaffold`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _328 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `POC documentation audit` be split into smaller, more focused modules?**
-  _Cohesion score 0.0467687074829932 - nodes in this community are weakly interconnected._
+  _329 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Execution slices` be split into smaller, more focused modules?**
