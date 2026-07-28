@@ -29,7 +29,34 @@ const directNetworkIdentifiers = new Set([
   'sendBeacon',
   'serviceWorker',
 ]);
-const guardedBrowserGlobals = new Set(['globalThis', 'self', 'window']);
+const guardedBrowserGlobals = new Set([
+  'document',
+  'frames',
+  'globalThis',
+  'opener',
+  'parent',
+  'self',
+  'top',
+  'window',
+]);
+const allowedGuardedGlobalAccesses = new Set([
+  'document.createElement',
+  'document.querySelector',
+  'window.addEventListener',
+]);
+const globalReturningProperties = new Set([
+  'contentDocument',
+  'contentWindow',
+  'defaultView',
+  'frames',
+  'globalThis',
+  'opener',
+  'ownerDocument',
+  'parent',
+  'self',
+  'top',
+  'window',
+]);
 const resourceAssignmentProperties = new Set([
   'action',
   'background',
@@ -283,12 +310,12 @@ function programmaticNetworkViolations(path, source) {
       const member = propertyName(node);
       if (
         guardedBrowserGlobals.has(owner) &&
-        (member === null ||
-          guardedBrowserGlobals.has(member) ||
-          directNetworkIdentifiers.has(member) ||
-          member === 'open')
+        (member === null || !allowedGuardedGlobalAccesses.has(`${owner}.${member}`))
       ) {
         add(node, `guarded browser-global access ${member ?? '<dynamic>'}`);
+      }
+      if (globalReturningProperties.has(member)) {
+        add(node, `browser-global-returning property ${member}`);
       }
     }
 
@@ -449,6 +476,9 @@ function runSelfTest() {
     'globalThis[capability](remote)',
     "const root = globalThis; root['fetch'](remote)",
     "const root = globalThis.window; root['fetch'](remote)",
+    "const root = globalThis.document.defaultView; root['fetch'](remote)",
+    "const root = element.ownerDocument.defaultView; root['fetch'](remote)",
+    "const root = top; root['fetch'](remote)",
     'const { fetch: send } = window; send(remote)',
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
@@ -462,6 +492,15 @@ function runSelfTest() {
   ]) {
     if (programmaticNetworkViolations('<boundary-self-test>', source).length === 0) {
       throw new Error(`boundary self-test accepted programmatic network authority: ${source}`);
+    }
+  }
+  for (const source of [
+    "window.addEventListener('load', ready)",
+    "document.querySelector('#target')",
+    "document.createElement('button')",
+  ]) {
+    if (programmaticNetworkViolations('<boundary-self-test>', source).length > 0) {
+      throw new Error(`boundary self-test rejected allowed browser API: ${source}`);
     }
   }
   const svelteImport = sourceAnalysis(
