@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `bd1b2477aab9b03761a3c419cce68d71b39268348f44ac1ed61033ca60d9c63d` |
-| follow-list | event `bfacbe07...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `ad090e3c...`; aggregate `f9c2dff6...`; index `3aeb7d40...`; 59849 bytes |
-| hostile-egress | event `bec66ce1...`; aggregate `5b1e9415...`; index `01f37719...`; 58378 bytes |
+| fixture author | `982292232bb86f3ac576680af64b193be8eba814e539d42624637ff92800e3fa` |
+| follow-list | event `2576373c...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `db922c94...`; aggregate `25a3863c...`; index `173eedae...`; 59793 bytes |
+| hostile-egress | event `2b30d2cf...`; aggregate `5b1e9415...`; index `01f37719...`; 58378 bytes |
 | `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -39,11 +39,13 @@ incOn("napplet:profile/open", callback)
 outboxQuery(filters, options)
 ```
 
-`follow-list` owns selection and payload emission. `profile-card` owns strict
-payload validation and latest-known kind-0 projection. The runtime owns sender
-identity, session/surface mapping, capability routing, Nostr evidence, and exact
-build verification. Neither napplet imports Uzel, Tauri, `napd`, NMP,
-nampplets, or the other napplet.
+`follow-list` owns selection and payload emission. NMP and the nampplets provider
+own canonical replaceable kind-0 selection. `profile-card` requests one row,
+requires exactly one provider result, then owns only strict payload/content
+validation and display projection; it never sorts candidates or falls back to a
+replaced event. The runtime owns sender identity, session/surface mapping,
+capability routing, Nostr evidence, and exact build verification. Neither
+napplet imports Uzel, Tauri, `napd`, NMP, nampplets, or the other napplet.
 
 The native integration test initializes both sessions through NAP-SHELL,
 subscribes `profile-card`, emits from `follow-list`, and observes:
@@ -130,6 +132,18 @@ an explicit unprivileged `127.0.0.1` sentinel URL and rejects missing, privilege
 TLS, or non-loopback targets. Work 06 must preflight a live sentinel and assert
 its accept counter remains zero independently of browser-side error results.
 The exact signed fixtures were regenerated and repinned again.
+
+Codex's fourth review found that `profile-card` had duplicated NMP's
+replaceable-event selection and could revive an older event after malformed
+canonical content. The query now requests one canonical row from the
+NMP-backed provider. The napplet rejects zero or multiple rows and malformed
+canonical content; it never sorts or falls back to a replaced event.
+Exact pinned source confirms the boundary: `nmp-store/src/address_key.rs`
+selects the replaceable winner by timestamp then event ID, and
+`nmp-engine/src/core/query.rs` states store queries return only that current
+winner. `nampplets` `nmp-adapter/src/nap.rs` projects those NMP observation rows
+through `outbox.query`; its filter limit bounds output without moving winner
+selection into the napplet.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,

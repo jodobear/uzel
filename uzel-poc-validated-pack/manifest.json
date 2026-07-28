@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2334,
-      "sha256": "fad91df5f0230a2dbab03f158ce7c9e9c99163d476c840ec56951ceb1762b829"
+      "bytes": 2440,
+      "sha256": "55c4eb644d14fc45280a1c40946553138c732c9fac1a9d3d1087b90dc9d59b6f"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "0d70c1786908f750b4b25d194f0487031d064b9f5a621cbcaf4d43e33caf1c3b"
+      "sha256": "2789868e57a3f0d889a67a6e9103156ca58b278af6c1312f6d16cb1cee884fd4"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 16290,
-      "sha256": "a428c5a4f144e533bb70fb68337d6a5584c004acc692d967dae336de494cd50c"
+      "bytes": 16415,
+      "sha256": "ef81df94647ecfe84a350e5b11cfc72847cac86c3293e704c0ac4f4e7c9d14af"
     },
     {
       "path": "config/fallow.jsonc",
@@ -132,8 +132,8 @@
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 1999,
-      "sha256": "2b5f97e3bf1d1a212d8b532a7c560c4a06709b39c0a8e021fb4acab224a2e5fb"
+      "bytes": 2172,
+      "sha256": "410ff092261557fedc933abd73013479e9a32e117e58f3c04c0b8a911f0af918"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -177,8 +177,8 @@
     },
     {
       "path": "reports/slice-03-preflight.md",
-      "bytes": 7525,
-      "sha256": "236c46978ec8325f5639b291cb0d2d3708db9224f2136c7d4972f6dbfe0c4053"
+      "bytes": 8484,
+      "sha256": "37ca49f966708e7bf42b899601888c7e2fe9652084956c373395d75ebe9f8748"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

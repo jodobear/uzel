@@ -29,7 +29,7 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 slice: 03 portable napplets and INC fixtures
 commits: recorded in repository history
 commands: reports/slice-03-preflight.md
-observable result: follow-list and profile-card build independently, pass released conformance, verify as signed single-file NIP-5D fixtures, and exchange the exact queryless profile-open payload through runtime-owned NAP-INC sender binding; the hostile fixture requires a configured live loopback sentinel and is pinned for the later WebKit denial lane
+observable result: follow-list and profile-card build independently, pass released conformance, verify as signed single-file NIP-5D fixtures, and exchange the exact queryless profile-open payload through runtime-owned NAP-INC sender binding; profile-card projects exactly one NMP-selected canonical kind-0 row and never selects replaceable events; the hostile fixture requires a configured live loopback sentinel and is pinned for the later WebKit denial lane
 known limitation: released conformance skips manifest checks for local directory input; pinned NMP verification covers event signature and exact artifact bytes, while live-sentinel startup, independent zero-accept attestation, and full hostile browser execution remain Work 06
 next action: execute work/04-daemon-nmp.md; first prove bounded verified-asset transfer without enlarging the 4096-byte control frame
 ```
