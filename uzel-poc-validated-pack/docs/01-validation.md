@@ -11,26 +11,40 @@ The architecture is directionally strong, but several implementation details are
 - Tauri/WebKit child-frame and CSP behavior must be proven on Linux;
 - installed tooling must be reproducible.
 
-Therefore, later design is **provisional** until `work/00-validate.md` is accepted.
+Gate 0 was executed on 2026-07-28. The Linux reuse, NMP, frame trust, IPC, and tool claims passed, but the package/runtime compatibility claim did not. Slice 01 is **not accepted to start**; see [`../reports/preflight.md`](../reports/preflight.md).
 
 ## Current observed baseline
 
-At the 2026-07-28 audit snapshot:
+At the completed 2026-07-28 validation snapshot:
 
 - Napplet package releases include `@napplet/core@0.29.0`, `@napplet/nap@0.29.0`, and convention/INC behavior used by the current ecosystem.
-- Kehto PR #204 still appears as draft; implementation starts only after its merge commit is verified.
-- `nampplets` describes an in-progress native Rust runtime with a macOS reference host, exact-build installation, a trusted WebView shell, sandboxed napplet iframe, and NMP as the sole Nostr engine.
+- Kehto PR #204 is merged at `b85db51db838866de753b275b9d34ec908785bd2`; the exact checkout passes its full unit suite.
+- The exact Kehto `chat` and `feed` builds fail `@napplet/conformance-cli@0.2.16` because Vite's module-preload helper accesses forbidden `fetch`.
+- `nampplets@839654cd3643b430548765823b783f0b5140b8da` compiles cleanly on Linux, but its unratified compatibility baseline and provider constants remain on Napplet 0.28 rather than Kehto's 0.29 line.
 - NMP documents canonical redb state, provenance-preserving deduplication, freshness, bounded delivery, finite relay fan-out, NIP-65 routing, and NIP-02 following.
-- NAP-SHELL and NAP-INC are active; relay, identity, and storage remain draft.
+- The NAP registry marks shell and INC active while their documents still say draft; relay/identity/storage and NIP-5D remain provisional.
 
-See `docs/07-source-baseline.md` for sources. These are observations, not substitutes for exact pins and executable probes.
+See [`07-source-baseline.md`](07-source-baseline.md), [`../compatibility.lock`](../compatibility.lock), and the fact records for exact sources and probes.
+
+## Gate 0 decision
+
+| Gate | Result | Evidence summary |
+|---|---|---|
+| V-01 | **fail** | #204 merged and packages exist, but the exact released conformance path rejects its artifacts |
+| V-02 | pass | all 16 reusable nampplets crates passed Linux fmt/test/Clippy |
+| V-03 | pass | `RuntimeController` already exposes verify/install/launch/mapped-envelope/lifecycle APIs exercised by upstream tests |
+| V-04 | pass | locked NMP adapter probe returned profile, follows, evidence, cancellation, and shutdown |
+| V-05 | pass | actual Tauri/Wry/WebKitGTK probe kept authenticated IPC in the top frame and source binding held |
+| V-06 | **fail** | hostile synthetic frame was networkless, but the intended Kehto fixtures themselves contain forbidden `fetch` |
+| V-07 | pass | bounded same-user AF_UNIX hello/status probe passed under `$XDG_RUNTIME_DIR` |
+| V-08 | pass | exact commands and versions are recorded; the original Fallow field and `nix shell` assumption were corrected |
 
 ## Gate matrix
 
 | Gate | Claim to prove | Required evidence | Decision if false |
 |---|---|---|---|
 | V-01 | #204 merged and compatible packages exist | merge commit, package lock, conformance output | stop product work; update pins/plan |
-| V-02 | reusable `nampplets` crates compile on Linux | source map and Linux Cargo build | patch the smallest generic seam in fork; do not clone runtime logic |
+| V-02 | reusable `nampplets` crates compile on Linux | source map and Linux Cargo build | contribute the smallest generic seam upstream; do not clone runtime logic |
 | V-03 | exact-build/session APIs can be driven by a daemon | minimal Rust probe | revise daemon adapter; if impossible, document the specific upstream boundary |
 | V-04 | NMP exposes required read/freshness/diagnostic APIs | compiling probe with signed fixtures | adapt only through public NMP facade or contribute missing seam |
 | V-05 | nested frame cannot access Tauri and source binding is reliable | Linux Tauri/WebKit hostile probe | change host projection before feature work |

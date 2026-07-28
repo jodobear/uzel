@@ -1,0 +1,166 @@
+# Uzel Gate 0 compatibility record. Values are evidence pins, not semver ranges.
+schema = 1
+validated_at = "2026-07-28"
+gate = "Gate 0"
+slice_01_verdict = "no-go"
+blocking_reason = "Kehto 0.29 artifacts fail released conformance and nampplets is still pinned to the unratified 0.28 baseline"
+
+[kehto]
+repository = "https://github.com/kehto/web"
+observed_main = "297b5478ead54508a881909e658fda0c8ee19984"
+pull_request = 204
+pull_request_head = "59f56ce47e7eec2ec4438393f0c59b55f653cb04"
+merge_commit = "b85db51db838866de753b275b9d34ec908785bd2"
+merged_at = "2026-07-27T18:48:09Z"
+package_source_commit = "dd7b3a728eb9c838b7218fcec7bb7bb00e7cc88b"
+package_release_commit = "60889f1c2476e063500c7ab6624af6abe0dbcbe5"
+package_manager = "pnpm@10.8.0"
+unit_test_files = "125/125"
+unit_tests = "1574/1574"
+conformance_cli = "@napplet/conformance-cli@0.2.16"
+conformance_result = "fail: chat and feed access forbidden global fetch through Vite modulepreload polyfill"
+chat_bundle_sha256 = "2b4c6b2aa77dd62e637fd657ce82ff1bcd4aba9b12c2d8ed04789512b7ecfa1b"
+feed_bundle_sha256 = "f61f06190236f51f002911c25b307d892abe5ac896dedff05445ab2bb7df0582"
+
+[packages."@napplet/core"]
+version = "0.29.0"
+integrity = "sha512-P0/Cf0gC2yWEcAWZf5jWD5wbInTL77ZGyjeQoA+uUQwz5YpvRREdM/V3zrFM6NlVmK+c4x39xP+DZygk2mCpoA=="
+shasum = "c9d9b1ae6a94abecf152078f33e8326fa72a92dd"
+
+[packages."@napplet/nap"]
+version = "0.29.0"
+integrity = "sha512-4Z2M/eOZo8EI/FrUnUSUfSa7cBaKTcles9qvFfecKQnex3Ql/Vuhtw4VfMNpfkGbevDObSFoKcTu9jNxpRlH8w=="
+shasum = "3d99f0f667b87d654db4e31429f1fdd8221114e0"
+
+[packages."@napplet/shim"]
+version = "0.27.0"
+integrity = "sha512-CxXXzIrsGdVEzETOcFOri7j85bmS7ohtG2jZx336+wxbyUPTkh367cl6CEb8GdCInEmkHFYo2t8wIubApEdMpQ=="
+shasum = "61252f2f184155e6d81894abb2f90f07574e6b98"
+
+[packages."@napplet/sdk"]
+version = "0.25.0"
+integrity = "sha512-LOc0awH2kxRLBA6pXYyVWaGDBZ279bOQVFpL2QEUYIbB0sYQD+JvkFPuIZ3WUczV71ikqXrbsqFufaZlzyL+aQ=="
+shasum = "aae585bda460fe639b410b3d72a792e898b7de2c"
+
+[packages."@napplet/vite-plugin"]
+version = "0.12.0"
+integrity = "sha512-qEMhTTVnWn64emFoDJMB9fnrslt/YiEssc+URChgb6vRg+q+xEk4haf+5+yTZqz2Ht3APWG6JXoqPPaMBAOO7A=="
+shasum = "fc23ee0425a7da605ebbbcd896ca47d0bc8c8ab5"
+
+[packages."@napplet/conformance"]
+version = "0.14.0"
+integrity = "sha512-b2nBGm+LgJOXVj+fDpq6D7nZpUmfDGwAGkVPBePKK10eZvPKf7GMlaOtzO55NVNZWTqNCbi8ye+ern+miK3wvw=="
+shasum = "399b50e4e65e866a76d8ad4ac2f80cc97283fe03"
+
+[packages."@napplet/conformance-cli"]
+version = "0.2.16"
+integrity = "sha512-ZwJ4TC0bROnIBpZqHcMWMb1uDpciJh3DAy/dDjtwdgdUj32dfyxzcMyaRcVOqBHqtwsJPPUA9L9zudXVjAeVrA=="
+shasum = "534c4a41a68cf85ad468d7ab98bb7355f14c6ca0"
+playwright_range = "^1.59.1"
+observed_playwright = "1.62.0"
+
+[specs.nap_registry]
+repository = "https://github.com/napplet/naps"
+commit = "5ac0490461ca6fec2f0d2e45b4835cf9bc08de24"
+registry_status = "shell, intent, inc, theme Active; relay, identity, storage Draft"
+document_status_conflict = "NAP-SHELL.md and NAP-INC.md still label themselves draft"
+
+[specs.nap_inc]
+merge_commit = "cdeaec36dc8d919b8c3a905575dd57d2f958ceff"
+queryless_merge_commit = "111bea78eb5d0bc9b838eb52ac70a110c92254a7"
+uri_transposition_merge_commit = "5ac0490461ca6fec2f0d2e45b4835cf9bc08de24"
+symmetric_handles_merge_commit = "e0cd5848abb70a7450ed0eabfef9e8d04f4b41b3"
+open_lifecycle_pr_head = "a718915ddefa2f03a0126579601f59d8bd86f7c4"
+
+[specs.nap_relay]
+pull_request = 2
+state = "open draft"
+head = "0be8abce18beb46ca37bd4ddd042f58d30b4eedc"
+
+[specs.nap_identity]
+merge_commit = "a802d350f8ad132695a100c46e1261916b9892a8"
+state = "registry draft"
+
+[specs.nap_storage]
+pull_request = 3
+state = "open"
+head = "f71e84ebca7474db260346cbfc2d88f41b4e421e"
+
+[specs.nip_5a]
+repository = "https://github.com/nostr-protocol/nips"
+repository_head = "6d2979b3f503a8539c983efbcdcf901bbcf9ed23"
+document_commit = "5d6b432267d4046464490b1923b96844ac4559d0"
+scope = "nsite kinds 5128, 15128, 35128; not napplet manifests"
+
+[specs.nip_5d]
+pull_request = 2303
+state = "open; document status draft"
+head = "eb45dfd7335b7f88cb53781984c553581d2b4c34"
+manifest_kinds = [5129, 15129, 35129]
+
+[nampplets]
+repository = "https://github.com/pablof7z/nampplets"
+commit = "839654cd3643b430548765823b783f0b5140b8da"
+rust_toolchain = "1.89.0"
+baseline_status = "unratified"
+baseline_file_sha256 = "448f64d35804a528cba199d7f7bc95bd14ff6f956931a25bc906391ce83df764"
+baseline_napplet_core = "0.28.0"
+baseline_napplet_nap = "0.28.0"
+baseline_napplet_shim = "0.26.8"
+baseline_napplet_sdk = "0.24.4"
+baseline_conformance = "0.13.0"
+compatible_with_kehto_204 = false
+
+[nmp]
+repository = "https://github.com/pablof7z/nmp"
+nampplets_pin = "005dc2a5f12aa414961b313d05ebb021934e385c"
+observed_main = "0c07e018aa1ff0d16fb368f5f4b8d68caf496fb0"
+version = "0.1.0"
+
+[linux_webview]
+nixpkgs_commit = "38a4887411571457d700c51c64a6e49ead2ed5ab"
+nixpkgs_nar_hash = "sha256-kh35kIx7el4Jk8Ki3BH9/Pn1eZYSYLJ6LMALos0zOy0="
+tauri_crate = "2.11.5"
+tauri_cli = "2.11.4"
+tauri_build = "2.6.3"
+tauri_runtime_wry = "2.11.4"
+wry = "0.55.1"
+webkitgtk = "2.52.5"
+gtk3 = "3.24.52"
+weston_probe = "15.0.1"
+mesa_probe = "26.1.5"
+trust_probe_sha256 = "d1599a50e2adaa16477eb04c5590839f5341a919cdcb04318c4176abda993bd1"
+trust_probe_result = "pass"
+
+[ipc]
+transport = "AF_UNIX under XDG_RUNTIME_DIR"
+probe_sha256 = "48a1d032a9b97677b823341591a121a7210e3a7eded5d55195a50673fd01052c"
+protocol_version = 0
+maximum_frame_bytes = 4096
+probe_result = "pass"
+
+[tools]
+os = "Fedora Server 43"
+kernel = "7.1.3-101.fc43.x86_64"
+nix = "2.34.1"
+rust_host = "1.92.0"
+rust_nampplets = "1.89.0"
+node = "22.22.0"
+npm = "10.9.4"
+corepack = "0.34.0"
+pnpm = "10.8.0"
+bun = "1.3.3"
+fallow = "3.9.1"
+fallow_sha256 = "871e25151b2f6e78d0e7964e4f5af7efaf4a3ee9045406e73a6188605c564942"
+mermaid_cli = "11.16.0"
+graphify = "0.9.13"
+
+[gates]
+V_01 = "fail"
+V_02 = "pass"
+V_03 = "pass"
+V_04 = "pass"
+V_05 = "pass"
+V_06 = "fail"
+V_07 = "pass"
+V_08 = "pass"

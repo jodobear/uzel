@@ -36,6 +36,8 @@ flowchart LR
 
 Implementation does **not** begin from these documents alone. [`work/00-validate.md`](work/00-validate.md) must validate the current upstream commits, Linux build seams, WebKit trust boundary, NMP APIs, and local tools. Any contradicted design is corrected before product code proceeds.
 
+Gate 0 was completed on 2026-07-28 with a **no-go for Slice 01**. Kehto PR #204 is merged and Linux/runtime/security feasibility is proven, but Kehto's 0.29 artifacts fail released conformance while nampplets remains on an unratified 0.28 baseline. See [`reports/preflight.md`](reports/preflight.md) and [`compatibility.lock`](compatibility.lock). Do not execute later work files until the listed upstream blockers clear and the lock verdict changes.
+
 ## Start order
 
 1. Read [`AGENTS.md`](AGENTS.md).

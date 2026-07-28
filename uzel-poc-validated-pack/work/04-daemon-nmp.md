@@ -4,6 +4,10 @@
 
 Provide one runtime authority and one canonical Nostr data plane behind the shell.
 
+## Entry status and pins
+
+**Blocked by Gate 0.** Use `nampplets@839654cd3643b430548765823b783f0b5140b8da` or its accepted compatibility successor and its exact NMP pin `005dc2a5f12aa414961b313d05ebb021934e385c`. Do not silently advance to NMP main.
+
 ## Read
 
 - accepted NMP API map
@@ -12,14 +16,14 @@ Provide one runtime authority and one canonical Nostr data plane behind the shel
 
 ## Tasks
 
-- Implement the smallest accepted local shell/daemon seam.
-- Own one NMP engine and store.
-- Set/get one public read identity.
-- Map pinned napplet read requests to NMP kind `0` and direct-follow queries.
+- Implement the bounded version-0 AF_UNIX seam accepted in `reports/preflight.md`.
+- Own one upstream `NmpDataPlane`/`RuntimeController`, which in turn owns one NMP engine and store.
+- Set/get one public read identity with `RuntimeController::register_read_only_account` and the adapter's lower-hex/`npub` parser.
+- Reuse `NapNostrProviderSet`/existing provider projections for kind `0` and direct follows; do not independently translate NAP requests or add caches.
 - Support deterministic fixture mode and configured live mode.
 - Persist only required product/app-KV facts not owned by NMP/`nampplets`.
 - Expose bounded diagnostics.
-- Cancel observers/sessions cleanly.
+- Cancel observation handles idempotently and call controller/data-plane close, which shuts down NMP.
 
 ## Acceptance
 

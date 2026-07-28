@@ -1,6 +1,6 @@
 {
-  // Starter only. Work 00 must validate rule names and CLI behavior
-  // against the server-installed/pinned Fallow version and real source tree.
+  // Validated by Work 00 against signed Fallow 3.9.1. The released schema
+  // uses ignorePatterns; the original starter field "ignore" was rejected.
   "audit": { "gate": "new-only" },
   "rules": {
     "unresolved-imports": "error",
@@ -8,5 +8,5 @@
     "unused-files": "error",
     "unused-dependencies": "error"
   },
-  "ignore": ["**/generated/**", "**/dist/**", "**/target/**"]
+  "ignorePatterns": ["**/generated/**", "**/dist/**", "**/target/**"]
 }

@@ -23,6 +23,8 @@
 
 ### Hostile frame
 
+Gate 0 executed the minimum trust spike for Tauri globals, raw invalid-key IPC, source binding, fetch, XHR, WebSocket, and image loading. The synthetic frame passed, while the candidate Kehto artifacts failed conformance because their generated HTML contains `fetch`. The complete list below remains mandatory in Work 06 after compatibility is repaired.
+
 The test napplet attempts:
 
 ```text
@@ -36,7 +38,7 @@ forged principal/session/sender fields
 oversized/malformed envelopes
 ```
 
-Expected result: no host/native authority; network-bearing attempts fail under the tested policy; forged identity is ignored; valid NAP traffic still works.
+Expected result: no authenticated host/native authority; network-bearing attempts fail under the tested policy; forged identity is ignored; valid NAP traffic still works. A visible unauthenticated WebKit message handler is not a pass by itself: command execution must remain impossible without the top-frame invoke key and malformed traffic must be bounded.
 
 This proves the POC projection against malicious JavaScript. It is not a browser-engine exploit proof.
 

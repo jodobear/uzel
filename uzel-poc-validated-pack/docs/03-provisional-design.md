@@ -1,6 +1,6 @@
 # Provisional component design
 
-> This document defines constraints and the smallest expected shape. Gate 0 may replace details with a simpler existing upstream seam.
+> Gate 0 replaced guesses with the validated constraints below. Exact source/tool pins live in [`../compatibility.lock`](../compatibility.lock); Slice 01 remains blocked by its no-go verdict.
 
 ## Local daemon protocol
 
@@ -18,6 +18,17 @@ Minimum properties:
 - one shell client for the POC;
 - typed errors;
 - no TCP, remote clients, compatibility promise, or generic plugin protocol.
+
+Validated wire shape for version `0`:
+
+```text
+4-byte unsigned big-endian payload length
+maximum payload length: 4096 bytes
+UTF-8 JSON operation/result/error object
+reject an oversized declaration before allocating or reading its body
+```
+
+Create `$XDG_RUNTIME_DIR/uzel` as mode 0700 and the socket as mode 0600. Accept one shell client for the POC, enforce bounded pending work, and remove only a verified same-user stale socket. The disposable hello/status probe passed against `/run/user/1000`.
 
 Minimum operations:
 
@@ -38,13 +49,14 @@ Keep semantic owners separate:
 
 | State | Owner |
 |---|---|
-| Nostr events, replaceable selection, relay evidence, freshness | NMP |
-| verified app build, session, grant, surface binding | `nampplets`/`napd` |
+| Nostr events, replaceable selection, relay evidence, freshness | pinned NMP |
+| verified app build, session, grant | nampplets runtime |
+| source window, surface, generation mapping | trusted Linux host, attested to nampplets |
 | active read pubkey, layout, product mode | Uzel runtime metadata |
 | napplet private KV | runtime storage provider |
 | Svelte transient UI state | Svelte |
 
-Use existing `nampplets` persistence where suitable. Add SQLite only for missing product/KV facts; do not design a broad platform schema during the POC.
+Use `nmp-native-runtime-store` for installed-build/runtime/app-KV facts and NMP redb for Nostr truth. Add product persistence only for a demonstrated missing Uzel field; do not duplicate app KV or design a broad platform schema during the POC.
 
 ## Exact-build fixtures
 
@@ -58,11 +70,11 @@ file hashes
 required capability domains
 ```
 
-The runtime verifies the signed manifest and hashes before execution. Remote scripts, dynamic CDN imports, service-worker updates, and direct browser network dependencies are rejected.
+The runtime verifies the upstream signed manifest and hashes before execution. Reuse upstream cryptographic formats and libraries. Remote scripts, dynamic CDN imports, service-worker updates, module-preload network helpers, and direct browser network dependencies are rejected.
 
 ## Identity and Nostr reads
 
-The shell selects one public key. Gate 0 determines the exact pinned identity projection used by #204/packages/`nampplets`; do not invent a second identity API.
+The shell selects one lower-case hex key or `npub`. Register it through `RuntimeController::register_read_only_account`/`NmpDataPlane`; NIP-05 lookup is not part of the accepted parser. Use the pinned nampplets identity/Nostr providers rather than inventing a second identity API.
 
 Required behavior:
 
@@ -73,6 +85,7 @@ Required behavior:
 - cache-first rendering;
 - no claim of global completeness;
 - all observers cancelled when identity/session closes.
+- source evidence and shortfalls displayed without a global completeness claim.
 
 Initial fixture sizes should be small enough to falsify behavior, not benchmark the entire network. Performance ceilings are selected after the NMP probe rather than guessed in documentation.
 
@@ -104,7 +117,16 @@ Expected frame:
 <iframe sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe>
 ```
 
-Expected policy is default-deny, self-contained execution, no `connect-src`, no child frames/workers/forms/navigation, and no Tauri/native bridge in the child. The exact CSP and document construction are chosen by the Gate 0 probe because opaque-origin ESM and WebKit behavior can affect packaging.
+Use a verified `srcdoc` document with policy before executable content:
+
+```text
+default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline';
+img-src data: blob:; font-src data:; connect-src 'none'; worker-src 'none';
+child-src 'none'; frame-src 'none'; media-src 'none'; object-src 'none';
+manifest-src 'none'; base-uri 'none'; form-action 'none'
+```
+
+Gate 0 proved self-contained child execution and denied fetch, XHR, WebSocket, and external image loads with zero loopback connections. It also proved no Tauri globals, Wry `window.ipc`, or readable parent bridge. The raw WebKit message handler is visible but has no authenticated Tauri authority; keep the generated invoke key top-frame-only and treat invalid messages as hostile input.
 
 Inbound host order:
 
@@ -113,6 +135,8 @@ Inbound host order:
 3. validate message shape and size;
 4. ignore caller-supplied principal/session/sender claims;
 5. forward through the trusted Tauri backend.
+
+Never switch initialization scripts to all frames, add `allow-same-origin`, or relax `connect-src` to accommodate a bundler. A candidate artifact that contains a network helper is incompatible and must be rebuilt upstream.
 
 ## Shell UI
 

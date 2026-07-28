@@ -1,63 +1,63 @@
 # Source baseline
 
-> Snapshot: 2026-07-28. Gate 0 replaces branch-level observations with exact commits and command output.
+> Validated: 2026-07-28. The canonical machine-readable pins are in [`../compatibility.lock`](../compatibility.lock).
 
-## Observed facts
+## Verified facts
 
 ### Napplet packages
 
-The release page lists convention-capable packages including:
+Kehto PR #204 uses this exact released line:
 
 ```text
 @napplet/core@0.29.0
 @napplet/nap@0.29.0
+@napplet/shim@0.27.0
 @napplet/sdk@0.25.0
+@napplet/vite-plugin@0.12.0
 @napplet/conformance@0.14.0
 @napplet/conformance-cli@0.2.16
 ```
 
-The release notes describe queryless exact identities, URI-to-payload transposition, runtime-attested senders, and source-independent target delivery.
+The package release commit is `60889f1c2476e063500c7ab6624af6abe0dbcbe5`; npm integrity and shasum values are locked. The CLI's Playwright dependency is a range, so a reproducible check must also lock the resolved browser dependency.
 
 Source: <https://github.com/napplet/web/releases>
 
 ### Kehto #204
 
-At this snapshot, GitHub displays PR #204 as draft. Its stated work covers convention conformance, shell session integrity, identity/theme parity, exact queryless INC routing, runtime-attested senders, and symmetric channel lifecycle.
+PR #204 merged on 2026-07-27 at `b85db51db838866de753b275b9d34ec908785bd2`. Its source head is `59f56ce47e7eec2ec4438393f0c59b55f653cb04`.
 
-Start condition: verify and pin the merge commit before implementation.
+The exact merged checkout passes 1,574 unit tests. Its built `chat` and `feed` bundles nevertheless fail conformance-cli 0.2.16 because Vite injects a module-preload `fetch`. The merge is real; fixture compatibility is not accepted.
 
 Source: <https://github.com/kehto/web/pull/204>
 
 ### `nampplets`
 
-The repository describes an in-progress native Rust runtime with a macOS reference host. It states that NMP is the sole Nostr engine while the runtime owns installation, capabilities, WebView isolation, workspace bindings, and product policy. The documented host is a trusted WebView shell with a sandboxed napplet iframe and exact-build installation.
+Commit `839654cd3643b430548765823b783f0b5140b8da` contains 16 Linux-neutral Rust crates plus portable trusted-shell assets. Its locked workspace passes Linux fmt, tests, and warning-denying Clippy with Rust 1.89.0. Apple-only edges are isolated to the workbench apps, Apple platform adapter, and Apple package.
+
+Its own `compatibility.lock` is unratified and pins core/nap 0.28.0, shim 0.26.8, SDK 0.24.4, conformance 0.13.0, and older Kehto/spec commits. Provider constants also pin `napplet-web@0.28.0`. This contradicts a direct claim of compatibility with Kehto #204's 0.29 line.
 
 Source: <https://github.com/pablof7z/nampplets>
 
 ### NMP
 
-NMP describes an embeddable Nostr engine with canonical redb state, provenance-preserving deduplication, replaceable-event handling, freshness, bounded delivery, finite relay fan-out, NIP-65 routing, and NIP-02 following.
+Use commit `005dc2a5f12aa414961b313d05ebb021934e385c`, the exact NMP revision locked by nampplets, rather than current main. A compiling signed-fixture probe confirmed cache-only profile/direct-follow projections, explicit evidence shortfalls, cancellation, diagnostics, and shutdown through public APIs.
 
 Source: <https://github.com/pablof7z/nmp>
 
 ### NAP registry
 
-The registry defines the runtime capability seam and web projection. `shell`, `intent`, `inc`, and `theme` are active; `relay`, `identity`, and `storage` are draft at this snapshot.
+At `napplet/naps@5ac0490461ca6fec2f0d2e45b4835cf9bc08de24`, the registry calls `shell`, `intent`, `inc`, and `theme` active, while `relay`, `identity`, and `storage` are draft. NAP-SHELL.md and NAP-INC.md still self-label as draft. Relay PR #2 and storage PR #3 are open; exact heads are locked.
 
 Source: <https://github.com/napplet/naps>
 
-## Pin record
+### NIP-5A and NIP-5D
 
-Gate 0 creates `compatibility.lock` with exact values for:
+NIP-5A at document commit `5d6b432267d4046464490b1923b96844ac4559d0` defines nsite kinds 5128/15128/35128. It is not the napplet manifest contract.
 
-```text
-Kehto #204 merge commit
-Napplet package lock and release commit
-NIP-5A / NIP-5D / NAP registry commits
-NAP-INC and pinned draft relay/identity/storage revisions
-nampplets commit
-NMP commit
-Rust, Node, package manager, Tauri, WebKitGTK, Nix, Fallow
-```
+NIP-5D PR #2303 remains open at head `eb45dfd7335b7f88cb53781984c553581d2b4c34`. Its draft specifies napplet kinds 5129/15129/35129, `srcdoc`, `sandbox="allow-scripts"`, source-window binding, pre-script `window.napplet`, no `window.nostr`, and a default-deny CSP. Its root/snapshot identity wording still needs upstream clarification because those records do not carry the `dTag` used in its stated tuple.
 
-Branches and “latest” are not reproducible pins.
+Source: <https://github.com/nostr-protocol/nips/pull/2303>
+
+## Decision
+
+No branch or “latest” value is an implementation pin. Slice 01 remains blocked until one upstream nampplets baseline covers the 0.29 package line and exact Kehto fixture artifacts pass the locked released conformance path.

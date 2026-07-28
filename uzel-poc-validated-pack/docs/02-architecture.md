@@ -1,5 +1,7 @@
 # POC architecture
 
+> Gate 0 validated this topology on Linux, subject to the compatibility blockers in [`../reports/preflight.md`](../reports/preflight.md). The architecture is accepted; Slice 01 is not yet authorized.
+
 ## Runtime topology
 
 ```mermaid
@@ -19,10 +21,10 @@ flowchart TB
 
     subgraph Daemon[uzel-napd - runtime authority]
         IPC[local IPC]
-        RT[nampplets adapter]
-        ST[package + settings + app KV]
-        NA[NMP adapter]
-        NE[NMP engine/store]
+        RT[nampplets RuntimeController]
+        ST[nampplets runtime-store]
+        NA[nampplets NmpDataPlane + providers]
+        NE[pinned NMP engine + redb]
         IPC --> RT
         RT --> ST
         RT --> NA
@@ -33,13 +35,15 @@ flowchart TB
     NE <--> RELAYS[Nostr relays]
 ```
 
-The Svelte shell never talks directly to NMP or runtime storage. The Tauri Rust backend is the trusted daemon client. Napplet frames communicate only with the host bridge using the pinned web projection.
+The Svelte shell never talks directly to NMP or runtime storage. The Tauri Rust backend is a thin trusted daemon client. Napplet frames communicate only with the source-binding host bridge and upstream trusted-shell projection.
 
 ## Trust domains
 
 | Domain | Authority |
 |---|---|
-| `uzel-napd` | principals, sessions, package verification, KV, NMP, diagnostics |
+| `uzel-napd` | process ownership and composition of upstream runtime/NMP authorities |
+| nampplets runtime | principals, exact builds, sessions, grants, NAP providers, app KV, bounded diagnostics |
+| NMP | Nostr event truth, replaceable selection, follows, relay evidence, freshness, canonical cache |
 | Tauri Rust backend | window lifecycle and daemon client |
 | Svelte parent | layout, source-bound frame routing, user/dev presentation |
 | Napplet iframe | granted NAP capabilities only |
@@ -53,7 +57,7 @@ The POC threat target is malicious napplet JavaScript. It does not claim protect
 ```text
 apps/uzel/              Tauri + Svelte product
 apps/uzel-napd/         daemon binary
-crates/napd/            reusable runtime, NMP and storage adapters
+crates/napd/            thin Uzel daemon composition; no copied runtime/provider/NMP logic
 crates/napd-protocol/   small internal local protocol
 napplets/               portable demo/test napplets
 contracts/              shared convention schemas
@@ -68,8 +72,8 @@ flowchart LR
     SH[Uzel shell] --> PR[napd-protocol]
     DM[uzel-napd] --> PR
     DM --> NC[napd]
-    NC --> NM[nampplets]
-    NC --> NMP[NMP]
+    NC --> NM[nampplets RuntimeController]
+    NM --> NMP[pinned NMP via NmpDataPlane]
 
     NP -. forbidden .-> SH
     NP -. forbidden .-> NC
@@ -100,6 +104,22 @@ sequenceDiagram
 
 No payload field may choose its principal, session, sender, or target frame.
 
+## Accepted upstream seam
+
+The daemon drives the existing source pin through:
+
+```text
+RuntimeController::open
+RuntimeController::verify_artifact
+RuntimeController::install
+RuntimeController::launch
+RuntimeController::mapped_envelope
+RuntimeController::read_verified
+RuntimeController lifecycle, snapshot, observation, diagnostics, and close methods
+```
+
+The controller composes `nmp-native-artifact`, runtime-core/app/store, NAP bridge/providers, and `NmpDataPlane`. `crates/napd` may translate the private AF_UNIX operation enum to these calls; it must not reproduce their semantics. The Linux-only implementation edge is WebKit host creation and source-window mapping.
+
 ## Shared Nostr flow
 
 ```mermaid
@@ -113,7 +133,7 @@ sequenceDiagram
     N->>H: relay/identity request
     H->>D: source-bound NAP envelope
     D->>D: authorize exact-build session
-    D->>M: live query using public facade
+    D->>M: provider-owned demand using public facade
     M-->>D: cached canonical rows + evidence
     D-->>H: authorized result/update
     H-->>N: target mapped frame
@@ -124,7 +144,7 @@ sequenceDiagram
     H-->>N: target mapped frame
 ```
 
-NMP owns event truth. SQLite/runtime state may store package, product, and app-KV facts only.
+NMP owns event truth. nampplets runtime storage owns installed-build, runtime, and app-KV facts. Uzel may store only missing product metadata; it must not add an event/profile/follow cache.
 
 ## Composition flow
 
@@ -147,4 +167,8 @@ The sender does not address a session directly. The profile event itself is not 
 
 ## UI boundary
 
-The shell uses one native window and one trusted WebView containing two sandboxed frames. This is the fastest web-projection path. It does not prove independent browser-process isolation or per-surface native resource accounting; those remain later work.
+The shell uses one native window and one trusted WebView containing two sandboxed frames. Gate 0 proved that Tauri/Wry bootstrap and the authenticated invoke key remain top-frame-only under WebKitGTK 2.52.5 and that `MessageEvent.source` binding works.
+
+WebKit still exposes its low-level `window.webkit.messageHandlers.ipc` transport to the child. It carries no Tauri command authority without the generated top-frame invoke key; an invalid-key hostile call was rejected. Treat it as attacker-controlled input, keep scripts main-frame-only, preserve size/rate limits, and never use Tauri webview labels as a substitute for inner-frame source binding.
+
+This path does not prove independent browser-process isolation or per-surface native resource accounting; those remain later work.
