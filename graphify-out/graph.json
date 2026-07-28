@@ -259,7 +259,7 @@
       "source_file": "apps/uzel/package.json",
       "source_location": "L20",
       "_origin": "ast",
-      "id": "vite",
+      "id": "apps_uzel_package_json_vite",
       "community": 16,
       "norm_label": "vite"
     },
@@ -1214,6 +1214,216 @@
       "norm_label": "vite.config.ts"
     },
     {
+      "label": "profile-open-v1.schema.json",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema",
+      "community": 60,
+      "norm_label": "profile-open-v1.schema.json"
+    },
+    {
+      "label": "$schema",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_schema",
+      "community": 60,
+      "norm_label": "$schema"
+    },
+    {
+      "label": "$id",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_id",
+      "community": 60,
+      "norm_label": "$id"
+    },
+    {
+      "label": "title",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_title",
+      "community": 60,
+      "norm_label": "title"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_type",
+      "community": 60,
+      "norm_label": "type"
+    },
+    {
+      "label": "additionalProperties",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_additionalproperties",
+      "community": 60,
+      "norm_label": "additionalproperties"
+    },
+    {
+      "label": "required",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_required",
+      "community": 60,
+      "norm_label": "required"
+    },
+    {
+      "label": "version",
+      "file_type": "concept",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "ref_version",
+      "community": 60,
+      "norm_label": "version"
+    },
+    {
+      "label": "pubkey",
+      "file_type": "concept",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "ref_pubkey",
+      "community": 60,
+      "norm_label": "pubkey"
+    },
+    {
+      "label": "properties",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_properties",
+      "community": 60,
+      "norm_label": "properties"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_properties_version",
+      "community": 60,
+      "norm_label": "version"
+    },
+    {
+      "label": "const",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_version_const",
+      "community": 60,
+      "norm_label": "const"
+    },
+    {
+      "label": "pubkey",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_properties_pubkey",
+      "community": 60,
+      "norm_label": "pubkey"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_pubkey_type",
+      "community": 60,
+      "norm_label": "type"
+    },
+    {
+      "label": "pattern",
+      "file_type": "code",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "contracts_profile_open_v1_schema_pubkey_pattern",
+      "community": 60,
+      "norm_label": "pattern"
+    },
+    {
+      "label": "profile-open.js",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "contracts_profile_open",
+      "community": 13,
+      "norm_label": "profile-open.js"
+    },
+    {
+      "label": "isCanonicalPubkey()",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "contracts_profile_open_iscanonicalpubkey",
+      "community": 13,
+      "norm_label": "iscanonicalpubkey()"
+    },
+    {
+      "label": "parseProfileOpen()",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "contracts_profile_open_parseprofileopen",
+      "community": 13,
+      "norm_label": "parseprofileopen()"
+    },
+    {
+      "label": "profileOpen()",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "contracts_profile_open_profileopen",
+      "community": 13,
+      "norm_label": "profileopen()"
+    },
+    {
+      "label": "profile-open.test.mjs",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "contracts_profile_open_test",
+      "community": 13,
+      "norm_label": "profile-open.test.mjs"
+    },
+    {
+      "label": "PUBKEY",
+      "file_type": "code",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "contracts_profile_open_test_pubkey",
+      "community": 13,
+      "norm_label": "pubkey"
+    },
+    {
       "label": "lib.rs",
       "file_type": "code",
       "source_file": "crates/napd-protocol/src/lib.rs",
@@ -1320,7 +1530,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "crates_napd_src_runner_exactfixturesource",
-      "community": 49,
+      "community": 47,
       "norm_label": "exactfixturesource"
     },
     {
@@ -1330,7 +1540,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "artifactsource",
-      "community": 49,
+      "community": 47,
       "norm_label": "artifactsource"
     },
     {
@@ -1340,7 +1550,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "crates_napd_src_runner_exactfixturesource_fetch",
-      "community": 49,
+      "community": 47,
       "norm_label": ".fetch()"
     },
     {
@@ -1350,7 +1560,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "artifactfetchrequest",
-      "community": 49,
+      "community": 47,
       "norm_label": "artifactfetchrequest"
     },
     {
@@ -1360,7 +1570,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "artifactfetchresponse",
-      "community": 49,
+      "community": 47,
       "norm_label": "artifactfetchresponse"
     },
     {
@@ -1644,10 +1854,40 @@
       "norm_label": ".drop()"
     },
     {
+      "label": "SliceThreeFixtureSource",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L320",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_slicethreefixturesource",
+      "community": 47,
+      "norm_label": "slicethreefixturesource"
+    },
+    {
+      "label": ".fetch()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L323",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_slicethreefixturesource_fetch",
+      "community": 47,
+      "norm_label": ".fetch()"
+    },
+    {
+      "label": "launch_slice_three_fixture()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L351",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_launch_slice_three_fixture",
+      "community": 47,
+      "norm_label": "launch_slice_three_fixture()"
+    },
+    {
       "label": "verified_fixture_handshakes_through_runtime()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L309",
+      "source_location": "L391",
       "_origin": "ast",
       "id": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
       "community": 47,
@@ -1657,11 +1897,951 @@
       "label": "payload_identity_cannot_select_surface_or_session()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L332",
+      "source_location": "L414",
       "_origin": "ast",
       "id": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
       "community": 47,
       "norm_label": "payload_identity_cannot_select_surface_or_session()"
+    },
+    {
+      "label": "slice_three_signed_single_file_artifacts_verify_and_read_exactly()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L431",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
+      "community": 47,
+      "norm_label": "slice_three_signed_single_file_artifacts_verify_and_read_exactly()"
+    },
+    {
+      "label": "profile_open_crosses_inc_with_runtime_owned_sender()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L522",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
+      "community": 47,
+      "norm_label": "profile_open_crosses_inc_with_runtime_owned_sender()"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package",
+      "community": 49,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_name",
+      "community": 49,
+      "norm_label": "name"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_private",
+      "community": 49,
+      "norm_label": "private"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_version",
+      "community": 49,
+      "norm_label": "version"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_type",
+      "community": 49,
+      "norm_label": "type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_scripts",
+      "community": 49,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_scripts_build",
+      "community": 49,
+      "norm_label": "build"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_scripts_test",
+      "community": 49,
+      "norm_label": "test"
+    },
+    {
+      "label": "test:conformance",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_scripts_test_conformance",
+      "community": 49,
+      "norm_label": "test:conformance"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_dependencies",
+      "community": 49,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@napplet/nap",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_dependencies_napplet_nap",
+      "community": 49,
+      "norm_label": "@napplet/nap"
+    },
+    {
+      "label": "@napplet/nap",
+      "file_type": "concept",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_json_napplet_nap",
+      "community": 49,
+      "norm_label": "@napplet/nap"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_dependencies_napplet_shim",
+      "community": 49,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "concept",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_json_napplet_shim",
+      "community": 49,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_devdependencies",
+      "community": 49,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@napplet/conformance-cli",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_devdependencies_napplet_conformance_cli",
+      "community": 49,
+      "norm_label": "@napplet/conformance-cli"
+    },
+    {
+      "label": "@napplet/conformance-cli",
+      "file_type": "concept",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_json_napplet_conformance_cli",
+      "community": 49,
+      "norm_label": "@napplet/conformance-cli"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_devdependencies_napplet_vite_plugin",
+      "community": 49,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "concept",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_json_napplet_vite_plugin",
+      "community": 49,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_devdependencies_vite",
+      "community": 49,
+      "norm_label": "vite"
+    },
+    {
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "napplets_follow_list_package_json_vite",
+      "community": 49,
+      "norm_label": "vite"
+    },
+    {
+      "label": "main.js",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main",
+      "community": 13,
+      "norm_label": "main.js"
+    },
+    {
+      "label": "status",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_status",
+      "community": 13,
+      "norm_label": "status"
+    },
+    {
+      "label": "list",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_list",
+      "community": 13,
+      "norm_label": "list"
+    },
+    {
+      "label": "render()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_render",
+      "community": 13,
+      "norm_label": "render()"
+    },
+    {
+      "label": "start()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_start",
+      "community": 13,
+      "norm_label": "start()"
+    },
+    {
+      "label": "model.js",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_model",
+      "community": 13,
+      "norm_label": "model.js"
+    },
+    {
+      "label": "directFollows()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_model_directfollows",
+      "community": 13,
+      "norm_label": "directfollows()"
+    },
+    {
+      "label": "shortPubkey()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_model_shortpubkey",
+      "community": 13,
+      "norm_label": "shortpubkey()"
+    },
+    {
+      "label": "model.test.mjs",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_follow_list_tests_model_test",
+      "community": 13,
+      "norm_label": "model.test.mjs"
+    },
+    {
+      "label": "A",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_follow_list_tests_model_test_a",
+      "community": 13,
+      "norm_label": "a"
+    },
+    {
+      "label": "B",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_follow_list_tests_model_test_b",
+      "community": 13,
+      "norm_label": "b"
+    },
+    {
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/vite.config.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_follow_list_vite_config",
+      "community": 75,
+      "norm_label": "vite.config.js"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package",
+      "community": 59,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_name",
+      "community": 59,
+      "norm_label": "name"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_private",
+      "community": 59,
+      "norm_label": "private"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_version",
+      "community": 59,
+      "norm_label": "version"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_type",
+      "community": 59,
+      "norm_label": "type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_scripts",
+      "community": 59,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_scripts_build",
+      "community": 59,
+      "norm_label": "build"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_scripts_test",
+      "community": 59,
+      "norm_label": "test"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_dependencies",
+      "community": 59,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_dependencies_napplet_shim",
+      "community": 59,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "concept",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_json_napplet_shim",
+      "community": 59,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_devdependencies",
+      "community": 59,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_devdependencies_napplet_vite_plugin",
+      "community": 59,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "concept",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_json_napplet_vite_plugin",
+      "community": 59,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_devdependencies_vite",
+      "community": 59,
+      "norm_label": "vite"
+    },
+    {
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_package_json_vite",
+      "community": 59,
+      "norm_label": "vite"
+    },
+    {
+      "label": "main.js",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_main",
+      "community": 64,
+      "norm_label": "main.js"
+    },
+    {
+      "label": "results",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_main_results",
+      "community": 64,
+      "norm_label": "results"
+    },
+    {
+      "label": "denied()",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_main_denied",
+      "community": 64,
+      "norm_label": "denied()"
+    },
+    {
+      "label": "probes.js",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/probes.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_probes",
+      "community": 64,
+      "norm_label": "probes.js"
+    },
+    {
+      "label": "PROBE_NAMES",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/probes.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_probes_probe_names",
+      "community": 64,
+      "norm_label": "probe_names"
+    },
+    {
+      "label": "nativeSurface()",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/src/probes.js",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_src_probes_nativesurface",
+      "community": 64,
+      "norm_label": "nativesurface()"
+    },
+    {
+      "label": "probes.test.mjs",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/tests/probes.test.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_tests_probes_test",
+      "community": 64,
+      "norm_label": "probes.test.mjs"
+    },
+    {
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "napplets/hostile-egress/vite.config.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_hostile_egress_vite_config",
+      "community": 76,
+      "norm_label": "vite.config.js"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package",
+      "community": 58,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_name",
+      "community": 58,
+      "norm_label": "name"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_private",
+      "community": 58,
+      "norm_label": "private"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_version",
+      "community": 58,
+      "norm_label": "version"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_type",
+      "community": 58,
+      "norm_label": "type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_scripts",
+      "community": 58,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_scripts_build",
+      "community": 58,
+      "norm_label": "build"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_scripts_test",
+      "community": 58,
+      "norm_label": "test"
+    },
+    {
+      "label": "test:conformance",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_scripts_test_conformance",
+      "community": 58,
+      "norm_label": "test:conformance"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_dependencies",
+      "community": 58,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "@napplet/nap",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_dependencies_napplet_nap",
+      "community": 58,
+      "norm_label": "@napplet/nap"
+    },
+    {
+      "label": "@napplet/nap",
+      "file_type": "concept",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_json_napplet_nap",
+      "community": 58,
+      "norm_label": "@napplet/nap"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_dependencies_napplet_shim",
+      "community": 58,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "@napplet/shim",
+      "file_type": "concept",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_json_napplet_shim",
+      "community": 58,
+      "norm_label": "@napplet/shim"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_devdependencies",
+      "community": 58,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@napplet/conformance-cli",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_devdependencies_napplet_conformance_cli",
+      "community": 58,
+      "norm_label": "@napplet/conformance-cli"
+    },
+    {
+      "label": "@napplet/conformance-cli",
+      "file_type": "concept",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_json_napplet_conformance_cli",
+      "community": 58,
+      "norm_label": "@napplet/conformance-cli"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_devdependencies_napplet_vite_plugin",
+      "community": 58,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "@napplet/vite-plugin",
+      "file_type": "concept",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_json_napplet_vite_plugin",
+      "community": 58,
+      "norm_label": "@napplet/vite-plugin"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_devdependencies_vite",
+      "community": 58,
+      "norm_label": "vite"
+    },
+    {
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "napplets_profile_card_package_json_vite",
+      "community": 58,
+      "norm_label": "vite"
+    },
+    {
+      "label": "main.js",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main",
+      "community": 13,
+      "norm_label": "main.js"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_name",
+      "community": 13,
+      "norm_label": "name"
+    },
+    {
+      "label": "pubkey",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_pubkey",
+      "community": 13,
+      "norm_label": "pubkey"
+    },
+    {
+      "label": "about",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_about",
+      "community": 13,
+      "norm_label": "about"
+    },
+    {
+      "label": "status",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_status",
+      "community": 13,
+      "norm_label": "status"
+    },
+    {
+      "label": "evidence",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_evidence",
+      "community": 13,
+      "norm_label": "evidence"
+    },
+    {
+      "label": "openProfile()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_openprofile",
+      "community": 13,
+      "norm_label": "openprofile()"
+    },
+    {
+      "label": "model.js",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_model",
+      "community": 13,
+      "norm_label": "model.js"
+    },
+    {
+      "label": "optionalText()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_model_optionaltext",
+      "community": 13,
+      "norm_label": "optionaltext()"
+    },
+    {
+      "label": "latestProfile()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_model_latestprofile",
+      "community": 13,
+      "norm_label": "latestprofile()"
+    },
+    {
+      "label": "model.test.mjs",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_profile_card_tests_model_test",
+      "community": 13,
+      "norm_label": "model.test.mjs"
+    },
+    {
+      "label": "PUBKEY",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "napplets_profile_card_tests_model_test_pubkey",
+      "community": 13,
+      "norm_label": "pubkey"
+    },
+    {
+      "label": "result()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "napplets_profile_card_tests_model_test_result",
+      "community": 13,
+      "norm_label": "result()"
+    },
+    {
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/vite.config.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "napplets_profile_card_vite_config",
+      "community": 77,
+      "norm_label": "vite.config.js"
     },
     {
       "label": "package.json",
@@ -1694,10 +2874,20 @@
       "norm_label": "private"
     },
     {
-      "label": "version",
+      "label": "type",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L4",
+      "_origin": "ast",
+      "id": "package_type",
+      "community": 17,
+      "norm_label": "type"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "package_version",
       "community": 17,
@@ -1707,7 +2897,7 @@
       "label": "packageManager",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L5",
+      "source_location": "L6",
       "_origin": "ast",
       "id": "package_packagemanager",
       "community": 17,
@@ -1717,7 +2907,7 @@
       "label": "engines",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L6",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "package_engines",
       "community": 17,
@@ -1727,27 +2917,97 @@
       "label": "node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L7",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "package_engines_node",
       "community": 17,
       "norm_label": "node"
     },
     {
+      "label": "pnpm",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "package_pnpm",
+      "community": 17,
+      "norm_label": "pnpm"
+    },
+    {
+      "label": "overrides",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "package_pnpm_overrides",
+      "community": 17,
+      "norm_label": "overrides"
+    },
+    {
+      "label": "@napplet/conformance",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "package_overrides_napplet_conformance",
+      "community": 17,
+      "norm_label": "@napplet/conformance"
+    },
+    {
+      "label": "@napplet/core",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "package_overrides_napplet_core",
+      "community": 17,
+      "norm_label": "@napplet/core"
+    },
+    {
+      "label": "playwright",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "package_overrides_playwright",
+      "community": 17,
+      "norm_label": "playwright"
+    },
+    {
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L9",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 17,
       "norm_label": "devdependencies"
     },
     {
+      "label": "@napplet/cli",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "package_devdependencies_napplet_cli",
+      "community": 17,
+      "norm_label": "@napplet/cli"
+    },
+    {
+      "label": "@napplet/cli",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "napplet_cli",
+      "community": 17,
+      "norm_label": "@napplet/cli"
+    },
+    {
       "label": "fallow",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_devdependencies_fallow",
       "community": 17,
@@ -1757,7 +3017,7 @@
       "label": "fallow",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "fallow",
       "community": 17,
@@ -1767,7 +3027,7 @@
       "label": "scripts",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_scripts",
       "community": 17,
@@ -1777,7 +3037,7 @@
       "label": "dev",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_scripts_dev",
       "community": 17,
@@ -1787,7 +3047,7 @@
       "label": "build",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_scripts_build",
       "community": 17,
@@ -1797,7 +3057,7 @@
       "label": "check",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_scripts_check",
       "community": 17,
@@ -1807,17 +3067,27 @@
       "label": "test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_scripts_test",
       "community": 17,
       "norm_label": "test"
     },
     {
+      "label": "test:conformance",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "package_scripts_test_conformance",
+      "community": 17,
+      "norm_label": "test:conformance"
+    },
+    {
       "label": "lint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_scripts_lint",
       "community": 17,
@@ -1827,7 +3097,7 @@
       "label": "format:check",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_scripts_format_check",
       "community": 17,
@@ -1837,7 +3107,7 @@
       "label": "docs:check",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_scripts_docs_check",
       "community": 17,
@@ -1847,7 +3117,7 @@
       "label": "fallow",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_scripts_fallow",
       "community": 17,
@@ -1857,7 +3127,7 @@
       "label": "smoke",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_scripts_smoke",
       "community": 17,
@@ -1867,7 +3137,7 @@
       "label": "smoke:fedora",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_scripts_smoke_fedora",
       "community": 17,
@@ -1877,11 +3147,39 @@
       "label": "smoke:debian",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_scripts_smoke_debian",
       "community": 17,
       "norm_label": "smoke:debian"
+    },
+    {
+      "label": "build-signed-napplet-fixtures.sh",
+      "file_type": "code",
+      "source_file": "scripts/build-signed-napplet-fixtures.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_build_signed_napplet_fixtures",
+      "community": 73,
+      "norm_label": "build-signed-napplet-fixtures.sh"
+    },
+    {
+      "label": "build-signed-napplet-fixtures.sh script",
+      "file_type": "code",
+      "source_file": "scripts/build-signed-napplet-fixtures.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "scripts_build_signed_napplet_fixtures_sh__entry",
+      "community": 73,
+      "norm_label": "build-signed-napplet-fixtures.sh script"
     },
     {
       "label": "check-boundaries.sh",
@@ -2264,7 +3562,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 8,
+      "community": 72,
       "norm_label": "readme.md"
     },
     {
@@ -2274,7 +3572,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_uzel",
-      "community": 8,
+      "community": 72,
       "norm_label": "uzel"
     },
     {
@@ -2284,7 +3582,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "readme_development",
-      "community": 8,
+      "community": 72,
       "norm_label": "development"
     },
     {
@@ -2474,7 +3772,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit",
-      "community": 13,
+      "community": 6,
       "norm_label": "audit.md"
     },
     {
@@ -2484,7 +3782,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_poc_documentation_audit",
-      "community": 13,
+      "community": 6,
       "norm_label": "poc documentation audit"
     },
     {
@@ -2494,7 +3792,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_verdict",
-      "community": 13,
+      "community": 6,
       "norm_label": "verdict"
     },
     {
@@ -2504,7 +3802,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_problems_found_in_the_previous_pack",
-      "community": 13,
+      "community": 6,
       "norm_label": "problems found in the previous pack"
     },
     {
@@ -2514,7 +3812,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_corrections",
-      "community": 13,
+      "community": 6,
       "norm_label": "corrections"
     },
     {
@@ -2524,7 +3822,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_diagram_review",
-      "community": 13,
+      "community": 6,
       "norm_label": "diagram review"
     },
     {
@@ -2534,7 +3832,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_gate_0_resolution",
-      "community": 13,
+      "community": 6,
       "norm_label": "gate 0 resolution"
     },
     {
@@ -2544,7 +3842,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_confidence",
-      "community": 13,
+      "community": 6,
       "norm_label": "confidence"
     },
     {
@@ -2634,7 +3932,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_poc_status",
-      "community": 8,
+      "community": 70,
       "norm_label": "poc status"
     },
     {
@@ -2644,7 +3942,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_gate_0_validated_baseline",
-      "community": 8,
+      "community": 70,
       "norm_label": "gate 0 \u2014 validated baseline"
     },
     {
@@ -2654,7 +3952,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_implementation",
-      "community": 8,
+      "community": 70,
       "norm_label": "implementation"
     },
     {
@@ -2664,7 +3962,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_latest_integrated_evidence",
-      "community": 8,
+      "community": 70,
       "norm_label": "latest integrated evidence"
     },
     {
@@ -2674,7 +3972,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_accepted_provisional_risks",
-      "community": 8,
+      "community": 70,
       "norm_label": "accepted provisional risks"
     },
     {
@@ -2804,7 +4102,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_assumption_validation_and_decision_gates",
-      "community": 8,
+      "community": 61,
       "norm_label": "assumption validation and decision gates"
     },
     {
@@ -2814,7 +4112,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_why_gate_0_exists",
-      "community": 8,
+      "community": 61,
       "norm_label": "why gate 0 exists"
     },
     {
@@ -2824,7 +4122,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_current_observed_baseline",
-      "community": 8,
+      "community": 61,
       "norm_label": "current observed baseline"
     },
     {
@@ -2834,7 +4132,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_gate_0_decision",
-      "community": 8,
+      "community": 61,
       "norm_label": "gate 0 decision"
     },
     {
@@ -2844,7 +4142,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_gate_matrix",
-      "community": 8,
+      "community": 61,
       "norm_label": "gate matrix"
     },
     {
@@ -2854,7 +4152,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_required_outputs",
-      "community": 8,
+      "community": 61,
       "norm_label": "required outputs"
     },
     {
@@ -2864,7 +4162,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_plan_correction_rule",
-      "community": 8,
+      "community": 61,
       "norm_label": "plan correction rule"
     },
     {
@@ -2874,7 +4172,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_per_slice_validation",
-      "community": 8,
+      "community": 61,
       "norm_label": "per-slice validation"
     },
     {
@@ -2884,7 +4182,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_hard_stops",
-      "community": 8,
+      "community": 61,
       "norm_label": "hard stops"
     },
     {
@@ -3041,7 +4339,7 @@
       "label": "Identity and Nostr reads",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L83",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_identity_and_nostr_reads",
       "community": 3,
@@ -3051,7 +4349,7 @@
       "label": "Napplet convention",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L100",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_napplet_convention",
       "community": 3,
@@ -3061,7 +4359,7 @@
       "label": "Web trust boundary",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L120",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_web_trust_boundary",
       "community": 3,
@@ -3071,7 +4369,7 @@
       "label": "Shell UI",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L149",
+      "source_location": "L160",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_shell_ui",
       "community": 3,
@@ -3081,7 +4379,7 @@
       "label": "Developer mode",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L164",
+      "source_location": "L175",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_developer_mode",
       "community": 3,
@@ -3104,7 +4402,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_execution_slices",
-      "community": 11,
+      "community": 67,
       "norm_label": "execution slices"
     },
     {
@@ -3114,7 +4412,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_dependency_graph",
-      "community": 11,
+      "community": 67,
       "norm_label": "dependency graph"
     },
     {
@@ -3124,7 +4422,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slices",
-      "community": 11,
+      "community": 67,
       "norm_label": "slices"
     },
     {
@@ -3134,7 +4432,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_parallel_work",
-      "community": 11,
+      "community": 67,
       "norm_label": "parallel work"
     },
     {
@@ -3144,7 +4442,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slice_entry_gate",
-      "community": 11,
+      "community": 67,
       "norm_label": "slice entry gate"
     },
     {
@@ -3154,7 +4452,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_handoff",
-      "community": 11,
+      "community": 67,
       "norm_label": "handoff"
     },
     {
@@ -3371,7 +4669,7 @@
       "label": "Kehto #204",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L25",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_kehto_204",
       "community": 7,
@@ -3381,7 +4679,7 @@
       "label": "`nampplets`",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L33",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_nampplets",
       "community": 7,
@@ -3391,7 +4689,7 @@
       "label": "NMP",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L41",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_nmp",
       "community": 7,
@@ -3401,7 +4699,7 @@
       "label": "NAP registry",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L47",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_nap_registry",
       "community": 7,
@@ -3411,7 +4709,7 @@
       "label": "NIP-5A and NIP-5D",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L53",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_nip_5a_and_nip_5d",
       "community": 7,
@@ -3421,7 +4719,7 @@
       "label": "Decision",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L61",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_decision",
       "community": 7,
@@ -3444,7 +4742,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
-      "community": 8,
+      "community": 68,
       "norm_label": "upstream contribution ledger"
     },
     {
@@ -3454,7 +4752,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_authority_and_ownership",
-      "community": 8,
+      "community": 68,
       "norm_label": "authority and ownership"
     },
     {
@@ -3464,7 +4762,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_active_contributions",
-      "community": 8,
+      "community": 68,
       "norm_label": "active contributions"
     },
     {
@@ -3474,17 +4772,27 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_02_upstream_result",
-      "community": 8,
+      "community": 68,
       "norm_label": "slice 02 upstream result"
+    },
+    {
+      "label": "Slice 03 upstream result",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_03_upstream_result",
+      "community": 68,
+      "norm_label": "slice 03 upstream result"
     },
     {
       "label": "Entry template",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
-      "source_location": "L35",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_entry_template",
-      "community": 8,
+      "community": 68,
       "norm_label": "entry template"
     },
     {
@@ -3666,6 +4974,26 @@
       "id": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner_fact_009_linux_exact_build_runner",
       "community": 55,
       "norm_label": "fact-009 \u2014 linux exact-build runner"
+    },
+    {
+      "label": "FACT-010-portable-napplets.md",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-010-portable-napplets.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_facts_fact_010_portable_napplets",
+      "community": 74,
+      "norm_label": "fact-010-portable-napplets.md"
+    },
+    {
+      "label": "FACT-010 \u2014 portable napplets and queryless INC",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-010-portable-napplets.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_facts_fact_010_portable_napplets_fact_010_portable_napplets_and_queryless_inc",
+      "community": 74,
+      "norm_label": "fact-010 \u2014 portable napplets and queryless inc"
     },
     {
       "label": "nampplets-linux-map.md",
@@ -4108,6 +5436,106 @@
       "norm_label": "next step"
     },
     {
+      "label": "slice-03-preflight.md",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight",
+      "community": 11,
+      "norm_label": "slice-03-preflight.md"
+    },
+    {
+      "label": "Slice 03 preflight",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "community": 62,
+      "norm_label": "slice 03 preflight"
+    },
+    {
+      "label": "Verdict",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_verdict",
+      "community": 62,
+      "norm_label": "verdict"
+    },
+    {
+      "label": "Exact pins and fixtures",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_exact_pins_and_fixtures",
+      "community": 62,
+      "norm_label": "exact pins and fixtures"
+    },
+    {
+      "label": "API and ownership evidence",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_api_and_ownership_evidence",
+      "community": 62,
+      "norm_label": "api and ownership evidence"
+    },
+    {
+      "label": "Manifest correction",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_manifest_correction",
+      "community": 62,
+      "norm_label": "manifest correction"
+    },
+    {
+      "label": "Commands and observed results",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_commands_and_observed_results",
+      "community": 62,
+      "norm_label": "commands and observed results"
+    },
+    {
+      "label": "Hostile fixture scope",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
+      "community": 62,
+      "norm_label": "hostile fixture scope"
+    },
+    {
+      "label": "Upstream result",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
+      "community": 62,
+      "norm_label": "upstream result"
+    },
+    {
+      "label": "Next step",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L128",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
+      "community": 62,
+      "norm_label": "next step"
+    },
+    {
       "label": "webkit-trust-spike.md",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/webkit-trust-spike.md",
@@ -4324,7 +5752,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_work_01_scaffold",
-      "community": 11,
+      "community": 63,
       "norm_label": "work 01 \u2014 scaffold"
     },
     {
@@ -4334,7 +5762,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_status",
-      "community": 11,
+      "community": 63,
       "norm_label": "status"
     },
     {
@@ -4344,7 +5772,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_goal",
-      "community": 11,
+      "community": 63,
       "norm_label": "goal"
     },
     {
@@ -4354,7 +5782,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_depends_on",
-      "community": 11,
+      "community": 63,
       "norm_label": "depends on"
     },
     {
@@ -4364,7 +5792,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_entry_status",
-      "community": 11,
+      "community": 63,
       "norm_label": "entry status"
     },
     {
@@ -4374,7 +5802,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_tasks",
-      "community": 11,
+      "community": 63,
       "norm_label": "tasks"
     },
     {
@@ -4384,7 +5812,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_acceptance",
-      "community": 11,
+      "community": 63,
       "norm_label": "acceptance"
     },
     {
@@ -4394,7 +5822,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_non_goals",
-      "community": 11,
+      "community": 63,
       "norm_label": "non-goals"
     },
     {
@@ -4414,7 +5842,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
-      "community": 11,
+      "community": 65,
       "norm_label": "work 02 \u2014 linux exact-build runner"
     },
     {
@@ -4424,7 +5852,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_goal",
-      "community": 11,
+      "community": 65,
       "norm_label": "goal"
     },
     {
@@ -4434,7 +5862,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_entry_status_and_pins",
-      "community": 11,
+      "community": 65,
       "norm_label": "entry status and pins"
     },
     {
@@ -4444,7 +5872,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_read",
-      "community": 11,
+      "community": 65,
       "norm_label": "read"
     },
     {
@@ -4454,7 +5882,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_tasks",
-      "community": 11,
+      "community": 65,
       "norm_label": "tasks"
     },
     {
@@ -4464,7 +5892,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_acceptance",
-      "community": 11,
+      "community": 65,
       "norm_label": "acceptance"
     },
     {
@@ -4474,7 +5902,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_non_goals",
-      "community": 11,
+      "community": 65,
       "norm_label": "non-goals"
     },
     {
@@ -4511,7 +5939,7 @@
       "label": "Entry status and pins",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L7",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_entry_status_and_pins",
       "community": 2,
@@ -4521,7 +5949,7 @@
       "label": "Read",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L11",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_read",
       "community": 2,
@@ -4531,7 +5959,7 @@
       "label": "Tasks",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L17",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_tasks",
       "community": 2,
@@ -4541,7 +5969,7 @@
       "label": "Acceptance",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L26",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets_acceptance",
       "community": 2,
@@ -4564,7 +5992,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 11,
+      "community": 66,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -4574,7 +6002,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 11,
+      "community": 66,
       "norm_label": "goal"
     },
     {
@@ -4584,7 +6012,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 11,
+      "community": 66,
       "norm_label": "entry status and pins"
     },
     {
@@ -4594,7 +6022,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 11,
+      "community": 66,
       "norm_label": "read"
     },
     {
@@ -4604,7 +6032,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 11,
+      "community": 66,
       "norm_label": "tasks"
     },
     {
@@ -4614,7 +6042,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 11,
+      "community": 66,
       "norm_label": "acceptance"
     },
     {
@@ -4624,7 +6052,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 11,
+      "community": 66,
       "norm_label": "non-goals"
     },
     {
@@ -4634,7 +6062,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate",
-      "community": 11,
+      "community": 69,
       "norm_label": "05-integrate.md"
     },
     {
@@ -4644,7 +6072,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_work_05_composed_demo",
-      "community": 11,
+      "community": 69,
       "norm_label": "work 05 \u2014 composed demo"
     },
     {
@@ -4654,7 +6082,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_goal",
-      "community": 11,
+      "community": 69,
       "norm_label": "goal"
     },
     {
@@ -4664,7 +6092,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_tasks",
-      "community": 11,
+      "community": 69,
       "norm_label": "tasks"
     },
     {
@@ -4674,7 +6102,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_acceptance",
-      "community": 11,
+      "community": 69,
       "norm_label": "acceptance"
     },
     {
@@ -4684,7 +6112,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_non_goals",
-      "community": 11,
+      "community": 69,
       "norm_label": "non-goals"
     },
     {
@@ -4694,7 +6122,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo",
-      "community": 11,
+      "community": 71,
       "norm_label": "06-hardening-demo.md"
     },
     {
@@ -4704,7 +6132,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_work_06_hardening_and_demo_acceptance",
-      "community": 11,
+      "community": 71,
       "norm_label": "work 06 \u2014 hardening and demo acceptance"
     },
     {
@@ -4714,7 +6142,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_goal",
-      "community": 11,
+      "community": 71,
       "norm_label": "goal"
     },
     {
@@ -4724,7 +6152,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_tasks",
-      "community": 11,
+      "community": 71,
       "norm_label": "tasks"
     },
     {
@@ -4734,7 +6162,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_acceptance",
-      "community": 11,
+      "community": 71,
       "norm_label": "acceptance"
     }
   ],
@@ -4982,7 +6410,7 @@
       "weight": 1.0,
       "context": "import",
       "source": "apps_uzel_package_devdependencies_vite",
-      "target": "vite",
+      "target": "apps_uzel_package_json_vite",
       "confidence_score": 1.0
     },
     {
@@ -6237,6 +7665,386 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_additionalproperties",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_properties",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_required",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_title",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema",
+      "target": "contracts_profile_open_v1_schema_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "source": "contracts_profile_open_v1_schema_required",
+      "target": "ref_pubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "source": "contracts_profile_open_v1_schema_required",
+      "target": "ref_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema_properties",
+      "target": "contracts_profile_open_v1_schema_properties_pubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema_properties",
+      "target": "contracts_profile_open_v1_schema_properties_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema_properties_version",
+      "target": "contracts_profile_open_v1_schema_version_const",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema_properties_pubkey",
+      "target": "contracts_profile_open_v1_schema_pubkey_pattern",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open-v1.schema.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "contracts_profile_open_v1_schema_properties_pubkey",
+      "target": "contracts_profile_open_v1_schema_pubkey_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "contracts_profile_open",
+      "target": "contracts_profile_open_iscanonicalpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "contracts_profile_open",
+      "target": "contracts_profile_open_parseprofileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "contracts_profile_open",
+      "target": "contracts_profile_open_profileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_profile_open_test",
+      "target": "contracts_profile_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "contracts_profile_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_model",
+      "target": "contracts_profile_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "contracts_profile_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model",
+      "target": "contracts_profile_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "contracts_profile_open_parseprofileopen",
+      "target": "contracts_profile_open_iscanonicalpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_profile_open_test",
+      "target": "contracts_profile_open_iscanonicalpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_model",
+      "target": "contracts_profile_open_iscanonicalpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_model_directfollows",
+      "target": "contracts_profile_open_iscanonicalpubkey"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model",
+      "target": "contracts_profile_open_iscanonicalpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model_latestprofile",
+      "target": "contracts_profile_open_iscanonicalpubkey"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "contracts_profile_open_profileopen",
+      "target": "contracts_profile_open_parseprofileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_profile_open_test",
+      "target": "contracts_profile_open_parseprofileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "contracts_profile_open_parseprofileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main_openprofile",
+      "target": "contracts_profile_open_parseprofileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_profile_open_test",
+      "target": "contracts_profile_open_profileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "contracts_profile_open_profileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_render",
+      "target": "contracts_profile_open_profileopen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/profile-open.test.mjs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "contracts_profile_open_test",
+      "target": "contracts_profile_open_test_pubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "crates/napd-protocol/src/lib.rs",
       "source_location": "L12",
       "weight": 1.0,
@@ -6289,6 +8097,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L351",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_launch_slice_three_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
       "source_location": "L149",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
@@ -6299,10 +8117,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L332",
+      "source_location": "L414",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L522",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
       "confidence_score": 1.0
     },
     {
@@ -6319,6 +8147,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L431",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L320",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_slicethreefixturesource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
       "source_location": "L33",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
@@ -6329,7 +8177,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L309",
+      "source_location": "L391",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
@@ -6488,6 +8336,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L322",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_slicethreefixturesource",
+      "target": "artifactsource",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
@@ -6506,6 +8364,28 @@
       "weight": 1.0,
       "context": "return_type",
       "source": "crates_napd_src_runner_exactfixturesource_fetch",
+      "target": "artifactfetchresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_slicethreefixturesource_fetch",
+      "target": "artifactfetchrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_slicethreefixturesource_fetch",
       "target": "artifactfetchresponse",
       "confidence_score": 1.0
     },
@@ -6607,6 +8487,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L550",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
+      "target": "crates_napd_src_runner_eventbuffer_latest_sequence",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
@@ -6625,6 +8516,17 @@
       "source_location": "L289",
       "weight": 1.0,
       "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_eventbuffer_response_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L552",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
       "target": "crates_napd_src_runner_eventbuffer_response_after",
       "confidence_score": 1.0
     },
@@ -6679,6 +8581,28 @@
       "weight": 1.0,
       "source": "crates_napd_src_runner_linuxrunner_open",
       "target": "crates_napd_src_runner_eventsink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L535",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
+      "target": "crates_napd_src_runner_eventsink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L351",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_launch_slice_three_fixture",
+      "target": "arc",
       "confidence_score": 1.0
     },
     {
@@ -6799,6 +8723,17 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L351",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_launch_slice_three_fixture",
+      "target": "runtimecontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
       "source_location": "L157",
       "weight": 1.0,
       "context": "return_type",
@@ -6888,7 +8823,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L335",
+      "source_location": "L417",
       "weight": 1.0,
       "source": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
       "target": "crates_napd_src_runner_linuxrunner_start_fixture",
@@ -6899,7 +8834,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L312",
+      "source_location": "L394",
       "weight": 1.0,
       "source": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
       "target": "crates_napd_src_runner_linuxrunner_start_fixture",
@@ -6910,17 +8845,1030 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L317",
+      "source_location": "L399",
       "weight": 1.0,
       "source": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
       "target": "crates_napd_src_runner_linuxrunner_forward_from_surface",
       "confidence_score": 1.0
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L323",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_slicethreefixturesource",
+      "target": "crates_napd_src_runner_slicethreefixturesource_fetch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L537",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
+      "target": "crates_napd_src_runner_launch_slice_three_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package",
+      "target": "napplets_follow_list_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_scripts",
+      "target": "napplets_follow_list_package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_scripts",
+      "target": "napplets_follow_list_package_scripts_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_scripts",
+      "target": "napplets_follow_list_package_scripts_test_conformance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_dependencies",
+      "target": "napplets_follow_list_package_dependencies_napplet_nap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_dependencies",
+      "target": "napplets_follow_list_package_dependencies_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_follow_list_package_dependencies_napplet_nap",
+      "target": "napplets_follow_list_package_json_napplet_nap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_follow_list_package_dependencies_napplet_shim",
+      "target": "napplets_follow_list_package_json_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_devdependencies",
+      "target": "napplets_follow_list_package_devdependencies_napplet_conformance_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_devdependencies",
+      "target": "napplets_follow_list_package_devdependencies_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "napplets_follow_list_package_devdependencies",
+      "target": "napplets_follow_list_package_devdependencies_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_follow_list_package_devdependencies_napplet_conformance_cli",
+      "target": "napplets_follow_list_package_json_napplet_conformance_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_follow_list_package_devdependencies_napplet_vite_plugin",
+      "target": "napplets_follow_list_package_json_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_follow_list_package_devdependencies_vite",
+      "target": "napplets_follow_list_package_json_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_render",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_start",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_model_directfollows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_model_shortpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_render",
+      "target": "napplets_follow_list_src_model_shortpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_start",
+      "target": "napplets_follow_list_src_main_render",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_start",
+      "target": "napplets_follow_list_src_model_directfollows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_model",
+      "target": "napplets_follow_list_src_model_directfollows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/model.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_model",
+      "target": "napplets_follow_list_src_model_shortpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_follow_list_tests_model_test",
+      "target": "napplets_follow_list_src_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_follow_list_tests_model_test",
+      "target": "napplets_follow_list_src_model_directfollows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_follow_list_tests_model_test",
+      "target": "napplets_follow_list_src_model_shortpubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_follow_list_tests_model_test",
+      "target": "napplets_follow_list_tests_model_test_a",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/tests/model.test.mjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_follow_list_tests_model_test",
+      "target": "napplets_follow_list_tests_model_test_b",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package",
+      "target": "napplets_hostile_egress_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package_scripts",
+      "target": "napplets_hostile_egress_package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package_scripts",
+      "target": "napplets_hostile_egress_package_scripts_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package_dependencies",
+      "target": "napplets_hostile_egress_package_dependencies_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_hostile_egress_package_dependencies_napplet_shim",
+      "target": "napplets_hostile_egress_package_json_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package_devdependencies",
+      "target": "napplets_hostile_egress_package_devdependencies_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_package_devdependencies",
+      "target": "napplets_hostile_egress_package_devdependencies_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_hostile_egress_package_devdependencies_napplet_vite_plugin",
+      "target": "napplets_hostile_egress_package_json_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_hostile_egress_package_devdependencies_vite",
+      "target": "napplets_hostile_egress_package_json_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_main",
+      "target": "napplets_hostile_egress_src_main_denied",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_main",
+      "target": "napplets_hostile_egress_src_main_results",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_main",
+      "target": "napplets_hostile_egress_src_probes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/main.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_main",
+      "target": "napplets_hostile_egress_src_probes_nativesurface",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/probes.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_probes",
+      "target": "napplets_hostile_egress_src_probes_nativesurface",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/src/probes.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_src_probes",
+      "target": "napplets_hostile_egress_src_probes_probe_names",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/tests/probes.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_tests_probes_test",
+      "target": "napplets_hostile_egress_src_probes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/hostile-egress/tests/probes.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_hostile_egress_tests_probes_test",
+      "target": "napplets_hostile_egress_src_probes_probe_names",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package",
+      "target": "napplets_profile_card_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_scripts",
+      "target": "napplets_profile_card_package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_scripts",
+      "target": "napplets_profile_card_package_scripts_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_scripts",
+      "target": "napplets_profile_card_package_scripts_test_conformance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_dependencies",
+      "target": "napplets_profile_card_package_dependencies_napplet_nap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_dependencies",
+      "target": "napplets_profile_card_package_dependencies_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_profile_card_package_dependencies_napplet_nap",
+      "target": "napplets_profile_card_package_json_napplet_nap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_profile_card_package_dependencies_napplet_shim",
+      "target": "napplets_profile_card_package_json_napplet_shim",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_devdependencies",
+      "target": "napplets_profile_card_package_devdependencies_napplet_conformance_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_devdependencies",
+      "target": "napplets_profile_card_package_devdependencies_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "napplets_profile_card_package_devdependencies",
+      "target": "napplets_profile_card_package_devdependencies_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_profile_card_package_devdependencies_napplet_conformance_cli",
+      "target": "napplets_profile_card_package_json_napplet_conformance_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_profile_card_package_devdependencies_napplet_vite_plugin",
+      "target": "napplets_profile_card_package_json_napplet_vite_plugin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "source": "napplets_profile_card_package_devdependencies_vite",
+      "target": "napplets_profile_card_package_json_vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_about",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_evidence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_openprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_pubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_model_latestprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main_openprofile",
+      "target": "napplets_profile_card_src_model_latestprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model",
+      "target": "napplets_profile_card_src_model_latestprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model",
+      "target": "napplets_profile_card_src_model_optionaltext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_profile_card_tests_model_test",
+      "target": "napplets_profile_card_src_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model_latestprofile",
+      "target": "napplets_profile_card_src_model_optionaltext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_profile_card_tests_model_test",
+      "target": "napplets_profile_card_src_model_latestprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_profile_card_tests_model_test",
+      "target": "napplets_profile_card_tests_model_test_pubkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "napplets_profile_card_tests_model_test",
+      "target": "napplets_profile_card_tests_model_test_result",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L9",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "package",
       "target": "package_devdependencies",
@@ -6930,7 +9878,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "package",
       "target": "package_engines",
@@ -6950,10 +9898,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "package",
       "target": "package_packagemanager",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_pnpm",
       "confidence_score": 1.0
     },
     {
@@ -6970,7 +9928,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "package",
       "target": "package_scripts",
@@ -6983,6 +9941,16 @@
       "source_location": "L4",
       "weight": 1.0,
       "source": "package",
+      "target": "package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package",
       "target": "package_version",
       "confidence_score": 1.0
     },
@@ -6990,7 +9958,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "source": "package_engines",
       "target": "package_engines_node",
@@ -7000,17 +9968,78 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "package_pnpm",
+      "target": "package_pnpm_overrides",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "package_pnpm_overrides",
+      "target": "package_overrides_napplet_conformance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "package_pnpm_overrides",
+      "target": "package_overrides_napplet_core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "package_pnpm_overrides",
+      "target": "package_overrides_playwright",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_fallow",
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_napplet_cli",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "source": "package_devdependencies_napplet_cli",
+      "target": "napplet_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
       "weight": 1.0,
       "context": "import",
       "source": "package_devdependencies_fallow",
@@ -7021,7 +10050,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L23",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_build",
@@ -7031,7 +10060,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L24",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_check",
@@ -7041,7 +10070,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_dev",
@@ -7051,7 +10080,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_docs_check",
@@ -7061,7 +10090,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_fallow",
@@ -7071,7 +10100,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L28",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_format_check",
@@ -7081,7 +10110,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L27",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_lint",
@@ -7091,7 +10120,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke",
@@ -7101,7 +10130,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke_debian",
@@ -7111,7 +10140,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke_fedora",
@@ -7121,10 +10150,30 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L25",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test_conformance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-signed-napplet-fixtures.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_build_signed_napplet_fixtures",
+      "target": "scripts_build_signed_napplet_fixtures_sh__entry",
       "confidence_score": 1.0
     },
     {
@@ -8225,7 +11274,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L164",
+      "source_location": "L175",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_developer_mode",
@@ -8245,7 +11294,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L83",
+      "source_location": "L90",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_identity_and_nostr_reads",
@@ -8265,7 +11314,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L100",
+      "source_location": "L107",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_napplet_convention",
@@ -8285,7 +11334,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L149",
+      "source_location": "L160",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_shell_ui",
@@ -8295,7 +11344,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L120",
+      "source_location": "L131",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_web_trust_boundary",
@@ -8605,7 +11654,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L61",
+      "source_location": "L69",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_source_baseline",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_decision",
@@ -8625,7 +11674,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L25",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_kehto_204",
@@ -8635,7 +11684,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L33",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_nampplets",
@@ -8645,7 +11694,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L47",
+      "source_location": "L55",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_nap_registry",
@@ -8665,7 +11714,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L53",
+      "source_location": "L61",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_nip_5a_and_nip_5d",
@@ -8675,7 +11724,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/07-source-baseline.md",
-      "source_location": "L41",
+      "source_location": "L49",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
       "target": "uzel_poc_validated_pack_docs_07_source_baseline_nmp",
@@ -8745,7 +11794,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
-      "source_location": "L35",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
       "target": "uzel_poc_validated_pack_docs_08_upstream_contributions_entry_template",
@@ -8759,6 +11808,16 @@
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
       "target": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_02_upstream_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
+      "target": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_03_upstream_result",
       "confidence_score": 1.0
     },
     {
@@ -8849,6 +11908,16 @@
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner",
       "target": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner_fact_009_linux_exact_build_runner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-010-portable-napplets.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_docs_facts_fact_010_portable_napplets",
+      "target": "uzel_poc_validated_pack_docs_facts_fact_010_portable_napplets_fact_010_portable_napplets_and_queryless_inc",
       "confidence_score": 1.0
     },
     {
@@ -9284,6 +12353,116 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_work_04_daemon_nmp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_work_03_napplets",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_api_and_ownership_evidence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_commands_and_observed_results",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_exact_pins_and_fixtures",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_manifest_correction",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_verdict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/webkit-trust-spike.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -9605,7 +12784,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L26",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_03_napplets_work_03_portable_napplets",
       "target": "uzel_poc_validated_pack_work_03_napplets_acceptance",
@@ -9615,7 +12794,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L7",
+      "source_location": "L11",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_03_napplets_work_03_portable_napplets",
       "target": "uzel_poc_validated_pack_work_03_napplets_entry_status_and_pins",
@@ -9635,7 +12814,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L11",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_03_napplets_work_03_portable_napplets",
       "target": "uzel_poc_validated_pack_work_03_napplets_read",
@@ -9645,7 +12824,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/03-napplets.md",
-      "source_location": "L17",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_03_napplets_work_03_portable_napplets",
       "target": "uzel_poc_validated_pack_work_03_napplets_tasks",
@@ -9813,5 +12992,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3ecad56a42235026d475542ad77ecce6ff312c3e"
+  "built_at_commit": "655320ac833d73bc42f8e8ba0b15591b0c761762"
 }
