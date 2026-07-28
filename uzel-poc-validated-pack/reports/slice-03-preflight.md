@@ -229,6 +229,12 @@ identifier-only capability checks. Property and element access on
 computed `open`, and every nonliteral member. Executable self-tests cover
 computed `fetch`, `WebSocket`, `open`, and a runtime-selected global key.
 
+Codex's sixteenth review found that aliasing a guarded browser global could
+bypass owner-name checks. The scanner now rejects guarded-global references
+that escape direct member inspection, including aliases and destructuring, and
+also rejects direct access to nested guarded globals. Executable self-tests
+cover `const root = globalThis`, `globalThis.window`, and destructured `fetch`.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
