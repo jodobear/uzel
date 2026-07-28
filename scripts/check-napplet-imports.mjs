@@ -66,6 +66,7 @@ const allowedGuardedGlobalAccesses = new Set([
 const globalReturningProperties = new Set([
   'contentDocument',
   'contentWindow',
+  'currentTarget',
   'defaultView',
   'frames',
   'globalThis',
@@ -74,7 +75,10 @@ const globalReturningProperties = new Set([
   'ownerDocument',
   'parent',
   'self',
+  'srcElement',
+  'target',
   'top',
+  'view',
   'window',
 ]);
 const resourceAssignmentProperties = new Set([
@@ -540,7 +544,7 @@ function runSelfTest() {
     "const root = element.ownerDocument.defaultView; root['fetch'](remote)",
     "const root = top; root['fetch'](remote)",
     'const { fetch: send } = window; send(remote)',
-    "window.addEventListener('load', event => event.currentTarget['fetch'](remote))",
+    "addEventListener('load', event => event.currentTarget['fetch'](remote))",
     'location.assign.call(location, remote)',
     "const doc = document.querySelector(':root').getRootNode(); const target = doc.location; target.assign(remote)",
     'object[capability](remote)',
