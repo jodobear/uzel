@@ -180,6 +180,14 @@ other supported JavaScript and TypeScript module variants. The scanner now
 walks `.cjs`, `.cts`, `.js`, `.jsx`, `.mjs`, `.mts`, `.svelte`, `.ts`, and
 `.tsx`; its executable self-test locks that complete extension set.
 
+Codex's tenth review found that package aliases could hide forbidden dependency
+targets and that the direct-network guard still used the old three-extension
+glob. Dependency names and target specifications are now validated together,
+including all production, development, optional, and peer dependency groups.
+The direct-network guard now runs inside the parser-backed traversal and
+therefore shares its complete source-extension set. Executable self-tests cover
+an aliased Tauri package and a direct WebSocket constructor.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
