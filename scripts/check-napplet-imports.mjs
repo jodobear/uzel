@@ -30,7 +30,19 @@ const directNetworkIdentifiers = new Set([
   'sendBeacon',
   'serviceWorker',
 ]);
-const dynamicCodeIdentifiers = new Set(['Function', 'eval', 'setInterval', 'setTimeout']);
+const dynamicCodeIdentifiers = new Set([
+  'Function',
+  'Reflect',
+  'eval',
+  'setInterval',
+  'setTimeout',
+]);
+const reflectiveCodeProperties = new Set([
+  'getOwnPropertyDescriptor',
+  'getOwnPropertyDescriptors',
+  'getPrototypeOf',
+  'setPrototypeOf',
+]);
 const guardedBrowserGlobals = new Set([
   'document',
   'frames',
@@ -346,6 +358,9 @@ function programmaticNetworkViolations(path, source) {
       if (member === 'constructor') {
         add(node, 'dynamic Function constructor access');
       }
+      if (reflectiveCodeProperties.has(member)) {
+        add(node, `reflective code access ${member}`);
+      }
       if (
         ts.isElementAccessExpression(node) &&
         member === null &&
@@ -528,6 +543,8 @@ function runSelfTest() {
     'setTimeout("fetch(remote)", 0)',
     'setInterval("fetch(remote)", 1000)',
     "const execute = (() => {}).constructor; execute(\"fetch('https://example.test/leak')\")()",
+    "Reflect.get(() => {}, 'constructor')(\"return fetch\")()(remote)",
+    "Object.getOwnPropertyDescriptor(() => {}, 'constructor').value(\"return fetch\")()(remote)",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
