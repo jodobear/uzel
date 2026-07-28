@@ -99,29 +99,30 @@ const resourceAssignmentProperties = new Set([
 const cssNetworkAuthority = /(@import\b|\b(?:image-set|url)\s*\()/i;
 const resourceStyleDirective =
   /^(background|background-image|border-image|border-image-source|content|cursor|list-style|list-style-image|mask|mask-image)$/i;
-const resourceAttributes = new Map([
-  ['a', new Set(['href'])],
-  ['area', new Set(['href'])],
-  ['audio', new Set(['src'])],
-  ['base', new Set(['href'])],
-  ['button', new Set(['formaction'])],
-  ['embed', new Set(['src'])],
-  ['form', new Set(['action'])],
-  ['iframe', new Set(['src', 'srcdoc'])],
-  ['image', new Set(['href', 'xlink:href'])],
-  ['img', new Set(['src', 'srcset'])],
-  ['input', new Set(['formaction', 'src'])],
-  ['link', new Set(['href'])],
-  ['object', new Set(['data'])],
-  ['script', new Set(['src'])],
-  ['source', new Set(['src', 'srcset'])],
-  ['track', new Set(['src'])],
-  ['use', new Set(['href', 'xlink:href'])],
-  ['video', new Set(['poster', 'src'])],
+const resourceAttributeNames = new Set([
+  'action',
+  'archive',
+  'background',
+  'classid',
+  'code',
+  'codebase',
+  'data',
+  'dynsrc',
+  'formaction',
+  'href',
+  'icon',
+  'imagesrcset',
+  'longdesc',
+  'lowsrc',
+  'manifest',
+  'object',
+  'ping',
+  'poster',
+  'src',
+  'srcdoc',
+  'srcset',
+  'xlink:href',
 ]);
-const anyResourceAttribute = new Set(
-  [...resourceAttributes.values()].flatMap((attributes) => [...attributes]),
-);
 const resourceCreationElements = new Set([
   'audio',
   'embed',
@@ -178,9 +179,6 @@ function declarativeNetworkViolations(parsed, source) {
     seen.add(node);
 
     if (node.type === 'RegularElement' || node.type === 'SvelteElement') {
-      const attributes = node.type === 'SvelteElement'
-        ? anyResourceAttribute
-        : resourceAttributes.get(node.name);
       for (const attribute of node.attributes ?? []) {
         if (attribute.type === 'SpreadAttribute') {
           found.push(`unverifiable spread attributes on ${node.name}`);
@@ -191,7 +189,10 @@ function declarativeNetworkViolations(parsed, source) {
         ) {
           found.push(`executable event attribute ${attribute.name}`);
         }
-        if (attribute.type === 'Attribute' && attributes?.has(attribute.name)) {
+        if (
+          attribute.type === 'Attribute' &&
+          resourceAttributeNames.has(attribute.name.toLowerCase())
+        ) {
           if (!isLocalViteEntry(node)) {
             found.push(`resource attribute ${node.name}.${attribute.name}`);
           }
@@ -407,7 +408,7 @@ function programmaticNetworkViolations(path, source) {
       }
       if (
         (called === 'setAttribute' || called === 'setAttributeNS') &&
-        (resourceName === null || anyResourceAttribute.has(resourceName))
+        (resourceName === null || resourceAttributeNames.has(resourceName))
       ) {
         add(node, `DOM resource attribute ${resourceName ?? '<dynamic>'}`);
       }
@@ -616,6 +617,19 @@ function runSelfTest() {
     '{@html remoteMarkup}',
     '<div style:background-image={remote}></div>',
     '<style>.avatar { background-image: url(remote); }</style>',
+    '<body background={remote}></body>',
+    '<a href="#" ping={remote}>go</a>',
+    '<html manifest={remote}></html>',
+    '<link rel="preload" imagesrcset={remote}>',
+    '<img dynsrc={remote}>',
+    '<img lowsrc={remote}>',
+    '<img longdesc={remote}>',
+    '<object archive={remote}></object>',
+    '<object classid={remote}></object>',
+    '<object code={remote}></object>',
+    '<object codebase={remote}></object>',
+    '<command icon={remote}>',
+    '<applet object={remote}></applet>',
   ]) {
     if (sourceAnalysis('<boundary-self-test>.svelte', source).declarative.length === 0) {
       throw new Error(`boundary self-test accepted declarative network authority: ${source}`);
