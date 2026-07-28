@@ -5,3 +5,4 @@ apps/uzel/src-tauri/gen/
 **/dist/
 **/node_modules/
 *.log
+graphify-out/20??-??-??/

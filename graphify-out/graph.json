@@ -134,10 +134,30 @@
       "norm_label": "dependencies"
     },
     {
-      "label": "svelte",
+      "label": "@tauri-apps/api",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
       "source_location": "L13",
+      "_origin": "ast",
+      "id": "apps_uzel_package_dependencies_tauri_apps_api",
+      "community": 16,
+      "norm_label": "@tauri-apps/api"
+    },
+    {
+      "label": "@tauri-apps/api",
+      "file_type": "concept",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "tauri_apps_api",
+      "community": 16,
+      "norm_label": "@tauri-apps/api"
+    },
+    {
+      "label": "svelte",
+      "file_type": "code",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "apps_uzel_package_dependencies_svelte",
       "community": 16,
@@ -147,9 +167,9 @@
       "label": "svelte",
       "file_type": "concept",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
-      "id": "svelte",
+      "id": "apps_uzel_package_json_svelte",
       "community": 16,
       "norm_label": "svelte"
     },
@@ -157,7 +177,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "apps_uzel_package_devdependencies",
       "community": 16,
@@ -167,7 +187,7 @@
       "label": "@sveltejs/vite-plugin-svelte",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "apps_uzel_package_devdependencies_sveltejs_vite_plugin_svelte",
       "community": 16,
@@ -177,7 +197,7 @@
       "label": "@sveltejs/vite-plugin-svelte",
       "file_type": "concept",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "sveltejs_vite_plugin_svelte",
       "community": 16,
@@ -187,7 +207,7 @@
       "label": "svelte-check",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "apps_uzel_package_devdependencies_svelte_check",
       "community": 16,
@@ -197,7 +217,7 @@
       "label": "svelte-check",
       "file_type": "concept",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "svelte_check",
       "community": 16,
@@ -207,7 +227,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "apps_uzel_package_devdependencies_typescript",
       "community": 16,
@@ -217,7 +237,7 @@
       "label": "typescript",
       "file_type": "concept",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "typescript",
       "community": 16,
@@ -227,7 +247,7 @@
       "label": "vite",
       "file_type": "code",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "apps_uzel_package_devdependencies_vite",
       "community": 16,
@@ -237,11 +257,261 @@
       "label": "vite",
       "file_type": "concept",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "vite",
       "community": 16,
       "norm_label": "vite"
+    },
+    {
+      "label": "trusted-shell-policy.js",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_policy",
+      "community": 50,
+      "norm_label": "trusted-shell-policy.js"
+    },
+    {
+      "label": "directive()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_policy_directive",
+      "community": 50,
+      "norm_label": "directive()"
+    },
+    {
+      "label": "outerPolicyContent()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_policy_outerpolicycontent",
+      "community": 50,
+      "norm_label": "outerpolicycontent()"
+    },
+    {
+      "label": "innerPolicyContent()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_policy_innerpolicycontent",
+      "community": 50,
+      "norm_label": "innerpolicycontent()"
+    },
+    {
+      "label": "trusted-shell-prelude-domains.js",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-prelude-domains.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_prelude_domains",
+      "community": 56,
+      "norm_label": "trusted-shell-prelude-domains.js"
+    },
+    {
+      "label": "trusted-shell.js",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell",
+      "community": 1,
+      "norm_label": "trusted-shell.js"
+    },
+    {
+      "label": "isPlainObject()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "community": 1,
+      "norm_label": "isplainobject()"
+    },
+    {
+      "label": "isBoundedEnvelope()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_isboundedenvelope",
+      "community": 1,
+      "norm_label": "isboundedenvelope()"
+    },
+    {
+      "label": "boundedJSON()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_boundedjson",
+      "community": 1,
+      "norm_label": "boundedjson()"
+    },
+    {
+      "label": "exactFields()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_exactfields",
+      "community": 1,
+      "norm_label": "exactfields()"
+    },
+    {
+      "label": "resourceProjectionError()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_resourceprojectionerror",
+      "community": 1,
+      "norm_label": "resourceprojectionerror()"
+    },
+    {
+      "label": "decodedBase64Length()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_decodedbase64length",
+      "community": 1,
+      "norm_label": "decodedbase64length()"
+    },
+    {
+      "label": "decodeResourceBlob()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_decoderesourceblob",
+      "community": 1,
+      "norm_label": "decoderesourceblob()"
+    },
+    {
+      "label": "resourceErrorType()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L124",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_resourceerrortype",
+      "community": 1,
+      "norm_label": "resourceerrortype()"
+    },
+    {
+      "label": "projectedResourceError()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L137",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_projectedresourceerror",
+      "community": 1,
+      "norm_label": "projectedresourceerror()"
+    },
+    {
+      "label": "projectResourceTerminal()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L157",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "community": 1,
+      "norm_label": "projectresourceterminal()"
+    },
+    {
+      "label": "projectNativeEnvelope()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L296",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_projectnativeenvelope",
+      "community": 1,
+      "norm_label": "projectnativeenvelope()"
+    },
+    {
+      "label": "mappedEnvelope()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L312",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_mappedenvelope",
+      "community": 1,
+      "norm_label": "mappedenvelope()"
+    },
+    {
+      "label": "forwardToNative()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L322",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_forwardtonative",
+      "community": 1,
+      "norm_label": "forwardtonative()"
+    },
+    {
+      "label": "scriptJSON()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L333",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_scriptjson",
+      "community": 1,
+      "norm_label": "scriptjson()"
+    },
+    {
+      "label": "manifestConfigSchema()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L340",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_manifestconfigschema",
+      "community": 1,
+      "norm_label": "manifestconfigschema()"
+    },
+    {
+      "label": "compatibilityPreludeSource()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L357",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_compatibilitypreludesource",
+      "community": 1,
+      "norm_label": "compatibilitypreludesource()"
+    },
+    {
+      "label": "sandboxPolicyContent()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1435",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_sandboxpolicycontent",
+      "community": 1,
+      "norm_label": "sandboxpolicycontent()"
+    },
+    {
+      "label": "isVerifiedArtifactBaseURL()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1442",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_isverifiedartifactbaseurl",
+      "community": 1,
+      "norm_label": "isverifiedartifactbaseurl()"
+    },
+    {
+      "label": "materialize()",
+      "file_type": "code",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1447",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "community": 1,
+      "norm_label": "materialize()"
     },
     {
       "label": "build.rs",
@@ -354,10 +624,90 @@
       "norm_label": "main.rs"
     },
     {
+      "label": "start_fixture()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_start_fixture",
+      "community": 40,
+      "norm_label": "start_fixture()"
+    },
+    {
+      "label": "State",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "state",
+      "community": 40,
+      "norm_label": "state"
+    },
+    {
+      "label": "Mutex",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_rs_mutex",
+      "community": 40,
+      "norm_label": "mutex"
+    },
+    {
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_rs_result",
+      "community": 40,
+      "norm_label": "result"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_rs_string",
+      "community": 40,
+      "norm_label": "string"
+    },
+    {
+      "label": "forward_surface_envelope()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "community": 40,
+      "norm_label": "forward_surface_envelope()"
+    },
+    {
+      "label": "HostileProbe",
+      "file_type": "code",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_hostileprobe",
+      "community": 40,
+      "norm_label": "hostileprobe"
+    },
+    {
+      "label": "report_hostile_probe()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_report_hostile_probe",
+      "community": 40,
+      "norm_label": "report_hostile_probe()"
+    },
+    {
       "label": "main()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L3",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_main",
       "community": 40,
@@ -542,6 +892,66 @@
       "id": "apps_uzel_src_app",
       "community": 38,
       "norm_label": "app.svelte"
+    },
+    {
+      "label": "@tauri-apps/api/core",
+      "file_type": "code",
+      "source_file": "@tauri-apps/api/core",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "id": "core",
+      "community": 38,
+      "norm_label": "@tauri-apps/api/core"
+    },
+    {
+      "label": "svelte",
+      "file_type": "code",
+      "source_file": "svelte",
+      "confidence": "EXTRACTED",
+      "_origin": "ast",
+      "id": "svelte_svelte",
+      "community": 57,
+      "norm_label": "svelte"
+    },
+    {
+      "label": "app.d.ts",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_d",
+      "community": 51,
+      "norm_label": "app.d.ts"
+    },
+    {
+      "label": "Window",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_d_window",
+      "community": 51,
+      "norm_label": "window"
+    },
+    {
+      "label": ".__nmpTrustedShellMount()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_d_window_nmptrustedshellmount",
+      "community": 51,
+      "norm_label": ".__nmptrustedshellmount()"
+    },
+    {
+      "label": ".__nmpTrustedShellReceive()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_d_window_nmptrustedshellreceive",
+      "community": 51,
+      "norm_label": ".__nmptrustedshellreceive()"
     },
     {
       "label": "main.ts",
@@ -834,6 +1244,426 @@
       "norm_label": "lib.rs"
     },
     {
+      "label": "runner.rs",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner",
+      "community": 47,
+      "norm_label": "runner.rs"
+    },
+    {
+      "label": "SurfaceLaunch",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_surfacelaunch",
+      "community": 47,
+      "norm_label": "surfacelaunch"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_rs_string",
+      "community": 47,
+      "norm_label": "string"
+    },
+    {
+      "label": "Vec",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "vec",
+      "community": 47,
+      "norm_label": "vec"
+    },
+    {
+      "label": "RunnerError",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_runnererror",
+      "community": 47,
+      "norm_label": "runnererror"
+    },
+    {
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "error",
+      "community": 47,
+      "norm_label": "error"
+    },
+    {
+      "label": "FromUtf8Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "fromutf8error",
+      "community": 47,
+      "norm_label": "fromutf8error"
+    },
+    {
+      "label": "ExactFixtureSource",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_exactfixturesource",
+      "community": 49,
+      "norm_label": "exactfixturesource"
+    },
+    {
+      "label": "ArtifactSource",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "artifactsource",
+      "community": 49,
+      "norm_label": "artifactsource"
+    },
+    {
+      "label": ".fetch()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_exactfixturesource_fetch",
+      "community": 49,
+      "norm_label": ".fetch()"
+    },
+    {
+      "label": "ArtifactFetchRequest",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "artifactfetchrequest",
+      "community": 49,
+      "norm_label": "artifactfetchrequest"
+    },
+    {
+      "label": "ArtifactFetchResponse",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "artifactfetchresponse",
+      "community": 49,
+      "norm_label": "artifactfetchresponse"
+    },
+    {
+      "label": "EventBuffer",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_eventbuffer",
+      "community": 47,
+      "norm_label": "eventbuffer"
+    },
+    {
+      "label": "Mutex",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_rs_mutex",
+      "community": 47,
+      "norm_label": "mutex"
+    },
+    {
+      "label": "VecDeque",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "vecdeque",
+      "community": 47,
+      "norm_label": "vecdeque"
+    },
+    {
+      "label": "RuntimeEvent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "runtimeevent",
+      "community": 47,
+      "norm_label": "runtimeevent"
+    },
+    {
+      "label": "Condvar",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "condvar",
+      "community": 47,
+      "norm_label": "condvar"
+    },
+    {
+      "label": ".latest_sequence()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_eventbuffer_latest_sequence",
+      "community": 47,
+      "norm_label": ".latest_sequence()"
+    },
+    {
+      "label": ".response_after()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L103",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_eventbuffer_response_after",
+      "community": 47,
+      "norm_label": ".response_after()"
+    },
+    {
+      "label": "Option",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "option",
+      "community": 47,
+      "norm_label": "option"
+    },
+    {
+      "label": "EventSink",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L131",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_eventsink",
+      "community": 47,
+      "norm_label": "eventsink"
+    },
+    {
+      "label": "Arc",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "arc",
+      "community": 47,
+      "norm_label": "arc"
+    },
+    {
+      "label": "RuntimeObserver",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "runtimeobserver",
+      "community": 47,
+      "norm_label": "runtimeobserver"
+    },
+    {
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L134",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_eventsink_update",
+      "community": 47,
+      "norm_label": ".update()"
+    },
+    {
+      "label": "RuntimeObservationFrame",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "runtimeobservationframe",
+      "community": 47,
+      "norm_label": "runtimeobservationframe"
+    },
+    {
+      "label": "LinuxRunner",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner",
+      "community": 47,
+      "norm_label": "linuxrunner"
+    },
+    {
+      "label": "RuntimeController",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "runtimecontroller",
+      "community": 47,
+      "norm_label": "runtimecontroller"
+    },
+    {
+      "label": "RuntimeObservation",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "runtimeobservation",
+      "community": 47,
+      "norm_label": "runtimeobservation"
+    },
+    {
+      "label": "Debug",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "debug",
+      "community": 47,
+      "norm_label": "debug"
+    },
+    {
+      "label": ".fmt()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L157",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner_fmt",
+      "community": 47,
+      "norm_label": ".fmt()"
+    },
+    {
+      "label": "Formatter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "formatter",
+      "community": 47,
+      "norm_label": "formatter"
+    },
+    {
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_rs_result",
+      "community": 47,
+      "norm_label": "result"
+    },
+    {
+      "label": ".open()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner_open",
+      "community": 47,
+      "norm_label": ".open()"
+    },
+    {
+      "label": "AsRef",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "asref",
+      "community": 47,
+      "norm_label": "asref"
+    },
+    {
+      "label": "Path",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "path",
+      "community": 47,
+      "norm_label": "path"
+    },
+    {
+      "label": "Self",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "self",
+      "community": 47,
+      "norm_label": "self"
+    },
+    {
+      "label": ".start_fixture()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L196",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "community": 47,
+      "norm_label": ".start_fixture()"
+    },
+    {
+      "label": ".forward_from_surface()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L273",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "community": 47,
+      "norm_label": ".forward_from_surface()"
+    },
+    {
+      "label": "Drop",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "drop",
+      "community": 47,
+      "norm_label": "drop"
+    },
+    {
+      "label": ".drop()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L296",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_linuxrunner_drop",
+      "community": 47,
+      "norm_label": ".drop()"
+    },
+    {
+      "label": "verified_fixture_handshakes_through_runtime()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L309",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
+      "community": 47,
+      "norm_label": "verified_fixture_handshakes_through_runtime()"
+    },
+    {
+      "label": "payload_identity_cannot_select_surface_or_session()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L332",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
+      "community": 47,
+      "norm_label": "payload_identity_cannot_select_surface_or_session()"
+    },
+    {
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
@@ -1080,6 +1910,48 @@
       "id": "scripts_check_boundaries_sh__entry",
       "community": 44,
       "norm_label": "check-boundaries.sh script"
+    },
+    {
+      "label": "check-pinned-assets.sh",
+      "file_type": "code",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_check_pinned_assets",
+      "community": 52,
+      "norm_label": "check-pinned-assets.sh"
+    },
+    {
+      "label": "check-pinned-assets.sh script",
+      "file_type": "code",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "scripts_check_pinned_assets_sh__entry",
+      "community": 52,
+      "norm_label": "check-pinned-assets.sh script"
+    },
+    {
+      "label": "check_sha256()",
+      "file_type": "code",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L4",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_check_pinned_assets_check_sha256",
+      "community": 52,
+      "norm_label": "check_sha256()"
     },
     {
       "label": "debian-build-smoke.sh",
@@ -1418,6 +2290,26 @@
     {
       "label": "README.md",
       "file_type": "document",
+      "source_file": "apps/uzel/public/trusted-shell/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_readme",
+      "community": 53,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Pinned portable trusted shell",
+      "file_type": "document",
+      "source_file": "apps/uzel/public/trusted-shell/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "apps_uzel_public_trusted_shell_readme_pinned_portable_trusted_shell",
+      "community": 53,
+      "norm_label": "pinned portable trusted shell"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
       "source_file": "fixtures/README.md",
       "source_location": "L1",
       "_origin": "ast",
@@ -1434,6 +2326,26 @@
       "id": "fixtures_readme_fixtures",
       "community": 42,
       "norm_label": "fixtures"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "fixtures/good-morning/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "fixtures_good_morning_readme",
+      "community": 54,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Exact signed Work 02 fixture",
+      "file_type": "document",
+      "source_file": "fixtures/good-morning/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "fixtures_good_morning_readme_exact_signed_work_02_fixture",
+      "community": 54,
+      "norm_label": "exact signed work 02 fixture"
     },
     {
       "label": "README.md",
@@ -1562,7 +2474,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit",
-      "community": 8,
+      "community": 13,
       "norm_label": "audit.md"
     },
     {
@@ -1572,7 +2484,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_poc_documentation_audit",
-      "community": 8,
+      "community": 13,
       "norm_label": "poc documentation audit"
     },
     {
@@ -1582,7 +2494,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_verdict",
-      "community": 8,
+      "community": 13,
       "norm_label": "verdict"
     },
     {
@@ -1592,7 +2504,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_problems_found_in_the_previous_pack",
-      "community": 8,
+      "community": 13,
       "norm_label": "problems found in the previous pack"
     },
     {
@@ -1602,7 +2514,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_corrections",
-      "community": 8,
+      "community": 13,
       "norm_label": "corrections"
     },
     {
@@ -1612,7 +2524,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_diagram_review",
-      "community": 8,
+      "community": 13,
       "norm_label": "diagram review"
     },
     {
@@ -1622,7 +2534,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_gate_0_resolution",
-      "community": 8,
+      "community": 13,
       "norm_label": "gate 0 resolution"
     },
     {
@@ -1632,7 +2544,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_confidence",
-      "community": 8,
+      "community": 13,
       "norm_label": "confidence"
     },
     {
@@ -1652,7 +2564,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_uzel_single_repository_poc",
-      "community": 8,
+      "community": 48,
       "norm_label": "uzel single-repository poc"
     },
     {
@@ -1662,7 +2574,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_demo_result",
-      "community": 8,
+      "community": 48,
       "norm_label": "demo result"
     },
     {
@@ -1672,7 +2584,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_mandatory_first_step",
-      "community": 8,
+      "community": 48,
       "norm_label": "mandatory first step"
     },
     {
@@ -1682,7 +2594,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_start_order",
-      "community": 8,
+      "community": 48,
       "norm_label": "start order"
     },
     {
@@ -1692,7 +2604,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_document_map",
-      "community": 8,
+      "community": 48,
       "norm_label": "document map"
     },
     {
@@ -1702,7 +2614,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_readme_scope_rule",
-      "community": 8,
+      "community": 48,
       "norm_label": "scope rule"
     },
     {
@@ -1892,7 +2804,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_assumption_validation_and_decision_gates",
-      "community": 1,
+      "community": 8,
       "norm_label": "assumption validation and decision gates"
     },
     {
@@ -1902,7 +2814,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_why_gate_0_exists",
-      "community": 1,
+      "community": 8,
       "norm_label": "why gate 0 exists"
     },
     {
@@ -1912,7 +2824,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_current_observed_baseline",
-      "community": 1,
+      "community": 8,
       "norm_label": "current observed baseline"
     },
     {
@@ -1922,7 +2834,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_gate_0_decision",
-      "community": 1,
+      "community": 8,
       "norm_label": "gate 0 decision"
     },
     {
@@ -1932,7 +2844,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_gate_matrix",
-      "community": 1,
+      "community": 8,
       "norm_label": "gate matrix"
     },
     {
@@ -1942,7 +2854,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_required_outputs",
-      "community": 1,
+      "community": 8,
       "norm_label": "required outputs"
     },
     {
@@ -1952,7 +2864,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_plan_correction_rule",
-      "community": 1,
+      "community": 8,
       "norm_label": "plan correction rule"
     },
     {
@@ -1962,7 +2874,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_per_slice_validation",
-      "community": 1,
+      "community": 8,
       "norm_label": "per-slice validation"
     },
     {
@@ -1972,7 +2884,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_01_validation_hard_stops",
-      "community": 1,
+      "community": 8,
       "norm_label": "hard stops"
     },
     {
@@ -2049,7 +2961,7 @@
       "label": "Shared Nostr flow",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L123",
+      "source_location": "L130",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_02_architecture_shared_nostr_flow",
       "community": 6,
@@ -2059,7 +2971,7 @@
       "label": "Composition flow",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L149",
+      "source_location": "L156",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_02_architecture_composition_flow",
       "community": 6,
@@ -2069,7 +2981,7 @@
       "label": "UI boundary",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L168",
+      "source_location": "L175",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_02_architecture_ui_boundary",
       "community": 6,
@@ -2109,7 +3021,7 @@
       "label": "Runtime state",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L46",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_runtime_state",
       "community": 3,
@@ -2119,7 +3031,7 @@
       "label": "Exact-build fixtures",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L61",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_exact_build_fixtures",
       "community": 3,
@@ -2129,7 +3041,7 @@
       "label": "Identity and Nostr reads",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L75",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_identity_and_nostr_reads",
       "community": 3,
@@ -2139,7 +3051,7 @@
       "label": "Napplet convention",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L92",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_napplet_convention",
       "community": 3,
@@ -2149,7 +3061,7 @@
       "label": "Web trust boundary",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L112",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_web_trust_boundary",
       "community": 3,
@@ -2159,7 +3071,7 @@
       "label": "Shell UI",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L141",
+      "source_location": "L149",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_shell_ui",
       "community": 3,
@@ -2169,7 +3081,7 @@
       "label": "Developer mode",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L156",
+      "source_location": "L164",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_03_provisional_design_developer_mode",
       "community": 3,
@@ -2192,7 +3104,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_execution_slices",
-      "community": 14,
+      "community": 11,
       "norm_label": "execution slices"
     },
     {
@@ -2202,7 +3114,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_dependency_graph",
-      "community": 14,
+      "community": 11,
       "norm_label": "dependency graph"
     },
     {
@@ -2212,7 +3124,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slices",
-      "community": 14,
+      "community": 11,
       "norm_label": "slices"
     },
     {
@@ -2222,7 +3134,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_parallel_work",
-      "community": 14,
+      "community": 11,
       "norm_label": "parallel work"
     },
     {
@@ -2232,7 +3144,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_slice_entry_gate",
-      "community": 14,
+      "community": 11,
       "norm_label": "slice entry gate"
     },
     {
@@ -2242,7 +3154,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_04_execution_handoff",
-      "community": 14,
+      "community": 11,
       "norm_label": "handoff"
     },
     {
@@ -2556,10 +3468,20 @@
       "norm_label": "active contributions"
     },
     {
-      "label": "Entry template",
+      "label": "Slice 02 upstream result",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
       "source_location": "L25",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_02_upstream_result",
+      "community": 8,
+      "norm_label": "slice 02 upstream result"
+    },
+    {
+      "label": "Entry template",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_08_upstream_contributions_entry_template",
       "community": 8,
@@ -2724,6 +3646,26 @@
       "id": "uzel_poc_validated_pack_docs_facts_fact_008_toolchain_fact_008_executable_linux_toolchain",
       "community": 33,
       "norm_label": "fact-008 \u2014 executable linux toolchain"
+    },
+    {
+      "label": "FACT-009-linux-runner.md",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-009-linux-runner.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner",
+      "community": 55,
+      "norm_label": "fact-009-linux-runner.md"
+    },
+    {
+      "label": "FACT-009 \u2014 Linux exact-build runner",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-009-linux-runner.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner_fact_009_linux_exact_build_runner",
+      "community": 55,
+      "norm_label": "fact-009 \u2014 linux exact-build runner"
     },
     {
       "label": "nampplets-linux-map.md",
@@ -2992,7 +3934,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_slice_01_preflight",
-      "community": 11,
+      "community": 14,
       "norm_label": "slice 01 preflight"
     },
     {
@@ -3002,7 +3944,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_verdict",
-      "community": 11,
+      "community": 14,
       "norm_label": "verdict"
     },
     {
@@ -3012,7 +3954,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_locked_workspace",
-      "community": 11,
+      "community": 14,
       "norm_label": "locked workspace"
     },
     {
@@ -3022,7 +3964,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_commands_and_observed_results",
-      "community": 11,
+      "community": 14,
       "norm_label": "commands and observed results"
     },
     {
@@ -3032,7 +3974,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_fedora_probe_correction",
-      "community": 11,
+      "community": 14,
       "norm_label": "fedora probe correction"
     },
     {
@@ -3042,7 +3984,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_debian_probe_correction",
-      "community": 11,
+      "community": 14,
       "norm_label": "debian probe correction"
     },
     {
@@ -3052,7 +3994,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_boundary_result",
-      "community": 11,
+      "community": 14,
       "norm_label": "boundary result"
     },
     {
@@ -3062,7 +4004,107 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_next_step",
+      "community": 14,
+      "norm_label": "next step"
+    },
+    {
+      "label": "slice-02-preflight.md",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight",
       "community": 11,
+      "norm_label": "slice-02-preflight.md"
+    },
+    {
+      "label": "Slice 02 preflight",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "community": 12,
+      "norm_label": "slice 02 preflight"
+    },
+    {
+      "label": "Verdict",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_verdict",
+      "community": 12,
+      "norm_label": "verdict"
+    },
+    {
+      "label": "Exact dependency and asset record",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_exact_dependency_and_asset_record",
+      "community": 12,
+      "norm_label": "exact dependency and asset record"
+    },
+    {
+      "label": "Runtime evidence",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_runtime_evidence",
+      "community": 12,
+      "norm_label": "runtime evidence"
+    },
+    {
+      "label": "Commands and observed results",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_commands_and_observed_results",
+      "community": 12,
+      "norm_label": "commands and observed results"
+    },
+    {
+      "label": "Preserved failed Fedora probe",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_preserved_failed_fedora_probe",
+      "community": 12,
+      "norm_label": "preserved failed fedora probe"
+    },
+    {
+      "label": "Required design correction",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_required_design_correction",
+      "community": 12,
+      "norm_label": "required design correction"
+    },
+    {
+      "label": "Upstream result",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_upstream_result",
+      "community": 12,
+      "norm_label": "upstream result"
+    },
+    {
+      "label": "Next step",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L117",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_02_preflight_next_step",
+      "community": 12,
       "norm_label": "next step"
     },
     {
@@ -3192,7 +4234,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate",
-      "community": 11,
+      "community": 10,
       "norm_label": "00-validate.md"
     },
     {
@@ -3372,67 +4414,67 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
-      "community": 12,
+      "community": 11,
       "norm_label": "work 02 \u2014 linux exact-build runner"
     },
     {
       "label": "Goal",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L3",
+      "source_location": "L6",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_goal",
-      "community": 12,
+      "community": 11,
       "norm_label": "goal"
     },
     {
       "label": "Entry status and pins",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L7",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_entry_status_and_pins",
-      "community": 12,
+      "community": 11,
       "norm_label": "entry status and pins"
     },
     {
       "label": "Read",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L11",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_read",
-      "community": 12,
+      "community": 11,
       "norm_label": "read"
     },
     {
       "label": "Tasks",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L18",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_tasks",
-      "community": 12,
+      "community": 11,
       "norm_label": "tasks"
     },
     {
       "label": "Acceptance",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L28",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_acceptance",
-      "community": 12,
+      "community": 11,
       "norm_label": "acceptance"
     },
     {
       "label": "Non-goals",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L32",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_non_goals",
-      "community": 12,
+      "community": 11,
       "norm_label": "non-goals"
     },
     {
@@ -3442,7 +4484,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_03_napplets",
-      "community": 2,
+      "community": 11,
       "norm_label": "03-napplets.md"
     },
     {
@@ -3512,7 +4554,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp",
-      "community": 13,
+      "community": 11,
       "norm_label": "04-daemon-nmp.md"
     },
     {
@@ -3522,7 +4564,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 13,
+      "community": 11,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -3532,7 +4574,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 13,
+      "community": 11,
       "norm_label": "goal"
     },
     {
@@ -3542,7 +4584,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 13,
+      "community": 11,
       "norm_label": "entry status and pins"
     },
     {
@@ -3552,7 +4594,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 13,
+      "community": 11,
       "norm_label": "read"
     },
     {
@@ -3562,27 +4604,27 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 13,
+      "community": 11,
       "norm_label": "tasks"
     },
     {
       "label": "Acceptance",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/04-daemon-nmp.md",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 13,
+      "community": 11,
       "norm_label": "acceptance"
     },
     {
       "label": "Non-goals",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/04-daemon-nmp.md",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 13,
+      "community": 11,
       "norm_label": "non-goals"
     },
     {
@@ -3721,7 +4763,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "apps_uzel_package",
       "target": "apps_uzel_package_devdependencies",
@@ -3821,10 +4863,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "apps_uzel_package_dependencies",
       "target": "apps_uzel_package_dependencies_svelte",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "apps_uzel_package_dependencies",
+      "target": "apps_uzel_package_dependencies_tauri_apps_api",
       "confidence_score": 1.0
     },
     {
@@ -3834,28 +4886,19 @@
       "source_location": "L13",
       "weight": 1.0,
       "context": "import",
+      "source": "apps_uzel_package_dependencies_tauri_apps_api",
+      "target": "tauri_apps_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
       "source": "apps_uzel_package_dependencies_svelte",
-      "target": "svelte",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/uzel/package.json",
-      "source_location": "L17",
-      "weight": 1.0,
-      "source": "apps_uzel_package_devdependencies",
-      "target": "apps_uzel_package_devdependencies_svelte_check",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "apps/uzel/package.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "source": "apps_uzel_package_devdependencies",
-      "target": "apps_uzel_package_devdependencies_sveltejs_vite_plugin_svelte",
+      "target": "apps_uzel_package_json_svelte",
       "confidence_score": 1.0
     },
     {
@@ -3865,7 +4908,17 @@
       "source_location": "L18",
       "weight": 1.0,
       "source": "apps_uzel_package_devdependencies",
-      "target": "apps_uzel_package_devdependencies_typescript",
+      "target": "apps_uzel_package_devdependencies_svelte_check",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "apps_uzel_package_devdependencies",
+      "target": "apps_uzel_package_devdependencies_sveltejs_vite_plugin_svelte",
       "confidence_score": 1.0
     },
     {
@@ -3875,6 +4928,16 @@
       "source_location": "L19",
       "weight": 1.0,
       "source": "apps_uzel_package_devdependencies",
+      "target": "apps_uzel_package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "apps_uzel_package_devdependencies",
       "target": "apps_uzel_package_devdependencies_vite",
       "confidence_score": 1.0
     },
@@ -3882,7 +4945,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "context": "import",
       "source": "apps_uzel_package_devdependencies_sveltejs_vite_plugin_svelte",
@@ -3893,7 +4956,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "import",
       "source": "apps_uzel_package_devdependencies_svelte_check",
@@ -3904,7 +4967,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "context": "import",
       "source": "apps_uzel_package_devdependencies_typescript",
@@ -3915,11 +4978,517 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "context": "import",
       "source": "apps_uzel_package_devdependencies_vite",
       "target": "vite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_policy",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_policy_directive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_policy",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_policy_innerpolicycontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_policy",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_policy_outerpolicycontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_policy_innerpolicycontent",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_policy_directive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell-policy.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_policy_outerpolicycontent",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_policy_directive",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_boundedjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L357",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_compatibilitypreludesource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_decodedbase64length",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_decoderesourceblob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_exactfields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L322",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_forwardtonative",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isboundedenvelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1442",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isverifiedartifactbaseurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L340",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_manifestconfigschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L312",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_mappedenvelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1447",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_projectedresourceerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L296",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_projectnativeenvelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L157",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L124",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceerrortype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceprojectionerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1435",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_sandboxpolicycontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L333",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_scriptjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_boundedjson",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L376",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_compatibilitypreludesource",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_exactfields",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_isboundedenvelope",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L351",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_manifestconfigschema",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L301",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectnativeenvelope",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L161",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isplainobject",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L316",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_mappedenvelope",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isboundedenvelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L309",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectnativeenvelope",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isboundedenvelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L168",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_boundedjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L180",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_exactfields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_decodedbase64length",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceprojectionerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_decoderesourceblob",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceprojectionerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceprojectionerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L87",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_decoderesourceblob",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_decodedbase64length",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L202",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_decoderesourceblob",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L138",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectedresourceerror",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_resourceerrortype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_projectedresourceerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L306",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_projectnativeenvelope",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_projectresourceterminal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L464",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_compatibilitypreludesource",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_scriptjson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1476",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_manifestconfigschema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1474",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_compatibilitypreludesource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1468",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_sandboxpolicycontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/trusted-shell.js",
+      "source_location": "L1451",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_trusted_shell_materialize",
+      "target": "apps_uzel_public_trusted_shell_trusted_shell_isverifiedartifactbaseurl",
       "confidence_score": 1.0
     },
     {
@@ -4008,10 +5577,215 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L3",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_hostileprobe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L70",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_report_hostile_probe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_rs_mutex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_start_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "apps_uzel_src_tauri_src_main_rs_mutex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "apps_uzel_src_tauri_src_main_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "apps_uzel_src_tauri_src_main_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "crates_napd_src_runner_linuxrunner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "crates_napd_src_runner_surfacelaunch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "target": "state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "target": "apps_uzel_src_tauri_src_main_rs_mutex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "target": "apps_uzel_src_tauri_src_main_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
+      "target": "apps_uzel_src_tauri_src_main_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "target": "apps_uzel_src_tauri_src_main_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
+      "target": "apps_uzel_src_tauri_src_main_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
+      "target": "crates_napd_src_runner_linuxrunner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
+      "target": "apps_uzel_src_tauri_src_main_hostileprobe",
       "confidence_score": 1.0
     },
     {
@@ -4176,6 +5950,14 @@
     },
     {
       "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source": "apps_uzel_src_app",
+      "target": "core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src/main.ts",
@@ -4183,6 +5965,36 @@
       "weight": 1.0,
       "source": "apps_uzel_src_main",
       "target": "apps_uzel_src_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app_d",
+      "target": "apps_uzel_src_app_d_window",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app_d_window",
+      "target": "apps_uzel_src_app_d_window_nmptrustedshellmount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/app.d.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app_d_window",
+      "target": "apps_uzel_src_app_d_window_nmptrustedshellreceive",
       "confidence_score": 1.0
     },
     {
@@ -4433,6 +6245,678 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/lib.rs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "import",
+      "source": "crates_napd_src_lib",
+      "target": "crates_napd_src_runner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_eventbuffer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_eventsink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_exactfixturesource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_linuxrunner",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L332",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_runnererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_surfacelaunch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L309",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L153",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_surfacelaunch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L196",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "target": "crates_napd_src_runner_surfacelaunch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_surfacelaunch",
+      "target": "crates_napd_src_runner_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_surfacelaunch",
+      "target": "vec",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_eventbuffer_response_after",
+      "target": "crates_napd_src_runner_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L273",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_runnererror",
+      "target": "crates_napd_src_runner_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L273",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_runnererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "crates_napd_src_runner_runnererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L196",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "target": "crates_napd_src_runner_runnererror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_runnererror",
+      "target": "error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_runnererror",
+      "target": "fromutf8error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_exactfixturesource",
+      "target": "artifactsource",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_exactfixturesource",
+      "target": "crates_napd_src_runner_exactfixturesource_fetch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_exactfixturesource_fetch",
+      "target": "artifactfetchrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_exactfixturesource_fetch",
+      "target": "artifactfetchresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "condvar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "crates_napd_src_runner_eventbuffer_latest_sequence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "crates_napd_src_runner_eventbuffer_response_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "crates_napd_src_runner_rs_mutex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "runtimeevent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_eventbuffer",
+      "target": "vecdeque",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_eventsink",
+      "target": "crates_napd_src_runner_eventbuffer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_eventbuffer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L286",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_eventbuffer_latest_sequence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_eventbuffer_response_after",
+      "target": "option",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L289",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_eventbuffer_response_after",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L153",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "option",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_eventsink",
+      "target": "arc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_eventsink",
+      "target": "crates_napd_src_runner_eventsink_update",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_eventsink",
+      "target": "runtimeobserver",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L180",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "crates_napd_src_runner_eventsink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "field",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "arc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L134",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_eventsink_update",
+      "target": "runtimeobservationframe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L296",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_linuxrunner_drop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L157",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_linuxrunner_fmt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L273",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_linuxrunner_open",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L156",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "debug",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L295",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "drop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L150",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "runtimecontroller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner",
+      "target": "runtimeobservation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_linuxrunner_fmt",
+      "target": "crates_napd_src_runner_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_linuxrunner_fmt",
+      "target": "formatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L273",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "target": "crates_napd_src_runner_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "crates_napd_src_runner_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L196",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "target": "crates_napd_src_runner_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "asref",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "crates_napd_src_runner_linuxrunner_open",
+      "target": "self",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L335",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
+      "target": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L312",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
+      "target": "crates_napd_src_runner_linuxrunner_start_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L317",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_verified_fixture_handshakes_through_runtime",
+      "target": "crates_napd_src_runner_linuxrunner_forward_from_surface",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
@@ -4651,6 +7135,37 @@
       "weight": 1.0,
       "source": "scripts_check_boundaries",
       "target": "scripts_check_boundaries_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "scripts_check_pinned_assets",
+      "target": "scripts_check_pinned_assets_check_sha256",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_check_pinned_assets",
+      "target": "scripts_check_pinned_assets_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-pinned-assets.sh",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_check_pinned_assets_sh__entry",
+      "target": "scripts_check_pinned_assets_check_sha256",
       "confidence_score": 1.0
     },
     {
@@ -4919,11 +7434,31 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/public/trusted-shell/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "apps_uzel_public_trusted_shell_readme",
+      "target": "apps_uzel_public_trusted_shell_readme_pinned_portable_trusted_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "fixtures/README.md",
       "source_location": "L1",
       "weight": 1.0,
       "source": "fixtures_readme",
       "target": "fixtures_readme_fixtures",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "fixtures/good-morning/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "fixtures_good_morning_readme",
+      "target": "fixtures_good_morning_readme_exact_signed_work_02_fixture",
       "confidence_score": 1.0
     },
     {
@@ -5610,7 +8145,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L149",
+      "source_location": "L156",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_02_architecture_poc_architecture",
       "target": "uzel_poc_validated_pack_docs_02_architecture_composition_flow",
@@ -5650,7 +8185,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L123",
+      "source_location": "L130",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_02_architecture_poc_architecture",
       "target": "uzel_poc_validated_pack_docs_02_architecture_shared_nostr_flow",
@@ -5670,7 +8205,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/02-architecture.md",
-      "source_location": "L168",
+      "source_location": "L175",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_02_architecture_poc_architecture",
       "target": "uzel_poc_validated_pack_docs_02_architecture_ui_boundary",
@@ -5690,7 +8225,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L156",
+      "source_location": "L164",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_developer_mode",
@@ -5700,7 +8235,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L61",
+      "source_location": "L69",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_exact_build_fixtures",
@@ -5710,7 +8245,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L75",
+      "source_location": "L83",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_identity_and_nostr_reads",
@@ -5730,7 +8265,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L92",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_napplet_convention",
@@ -5740,7 +8275,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L46",
+      "source_location": "L54",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_runtime_state",
@@ -5750,7 +8285,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L141",
+      "source_location": "L149",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_shell_ui",
@@ -5760,7 +8295,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/03-provisional-design.md",
-      "source_location": "L112",
+      "source_location": "L120",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_03_provisional_design_provisional_component_design",
       "target": "uzel_poc_validated_pack_docs_03_provisional_design_web_trust_boundary",
@@ -6177,6 +8712,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_docs_08_upstream_contributions",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
@@ -6200,10 +8745,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
-      "source_location": "L25",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
       "target": "uzel_poc_validated_pack_docs_08_upstream_contributions_entry_template",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/docs/08-upstream-contributions.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_docs_08_upstream_contributions_upstream_contribution_ledger",
+      "target": "uzel_poc_validated_pack_docs_08_upstream_contributions_slice_02_upstream_result",
       "confidence_score": 1.0
     },
     {
@@ -6284,6 +8839,16 @@
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_facts_fact_008_toolchain",
       "target": "uzel_poc_validated_pack_docs_facts_fact_008_toolchain_fact_008_executable_linux_toolchain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/docs/facts/FACT-009-linux-runner.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner",
+      "target": "uzel_poc_validated_pack_docs_facts_fact_009_linux_runner_fact_009_linux_exact_build_runner",
       "confidence_score": 1.0
     },
     {
@@ -6609,6 +9174,116 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_work_03_napplets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_work_02_linux_runner",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_commands_and_observed_results",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_exact_dependency_and_asset_record",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_next_step",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_preserved_failed_fedora_probe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_required_design_correction",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_runtime_evidence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_upstream_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-02-preflight.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_02_preflight_slice_02_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_02_preflight_verdict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/webkit-trust-spike.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -6860,7 +9535,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L28",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_acceptance",
@@ -6870,7 +9545,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L7",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_entry_status_and_pins",
@@ -6880,7 +9555,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L3",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_goal",
@@ -6890,7 +9565,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L32",
+      "source_location": "L40",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_non_goals",
@@ -6900,7 +9575,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L11",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_read",
@@ -6910,7 +9585,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/02-linux-runner.md",
-      "source_location": "L18",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
       "target": "uzel_poc_validated_pack_work_02_linux_runner_tasks",
@@ -6990,7 +9665,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/04-daemon-nmp.md",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
       "target": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
@@ -7020,7 +9695,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/04-daemon-nmp.md",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
       "target": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
@@ -7138,5 +9813,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5f536e1827a6eb1c0700d1e2b794920dd32c2ba6"
+  "built_at_commit": "3ecad56a42235026d475542ad77ecce6ff312c3e"
 }

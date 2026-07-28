@@ -6,9 +6,15 @@
     "unused-files": "error",
     "unused-dependencies": "error"
   },
+  "ignoreUnresolvedImports": [
+    "/trusted-shell/trusted-shell-policy.js",
+    "/trusted-shell/trusted-shell-prelude-domains.js",
+    "/trusted-shell/trusted-shell.js"
+  ],
   "ignorePatterns": [
     "graphify-out/**",
     "uzel-poc-validated-pack/**",
+    "apps/uzel/public/trusted-shell/**",
     "**/dist/**",
     "**/target/**"
   ]

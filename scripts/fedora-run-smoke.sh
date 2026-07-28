@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SMOKE_TMP=$(mktemp -d)
-FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/slice-01-fedora-failed}
+FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/slice-02-fedora-failed}
 WESTON_PID=
 DEV_PID=
 
@@ -58,10 +58,14 @@ DEV_PID=$!
 
 for _ in $(seq 1 240); do
   if rg -q '^UZEL_NAPD_READY role=runtime-authority$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log"; then
+    && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SLICE02_FIXTURE_VERIFIED aggregate=828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SLICE02_HANDSHAKE_OK surface=uzel-surface-1-generation-1$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SLICE02_ARTIFACT_RESPONDED type=identity.getPublicKey.result$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SLICE02_ISOLATION_OK raw_webkit_transport=' "$SMOKE_TMP/uzel.log"; then
     sleep 2
     kill -0 "$DEV_PID"
-    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready compositor=weston-headless-gl'
+    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_build=verified nap_shell=ready artifact=responded child_native=denied compositor=weston-headless-gl'
     exit 0
   fi
   kill -0 "$DEV_PID" 2>/dev/null

@@ -3,6 +3,7 @@ schema = 1
 validated_at = "2026-07-28"
 gate = "Gate 0"
 slice_01_verdict = "go"
+slice_02_verdict = "pass"
 acceptance_scope = "Linux-only Uzel POC"
 blocking_reason = ""
 
@@ -241,6 +242,35 @@ debian_rust_image = "docker.io/library/rust:1.89.0-bookworm@sha256:c9ac3fa8945b6
 debian_webkitgtk = "2.50.6-1~deb12u2"
 debian_build_result = "pass: locked frontend and full Cargo/Tauri workspace build"
 feature_implementation = false
+
+[slice_02]
+verdict = "pass"
+branch = "feat/slice-02-linux-runner"
+validated_at = "2026-07-29"
+nampplets_repository = "https://github.com/jodobear/nampplets"
+nampplets_commit = "08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf"
+nmp_commit = "005dc2a5f12aa414961b313d05ebb021934e385c"
+cargo_lock_sha256 = "03d1d6fd58e013cbe845c2b315c088148cc38281b1d422bfb7966eabc942ffa0"
+pnpm_lock_sha256 = "a4870aa91e70d6e79e3fce822f0b9deffb9bdae0383d3eb84bcea3e3fd8dce2c"
+tauri_api = "2.11.1"
+tauri_crate = "2.11.5"
+fixture_author = "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5"
+fixture_d_tag = "good-morning"
+fixture_aggregate = "828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8"
+fixture_event_sha256 = "66d2a7ed73973e422c86119c3b5c5f1914cb15bad1bfbddecb61cc2edf1c9c17"
+fixture_index_sha256 = "ffd35eea5c84d03cdda74c23e1bbb2c40500f503833503aa688036faa52f3808"
+fixture_index_bytes = 96172
+trusted_shell_sha256 = "32cb57cd2bb1064922888e5746e42dc9a63cb4df96d440026ca65efe1f2597bb"
+trusted_shell_policy_sha256 = "d130c02862f8934caba77bfaca4a72cc2f94158daecfaf888830c0807e2352c4"
+trusted_shell_domains_sha256 = "d4c930f66df0ae1767147598d2a05b9940a06ba8f6681a1093af36e6e35251c5"
+available_domains = ["identity", "inc", "outbox", "shell"]
+unavailable_domains = ["link", "resource", "theme"]
+runtime_result = "pass: exact signed fixture verified, installed, launched, completed shell.init, and answered identity.getPublicKey through RuntimeController"
+hostile_result = "pass: unmapped surface rejected; forged session/principal ignored; sandboxed child has no Tauri globals, Wry ipc function, or readable parent"
+fedora_run_result = "pass: real Tauri/WebKitGTK exact-build, NAP-SHELL, authored artifact response, and child-native-denial markers observed"
+debian_build_result = "pass: locked frontend and complete Cargo/Tauri/nampplets/NMP workspace built on Bookworm"
+daemon_transfer_result = "deferred design change: 4096-byte control frame cannot carry 96172-byte verified document; Work 04 must add bounded chunked transfer before daemon owns RuntimeController"
+upstream_change_required = false
 
 [gates]
 V_01 = "pass"

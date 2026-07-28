@@ -17,7 +17,7 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 ## Implementation
 
 - [x] 01 workspace scaffold
-- [ ] 02 Linux runner and exact-build fixture
+- [x] 02 Linux runner and exact-build fixture
 - [ ] 03 two portable napplets and INC fixtures
 - [ ] 04 daemon, NMP, and minimal persistence
 - [ ] 05 integrated composed demo
@@ -26,12 +26,12 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 ## Latest integrated evidence
 
 ```text
-slice: 01 scaffold
+slice: 02 Linux exact-build runner
 commits: recorded in repository history
-commands: reports/slice-01-preflight.md
-observable result: pinned shell, empty napd process, Tauri/WebKit shell, Fedora headless run, and Debian Bookworm build all pass
-known limitation: scaffold has no runtime session, NMP query, napplet, persistence, or product UI by design
-next action: execute work/02-linux-runner.md; keep upstream contributions on fork branches and record them in docs/08-upstream-contributions.md
+commands: reports/slice-02-preflight.md
+observable result: pinned signed fixture verifies, launches, completes NAP-SHELL, answers identity.getPublicKey through the runtime, and denies child native authority in real Fedora WebKit; Debian Bookworm build passes
+known limitation: the 4096-byte daemon control frame cannot transfer the 96172-byte verified document; Slice 02 therefore composes RuntimeController in the Tauri process until Work 04 adds bounded chunked verified-asset transfer
+next action: execute work/03-napplets.md; do not move runtime ownership to the daemon until the Work 04 asset-transfer gate passes
 ```
 
 ## Accepted provisional risks

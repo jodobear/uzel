@@ -120,6 +120,13 @@ RuntimeController lifecycle, snapshot, observation, diagnostics, and close metho
 
 The controller composes `nmp-native-artifact`, runtime-core/app/store, NAP bridge/providers, and `NmpDataPlane`. `crates/napd` may translate the private AF_UNIX operation enum to these calls; it must not reproduce their semantics. The Linux-only implementation edge is WebKit host creation and source-window mapping.
 
+Slice 02 composes this controller in the trusted Tauri process because its
+verified fixture document is 96172 bytes and the validated daemon control frame
+is capped at 4096 bytes. This is an implementation-sequencing constraint, not a
+change to final ownership: Work 04 moves the controller into the daemon only
+after a bounded chunked verified-asset transfer or equivalent private stream is
+implemented and tested. WebKit must never receive an artifact cache path.
+
 ## Shared Nostr flow
 
 ```mermaid
