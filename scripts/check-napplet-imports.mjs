@@ -8,7 +8,7 @@ const requireFromShell = createRequire(
   new URL('../apps/uzel/package.json', import.meta.url),
 );
 const ts = requireFromShell('typescript');
-const { compile: compileSvelte } = requireFromShell('svelte/compiler');
+const { compile: compileSvelte, parse: parseSvelte } = requireFromShell('svelte/compiler');
 const forbiddenSpecifier = /(uzel|napd|tauri)/i;
 const dependencyGroups = [
   'dependencies',
@@ -18,6 +18,32 @@ const dependencyGroups = [
 ];
 const directNetworkAuthority =
   /(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|serviceWorker)/;
+const cssNetworkAuthority = /(@import\b|\b(?:image-set|url)\s*\()/i;
+const resourceStyleDirective =
+  /^(background|background-image|border-image|border-image-source|content|cursor|list-style|list-style-image|mask|mask-image)$/i;
+const resourceAttributes = new Map([
+  ['a', new Set(['href'])],
+  ['area', new Set(['href'])],
+  ['audio', new Set(['src'])],
+  ['base', new Set(['href'])],
+  ['button', new Set(['formaction'])],
+  ['embed', new Set(['src'])],
+  ['form', new Set(['action'])],
+  ['iframe', new Set(['src', 'srcdoc'])],
+  ['image', new Set(['href', 'xlink:href'])],
+  ['img', new Set(['src', 'srcset'])],
+  ['input', new Set(['formaction', 'src'])],
+  ['link', new Set(['href'])],
+  ['object', new Set(['data'])],
+  ['script', new Set(['src'])],
+  ['source', new Set(['src', 'srcset'])],
+  ['track', new Set(['src'])],
+  ['use', new Set(['href', 'xlink:href'])],
+  ['video', new Set(['poster', 'src'])],
+]);
+const anyResourceAttribute = new Set(
+  [...resourceAttributes.values()].flatMap((attributes) => [...attributes]),
+);
 const sourceExtensions = new Set([
   '.cjs',
   '.cts',
@@ -30,13 +56,76 @@ const sourceExtensions = new Set([
   '.tsx',
 ]);
 
-function sourceUnits(path, source) {
-  if (extname(path) !== '.svelte') {
-    return [{ path, source }];
+function declarativeNetworkViolations(parsed, source) {
+  const found = [];
+  const seen = new WeakSet();
+
+  function visit(node) {
+    if (!node || typeof node !== 'object' || seen.has(node)) {
+      return;
+    }
+    seen.add(node);
+
+    if (node.type === 'RegularElement' || node.type === 'SvelteElement') {
+      const attributes = node.type === 'SvelteElement'
+        ? anyResourceAttribute
+        : resourceAttributes.get(node.name);
+      for (const attribute of node.attributes ?? []) {
+        if (attribute.type === 'Attribute' && attributes?.has(attribute.name)) {
+          found.push(`resource attribute ${node.name}.${attribute.name}`);
+        }
+        if (attribute.type === 'Attribute' && attribute.name === 'style') {
+          const attributeSource = source.slice(attribute.start, attribute.end);
+          const dynamic = !Array.isArray(attribute.value) ||
+            attribute.value.some((value) => value.type !== 'Text');
+          if (dynamic || cssNetworkAuthority.test(attributeSource)) {
+            found.push('resource-capable style attribute');
+          }
+        }
+        if (attribute.type === 'StyleDirective' && resourceStyleDirective.test(attribute.name)) {
+          found.push(`resource-capable style directive ${attribute.name}`);
+        }
+      }
+    }
+    if (node.type === 'HtmlTag') {
+      found.push('raw HTML template expression');
+    }
+
+    for (const value of Object.values(node)) {
+      if (Array.isArray(value)) {
+        value.forEach(visit);
+      } else {
+        visit(value);
+      }
+    }
   }
 
+  visit(parsed.fragment);
+  if (parsed.css?.content?.styles && cssNetworkAuthority.test(parsed.css.content.styles)) {
+    found.push('resource-capable component CSS');
+  }
+  return found;
+}
+
+function sourceAnalysis(path, source) {
+  if (extname(path) !== '.svelte') {
+    return { declarative: [], units: [{ path, source }] };
+  }
+
+  const parsed = parseSvelte(source, { modern: true });
   const compiled = compileSvelte(source, { filename: path, generate: 'client' });
-  return [{ path: `${path}#compiled`, source: compiled.js.code }];
+  const scripts = [parsed.module, parsed.instance].flatMap((script, index) =>
+    script?.content
+      ? [{
+          path: `${path}#script-${index + 1}.ts`,
+          source: source.slice(script.content.start, script.content.end),
+        }]
+      : [],
+  );
+  return {
+    declarative: declarativeNetworkViolations(parsed, source),
+    units: [...scripts, { path: `${path}#compiled.js`, source: compiled.js.code }],
+  };
 }
 
 function importedSpecifier(node) {
@@ -149,19 +238,38 @@ function runSelfTest() {
   if (!directNetworkAuthority.test("const socket = new WebSocket('wss://example.test')")) {
     throw new Error('boundary self-test accepted direct network authority');
   }
-  const svelteImport = sourceUnits(
+  const svelteImport = sourceAnalysis(
     '<boundary-self-test>.svelte',
     "{#await import('../../../apps/uzel/src/main.ts')}<p>wait</p>{/await}",
-  )[0];
-  if (violations(svelteImport.path, svelteImport.source).length === 0) {
+  );
+  if (!svelteImport.units.some((unit) => violations(unit.path, unit.source).length > 0)) {
     throw new Error('boundary self-test accepted a Svelte template import');
   }
-  const svelteNetwork = sourceUnits(
+  const svelteNetwork = sourceAnalysis(
     '<boundary-self-test>.svelte',
     '<button onclick={() => fetch(url)}>go</button>',
-  )[0];
-  if (!directNetworkAuthority.test(svelteNetwork.source)) {
+  );
+  if (!svelteNetwork.units.some((unit) => directNetworkAuthority.test(unit.source))) {
     throw new Error('boundary self-test accepted Svelte template network authority');
+  }
+  const svelteTypeImport = sourceAnalysis(
+    '<boundary-self-test>.svelte',
+    '<script lang="ts">import type { Runtime } from "napd/runtime";</script>',
+  );
+  if (!svelteTypeImport.units.some((unit) => violations(unit.path, unit.source).length > 0)) {
+    throw new Error('boundary self-test accepted a Svelte type import');
+  }
+  for (const source of [
+    '<img src={remote}>',
+    '<iframe src={remote}></iframe>',
+    '<svelte:element this={tag} src={remote}></svelte:element>',
+    '{@html remoteMarkup}',
+    '<div style:background-image={remote}></div>',
+    '<style>.avatar { background-image: url(remote); }</style>',
+  ]) {
+    if (sourceAnalysis('<boundary-self-test>.svelte', source).declarative.length === 0) {
+      throw new Error(`boundary self-test accepted declarative network authority: ${source}`);
+    }
   }
 }
 
@@ -199,7 +307,8 @@ for (const entry of readdirSync(nappletsRoot, { withFileTypes: true })) {
 
 for (const path of sourceFiles(nappletsRoot)) {
   const source = readFileSync(path, 'utf8');
-  for (const unit of sourceUnits(path, source)) {
+  const analysis = sourceAnalysis(path, source);
+  for (const unit of analysis.units) {
     const productNapplet =
       unit.path.startsWith(join(nappletsRoot, 'follow-list')) ||
       unit.path.startsWith(join(nappletsRoot, 'profile-card'));
@@ -214,6 +323,15 @@ for (const path of sourceFiles(nappletsRoot)) {
         `${relative(repositoryRoot, unit.path)}:${violation.line}:${violation.column}: ` +
           `forbidden napplet import ${violation.specifier}`,
       );
+      failed = true;
+    }
+  }
+  const productNapplet =
+    path.startsWith(join(nappletsRoot, 'follow-list')) ||
+    path.startsWith(join(nappletsRoot, 'profile-card'));
+  if (productNapplet) {
+    for (const violation of analysis.declarative) {
+      console.error(`${relative(repositoryRoot, path)}: ${violation} is forbidden`);
       failed = true;
     }
   }
