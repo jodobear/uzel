@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785278673.6484005,
-    "ast_hash": "3b2c1ea5118c53edbbbeeac4d5aafa1e",
+    "mtime": 1785279082.9454134,
+    "ast_hash": "67cdc1d0979e87926cf8db1df053902c",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785278673.6496415,
-    "ast_hash": "d40d266e093dbd7c330407b802ce94b0",
+    "mtime": 1785279082.9466994,
+    "ast_hash": "24fa6253bb7a5b9f4b2631764f95ca89",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -535,13 +535,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-03-preflight.md": {
-    "mtime": 1785278663.7706563,
-    "ast_hash": "56b9f53bbad94c62dad7edb29da5883e",
+    "mtime": 1785279075.1110394,
+    "ast_hash": "5ccc90429c6f8ff9958e97564384e096",
     "semantic_hash": ""
   },
   "scripts/check-napplet-imports.mjs": {
-    "mtime": 1785278655.1575646,
-    "ast_hash": "ac1c63d7c7af2faf89dcd7a8e4b68fbd",
+    "mtime": 1785279074.903037,
+    "ast_hash": "1e4e844c29861d00ea412ea8505e89e1",
     "semantic_hash": ""
   }
 }
