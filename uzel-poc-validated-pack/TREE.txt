@@ -4,6 +4,7 @@ README.md
 STATUS.md
 TREE.txt
 audit-results.json
+compatibility.lock
 config/fallow.jsonc
 docs/00-scope.md
 docs/01-validation.md
@@ -13,6 +14,19 @@ docs/04-execution.md
 docs/05-test-and-demo.md
 docs/06-extraction.md
 docs/07-source-baseline.md
+docs/facts/FACT-001-kehto-package-line.md
+docs/facts/FACT-002-spec-revisions.md
+docs/facts/FACT-003-nampplets-linux-reuse.md
+docs/facts/FACT-004-nmp-facade.md
+docs/facts/FACT-005-webkit-tauri-trust.md
+docs/facts/FACT-006-csp-egress.md
+docs/facts/FACT-007-local-ipc.md
+docs/facts/FACT-008-toolchain.md
+manifest.json
+reports/nampplets-linux-map.md
+reports/nmp-api-map.md
+reports/preflight.md
+reports/webkit-trust-spike.md
 scripts/audit_docs.py
 templates/fact.md
 templates/handoff.md

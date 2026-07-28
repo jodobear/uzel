@@ -1,8 +1,8 @@
 {
-  "root": "/mnt/data/uzel-poc-validated-pack",
-  "markdown_documents": 21,
-  "approx_words": 5096,
-  "markdown_links": 25,
+  "root": "/workspace/projects/napplets/jodobear/uzel/uzel-poc-validated-pack",
+  "markdown_documents": 33,
+  "approx_words": 10126,
+  "markdown_links": 40,
   "mermaid_blocks": 9,
   "errors": [],
   "warnings": []

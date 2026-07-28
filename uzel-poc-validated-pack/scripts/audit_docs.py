@@ -1,12 +1,33 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def write_manifest() -> None:
+    files = []
+    for path in sorted(ROOT.rglob("*")):
+        if not path.is_file() or path.name == "manifest.json":
+            continue
+        if "__pycache__" in path.parts or path.suffix == ".pyc":
+            continue
+        data = path.read_bytes()
+        files.append(
+            {
+                "path": path.relative_to(ROOT).as_posix(),
+                "bytes": len(data),
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+        )
+    (ROOT / "manifest.json").write_text(
+        json.dumps({"files": files}, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def strip_code(text: str) -> str:
@@ -71,6 +92,19 @@ def main() -> int:
         "docs/05-test-and-demo.md",
         "docs/06-extraction.md",
         "docs/07-source-baseline.md",
+        "compatibility.lock",
+        "docs/facts/FACT-001-kehto-package-line.md",
+        "docs/facts/FACT-002-spec-revisions.md",
+        "docs/facts/FACT-003-nampplets-linux-reuse.md",
+        "docs/facts/FACT-004-nmp-facade.md",
+        "docs/facts/FACT-005-webkit-tauri-trust.md",
+        "docs/facts/FACT-006-csp-egress.md",
+        "docs/facts/FACT-007-local-ipc.md",
+        "docs/facts/FACT-008-toolchain.md",
+        "reports/preflight.md",
+        "reports/nampplets-linux-map.md",
+        "reports/nmp-api-map.md",
+        "reports/webkit-trust-spike.md",
         "work/00-validate.md",
         "work/01-scaffold.md",
         "work/02-linux-runner.md",
@@ -98,6 +132,7 @@ def main() -> int:
     (ROOT / "audit-results.json").write_text(
         json.dumps(result, indent=2) + "\n", encoding="utf-8"
     )
+    write_manifest()
     print(json.dumps(result, indent=2))
     return 1 if errors else 0
 
