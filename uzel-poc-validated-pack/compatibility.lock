@@ -326,6 +326,7 @@ codex_review_round_3 = "addressed: require configured live unprivileged loopback
 codex_review_round_4 = "addressed: delegate kind-0 replaceable selection to NMP and project only one canonical provider row"
 codex_review_round_5 = "addressed: deliver live sentinel through source-bound NAP-CONFIG and reject timestamps outside JavaScript Date range"
 codex_review_round_6 = "addressed: reject template-literal runtime imports and synchronize the preflight pnpm lock digest"
+codex_review_round_7 = "addressed: reject commented dynamic imports, including multiline line-comment forms"
 
 [gates]
 V_01 = "pass"

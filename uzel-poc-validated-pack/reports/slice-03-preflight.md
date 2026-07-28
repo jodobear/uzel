@@ -160,6 +160,12 @@ digest. The scanner and its executable self-test now cover backtick specifiers;
 the summary digest now matches both the committed lockfile and
 `compatibility.lock`.
 
+Codex's seventh review found that a JavaScript comment between `import` and the
+opening parenthesis could bypass the portable-napplet boundary scanner. The
+scanner now tolerates intervening non-specifier text before the dynamic-import
+parenthesis and scans multiline input. Its executable self-test covers both an
+inline block comment and a line comment followed by the import call.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
