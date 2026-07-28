@@ -1,6 +1,6 @@
 import '@napplet/shim';
 
-import { nativeSurface } from './probes.js';
+import { nativeSurface, workerLoad } from './probes.js';
 
 const target = 'http://127.0.0.1:9/hostile-egress';
 const results = nativeSurface();
@@ -39,7 +39,7 @@ await Promise.all([
     image.onerror = reject;
     image.src = target;
   })),
-  denied('worker', () => Promise.resolve(new Worker(target))),
+  denied('worker', () => workerLoad(target)),
   denied('serviceWorker', () => navigator.serviceWorker.register(target)),
   denied('beacon', () => navigator.sendBeacon(target, 'probe') ? Promise.resolve() : Promise.reject()),
 ]);

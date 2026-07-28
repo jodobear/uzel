@@ -1,5 +1,7 @@
 import { isCanonicalPubkey } from '../../../contracts/profile-open.js';
 
+export const PROFILE_CANDIDATE_LIMIT = 5;
+
 function optionalText(value) {
   return typeof value === 'string' && value.length > 0 ? value : undefined;
 }

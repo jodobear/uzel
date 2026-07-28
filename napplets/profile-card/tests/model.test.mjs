@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { createLatestRequestGate, latestProfile } from '../src/model.js';
+import { createLatestRequestGate, latestProfile, PROFILE_CANDIDATE_LIMIT } from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
 
@@ -10,6 +10,7 @@ function result(id, createdAt, content, author = PUBKEY) {
 }
 
 test('selects latest valid kind 0 for requested author', () => {
+  assert.equal(PROFILE_CANDIDATE_LIMIT, 5);
   assert.deepEqual(
     latestProfile([
       result('older', 10, JSON.stringify({ name: 'Old' })),

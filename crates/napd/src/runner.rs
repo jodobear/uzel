@@ -306,7 +306,7 @@ mod tests {
     use super::*;
 
     const SLICE_THREE_AUTHOR: &str =
-        "2c5cfba1117344eecebb730d440380ede068512d0c3982807e22075ef59ee362";
+        "19394f2440a58ac0006240493eba74ffef79b02f8c289ba960ea32582ded1001";
     const FOLLOW_LIST_EVENT: &[u8] = include_bytes!("../../../fixtures/follow-list/event.json");
     const FOLLOW_LIST_INDEX: &[u8] = include_bytes!("../../../fixtures/follow-list/index.html");
     const PROFILE_CARD_EVENT: &[u8] = include_bytes!("../../../fixtures/profile-card/event.json");
@@ -325,10 +325,10 @@ mod tests {
                 "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4" => {
                     Some(FOLLOW_LIST_INDEX)
                 }
-                "c5c33e1e7dc755c5dafdfbd5357c10e3d409f7f3addf2138edc5de1f9b5dd284" => {
+                "3aeb7d4079f797c1a9743bed4cf379ea49a7e9c11a0f499b49e497242c474ae9" => {
                     Some(PROFILE_CARD_INDEX)
                 }
-                "2687d474ea260f00c56c6861558cea4d10b972fa3aa39bfe1268d0375a539e06" => {
+                "9afed7b8c1391b96f4ee2aff070afbeeb19dbfcffc9db5c9a3111b7c2a8c700b" => {
                     Some(HOSTILE_EGRESS_INDEX)
                 }
                 _ => None,
@@ -439,14 +439,14 @@ mod tests {
             ),
             (
                 "profile-card",
-                "1c17d749e288d38db10e570c9bbb66154e528513e323c8437ba2a58a67e9a413",
+                "f9c2dff6e1ec7bf9ed93aeace66d325e719dc5cb0509f3db680a9ca604c8db08",
                 PROFILE_CARD_EVENT,
                 PROFILE_CARD_INDEX,
                 &["inc", "outbox"][..],
             ),
             (
                 "egress-probe",
-                "0514a2812f5f1f1b4c9d20cd4ffca7f016f434e11d108eef6b5293a4c61e7670",
+                "f04ae9343220bd06f96b3d7ee28467b4221c59ec649c8dbc01455861bf4c0ed5",
                 HOSTILE_EGRESS_EVENT,
                 HOSTILE_EGRESS_INDEX,
                 &[][..],
