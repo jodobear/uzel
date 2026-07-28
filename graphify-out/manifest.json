@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785273788.2587488,
-    "ast_hash": "84528dae8e22b4befb13653c89a4aec4",
+    "mtime": 1785274191.5574286,
+    "ast_hash": "a0a247851a75eabb04dc629fb4762a08",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785273788.260363,
-    "ast_hash": "1cdd3e54d9c2cb99541954ce63629549",
+    "mtime": 1785274191.5584493,
+    "ast_hash": "b49ab1f8b03c8093aaa8d4bc146142b6",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -245,13 +245,13 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785267033.973963,
-    "ast_hash": "0262c73480400c3ec184d92f7984959f",
+    "mtime": 1785274230.4844573,
+    "ast_hash": "c1dd55095ad0a35bccd20b118079bcb6",
     "semantic_hash": ""
   },
   "scripts/check-boundaries.sh": {
-    "mtime": 1785273753.6423886,
-    "ast_hash": "73b152a52f16b54403da41c19639adc1",
+    "mtime": 1785274157.4026804,
+    "ast_hash": "d46d9d33213d4c1dceb8ecde8d7a4dfb",
     "semantic_hash": ""
   },
   "scripts/debian-build-smoke.sh": {
@@ -535,8 +535,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-03-preflight.md": {
-    "mtime": 1785273767.980541,
-    "ast_hash": "9626feb5e493c622cbcda36429b47992",
+    "mtime": 1785274177.9218986,
+    "ast_hash": "94f0897faca9f9717d4a7481bc0e4d70",
+    "semantic_hash": ""
+  },
+  "scripts/check-napplet-imports.mjs": {
+    "mtime": 1785274157.3076794,
+    "ast_hash": "11e0091048661010666733a622485370",
     "semantic_hash": ""
   }
 }

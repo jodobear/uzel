@@ -1,6 +1,7 @@
 {
   "0": "POC scope and acceptance",
   "1": "Assumption validation and decision gates",
+  "2": "check-napplet-imports.mjs",
   "3": "Provisional component design",
   "4": "Tests, quality gates, and demo",
   "5": "Uzel POC agent instructions",
@@ -9,6 +10,7 @@
   "8": "POC documentation audit",
   "9": "Post-POC extraction",
   "10": "Work 00 — validate assumptions",
+  "11": "Work 00 — validate assumptions",
   "12": "Work 02 — Linux exact-build runner",
   "13": "Work 04 — daemon, NMP, and persistence",
   "14": "Execution slices",
@@ -59,7 +61,6 @@
   "59": "package.json",
   "60": "profile-open-v1.schema.json",
   "61": "Assumption validation and decision gates",
-  "62": "Slice 03 preflight",
   "63": "Upstream contribution ledger",
   "64": "main.js",
   "68": "Uzel single-repository POC",

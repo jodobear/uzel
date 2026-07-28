@@ -1870,7 +1870,7 @@
       "source_location": "L326",
       "_origin": "ast",
       "id": "crates_napd_src_runner_acceptsettings",
-      "community": 47,
+      "community": 14,
       "norm_label": "acceptsettings"
     },
     {
@@ -1880,7 +1880,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "nativesettingsexecutor",
-      "community": 47,
+      "community": 14,
       "norm_label": "nativesettingsexecutor"
     },
     {
@@ -1890,7 +1890,7 @@
       "source_location": "L329",
       "_origin": "ast",
       "id": "crates_napd_src_runner_acceptsettings_try_open",
-      "community": 47,
+      "community": 14,
       "norm_label": ".try_open()"
     },
     {
@@ -1900,7 +1900,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "nativesettingsrequest",
-      "community": 47,
+      "community": 14,
       "norm_label": "nativesettingsrequest"
     },
     {
@@ -1910,7 +1910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "nativesettingsopenresult",
-      "community": 47,
+      "community": 14,
       "norm_label": "nativesettingsopenresult"
     },
     {
@@ -3304,10 +3304,20 @@
       "norm_label": "lint"
     },
     {
-      "label": "format:check",
+      "label": "check:boundaries",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L28",
+      "_origin": "ast",
+      "id": "package_scripts_check_boundaries",
+      "community": 17,
+      "norm_label": "check:boundaries"
+    },
+    {
+      "label": "format:check",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_scripts_format_check",
       "community": 17,
@@ -3317,7 +3327,7 @@
       "label": "docs:check",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_scripts_docs_check",
       "community": 17,
@@ -3327,7 +3337,7 @@
       "label": "fallow",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_scripts_fallow",
       "community": 17,
@@ -3337,7 +3347,7 @@
       "label": "smoke",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_scripts_smoke",
       "community": 17,
@@ -3347,7 +3357,7 @@
       "label": "smoke:fedora",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_scripts_smoke_fedora",
       "community": 17,
@@ -3357,7 +3367,7 @@
       "label": "smoke:debian",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_scripts_smoke_debian",
       "community": 17,
@@ -3418,6 +3428,106 @@
       "id": "scripts_check_boundaries_sh__entry",
       "community": 44,
       "norm_label": "check-boundaries.sh script"
+    },
+    {
+      "label": "check-napplet-imports.mjs",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports",
+      "community": 2,
+      "norm_label": "check-napplet-imports.mjs"
+    },
+    {
+      "label": "repositoryRoot",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_repositoryroot",
+      "community": 2,
+      "norm_label": "repositoryroot"
+    },
+    {
+      "label": "requireFromShell",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_requirefromshell",
+      "community": 2,
+      "norm_label": "requirefromshell"
+    },
+    {
+      "label": "ts",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_ts",
+      "community": 2,
+      "norm_label": "ts"
+    },
+    {
+      "label": "sourceUnits()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_sourceunits",
+      "community": 2,
+      "norm_label": "sourceunits()"
+    },
+    {
+      "label": "importedSpecifier()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_importedspecifier",
+      "community": 2,
+      "norm_label": "importedspecifier()"
+    },
+    {
+      "label": "literalValue()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_literalvalue",
+      "community": 2,
+      "norm_label": "literalvalue()"
+    },
+    {
+      "label": "violations()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_violations",
+      "community": 2,
+      "norm_label": "violations()"
+    },
+    {
+      "label": "runSelfTest()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_runselftest",
+      "community": 2,
+      "norm_label": "runselftest()"
+    },
+    {
+      "label": "sourceFiles()",
+      "file_type": "code",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "scripts_check_napplet_imports_sourcefiles",
+      "community": 2,
+      "norm_label": "sourcefiles()"
     },
     {
       "label": "check-pinned-assets.sh",
@@ -4132,7 +4242,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status",
-      "community": 70,
+      "community": 8,
       "norm_label": "status.md"
     },
     {
@@ -5462,7 +5572,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight",
-      "community": 14,
+      "community": 12,
       "norm_label": "slice-01-preflight.md"
     },
     {
@@ -5472,7 +5582,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_slice_01_preflight",
-      "community": 14,
+      "community": 12,
       "norm_label": "slice 01 preflight"
     },
     {
@@ -5482,7 +5592,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_verdict",
-      "community": 14,
+      "community": 12,
       "norm_label": "verdict"
     },
     {
@@ -5492,7 +5602,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_locked_workspace",
-      "community": 14,
+      "community": 12,
       "norm_label": "locked workspace"
     },
     {
@@ -5502,7 +5612,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_commands_and_observed_results",
-      "community": 14,
+      "community": 12,
       "norm_label": "commands and observed results"
     },
     {
@@ -5512,7 +5622,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_fedora_probe_correction",
-      "community": 14,
+      "community": 12,
       "norm_label": "fedora probe correction"
     },
     {
@@ -5522,7 +5632,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_debian_probe_correction",
-      "community": 14,
+      "community": 12,
       "norm_label": "debian probe correction"
     },
     {
@@ -5532,7 +5642,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_boundary_result",
-      "community": 14,
+      "community": 12,
       "norm_label": "boundary result"
     },
     {
@@ -5542,7 +5652,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_next_step",
-      "community": 14,
+      "community": 12,
       "norm_label": "next step"
     },
     {
@@ -5662,7 +5772,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
-      "community": 62,
+      "community": 10,
       "norm_label": "slice 03 preflight"
     },
     {
@@ -5672,7 +5782,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_verdict",
-      "community": 62,
+      "community": 10,
       "norm_label": "verdict"
     },
     {
@@ -5682,7 +5792,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_exact_pins_and_fixtures",
-      "community": 62,
+      "community": 10,
       "norm_label": "exact pins and fixtures"
     },
     {
@@ -5692,7 +5802,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_api_and_ownership_evidence",
-      "community": 62,
+      "community": 10,
       "norm_label": "api and ownership evidence"
     },
     {
@@ -5702,7 +5812,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_manifest_correction",
-      "community": 62,
+      "community": 10,
       "norm_label": "manifest correction"
     },
     {
@@ -5712,7 +5822,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_commands_and_observed_results",
-      "community": 62,
+      "community": 10,
       "norm_label": "commands and observed results"
     },
     {
@@ -5722,37 +5832,37 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_automated_review_corrections",
-      "community": 62,
+      "community": 10,
       "norm_label": "automated review corrections"
     },
     {
       "label": "Hostile fixture scope",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L174",
+      "source_location": "L183",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
-      "community": 62,
+      "community": 10,
       "norm_label": "hostile fixture scope"
     },
     {
       "label": "Upstream result",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L184",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
-      "community": 62,
+      "community": 10,
       "norm_label": "upstream result"
     },
     {
       "label": "Next step",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L191",
+      "source_location": "L200",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
-      "community": 62,
+      "community": 10,
       "norm_label": "next step"
     },
     {
@@ -5882,7 +5992,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate",
-      "community": 10,
+      "community": 11,
       "norm_label": "00-validate.md"
     },
     {
@@ -5892,7 +6002,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_work_00_validate_assumptions",
-      "community": 10,
+      "community": 11,
       "norm_label": "work 00 \u2014 validate assumptions"
     },
     {
@@ -5902,7 +6012,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_goal",
-      "community": 10,
+      "community": 11,
       "norm_label": "goal"
     },
     {
@@ -5912,7 +6022,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_read",
-      "community": 10,
+      "community": 11,
       "norm_label": "read"
     },
     {
@@ -5922,7 +6032,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_tasks",
-      "community": 10,
+      "community": 11,
       "norm_label": "tasks"
     },
     {
@@ -5932,7 +6042,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_outputs",
-      "community": 10,
+      "community": 11,
       "norm_label": "outputs"
     },
     {
@@ -5942,7 +6052,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_done_when",
-      "community": 10,
+      "community": 11,
       "norm_label": "done when"
     },
     {
@@ -5952,7 +6062,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate_stop_conditions",
-      "community": 10,
+      "community": 11,
       "norm_label": "stop conditions"
     },
     {
@@ -5962,7 +6072,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold",
-      "community": 14,
+      "community": 12,
       "norm_label": "01-scaffold.md"
     },
     {
@@ -5972,7 +6082,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_work_01_scaffold",
-      "community": 14,
+      "community": 12,
       "norm_label": "work 01 \u2014 scaffold"
     },
     {
@@ -5982,7 +6092,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_status",
-      "community": 14,
+      "community": 12,
       "norm_label": "status"
     },
     {
@@ -5992,7 +6102,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_goal",
-      "community": 14,
+      "community": 12,
       "norm_label": "goal"
     },
     {
@@ -6002,7 +6112,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_depends_on",
-      "community": 14,
+      "community": 12,
       "norm_label": "depends on"
     },
     {
@@ -6012,7 +6122,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_entry_status",
-      "community": 14,
+      "community": 12,
       "norm_label": "entry status"
     },
     {
@@ -6022,7 +6132,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_tasks",
-      "community": 14,
+      "community": 12,
       "norm_label": "tasks"
     },
     {
@@ -6032,7 +6142,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_acceptance",
-      "community": 14,
+      "community": 12,
       "norm_label": "acceptance"
     },
     {
@@ -6042,7 +6152,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_non_goals",
-      "community": 14,
+      "community": 12,
       "norm_label": "non-goals"
     },
     {
@@ -10613,6 +10723,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_check_boundaries",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
       "source_location": "L22",
       "weight": 1.0,
       "source": "package_scripts",
@@ -10623,7 +10743,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_docs_check",
@@ -10633,7 +10753,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_fallow",
@@ -10643,7 +10763,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_format_check",
@@ -10663,7 +10783,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke",
@@ -10673,7 +10793,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke_debian",
@@ -10683,7 +10803,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "package_scripts",
       "target": "package_scripts_smoke_fedora",
@@ -10727,6 +10847,107 @@
       "weight": 1.0,
       "source": "scripts_check_boundaries",
       "target": "scripts_check_boundaries_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_importedspecifier",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_literalvalue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_repositoryroot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_requirefromshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_runselftest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_sourcefiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_sourceunits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports",
+      "target": "scripts_check_napplet_imports_violations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/check-napplet-imports.mjs",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "scripts_check_napplet_imports_runselftest",
+      "target": "scripts_check_napplet_imports_violations",
       "confidence_score": 1.0
     },
     {
@@ -12907,7 +13128,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L193",
+      "source_location": "L202",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight",
       "target": "uzel_poc_validated_pack_work_04_daemon_nmp",
@@ -12967,7 +13188,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L174",
+      "source_location": "L183",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
@@ -12987,7 +13208,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L191",
+      "source_location": "L200",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
@@ -12997,7 +13218,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L184",
+      "source_location": "L193",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
@@ -13545,5 +13766,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e7194d81b4cc57952595dbb2444ca71624337e4d"
+  "built_at_commit": "7a527156bd7d3f11e21ef47741ed33fa6ce91582"
 }
