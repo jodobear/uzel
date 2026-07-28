@@ -13,7 +13,7 @@
     "dev": "bash scripts/dev.sh",
     "build": "pnpm --filter @uzel/shell build && cargo build --workspace",
     "check": "pnpm --filter @uzel/shell check && pnpm --filter @uzel/shell build && cargo check --workspace",
-    "test": "cargo test --workspace",
+    "test": "cargo test --workspace && bash scripts/check-pinned-assets.sh",
     "lint": "cargo clippy --workspace --all-targets -- -D warnings && bash scripts/check-boundaries.sh",
     "format:check": "cargo fmt --all -- --check",
     "docs:check": "python3 uzel-poc-validated-pack/scripts/audit_docs.py",
