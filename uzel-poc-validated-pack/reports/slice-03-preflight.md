@@ -175,6 +175,11 @@ forbidden literal specifiers and nonliteral dynamic imports. Executable parser
 self-tests retain every bypass form found during review, including comments on
 both sides of the dynamic-import parenthesis.
 
+Codex's ninth review found that the parser-backed traversal omitted `.mjs` and
+other supported JavaScript and TypeScript module variants. The scanner now
+walks `.cjs`, `.cts`, `.js`, `.jsx`, `.mjs`, `.mts`, `.svelte`, `.ts`, and
+`.tsx`; its executable self-test locks that complete extension set.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command

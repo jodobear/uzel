@@ -328,6 +328,7 @@ codex_review_round_5 = "addressed: deliver live sentinel through source-bound NA
 codex_review_round_6 = "addressed: reject template-literal runtime imports and synchronize the preflight pnpm lock digest"
 codex_review_round_7 = "addressed: reject commented dynamic imports, including multiline line-comment forms"
 codex_review_round_8 = "addressed: replace regex import matching with the pinned TypeScript parser and reject nonliteral dynamic imports"
+codex_review_round_9 = "addressed: scan all supported JavaScript and TypeScript module extensions"
 
 [gates]
 V_01 = "pass"
