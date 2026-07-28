@@ -23,15 +23,15 @@ check_sha256 d130c02862f8934caba77bfaca4a72cc2f94158daecfaf888830c0807e2352c4 \
   apps/uzel/public/trusted-shell/trusted-shell-policy.js
 check_sha256 d4c930f66df0ae1767147598d2a05b9940a06ba8f6681a1093af36e6e35251c5 \
   apps/uzel/public/trusted-shell/trusted-shell-prelude-domains.js
-check_sha256 f23aa814bad4b1bcd6b00cced640e47e553e222ec532c517ab65fceaf2296202 \
+check_sha256 afc6d74b3ab03b6f9ea6648261336431a8f8a3fde2c7778e8b181ea02e5fb457 \
   fixtures/follow-list/event.json
 check_sha256 3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4 \
   fixtures/follow-list/index.html
-check_sha256 6bae174ff25a6e09496cf481a4b8b6f0db36b06519b458bf11e7bef2b11e962c \
+check_sha256 e4491368fceef32cadfb8964d3a2f9708bfcca35b9f4141eb259eca164018eab \
   fixtures/profile-card/event.json
-check_sha256 3aeb7d4079f797c1a9743bed4cf379ea49a7e9c11a0f499b49e497242c474ae9 \
+check_sha256 173eedae314e782ddc2497070cc0f9121d3835b5a001d7c2a0be262df74726cb \
   fixtures/profile-card/index.html
-check_sha256 211fff99a3f7ab3e7a2a63b4b94e6721326c988c3f127b5c433abc0db3c4940c \
+check_sha256 1798cde0b7594db5a91f6feeee0ee7d2a0b071a47d732f53955945143cfb8288 \
   fixtures/hostile-egress/event.json
 check_sha256 01f37719d33342f8a43e2f3344741cabf2793baf972191b0aea63a388a51ee85 \
   fixtures/hostile-egress/index.html

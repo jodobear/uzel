@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { createLatestRequestGate, latestProfile, PROFILE_CANDIDATE_LIMIT } from '../src/model.js';
+import { canonicalProfile, createLatestRequestGate, PROFILE_RESULT_LIMIT } from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
 
@@ -9,18 +9,15 @@ function result(id, createdAt, content, author = PUBKEY) {
   return { event: { id, pubkey: author, kind: 0, created_at: createdAt, tags: [], sig: '', content } };
 }
 
-test('selects latest valid kind 0 for requested author', () => {
-  assert.equal(PROFILE_CANDIDATE_LIMIT, 5);
+test('projects the single canonical kind 0 returned by NMP', () => {
+  assert.equal(PROFILE_RESULT_LIMIT, 1);
   assert.deepEqual(
-    latestProfile([
-      result('older', 10, JSON.stringify({ name: 'Old' })),
-      result('wrong-author', 50, JSON.stringify({ name: 'Wrong' }), 'd'.repeat(64)),
-      result('malformed', 40, '{'),
-      result('newer', 30, JSON.stringify({ display_name: 'New', about: 'Evidence-backed.' })),
+    canonicalProfile([
+      result('canonical', 30, JSON.stringify({ display_name: 'New', about: 'Evidence-backed.' })),
     ], PUBKEY),
     {
       pubkey: PUBKEY,
-      eventId: 'newer',
+      eventId: 'canonical',
       createdAt: 30,
       name: 'New',
       about: 'Evidence-backed.',
@@ -28,9 +25,14 @@ test('selects latest valid kind 0 for requested author', () => {
   );
 });
 
-test('rejects noncanonical author and non-profile results', () => {
-  assert.equal(latestProfile([], PUBKEY.toUpperCase()), null);
-  assert.equal(latestProfile([{ event: { kind: 1, pubkey: PUBKEY, created_at: 1 } }], PUBKEY), null);
+test('never selects among provider rows or revives a replaced profile', () => {
+  assert.equal(canonicalProfile([], PUBKEY.toUpperCase()), null);
+  assert.equal(canonicalProfile([result('canonical', 20, '{')], PUBKEY), null);
+  assert.equal(canonicalProfile([
+    result('canonical-malformed', 20, '{'),
+    result('replaced-valid', 10, JSON.stringify({ name: 'Old' })),
+  ], PUBKEY), null);
+  assert.equal(canonicalProfile([{ event: { kind: 1, pubkey: PUBKEY, created_at: 1 } }], PUBKEY), null);
 });
 
 test('only the latest profile request may update the display', () => {

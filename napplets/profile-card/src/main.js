@@ -3,7 +3,7 @@ import { incOn } from '@napplet/nap/inc/sdk';
 import { outboxQuery } from '@napplet/nap/outbox/sdk';
 
 import { PROFILE_OPEN_TOPIC, parseProfileOpen } from '../../../contracts/profile-open.js';
-import { createLatestRequestGate, latestProfile, PROFILE_CANDIDATE_LIMIT } from './model.js';
+import { canonicalProfile, createLatestRequestGate, PROFILE_RESULT_LIMIT } from './model.js';
 
 const name = document.querySelector('#name');
 const pubkey = document.querySelector('#pubkey');
@@ -30,11 +30,11 @@ async function openProfile(payload) {
   status.textContent = 'Reading latest-known kind 0…';
   try {
     const result = await outboxQuery(
-      [{ kinds: [0], authors: [request.pubkey], limit: PROFILE_CANDIDATE_LIMIT }],
-      { authors: [request.pubkey], limit: PROFILE_CANDIDATE_LIMIT, timeoutMs: 3_000 },
+      [{ kinds: [0], authors: [request.pubkey], limit: PROFILE_RESULT_LIMIT }],
+      { authors: [request.pubkey], timeoutMs: 3_000 },
     );
     if (!profileRequests.isCurrent(requestGeneration)) return;
-    const profile = latestProfile(result.events, request.pubkey);
+    const profile = canonicalProfile(result.events, request.pubkey);
     if (profile === null) {
       name.textContent = 'Profile not found';
       about.textContent = '';
