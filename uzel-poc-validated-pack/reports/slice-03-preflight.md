@@ -238,9 +238,15 @@ cover `const root = globalThis`, `globalThis.window`, and destructured `fetch`.
 Codex's seventeenth review found a transitive global-returning chain through
 `document.defaultView`. Product napplets now have an exact allowlist for needed
 global APIs (`document.querySelector`, safe-element `document.createElement`,
-and `window.addEventListener`); every other guarded-global member is rejected.
+and no Window APIs); every other guarded-global member is rejected.
 Global-returning DOM properties are rejected regardless of owner. Self-tests
 cover `defaultView`, `ownerDocument`, and direct `top` chains plus allowed APIs.
+
+Codex's eighteenth review showed that a Window event callback could recover
+raw network authority through `event.currentTarget`. The profile napplet no
+longer registers a Window lifecycle callback; iframe teardown owns release of
+its runtime subscription. Window has no allowed product-napplet API. An exact
+self-test covers the rejected callback form.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,

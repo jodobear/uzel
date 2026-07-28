@@ -337,6 +337,7 @@ codex_review_round_14 = "addressed: reject inline HTML scripts and detect progra
 codex_review_round_15 = "addressed: reject computed and nonliteral guarded browser-global capability access"
 codex_review_round_16 = "addressed: reject aliases and destructuring that expose guarded browser globals"
 codex_review_round_17 = "addressed: allowlist required global APIs and reject browser-global-returning chains"
+codex_review_round_18 = "addressed: remove Window event callback authority and rely on frame teardown"
 
 [gates]
 V_01 = "pass"
