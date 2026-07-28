@@ -23,6 +23,7 @@ candidate_commit = "62241de0b4526ba4fdc8a7b3c766c2499d3ae24d"
 candidate_branch = "fix/napplet-conformance-no-modulepreload"
 candidate_reachable = false
 candidate_publication_result = "authenticated jodobear has no kehto/web write permission and no jodobear/web fork exists"
+candidate_patch_sha256 = "f22b3185fc5983145d6e02366e454b1e8db6dc830fc943ea14c7e2428dc12f64"
 candidate_playground_tree = "d1bab686acef6c21c0d377052c9f04cd2e59500f"
 candidate_corpus_tree = "24a7dfa6277f339612f9b0a33668fec26d9e8d9a"
 unit_test_files = "126/126"

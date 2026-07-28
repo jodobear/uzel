@@ -1,0 +1,39 @@
+From 62241de0b4526ba4fdc8a7b3c766c2499d3ae24d Mon Sep 17 00:00:00 2001
+From: jo <36855907+jodobear@users.noreply.github.com>
+Date: Tue, 28 Jul 2026 18:39:32 +0530
+Subject: [PATCH] fix(playground): disable module preload in napplet artifacts
+
+Co-Authored-By: Codex <noreply@openai.com>
+---
+ apps/playground/napplets/shared-vite-config.ts | 2 ++
+ tests/unit/playground-gateway-guard.test.ts    | 1 +
+ 2 files changed, 3 insertions(+)
+
+diff --git a/apps/playground/napplets/shared-vite-config.ts b/apps/playground/napplets/shared-vite-config.ts
+index a6cdf33fcba1e0ea623ba18e1689dfdb7045558c..2111b1fb6307b9fa8acfee7d0a837f01c7fe5960 100644
+--- a/apps/playground/napplets/shared-vite-config.ts
++++ b/apps/playground/napplets/shared-vite-config.ts
+@@ -312,6 +312,8 @@ function singleFileBuildConfig(config: UserConfig): UserConfig {
+ 
+   return {
+     build: {
++      // Self-contained napplets cannot run Vite's fetch-based module-preload polyfill.
++      modulePreload: false,
+       assetsInlineLimit: Number.MAX_SAFE_INTEGER,
+       cssCodeSplit: false,
+       rollupOptions: {
+diff --git a/tests/unit/playground-gateway-guard.test.ts b/tests/unit/playground-gateway-guard.test.ts
+index fffbe998a97515c982ef0eca6efe60141211908e..3ff25960af84f226a98b88bc59d2329c6a1b5fe9 100644
+--- a/tests/unit/playground-gateway-guard.test.ts
++++ b/tests/unit/playground-gateway-guard.test.ts
+@@ -191,6 +191,7 @@ describe('playground gateway artifact guard', () => {
+ 
+     const sharedConfig = readRepoFile('apps/playground/napplets/shared-vite-config.ts');
+     expect(sharedConfig).toContain('playgroundSingleFileArtifact(archetypes)');
++    expect(sharedConfig).toContain('modulePreload: false');
+     expect(sharedConfig).toContain("artifactMode: 'external-assets'");
+     expect(sharedConfig).toContain('assertSingleFileArtifact(inlinedHtml, distPath)');
+     expect(sharedConfig).toContain('recomputeManifest(distPath, inlinedHtml, archetypes)');
+-- 
+2.51.2
+

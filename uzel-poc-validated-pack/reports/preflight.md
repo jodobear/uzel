@@ -58,7 +58,7 @@ No product implementation was started.
 
 ## Blockers
 
-1. **Publication blocker:** verified Kehto commit `62241de...` exists only in the disposable checkout. SSH authenticates as `jodobear`, which has no `kehto/web` write permission; `jodobear/web` does not exist. A durable fork/upstream branch and review are required before this can be a source pin.
+1. **Publication blocker:** verified Kehto commit `62241de...` is not remotely reachable. Its exact mail patch is preserved at [`upstream/kehto-62241de.patch`](upstream/kehto-62241de.patch), but SSH authenticates as `jodobear`, which has no `kehto/web` write permission, and `jodobear/web` does not exist. A durable fork/upstream branch and review are required before this can be a source pin.
 2. **Acceptance blocker:** published fork candidate `jodobear/nampplets@b1a38f1...` is still `unratified`. Its compatibility, security, and NMP-boundary reviewers are blank, and an upstream PR was not opened from this environment. Uzel must not silently treat green tests as acceptance.
 3. **Review risk:** current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose; current package intent behavior also leads the older NAP-INTENT text. The candidate records the former as explicitly unsupported and promotes no provider. Named reviewers must accept or resolve this exact drift.
 4. **Platform evidence:** the candidate changes the bundled Apple corpus/catalog. Linux suites pass, but Apple workbench/package tests require Xcode and must run in upstream CI or on an Apple host before ratification.
