@@ -1344,14 +1344,14 @@
       "norm_label": "build evidence"
     },
     {
-      "label": "Compatibility rejection",
+      "label": "Compatibility candidate",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/nampplets-linux-map.md",
       "source_location": "L79",
       "_origin": "ast",
-      "id": "uzel_poc_validated_pack_reports_nampplets_linux_map_compatibility_rejection",
+      "id": "uzel_poc_validated_pack_reports_nampplets_linux_map_compatibility_candidate",
       "community": 23,
-      "norm_label": "compatibility rejection"
+      "norm_label": "compatibility candidate"
     },
     {
       "label": "nmp-api-map.md",
@@ -1477,7 +1477,7 @@
       "label": "Rejected assumptions",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L33",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_preflight_rejected_assumptions",
       "community": 22,
@@ -1487,7 +1487,7 @@
       "label": "Required design changes",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L45",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_preflight_required_design_changes",
       "community": 22,
@@ -1497,7 +1497,7 @@
       "label": "Blockers",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L54",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_preflight_blockers",
       "community": 22,
@@ -1507,7 +1507,7 @@
       "label": "Exact next steps",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L62",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_preflight_exact_next_steps",
       "community": 22,
@@ -1517,7 +1517,7 @@
       "label": "Validated command ledger",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L70",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_preflight_validated_command_ledger",
       "community": 22,
@@ -3504,7 +3504,7 @@
       "source_location": "L79",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_nampplets_linux_map_nampplets_linux_reuse_map",
-      "target": "uzel_poc_validated_pack_reports_nampplets_linux_map_compatibility_rejection",
+      "target": "uzel_poc_validated_pack_reports_nampplets_linux_map_compatibility_candidate",
       "confidence_score": 1.0
     },
     {
@@ -3611,7 +3611,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L54",
+      "source_location": "L59",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
       "target": "uzel_poc_validated_pack_reports_preflight_blockers",
@@ -3641,7 +3641,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L62",
+      "source_location": "L68",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
       "target": "uzel_poc_validated_pack_reports_preflight_exact_next_steps",
@@ -3661,7 +3661,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L33",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
       "target": "uzel_poc_validated_pack_reports_preflight_rejected_assumptions",
@@ -3671,7 +3671,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L45",
+      "source_location": "L50",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
       "target": "uzel_poc_validated_pack_reports_preflight_required_design_changes",
@@ -3681,7 +3681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/preflight.md",
-      "source_location": "L70",
+      "source_location": "L76",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
       "target": "uzel_poc_validated_pack_reports_preflight_validated_command_ledger",
@@ -4209,5 +4209,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4858dfacb5df667f52ecff9b0ae1cb30f4072e9d"
+  "built_at_commit": "bc79377f6373527d9e435be5e43b845a556f89ff"
 }

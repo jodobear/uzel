@@ -1,7 +1,7 @@
 # Graph Report - uzel  (2026-07-28)
 
 ## Corpus Check
-- 36 files · ~12,125 words
+- 36 files · ~12,826 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from source commit: `4858dfac`
+- Built from commit: `bc79377f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -156,7 +156,7 @@ Nodes (9): Blockers, Confirmed assumptions, Decision, Exact next steps, Gate 0 p
 
 ### Community 23 - "nampplets Linux reuse map"
 Cohesion: 0.25
-Nodes (7): Apple-only edges, Build evidence, Compatibility rejection, Crate map, nampplets Linux reuse map, Result, Runtime entry points
+Nodes (7): Apple-only edges, Build evidence, Compatibility candidate, Crate map, nampplets Linux reuse map, Result, Runtime entry points
 
 ### Community 24 - "WebKit/Tauri trust spike"
 Cohesion: 0.25
