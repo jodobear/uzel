@@ -339,6 +339,7 @@ codex_review_round_16 = "addressed: reject aliases and destructuring that expose
 codex_review_round_17 = "addressed: allowlist required global APIs and reject browser-global-returning chains"
 codex_review_round_18 = "addressed: remove Window event callback authority and rely on frame teardown"
 codex_review_round_19 = "addressed: reject wrapped and bare browser navigation authority"
+codex_review_round_20 = "addressed: reject meta refresh, transitive location, and dynamic property access"
 
 [gates]
 V_01 = "pass"

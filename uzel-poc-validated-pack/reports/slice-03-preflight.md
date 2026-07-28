@@ -254,6 +254,13 @@ and `navigation` are now zero-access guarded globals, and bare `open` is a
 forbidden capability. Self-tests cover wrapped location assignment, History,
 Navigation API, and bare-open forms.
 
+Codex's twentieth review found declarative meta-refresh navigation and a
+transitive `document.location` recovery path. Literal or dynamic
+`http-equiv=refresh` metadata is now rejected, `.location` is rejected
+regardless of owner, and nonliteral computed property access fails closed.
+Self-tests cover the reported meta and `getRootNode().location` forms plus a
+runtime-selected property key.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
