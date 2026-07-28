@@ -342,6 +342,7 @@ codex_review_round_19 = "addressed: reject wrapped and bare browser navigation a
 codex_review_round_20 = "addressed: reject meta refresh, transitive location, and dynamic property access"
 codex_review_round_21 = "addressed: reject dynamic code execution and executable HTML event attributes"
 codex_review_round_22 = "addressed: reject indirect Function recovery through constructor access"
+codex_review_round_23 = "addressed: reject reflective constructor and prototype lookup"
 
 [gates]
 V_01 = "pass"

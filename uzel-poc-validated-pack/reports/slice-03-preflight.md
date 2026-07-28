@@ -272,6 +272,11 @@ function object's `.constructor`. Product napplets now reject every literal
 `constructor` property access; nonliteral computed access was already rejected.
 An executable self-test covers the reported arrow-function constructor form.
 
+Codex's twenty-third review found reflective constructor recovery through
+`Reflect.get`. Product napplets now reject `Reflect` and Object descriptor or
+prototype introspection methods. Self-tests cover the reported Reflect form and
+`Object.getOwnPropertyDescriptor` recovery.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
