@@ -20,7 +20,7 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | follow-list | event `ce54276d...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
 | profile-card | event `a019be60...`; aggregate `71c7c91d...`; index `f294c630...`; 59872 bytes |
 | hostile-egress | event `a4141f41...`; aggregate `6dcafdf3...`; index `94fd9d4e...`; 58909 bytes |
-| `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
+| `pnpm-lock.yaml` | `4912ecf4dc1ae316b7133bab5f3ea54d3acf880745110d8134e0a5b4a16738cc` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
 
@@ -152,6 +152,13 @@ NAP-CONFIG provider. Work 06 must commit the live URL to the exact running
 artifact session before mounting its frame. Profile projection now rejects
 timestamps outside JavaScript's Date range and computes the display timestamp
 before returning any content for rendering.
+
+Codex's sixth review found that the portable-napplet boundary regex covered
+single- and double-quoted imports but not valid template-literal dynamic
+imports, and that this report's summary table retained the pre-review pnpm lock
+digest. The scanner and its executable self-test now cover backtick specifiers;
+the summary digest now matches both the committed lockfile and
+`compatibility.lock`.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
