@@ -1,5 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/AdrianGonz97/fallow/main/schema.json",
+  "entry": [
+    "scripts/check-napplet-imports.mjs"
+  ],
   "rules": {
     "unresolved-imports": "error",
     "unlisted-dependencies": "error",
