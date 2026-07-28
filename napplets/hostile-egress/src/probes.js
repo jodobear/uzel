@@ -14,6 +14,30 @@ export const PROBE_NAMES = Object.freeze([
   'rawWebkitTransport',
 ]);
 
+export function sentinelTargets(search = globalThis.location.search) {
+  const configured = new URLSearchParams(search).get('sentinel');
+  if (!configured) throw new Error('loopback sentinel URL is required');
+
+  const http = new URL(configured);
+  const port = Number(http.port);
+  if (
+    http.protocol !== 'http:'
+    || http.hostname !== '127.0.0.1'
+    || !Number.isInteger(port)
+    || port < 1024
+    || port > 65_535
+    || http.username
+    || http.password
+  ) {
+    throw new Error('sentinel must be an unprivileged http://127.0.0.1 URL');
+  }
+  http.hash = '';
+
+  const websocket = new URL(http);
+  websocket.protocol = 'ws:';
+  return Object.freeze({ http: http.href, websocket: websocket.href });
+}
+
 export function nativeSurface() {
   let parentReadable = false;
   try {

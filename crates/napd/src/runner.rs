@@ -306,7 +306,7 @@ mod tests {
     use super::*;
 
     const SLICE_THREE_AUTHOR: &str =
-        "19394f2440a58ac0006240493eba74ffef79b02f8c289ba960ea32582ded1001";
+        "bd1b2477aab9b03761a3c419cce68d71b39268348f44ac1ed61033ca60d9c63d";
     const FOLLOW_LIST_EVENT: &[u8] = include_bytes!("../../../fixtures/follow-list/event.json");
     const FOLLOW_LIST_INDEX: &[u8] = include_bytes!("../../../fixtures/follow-list/index.html");
     const PROFILE_CARD_EVENT: &[u8] = include_bytes!("../../../fixtures/profile-card/event.json");
@@ -328,7 +328,7 @@ mod tests {
                 "3aeb7d4079f797c1a9743bed4cf379ea49a7e9c11a0f499b49e497242c474ae9" => {
                     Some(PROFILE_CARD_INDEX)
                 }
-                "9afed7b8c1391b96f4ee2aff070afbeeb19dbfcffc9db5c9a3111b7c2a8c700b" => {
+                "01f37719d33342f8a43e2f3344741cabf2793baf972191b0aea63a388a51ee85" => {
                     Some(HOSTILE_EGRESS_INDEX)
                 }
                 _ => None,
@@ -446,7 +446,7 @@ mod tests {
             ),
             (
                 "egress-probe",
-                "f04ae9343220bd06f96b3d7ee28467b4221c59ec649c8dbc01455861bf4c0ed5",
+                "5b1e9415d5e872eafb5f1531dec0beaa0a0ac4b07a36792c92c18515434675ee",
                 HOSTILE_EGRESS_EVENT,
                 HOSTILE_EGRESS_INDEX,
                 &[][..],
