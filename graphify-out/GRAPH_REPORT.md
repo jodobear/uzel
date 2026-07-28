@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 95 files · ~37,572 words
+- 95 files · ~37,779 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 607 nodes · 666 edges · 78 communities (52 shown, 26 thin omitted)
+- 611 nodes · 673 edges · 79 communities (53 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `655320ac`
+- Built from commit: `4d38ed36`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -84,18 +84,19 @@
 - README.md
 - build-signed-napplet-fixtures.sh
 - FACT-010-portable-napplets.md
+- POC documentation audit
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 16 edges
 2. `compilerOptions` - 15 edges
 3. `scripts` - 13 edges
-4. `EventBuffer` - 9 edges
-5. `Uzel POC agent instructions` - 9 edges
-6. `Assumption validation and decision gates` - 9 edges
-7. `POC architecture` - 9 edges
-8. `Provisional component design` - 9 edges
-9. `Gate 0 preflight and Slice 01 decision` - 9 edges
-10. `Slice 02 preflight` - 9 edges
+4. `Slice 03 preflight` - 10 edges
+5. `EventBuffer` - 9 edges
+6. `Uzel POC agent instructions` - 9 edges
+7. `Assumption validation and decision gates` - 9 edges
+8. `POC architecture` - 9 edges
+9. `Provisional component design` - 9 edges
+10. `Gate 0 preflight and Slice 01 decision` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `start_fixture()` --references--> `LinuxRunner`  [EXTRACTED]
@@ -112,7 +113,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (78 total, 26 thin omitted)
+## Communities (79 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -139,8 +140,8 @@ Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 6 - "POC architecture"
-Cohesion: 0.11
-Nodes (16): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict, Accepted upstream seam (+8 more)
+Cohesion: 0.22
+Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
 
 ### Community 7 - "Observed facts"
 Cohesion: 0.22
@@ -159,8 +160,8 @@ Cohesion: 0.22
 Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
-Cohesion: 0.13
-Nodes (21): isCanonicalPubkey(), parseProfileOpen(), profileOpen(), PUBKEY, list, render(), start(), status (+13 more)
+Cohesion: 0.12
+Nodes (24): isCanonicalPubkey(), parseProfileOpen(), profileOpen(), PUBKEY, list, render(), start(), status (+16 more)
 
 ### Community 14 - "Execution slices"
 Cohesion: 0.25
@@ -247,8 +248,8 @@ Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
 ### Community 62 - "Slice 03 preflight"
-Cohesion: 0.22
-Nodes (9): API and ownership evidence, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight, Upstream result (+1 more)
+Cohesion: 0.20
+Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 63 - "Work 01 — scaffold"
 Cohesion: 0.25
@@ -286,25 +287,29 @@ Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementa
 Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
+### Community 78 - "POC documentation audit"
+Cohesion: 0.25
+Nodes (7): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict
+
 ## Knowledge Gaps
-- **326 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+321 more)
+- **328 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+323 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Slice 03 preflight` connect `Slice 03 preflight` to `Work 01 — scaffold`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `Assumption validation and decision gates` connect `Assumption validation and decision gates` to `POC documentation audit`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _326 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `POC architecture` be split into smaller, more focused modules?**
-  _Cohesion score 0.11029411764705882 - nodes in this community are weakly interconnected._
+  _328 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.12643678160919541 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
 - **Should `POC status` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
+- **Should `Work 05 — composed demo` be split into smaller, more focused modules?**
+  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._

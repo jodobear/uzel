@@ -2764,10 +2764,30 @@
       "norm_label": "evidence"
     },
     {
+      "label": "profileRequests",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_profilerequests",
+      "community": 13,
+      "norm_label": "profilerequests"
+    },
+    {
+      "label": "clearProfileDetails()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_main_clearprofiledetails",
+      "community": 13,
+      "norm_label": "clearprofiledetails()"
+    },
+    {
       "label": "openProfile()",
       "file_type": "code",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L14",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "napplets_profile_card_src_main_openprofile",
       "community": 13,
@@ -2794,10 +2814,20 @@
       "norm_label": "optionaltext()"
     },
     {
-      "label": "latestProfile()",
+      "label": "createLatestRequestGate()",
       "file_type": "code",
       "source_file": "napplets/profile-card/src/model.js",
       "source_location": "L7",
+      "_origin": "ast",
+      "id": "napplets_profile_card_src_model_createlatestrequestgate",
+      "community": 13,
+      "norm_label": "createlatestrequestgate()"
+    },
+    {
+      "label": "latestProfile()",
+      "file_type": "code",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "napplets_profile_card_src_model_latestprofile",
       "community": 13,
@@ -3772,7 +3802,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit",
-      "community": 6,
+      "community": 78,
       "norm_label": "audit.md"
     },
     {
@@ -3782,7 +3812,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_poc_documentation_audit",
-      "community": 6,
+      "community": 78,
       "norm_label": "poc documentation audit"
     },
     {
@@ -3792,7 +3822,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_verdict",
-      "community": 6,
+      "community": 78,
       "norm_label": "verdict"
     },
     {
@@ -3802,7 +3832,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_problems_found_in_the_previous_pack",
-      "community": 6,
+      "community": 78,
       "norm_label": "problems found in the previous pack"
     },
     {
@@ -3812,7 +3842,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_corrections",
-      "community": 6,
+      "community": 78,
       "norm_label": "corrections"
     },
     {
@@ -3822,7 +3852,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_diagram_review",
-      "community": 6,
+      "community": 78,
       "norm_label": "diagram review"
     },
     {
@@ -3832,7 +3862,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_gate_0_resolution",
-      "community": 6,
+      "community": 78,
       "norm_label": "gate 0 resolution"
     },
     {
@@ -3842,7 +3872,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_audit_confidence",
-      "community": 6,
+      "community": 78,
       "norm_label": "confidence"
     },
     {
@@ -5506,10 +5536,20 @@
       "norm_label": "commands and observed results"
     },
     {
+      "label": "Automated review corrections",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L109",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_reports_slice_03_preflight_automated_review_corrections",
+      "community": 62,
+      "norm_label": "automated review corrections"
+    },
+    {
       "label": "Hostile fixture scope",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L114",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
       "community": 62,
@@ -5519,7 +5559,7 @@
       "label": "Upstream result",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L121",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
       "community": 62,
@@ -5529,7 +5569,7 @@
       "label": "Next step",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L128",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
       "community": 62,
@@ -7950,7 +7990,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "napplets/profile-card/src/model.js",
-      "source_location": "L8",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "napplets_profile_card_src_model_latestprofile",
       "target": "contracts_profile_open_iscanonicalpubkey"
@@ -7993,7 +8033,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L15",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main_openprofile",
       "target": "contracts_profile_open_parseprofileopen",
@@ -9712,6 +9752,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_clearprofiledetails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
       "source_location": "L12",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main",
@@ -9732,10 +9782,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L14",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main",
       "target": "napplets_profile_card_src_main_openprofile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_main_profilerequests",
       "confidence_score": 1.0
     },
     {
@@ -9777,6 +9837,17 @@
       "source_location": "L6",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main",
+      "target": "napplets_profile_card_src_model_createlatestrequestgate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main",
       "target": "napplets_profile_card_src_model_latestprofile",
       "confidence_score": 1.0
     },
@@ -9785,7 +9856,18 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L27",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_main_openprofile",
+      "target": "napplets_profile_card_src_main_clearprofiledetails",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/main.js",
+      "source_location": "L37",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main_openprofile",
       "target": "napplets_profile_card_src_model_latestprofile",
@@ -9796,6 +9878,16 @@
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/model.js",
       "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_profile_card_src_model",
+      "target": "napplets_profile_card_src_model_createlatestrequestgate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/src/model.js",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "napplets_profile_card_src_model",
       "target": "napplets_profile_card_src_model_latestprofile",
@@ -9827,10 +9919,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/model.js",
-      "source_location": "L21",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "napplets_profile_card_src_model_latestprofile",
       "target": "napplets_profile_card_src_model_optionaltext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/profile-card/tests/model.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "napplets_profile_card_tests_model_test",
+      "target": "napplets_profile_card_src_model_createlatestrequestgate",
       "confidence_score": 1.0
     },
     {
@@ -12364,7 +12467,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L130",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight",
       "target": "uzel_poc_validated_pack_work_04_daemon_nmp",
@@ -12394,6 +12497,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
+      "target": "uzel_poc_validated_pack_reports_slice_03_preflight_automated_review_corrections",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
       "source_location": "L77",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
@@ -12414,7 +12527,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L114",
+      "source_location": "L124",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_hostile_fixture_scope",
@@ -12434,7 +12547,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L128",
+      "source_location": "L138",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_next_step",
@@ -12444,7 +12557,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-03-preflight.md",
-      "source_location": "L121",
+      "source_location": "L131",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_03_preflight_slice_03_preflight",
       "target": "uzel_poc_validated_pack_reports_slice_03_preflight_upstream_result",
@@ -12992,5 +13105,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "655320ac833d73bc42f8e8ba0b15591b0c761762"
+  "built_at_commit": "4d38ed36206f1bb656c4646b68047bc7fa4f7a08"
 }
