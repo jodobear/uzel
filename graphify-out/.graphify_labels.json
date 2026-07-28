@@ -46,5 +46,15 @@
   "44": "check-boundaries.sh",
   "45": "smoke.sh",
   "46": "vite.config.ts",
-  "47": "lib.rs"
+  "47": "lib.rs",
+  "48": "Uzel single-repository POC",
+  "49": "ExactFixtureSource",
+  "50": "trusted-shell-policy.js",
+  "51": "Window",
+  "52": "check-pinned-assets.sh",
+  "53": "README.md",
+  "54": "README.md",
+  "55": "FACT-009-linux-runner.md",
+  "56": "trusted-shell-prelude-domains.js",
+  "57": "svelte"
 }
