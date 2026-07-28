@@ -2,7 +2,7 @@
 
 ## Decision
 
-**NO-GO for Slice 01.** Gate 0 is complete, but the only candidate end-to-end compatibility line is internally split: Kehto PR #204 is on Napplet 0.29 and its generated artifacts fail the released conformance CLI, while current nampplets remains on an unratified Napplet 0.28 baseline. Building the workspace now would encode an unaccepted contract or require a forbidden compatibility workaround.
+**NO-GO for Slice 01.** Gate 0 is complete and the technical 0.29 line now passes locally. Kehto candidate `62241de0b4526ba4fdc8a7b3c766c2499d3ae24d` produces conformance-clean artifacts, and reachable nampplets candidate `b1a38f1af9191b6742c0be8ddea04159a2755a71` passes the full Linux evidence suite. The line is still not an accepted reproducible baseline: the Kehto commit is not reachable from GitHub, and the nampplets lock remains unratified with compatibility, security, and NMP-boundary signoffs blank.
 
 No product implementation was started.
 
@@ -10,18 +10,21 @@ No product implementation was started.
 
 | Gate | Result | Evidence | Consequence |
 |---|---|---|---|
-| V-01 | **fail** | #204 merged at `b85db51...`; full unit suite passes; exact `chat` and `feed` builds fail conformance on forbidden `fetch` | upstream fixture/build or conformance must be reconciled |
-| V-02 | pass | 16-crate nampplets workspace passes Linux fmt/test/Clippy on Rust 1.89.0 | reuse generic crates; implement only Linux host edge |
-| V-03 | pass | public `RuntimeController` verify/install/launch/mapped-envelope/lifecycle APIs compile and are exercised by upstream tests | daemon is a thin controller client, not a new runtime |
+| V-01 | **fail** | candidate `62241de...` yields two released-conformance passes, but authenticated `jodobear` cannot publish it to `kehto/web` and no `jodobear/web` fork exists | publish and review the exact fix; then pin its reachable commit |
+| V-02 | pass | candidate `b1a38f1...` passes 16-crate Linux fmt/test/Clippy, 21 Python tests, 4 trusted-shell tests, digests, and file-growth checks on Rust 1.89.0 | reuse generic crates; implement only Linux host edge after acceptance |
+| V-03 | pass | candidate full-workspace tests keep public `RuntimeController` verify/install/launch/mapped-envelope/lifecycle APIs green | daemon is a thin controller client, not a new runtime |
 | V-04 | pass | locked NMP adapter signed-fixture probe returns profile, direct follows, evidence, cancellation, shutdown | use `NmpDataPlane` and existing providers only |
 | V-05 | pass | real Tauri/Wry/WebKitGTK hostile frame lacks bridge authority; invalid raw IPC rejected; source binding true | one trusted WebView with sandboxed frames remains viable |
-| V-06 | **fail** | synthetic strict-CSP child runs with zero network connections, but intended Kehto artifacts contain `fetch` | never relax CSP; repair the artifact line first |
+| V-06 | pass | strict-CSP child runs with zero network connections; corrected exact `chat` and `feed` artifacts contain no module-preload `fetch` and pass released conformance | preserve this bundle/CSP contract |
 | V-07 | pass | real `$XDG_RUNTIME_DIR` AF_UNIX version-0 hello/status; 0700/0600 modes; oversized frame rejected | use the bounded private protocol shape |
 | V-08 | pass | exact Nix/Rust/Node/Tauri/Fallow/Mermaid commands executed | create locks/devShell only after no-go clears |
 
 ## Confirmed assumptions
 
 - Kehto PR #204 is merged, and the npm 0.29 package line is released with retrievable integrity values.
+- Vite's fetch-based module-preload polyfill is not required for these self-contained artifacts; disabling it in Kehto's shared build config removes the forbidden global without a compatibility workaround.
+- The corrected `chat` and `feed` artifacts each pass `@napplet/conformance-cli@0.2.16` with 6 passed, 0 failed, and 4 skipped.
+- A coherent nampplets 0.29 candidate can be generated and exercised on Linux without duplicating NMP, runtime, provider, storage, or cryptographic functionality.
 - nampplets runtime semantics are Linux-neutral; only the WebKit/native-host binding is platform-specific.
 - Exact-build identity, grants, sessions, source-bound envelopes, providers, storage, and NMP integration already have reusable owners.
 - Pinned NMP covers the POC's profile/follow/freshness/evidence/cancellation/diagnostics needs without a second cache.
@@ -33,8 +36,10 @@ No product implementation was started.
 ## Rejected assumptions
 
 - **Rejected:** “Kehto #204 is still draft.” It merged on 2026-07-27.
-- **Rejected:** “Current nampplets is compatible with the Kehto 0.29 line.” Its lock/constants remain 0.28 and its baseline is unratified.
-- **Rejected:** “A built single-file Kehto fixture is necessarily network-free.” Vite inserts a module-preload `fetch` helper and released conformance detects it.
+- **Rejected:** “Changing version constants alone makes nampplets compatible with 0.29.” The candidate needed regenerated authorities, envelope/corpus evidence, explicit registry/package drift records, and executable suites; it still advertises no platform domains.
+- **Rejected:** “The original #204 artifact failure requires relaxing CSP or conformance.” The smallest source fix is `build.modulePreload = false`; corrected artifacts pass under the existing strict policy.
+- **Rejected:** “A locally verified Git commit is a reproducible upstream pin.” Kehto commit `62241de...` cannot be fetched from an authorized remote and therefore cannot clear V-01.
+- **Rejected:** “A green compatibility candidate is automatically ratified.” The candidate's three named review fields are blank.
 - **Rejected:** “NAP shell/INC/relay/identity/storage have one unambiguous released status.” Registry, file headers, and open PRs disagree.
 - **Rejected:** “NIP-5A is the napplet manifest pin.” It is the nsite contract; draft NIP-5D is the relevant napplet proposal.
 - **Rejected:** “The nampplets `surface` crate is a Linux renderer.” It is platform-neutral surface state/descriptor logic.
@@ -53,18 +58,19 @@ No product implementation was started.
 
 ## Blockers
 
-1. **Compatibility blocker:** nampplets must publish or accept a tested baseline for core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, and conformance 0.14.0 (or all participants must converge on another single line).
-2. **Artifact blocker:** exact Kehto production fixtures must pass `@napplet/conformance-cli@0.2.16` without forbidden `fetch`. Likely resolution is to stop Vite from emitting the module-preload helper, but the fix belongs upstream and must be proven, not assumed.
-3. **Acceptance blocker:** the updated nampplets baseline needs its currently blank compatibility/security/NMP signoffs or an explicit Uzel risk acceptance. Uzel must not silently treat “unratified” as accepted.
+1. **Publication blocker:** verified Kehto commit `62241de...` exists only in the disposable checkout. SSH authenticates as `jodobear`, which has no `kehto/web` write permission; `jodobear/web` does not exist. A durable fork/upstream branch and review are required before this can be a source pin.
+2. **Acceptance blocker:** published fork candidate `jodobear/nampplets@b1a38f1...` is still `unratified`. Its compatibility, security, and NMP-boundary reviewers are blank, and an upstream PR was not opened from this environment. Uzel must not silently treat green tests as acceptance.
+3. **Review risk:** current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose; current package intent behavior also leads the older NAP-INTENT text. The candidate records the former as explicitly unsupported and promotes no provider. Named reviewers must accept or resolve this exact drift.
+4. **Platform evidence:** the candidate changes the bundled Apple corpus/catalog. Linux suites pass, but Apple workbench/package tests require Xcode and must run in upstream CI or on an Apple host before ratification.
 
 Draft NAP/NIP status is a tracked risk, not an independent Slice 01 blocker if exact revisions are deliberately accepted after the two compatibility blockers clear.
 
 ## Exact next steps
 
-1. In Kehto/napplet upstream, produce `chat` and `feed` single-file builds with no module-preload `fetch`; run the exact released conformance CLI on both and retain output plus bundle hashes.
-2. Update nampplets against that exact 0.29 package/spec/Kehto line; update provider constants and its `compatibility.lock`; run its full Rust, corpus, provider, and trusted-shell suites on Linux.
-3. Ratify or explicitly accept that new nampplets baseline, including named compatibility, security, and NMP boundary review.
-4. Update this repository's `compatibility.lock` and affected facts, then rerun V-01, V-02, V-03, and V-06. Any Tauri/Wry/WebKit change also reruns V-05.
+1. Create or grant a writable `kehto/web` fork/branch, push exact commit `62241de...`, open its PR, run upstream CI, and use the resulting reachable reviewed commit (or its merge descendant).
+2. If the Kehto SHA changes during review, regenerate the nampplets corpus and `compatibility.lock` from that exact commit, then rerun the offline Kehto runner, legacy-host runner, Python suite, Rust fmt/Clippy/workspace tests, trusted-shell tests, digests, and file-growth gate.
+3. Open the upstream nampplets PR from `jodobear:compat/napplet-0.29`, run required Apple CI, resolve or explicitly accept the recorded NAP registry/package drift, and record named compatibility, security, and NMP-boundary signoffs. Change `unratified` only after those reviews are real.
+4. Update this repository's exact Kehto and nampplets pins and rerun V-01, V-02, V-03, and V-06. Any Tauri/Wry/WebKit change also reruns V-05.
 5. Only after every blocking gate passes, change the verdict to go and execute `work/01-scaffold.md`. Do not begin Slice 02–06 early.
 
 ## Validated command ledger
@@ -76,14 +82,24 @@ Representative exact commands that ran:
 corepack enable --install-directory "$DEV_SHELL_BIN"
 pnpm install --frozen-lockfile
 pnpm build
+pnpm type-check
 pnpm test:unit
+pnpm audit:gateway-artifacts
 npm exec --yes --package=@napplet/conformance-cli@0.2.16 -- \
   napplet-conformance apps/playground/napplets/chat/dist
+npm exec --yes --package=@napplet/conformance-cli@0.2.16 -- \
+  napplet-conformance apps/playground/napplets/feed/dist
+npx --yes aislop@0.12.0 scan . --json
 
 # nampplets exact toolchain and lock
 cargo +1.89.0 fmt --all -- --check
 cargo +1.89.0 test --locked --workspace
 cargo +1.89.0 clippy --locked --workspace --all-targets -- -D warnings
+python3 -m unittest discover -s conformance/tests -p 'test_*.py'
+python3 conformance/scripts/verify_baseline.py
+node --test web/trusted-shell/tests/*.test.js
+python3 conformance/scripts/generate_digests.py --check
+python3 scripts/ci/check_file_growth.py --base HEAD --head INDEX
 
 # pinned released tools
 nix --extra-experimental-features 'nix-command flakes' run \

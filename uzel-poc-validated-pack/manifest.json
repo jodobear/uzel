@@ -12,13 +12,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 3290,
-      "sha256": "61d18795abc502b8a3e7dbe255d878d631dcabda8e925a9bd4502251ac545839"
+      "bytes": 3364,
+      "sha256": "37cf3ba0a5f1f7e12b6d03d06c67fab0b114d9e761248aace44b0456a7a5c6ce"
     },
     {
       "path": "STATUS.md",
-      "bytes": 1714,
-      "sha256": "d1528704adf0ae4f3076e5144dc13ba6137c57735f61ecf1297e6d4db064eafd"
+      "bytes": 1916,
+      "sha256": "1f4b02b5787f3f5a8922f02f298ab3bf5ae2655b0627c4c82a4f1c70db9e1f91"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "0a584db7bc8c1370f2324661b5624b7a48e3846c49ad664c793947489fdd2faf"
+      "sha256": "3bb5103afffcf1030a78f1d8c931d500f43175e669ab27969fdb5b93d86ea715"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 5859,
-      "sha256": "7ccbd1a88828af419bb85317227cc6663584af49792ac779280507aedf48727f"
+      "bytes": 8140,
+      "sha256": "f39085fd3b3bc0f0914b05652a94683d6495f5a35901071e2ff64c6753417b71"
     },
     {
       "path": "config/fallow.jsonc",
@@ -47,8 +47,8 @@
     },
     {
       "path": "docs/01-validation.md",
-      "bytes": 5683,
-      "sha256": "109a17304ce09fcec9ff7d1ca1edbc3dd5de4a1cba97cf21f7ff8c82432ea242"
+      "bytes": 6112,
+      "sha256": "65182f95b52497e3a5ce2d15bfbd19ba0a77338288dfbbe4cfacaf7e2be1a981"
     },
     {
       "path": "docs/02-architecture.md",
@@ -77,13 +77,13 @@
     },
     {
       "path": "docs/07-source-baseline.md",
-      "bytes": 3380,
-      "sha256": "8a7879f7d38a005d1d351ab127ff4f0df3ee4e43cce59587858168dd80cee010"
+      "bytes": 4133,
+      "sha256": "7f4827c05da4542b4ede367f40f9bdccc889d120140a46bace4b6e5472a4fad6"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
-      "bytes": 1564,
-      "sha256": "1e3db633976fc1eeb7cb5a3083eaa205f6cbdefedb33bfef9672d98b8d6ad263"
+      "bytes": 2091,
+      "sha256": "ed9ef7cfc35606d1a6bd40ddea4a4646696f243ad16499781a77c9b1ac61fd40"
     },
     {
       "path": "docs/facts/FACT-002-spec-revisions.md",
@@ -92,13 +92,13 @@
     },
     {
       "path": "docs/facts/FACT-003-nampplets-linux-reuse.md",
-      "bytes": 1551,
-      "sha256": "03bdccfefa129492aec89414429b19aa19589ba4f615808f2e1053799dc7727c"
+      "bytes": 2046,
+      "sha256": "aab058576b36fc17393132176744b4131432a3ca940cb46d4c1fefef3e03e79a"
     },
     {
       "path": "docs/facts/FACT-004-nmp-facade.md",
-      "bytes": 1518,
-      "sha256": "68c4c1814c0a52b23822f640e3c4184feb0c6f70f4654acf0875d6f40df2000b"
+      "bytes": 1547,
+      "sha256": "94ea97bd8e9828cfe0b23229c611c01e891b7c623f65720a0dac4c7f347a43f7"
     },
     {
       "path": "docs/facts/FACT-005-webkit-tauri-trust.md",
@@ -107,8 +107,8 @@
     },
     {
       "path": "docs/facts/FACT-006-csp-egress.md",
-      "bytes": 1355,
-      "sha256": "32e8977c15d5ede84b5d1169989074aca7344ab17ee714b877011124f890620c"
+      "bytes": 1522,
+      "sha256": "fe43d3fe97a26301421442edb1672bed5a328a1bcef43eb93db56c47a6e27138"
     },
     {
       "path": "docs/facts/FACT-007-local-ipc.md",
@@ -122,8 +122,8 @@
     },
     {
       "path": "reports/nampplets-linux-map.md",
-      "bytes": 4320,
-      "sha256": "1f48591991231a07820fb8c74f401cc765138459eebf5e7d9bfe14891442f479"
+      "bytes": 4820,
+      "sha256": "9e5fc07083b740253f946ef352510bcde56f566cd61692b269292fda28f36d14"
     },
     {
       "path": "reports/nmp-api-map.md",
@@ -132,8 +132,8 @@
     },
     {
       "path": "reports/preflight.md",
-      "bytes": 8098,
-      "sha256": "9e70b3d47de396f6a181a8293caf04bd6f60cc1ad35fd8f93a6db24df3d379bb"
+      "bytes": 10544,
+      "sha256": "0521db769377cbe06f94b02b17dfca2c9540eb28c1e06944ff022859b9994b21"
     },
     {
       "path": "reports/webkit-trust-spike.md",
@@ -167,8 +167,8 @@
     },
     {
       "path": "work/02-linux-runner.md",
-      "bytes": 1367,
-      "sha256": "0167fcc713f2da99682f7d494a7c86a64d82e6715c210003cf53a2ce7e416ac9"
+      "bytes": 1441,
+      "sha256": "fecb8a683cce7d93701bf3243a779c5df197cea64bcc3963a3fe739e82dec1b1"
     },
     {
       "path": "work/03-napplets.md",
@@ -177,8 +177,8 @@
     },
     {
       "path": "work/04-daemon-nmp.md",
-      "bytes": 1558,
-      "sha256": "860c1375cf5d4dc739239f63b7d070a94fd442877e64c14163b91509961a3c59"
+      "bytes": 1600,
+      "sha256": "3d90d15585a084ef4ddfaef690a3ad33b304bbcecbcb63ed22df91c2e79d8da6"
     },
     {
       "path": "work/05-integrate.md",

@@ -12,7 +12,7 @@
 - [x] Nix/Rust/Node/Tauri/Fallow/Mermaid commands recorded
 - [x] Provisional design corrected where evidence required it
 
-Gate 0 outcome: **complete; Slice 01 NO-GO**. V-01 and V-06 remain blocking failures. Completion means the assumptions were decided with evidence, not that every claim passed.
+Gate 0 outcome: **complete; Slice 01 NO-GO**. V-06 now passes after the verified Kehto build correction. V-01 still fails on source reachability, and the unratified nampplets candidate still lacks three required signoffs. Completion means the assumptions were decided with evidence, not that every claim passed.
 
 ## Implementation
 
@@ -29,15 +29,15 @@ Gate 0 outcome: **complete; Slice 01 NO-GO**. V-01 and V-06 remain blocking fail
 slice: 00 validate
 commits: recorded in repository history
 commands: reports/preflight.md#validated-command-ledger
-observable result: Linux runtime/NMP/IPC/WebKit feasibility passed; compatibility line failed
+observable result: Linux runtime/NMP/IPC/WebKit and corrected 0.29 artifact compatibility pass locally
 known limitation: full hostile suite and clean distro acceptance belong to later slices
-next action: repair and ratify one upstream Napplet 0.29 compatibility baseline, then rerun blocking gates
+next action: publish the exact Kehto fix and obtain named review of the reachable nampplets 0.29 candidate
 ```
 
 ## Current blockers
 
 ```text
-1. Kehto #204 chat/feed artifacts fail @napplet/conformance-cli@0.2.16 on Vite modulepreload fetch.
-2. nampplets@839654c remains unratified and pinned to Napplet 0.28, not Kehto's 0.29 line.
-3. Slice 01 may not start until both are reconciled and compatibility.lock changes to go.
+1. Verified Kehto candidate 62241de is not remotely reachable: jodobear cannot write kehto/web and has no jodobear/web fork.
+2. Reachable nampplets candidate b1a38f1 remains unratified; compatibility, security, and NMP-boundary signoffs are blank.
+3. Slice 01 may not start until both blockers clear and compatibility.lock changes to go.
 ```

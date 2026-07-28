@@ -6,7 +6,7 @@ Launch one verified self-contained fixture through the accepted `nampplets` runt
 
 ## Entry status and pins
 
-**Blocked by Gate 0.** After compatibility is repaired, use `nampplets@839654cd3643b430548765823b783f0b5140b8da` or its explicitly accepted successor, Tauri crate 2.11.5, Wry 0.55.1, and WebKitGTK 2.52.5. Re-run the hostile probe if any of those pins changes.
+**Blocked by Gate 0.** After compatibility is accepted, use candidate `nampplets@b1a38f1af9191b6742c0be8ddea04159a2755a71` only if its required reviews ratify that exact commit, or use its explicitly accepted successor. Keep Tauri crate 2.11.5, Wry 0.55.1, and WebKitGTK 2.52.5. Re-run the hostile probe if any of those pins changes.
 
 ## Read
 

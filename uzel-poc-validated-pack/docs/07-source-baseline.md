@@ -26,15 +26,15 @@ Source: <https://github.com/napplet/web/releases>
 
 PR #204 merged on 2026-07-27 at `b85db51db838866de753b275b9d34ec908785bd2`. Its source head is `59f56ce47e7eec2ec4438393f0c59b55f653cb04`.
 
-The exact merged checkout passes 1,574 unit tests. Its built `chat` and `feed` bundles nevertheless fail conformance-cli 0.2.16 because Vite injects a module-preload `fetch`. The merge is real; fixture compatibility is not accepted.
+The original merged checkout's built `chat` and `feed` bundles fail conformance-cli 0.2.16 because Vite injects a module-preload `fetch`. On current-main base `297b5478ead54508a881909e658fda0c8ee19984`, candidate commit `62241de0b4526ba4fdc8a7b3c766c2499d3ae24d` sets `build.modulePreload = false`. Build 32/32, typecheck 17/17, unit 1,576/1,576, gateway artifact audit 15/15, AI-slop 100/100, and both exact conformance runs pass. The candidate is local only: authenticated account `jodobear` cannot write `kehto/web` and has no `jodobear/web` fork.
 
 Source: <https://github.com/kehto/web/pull/204>
 
 ### `nampplets`
 
-Commit `839654cd3643b430548765823b783f0b5140b8da` contains 16 Linux-neutral Rust crates plus portable trusted-shell assets. Its locked workspace passes Linux fmt, tests, and warning-denying Clippy with Rust 1.89.0. Apple-only edges are isolated to the workbench apps, Apple platform adapter, and Apple package.
+Upstream base `839654cd3643b430548765823b783f0b5140b8da` contains 16 Linux-neutral Rust crates plus portable trusted-shell assets. Candidate `jodobear/nampplets@b1a38f1af9191b6742c0be8ddea04159a2755a71` updates the evidence line to core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, and conformance 0.14.0. Its locked workspace, Python baseline suite, trusted-shell suite, digests, and file-growth check pass on Linux with Rust 1.89.0.
 
-Its own `compatibility.lock` is unratified and pins core/nap 0.28.0, shim 0.26.8, SDK 0.24.4, conformance 0.13.0, and older Kehto/spec commits. Provider constants also pin `napplet-web@0.28.0`. This contradicts a direct claim of compatibility with Kehto #204's 0.29 line.
+The candidate deliberately remains `unratified`, advertises no M0 platform domains, and records `inc.channel.opened` as unsupported because the current NAP-INC registry requires it while released package types/conformance do not expose it. The released package's normalized intent/`intent.deliver` behavior also differs from the older registry text. Compatibility, security, and NMP-boundary signoffs are blank. Apple-specific generated catalog changes require Xcode and were not tested on Linux.
 
 Source: <https://github.com/pablof7z/nampplets>
 
@@ -60,4 +60,4 @@ Source: <https://github.com/nostr-protocol/nips/pull/2303>
 
 ## Decision
 
-No branch or “latest” value is an implementation pin. Slice 01 remains blocked until one upstream nampplets baseline covers the 0.29 package line and exact Kehto fixture artifacts pass the locked released conformance path.
+No branch or “latest” value is an implementation pin. The technical 0.29/conformance line is proven, but Slice 01 remains blocked until Kehto commit `62241de...` is published at a durable source location and nampplets candidate `b1a38f1...` receives the required compatibility, security, and NMP-boundary acceptance.

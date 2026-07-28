@@ -2,7 +2,7 @@
 
 ## Result
 
-`nampplets@839654cd3643b430548765823b783f0b5140b8da` is reusable on Linux. Its entire locked Rust workspace passed formatting, tests, and warning-denying Clippy with Rust 1.89.0. The missing piece is a Linux WebKit host; it is not a missing runtime.
+`jodobear/nampplets@b1a38f1af9191b6742c0be8ddea04159a2755a71`, based on `pablof7z/nampplets@839654cd3643b430548765823b783f0b5140b8da`, is reusable on Linux. Its entire locked Rust workspace and updated 0.29 compatibility evidence passed. The missing implementation piece remains a Linux WebKit host; it is not a missing runtime.
 
 ## Crate map
 
@@ -71,13 +71,13 @@ cargo +1.89.0 test --locked --workspace
 cargo +1.89.0 clippy --locked --workspace --all-targets -- -D warnings
 python3 -m unittest discover -s conformance/tests
 python3 scripts/verify_baseline.py
-node --test web/trusted-shell/*.test.js
+node --test web/trusted-shell/tests/*.test.js
 ```
 
-All commands passed. The baseline verifier reported 15 Kehto, 1 published, and 4 reference corpus entries, 209 envelopes, 10 falsifiers, and complete blob/relay/signer service scenarios.
+All commands passed. The baseline verifier reported 15 Kehto, 1 published, and 4 reference corpus entries, 211 envelopes, 10 falsifiers, complete blob/relay/signer service scenarios, and an explicitly unsupported `inc.channel.opened` registry/package gap. The exact offline Kehto runner built all 15 artifacts; the legacy-host runner reported 4 pass, 1 not-run, and 0 fail. Apple workbench/package suites require Xcode and were not run on Linux.
 
-## Compatibility rejection
+## Compatibility candidate
 
-The upstream `compatibility.lock` is unratified and pins core/nap 0.28.0, shim 0.26.8, SDK 0.24.4, conformance 0.13.0, and an older Kehto snapshot. Provider constants also say `napplet-web@0.28.0`. Kehto PR #204 uses the 0.29 line.
+Candidate `b1a38f1...` pins core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, conformance 0.14.0, current spec snapshots, and verified Kehto candidate `62241de...`. It is published on the `jodobear/nampplets` fork, but its lock is still unratified, advertises no platform domains, and has no compatibility, security, or NMP-boundary signoff.
 
-Therefore Linux reuse is proven, but Kehto 0.29 compatibility is not. Uzel must wait for a single updated, tested nampplets baseline; it must not add a translation layer between 0.28 and 0.29.
+Therefore Linux reuse and the candidate 0.29 contract line are proven, but acceptance is not. Uzel must wait for ratification or explicit risk acceptance; it must not add a translation layer or promote providers by changing version strings alone.

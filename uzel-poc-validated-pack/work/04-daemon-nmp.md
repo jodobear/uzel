@@ -6,7 +6,7 @@ Provide one runtime authority and one canonical Nostr data plane behind the shel
 
 ## Entry status and pins
 
-**Blocked by Gate 0.** Use `nampplets@839654cd3643b430548765823b783f0b5140b8da` or its accepted compatibility successor and its exact NMP pin `005dc2a5f12aa414961b313d05ebb021934e385c`. Do not silently advance to NMP main.
+**Blocked by Gate 0.** Use candidate `nampplets@b1a38f1af9191b6742c0be8ddea04159a2755a71` only after exact-commit acceptance, or use its accepted compatibility successor, with NMP pin `005dc2a5f12aa414961b313d05ebb021934e385c`. Do not silently advance to NMP main.
 
 ## Read
 
