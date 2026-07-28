@@ -11,13 +11,13 @@ nix --extra-experimental-features 'nix-command flakes' develop
 pnpm install --frozen-lockfile
 ```
 
-Start the empty Tauri shell and daemon together:
+Start the Slice 02 Linux shell, readiness daemon, and pinned exact-build fixture together:
 
 ```sh
 pnpm dev
 ```
 
-Run the Slice 01 checks:
+Run the Slice 02 checks:
 
 ```sh
 pnpm check
@@ -36,4 +36,7 @@ Run the immutable-digest Debian build smoke from the Fedora host:
 bash scripts/debian-build-smoke.sh
 ```
 
-This scaffold contains no runtime session, NMP query, napplet, persistence schema, or product UI. Those belong to later slices.
+Slice 02 verifies and launches the pinned `good-morning` artifact through the
+upstream `RuntimeController`, completes NAP-SHELL, and exercises the sandboxed
+WebKit boundary. NMP reads, a second napplet, daemon-owned runtime state, and
+product persistence remain later slices.

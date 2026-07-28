@@ -5,4 +5,4 @@ cargo run --quiet -p uzel-napd -- --check | rg '^UZEL_NAPD_READY role=runtime-au
 pnpm --filter @uzel/shell build
 cargo check --workspace
 
-echo 'SLICE_01_SMOKE_OK'
+echo 'SLICE_02_BUILD_SMOKE_OK'
