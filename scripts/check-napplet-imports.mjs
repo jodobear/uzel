@@ -44,6 +44,7 @@ const reflectiveCodeProperties = new Set([
   'setPrototypeOf',
 ]);
 const guardedBrowserGlobals = new Set([
+  'Object',
   'document',
   'frames',
   'globalThis',
@@ -57,6 +58,7 @@ const guardedBrowserGlobals = new Set([
   'window',
 ]);
 const allowedGuardedGlobalAccesses = new Set([
+  'Object.freeze',
   'document.createElement',
   'document.querySelector',
 ]);
@@ -336,6 +338,12 @@ function programmaticNetworkViolations(path, source) {
       add(node, `dynamic code execution ${node.text}`);
     }
     if (
+      ts.isBindingElement(node) &&
+      propertyName(node.propertyName ?? node.name) === 'constructor'
+    ) {
+      add(node, 'destructured Function constructor access');
+    }
+    if (
       ts.isIdentifier(node) &&
       guardedBrowserGlobals.has(node.text) &&
       !isDirectGlobalMemberOwner(node) &&
@@ -545,6 +553,8 @@ function runSelfTest() {
     "const execute = (() => {}).constructor; execute(\"fetch('https://example.test/leak')\")()",
     "Reflect.get(() => {}, 'constructor')(\"return fetch\")()(remote)",
     "Object.getOwnPropertyDescriptor(() => {}, 'constructor').value(\"return fetch\")()(remote)",
+    'const { constructor: compile } = () => {}; compile("return fetch")()(remote)',
+    "const anchor = document.createElement('a'); Object.assign(anchor, { href: remote }); anchor.click()",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
