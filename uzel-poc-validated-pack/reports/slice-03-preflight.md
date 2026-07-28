@@ -204,6 +204,15 @@ resource attributes, dynamic or resource-capable inline styles, and CSS
 import, image and iframe sources, dynamic elements, raw HTML, a dynamic
 background-image directive, and component CSS URL loading.
 
+Codex's thirteenth review found that a spread attribute could hide a resource
+key on a Svelte element and that product HTML entry points were outside the
+source set. Product regular and dynamic elements now reject unverifiable spreads.
+Product `.html` files pass through the same parsed declarative-resource guard;
+the only resource-bearing exception is the exact local Vite module entry
+`/src/main.js`. Executable self-tests cover the spread bypass, external image,
+stylesheet and iframe resources, HTML CSS URL loading, and the allowed local
+entry script.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
