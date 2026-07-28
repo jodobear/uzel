@@ -53,6 +53,7 @@ const globalReturningProperties = new Set([
   'defaultView',
   'frames',
   'globalThis',
+  'location',
   'opener',
   'ownerDocument',
   'parent',
@@ -183,6 +184,18 @@ function declarativeNetworkViolations(parsed, source) {
       }
       if (node.name === 'style' && cssNetworkAuthority.test(source.slice(node.start, node.end))) {
         found.push('resource-capable HTML style block');
+      }
+      if (node.name === 'meta') {
+        const httpEquiv = node.attributes?.find(
+          (attribute) =>
+            attribute.type === 'Attribute' && attribute.name.toLowerCase() === 'http-equiv',
+        );
+        if (httpEquiv) {
+          const value = literalAttributeValue(node, httpEquiv.name);
+          if (value === null || value.trim().toLowerCase() === 'refresh') {
+            found.push('meta refresh navigation');
+          }
+        }
       }
       if (node.name === 'script' && !isLocalViteEntry(node)) {
         found.push('inline or noncanonical HTML script');
@@ -319,6 +332,13 @@ function programmaticNetworkViolations(path, source) {
       }
       if (globalReturningProperties.has(member)) {
         add(node, `browser-global-returning property ${member}`);
+      }
+      if (
+        ts.isElementAccessExpression(node) &&
+        member === null &&
+        !ts.isNumericLiteral(node.argumentExpression)
+      ) {
+        add(node, 'unverifiable computed property access');
       }
     }
 
@@ -485,6 +505,8 @@ function runSelfTest() {
     'const { fetch: send } = window; send(remote)',
     "window.addEventListener('load', event => event.currentTarget['fetch'](remote))",
     'location.assign.call(location, remote)',
+    "const doc = document.querySelector(':root').getRootNode(); const target = doc.location; target.assign(remote)",
+    'object[capability](remote)',
     'history.pushState(null, "", remote)',
     'navigation.navigate(remote)',
     'open(remote)',
@@ -567,6 +589,7 @@ function runSelfTest() {
     '<img src="https://example.test/avatar.png">',
     '<link rel="stylesheet" href="https://example.test/theme.css">',
     '<iframe src="https://example.test"></iframe>',
+    '<meta http-equiv="refresh" content="0;url=http://127.0.0.1:43129/leak">',
     '<style>.avatar { background-image: url(https://example.test/avatar.png); }</style>',
   ]) {
     if (sourceAnalysis('<boundary-self-test>.html', source).declarative.length === 0) {
