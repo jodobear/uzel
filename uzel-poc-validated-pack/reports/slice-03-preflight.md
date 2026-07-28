@@ -277,6 +277,12 @@ Codex's twenty-third review found reflective constructor recovery through
 prototype introspection methods. Self-tests cover the reported Reflect form and
 `Object.getOwnPropertyDescriptor` recovery.
 
+Codex's twenty-fourth review found constructor recovery through a binding
+pattern and DOM resource setters reached through `Object.assign`. Binding
+elements named `constructor` are now rejected. `Object` is a guarded global
+with only `Object.freeze` allowed for current product code, so bulk mutation and
+all other Object capabilities fail closed. Self-tests cover both reported forms.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
