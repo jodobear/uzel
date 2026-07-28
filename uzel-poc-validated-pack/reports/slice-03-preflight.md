@@ -235,6 +235,13 @@ that escape direct member inspection, including aliases and destructuring, and
 also rejects direct access to nested guarded globals. Executable self-tests
 cover `const root = globalThis`, `globalThis.window`, and destructured `fetch`.
 
+Codex's seventeenth review found a transitive global-returning chain through
+`document.defaultView`. Product napplets now have an exact allowlist for needed
+global APIs (`document.querySelector`, safe-element `document.createElement`,
+and `window.addEventListener`); every other guarded-global member is rejected.
+Global-returning DOM properties are rejected regardless of owner. Self-tests
+cover `defaultView`, `ownerDocument`, and direct `top` chains plus allowed APIs.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
