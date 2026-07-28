@@ -43,6 +43,14 @@ shutdown in developer/test mode
 
 The Rust daemon and Tauri backend share `napd-protocol` Rust types. Do not generate a TypeScript copy of daemon IPC; Svelte receives a narrower product-facing model from the trusted Tauri backend.
 
+The 4096-byte frame is a control-message limit, not an artifact-transfer
+mechanism. Slice 02 measured the pinned verified `/index.html` at 96172 bytes.
+Until Work 04 implements and tests a bounded chunked verified-asset transfer (or
+an equivalently bounded private custom-scheme stream), `RuntimeController`
+remains composed directly in the trusted Tauri process. Do not increase the
+control-frame limit, expose a filesystem path to WebKit, or claim daemon runtime
+ownership before that transfer exists.
+
 ## Runtime state
 
 Keep semantic owners separate:

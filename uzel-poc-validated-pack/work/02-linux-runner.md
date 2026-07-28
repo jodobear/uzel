@@ -1,5 +1,8 @@
 # Work 02 — Linux exact-build runner
 
+**Complete.** Evidence and the observed design correction are recorded in
+[`../reports/slice-02-preflight.md`](../reports/slice-02-preflight.md).
+
 ## Goal
 
 Launch one verified self-contained fixture through the accepted `nampplets` runtime seam in a Linux Tauri/WebKit host.
@@ -27,7 +30,12 @@ Launch one verified self-contained fixture through the accepted `nampplets` runt
 
 ## Acceptance
 
-One exact build starts, handshakes, responds through the runtime, and fails hostile identity/Tauri probes.
+- [x] one signed exact build verifies and starts;
+- [x] NAP-SHELL handshake completes;
+- [x] the artifact answers through the upstream runtime;
+- [x] hostile payload identity cannot select a surface/session;
+- [x] a sandboxed sibling has no Tauri globals, Wry IPC function, or readable parent;
+- [x] Fedora WebKit run and Debian Bookworm build pass.
 
 ## Non-goals
 

@@ -18,6 +18,7 @@ Provide one runtime authority and one canonical Nostr data plane behind the shel
 
 - Implement the bounded version-0 AF_UNIX seam accepted in `reports/preflight.md`.
 - Own one upstream `NmpDataPlane`/`RuntimeController`, which in turn owns one NMP engine and store.
+- Add a bounded chunked verified-asset transfer (or equivalently bounded private custom-scheme stream) from daemon to trusted Tauri host. Keep the 4096-byte control-frame ceiling, reject out-of-order/oversized transfers, and never expose an artifact filesystem path to WebKit.
 - Set/get one public read identity with `RuntimeController::register_read_only_account` and the adapter's lower-hex/`npub` parser.
 - Reuse `NapNostrProviderSet`/existing provider projections for kind `0` and direct follows; do not independently translate NAP requests or add caches.
 - Support deterministic fixture mode and configured live mode.
