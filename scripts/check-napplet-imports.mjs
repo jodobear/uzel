@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,6 +9,14 @@ const requireFromShell = createRequire(
 );
 const ts = requireFromShell('typescript');
 const forbiddenSpecifier = /(uzel|napd|tauri)/i;
+const dependencyGroups = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+  'peerDependencies',
+];
+const directNetworkAuthority =
+  /(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|serviceWorker)/;
 const sourceExtensions = new Set([
   '.cjs',
   '.cts',
@@ -83,6 +91,14 @@ function violations(path, source) {
   return found;
 }
 
+function dependencyViolations(packageJson) {
+  return dependencyGroups.flatMap((group) =>
+    Object.entries(packageJson[group] ?? {}).flatMap(([name, target]) =>
+      forbiddenSpecifier.test(`${name}\n${target}`) ? [{ group, name, target }] : [],
+    ),
+  );
+}
+
 function runSelfTest() {
   const expectedExtensions = [
     '.cjs',
@@ -120,6 +136,19 @@ function runSelfTest() {
   if (violations('<boundary-self-test>', "import { get } from '@napplet/nap';").length > 0) {
     throw new Error('boundary self-test rejected an allowed NAP import');
   }
+  if (
+    dependencyViolations({ dependencies: { bridge: 'npm:@tauri-apps/api@2' } }).length === 0
+  ) {
+    throw new Error('boundary self-test accepted an aliased runtime dependency');
+  }
+  if (
+    dependencyViolations({ dependencies: { '@napplet/nap': '0.29.0' } }).length > 0
+  ) {
+    throw new Error('boundary self-test rejected an allowed NAP dependency');
+  }
+  if (!directNetworkAuthority.test("const socket = new WebSocket('wss://example.test')")) {
+    throw new Error('boundary self-test accepted direct network authority');
+  }
 }
 
 function sourceFiles(directory) {
@@ -135,9 +164,37 @@ function sourceFiles(directory) {
 runSelfTest();
 
 let failed = false;
-for (const path of sourceFiles(join(repositoryRoot, 'napplets'))) {
+const nappletsRoot = join(repositoryRoot, 'napplets');
+for (const entry of readdirSync(nappletsRoot, { withFileTypes: true })) {
+  if (!entry.isDirectory()) {
+    continue;
+  }
+  const packagePath = join(nappletsRoot, entry.name, 'package.json');
+  if (!existsSync(packagePath)) {
+    continue;
+  }
+  const packageJson = JSON.parse(readFileSync(packagePath, 'utf8'));
+  for (const violation of dependencyViolations(packageJson)) {
+    console.error(
+      `${relative(repositoryRoot, packagePath)}: forbidden napplet dependency ` +
+        `${violation.group}.${violation.name} -> ${violation.target}`,
+    );
+    failed = true;
+  }
+}
+
+for (const path of sourceFiles(nappletsRoot)) {
   const source = readFileSync(path, 'utf8');
   for (const unit of sourceUnits(path, source)) {
+    const productNapplet =
+      unit.path.startsWith(join(nappletsRoot, 'follow-list')) ||
+      unit.path.startsWith(join(nappletsRoot, 'profile-card'));
+    if (productNapplet && directNetworkAuthority.test(unit.source)) {
+      console.error(
+        `${relative(repositoryRoot, unit.path)}: direct browser network authority is forbidden`,
+      );
+      failed = true;
+    }
     for (const violation of violations(unit.path, unit.source)) {
       console.error(
         `${relative(repositoryRoot, unit.path)}:${violation.line}:${violation.column}: ` +
