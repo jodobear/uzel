@@ -261,6 +261,12 @@ regardless of owner, and nonliteral computed property access fails closed.
 Self-tests cover the reported meta and `getRootNode().location` forms plus a
 runtime-selected property key.
 
+Codex's twenty-first review found dynamic-code and HTML event-attribute paths
+outside the AST capability walk. `eval`, `Function`, `setTimeout`, and
+`setInterval` are now forbidden product-napplet capabilities, and every HTML or
+Svelte `on*` attribute is rejected. Self-tests cover constructed/evaluated
+`fetch`, string timers, and a body `onload` handler.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command

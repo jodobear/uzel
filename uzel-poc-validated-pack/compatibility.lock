@@ -340,6 +340,7 @@ codex_review_round_17 = "addressed: allowlist required global APIs and reject br
 codex_review_round_18 = "addressed: remove Window event callback authority and rely on frame teardown"
 codex_review_round_19 = "addressed: reject wrapped and bare browser navigation authority"
 codex_review_round_20 = "addressed: reject meta refresh, transitive location, and dynamic property access"
+codex_review_round_21 = "addressed: reject dynamic code execution and executable HTML event attributes"
 
 [gates]
 V_01 = "pass"
