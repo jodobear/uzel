@@ -9,6 +9,17 @@ const requireFromShell = createRequire(
 );
 const ts = requireFromShell('typescript');
 const forbiddenSpecifier = /(uzel|napd|tauri)/i;
+const sourceExtensions = new Set([
+  '.cjs',
+  '.cts',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.mts',
+  '.svelte',
+  '.ts',
+  '.tsx',
+]);
 
 function sourceUnits(path, source) {
   if (extname(path) !== '.svelte') {
@@ -73,6 +84,23 @@ function violations(path, source) {
 }
 
 function runSelfTest() {
+  const expectedExtensions = [
+    '.cjs',
+    '.cts',
+    '.js',
+    '.jsx',
+    '.mjs',
+    '.mts',
+    '.svelte',
+    '.ts',
+    '.tsx',
+  ];
+  for (const extension of expectedExtensions) {
+    if (!sourceExtensions.has(extension)) {
+      throw new Error(`boundary self-test omitted source extension: ${extension}`);
+    }
+  }
+
   const rejected = [
     "import 'uzel/runtime';",
     'import("@tauri-apps/api");',
@@ -100,7 +128,7 @@ function sourceFiles(directory) {
     if (entry.isDirectory()) {
       return entry.name === 'dist' || entry.name === 'node_modules' ? [] : sourceFiles(path);
     }
-    return ['.js', '.ts', '.svelte'].includes(extname(path)) ? [path] : [];
+    return sourceExtensions.has(extname(path)) ? [path] : [];
   });
 }
 
