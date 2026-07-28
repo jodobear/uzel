@@ -1,0 +1,10 @@
+# FACT-010 — portable napplets and queryless INC
+
+- **Claim:** Two independent, runtime-agnostic napplets can exchange the exact `napplet:profile/open` v1 payload through the pinned queryless NAP-INC implementation, while using only runtime-mediated identity and outbox APIs.
+- **Source revision:** `napplet/naps@5ac0490461ca6fec2f0d2e45b4835cf9bc08de24`, released Napplet line locked in `compatibility.lock`, `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf`, and transitive `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c`.
+- **Probe/command:** locked JS unit/build checks; released conformance-cli 0.2.16; `cargo +1.89.0 test -p napd --locked`; exact asset audit; canonical Fedora WebKit smoke; Debian Bookworm build smoke.
+- **Observed result:** Both production napplets build as one `index.html`, have no Uzel/Tauri/napd or direct-network dependency, pass conformance 6/0/4 each, and reject malformed convention payloads. All three final signed fixtures verify through the pinned NMP runtime. The native harness delivers `inc.event` to `profile-card` with shell-owned sender `follow-list`.
+- **Correction:** The Vite plugin sidecar is not a final launchable manifest because it has no signed source tag. The released deploy CLI owns final source-bearing event creation and signing. Direct queryless NAP-INC does not require an archetype tag or the unsupported NAP-INTENT surface.
+- **Decision:** Reuse upstream build, deploy/sign, NAP, nampplets, and NMP behavior exactly. Keep the `hostile-egress` artifact as a signed Work 06 input; Work 03 proves its build, unit inventory, signature, and exact bytes, not full browser denial.
+- **Affected documents/code:** `contracts/`, `napplets/`, `fixtures/`, `crates/napd/src/runner.rs`, `docs/03-provisional-design.md`, `docs/07-source-baseline.md`, `reports/slice-03-preflight.md`.
+- **Confidence:** high for these exact Linux POC pins; revalidate on any package, manifest, registry, nampplets, NMP, Tauri, or WebKit pin change.

@@ -23,7 +23,7 @@
 
 ### Hostile frame
 
-Gate 0 executed the minimum trust spike for Tauri globals, raw invalid-key IPC, source binding, fetch, XHR, WebSocket, and image loading. The synthetic frame passed. The original Kehto artifacts failed because generated HTML contained `fetch`; exact fork candidate `62241de...` disables module preload and passes released conformance without weakening CSP. The complete list below remains mandatory in Work 06.
+Gate 0 executed the minimum trust spike for Tauri globals, raw invalid-key IPC, source binding, fetch, XHR, WebSocket, and image loading. The synthetic frame passed. The original Kehto artifacts failed because generated HTML contained `fetch`; exact fork candidate `62241de...` disables module preload and passes released conformance without weakening CSP. Work 03 adds a signed, exact-build `hostile-egress` fixture and unit-tests its probe inventory, but does not claim the complete WebKit execution below; that remains mandatory in Work 06.
 
 The test napplet attempts:
 

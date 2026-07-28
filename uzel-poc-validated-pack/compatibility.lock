@@ -4,6 +4,7 @@ validated_at = "2026-07-28"
 gate = "Gate 0"
 slice_01_verdict = "go"
 slice_02_verdict = "pass"
+slice_03_verdict = "pass"
 acceptance_scope = "Linux-only Uzel POC"
 blocking_reason = ""
 
@@ -104,6 +105,13 @@ integrity = "sha512-ZwJ4TC0bROnIBpZqHcMWMb1uDpciJh3DAy/dDjtwdgdUj32dfyxzcMyaRcVO
 shasum = "534c4a41a68cf85ad468d7ab98bb7355f14c6ca0"
 playwright_range = "^1.59.1"
 observed_playwright = "1.62.0"
+
+[packages."@napplet/cli"]
+version = "0.0.0"
+integrity = "sha512-3IEelpDkQCf/5hWpYl964EumbFEBObbeowRt+18y06Sa/kycFPFNGkFLfrMG3QHm4xeGyNgS5UQuFwc4hfhseA=="
+shasum = "2ed3894efd4767bfb7971cf83622b153ecaa7436"
+runtime = "Deno 2.9.4"
+nostr_tools = "2.24.0"
 
 [specs.nap_registry]
 repository = "https://github.com/napplet/naps"
@@ -216,6 +224,7 @@ fallow = "3.9.1"
 fallow_sha256 = "871e25151b2f6e78d0e7964e4f5af7efaf4a3ee9045406e73a6188605c564942"
 mermaid_cli = "11.16.0"
 graphify = "0.9.13"
+deno = "2.9.4"
 
 [slice_01]
 verdict = "pass"
@@ -270,6 +279,46 @@ hostile_result = "pass: unmapped surface rejected; forged session/principal igno
 fedora_run_result = "pass: real Tauri/WebKitGTK exact-build, NAP-SHELL, authored artifact response, and child-native-denial markers observed"
 debian_build_result = "pass: locked frontend and complete Cargo/Tauri/nampplets/NMP workspace built on Bookworm"
 daemon_transfer_result = "deferred design change: 4096-byte control frame cannot carry 96172-byte verified document; Work 04 must add bounded chunked transfer before daemon owns RuntimeController"
+upstream_change_required = false
+
+[slice_03]
+verdict = "pass"
+branch = "feat/slice-03-portable-napplets"
+validated_at = "2026-07-29"
+nap_registry_commit = "5ac0490461ca6fec2f0d2e45b4835cf9bc08de24"
+nampplets_commit = "08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf"
+nmp_commit = "005dc2a5f12aa414961b313d05ebb021934e385c"
+pnpm_lock_sha256 = "aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b"
+deno_lock_sha256 = "23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287"
+contract_schema_sha256 = "767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830"
+fixture_author = "ba01ffeffa841a7e48beb131a08d4e81d07232eacc7c178558b84e5ad9a8ca86"
+follow_list_d_tag = "follow-list"
+follow_list_event_id = "d1d7e93c32c2bf32ee4fab9f83b9121fe5944ebbcfe60e787ed8be4f723323c6"
+follow_list_event_sha256 = "f46749fd7dfe85cfb7620c12f1d1094adbf41e35ae063206e03d8696a27f9f6b"
+follow_list_index_sha256 = "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4"
+follow_list_aggregate = "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a"
+follow_list_index_bytes = 58881
+profile_card_d_tag = "profile-card"
+profile_card_event_id = "2cfd84bcbeb3f198c76fd3818767ad5fb316b975b59758678e95b2969e921e84"
+profile_card_event_sha256 = "b4eda755c1080a87bfb710f4436490017da21ef57f42cc2cbb7b5c68e61c522d"
+profile_card_index_sha256 = "a5c9880dcaa1e4793283643ed0fdc2405b9ae054475bc8c13ab157d4123a2fbf"
+profile_card_aggregate = "de31a65576b64a30670ffbd3e0e60b7138843dde053519f8f4e791f2362c0b79"
+profile_card_index_bytes = 59597
+hostile_d_tag = "egress-probe"
+hostile_event_id = "f23d457098e53c0e2dadfda43d4053fdce9ffcf77aa9ca1201309c76f7261269"
+hostile_event_sha256 = "f222d250a2a15a892c624c424b1942e3e520a379250c8b6a760d3442a934dbc3"
+hostile_index_sha256 = "2687d474ea260f00c56c6861558cea4d10b972fa3aa39bfe1268d0375a539e06"
+hostile_aggregate = "0514a2812f5f1f1b4c9d20cd4ffca7f016f434e11d108eef6b5293a4c61e7670"
+hostile_index_bytes = 57701
+source_hint = "https://blossom.invalid/ (reserved non-routable fixture source)"
+unit_result = "pass: contract 2, follow-list 1, profile-card 2, hostile-egress 1"
+conformance_result = "pass: follow-list and profile-card each 6 passed, 0 failed, 4 skipped"
+manifest_verification_result = "pass: all three signed events and exact artifacts verify through pinned NMP runtime"
+inc_result = "pass: queryless napplet:profile/open delivered with runtime-owned sender follow-list"
+fallow_result = "pass: total_issues 0; health output remains informational"
+fedora_run_result = "pass: canonical direct Nix command; exact build, shell, response, and child-native-denial markers observed"
+debian_build_result = "pass: locked frontend and complete Cargo/Tauri/nampplets/NMP workspace built on Bookworm"
+nap_intent_used = false
 upstream_change_required = false
 
 [gates]

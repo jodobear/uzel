@@ -16,9 +16,17 @@ Kehto PR #204 uses this exact released line:
 @napplet/vite-plugin@0.12.0
 @napplet/conformance@0.14.0
 @napplet/conformance-cli@0.2.16
+@napplet/cli@0.0.0
 ```
 
-The package release commit is `60889f1c2476e063500c7ab6624af6abe0dbcbe5`; npm integrity and shasum values are locked. The CLI's Playwright dependency is a range, so a reproducible check must also lock the resolved browser dependency.
+The web package release commit is `60889f1c2476e063500c7ab6624af6abe0dbcbe5`; npm integrity and shasum values are locked. The conformance CLI's Playwright dependency is a range, so a reproducible check must also lock the resolved browser dependency. The separate released deploy CLI is pinned by npm integrity and runs under Deno 2.9.4 with a frozen `deno.lock`, including `nostr-tools@2.24.0`.
+
+The Vite plugin produces a single `index.html` and a signed-manifest sidecar,
+but that sidecar has no signed `server` source tag. The pinned NMP artifact
+resolver correctly rejects it because no policy-approved blob source exists.
+Work 03 therefore uses the released deploy CLI's dry-run path to add the source
+tag and sign the final NIP-5D event. This reuses upstream deployment and
+cryptography rather than synthesizing manifest rules in Uzel.
 
 Source: <https://github.com/napplet/web/releases>
 
@@ -26,7 +34,7 @@ Source: <https://github.com/napplet/web/releases>
 
 PR #204 merged on 2026-07-27 at `b85db51db838866de753b275b9d34ec908785bd2`. Its source head is `59f56ce47e7eec2ec4438393f0c59b55f653cb04`.
 
-The original merged checkout's built `chat` and `feed` bundles fail conformance-cli 0.2.16 because Vite injects a module-preload `fetch`. On current-main base `297b5478ead54508a881909e658fda0c8ee19984`, candidate commit [`jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`](https://github.com/jodobear/kehto-web/commit/62241de0b4526ba4fdc8a7b3c766c2499d3ae24d) sets `build.modulePreload = false`. Build 32/32, typecheck 17/17, unit 1,576/1,576, gateway artifact audit 15/15, AI-slop 100/100, and both exact conformance runs pass. The exact branch is publicly reachable. Upstream PR creation from this environment was rejected by the current GitHub token, but upstream merge is not required for Uzel's provisional exact-SHA pin.
+The original merged checkout's built `chat` and `feed` bundles fail conformance-cli 0.2.16 because Vite injects a module-preload `fetch`. On current-main base `297b5478ead54508a881909e658fda0c8ee19984`, candidate commit [`jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`](https://github.com/jodobear/kehto-web/commit/62241de0b4526ba4fdc8a7b3c766c2499d3ae24d) sets `build.modulePreload = false`. Build 32/32, typecheck 17/17, unit 1,576/1,576, gateway artifact audit 15/15, AI-slop 100/100, and both exact conformance runs pass. The exact branch is publicly reachable as [kehto/web#218](https://github.com/kehto/web/pull/218). Upstream merge is not required for Uzel's provisional exact-SHA pin.
 
 Source: <https://github.com/kehto/web/pull/204>
 
