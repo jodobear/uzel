@@ -11,7 +11,7 @@ The architecture is directionally strong, but several implementation details are
 - Tauri/WebKit child-frame and CSP behavior must be proven on Linux;
 - installed tooling must be reproducible.
 
-Gate 0 was executed and its blocking compatibility work was revalidated on 2026-07-28. Linux reuse, NMP, frame trust, strict CSP, IPC, and tool claims pass. The corrected 0.29 line also passes locally, but its Kehto source commit is not remotely reachable and the nampplets candidate is unratified. Slice 01 is **not accepted to start**; see [`../reports/preflight.md`](../reports/preflight.md).
+Gate 0 was executed and its blocking compatibility work was revalidated on 2026-07-28. Linux reuse, NMP, frame trust, strict CSP, IPC, tools, and Kehto source reachability pass. The corrected 0.29 line has a durable fork pin and does not depend on upstream merge, but the nampplets candidate is unratified and lacks Apple-host evidence. Slice 01 is **not accepted to start**; see [`../reports/preflight.md`](../reports/preflight.md).
 
 ## Current observed baseline
 
@@ -19,8 +19,8 @@ At the completed 2026-07-28 validation snapshot:
 
 - Napplet package releases include `@napplet/core@0.29.0`, `@napplet/nap@0.29.0`, and convention/INC behavior used by the current ecosystem.
 - Kehto PR #204 is merged at `b85db51db838866de753b275b9d34ec908785bd2`; its original bundles expose the Vite module-preload defect.
-- Local candidate `kehto/web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d` disables module preload. Its exact `chat` and `feed` builds contain no forbidden `fetch` and each passes `@napplet/conformance-cli@0.2.16` with 6 passed, 0 failed, 4 skipped. The candidate cannot yet be fetched from GitHub.
-- Reachable candidate `jodobear/nampplets@b1a38f1af9191b6742c0be8ddea04159a2755a71` pins Napplet 0.29/0.27/0.25/0.14 and passes its full Linux suites. It remains unratified, advertises no platform domains, and has blank compatibility, security, and NMP-boundary signoffs.
+- Reachable candidate `jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d` disables module preload. Its exact `chat` and `feed` builds contain no forbidden `fetch` and each passes `@napplet/conformance-cli@0.2.16` with 6 passed, 0 failed, 4 skipped. It is a valid provisional source pin while upstream review proceeds.
+- Reachable candidate `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` pins Napplet 0.29/0.27/0.25/0.14, binds its Kehto corpus to the exact fork repository, and passes its full Linux suites. It remains unratified, advertises no platform domains, and has blank compatibility, security, and NMP-boundary signoffs.
 - NMP documents canonical redb state, provenance-preserving deduplication, freshness, bounded delivery, finite relay fan-out, NIP-65 routing, and NIP-02 following.
 - The NAP registry marks shell and INC active while their documents still say draft; relay/identity/storage and NIP-5D remain provisional.
 
@@ -30,7 +30,7 @@ See [`07-source-baseline.md`](07-source-baseline.md), [`../compatibility.lock`](
 
 | Gate | Result | Evidence summary |
 |---|---|---|
-| V-01 | **fail** | compatible 0.29 artifacts pass locally, but their exact Kehto source commit is not reachable from an upstream or fork remote |
+| V-01 | pass | compatible 0.29 artifacts pass and exact Kehto commit `62241de...` is reachable from `jodobear/kehto-web`; upstream merge is not required for an exact-SHA provisional pin |
 | V-02 | pass | all 16 reusable nampplets crates passed Linux fmt/test/Clippy |
 | V-03 | pass | `RuntimeController` already exposes verify/install/launch/mapped-envelope/lifecycle APIs exercised by upstream tests |
 | V-04 | pass | locked NMP adapter probe returned profile, follows, evidence, cancellation, and shutdown |

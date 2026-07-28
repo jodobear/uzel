@@ -2,7 +2,7 @@
 
 ## Decision
 
-**NO-GO for Slice 01.** Gate 0 is complete and the technical 0.29 line now passes locally. Kehto candidate `62241de0b4526ba4fdc8a7b3c766c2499d3ae24d` produces conformance-clean artifacts, and reachable nampplets candidate `b1a38f1af9191b6742c0be8ddea04159a2755a71` passes the full Linux evidence suite. The line is still not an accepted reproducible baseline: the Kehto commit is not reachable from GitHub, and the nampplets lock remains unratified with compatibility, security, and NMP-boundary signoffs blank.
+**NO-GO for Slice 01.** Gate 0 is complete and the technical 0.29 line passes. Kehto candidate [`jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`](https://github.com/jodobear/kehto-web/commit/62241de0b4526ba4fdc8a7b3c766c2499d3ae24d) is a durable, conformance-clean source pin, and reachable nampplets candidate `08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` passes the full Linux evidence suite. Uzel does not need to wait for the Kehto upstream merge. The line is still not accepted because the nampplets lock remains unratified with compatibility, security, and NMP-boundary signoffs blank, and its Apple catalog changes have not run under Xcode.
 
 No product implementation was started.
 
@@ -10,8 +10,8 @@ No product implementation was started.
 
 | Gate | Result | Evidence | Consequence |
 |---|---|---|---|
-| V-01 | **fail** | candidate `62241de...` yields two released-conformance passes, but authenticated `jodobear` cannot publish it to `kehto/web` and no `jodobear/web` fork exists | publish and review the exact fix; then pin its reachable commit |
-| V-02 | pass | candidate `b1a38f1...` passes 16-crate Linux fmt/test/Clippy, 21 Python tests, 4 trusted-shell tests, digests, and file-growth checks on Rust 1.89.0 | reuse generic crates; implement only Linux host edge after acceptance |
+| V-01 | pass | candidate `62241de...` yields two released-conformance passes and is reachable from the dedicated `jodobear/kehto-web` fork branch | pin the exact fork SHA; review and merge upstream in parallel |
+| V-02 | pass | candidate `08ddb87...` passes 16-crate Linux fmt/test/Clippy, 22 Python tests, 4 trusted-shell tests, digests, and file-growth checks on Rust 1.89.0 | reuse generic crates; implement only Linux host edge after acceptance |
 | V-03 | pass | candidate full-workspace tests keep public `RuntimeController` verify/install/launch/mapped-envelope/lifecycle APIs green | daemon is a thin controller client, not a new runtime |
 | V-04 | pass | locked NMP adapter signed-fixture probe returns profile, direct follows, evidence, cancellation, shutdown | use `NmpDataPlane` and existing providers only |
 | V-05 | pass | real Tauri/Wry/WebKitGTK hostile frame lacks bridge authority; invalid raw IPC rejected; source binding true | one trusted WebView with sandboxed frames remains viable |
@@ -24,6 +24,7 @@ No product implementation was started.
 - Kehto PR #204 is merged, and the npm 0.29 package line is released with retrievable integrity values.
 - Vite's fetch-based module-preload polyfill is not required for these self-contained artifacts; disabling it in Kehto's shared build config removes the forbidden global without a compatibility workaround.
 - The corrected `chat` and `feed` artifacts each pass `@napplet/conformance-cli@0.2.16` with 6 passed, 0 failed, and 4 skipped.
+- Exact Kehto commit `62241de...` is publicly fetchable from `jodobear/kehto-web`; Uzel can provisionally pin it without waiting for an upstream merge.
 - A coherent nampplets 0.29 candidate can be generated and exercised on Linux without duplicating NMP, runtime, provider, storage, or cryptographic functionality.
 - nampplets runtime semantics are Linux-neutral; only the WebKit/native-host binding is platform-specific.
 - Exact-build identity, grants, sessions, source-bound envelopes, providers, storage, and NMP integration already have reusable owners.
@@ -38,7 +39,7 @@ No product implementation was started.
 - **Rejected:** “Kehto #204 is still draft.” It merged on 2026-07-27.
 - **Rejected:** “Changing version constants alone makes nampplets compatible with 0.29.” The candidate needed regenerated authorities, envelope/corpus evidence, explicit registry/package drift records, and executable suites; it still advertises no platform domains.
 - **Rejected:** “The original #204 artifact failure requires relaxing CSP or conformance.” The smallest source fix is `build.modulePreload = false`; corrected artifacts pass under the existing strict policy.
-- **Rejected:** “A locally verified Git commit is a reproducible upstream pin.” Kehto commit `62241de...` cannot be fetched from an authorized remote and therefore cannot clear V-01.
+- **Rejected:** “Uzel must wait for the Kehto upstream PR to merge.” The exact verified fork commit is durable and fetchable, so it clears V-01 as a provisional source pin; any review-modified successor must be revalidated before repinning.
 - **Rejected:** “A green compatibility candidate is automatically ratified.” The candidate's three named review fields are blank.
 - **Rejected:** “NAP shell/INC/relay/identity/storage have one unambiguous released status.” Registry, file headers, and open PRs disagree.
 - **Rejected:** “NIP-5A is the napplet manifest pin.” It is the nsite contract; draft NIP-5D is the relevant napplet proposal.
@@ -58,20 +59,21 @@ No product implementation was started.
 
 ## Blockers
 
-1. **Publication blocker:** verified Kehto commit `62241de...` is not remotely reachable. Its exact mail patch is preserved at [`upstream/kehto-62241de.patch`](upstream/kehto-62241de.patch), but SSH authenticates as `jodobear`, which has no `kehto/web` write permission, and `jodobear/web` does not exist. A durable fork/upstream branch and review are required before this can be a source pin.
-2. **Acceptance blocker:** published fork candidate `jodobear/nampplets@b1a38f1...` is still `unratified`. Its compatibility, security, and NMP-boundary reviewers are blank, and an upstream PR was not opened from this environment. Uzel must not silently treat green tests as acceptance.
-3. **Review risk:** current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose; current package intent behavior also leads the older NAP-INTENT text. The candidate records the former as explicitly unsupported and promotes no provider. Named reviewers must accept or resolve this exact drift.
-4. **Platform evidence:** the candidate changes the bundled Apple corpus/catalog. Linux suites pass, but Apple workbench/package tests require Xcode and must run in upstream CI or on an Apple host before ratification.
+1. **Acceptance blocker:** published fork candidate `jodobear/nampplets@08ddb87...` is still `unratified`. Its compatibility, security, and NMP-boundary reviewers are blank. Uzel must not silently treat green tests as acceptance.
+2. **Review risk:** current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose; current package intent behavior also leads the older NAP-INTENT text. The candidate records the former as explicitly unsupported and promotes no provider. Named reviewers must accept or resolve this exact drift.
+3. **Platform evidence:** the candidate changes the bundled Apple corpus/catalog. Linux suites pass, but Apple workbench/package tests require Xcode and must run in upstream CI or on an Apple host before ratification.
 
-Draft NAP/NIP status is a tracked risk, not an independent Slice 01 blocker if exact revisions are deliberately accepted after the two compatibility blockers clear.
+Kehto upstream review is a governance follow-up, not a Slice 01 blocker. The exact branch is pushed, but `gh pr create` failed with `Resource not accessible by personal access token (createPullRequest)`. Open the prepared [upstream compare page](https://github.com/kehto/web/compare/main...jodobear:kehto-web:fix/napplet-conformance-no-modulepreload?expand=1) manually or with a token allowed to create pull requests.
+
+Draft NAP/NIP status is a tracked risk, not an independent Slice 01 blocker if exact revisions are deliberately accepted when the remaining compatibility decision is made.
 
 ## Exact next steps
 
-1. Create or grant a writable `kehto/web` fork/branch, push exact commit `62241de...`, open its PR, run upstream CI, and use the resulting reachable reviewed commit (or its merge descendant).
-2. If the Kehto SHA changes during review, regenerate the nampplets corpus and `compatibility.lock` from that exact commit, then rerun the offline Kehto runner, legacy-host runner, Python suite, Rust fmt/Clippy/workspace tests, trusted-shell tests, digests, and file-growth gate.
+1. Open the prepared Kehto upstream PR from `jodobear:fix/napplet-conformance-no-modulepreload` and run upstream CI. This may proceed in parallel with Uzel and does not require delaying the POC.
+2. If Kehto review changes the source SHA, regenerate the nampplets corpus and `compatibility.lock` from that exact commit, then rerun the offline Kehto runner, legacy-host runner, Python suite, Rust fmt/Clippy/workspace tests, trusted-shell tests, digests, and file-growth gate before repinning Uzel.
 3. Open the upstream nampplets PR from `jodobear:compat/napplet-0.29`, run required Apple CI, resolve or explicitly accept the recorded NAP registry/package drift, and record named compatibility, security, and NMP-boundary signoffs. Change `unratified` only after those reviews are real.
-4. Update this repository's exact Kehto and nampplets pins and rerun V-01, V-02, V-03, and V-06. Any Tauri/Wry/WebKit change also reruns V-05.
-5. Only after every blocking gate passes, change the verdict to go and execute `work/01-scaffold.md`. Do not begin Slice 02–06 early.
+4. Alternatively, record an explicit Uzel risk-acceptance decision for the unratified exact candidate and missing Apple evidence. Do not infer that acceptance from a request to continue without the Kehto merge.
+5. After step 3 or 4, change the verdict to go and execute `work/01-scaffold.md`. Do not begin Slice 02–06 early.
 
 ## Validated command ledger
 
@@ -79,6 +81,8 @@ Representative exact commands that ran:
 
 ```sh
 # Kehto exact merge
+git ls-remote https://github.com/jodobear/kehto-web.git \
+  refs/heads/fix/napplet-conformance-no-modulepreload
 corepack enable --install-directory "$DEV_SHELL_BIN"
 pnpm install --frozen-lockfile
 pnpm build

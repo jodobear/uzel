@@ -36,7 +36,7 @@ flowchart LR
 
 Implementation does **not** begin from these documents alone. [`work/00-validate.md`](work/00-validate.md) must validate the current upstream commits, Linux build seams, WebKit trust boundary, NMP APIs, and local tools. Any contradicted design is corrected before product code proceeds.
 
-Gate 0 was completed and revalidated on 2026-07-28 with a **no-go for Slice 01**. Linux/runtime/security feasibility and a corrected Napplet 0.29 line are proven locally. The exact Kehto fix commit is not yet remotely reachable, and the published nampplets fork candidate remains unratified with three required reviews blank. See [`reports/preflight.md`](reports/preflight.md) and [`compatibility.lock`](compatibility.lock). Do not execute later work files until those acceptance blockers clear and the lock verdict changes.
+Gate 0 was completed and revalidated on 2026-07-28 with a **no-go for Slice 01**. Linux/runtime/security feasibility and a corrected Napplet 0.29 line are proven. The exact Kehto fix is now a durable fork pin, so Uzel does not need to wait for its upstream merge. The published nampplets candidate remains unratified, its three required reviews are blank, and its Apple catalog changes have not run under Xcode. See [`reports/preflight.md`](reports/preflight.md) and [`compatibility.lock`](compatibility.lock). Do not execute later work files until that acceptance blocker clears or is explicitly accepted and the lock verdict changes.
 
 ## Start order
 

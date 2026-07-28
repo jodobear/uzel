@@ -51,25 +51,15 @@ They revealed and corrected three important design issues:
 
 A structural Mermaid check is included. Full rendering with a pinned Mermaid CLI remains part of repository tooling setup.
 
-## Remaining uncertainties
+## Gate 0 resolution
 
-The documentation intentionally does not pretend these are solved:
-
-- exact Linux-neutral `nampplets` APIs;
-- exact #204 merge/package/spec pins;
-- NMP Rust facade calls for the required projections;
-- Tauri/WebKit opaque-origin and source-binding behavior on the pinned stack;
-- final CSP/document construction;
-- final Fallow rule names and command line;
-- whether Bubblewrap can be added without distorting the fast POC.
-
-Work 00 owns those facts. Any contradiction changes the plan before implementation.
+Work 00 resolved the implementation assumptions with exact pins and executable Linux probes: reusable `nampplets` APIs, Kehto/package/spec revisions, NMP facade calls, Tauri/WebKit frame isolation, strict CSP construction, daemon IPC, and actual tool commands. The corrected Kehto source is now a reachable fork pin. Remaining uncertainty is an acceptance decision, not missing technical evidence: the nampplets candidate is unratified, its three named signoffs are blank, and Apple catalog tests require Xcode. Bubblewrap remains deferred hardening.
 
 ## Confidence
 
 - POC scope and boundaries: high
 - validation method: high
 - single-repository extraction path: high
-- exact upstream adapter code: pending Gate 0
-- Linux WebKit security details: pending Gate 0
-- final implementation schedule: sensitive to the `nampplets` Linux seam
+- exact upstream adapter code: high for the pinned candidate
+- Linux WebKit security details: high for the probed paths
+- final implementation schedule: blocked on compatibility acceptance, not the Kehto upstream merge

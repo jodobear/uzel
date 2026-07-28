@@ -4,7 +4,7 @@
 
 The intended trusted-parent/sandboxed-child boundary is feasible on Linux with Tauri 2.11.5, Wry 0.55.1, and WebKitGTK 2.52.5. Authenticated native authority stayed in the top frame; a sandboxed child ran and communicated through source-bound `postMessage`; tested direct network paths were denied.
 
-This does not clear the candidate production fixtures: Kehto's generated `chat` and `feed` HTML contains a forbidden `fetch` helper and fails released conformance.
+The original PR #204 production fixtures contained Vite's forbidden module-preload `fetch` helper. Exact fork candidate `62241de...` disables module preload; its generated `chat` and `feed` artifacts clear released conformance without weakening this boundary.
 
 ## Source verification
 

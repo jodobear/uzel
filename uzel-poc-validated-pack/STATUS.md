@@ -12,7 +12,7 @@
 - [x] Nix/Rust/Node/Tauri/Fallow/Mermaid commands recorded
 - [x] Provisional design corrected where evidence required it
 
-Gate 0 outcome: **complete; Slice 01 NO-GO**. V-06 now passes after the verified Kehto build correction. V-01 still fails on source reachability, and the unratified nampplets candidate still lacks three required signoffs. Completion means the assumptions were decided with evidence, not that every claim passed.
+Gate 0 outcome: **complete; Slice 01 NO-GO**. V-01 and V-06 pass after publishing and verifying the Kehto build correction. The unratified nampplets candidate still lacks three required signoffs and Apple-host evidence. Completion means the assumptions were decided with evidence, not that every claim passed.
 
 ## Implementation
 
@@ -31,13 +31,13 @@ commits: recorded in repository history
 commands: reports/preflight.md#validated-command-ledger
 observable result: Linux runtime/NMP/IPC/WebKit and corrected 0.29 artifact compatibility pass locally
 known limitation: full hostile suite and clean distro acceptance belong to later slices
-next action: publish the exact Kehto fix and obtain named review of the reachable nampplets 0.29 candidate
+next action: open the prepared Kehto upstream PR in parallel; obtain named review and Apple evidence for the reachable nampplets 0.29 candidate, or record explicit Uzel risk acceptance
 ```
 
 ## Current blockers
 
 ```text
-1. Verified Kehto candidate 62241de is not remotely reachable: jodobear cannot write kehto/web and has no jodobear/web fork.
-2. Reachable nampplets candidate b1a38f1 remains unratified; compatibility, security, and NMP-boundary signoffs are blank.
-3. Slice 01 may not start until both blockers clear and compatibility.lock changes to go.
+1. Reachable nampplets candidate 08ddb87 remains unratified; compatibility, security, and NMP-boundary signoffs are blank.
+2. Its bundled Apple corpus/catalog changes have not run under Xcode.
+3. Slice 01 may not start until these are reviewed or explicitly accepted and compatibility.lock changes to go. Kehto upstream merge is not a blocker.
 ```

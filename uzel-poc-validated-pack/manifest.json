@@ -7,18 +7,18 @@
     },
     {
       "path": "AUDIT.md",
-      "bytes": 3496,
-      "sha256": "2a2699d4ff99018cbf8e9f96a699b760d1b7f7f7c33b2a999a743dc11b557fe5"
+      "bytes": 3584,
+      "sha256": "40260242565cbfd429119a43c3cb553f6e6d938db30b8a15feb0851d790ea02a"
     },
     {
       "path": "README.md",
-      "bytes": 3364,
-      "sha256": "37cf3ba0a5f1f7e12b6d03d06c67fab0b114d9e761248aace44b0456a7a5c6ce"
+      "bytes": 3475,
+      "sha256": "dd93ade0e2eadd0224886f794fd809dd37405013ed375dc718c5a279190cc611"
     },
     {
       "path": "STATUS.md",
-      "bytes": 1916,
-      "sha256": "1f4b02b5787f3f5a8922f02f298ab3bf5ae2655b0627c4c82a4f1c70db9e1f91"
+      "bytes": 1998,
+      "sha256": "59c91e05c240a2cca92e401dc2647e602e3948f7909a205fbcc0b3d35d830fd7"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "26307da3e7a1017de492243be78ac2a75ef8c9c315c3f3a7ccc5f99348be98bb"
+      "sha256": "b3f85910a35782db1337bdd81aff1fc53bf64165f7fc8695a76a654eafb47450"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 8232,
-      "sha256": "fc0b03569acb80fd3db74579cb9559c396f65ae7187d564c99b0c6ae143086cc"
+      "bytes": 8632,
+      "sha256": "151c03ca2c33c2faaa586606723eb8f7bd373fd19a2fefe7972e90824f64eb5a"
     },
     {
       "path": "config/fallow.jsonc",
@@ -47,8 +47,8 @@
     },
     {
       "path": "docs/01-validation.md",
-      "bytes": 6112,
-      "sha256": "65182f95b52497e3a5ce2d15bfbd19ba0a77338288dfbbe4cfacaf7e2be1a981"
+      "bytes": 6279,
+      "sha256": "d0cb2cd88909b2b3ba8d8552486d03990d24b9fafb8f8526a5b5869738a253c0"
     },
     {
       "path": "docs/02-architecture.md",
@@ -67,8 +67,8 @@
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3256,
-      "sha256": "dd3131aeeb088ce48ac2a0bfa4dcc4bcfdc68b4236c31c8968eff5be73ac7a98"
+      "bytes": 3344,
+      "sha256": "96a86e7db6b35ddcd8524b36e13968c34f4a6f36ee67ece0fed3191fd6cfb3f6"
     },
     {
       "path": "docs/06-extraction.md",
@@ -77,13 +77,13 @@
     },
     {
       "path": "docs/07-source-baseline.md",
-      "bytes": 4133,
-      "sha256": "7f4827c05da4542b4ede367f40f9bdccc889d120140a46bace4b6e5472a4fad6"
+      "bytes": 4410,
+      "sha256": "1265c563723320f24e4deef0da4245164481ba7b4586038b344e10fba4231dee"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
-      "bytes": 2195,
-      "sha256": "bb20ad49dda7dab819c22f3f5590a0c7b9e84d57c90e308ce9b3515ac9cc2186"
+      "bytes": 2518,
+      "sha256": "4b956acc7111011959bf74ec40c58c4f530058b19f096484be8f212fe52ef18c"
     },
     {
       "path": "docs/facts/FACT-002-spec-revisions.md",
@@ -92,13 +92,13 @@
     },
     {
       "path": "docs/facts/FACT-003-nampplets-linux-reuse.md",
-      "bytes": 2046,
-      "sha256": "aab058576b36fc17393132176744b4131432a3ca940cb46d4c1fefef3e03e79a"
+      "bytes": 2174,
+      "sha256": "9bc98821b18af12a5e3c570513fadca13788d3440f1407ced5510099ec1b846a"
     },
     {
       "path": "docs/facts/FACT-004-nmp-facade.md",
       "bytes": 1547,
-      "sha256": "94ea97bd8e9828cfe0b23229c611c01e891b7c623f65720a0dac4c7f347a43f7"
+      "sha256": "997d42acb452cf8152631bee3139ca4608b312292d1dc7b94d2c77f048d4dd05"
     },
     {
       "path": "docs/facts/FACT-005-webkit-tauri-trust.md",
@@ -107,8 +107,8 @@
     },
     {
       "path": "docs/facts/FACT-006-csp-egress.md",
-      "bytes": 1522,
-      "sha256": "fe43d3fe97a26301421442edb1672bed5a328a1bcef43eb93db56c47a6e27138"
+      "bytes": 1594,
+      "sha256": "c31a0c926aedc607d4a2aa5201bc6a8c0a4670d3104357c3deaf91ea3ee96b89"
     },
     {
       "path": "docs/facts/FACT-007-local-ipc.md",
@@ -122,8 +122,8 @@
     },
     {
       "path": "reports/nampplets-linux-map.md",
-      "bytes": 4820,
-      "sha256": "9e5fc07083b740253f946ef352510bcde56f566cd61692b269292fda28f36d14"
+      "bytes": 5016,
+      "sha256": "98e9c9eb21fa3522ea45f038c08c5a5405ea6e1dfdfcc7fc79aa0e40a99e67fd"
     },
     {
       "path": "reports/nmp-api-map.md",
@@ -132,8 +132,8 @@
     },
     {
       "path": "reports/preflight.md",
-      "bytes": 10640,
-      "sha256": "659dd9dfebde17f7574e0221547cdb206bd9ac259cebb4c1e560eea612d318f8"
+      "bytes": 11122,
+      "sha256": "193307ac3d5f7378eace7f6cf9541743be6c620e261bee4e6743159e77079a2c"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
@@ -142,8 +142,8 @@
     },
     {
       "path": "reports/webkit-trust-spike.md",
-      "bytes": 4797,
-      "sha256": "6ef954b32283feb342044511f9e5df6c5a013133c6883dcac1956fc705a50315"
+      "bytes": 4893,
+      "sha256": "26db4e1e5e5ff69004e23aabd132c639e1a9f3feb21b392f29ae8c9463c5bb2c"
     },
     {
       "path": "scripts/audit_docs.py",
@@ -172,8 +172,8 @@
     },
     {
       "path": "work/02-linux-runner.md",
-      "bytes": 1441,
-      "sha256": "fecb8a683cce7d93701bf3243a779c5df197cea64bcc3963a3fe739e82dec1b1"
+      "bytes": 1483,
+      "sha256": "4a1566685842eecdfdd70e2d321963d99ae5f1fce997f9c0db8ddd9339c58520"
     },
     {
       "path": "work/03-napplets.md",
@@ -182,8 +182,8 @@
     },
     {
       "path": "work/04-daemon-nmp.md",
-      "bytes": 1600,
-      "sha256": "3d90d15585a084ef4ddfaef690a3ad33b304bbcecbcb63ed22df91c2e79d8da6"
+      "bytes": 1633,
+      "sha256": "1acbb71d6509237cfcc793434a5e008671f071b27dd86b795087ad52e74a085c"
     },
     {
       "path": "work/05-integrate.md",
