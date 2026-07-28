@@ -1,0 +1,36 @@
+{
+  "kind": 35129,
+  "created_at": 1785266913,
+  "tags": [
+    [
+      "d",
+      "egress-probe"
+    ],
+    [
+      "path",
+      "/index.html",
+      "2687d474ea260f00c56c6861558cea4d10b972fa3aa39bfe1268d0375a539e06"
+    ],
+    [
+      "x",
+      "0514a2812f5f1f1b4c9d20cd4ffca7f016f434e11d108eef6b5293a4c61e7670",
+      "aggregate"
+    ],
+    [
+      "server",
+      "https://blossom.invalid/"
+    ],
+    [
+      "title",
+      "Hostile egress probe"
+    ],
+    [
+      "description",
+      "Test-only direct browser and native authority probe."
+    ]
+  ],
+  "content": "",
+  "id": "f23d457098e53c0e2dadfda43d4053fdce9ffcf77aa9ca1201309c76f7261269",
+  "pubkey": "ba01ffeffa841a7e48beb131a08d4e81d07232eacc7c178558b84e5ad9a8ca86",
+  "sig": "1bc28a009bc7e8c3ea1a04e4217940a54d47df6bb015e1f89f53ec56b0c6abcece45e2cb097d975bfb0c62d31db82b39c09f7a5e53c33eff267f6e2e4bb44a33"
+}
