@@ -1,6 +1,6 @@
 # POC architecture
 
-> Gate 0 validated this topology on Linux, subject to the compatibility blockers in [`../reports/preflight.md`](../reports/preflight.md). The architecture is accepted; Slice 01 is not yet authorized.
+> Gate 0 validated this topology on Linux. The exact provisional pins and accepted risks are recorded in [`../reports/preflight.md`](../reports/preflight.md). The architecture and Slice 01 are authorized for the Linux-only POC.
 
 ## Runtime topology
 

@@ -1,0 +1,9 @@
+.git
+.cache
+graphify-out
+node_modules
+target
+**/dist
+**/node_modules
+*.zip
+uzel-poc-validated-pack/reports/probes

@@ -92,6 +92,7 @@ def main() -> int:
         "docs/05-test-and-demo.md",
         "docs/06-extraction.md",
         "docs/07-source-baseline.md",
+        "docs/08-upstream-contributions.md",
         "compatibility.lock",
         "docs/facts/FACT-001-kehto-package-line.md",
         "docs/facts/FACT-002-spec-revisions.md",

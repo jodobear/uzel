@@ -1,0 +1,7 @@
+/.cache/
+/node_modules/
+/target/
+apps/uzel/src-tauri/gen/
+**/dist/
+**/node_modules/
+*.log

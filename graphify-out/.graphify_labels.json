@@ -32,5 +32,19 @@
   "30": "FACT-005-webkit-tauri-trust.md",
   "31": "FACT-006-csp-egress.md",
   "32": "FACT-007-local-ipc.md",
-  "33": "FACT-008-toolchain.md"
+  "33": "FACT-008-toolchain.md",
+  "34": "fedora-run-smoke.sh",
+  "35": "debian-build-smoke.sh",
+  "36": "dev.sh",
+  "37": "main.rs",
+  "38": "App.svelte",
+  "39": "build.rs",
+  "40": "main.rs",
+  "41": "lib.rs",
+  "42": "README.md",
+  "43": "README.md",
+  "44": "check-boundaries.sh",
+  "45": "smoke.sh",
+  "46": "vite.config.ts",
+  "47": "lib.rs"
 }

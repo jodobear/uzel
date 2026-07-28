@@ -2,7 +2,7 @@
 
 ## Decision
 
-**NO-GO for Slice 01.** Gate 0 is complete and the technical 0.29 line passes. Kehto candidate [`jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`](https://github.com/jodobear/kehto-web/commit/62241de0b4526ba4fdc8a7b3c766c2499d3ae24d) is a durable, conformance-clean source pin, and reachable nampplets candidate `08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` passes the full Linux evidence suite. Uzel does not need to wait for the Kehto upstream merge. The line is still not accepted because the nampplets lock remains unratified with compatibility, security, and NMP-boundary signoffs blank, and its Apple catalog changes have not run under Xcode.
+**GO for Slice 01 within the Linux-only Uzel POC.** Gate 0 is complete and every V-01 through V-08 probe passes. Kehto candidate [`jodobear/kehto-web@62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`](https://github.com/jodobear/kehto-web/commit/62241de0b4526ba4fdc8a7b3c766c2499d3ae24d) is a durable, conformance-clean source pin, and reachable nampplets candidate `08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` passes the full Linux evidence suite. Uzel explicitly accepts that exact unratified candidate for the POC. This does not claim upstream ratification or Apple support.
 
 No product implementation was started.
 
@@ -17,7 +17,7 @@ No product implementation was started.
 | V-05 | pass | real Tauri/Wry/WebKitGTK hostile frame lacks bridge authority; invalid raw IPC rejected; source binding true | one trusted WebView with sandboxed frames remains viable |
 | V-06 | pass | strict-CSP child runs with zero network connections; corrected exact `chat` and `feed` artifacts contain no module-preload `fetch` and pass released conformance | preserve this bundle/CSP contract |
 | V-07 | pass | real `$XDG_RUNTIME_DIR` AF_UNIX version-0 hello/status; 0700/0600 modes; oversized frame rejected | use the bounded private protocol shape |
-| V-08 | pass | exact Nix/Rust/Node/Tauri/Fallow/Mermaid commands executed | create locks/devShell only after no-go clears |
+| V-08 | pass | exact Nix/Rust/Node/Tauri/Fallow/Mermaid commands executed | create the pinned Slice 01 locks and devShell |
 
 ## Confirmed assumptions
 
@@ -57,23 +57,22 @@ No product implementation was started.
 5. Use four-byte big-endian, maximum-4,096-byte, version-0 JSON frames over a 0600 AF_UNIX socket in a 0700 runtime directory for the POC.
 6. Pin a real flake/devShell; use `nix develop`, lock Tauri CLI and crate separately, expose pnpm via Corepack on `PATH`, and use Fallow's released schema.
 
-## Blockers
+## Accepted provisional risks
 
-1. **Acceptance blocker:** published fork candidate `jodobear/nampplets@08ddb87...` is still `unratified`. Its compatibility, security, and NMP-boundary reviewers are blank. Uzel must not silently treat green tests as acceptance.
-2. **Review risk:** current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose; current package intent behavior also leads the older NAP-INTENT text. The candidate records the former as explicitly unsupported and promotes no provider. Named reviewers must accept or resolve this exact drift.
-3. **Platform evidence:** the candidate changes the bundled Apple corpus/catalog. Linux suites pass, but Apple workbench/package tests require Xcode and must run in upstream CI or on an Apple host before ratification.
+1. `jodobear/nampplets@08ddb87...` remains unratified upstream. Uzel owns only a project-local, exact-commit Linux POC acceptance and must not describe the wider baseline as ratified.
+2. Current NAP-INC text requires `inc.channel.opened`, which released 0.29 package types/conformance do not expose. Uzel does not use symmetric channels; that surface remains explicitly unsupported.
+3. Package NAP-INTENT behavior leads the older registry text. Uzel uses NAP-INC for the POC and does not promote NAP-INTENT.
+4. Apple workbench/catalog evidence is absent and outside Uzel's Linux scope.
 
-Kehto upstream review is a governance follow-up, not a Slice 01 blocker. The exact branch is pushed, but `gh pr create` failed with `Resource not accessible by personal access token (createPullRequest)`. Open the prepared [upstream compare page](https://github.com/kehto/web/compare/main...jodobear:kehto-web:fix/napplet-conformance-no-modulepreload?expand=1) manually or with a token allowed to create pull requests.
-
-Draft NAP/NIP status is a tracked risk, not an independent Slice 01 blocker if exact revisions are deliberately accepted when the remaining compatibility decision is made.
+Kehto upstream PR [#218](https://github.com/kehto/web/pull/218) and later nampplets contribution work proceed in parallel. Neither upstream merge is a Slice 01 blocker. Draft NAP/NIP status remains a tracked exact-pin risk.
 
 ## Exact next steps
 
-1. Open the prepared Kehto upstream PR from `jodobear:fix/napplet-conformance-no-modulepreload` and run upstream CI. This may proceed in parallel with Uzel and does not require delaying the POC.
-2. If Kehto review changes the source SHA, regenerate the nampplets corpus and `compatibility.lock` from that exact commit, then rerun the offline Kehto runner, legacy-host runner, Python suite, Rust fmt/Clippy/workspace tests, trusted-shell tests, digests, and file-growth gate before repinning Uzel.
-3. Open the upstream nampplets PR from `jodobear:compat/napplet-0.29`, run required Apple CI, resolve or explicitly accept the recorded NAP registry/package drift, and record named compatibility, security, and NMP-boundary signoffs. Change `unratified` only after those reviews are real.
-4. Alternatively, record an explicit Uzel risk-acceptance decision for the unratified exact candidate and missing Apple evidence. Do not infer that acceptance from a request to continue without the Kehto merge.
-5. After step 3 or 4, change the verdict to go and execute `work/01-scaffold.md`. Do not begin Slice 02–06 early.
+1. Execute `work/01-scaffold.md` from the exact accepted pins. Do not begin Slice 02–06 early.
+2. Depend on the required nampplets crates from `jodobear/nampplets` at exact revision `08ddb87...`; compose them in `napd` instead of copying runtime logic.
+3. If Kehto or nampplets review changes a source SHA, rerun the affected Gate 0 suites before repinning Uzel.
+4. Record every upstream contribution in [`../docs/08-upstream-contributions.md`](../docs/08-upstream-contributions.md), using a dedicated branch in the `jodobear` fork and submitting after Uzel validation.
+5. Treat full nampplets ratification as a pre-production/post-POC milestone, not a POC start gate.
 
 ## Validated command ledger
 

@@ -2,8 +2,33 @@
 schema = 1
 validated_at = "2026-07-28"
 gate = "Gate 0"
-slice_01_verdict = "no-go"
-blocking_reason = "the nampplets 0.29 candidate is unratified with compatibility, security, and NMP-boundary signoffs blank; its Apple catalog changes have not run under Xcode"
+slice_01_verdict = "go"
+acceptance_scope = "Linux-only Uzel POC"
+blocking_reason = ""
+
+[uzel_acceptance]
+decision = "accept-provisional-linux-poc"
+decision_owner = "jodobear"
+accepted_at = "2026-07-28"
+nampplets_upstream_status = "unratified"
+apple_evidence_required = false
+allowed_surfaces = [
+  "Linux-neutral nampplets Rust crates",
+  "RuntimeController exact-build and lifecycle facade",
+  "NAP bridge and tested providers",
+  "NmpDataPlane adapter over pinned NMP",
+  "portable trusted-shell assets",
+]
+explicitly_unsupported = [
+  "inc.channel.opened symmetric-channel lifecycle",
+  "NAP-INTENT delivery in the Uzel POC",
+  "Apple platform bindings and catalogs",
+]
+revalidate_on = [
+  "any pinned commit or package integrity change",
+  "use of a currently unsupported surface",
+  "an upstream review-modified successor commit",
+]
 
 [kehto]
 repository = "https://github.com/kehto/web"
@@ -24,8 +49,9 @@ candidate_repository = "https://github.com/jodobear/kehto-web"
 candidate_branch = "fix/napplet-conformance-no-modulepreload"
 candidate_reachable = true
 candidate_publication_result = "exact commit pushed to jodobear/kehto-web branch fix/napplet-conformance-no-modulepreload"
-upstream_pr_result = "not opened: GitHub token rejected createPullRequest; open the compare URL manually"
-upstream_compare_url = "https://github.com/kehto/web/compare/main...jodobear:kehto-web:fix/napplet-conformance-no-modulepreload?expand=1"
+upstream_pull_request = 218
+upstream_pr_result = "open"
+upstream_pr_url = "https://github.com/kehto/web/pull/218"
 candidate_patch_sha256 = "f22b3185fc5983145d6e02366e454b1e8db6dc830fc943ea14c7e2428dc12f64"
 candidate_playground_tree = "d1bab686acef6c21c0d377052c9f04cd2e59500f"
 candidate_corpus_tree = "24a7dfa6277f339612f9b0a33668fec26d9e8d9a"
@@ -124,6 +150,9 @@ candidate_repository = "https://github.com/jodobear/nampplets"
 commit = "08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf"
 candidate_branch = "compat/napplet-0.29"
 candidate_reachable = true
+uzel_linux_acceptance = "accepted as an exact provisional POC dependency"
+apple_required_for_uzel = false
+upstream_pr_result = "not submitted; submit after Uzel validates the integrated Linux runtime"
 rust_toolchain = "1.89.0"
 baseline_status = "unratified"
 baseline_file_sha256 = "0d97d277ffce49b464489bdaa883ce64c731d2311e2ad9a35c537747ae3ea393"
@@ -186,6 +215,32 @@ fallow = "3.9.1"
 fallow_sha256 = "871e25151b2f6e78d0e7964e4f5af7efaf4a3ee9045406e73a6188605c564942"
 mermaid_cli = "11.16.0"
 graphify = "0.9.13"
+
+[slice_01]
+verdict = "pass"
+branch = "feat/slice-01-scaffold"
+nixpkgs_commit = "38a4887411571457d700c51c64a6e49ead2ed5ab"
+flake_lock_sha256 = "07a836d15a009b9960eab20f0269fb36efcd300d51a68b6093a123a80673ec25"
+cargo_lock_sha256 = "460f541390c8f9d8a14306d2263969925621851e63d9902eb6c128e693fe7c3c"
+pnpm_lock_sha256 = "1941e8b66fb762f45e5074014b27979db18c10ed2976c1d7b2c4e1ee4fb496cd"
+debian_containerfile_sha256 = "5620cf8302cd753cc2a5d845d90813d110db758ecf92ba3fb73b8a2479495ea8"
+fedora_probe_sha256 = "1f51c755b179508e69908916b787f03cf6391b6cd0d86620d855c0856226d809"
+debian_probe_sha256 = "e46cc7ecb0afeedcb18a2cce35ca8eda80fa012c9f81b40676a603318d636612"
+rust = "1.89.0"
+node = "22.23.1"
+pnpm = "10.8.0"
+tauri_cli = "2.11.4"
+tauri_crate = "2.11.5"
+fallow = "3.9.1"
+mermaid_cli = "11.16.0"
+fedora_webkitgtk = "2.52.5"
+fedora_run_result = "pass: napd and Tauri shell ready and alive under Weston 15.0.1 headless GL"
+debian_base = "bookworm"
+debian_node_image = "docker.io/library/node:22.23.1-bookworm@sha256:175215a1f306ed5df592434b99cc2019f70624373fe49cb659240a618a846aed"
+debian_rust_image = "docker.io/library/rust:1.89.0-bookworm@sha256:c9ac3fa8945b61dede1e4500d25028aa8fd8a8fe46365fcf9c0422f8d999b9b0"
+debian_webkitgtk = "2.50.6-1~deb12u2"
+debian_build_result = "pass: locked frontend and full Cargo/Tauri workspace build"
+feature_implementation = false
 
 [gates]
 V_01 = "pass"

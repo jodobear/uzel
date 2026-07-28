@@ -80,4 +80,4 @@ All commands passed, including 22 Python tests. The baseline verifier reported 1
 
 Candidate `08ddb87...` pins core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, conformance 0.14.0, current spec snapshots, and verified `jodobear/kehto-web@62241de...`. Its runner and generated corpus now fail closed if the lock names a different repository. It is published on the `jodobear/nampplets` fork, but its lock is still unratified, advertises no platform domains, and has no compatibility, security, or NMP-boundary signoff.
 
-Therefore Linux reuse and the candidate 0.29 contract line are proven, but acceptance is not. Uzel must wait for ratification or explicit risk acceptance; it must not add a translation layer or promote providers by changing version strings alone.
+Therefore Linux reuse and the candidate 0.29 contract line are proven. Uzel explicitly accepts the exact candidate for the Linux-only POC while upstream ratification remains pending. It must not add a translation layer, copy runtime code, use unsupported surfaces, or promote providers by changing version strings alone.

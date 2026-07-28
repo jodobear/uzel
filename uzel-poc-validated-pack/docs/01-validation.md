@@ -11,7 +11,7 @@ The architecture is directionally strong, but several implementation details are
 - Tauri/WebKit child-frame and CSP behavior must be proven on Linux;
 - installed tooling must be reproducible.
 
-Gate 0 was executed and its blocking compatibility work was revalidated on 2026-07-28. Linux reuse, NMP, frame trust, strict CSP, IPC, tools, and Kehto source reachability pass. The corrected 0.29 line has a durable fork pin and does not depend on upstream merge, but the nampplets candidate is unratified and lacks Apple-host evidence. Slice 01 is **not accepted to start**; see [`../reports/preflight.md`](../reports/preflight.md).
+Gate 0 was executed and revalidated on 2026-07-28. Linux reuse, NMP, frame trust, strict CSP, IPC, tools, and source reachability pass. Uzel explicitly accepts the exact unratified nampplets fork for this Linux-only POC while keeping unsupported surfaces closed. Slice 01 is **accepted to start**; see [`../reports/preflight.md`](../reports/preflight.md).
 
 ## Current observed baseline
 

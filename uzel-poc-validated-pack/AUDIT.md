@@ -53,7 +53,7 @@ A structural Mermaid check is included. Full rendering with a pinned Mermaid CLI
 
 ## Gate 0 resolution
 
-Work 00 resolved the implementation assumptions with exact pins and executable Linux probes: reusable `nampplets` APIs, Kehto/package/spec revisions, NMP facade calls, Tauri/WebKit frame isolation, strict CSP construction, daemon IPC, and actual tool commands. The corrected Kehto source is now a reachable fork pin. Remaining uncertainty is an acceptance decision, not missing technical evidence: the nampplets candidate is unratified, its three named signoffs are blank, and Apple catalog tests require Xcode. Bubblewrap remains deferred hardening.
+Work 00 resolved the implementation assumptions with exact pins and executable Linux probes: reusable `nampplets` APIs, Kehto/package/spec revisions, NMP facade calls, Tauri/WebKit frame isolation, strict CSP construction, daemon IPC, and actual tool commands. Uzel explicitly accepted the exact unratified nampplets fork for the Linux-only POC. Apple catalog tests are outside Uzel scope; Bubblewrap remains deferred hardening.
 
 ## Confidence
 
@@ -62,4 +62,4 @@ Work 00 resolved the implementation assumptions with exact pins and executable L
 - single-repository extraction path: high
 - exact upstream adapter code: high for the pinned candidate
 - Linux WebKit security details: high for the probed paths
-- final implementation schedule: blocked on compatibility acceptance, not the Kehto upstream merge
+- final implementation schedule: unblocked for Slice 01; later slices retain their own falsifying gates

@@ -1,0 +1,9 @@
+[package]
+name = "uzel-napd"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+napd.workspace = true

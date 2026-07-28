@@ -31,7 +31,7 @@ flowchart LR
 
 ## Parallel work
 
-After Slice 00 has a **go** verdict (the current 2026-07-28 verdict is no-go):
+Slice 00 has a **Linux-scoped go** verdict as of 2026-07-28:
 
 - scaffold owner establishes the workspace and commands;
 - runner owner maps `nampplets` to Linux/Tauri;

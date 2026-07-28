@@ -27,6 +27,14 @@ A remembered API, branch name, chat message, README claim, or expected PR merge 
 - No generic `utils`, catch-all managers, silent fallback, fake implementation, or placeholder-success test.
 - Prefer one complete path over a generic framework.
 
+## Upstream contribution policy
+
+- Protocol authority is `napplet/naps`; NIP-5D owns manifest/artifact/sandbox semantics; NMP is the sole Rust Nostr data plane. Implementation repositories do not override those authorities.
+- Put every upstream-bound change on a dedicated branch in the corresponding `jodobear` fork. Never leave a validated contribution only in a disposable checkout or local commit.
+- Record repository, fork, branch, exact commit, Uzel validation, PR URL/state, and repin action in [`docs/08-upstream-contributions.md`](docs/08-upstream-contributions.md).
+- Submit after the change is validated in Uzel. Uzel may continue from an exact reachable fork SHA without waiting for merge; any review-modified successor must be revalidated before repinning.
+- Reuse or contribute generic nampplets behavior. `napd` composes nampplets crates; it does not copy their runtime, provider, storage, INC, or NMP logic.
+
 ## Repository boundaries
 
 ```text

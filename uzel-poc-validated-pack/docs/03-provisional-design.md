@@ -1,6 +1,6 @@
 # Provisional component design
 
-> Gate 0 replaced guesses with the validated constraints below. Exact source/tool pins live in [`../compatibility.lock`](../compatibility.lock); Slice 01 remains blocked by its no-go verdict.
+> Gate 0 replaced guesses with the validated constraints below. Exact source/tool pins and the Linux-scoped go decision live in [`../compatibility.lock`](../compatibility.lock).
 
 ## Local daemon protocol
 
