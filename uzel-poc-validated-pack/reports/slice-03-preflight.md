@@ -16,10 +16,10 @@ queryless profile-open payload with a runtime-owned sender. Work 04 may start.
 | signing runtime | Deno 2.9.4; frozen `deno.lock`; `nostr-tools@2.24.0` |
 | native runtime | `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` |
 | NMP | `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c` |
-| fixture author | `ba01ffeffa841a7e48beb131a08d4e81d07232eacc7c178558b84e5ad9a8ca86` |
-| follow-list | event `d1d7e93c...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
-| profile-card | event `2cfd84bc...`; aggregate `de31a655...`; index `a5c9880d...`; 59597 bytes |
-| hostile-egress | event `f23d4570...`; aggregate `0514a281...`; index `2687d474...`; 57701 bytes |
+| fixture author | `2c5cfba1117344eecebb730d440380ede068512d0c3982807e22075ef59ee362` |
+| follow-list | event `567a7fb7...`; aggregate `eaf4e565...`; index `3ae0e253...`; 58881 bytes |
+| profile-card | event `d189cbd9...`; aggregate `1c17d749...`; index `c5c33e1e...`; 59849 bytes |
+| hostile-egress | event `2f4dc9c6...`; aggregate `0514a281...`; index `2687d474...`; 57701 bytes |
 | `pnpm-lock.yaml` | `aea77d4cf2403cf7d0f2e396d4f83164e34d48b31dd69f8b25a2c6cc24e3137b` |
 | `deno.lock` | `23209bc013d259aafd7dd06eb8111a646e84cc13defa701b7cb9c3fd3e5d1287` |
 | contract schema | `767a1f80409e9357e4a79109747d9feb17060df46e8361a6c9df85efea70b830` |
@@ -105,6 +105,16 @@ All commands run in the pinned Nix development shell. Observed:
 The conformance CLI skips manifest checks for local-directory input. This is
 not presented as manifest coverage: the Rust test independently verifies all
 three signed events and exact artifact bytes through the pinned NMP runtime.
+
+## Automated review corrections
+
+Codex's first review found three P2 defects. The corrected profile card clears
+old name/about/evidence immediately when a valid selection starts, and a tested
+request-generation gate ignores completions from superseded queries. The
+boundary audit now matches side-effect imports as well as static/dynamic
+imports and export-from statements, with built-in regression cases. Source
+changes triggered official CLI regeneration and repinning of all signed fixture
+events; the stale pre-review artifact was not retained.
 
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
