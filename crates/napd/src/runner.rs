@@ -309,7 +309,7 @@ mod tests {
     use super::*;
 
     const SLICE_THREE_AUTHOR: &str =
-        "b0e591472ce87429291f883c1101f54b4ba2c082074aded52b97a8dcbc87a4cd";
+        "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2";
     const FOLLOW_LIST_EVENT: &[u8] = include_bytes!("../../../fixtures/follow-list/event.json");
     const FOLLOW_LIST_INDEX: &[u8] = include_bytes!("../../../fixtures/follow-list/index.html");
     const PROFILE_CARD_EVENT: &[u8] = include_bytes!("../../../fixtures/profile-card/event.json");
@@ -337,7 +337,7 @@ mod tests {
                 "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4" => {
                     Some(FOLLOW_LIST_INDEX)
                 }
-                "f294c63018b76f8fadfee70f69a8d037bc4f4bf1b5f47cda4c9bfd46f0d0a923" => {
+                "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63" => {
                     Some(PROFILE_CARD_INDEX)
                 }
                 "94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9" => {
@@ -451,7 +451,7 @@ mod tests {
             ),
             (
                 "profile-card",
-                "71c7c91d925b9fb7a21f9648827f11be0f05de273776ada2d09403a604d7c74f",
+                "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
                 PROFILE_CARD_EVENT,
                 PROFILE_CARD_INDEX,
                 &["inc", "outbox"][..],
