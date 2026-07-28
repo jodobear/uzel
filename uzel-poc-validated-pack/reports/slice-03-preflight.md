@@ -213,6 +213,16 @@ the only resource-bearing exception is the exact local Vite module entry
 stylesheet and iframe resources, HTML CSS URL loading, and the allowed local
 entry script.
 
+Codex's fourteenth review found that inline product HTML scripts produced no
+JavaScript analysis unit and that programmatic DOM resource loading was outside
+the short browser-API token list. Product HTML now rejects every script except
+the exact local Vite entry. Product JavaScript and compiled Svelte output use a
+TypeScript-AST capability scan covering browser network globals, DOM resource
+element creation and attribute assignment, navigation, HTML injection, and CSS
+resource sinks. Executable self-tests cover inline import/fetch, `new Image`,
+`.src`, `createElement`, `setAttribute`, background-image assignment,
+`window.open`, `document.write`, and `innerHTML`.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
