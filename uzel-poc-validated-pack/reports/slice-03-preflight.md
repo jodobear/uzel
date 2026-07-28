@@ -166,6 +166,15 @@ scanner now tolerates intervening non-specifier text before the dynamic-import
 parenthesis and scans multiline input. Its executable self-test covers both an
 inline block comment and a line comment followed by the import call.
 
+Codex's eighth review found the corresponding regex seam for a comment inside
+the dynamic-import parentheses. The boundary gate now uses the shell package's
+already-pinned TypeScript parser instead of matching import syntax with a
+regular expression. It walks static imports, re-exports, dynamic imports,
+CommonJS `require`, TypeScript import-equals, and import types; it rejects both
+forbidden literal specifiers and nonliteral dynamic imports. Executable parser
+self-tests retain every bypass form found during review, including comments on
+both sides of the dynamic-import parenthesis.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
