@@ -1,7 +1,7 @@
 # Graph Report - uzel  (2026-07-28)
 
 ## Corpus Check
-- 36 files · ~12,826 words
+- 36 files · ~13,078 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bc79377f`
+- Built from commit: `72f0d136`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -104,7 +104,7 @@ Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NI
 
 ### Community 8 - "POC documentation audit"
 Cohesion: 0.25
-Nodes (7): Confidence, Corrections, Diagram review, POC documentation audit, Problems found in the previous pack, Remaining uncertainties, Verdict
+Nodes (7): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict
 
 ### Community 9 - "Post-POC extraction"
 Cohesion: 0.29
