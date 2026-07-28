@@ -47,6 +47,7 @@ const anyResourceAttribute = new Set(
 const sourceExtensions = new Set([
   '.cjs',
   '.cts',
+  '.html',
   '.js',
   '.jsx',
   '.mjs',
@@ -71,8 +72,29 @@ function declarativeNetworkViolations(parsed, source) {
         ? anyResourceAttribute
         : resourceAttributes.get(node.name);
       for (const attribute of node.attributes ?? []) {
+        if (attribute.type === 'SpreadAttribute') {
+          found.push(`unverifiable spread attributes on ${node.name}`);
+        }
         if (attribute.type === 'Attribute' && attributes?.has(attribute.name)) {
-          found.push(`resource attribute ${node.name}.${attribute.name}`);
+          const localViteEntry =
+            node.name === 'script' &&
+            attribute.name === 'src' &&
+            node.attributes.some(
+              (candidate) =>
+                candidate.type === 'Attribute' &&
+                candidate.name === 'type' &&
+                Array.isArray(candidate.value) &&
+                candidate.value.length === 1 &&
+                candidate.value[0].type === 'Text' &&
+                candidate.value[0].data === 'module',
+            ) &&
+            Array.isArray(attribute.value) &&
+            attribute.value.length === 1 &&
+            attribute.value[0].type === 'Text' &&
+            attribute.value[0].data === '/src/main.js';
+          if (!localViteEntry) {
+            found.push(`resource attribute ${node.name}.${attribute.name}`);
+          }
         }
         if (attribute.type === 'Attribute' && attribute.name === 'style') {
           const attributeSource = source.slice(attribute.start, attribute.end);
@@ -85,6 +107,9 @@ function declarativeNetworkViolations(parsed, source) {
         if (attribute.type === 'StyleDirective' && resourceStyleDirective.test(attribute.name)) {
           found.push(`resource-capable style directive ${attribute.name}`);
         }
+      }
+      if (node.name === 'style' && cssNetworkAuthority.test(source.slice(node.start, node.end))) {
+        found.push('resource-capable HTML style block');
       }
     }
     if (node.type === 'HtmlTag') {
@@ -108,6 +133,13 @@ function declarativeNetworkViolations(parsed, source) {
 }
 
 function sourceAnalysis(path, source) {
+  if (extname(path) === '.html') {
+    const parsed = parseSvelte(source, { modern: true });
+    return {
+      declarative: declarativeNetworkViolations(parsed, source),
+      units: [],
+    };
+  }
   if (extname(path) !== '.svelte') {
     return { declarative: [], units: [{ path, source }] };
   }
@@ -192,6 +224,7 @@ function runSelfTest() {
   const expectedExtensions = [
     '.cjs',
     '.cts',
+    '.html',
     '.js',
     '.jsx',
     '.mjs',
@@ -262,6 +295,7 @@ function runSelfTest() {
   for (const source of [
     '<img src={remote}>',
     '<iframe src={remote}></iframe>',
+    '<img {...{ src: remote }}>',
     '<svelte:element this={tag} src={remote}></svelte:element>',
     '{@html remoteMarkup}',
     '<div style:background-image={remote}></div>',
@@ -269,6 +303,23 @@ function runSelfTest() {
   ]) {
     if (sourceAnalysis('<boundary-self-test>.svelte', source).declarative.length === 0) {
       throw new Error(`boundary self-test accepted declarative network authority: ${source}`);
+    }
+  }
+  const allowedEntry = sourceAnalysis(
+    '<boundary-self-test>.html',
+    '<script type="module" src="/src/main.js"></script>',
+  );
+  if (allowedEntry.declarative.length > 0) {
+    throw new Error('boundary self-test rejected the local Vite module entry');
+  }
+  for (const source of [
+    '<img src="https://example.test/avatar.png">',
+    '<link rel="stylesheet" href="https://example.test/theme.css">',
+    '<iframe src="https://example.test"></iframe>',
+    '<style>.avatar { background-image: url(https://example.test/avatar.png); }</style>',
+  ]) {
+    if (sourceAnalysis('<boundary-self-test>.html', source).declarative.length === 0) {
+      throw new Error(`boundary self-test accepted HTML network authority: ${source}`);
     }
   }
 }
@@ -307,11 +358,14 @@ for (const entry of readdirSync(nappletsRoot, { withFileTypes: true })) {
 
 for (const path of sourceFiles(nappletsRoot)) {
   const source = readFileSync(path, 'utf8');
+  const productNapplet =
+    path.startsWith(join(nappletsRoot, 'follow-list')) ||
+    path.startsWith(join(nappletsRoot, 'profile-card'));
+  if (extname(path) === '.html' && !productNapplet) {
+    continue;
+  }
   const analysis = sourceAnalysis(path, source);
   for (const unit of analysis.units) {
-    const productNapplet =
-      unit.path.startsWith(join(nappletsRoot, 'follow-list')) ||
-      unit.path.startsWith(join(nappletsRoot, 'profile-card'));
     if (productNapplet && directNetworkAuthority.test(unit.source)) {
       console.error(
         `${relative(repositoryRoot, unit.path)}: direct browser network authority is forbidden`,
@@ -326,9 +380,6 @@ for (const path of sourceFiles(nappletsRoot)) {
       failed = true;
     }
   }
-  const productNapplet =
-    path.startsWith(join(nappletsRoot, 'follow-list')) ||
-    path.startsWith(join(nappletsRoot, 'profile-card'));
   if (productNapplet) {
     for (const violation of analysis.declarative) {
       console.error(`${relative(repositoryRoot, path)}: ${violation} is forbidden`);
