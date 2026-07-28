@@ -14,6 +14,7 @@ docs/04-execution.md
 docs/05-test-and-demo.md
 docs/06-extraction.md
 docs/07-source-baseline.md
+docs/08-upstream-contributions.md
 docs/facts/FACT-001-kehto-package-line.md
 docs/facts/FACT-002-spec-revisions.md
 docs/facts/FACT-003-nampplets-linux-reuse.md

@@ -6,7 +6,7 @@ Launch one verified self-contained fixture through the accepted `nampplets` runt
 
 ## Entry status and pins
 
-**Blocked by Gate 0.** After compatibility is accepted, use candidate `nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` only if its required reviews ratify that exact commit, Uzel explicitly accepts its provisional risk, or an accepted successor replaces it. Keep Tauri crate 2.11.5, Wry 0.55.1, and WebKitGTK 2.52.5. Re-run the hostile probe if any of those pins changes.
+**Gate 0 pin accepted.** Use `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` for the Linux-only POC, or a successor only after revalidation. Keep Tauri crate 2.11.5, Wry 0.55.1, and WebKitGTK 2.52.5. Re-run the hostile probe if any of those pins changes.
 
 ## Read
 

@@ -2,8 +2,33 @@
 schema = 1
 validated_at = "2026-07-28"
 gate = "Gate 0"
-slice_01_verdict = "no-go"
-blocking_reason = "the nampplets 0.29 candidate is unratified with compatibility, security, and NMP-boundary signoffs blank; its Apple catalog changes have not run under Xcode"
+slice_01_verdict = "go"
+acceptance_scope = "Linux-only Uzel POC"
+blocking_reason = ""
+
+[uzel_acceptance]
+decision = "accept-provisional-linux-poc"
+decision_owner = "jodobear"
+accepted_at = "2026-07-28"
+nampplets_upstream_status = "unratified"
+apple_evidence_required = false
+allowed_surfaces = [
+  "Linux-neutral nampplets Rust crates",
+  "RuntimeController exact-build and lifecycle facade",
+  "NAP bridge and tested providers",
+  "NmpDataPlane adapter over pinned NMP",
+  "portable trusted-shell assets",
+]
+explicitly_unsupported = [
+  "inc.channel.opened symmetric-channel lifecycle",
+  "NAP-INTENT delivery in the Uzel POC",
+  "Apple platform bindings and catalogs",
+]
+revalidate_on = [
+  "any pinned commit or package integrity change",
+  "use of a currently unsupported surface",
+  "an upstream review-modified successor commit",
+]
 
 [kehto]
 repository = "https://github.com/kehto/web"
@@ -24,8 +49,9 @@ candidate_repository = "https://github.com/jodobear/kehto-web"
 candidate_branch = "fix/napplet-conformance-no-modulepreload"
 candidate_reachable = true
 candidate_publication_result = "exact commit pushed to jodobear/kehto-web branch fix/napplet-conformance-no-modulepreload"
-upstream_pr_result = "not opened: GitHub token rejected createPullRequest; open the compare URL manually"
-upstream_compare_url = "https://github.com/kehto/web/compare/main...jodobear:kehto-web:fix/napplet-conformance-no-modulepreload?expand=1"
+upstream_pull_request = 218
+upstream_pr_result = "open"
+upstream_pr_url = "https://github.com/kehto/web/pull/218"
 candidate_patch_sha256 = "f22b3185fc5983145d6e02366e454b1e8db6dc830fc943ea14c7e2428dc12f64"
 candidate_playground_tree = "d1bab686acef6c21c0d377052c9f04cd2e59500f"
 candidate_corpus_tree = "24a7dfa6277f339612f9b0a33668fec26d9e8d9a"
@@ -124,6 +150,9 @@ candidate_repository = "https://github.com/jodobear/nampplets"
 commit = "08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf"
 candidate_branch = "compat/napplet-0.29"
 candidate_reachable = true
+uzel_linux_acceptance = "accepted as an exact provisional POC dependency"
+apple_required_for_uzel = false
+upstream_pr_result = "not submitted; submit after Uzel validates the integrated Linux runtime"
 rust_toolchain = "1.89.0"
 baseline_status = "unratified"
 baseline_file_sha256 = "0d97d277ffce49b464489bdaa883ce64c731d2311e2ad9a35c537747ae3ea393"

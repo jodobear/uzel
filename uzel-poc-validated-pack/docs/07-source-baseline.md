@@ -60,4 +60,4 @@ Source: <https://github.com/nostr-protocol/nips/pull/2303>
 
 ## Decision
 
-No branch or “latest” value is an implementation pin. The technical 0.29/conformance line and durable Kehto SHA are proven. Slice 01 remains blocked only on acceptance of nampplets candidate `08ddb87...`: named compatibility, security, and NMP-boundary review plus Apple-host evidence, or an explicit Uzel decision accepting those provisional risks.
+No branch or “latest” value is an implementation pin. The technical 0.29/conformance line and durable Kehto SHA are proven. Uzel explicitly accepts `jodobear/nampplets@08ddb87...` for the Linux-only POC. Upstream ratification and Apple evidence remain separate governance work and are not Slice 01 blockers. Any successor SHA must be revalidated before repinning.

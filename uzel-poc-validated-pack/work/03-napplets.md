@@ -6,7 +6,7 @@ Build two small runtime-agnostic napplets and their convention fixtures.
 
 ## Entry status and pins
 
-**Blocked by Gate 0.** The candidate line is core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, vite-plugin 0.12.0, conformance 0.14.0, and conformance-cli 0.2.16, all with the integrity values in [`../compatibility.lock`](../compatibility.lock). Do not start until a compatible nampplets baseline exists and a production fixture built with this line passes conformance without forbidden `fetch`.
+**Gate 0 line accepted.** The exact line is core/nap 0.29.0, shim 0.27.0, SDK 0.25.0, vite-plugin 0.12.0, conformance 0.14.0, and conformance-cli 0.2.16, all with the integrity values in [`../compatibility.lock`](../compatibility.lock). Kehto candidate artifacts built with this line pass released conformance without forbidden `fetch`.
 
 ## Read
 

@@ -2,38 +2,38 @@
   "files": [
     {
       "path": "AGENTS.md",
-      "bytes": 3263,
-      "sha256": "9a9c1243db6a4d0142bd2a478c1dc42c26ceb8d53609032caae937c20d555f3e"
+      "bytes": 4188,
+      "sha256": "f9c21e7a23603cf52bd62faa931bb8492a843a1bad46adea40b4f50ef8656d6f"
     },
     {
       "path": "AUDIT.md",
-      "bytes": 3584,
-      "sha256": "40260242565cbfd429119a43c3cb553f6e6d938db30b8a15feb0851d790ea02a"
+      "bytes": 3467,
+      "sha256": "17b34a448fb86147096c9afed5c0ebd6bca944ffcb36fb5770a5361a55763071"
     },
     {
       "path": "README.md",
-      "bytes": 3475,
-      "sha256": "dd93ade0e2eadd0224886f794fd809dd37405013ed375dc718c5a279190cc611"
+      "bytes": 3534,
+      "sha256": "9b9deffa3c567a2e41e18c79ca65458cfcaf86138b3b74f5efd8ddacd61e7060"
     },
     {
       "path": "STATUS.md",
-      "bytes": 1998,
-      "sha256": "59c91e05c240a2cca92e401dc2647e602e3948f7909a205fbcc0b3d35d830fd7"
+      "bytes": 1866,
+      "sha256": "6f7097c91185fb35d6a5d196ba766cd83d1f8b5242a128fa91da793228939908"
     },
     {
       "path": "TREE.txt",
-      "bytes": 928,
-      "sha256": "e95a9c6be92078443b1c8d2c5caca40a22d99cef35ebf617bb9a0b6359a74f58"
+      "bytes": 962,
+      "sha256": "e616d607ea9abd09de171c0b4b4aafbc5e22d5fef81266be5edece2ba90f9839"
     },
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "b3f85910a35782db1337bdd81aff1fc53bf64165f7fc8695a76a654eafb47450"
+      "sha256": "e32d0deefbd4dd397e6018bd80b0bdc53527094aff689093754f5ae0f5cedb39"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 8632,
-      "sha256": "151c03ca2c33c2faaa586606723eb8f7bd373fd19a2fefe7972e90824f64eb5a"
+      "bytes": 9337,
+      "sha256": "10e01c74ddf6e4187509ff161a750a88b3d6d7b8314d370003fe4505eec3850b"
     },
     {
       "path": "config/fallow.jsonc",
@@ -47,28 +47,28 @@
     },
     {
       "path": "docs/01-validation.md",
-      "bytes": 6279,
-      "sha256": "d0cb2cd88909b2b3ba8d8552486d03990d24b9fafb8f8526a5b5869738a253c0"
+      "bytes": 6201,
+      "sha256": "f3d5463575ad482c6da01d2c76b4064adef8cc1c047965cd8f9a365f4517d43a"
     },
     {
       "path": "docs/02-architecture.md",
-      "bytes": 6400,
-      "sha256": "6b8477515d84d9f826b4e616d6975f62ce1faa328ea6bd4fe51189ae6e9be6fe"
+      "bytes": 6428,
+      "sha256": "c5339ffa3d1e8a059c785846c880572486df9b433dcee6731b6d09749e65e81d"
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 6175,
-      "sha256": "d420072094f4a65a8ad171f6dd0a920829ad309b4892b850aa785f2aba36e803"
+      "bytes": 6161,
+      "sha256": "9c3ea0b19bdeb22876bb71d6c6d6398b2673f61f82e06200e9a9627cb1e84ee0"
     },
     {
       "path": "docs/04-execution.md",
-      "bytes": 2446,
-      "sha256": "a116f8b6a123651b9b97743938534617abef3a17787d8aba8e15ba27a1149fce"
+      "bytes": 2428,
+      "sha256": "843b3cc7c965bcee99a34807e7ce71905911650b88b3205c1868e29199bd88ad"
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3344,
-      "sha256": "96a86e7db6b35ddcd8524b36e13968c34f4a6f36ee67ece0fed3191fd6cfb3f6"
+      "bytes": 3313,
+      "sha256": "05eefc0dfbf9bd5c5d0b3dff5f303c2d7bbd77208f822d04ef323c4c40739c3d"
     },
     {
       "path": "docs/06-extraction.md",
@@ -77,8 +77,13 @@
     },
     {
       "path": "docs/07-source-baseline.md",
-      "bytes": 4410,
-      "sha256": "1265c563723320f24e4deef0da4245164481ba7b4586038b344e10fba4231dee"
+      "bytes": 4424,
+      "sha256": "4dfa108fc6f71f55fd7e6a63a8f3b36f84afb9c8a9193987984a69727d8f558a"
+    },
+    {
+      "path": "docs/08-upstream-contributions.md",
+      "bytes": 2259,
+      "sha256": "07d4c18bb0ac24fb84e157d6026afabb4291c88195a6447eb9f32954c24fe90b"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -92,8 +97,8 @@
     },
     {
       "path": "docs/facts/FACT-003-nampplets-linux-reuse.md",
-      "bytes": 2174,
-      "sha256": "9bc98821b18af12a5e3c570513fadca13788d3440f1407ced5510099ec1b846a"
+      "bytes": 2114,
+      "sha256": "8aee1ef97cfbf2667f1759553c34cc712f800a1202b62a0f34b71f49b21aed19"
     },
     {
       "path": "docs/facts/FACT-004-nmp-facade.md",
@@ -117,13 +122,13 @@
     },
     {
       "path": "docs/facts/FACT-008-toolchain.md",
-      "bytes": 1374,
-      "sha256": "a8f2eb62f833e2de8216399fa5e61af42c0bd2dc96f03fb7a98563d96bde4fc7"
+      "bytes": 1352,
+      "sha256": "cb220f376f313565051d5f1709ed1305e273b3764c903379a92ffb606adb481c"
     },
     {
       "path": "reports/nampplets-linux-map.md",
-      "bytes": 5016,
-      "sha256": "98e9c9eb21fa3522ea45f038c08c5a5405ea6e1dfdfcc7fc79aa0e40a99e67fd"
+      "bytes": 5090,
+      "sha256": "972293486ff49e235d1016579210ec5191d568ca53cf2b5ba170096114990fa5"
     },
     {
       "path": "reports/nmp-api-map.md",
@@ -132,8 +137,8 @@
     },
     {
       "path": "reports/preflight.md",
-      "bytes": 11122,
-      "sha256": "193307ac3d5f7378eace7f6cf9541743be6c620e261bee4e6743159e77079a2c"
+      "bytes": 10035,
+      "sha256": "ff878693000e82c108a22af29c33e66056ad6313948a1cbfe481b176188930ed"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
@@ -147,8 +152,8 @@
     },
     {
       "path": "scripts/audit_docs.py",
-      "bytes": 4651,
-      "sha256": "08930fdbb1a16b7f130286eb75bb935ca20f5ac2aa73664c14c8da734b1c189a"
+      "bytes": 4696,
+      "sha256": "bc6cad6bcfbb4a680a5d4a2f736f500421d91d3c004526bb01a2c9d7a576c1d1"
     },
     {
       "path": "templates/fact.md",
@@ -167,23 +172,23 @@
     },
     {
       "path": "work/01-scaffold.md",
-      "bytes": 1536,
-      "sha256": "f6317328c652ea951d6abbb1a34175c9b252b642831e06a07bcbe1bbaf7288a4"
+      "bytes": 1561,
+      "sha256": "8457f401a0a93d05be9a31283d1f58f1e02c4736f70c0d32f2ff2f584a6ed98f"
     },
     {
       "path": "work/02-linux-runner.md",
-      "bytes": 1483,
-      "sha256": "4a1566685842eecdfdd70e2d321963d99ae5f1fce997f9c0db8ddd9339c58520"
+      "bytes": 1376,
+      "sha256": "f3f720d865648dd0aef910d2d0915efa1501f3b953fd258ede62bcc8520d1a98"
     },
     {
       "path": "work/03-napplets.md",
-      "bytes": 1381,
-      "sha256": "19b38ba67181789058ff463bc25bd7535e68b5ba101bf6403c0ceae21e3c008a"
+      "bytes": 1330,
+      "sha256": "f1eacd0fa350e49b4bf86c3cfd56ee46ad16fc53b0642bda841cf4d5bc5d9eb7"
     },
     {
       "path": "work/04-daemon-nmp.md",
-      "bytes": 1633,
-      "sha256": "1acbb71d6509237cfcc793434a5e008671f071b27dd86b795087ad52e74a085c"
+      "bytes": 1558,
+      "sha256": "5650a07a95eb6063a109269ae5629480e47f0fc758e4bc8de7ba4c11d3dec4a5"
     },
     {
       "path": "work/05-integrate.md",

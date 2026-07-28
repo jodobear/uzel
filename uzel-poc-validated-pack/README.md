@@ -36,7 +36,7 @@ flowchart LR
 
 Implementation does **not** begin from these documents alone. [`work/00-validate.md`](work/00-validate.md) must validate the current upstream commits, Linux build seams, WebKit trust boundary, NMP APIs, and local tools. Any contradicted design is corrected before product code proceeds.
 
-Gate 0 was completed and revalidated on 2026-07-28 with a **no-go for Slice 01**. Linux/runtime/security feasibility and a corrected Napplet 0.29 line are proven. The exact Kehto fix is now a durable fork pin, so Uzel does not need to wait for its upstream merge. The published nampplets candidate remains unratified, its three required reviews are blank, and its Apple catalog changes have not run under Xcode. See [`reports/preflight.md`](reports/preflight.md) and [`compatibility.lock`](compatibility.lock). Do not execute later work files until that acceptance blocker clears or is explicitly accepted and the lock verdict changes.
+Gate 0 was completed and revalidated on 2026-07-28 with a **Linux-scoped go for Slice 01**. Linux/runtime/security feasibility and the corrected Napplet 0.29 line are proven. Uzel explicitly accepts exact provisional fork pins for this POC without claiming upstream nampplets ratification or Apple support. Kehto upstream PR [#218](https://github.com/kehto/web/pull/218) proceeds in parallel and is not a blocker. See [`reports/preflight.md`](reports/preflight.md), [`compatibility.lock`](compatibility.lock), and the [`upstream contribution ledger`](docs/08-upstream-contributions.md).
 
 ## Start order
 
@@ -59,6 +59,7 @@ Gate 0 was completed and revalidated on 2026-07-28 with a **no-go for Slice 01**
 | Tests and demo acceptance | [`docs/05-test-and-demo.md`](docs/05-test-and-demo.md) |
 | Post-POC extraction | [`docs/06-extraction.md`](docs/06-extraction.md) |
 | Current source baseline | [`docs/07-source-baseline.md`](docs/07-source-baseline.md) |
+| Upstream contribution ledger | [`docs/08-upstream-contributions.md`](docs/08-upstream-contributions.md) |
 | Audit and rewrite findings | [`AUDIT.md`](AUDIT.md) |
 
 ## Scope rule
