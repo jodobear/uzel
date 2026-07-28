@@ -11,6 +11,9 @@
     "/trusted-shell/trusted-shell-prelude-domains.js",
     "/trusted-shell/trusted-shell.js"
   ],
+  "ignoreDependencies": [
+    "@napplet/cli"
+  ],
   "ignorePatterns": [
     "graphify-out/**",
     "uzel-poc-validated-pack/**",

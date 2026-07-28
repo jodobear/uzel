@@ -1,19 +1,29 @@
 {
   "name": "uzel-workspace",
   "private": true,
+  "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@10.8.0",
   "engines": {
     "node": ">=22.12 <23"
   },
+  "pnpm": {
+    "overrides": {
+      "@napplet/conformance": "0.14.0",
+      "@napplet/core": "0.29.0",
+      "playwright": "1.62.0"
+    }
+  },
   "devDependencies": {
+    "@napplet/cli": "0.0.0",
     "fallow": "3.9.1"
   },
   "scripts": {
     "dev": "bash scripts/dev.sh",
-    "build": "pnpm --filter @uzel/shell build && cargo build --workspace",
-    "check": "pnpm --filter @uzel/shell check && pnpm --filter @uzel/shell build && cargo check --workspace",
-    "test": "cargo test --workspace && bash scripts/check-pinned-assets.sh",
+    "build": "pnpm --filter './napplets/*' build && pnpm --filter @uzel/shell build && cargo build --workspace",
+    "check": "pnpm --filter './napplets/*' build && pnpm --filter @uzel/shell check && pnpm --filter @uzel/shell build && cargo check --workspace",
+    "test": "node --test contracts/*.test.mjs && pnpm --filter './napplets/*' test && cargo test --workspace && bash scripts/check-pinned-assets.sh",
+    "test:conformance": "pnpm --filter @jodobear/follow-list test:conformance && pnpm --filter @jodobear/profile-card test:conformance",
     "lint": "cargo clippy --workspace --all-targets -- -D warnings && bash scripts/check-boundaries.sh",
     "format:check": "cargo fmt --all -- --check",
     "docs:check": "python3 uzel-poc-validated-pack/scripts/audit_docs.py",

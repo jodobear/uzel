@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile card</title>
+    <style>
+      :root { color-scheme: dark; font: 14px/1.5 ui-monospace, monospace; background: #12100e; color: #f4eee7; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 16px; }
+      article { border: 1px solid #554b41; border-radius: 7px; padding: 14px; background: #1b1713; }
+      h1 { margin: 0 0 4px; font-size: 20px; }
+      p { margin: 6px 0; overflow-wrap: anywhere; }
+      #pubkey, #evidence { color: #aaa096; font-size: 12px; }
+      #status { color: #d8bd7c; }
+    </style>
+  </head>
+  <body>
+    <article aria-live="polite">
+      <h1 id="name">Profile card</h1>
+      <p id="pubkey">Select one direct follow.</p>
+      <p id="about"></p>
+      <p id="status" role="status">Waiting for profile/open…</p>
+      <p id="evidence"></p>
+    </article>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
