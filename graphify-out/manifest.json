@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785268828.0664437,
-    "ast_hash": "e1324f897c7516385b7619872da0df57",
+    "mtime": 1785269684.4275613,
+    "ast_hash": "daf05499daef730ad984328b5248301e",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785268828.067768,
-    "ast_hash": "285b5851d57e74dfb665317d6e47c931",
+    "mtime": 1785269684.4286053,
+    "ast_hash": "2e8e9f80b73cb1ccbbea57e56133b286",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/runner.rs": {
-    "mtime": 1785268776.7514694,
-    "ast_hash": "4ce25a8d10d8228090c71ba29c0017af",
+    "mtime": 1785269639.7276483,
+    "ast_hash": "0d6b33b9ffd1f5ae22a4e5c26006e152",
     "semantic_hash": ""
   },
   "fixtures/good-morning/event.json": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785268776.8464706,
-    "ast_hash": "26bac2b7cc78ff2af95caeea1c635f6c",
+    "mtime": 1785269639.812649,
+    "ast_hash": "fc811a622cb9bf894f4abfa474bc4128",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
@@ -405,18 +405,18 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/event.json": {
-    "mtime": 1785268730.2479753,
-    "ast_hash": "cc8a927a488ffc5ec97cfa8108d353ce",
+    "mtime": 1785269582.5880404,
+    "ast_hash": "4a545d187f0ff9c4b3e0329e04242022",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/event.json": {
-    "mtime": 1785268731.3519871,
-    "ast_hash": "cc63f13e1ce4d7b561c6d75e486b3f46",
+    "mtime": 1785269583.9880555,
+    "ast_hash": "c0ae25ad6c79378918f7eb6c0afd23ac",
     "semantic_hash": ""
   },
   "fixtures/profile-card/event.json": {
-    "mtime": 1785268730.799981,
-    "ast_hash": "1cd03a069f980194a8555e0d1c309199",
+    "mtime": 1785269583.3490486,
+    "ast_hash": "768cfec1f7828bf27a9d3d49bb78c562",
     "semantic_hash": ""
   },
   "napplets/follow-list/package.json": {
@@ -450,18 +450,18 @@
     "semantic_hash": ""
   },
   "napplets/hostile-egress/src/main.js": {
-    "mtime": 1785266899.2355335,
-    "ast_hash": "f406a9c395de9d1f2551dcd5c188d6f7",
+    "mtime": 1785269549.5896895,
+    "ast_hash": "44111e23d8438f3ca1427609f9005774",
     "semantic_hash": ""
   },
   "napplets/hostile-egress/src/probes.js": {
-    "mtime": 1785265918.3060973,
-    "ast_hash": "3140acbb0e25281b33dd05e215e471a7",
+    "mtime": 1785269549.4326878,
+    "ast_hash": "e6be86100c6a3bdaea64f6eb960a64d2",
     "semantic_hash": ""
   },
   "napplets/hostile-egress/tests/probes.test.mjs": {
-    "mtime": 1785265918.5350995,
-    "ast_hash": "5eff6a999a8b3c3fb99e7cb9f18175be",
+    "mtime": 1785269558.5467846,
+    "ast_hash": "736533d1d62b41c656d298ac63116a4c",
     "semantic_hash": ""
   },
   "napplets/hostile-egress/vite.config.js": {
@@ -475,18 +475,18 @@
     "semantic_hash": ""
   },
   "napplets/profile-card/src/main.js": {
-    "mtime": 1785268700.763662,
-    "ast_hash": "b55f9b59519574b8c80465e2bca1fdeb",
+    "mtime": 1785269549.2226856,
+    "ast_hash": "c0e5682696850a4e1c657ce4276bf593",
     "semantic_hash": ""
   },
   "napplets/profile-card/src/model.js": {
-    "mtime": 1785268700.6046603,
-    "ast_hash": "545eec5a112e7681e52925dd2038a12f",
+    "mtime": 1785269549.063684,
+    "ast_hash": "38e18f2ecd2d8b91df8027b454b02691",
     "semantic_hash": ""
   },
   "napplets/profile-card/tests/model.test.mjs": {
-    "mtime": 1785268700.929664,
-    "ast_hash": "95066fbc5a03c3b907f20e132aaaf5cf",
+    "mtime": 1785269549.3136866,
+    "ast_hash": "058e39f3325d38f9b84f37e95642a123",
     "semantic_hash": ""
   },
   "napplets/profile-card/vite.config.js": {
@@ -500,18 +500,18 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/index.html": {
-    "mtime": 1785268730.2444925,
+    "mtime": 1785269582.5847988,
     "ast_hash": "0e264b91bea0a9ffc7bb6d093cd97855",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/index.html": {
-    "mtime": 1785268731.3486137,
-    "ast_hash": "cb56fe039499721100b50193de360bd6",
+    "mtime": 1785269583.9861424,
+    "ast_hash": "a9137b870b27eacf58030d940a1c50df",
     "semantic_hash": ""
   },
   "fixtures/profile-card/index.html": {
-    "mtime": 1785268730.7971435,
-    "ast_hash": "bf3dfb45df59d9705c9c2e70c5f04b79",
+    "mtime": 1785269583.347421,
+    "ast_hash": "65f0d3e70b06683a9c864b72a83d2f56",
     "semantic_hash": ""
   },
   "napplets/follow-list/index.html": {
@@ -535,8 +535,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-03-preflight.md": {
-    "mtime": 1785268790.9336202,
-    "ast_hash": "0181ef2eb64ce26f7f978e4a70789ebc",
+    "mtime": 1785269639.9936512,
+    "ast_hash": "5a2831d9eba9610eb8bfd027d993546f",
     "semantic_hash": ""
   }
 }
