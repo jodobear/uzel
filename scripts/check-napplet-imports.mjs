@@ -8,6 +8,7 @@ const requireFromShell = createRequire(
   new URL('../apps/uzel/package.json', import.meta.url),
 );
 const ts = requireFromShell('typescript');
+const { compile: compileSvelte } = requireFromShell('svelte/compiler');
 const forbiddenSpecifier = /(uzel|napd|tauri)/i;
 const dependencyGroups = [
   'dependencies',
@@ -34,9 +35,8 @@ function sourceUnits(path, source) {
     return [{ path, source }];
   }
 
-  return [...source.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(
-    (match, index) => ({ path: `${path}#script-${index + 1}`, source: match[1] }),
-  );
+  const compiled = compileSvelte(source, { filename: path, generate: 'client' });
+  return [{ path: `${path}#compiled`, source: compiled.js.code }];
 }
 
 function importedSpecifier(node) {
@@ -148,6 +148,20 @@ function runSelfTest() {
   }
   if (!directNetworkAuthority.test("const socket = new WebSocket('wss://example.test')")) {
     throw new Error('boundary self-test accepted direct network authority');
+  }
+  const svelteImport = sourceUnits(
+    '<boundary-self-test>.svelte',
+    "{#await import('../../../apps/uzel/src/main.ts')}<p>wait</p>{/await}",
+  )[0];
+  if (violations(svelteImport.path, svelteImport.source).length === 0) {
+    throw new Error('boundary self-test accepted a Svelte template import');
+  }
+  const svelteNetwork = sourceUnits(
+    '<boundary-self-test>.svelte',
+    '<button onclick={() => fetch(url)}>go</button>',
+  )[0];
+  if (!directNetworkAuthority.test(svelteNetwork.source)) {
+    throw new Error('boundary self-test accepted Svelte template network authority');
   }
 }
 
