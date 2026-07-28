@@ -1,0 +1,187 @@
+{
+  "uzel-poc-validated-pack/audit-results.json": {
+    "mtime": 1785241080.2645206,
+    "ast_hash": "7b1332aac0478f38bd0bd0d8ac4355cc",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/manifest.json": {
+    "mtime": 1785241080.265427,
+    "ast_hash": "f886ac78688d3c7739e55de518c81c36",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/scripts/audit_docs.py": {
+    "mtime": 1785241071.6998298,
+    "ast_hash": "79196f6a24ccfef69436df4bd83e836f",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/AGENTS.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "ebea301f1e35b35b6cbc63c453a47b40",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/AUDIT.md": {
+    "mtime": 1785235211.0,
+    "ast_hash": "37dfb3ec826442565f80127f4f907cd2",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/README.md": {
+    "mtime": 1785240834.4072928,
+    "ast_hash": "067aada64ed5ccec878187d7b6b65a80",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/STATUS.md": {
+    "mtime": 1785240834.886298,
+    "ast_hash": "3249ad1b26e82dcdc244be77402c4111",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/TREE.txt": {
+    "mtime": 1785240985.6189096,
+    "ast_hash": "4ffb682b76d8de2790556eab2a76ae2f",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/00-scope.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "5e3c6ff87965bcba223bb5d5b08cac64",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/01-validation.md": {
+    "mtime": 1785240543.6291835,
+    "ast_hash": "3859051f69187fb527c53af60825eaa6",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/02-architecture.md": {
+    "mtime": 1785240834.501294,
+    "ast_hash": "80a47187f930730c0a5a7a7f484570ef",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/03-provisional-design.md": {
+    "mtime": 1785240834.5932949,
+    "ast_hash": "0e93b4899e876833db79281d8510c91a",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/04-execution.md": {
+    "mtime": 1785240834.686296,
+    "ast_hash": "aa6a72af1d43b17d683fd263ad06823f",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/05-test-and-demo.md": {
+    "mtime": 1785240834.7832968,
+    "ast_hash": "e2aa66649886652b3b99baa1b268808e",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/06-extraction.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "bd2f73e55b982c5b0e8f0a7a71ef863e",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/07-source-baseline.md": {
+    "mtime": 1785240543.7471848,
+    "ast_hash": "b4afbaa8de7ca1f3ebfa2e9a083fe212",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/templates/fact.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "543c41ff4c8802574839066b2de24796",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/templates/handoff.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "00842aecdf64e19e811ef1f944772b10",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/00-validate.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "29a08eb82715ae02f21cc4bbd19265a0",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/01-scaffold.md": {
+    "mtime": 1785240543.9001863,
+    "ast_hash": "9c1dd85c5cc211956c11375f6b74afb2",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/02-linux-runner.md": {
+    "mtime": 1785240544.055188,
+    "ast_hash": "b722e97d094f90ac1f40c19c65d9c4f8",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/03-napplets.md": {
+    "mtime": 1785240544.2131896,
+    "ast_hash": "8c33868b9a050fd87fca5ff98f366274",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/04-daemon-nmp.md": {
+    "mtime": 1785240544.3651912,
+    "ast_hash": "86bfa7e960e2321ca40ac9990a997d45",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/05-integrate.md": {
+    "mtime": 1785235141.0,
+    "ast_hash": "d532040a80b932ba7d995405be73e12c",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/work/06-hardening-demo.md": {
+    "mtime": 1785240835.0042994,
+    "ast_hash": "645de738184c04241020057715bc81c3",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-001-kehto-package-line.md": {
+    "mtime": 1785240461.5133052,
+    "ast_hash": "1b602b95807db092046b0555a0c75cae",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-002-spec-revisions.md": {
+    "mtime": 1785240461.6133063,
+    "ast_hash": "5123c7c96d073676b5e4515d38aa6eb8",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-003-nampplets-linux-reuse.md": {
+    "mtime": 1785240461.7153075,
+    "ast_hash": "d50e4888b4908dbb1aac23de2cf2f60a",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-004-nmp-facade.md": {
+    "mtime": 1785240461.8063085,
+    "ast_hash": "88a0ee002c43e99927b4dfbdc5d02909",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-005-webkit-tauri-trust.md": {
+    "mtime": 1785240748.2393715,
+    "ast_hash": "59a62a1ad2a82f34c874e10293214ae7",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-006-csp-egress.md": {
+    "mtime": 1785240748.3503726,
+    "ast_hash": "6c6fec8590467290e1cc00738440f65b",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-007-local-ipc.md": {
+    "mtime": 1785240748.4503736,
+    "ast_hash": "c7c802e0f20a10daa342f563eb61f071",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/docs/facts/FACT-008-toolchain.md": {
+    "mtime": 1785240748.578375,
+    "ast_hash": "65bbee0c3091c90dc59503f911366a00",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/reports/nampplets-linux-map.md": {
+    "mtime": 1785240461.9423099,
+    "ast_hash": "5b4c9948d025a1fed0d743c12baf2e79",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/reports/nmp-api-map.md": {
+    "mtime": 1785240462.0943115,
+    "ast_hash": "155f0f6bfb64ca68651eb6a58593a6b4",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/reports/preflight.md": {
+    "mtime": 1785240748.7853773,
+    "ast_hash": "95aa635f15f9083134ed90d3563d3b88",
+    "semantic_hash": ""
+  },
+  "uzel-poc-validated-pack/reports/webkit-trust-spike.md": {
+    "mtime": 1785240748.7023764,
+    "ast_hash": "6fa188a8ddda0ecba8193274099e3afb",
+    "semantic_hash": ""
+  }
+}
