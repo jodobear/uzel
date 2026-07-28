@@ -249,6 +249,14 @@ function propertyName(node) {
   return ts.isIdentifier(node) ? node.text : null;
 }
 
+function isDirectGlobalMemberOwner(node) {
+  const parent = node.parent;
+  return (
+    (ts.isPropertyAccessExpression(parent) || ts.isElementAccessExpression(parent)) &&
+    parent.expression === node
+  );
+}
+
 function programmaticNetworkViolations(path, source) {
   const parsed = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
   const found = new Set();
@@ -262,12 +270,23 @@ function programmaticNetworkViolations(path, source) {
     if (ts.isIdentifier(node) && directNetworkIdentifiers.has(node.text)) {
       add(node, `browser network API ${node.text}`);
     }
+    if (
+      ts.isIdentifier(node) &&
+      guardedBrowserGlobals.has(node.text) &&
+      !isDirectGlobalMemberOwner(node) &&
+      !(ts.isPropertyAccessExpression(node.parent) && node.parent.name === node)
+    ) {
+      add(node, `exposed guarded browser global ${node.text}`);
+    }
     if (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) {
       const owner = propertyName(node.expression);
       const member = propertyName(node);
       if (
         guardedBrowserGlobals.has(owner) &&
-        (member === null || directNetworkIdentifiers.has(member) || member === 'open')
+        (member === null ||
+          guardedBrowserGlobals.has(member) ||
+          directNetworkIdentifiers.has(member) ||
+          member === 'open')
       ) {
         add(node, `guarded browser-global access ${member ?? '<dynamic>'}`);
       }
@@ -428,6 +447,9 @@ function runSelfTest() {
     "new globalThis['WebSocket'](remote)",
     "window['open'](remote)",
     'globalThis[capability](remote)',
+    "const root = globalThis; root['fetch'](remote)",
+    "const root = globalThis.window; root['fetch'](remote)",
+    'const { fetch: send } = window; send(remote)',
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
