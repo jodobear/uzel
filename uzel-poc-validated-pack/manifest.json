@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 1866,
-      "sha256": "6f7097c91185fb35d6a5d196ba766cd83d1f8b5242a128fa91da793228939908"
+      "bytes": 1924,
+      "sha256": "ee90ffb4a9c5c22ee101d7284995ced3f2cd61431a1fbb0fb4a11aceb00d222b"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "e32d0deefbd4dd397e6018bd80b0bdc53527094aff689093754f5ae0f5cedb39"
+      "sha256": "132a80fb5fc675af1c7f5001ad820876b8aebc2e3c9d3af03111c4588a26da98"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 9337,
-      "sha256": "10e01c74ddf6e4187509ff161a750a88b3d6d7b8314d370003fe4505eec3850b"
+      "bytes": 10698,
+      "sha256": "e02033096fd7b368a5dd03af147bfb1f9490c365539b662c511abad8451ad7bf"
     },
     {
       "path": "config/fallow.jsonc",
@@ -141,6 +141,16 @@
       "sha256": "ff878693000e82c108a22af29c33e66056ad6313948a1cbfe481b176188930ed"
     },
     {
+      "path": "reports/probes/slice-01-fedora-failed/weston.txt",
+      "bytes": 313,
+      "sha256": "63b575feef632fb87e3942d37a9f22b62c6774b5684433d610bff5cb9d03f37f"
+    },
+    {
+      "path": "reports/slice-01-preflight.md",
+      "bytes": 5202,
+      "sha256": "bc1a383e4915ac102dbcb06a577ab59835016e9ddaa6852b05e89be9e9023131"
+    },
+    {
       "path": "reports/upstream/kehto-62241de.patch",
       "bytes": 1950,
       "sha256": "f22b3185fc5983145d6e02366e454b1e8db6dc830fc943ea14c7e2428dc12f64"
@@ -172,8 +182,8 @@
     },
     {
       "path": "work/01-scaffold.md",
-      "bytes": 1561,
-      "sha256": "8457f401a0a93d05be9a31283d1f58f1e02c4736f70c0d32f2ff2f584a6ed98f"
+      "bytes": 1799,
+      "sha256": "3bcb2fe2ad5b6f6c8298483cffae84bdf38c94a2d0f6e613b803ef80fb54851d"
     },
     {
       "path": "work/02-linux-runner.md",

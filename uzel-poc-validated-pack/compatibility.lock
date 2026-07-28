@@ -216,6 +216,32 @@ fallow_sha256 = "871e25151b2f6e78d0e7964e4f5af7efaf4a3ee9045406e73a6188605c56494
 mermaid_cli = "11.16.0"
 graphify = "0.9.13"
 
+[slice_01]
+verdict = "pass"
+branch = "feat/slice-01-scaffold"
+nixpkgs_commit = "38a4887411571457d700c51c64a6e49ead2ed5ab"
+flake_lock_sha256 = "07a836d15a009b9960eab20f0269fb36efcd300d51a68b6093a123a80673ec25"
+cargo_lock_sha256 = "460f541390c8f9d8a14306d2263969925621851e63d9902eb6c128e693fe7c3c"
+pnpm_lock_sha256 = "1941e8b66fb762f45e5074014b27979db18c10ed2976c1d7b2c4e1ee4fb496cd"
+debian_containerfile_sha256 = "5620cf8302cd753cc2a5d845d90813d110db758ecf92ba3fb73b8a2479495ea8"
+fedora_probe_sha256 = "1f51c755b179508e69908916b787f03cf6391b6cd0d86620d855c0856226d809"
+debian_probe_sha256 = "e46cc7ecb0afeedcb18a2cce35ca8eda80fa012c9f81b40676a603318d636612"
+rust = "1.89.0"
+node = "22.23.1"
+pnpm = "10.8.0"
+tauri_cli = "2.11.4"
+tauri_crate = "2.11.5"
+fallow = "3.9.1"
+mermaid_cli = "11.16.0"
+fedora_webkitgtk = "2.52.5"
+fedora_run_result = "pass: napd and Tauri shell ready and alive under Weston 15.0.1 headless GL"
+debian_base = "bookworm"
+debian_node_image = "docker.io/library/node:22.23.1-bookworm@sha256:175215a1f306ed5df592434b99cc2019f70624373fe49cb659240a618a846aed"
+debian_rust_image = "docker.io/library/rust:1.89.0-bookworm@sha256:c9ac3fa8945b61dede1e4500d25028aa8fd8a8fe46365fcf9c0422f8d999b9b0"
+debian_webkitgtk = "2.50.6-1~deb12u2"
+debian_build_result = "pass: locked frontend and full Cargo/Tauri workspace build"
+feature_implementation = false
+
 [gates]
 V_01 = "pass"
 V_01_reason = "PR 204 is merged, released package pins are exact, and conformance-clean Kehto candidate 62241de is reachable at jodobear/kehto-web; an upstream merge is not required for a provisional exact-SHA POC pin"

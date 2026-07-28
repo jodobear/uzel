@@ -16,7 +16,7 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 
 ## Implementation
 
-- [ ] 01 workspace scaffold
+- [x] 01 workspace scaffold
 - [ ] 02 Linux runner and exact-build fixture
 - [ ] 03 two portable napplets and INC fixtures
 - [ ] 04 daemon, NMP, and minimal persistence
@@ -26,12 +26,12 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 ## Latest integrated evidence
 
 ```text
-slice: 00 validate
+slice: 01 scaffold
 commits: recorded in repository history
-commands: reports/preflight.md#validated-command-ledger
-observable result: Linux runtime/NMP/IPC/WebKit and corrected 0.29 artifact compatibility pass locally
-known limitation: full hostile suite and clean distro acceptance belong to later slices
-next action: execute work/01-scaffold.md on feat/slice-01-scaffold while tracking upstream contributions separately
+commands: reports/slice-01-preflight.md
+observable result: pinned shell, empty napd process, Tauri/WebKit shell, Fedora headless run, and Debian Bookworm build all pass
+known limitation: scaffold has no runtime session, NMP query, napplet, persistence, or product UI by design
+next action: execute work/02-linux-runner.md; keep upstream contributions on fork branches and record them in docs/08-upstream-contributions.md
 ```
 
 ## Accepted provisional risks
