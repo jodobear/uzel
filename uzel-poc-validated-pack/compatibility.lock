@@ -334,6 +334,7 @@ codex_review_round_11 = "addressed: compile Svelte components and scan executabl
 codex_review_round_12 = "addressed: retain Svelte type imports and reject declarative resource loads"
 codex_review_round_13 = "addressed: reject resource-element spreads and scan product HTML entry points"
 codex_review_round_14 = "addressed: reject inline HTML scripts and detect programmatic DOM resource loading"
+codex_review_round_15 = "addressed: reject computed and nonliteral guarded browser-global capability access"
 
 [gates]
 V_01 = "pass"

@@ -223,6 +223,12 @@ resource sinks. Executable self-tests cover inline import/fetch, `new Image`,
 `.src`, `createElement`, `setAttribute`, background-image assignment,
 `window.open`, `document.write`, and `innerHTML`.
 
+Codex's fifteenth review found that computed browser-global members bypassed
+identifier-only capability checks. Property and element access on
+`globalThis`, `self`, or `window` now rejects named network capabilities,
+computed `open`, and every nonliteral member. Executable self-tests cover
+computed `fetch`, `WebSocket`, `open`, and a runtime-selected global key.
+
 One noncanonical retry wrapped the Nix command in `bash -lc`; the user login
 profile selected host GCC/glibc instead of the pinned compiler and link failed,
 matching the environment failure already preserved by Slice 02. The documented direct command
