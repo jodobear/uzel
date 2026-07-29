@@ -145,7 +145,9 @@ changed daemon state, leaving the once-loaded follow list stale. The shell now
 stops both old runtime sessions after a successful identity change, unmounts
 their frames, and launches fresh sessions and surface generations. That forces
 fresh provider reads and prevents a late old-session response from colliding
-with request identifiers reset by a new child prelude. Directional and named focus controls
+with request identifiers reset by a new child prelude. Both old acknowledgement
+channels close before the first stop IPC await, and the shell ignores any ready
+callback whose token is outside the current surface set. Directional and named focus controls
 previously changed only styling. They now move DOM focus to a shell pane;
 Enter explicitly enters its mapped iframe, so successive directional keys are
 not trapped inside the opaque child. The final review also corrected stacked
