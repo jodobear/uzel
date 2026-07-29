@@ -32,8 +32,8 @@
     },
     {
       "path": "compatibility.lock",
-      "bytes": 19442,
-      "sha256": "44f25bfa0a11d5cdd02e25c9a370a4386796cec08ed50f48eb904b772f9e0d54"
+      "bytes": 19551,
+      "sha256": "27783f2f9c53952ab63c2b5d9967741013afbf98c0531c4c29f0f57f8e1b3479"
     },
     {
       "path": "config/fallow.jsonc",
@@ -178,7 +178,7 @@
     {
       "path": "reports/slice-03-preflight.md",
       "bytes": 17076,
-      "sha256": "f05644e652a9b583170d2fd6feef01c01d10b14250c5925b1149d664fdb14e8d"
+      "sha256": "8550c9d59d06a9c0a61ce5e0d42d14e352a97352c1dca55f28a590dd9904f562"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
