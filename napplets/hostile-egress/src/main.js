@@ -103,4 +103,7 @@ const publishResult = () => {
     report: results,
   }, '*');
 };
-if (!attemptRawWebKitInvoke(undefined, publishResult)) publishResult();
+publishResult();
+if (results.rawInvokeAttempted) {
+  setTimeout(() => attemptRawWebKitInvoke(), 0);
+}

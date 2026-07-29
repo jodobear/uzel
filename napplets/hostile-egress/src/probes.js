@@ -69,10 +69,8 @@ export function nativeSurface(environment = globalThis) {
 
 export function attemptRawWebKitInvoke(
   handler = globalThis.webkit?.messageHandlers?.ipc,
-  onAttempt = () => {},
 ) {
   if (!handler || typeof handler.postMessage !== 'function') return false;
-  onAttempt();
   try {
     handler.postMessage(JSON.stringify({
       cmd: 'hostile_native_probe',

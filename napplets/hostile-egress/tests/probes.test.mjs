@@ -40,13 +40,10 @@ test('native surface reports read-only identity and the raw transport separately
 
 test('raw WebKit probe sends one deliberately invalid invoke-key command', () => {
   const messages = [];
-  const order = [];
   assert.equal(attemptRawWebKitInvoke(
-    { postMessage: (message) => { order.push('post'); messages.push(message); } },
-    () => order.push('report'),
+    { postMessage: (message) => messages.push(message) },
   ), true);
   assert.equal(messages.length, 1);
-  assert.deepEqual(order, ['report', 'post']);
   assert.deepEqual(JSON.parse(messages[0]), {
     cmd: 'hostile_native_probe',
     callback: 91_001,
