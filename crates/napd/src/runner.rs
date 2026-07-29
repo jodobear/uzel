@@ -10,9 +10,9 @@ use std::{
 
 use napd_protocol::{Diagnostics, SurfaceMetadata};
 use nmp_native_runtime_ffi::{
-    ArtifactCoordinate, ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource, RuntimeConfig,
-    RuntimeController, RuntimeEvent, RuntimeExecutionProfile, RuntimeGrantDecision,
-    RuntimeObservation, RuntimeObservationFrame, RuntimeObserver,
+    ArtifactCoordinate, ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource,
+    RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent, RuntimeExecutionProfile,
+    RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame, RuntimeObserver,
     RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
     RuntimeRelayDiagnosticsSnapshot, RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
 };
@@ -39,6 +39,8 @@ struct ProductState {
     version: u8,
     mode: String,
     active_read_identity: Option<String>,
+    #[serde(default)]
+    next_surface_generation: u64,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -346,8 +348,40 @@ impl LinuxRunner {
     }
 
     pub fn set_read_identity(&mut self, public_identity: String) -> Result<String, RunnerError> {
-        let active = self.activate_read_identity(public_identity)?;
-        self.persist_product_state()?;
+        let before = self.controller.account_snapshot();
+        if !before.accepted {
+            return Err(RunnerError::Identity(format!("{:?}", before.failure)));
+        }
+        let before = before
+            .snapshot
+            .ok_or_else(|| RunnerError::Identity("NMP returned no account snapshot".to_owned()))?;
+        let previous_identity = before.active_public_key;
+        let previous_handle = previous_identity.as_ref().and_then(|public_key| {
+            before
+                .local_accounts
+                .into_iter()
+                .find(|handle| handle.public_key == *public_key)
+        });
+        if previous_identity.is_some() && previous_handle.is_none() {
+            return Err(RunnerError::Identity(
+                "NMP active identity has no owned installation".to_owned(),
+            ));
+        }
+
+        let registered = self.controller.register_read_only_account(public_identity);
+        let handle = registered
+            .handle
+            .ok_or_else(|| RunnerError::Identity(format!("{:?}", registered.failure)))?;
+        if previous_identity.as_deref() == Some(handle.public_key.as_str()) {
+            self.persist_product_state()?;
+            return Ok(handle.public_key);
+        }
+
+        let active = self.activate_account(handle.clone())?;
+        if let Err(persist_error) = self.persist_product_state() {
+            self.rollback_identity(previous_handle, handle)?;
+            return Err(persist_error);
+        }
         Ok(active)
     }
 
@@ -356,6 +390,10 @@ impl LinuxRunner {
         let handle = registered
             .handle
             .ok_or_else(|| RunnerError::Identity(format!("{:?}", registered.failure)))?;
+        self.activate_account(handle)
+    }
+
+    fn activate_account(&self, handle: RuntimeAccountHandle) -> Result<String, RunnerError> {
         let activated = self.controller.activate_local_account(handle);
         if !activated.accepted {
             return Err(RunnerError::Identity(format!("{:?}", activated.failure)));
@@ -364,6 +402,31 @@ impl LinuxRunner {
             .snapshot
             .and_then(|snapshot| snapshot.active_public_key)
             .ok_or_else(|| RunnerError::Identity("NMP returned no active public key".to_owned()))
+    }
+
+    fn rollback_identity(
+        &self,
+        previous: Option<RuntimeAccountHandle>,
+        replacement: RuntimeAccountHandle,
+    ) -> Result<(), RunnerError> {
+        let restored = match previous {
+            Some(handle) => self.controller.activate_local_account(handle),
+            None => self.controller.logout_local_account(),
+        };
+        if !restored.accepted {
+            return Err(RunnerError::Identity(format!(
+                "identity persistence failed and rollback was refused: {:?}",
+                restored.failure
+            )));
+        }
+        let removed = self.controller.remove_local_account(replacement);
+        if !removed.accepted {
+            return Err(RunnerError::Identity(format!(
+                "identity rollback restored the prior selection but replacement removal was refused: {:?}",
+                removed.failure
+            )));
+        }
+        Ok(())
     }
 
     fn restore_product_state(&mut self) -> Result<(), RunnerError> {
@@ -401,6 +464,7 @@ impl LinuxRunner {
         if let Some(public_identity) = state.active_read_identity {
             self.activate_read_identity(public_identity)?;
         }
+        self.next_surface_generation = state.next_surface_generation;
         Ok(())
     }
 
@@ -409,6 +473,7 @@ impl LinuxRunner {
             version: PRODUCT_STATE_VERSION,
             mode: self.mode.as_str().to_owned(),
             active_read_identity: self.get_read_identity()?,
+            next_surface_generation: self.next_surface_generation,
         };
         let bytes = serde_json::to_vec(&state)
             .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
@@ -456,6 +521,14 @@ impl LinuxRunner {
     pub fn start_fixture(&mut self) -> Result<SurfaceLaunch, RunnerError> {
         if let Some((_, launch)) = &self.surface {
             return Ok(launch.clone());
+        }
+        let previous_generation = self.next_surface_generation;
+        self.next_surface_generation = previous_generation
+            .checked_add(1)
+            .ok_or(RunnerError::SurfaceGenerationExhausted)?;
+        if let Err(error) = self.persist_product_state() {
+            self.next_surface_generation = previous_generation;
+            return Err(error);
         }
         let verification = self.controller.verify_artifact(
             EVENT.to_vec(),
@@ -516,10 +589,6 @@ impl LinuxRunner {
                 return Err(RunnerError::VerifiedRead(refusal.detail));
             }
         };
-        self.next_surface_generation = self
-            .next_surface_generation
-            .checked_add(1)
-            .ok_or(RunnerError::SurfaceGenerationExhausted)?;
         let launch = SurfaceLaunch {
             surface_token: format!("uzel-surface-1-generation-{}", self.next_surface_generation),
             artifact_base_url: ARTIFACT_BASE_URL.to_owned(),
@@ -866,13 +935,34 @@ mod tests {
     }
 
     #[test]
-    fn restarted_fixture_gets_a_new_surface_generation() {
+    fn restarted_daemon_gets_a_new_surface_generation() {
+        let temp = TempDir::new().unwrap();
+        let first = {
+            let mut runner = LinuxRunner::open(temp.path()).unwrap();
+            let first = runner.start_fixture().unwrap();
+            runner.stop_fixture(&first.surface_token).unwrap();
+            first
+        };
+        let mut restarted = LinuxRunner::open(temp.path()).unwrap();
+        let second = restarted.start_fixture().unwrap();
+        assert_ne!(first.surface_token, second.surface_token);
+    }
+
+    #[test]
+    fn identity_activation_rolls_back_when_product_state_cannot_persist() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
-        let first = runner.start_fixture().unwrap();
-        runner.stop_fixture(&first.surface_token).unwrap();
-        let second = runner.start_fixture().unwrap();
-        assert_ne!(first.surface_token, second.surface_token);
+        assert_eq!(runner.set_read_identity(AUTHOR.to_owned()).unwrap(), AUTHOR);
+        let temporary = temp
+            .path()
+            .join(format!("uzel-state.json.{}.tmp", std::process::id()));
+        fs::write(&temporary, b"occupied").unwrap();
+
+        assert!(matches!(
+            runner.set_read_identity(LIVE_IDENTITY.to_owned()),
+            Err(RunnerError::StatePersist(_))
+        ));
+        assert_eq!(runner.get_read_identity().unwrap().as_deref(), Some(AUTHOR));
     }
 
     #[test]
