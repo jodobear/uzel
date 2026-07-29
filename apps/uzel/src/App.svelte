@@ -14,106 +14,212 @@
     unavailableDomains: string[];
   };
 
-  type HostileResult = {
-    tauriInternals: boolean;
-    tauriGlobal: boolean;
-    wryIpc: boolean;
-    parentReadable: boolean;
-    rawWebkitTransport: boolean;
+  type RuntimeStatus = {
+    mode: string;
+    activeSurfaces: string[];
+    activeIdentity: string | null;
   };
 
-  let status = 'Opening exact-build runtime…';
-  let launch: SurfaceLaunch | null = null;
-  let shellReady = false;
-  let hostile: HostileResult | null = null;
-  let hostileFrame: HTMLIFrameElement;
-
-  const hostileDocument = `<!doctype html>
-<html><head>
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; connect-src 'none'; img-src data:; style-src 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'">
-</head><body><script>
-(() => {
-  let parentReadable = false;
-  try { parentReadable = Boolean(parent.document); } catch (_) {}
-  const result = {
-    tauriInternals: typeof globalThis.__TAURI_INTERNALS__ !== 'undefined',
-    tauriGlobal: typeof globalThis.__TAURI__ !== 'undefined',
-    wryIpc: typeof globalThis.ipc !== 'undefined',
-    parentReadable,
-    rawWebkitTransport: Boolean(globalThis.webkit?.messageHandlers?.ipc)
+  type Diagnostics = {
+    snapshotRevision: number;
+    activeSessions: number;
+    activeIdentity: string | null;
+    relayRevision: number;
+    observingRelays: boolean;
+    relays: number;
+    omittedRelays: number;
+    storeDegraded: string | null;
+    transportDegraded: string | null;
   };
-  parent.postMessage({ type: 'uzel.hostile.result', result }, '*');
-  parent.postMessage({
-    type: 'shell.ready', session: 'attacker-session', principal: 'attacker-principal'
-  }, '*');
-})();
-<\/script></body></html>`;
+
+  type RoutedEnvelope = { surfaceToken: string; envelope: string };
+  type Pane = 'follow' | 'profile';
+  type Orientation = 'horizontal' | 'vertical';
+  type LogEntry = { direction: string; surface: string; type: string };
+
+  const FIXTURE_IDENTITY = '79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798';
+  const MAX_LOG_ENTRIES = 40;
+
+  let status = 'Connecting to the private runtime…';
+  let runtime: RuntimeStatus | null = null;
+  let diagnostics: Diagnostics | null = null;
+  let follow: SurfaceLaunch | null = null;
+  let profile: SurfaceLaunch | null = null;
+  let followSurface: HTMLElement;
+  let profileSurface: HTMLElement;
+  let workspace: HTMLElement;
+  let identityInput = FIXTURE_IDENTITY;
+  let identityBusy = false;
+  let readyCount = 0;
+  let readySurfaces = new Set<string>();
+  let focused: Pane = 'follow';
+  let orientation: Orientation = 'horizontal';
+  let split = 42;
+  let fullscreen: Pane | null = null;
+  let developerMode = false;
+  let drawerOpen = false;
+  let envelopeLog: LogEntry[] = [];
+
+  function envelopeType(envelope: unknown): string {
+    if (envelope && typeof envelope === 'object' && 'type' in envelope) {
+      const type = (envelope as { type?: unknown }).type;
+      if (typeof type === 'string') return type.slice(0, 80);
+    }
+    return 'unknown';
+  }
+
+  function appendLog(direction: string, surface: string, type: string) {
+    envelopeLog = [...envelopeLog, { direction, surface, type }].slice(-MAX_LOG_ENTRIES);
+  }
+
+  async function refreshDiagnostics() {
+    diagnostics = await invoke<Diagnostics>('runtime_diagnostics');
+  }
+
+  async function routeEnvelope(session: string, envelope: unknown) {
+    appendLog('napplet → daemon', session, envelopeType(envelope));
+    const delivery = await invoke<RoutedEnvelope>('forward_surface_envelope', {
+      surfaceToken: session,
+      envelope: JSON.stringify(envelope),
+    });
+    const projected = JSON.parse(delivery.envelope) as unknown;
+    const type = envelopeType(projected);
+    appendLog('daemon → napplet', delivery.surfaceToken, type);
+    if (type === 'shell.init' && !readySurfaces.has(delivery.surfaceToken)) {
+      readySurfaces = new Set([...readySurfaces, delivery.surfaceToken]);
+      readyCount = readySurfaces.size;
+    }
+    if (!window.NMPTrustedShellHost.receive(delivery.surfaceToken, projected)) {
+      throw new Error('trusted shell refused the target surface');
+    }
+    await refreshDiagnostics();
+  }
+
+  function mountSurface(launch: SurfaceLaunch, target: HTMLElement): boolean {
+    return window.NMPTrustedShellHost.mount(launch.surfaceToken, target, {
+      session: launch.surfaceToken,
+      artifactBaseURL: launch.artifactBaseUrl,
+      artifactHTML: launch.artifactHtml,
+      title: launch.title,
+      domains: launch.domains,
+    });
+  }
+
+  async function selectIdentity(publicIdentity: string) {
+    identityBusy = true;
+    try {
+      const active = await invoke<string>('select_read_identity', { publicIdentity });
+      identityInput = active;
+      runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
+      status = 'Read identity selected through NMP';
+      await refreshDiagnostics();
+    } finally {
+      identityBusy = false;
+    }
+  }
+
+  async function submitIdentity(event: SubmitEvent) {
+    event.preventDefault();
+    try {
+      await selectIdentity(identityInput.trim());
+    } catch (error) {
+      status = `Identity refused: ${String(error)}`;
+    }
+  }
+
+  function setOrientation(next: Orientation) {
+    orientation = next;
+    localStorage.setItem('uzel.orientation', next);
+  }
+
+  function setSplit(next: number) {
+    split = Math.max(24, Math.min(76, Math.round(next)));
+    localStorage.setItem('uzel.split', String(split));
+  }
+
+  function beginResize(event: PointerEvent) {
+    event.preventDefault();
+    const move = (next: PointerEvent) => {
+      const bounds = workspace.getBoundingClientRect();
+      const position = orientation === 'horizontal'
+        ? (next.clientX - bounds.left) / bounds.width
+        : (next.clientY - bounds.top) / bounds.height;
+      setSplit(position * 100);
+    };
+    const finish = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', finish);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', finish, { once: true });
+  }
+
+  function handlePaneKeys(event: KeyboardEvent) {
+    if (event.defaultPrevented || event.target instanceof HTMLInputElement) return;
+    const previous = orientation === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
+    const next = orientation === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
+    if (event.key === previous) focused = 'follow';
+    if (event.key === next) focused = 'profile';
+  }
+
+  function handleDividerKeys(event: KeyboardEvent) {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      setSplit(split - 2);
+    }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      setSplit(split + 2);
+    }
+  }
 
   onMount(() => {
-    const receiveRuntimeEnvelope = () => {
+    const savedOrientation = localStorage.getItem('uzel.orientation');
+    if (savedOrientation === 'horizontal' || savedOrientation === 'vertical') {
+      orientation = savedOrientation;
+    }
+    const savedSplit = Number(localStorage.getItem('uzel.split'));
+    if (Number.isFinite(savedSplit)) setSplit(savedSplit);
+
+    const receiveRuntimeEnvelope = (event: Event) => {
       const payload = document.documentElement.getAttribute('data-nmp-native-envelope');
       if (!payload) return;
-      let parsed: { session?: unknown; envelope?: unknown };
       try {
-        parsed = JSON.parse(payload);
-      } catch {
-        status = 'Trusted-shell payload was malformed';
-        return;
-      }
-      if (typeof parsed.session !== 'string' || parsed.session !== launch?.surfaceToken) {
-        status = 'Rejected unmapped surface';
-        return;
-      }
-      void invoke<string>('forward_surface_envelope', {
-        surfaceToken: parsed.session,
-        envelope: JSON.stringify(parsed.envelope),
-      })
-        .then((response) => {
-          const envelope = JSON.parse(response);
-          if (envelope.type === 'shell.init') {
-            shellReady = true;
-            status = 'Verified fixture running';
-          }
-          window.__nmpTrustedShellReceive(envelope);
-        })
-        .catch((error) => {
+        const parsed = JSON.parse(payload) as { session?: unknown; envelope?: unknown };
+        if (typeof parsed.session !== 'string') throw new Error('missing mapped session');
+        void routeEnvelope(parsed.session, parsed.envelope).catch((error) => {
           status = `Runtime refused envelope: ${String(error)}`;
         });
-    };
-
-    const receiveHostileResult = (event: MessageEvent) => {
-      if (event.source !== hostileFrame?.contentWindow) return;
-      if (event.data?.type === 'uzel.hostile.result') {
-        hostile = event.data.result as HostileResult;
-        void invoke('report_hostile_probe', { report: hostile }).catch((error) => {
-          status = `Hostile probe failed: ${String(error)}`;
-        });
+      } catch (error) {
+        status = `Trusted-shell payload refused: ${String(error)}`;
       }
+      event.stopPropagation();
     };
 
     document.addEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
-    window.addEventListener('message', receiveHostileResult);
-    hostileFrame.srcdoc = hostileDocument;
-
-    void invoke<SurfaceLaunch>('start_fixture')
-      .then((started) => {
-        launch = started;
-        const mounted = window.__nmpTrustedShellMount({
-          session: started.surfaceToken,
-          artifactBaseURL: started.artifactBaseUrl,
-          artifactHTML: started.artifactHtml,
-          title: started.title,
-          domains: started.domains,
-        });
-        status = mounted ? 'Waiting for NAP-SHELL…' : 'Trusted shell refused fixture';
-      })
-      .catch((error) => {
-        status = `Fixture launch failed: ${String(error)}`;
-      });
+    void (async () => {
+      try {
+        runtime = await invoke<RuntimeStatus>('runtime_status');
+        if (runtime.activeIdentity) {
+          identityInput = runtime.activeIdentity;
+        } else {
+          await selectIdentity(FIXTURE_IDENTITY);
+        }
+        profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
+        if (!mountSurface(profile, profileSurface)) throw new Error('profile surface refused');
+        follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
+        if (!mountSurface(follow, followSurface)) throw new Error('follow surface refused');
+        await refreshDiagnostics();
+        status = 'Two exact builds mounted · waiting for NAP-SHELL';
+      } catch (error) {
+        status = `Composition failed: ${String(error)}`;
+      }
+    })();
 
     return () => {
       document.removeEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
-      window.removeEventListener('message', receiveHostileResult);
+      if (follow) window.NMPTrustedShellHost.unmount(follow.surfaceToken);
+      if (profile) window.NMPTrustedShellHost.unmount(profile.surfaceToken);
     };
   });
 </script>
@@ -122,53 +228,98 @@
   <meta name="description" content="Uzel Linux napplet runtime proof of concept" />
 </svelte:head>
 
+<svelte:window onkeydown={handlePaneKeys} />
+
 <main>
   <header>
-    <div>
-      <p class="eyebrow">Linux exact-build runner</p>
+    <div class="brand">
+      <p class="eyebrow">Linux exact-build runtime</p>
       <h1>Uzel</h1>
     </div>
-    <div class:ready={shellReady} class="runtime-status" data-shell-ready={shellReady}>
+    <div class:ready={readyCount === 2} class="runtime-status" data-shell-ready={readyCount === 2}>
       <span aria-hidden="true"></span>
       {status}
     </div>
+    <nav aria-label="View controls">
+      <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')}>Side by side</button>
+      <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')}>Stacked</button>
+      <button type="button" class:active={focused === 'follow'} onclick={() => focused = 'follow'}>Follow</button>
+      <button type="button" class:active={focused === 'profile'} onclick={() => focused = 'profile'}>Profile</button>
+      <button type="button" class:active={developerMode} onclick={() => { developerMode = !developerMode; drawerOpen = developerMode; }}>Developer</button>
+    </nav>
   </header>
 
-  <section class="surface-card" aria-label="Verified napplet surface">
-    <div class="surface-meta">
-      <strong>{launch?.title ?? 'Pinned fixture'}</strong>
-      <code>{launch?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code>
-    </div>
-    <div id="surface" aria-live="polite">
-      <p>Preparing verified napplet…</p>
+  <section class="identity-bar" aria-label="Read identity">
+    <form onsubmit={submitIdentity}>
+      <label for="read-identity">Public read identity</label>
+      <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
+      <button type="submit" disabled={identityBusy}>{identityBusy ? 'Selecting…' : 'Use identity'}</button>
+    </form>
+    <div class="source-status">
+      <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
+      <strong>{diagnostics?.transportDegraded ?? diagnostics?.storeDegraded ?? 'No reported degradation'}</strong>
     </div>
   </section>
 
-  <aside class="proofs" aria-label="Isolation evidence">
-    <div>
-      <span>NAP-SHELL</span>
-      <strong data-proof-shell={shellReady}>{shellReady ? 'PASS' : 'PENDING'}</strong>
-    </div>
-    <div>
-      <span>Degraded domains</span>
-      <strong>{launch?.unavailableDomains.join(', ') || 'NONE'}</strong>
-    </div>
-    <div>
-      <span>Child native authority</span>
-      <strong data-proof-native={hostile ? !hostile.tauriInternals && !hostile.tauriGlobal && !hostile.wryIpc && !hostile.parentReadable : false}>
-        {hostile ? (!hostile.tauriInternals && !hostile.tauriGlobal && !hostile.wryIpc && !hostile.parentReadable ? 'DENIED' : 'FAILED') : 'PENDING'}
-      </strong>
-    </div>
-    <div>
-      <span>Raw WebKit transport</span>
-      <strong>{hostile?.rawWebkitTransport ? 'VISIBLE / UNAUTHENTICATED' : 'ABSENT'}</strong>
-    </div>
-  </aside>
+  <section
+    bind:this={workspace}
+    class:vertical={orientation === 'vertical'}
+    class:fullscreen-follow={fullscreen === 'follow'}
+    class:fullscreen-profile={fullscreen === 'profile'}
+    class="workspace"
+    style={`--first: ${split}fr; --second: ${100 - split}fr`}
+    aria-label="Composed napplet workspace"
+  >
+    <article class:focused={focused === 'follow'} class="pane follow-pane">
+      <div class="pane-title">
+        <div><span>01</span><strong>{follow?.title ?? 'Direct follows'}</strong></div>
+        <button type="button" onclick={() => fullscreen = fullscreen === 'follow' ? null : 'follow'}>{fullscreen === 'follow' ? 'Restore' : 'Fullscreen'}</button>
+      </div>
+      <div bind:this={followSurface} class="surface"><p>Verifying follow-list…</p></div>
+      <footer><code>{follow?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{follow?.unavailableDomains.join(', ') || 'exact domains available'}</span></footer>
+    </article>
 
-  <iframe
-    bind:this={hostileFrame}
-    class="hostile-probe"
-    sandbox="allow-scripts"
-    title="Hostile isolation probe"
-  ></iframe>
+    <button
+      type="button"
+      class="divider"
+      aria-label={`Resize napplet panes, first pane ${split}%`}
+      onkeydown={handleDividerKeys}
+      onpointerdown={beginResize}
+    ><span></span></button>
+
+    <article class:focused={focused === 'profile'} class="pane profile-pane">
+      <div class="pane-title">
+        <div><span>02</span><strong>{profile?.title ?? 'Profile card'}</strong></div>
+        <button type="button" onclick={() => fullscreen = fullscreen === 'profile' ? null : 'profile'}>{fullscreen === 'profile' ? 'Restore' : 'Fullscreen'}</button>
+      </div>
+      <div bind:this={profileSurface} class="surface"><p>Verifying profile-card…</p></div>
+      <footer><code>{profile?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{profile?.unavailableDomains.join(', ') || 'exact domains available'}</span></footer>
+    </article>
+  </section>
+
+  <section class="proof-strip" aria-label="Runtime evidence">
+    <div><span>NAP-SHELL</span><strong data-proof-shell={readyCount === 2}>{readyCount}/2 READY</strong></div>
+    <div><span>Sessions</span><strong>{diagnostics?.activeSessions ?? 0} EXACT</strong></div>
+    <div><span>NMP</span><strong>{diagnostics?.observingRelays ? `${diagnostics.relays} RELAYS` : 'CACHE-FIRST'}</strong></div>
+    <div><span>Profile route</span><strong>NAP-INC</strong></div>
+  </section>
+
+  {#if developerMode && drawerOpen}
+    <aside class="developer-drawer" aria-label="Developer diagnostics">
+      <div class="drawer-heading"><div><p class="eyebrow">Bounded diagnostics</p><h2>Runtime evidence</h2></div><button type="button" onclick={() => drawerOpen = false}>Close</button></div>
+      <dl>
+        <div><dt>Snapshot</dt><dd>{diagnostics?.snapshotRevision ?? 0}</dd></div>
+        <div><dt>Relay revision</dt><dd>{diagnostics?.relayRevision ?? 0}</dd></div>
+        <div><dt>Active identity</dt><dd>{diagnostics?.activeIdentity ?? 'none'}</dd></div>
+        <div><dt>Omitted relays</dt><dd>{diagnostics?.omittedRelays ?? 0}</dd></div>
+      </dl>
+      <div class="envelope-log">
+        {#each envelopeLog as entry}
+          <div><span>{entry.direction}</span><code>{entry.type}</code><small>{entry.surface}</small></div>
+        {:else}
+          <p>No envelopes observed yet.</p>
+        {/each}
+      </div>
+    </aside>
+  {/if}
 </main>
