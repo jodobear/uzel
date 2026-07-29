@@ -14,6 +14,7 @@ rust-version = "1.89"
 license = "MIT"
 
 [workspace.dependencies]
+base64 = "0.22.1"
 napd = { path = "crates/napd" }
 napd-protocol = { path = "crates/napd-protocol" }
 nmp-native-runtime-ffi = { git = "https://github.com/jodobear/nampplets", rev = "08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf" }
