@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785299431.336408,
-    "ast_hash": "999c4bd6482df2b72c105dab5fc7e81d",
+    "mtime": 1785300308.4857888,
+    "ast_hash": "0567026cc14ffbe200ea07bc47fc3489",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785299431.3386192,
-    "ast_hash": "0e618996334f873e195d5607527e4717",
+    "mtime": 1785300308.4874537,
+    "ast_hash": "9364453910758bdd8ab5c690c1324059",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785298800.7157059,
-    "ast_hash": "7b4c850f134edf75b09b98c14e8ec4d7",
+    "mtime": 1785300101.2555296,
+    "ast_hash": "39940e775631c1032c3eb2ffef6f9fc3",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785299409.497176,
-    "ast_hash": "24d09574557db132a642edad84e486a5",
+    "mtime": 1785300049.9099836,
+    "ast_hash": "9b34d9cd47b374047990649e0ca460eb",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/08-upstream-contributions.md": {
-    "mtime": 1785298870.1564438,
-    "ast_hash": "2ffd34e31a54fe8fc6f1b21a2b1881cb",
+    "mtime": 1785300101.3405306,
+    "ast_hash": "e7504d4f70660bc30345fd8baf728166",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/probes/slice-01-fedora-failed/weston.txt": {
@@ -340,13 +340,13 @@
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/trusted-shell.js": {
-    "mtime": 1785297572.720101,
-    "ast_hash": "f2e5d2e9aaa7c32255d929930cc1e8a7",
+    "mtime": 1785299988.6952765,
+    "ast_hash": "333d6e6c6a8aa8033ffc4362b4de7049",
     "semantic_hash": ""
   },
   "apps/uzel/src/app.d.ts": {
-    "mtime": 1785297743.9814732,
-    "ast_hash": "d89fff03ca89e1e48e64453eb9cb31ff",
+    "mtime": 1785300049.8129826,
+    "ast_hash": "298f999fd9acf45be1d29de5781aa57d",
     "semantic_hash": ""
   },
   "crates/napd/src/runner.rs": {
@@ -360,13 +360,13 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785298800.544704,
-    "ast_hash": "fa7916f65c8570f7014b988a18557b05",
+    "mtime": 1785300127.8568125,
+    "ast_hash": "e18d4ab0133137e0882197b4e843259d",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
-    "mtime": 1785298800.6307049,
-    "ast_hash": "6b7a26f668d8eb34c6ed4e81839f3fa0",
+    "mtime": 1785300050.1019857,
+    "ast_hash": "eafa5ef12e244e6ee3d35d293c9a0048",
     "semantic_hash": ""
   },
   "fixtures/good-morning/README.md": {
@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-009-linux-runner.md": {
-    "mtime": 1785298800.8767076,
-    "ast_hash": "81e9108cb944d42505ef11c840d86750",
+    "mtime": 1785300101.4235315,
+    "ast_hash": "627a4b714327c56f4333217493328d02",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-02-preflight.md": {
@@ -560,8 +560,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/trusted-shell-surface-host.js": {
-    "mtime": 1785297572.7211387,
-    "ast_hash": "6a29633f761c2a55450cc096f077677c",
+    "mtime": 1785299988.696614,
+    "ast_hash": "1fbed73773a008d8a35e585f27070adf",
     "semantic_hash": ""
   },
   "crates/napd/src/fixtures.rs": {
@@ -570,13 +570,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-012-composed-demo.md": {
-    "mtime": 1785298801.1317103,
-    "ast_hash": "d4b9ed44ce05d957f593bf37facf1d78",
+    "mtime": 1785300101.5125325,
+    "ast_hash": "5714fc9833e27651249c11abcd5168fb",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-05-preflight.md": {
-    "mtime": 1785299409.6841779,
-    "ast_hash": "fdc7a052f3bd1aa84411d23bb92888c2",
+    "mtime": 1785300121.99075,
+    "ast_hash": "5150710c5cfd8188e6d328657d75c8b7",
     "semantic_hash": ""
   }
 }
