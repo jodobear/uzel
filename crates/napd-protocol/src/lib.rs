@@ -1,7 +1,12 @@
 #![forbid(unsafe_code)]
 #![doc = "Bounded version-0 private shell-to-daemon protocol."]
 
-use std::io::{Read, Write};
+use std::{
+    io::{Read, Write},
+    os::unix::net::UnixStream,
+    path::{Path, PathBuf},
+    time::Duration,
+};
 
 use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
@@ -10,6 +15,7 @@ pub const VERSION: u8 = 0;
 pub const MAX_FRAME_BYTES: usize = 4_096;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
+const IPC_TIMEOUT: Duration = Duration::from_secs(5);
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "operation", rename_all = "snake_case")]
@@ -132,6 +138,121 @@ pub enum ProtocolError {
     AssetTooLarge,
     #[error("asset chunk is not valid base64: {0}")]
     Base64(#[from] base64::DecodeError),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FetchedSurface {
+    pub surface: SurfaceMetadata,
+    pub artifact_bytes: Vec<u8>,
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum ClientError {
+    #[error(transparent)]
+    Protocol(#[from] ProtocolError),
+    #[error("daemon refused {code}: {detail}")]
+    Refused { code: String, detail: String },
+    #[error("daemon returned an unexpected response")]
+    UnexpectedResponse,
+    #[error("asset transfer id changed during transfer")]
+    TransferChanged,
+    #[error("asset chunk length or completion marker is invalid")]
+    InvalidChunk,
+}
+
+#[derive(Clone, Debug)]
+pub struct UnixClient {
+    socket_path: PathBuf,
+}
+
+impl UnixClient {
+    pub fn new(socket_path: impl AsRef<Path>) -> Self {
+        Self {
+            socket_path: socket_path.as_ref().to_path_buf(),
+        }
+    }
+
+    pub fn request(&self, request: &Request) -> Result<Response, ClientError> {
+        let mut stream = UnixStream::connect(&self.socket_path).map_err(ProtocolError::Io)?;
+        stream
+            .set_read_timeout(Some(IPC_TIMEOUT))
+            .map_err(ProtocolError::Io)?;
+        stream
+            .set_write_timeout(Some(IPC_TIMEOUT))
+            .map_err(ProtocolError::Io)?;
+        write_frame(&mut stream, request)?;
+        let response = read_frame(&mut stream)?;
+        if let Response::Error { code, detail } = response {
+            return Err(ClientError::Refused { code, detail });
+        }
+        Ok(response)
+    }
+
+    pub fn start_fixture(&self) -> Result<FetchedSurface, ClientError> {
+        let (surface, transfer_id, total_bytes) = match self.request(&Request::StartFixture)? {
+            Response::Surface {
+                surface,
+                transfer_id,
+                total_bytes,
+            } => (surface, transfer_id, total_bytes),
+            _ => return Err(ClientError::UnexpectedResponse),
+        };
+        let total = usize::try_from(total_bytes).map_err(|_| ProtocolError::AssetTooLarge)?;
+        if total == 0 || total > MAX_ASSET_BYTES {
+            return Err(ProtocolError::AssetTooLarge.into());
+        }
+        let mut artifact_bytes = Vec::with_capacity(total);
+        let mut offset = 0_u64;
+        while offset < total_bytes {
+            let response = self.request(&Request::AssetChunk {
+                transfer_id: transfer_id.clone(),
+                offset,
+            })?;
+            let Response::AssetChunk {
+                transfer_id: returned_transfer,
+                offset: returned_offset,
+                next_offset,
+                total_bytes: returned_total,
+                bytes_base64,
+                done,
+            } = response
+            else {
+                return Err(ClientError::UnexpectedResponse);
+            };
+            if returned_transfer != transfer_id {
+                return Err(ClientError::TransferChanged);
+            }
+            if returned_offset != offset {
+                return Err(ProtocolError::OutOfOrder {
+                    expected: offset,
+                    actual: returned_offset,
+                }
+                .into());
+            }
+            if returned_total != total_bytes {
+                return Err(ClientError::InvalidChunk);
+            }
+            let chunk = decode_asset_chunk(&bytes_base64)?;
+            let chunk_length = u64::try_from(chunk.len()).map_err(|_| ClientError::InvalidChunk)?;
+            if chunk.is_empty()
+                || chunk.len() > ASSET_CHUNK_BYTES
+                || next_offset != offset.saturating_add(chunk_length)
+                || next_offset > total_bytes
+                || done != (next_offset == total_bytes)
+            {
+                return Err(ClientError::InvalidChunk);
+            }
+            artifact_bytes.extend(chunk);
+            offset = next_offset;
+        }
+        if artifact_bytes.len() != total {
+            return Err(ClientError::InvalidChunk);
+        }
+        Ok(FetchedSurface {
+            surface,
+            artifact_bytes,
+        })
+    }
 }
 
 pub fn write_frame<T: Serialize>(writer: &mut impl Write, value: &T) -> Result<(), ProtocolError> {

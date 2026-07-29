@@ -1,37 +1,63 @@
 #![forbid(unsafe_code)]
 
-use std::sync::Mutex;
+use std::{env, path::PathBuf};
 
-use napd::{LinuxRunner, SurfaceLaunch};
-use serde::Deserialize;
+use napd_protocol::{Request, Response, UnixClient};
+use serde::{Deserialize, Serialize};
 use tauri::Manager;
 
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct SurfaceLaunch {
+    surface_token: String,
+    artifact_base_url: String,
+    artifact_html: String,
+    title: String,
+    author: String,
+    d_tag: String,
+    aggregate_hash: String,
+    domains: Vec<String>,
+    unavailable_domains: Vec<String>,
+}
+
 #[tauri::command]
-fn start_fixture(runner: tauri::State<'_, Mutex<LinuxRunner>>) -> Result<SurfaceLaunch, String> {
-    let launch = runner
-        .lock()
-        .map_err(|_| "runner lock poisoned".to_owned())?
-        .start_fixture()
-        .map_err(|error| error.to_string())?;
+fn start_fixture(client: tauri::State<'_, UnixClient>) -> Result<SurfaceLaunch, String> {
+    let fetched = client.start_fixture().map_err(|error| error.to_string())?;
+    let artifact_html = String::from_utf8(fetched.artifact_bytes)
+        .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
     println!(
         "UZEL_SLICE02_FIXTURE_VERIFIED aggregate={}",
-        launch.aggregate_hash
+        fetched.surface.aggregate_hash
     );
-    Ok(launch)
+    Ok(SurfaceLaunch {
+        surface_token: fetched.surface.surface_token,
+        artifact_base_url: fetched.surface.artifact_base_url,
+        artifact_html,
+        title: fetched.surface.title,
+        author: fetched.surface.author,
+        d_tag: fetched.surface.d_tag,
+        aggregate_hash: fetched.surface.aggregate_hash,
+        domains: fetched.surface.domains,
+        unavailable_domains: fetched.surface.unavailable_domains,
+    })
 }
 
 #[tauri::command]
 fn forward_surface_envelope(
-    runner: tauri::State<'_, Mutex<LinuxRunner>>,
+    client: tauri::State<'_, UnixClient>,
     surface_token: String,
     envelope: String,
 ) -> Result<String, String> {
-    let response = runner
-        .lock()
-        .map_err(|_| "runner lock poisoned".to_owned())?
-        .forward_from_surface(&surface_token, envelope.as_bytes())
+    let response = client
+        .request(&Request::ForwardEnvelope {
+            surface_token: surface_token.clone(),
+            envelope,
+        })
         .map_err(|error| error.to_string())?;
-    let response_type = serde_json::from_str::<serde_json::Value>(&response)
+    let Response::Envelope { envelope } = response else {
+        return Err("daemon returned an unexpected envelope response".to_owned());
+    };
+    let response_type = serde_json::from_str::<serde_json::Value>(&envelope)
         .ok()
         .and_then(|value| value["type"].as_str().map(str::to_owned))
         .unwrap_or_default();
@@ -42,7 +68,7 @@ fn forward_surface_envelope(
         }
         _ => {}
     }
-    Ok(response)
+    Ok(envelope)
 }
 
 #[derive(Debug, Deserialize)]
@@ -70,14 +96,7 @@ fn report_hostile_probe(report: HostileProbe) -> Result<(), String> {
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            let runtime_root = app
-                .path()
-                .app_local_data_dir()
-                .map_err(|error| format!("app data directory unavailable: {error}"))?
-                .join("slice-02-runtime");
-            let runner = LinuxRunner::open(runtime_root)
-                .map_err(|error| format!("Linux runner failed: {error}"))?;
-            app.manage(Mutex::new(runner));
+            app.manage(UnixClient::new(default_socket_path()));
             println!("UZEL_SHELL_READY");
             Ok(())
         })
@@ -88,4 +107,11 @@ fn main() {
         ])
         .run(tauri::generate_context!())
         .expect("Uzel shell failed");
+}
+
+fn default_socket_path() -> PathBuf {
+    env::var_os("XDG_RUNTIME_DIR")
+        .map(PathBuf::from)
+        .unwrap_or_else(env::temp_dir)
+        .join("uzel/napd.sock")
 }

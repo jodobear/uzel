@@ -5533,7 +5533,7 @@ dependencies = [
 name = "uzel"
 version = "0.0.0"
 dependencies = [
- "napd",
+ "napd-protocol",
  "serde",
  "serde_json",
  "tauri",
