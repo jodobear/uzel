@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785290004.1504557,
-    "ast_hash": "d617a5f6fc23445532263f3e1076dbee",
+    "mtime": 1785290683.2354596,
+    "ast_hash": "441d5d506f76ee5a43f38e44018a928f",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785290004.152322,
-    "ast_hash": "c681867266717685d475f9465981e107",
+    "mtime": 1785290683.2372591,
+    "ast_hash": "06e1d174059403831f12311c8ca4b717",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "apps/uzel-napd/src/main.rs": {
-    "mtime": 1785289850.6747453,
-    "ast_hash": "73c07f8cb9d91d1fea84fc7c30ff3a27",
+    "mtime": 1785290253.8078825,
+    "ast_hash": "70cfa464fb6311646c8d8d0f31529b3c",
     "semantic_hash": ""
   },
   "apps/uzel/package.json": {
@@ -545,18 +545,18 @@
     "semantic_hash": ""
   },
   "crates/napd/src/server.rs": {
-    "mtime": 1785289830.5185385,
-    "ast_hash": "570903f44f32c056c06e56323b1af498",
+    "mtime": 1785290288.4072375,
+    "ast_hash": "1ef15a4274a9bd767a0eea29a35855f1",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-011-daemon-nmp.md": {
-    "mtime": 1785289991.835194,
-    "ast_hash": "e66b6b881df9b28d4fd76d903c452973",
+    "mtime": 1785290668.2221582,
+    "ast_hash": "b836bbca63be959c0fb55bf8031a48db",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-04-preflight.md": {
-    "mtime": 1785289991.6971927,
-    "ast_hash": "b799d6a1b955a1a04a6f2371b1aaa803",
+    "mtime": 1785290668.1351573,
+    "ast_hash": "a57a7bac8bdd9fa3a39de6716e7fc153",
     "semantic_hash": ""
   }
 }

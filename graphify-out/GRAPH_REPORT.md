@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 99 files · ~46,857 words
+- 99 files · ~47,381 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 803 nodes · 1083 edges · 86 communities (59 shown, 27 thin omitted)
+- 806 nodes · 1093 edges · 85 communities (58 shown, 27 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `42fbae85`
+- Built from commit: `027b8cd4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -93,7 +93,6 @@
 - RelayDiagnosticsSink
 - FACT-011-daemon-nmp.md
 - server.rs
-- Work 01 — scaffold
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 34 edges
@@ -122,7 +121,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (86 total, 27 thin omitted)
+## Communities (85 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -157,8 +156,8 @@ Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 9 - "Work 01 — scaffold"
-Cohesion: 0.25
-Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
+Cohesion: 0.11
+Nodes (16): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+8 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
@@ -233,8 +232,8 @@ Cohesion: 0.29
 Nodes (6): Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 41 - "lib.rs"
-Cohesion: 0.12
-Nodes (30): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+22 more)
+Cohesion: 0.09
+Nodes (40): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+32 more)
 
 ### Community 47 - "lib.rs"
 Cohesion: 0.07
@@ -325,12 +324,8 @@ Cohesion: 0.50
 Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
 
 ### Community 84 - "server.rs"
-Cohesion: 0.12
-Nodes (26): AssetTransfer, bounded_detail(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange(), handle_stream(), prepare_socket_parent() (+18 more)
-
-### Community 85 - "Work 01 — scaffold"
-Cohesion: 0.25
-Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
+Cohesion: 0.17
+Nodes (19): active_daemon_socket_is_not_unlinked(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, existing_shared_socket_parent_is_not_chmodded(), incomplete_client_times_out_without_blocking_the_next_request(), prepare_socket_parent(), remove_owned_stale_socket(), AsRef (+11 more)
 
 ## Knowledge Gaps
 - **360 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+355 more)
@@ -340,7 +335,7 @@ Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks,
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `server.rs`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`, `server.rs`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **Why does `UnixClient` connect `lib.rs` to `Work 00 — validate assumptions`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
@@ -350,7 +345,7 @@ _Questions this graph is uniquely positioned to answer:_
   _360 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
+- **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
-- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
