@@ -15,8 +15,10 @@ cd uzel
 bash scripts/debian13-setup.sh --install
 ```
 
-The setup script installs Debian packages `git` and `nix-setup-systemd`. If it
-prints `DEBIAN13_SETUP_RELOGIN_REQUIRED`, log out completely, log back in, then:
+The setup script inventories every system prerequisite, prints each installed
+or missing item, then prints the exact apt/group change plan. It asks `[y/N]`
+before using `sudo`. It installs only missing Debian packages. If it prints
+`DEBIAN13_SETUP_RELOGIN_REQUIRED`, log out completely, log back in, then:
 
 ```sh
 cd uzel
@@ -29,13 +31,22 @@ Expected terminal marker:
 DEBIAN13_SETUP_OK os=debian-13 arch=x86_64 nix=ready flake=locked
 ```
 
-`--check` makes no system changes. `--install` is the only command using `sudo`.
+`--check` makes no system changes. `--install` asks before any system change.
+Use `--install --yes` only for an explicitly approved unattended installation.
+Once ready, repeating `--install` runs no apt update, package install, or group
+change.
 
 ## 2. Run automated real-WebKit acceptance
 
 ```sh
 bash scripts/debian13-live-test.sh headless
 ```
+
+This command also runs the setup inventory. If system dependencies are missing,
+it shows and asks approval for the exact change plan. After Nix is ready, it
+uses a non-mutating Nix dry run to show missing locked closure paths and asks
+approval before fetching locked flake inputs or realizing the closure. Use
+`--yes` only for an explicitly approved unattended run.
 
 First run downloads the locked Nix closure and builds Rust dependencies. Later
 runs reuse the Nix and Cargo stores. The test starts headless Weston, the local
@@ -53,7 +64,8 @@ DEBIAN13_EVIDENCE_OK path=.../.artifacts/debian13-live/<UTC timestamp>
 
 Keep `environment.txt`, `run.log`, `uzel.log`, and `weston.log` from that
 evidence directory. On failure, redacted WebKit/Uzel and Weston logs are stored
-beneath its `failure/` directory.
+beneath its `failure/` directory. Each run creates a unique directory and never
+overwrites earlier evidence.
 
 ## 3. Run visible desktop demo
 

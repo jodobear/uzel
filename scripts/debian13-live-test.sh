@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODE=${1:-headless}
+MODE=
+ASSUME_YES=0
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$ROOT"
 
@@ -10,14 +11,59 @@ fail() {
   exit 1
 }
 
-[[ "$MODE" == headless || "$MODE" == interactive ]] \
-  || fail 'usage: scripts/debian13-live-test.sh [headless|interactive]'
+for argument in "$@"; do
+  case "$argument" in
+    headless|interactive)
+      [[ -z "$MODE" ]] || fail 'choose exactly one of headless or interactive'
+      MODE=$argument
+      ;;
+    --yes) ASSUME_YES=1 ;;
+    *) fail 'usage: scripts/debian13-live-test.sh [headless|interactive] [--yes]' ;;
+  esac
+done
+MODE=${MODE:-headless}
 
 if [[ "${UZEL_DEBIAN13_NIX_SHELL:-}" != 1 ]]; then
-  bash scripts/debian13-setup.sh --check
+  SETUP_ARGS=(--install)
+  (( ASSUME_YES == 1 )) && SETUP_ARGS+=(--yes)
+  bash scripts/debian13-setup.sh "${SETUP_ARGS[@]}"
+
+  echo 'DEBIAN13_NIX_PLAN source=flake.lock tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
+  NIX_NEEDS_APPROVAL=1
+  if nix --extra-experimental-features 'nix-command flakes' \
+    flake metadata --offline --no-write-lock-file . >/dev/null 2>&1; then
+    NIX_PLAN=$(nix --extra-experimental-features 'nix-command flakes' \
+      build --offline .#devShells.x86_64-linux.default --dry-run --no-link 2>&1)
+    printf '%s\n' "$NIX_PLAN"
+    NIX_NEEDS_APPROVAL=0
+    [[ "$NIX_PLAN" == *'will be fetched'* ]] && NIX_NEEDS_APPROVAL=1
+    while IFS= read -r plan_line; do
+      if [[ "$plan_line" =~ ^[[:space:]]+/nix/store/.*\.drv$ \
+        && ! "$plan_line" =~ -nix-shell\.drv$ ]]; then
+        NIX_NEEDS_APPROVAL=1
+      fi
+    done <<< "$NIX_PLAN"
+  else
+    echo 'DEBIAN13_NIX_INPUTS status=missing source=flake.lock'
+  fi
+  if (( NIX_NEEDS_APPROVAL == 1 )); then
+    if (( ASSUME_YES == 0 )); then
+      [[ -t 0 ]] || fail 'Nix dependency approval requires interactive terminal; rerun with --yes for unattended install'
+      read -r -p 'Realize listed locked Nix dependencies? [y/N] ' approval
+      case "$approval" in
+        y|Y|yes|YES) ;;
+        *) echo 'DEBIAN13_LIVE_CANCELLED no_nix_dependencies_realized'; exit 3 ;;
+      esac
+    fi
+  else
+    echo 'DEBIAN13_NIX_NO_CHANGES closure=ready shell_derivation=ephemeral'
+  fi
+
+  INNER_ARGS=("$MODE")
+  (( ASSUME_YES == 1 )) && INNER_ARGS+=(--yes)
   exec nix --extra-experimental-features 'nix-command flakes' \
     develop --command env UZEL_DEBIAN13_NIX_SHELL=1 \
-    bash scripts/debian13-live-test.sh "$MODE"
+    bash scripts/debian13-live-test.sh "${INNER_ARGS[@]}"
 fi
 
 for command in node pnpm rustc cargo nak weston rg; do
@@ -41,8 +87,8 @@ fi
 
 EVIDENCE_ROOT="$ROOT/.artifacts/debian13-live"
 RUN_ID=$(date -u +%Y%m%dT%H%M%SZ)
-EVIDENCE_DIR="$EVIDENCE_ROOT/$RUN_ID"
-mkdir -p "$EVIDENCE_DIR"
+mkdir -p "$EVIDENCE_ROOT"
+EVIDENCE_DIR=$(mktemp -d "$EVIDENCE_ROOT/$RUN_ID.XXXXXX")
 {
   echo "git_commit=$(git rev-parse HEAD)"
   echo "kernel=$(uname -srmo)"
