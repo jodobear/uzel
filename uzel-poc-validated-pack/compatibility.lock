@@ -397,6 +397,7 @@ codex_review_round_11 = "addressed: identity-driven remount refusal latches shel
 codex_review_round_12 = "addressed: rejected child environments explicitly cross the one-shot port and invoke the source-bound shell failure callback"
 codex_review_round_13 = "addressed: identity changes stop old runtime sessions before launching fresh sessions and frames, so late responses cannot collide with reset child request identifiers"
 self_review_round_14 = "addressed: close both old frame acknowledgement channels before the first stop IPC await and ignore callbacks from tokens outside the current surface set"
+codex_review_round_15 = "addressed: disable and fail-close identity submission until both initial or restarted surfaces have acknowledged shell.init, serializing identity changes after composition"
 
 [gates]
 V_01 = "pass"

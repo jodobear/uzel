@@ -147,7 +147,10 @@ their frames, and launches fresh sessions and surface generations. That forces
 fresh provider reads and prevents a late old-session response from colliding
 with request identifiers reset by a new child prelude. Both old acknowledgement
 channels close before the first stop IPC await, and the shell ignores any ready
-callback whose token is outside the current surface set. Directional and named focus controls
+callback whose token is outside the current surface set. Identity submission is
+also disabled and fails closed until the current two-frame composition has
+completed both acknowledgements, so a user cannot race an in-flight initial or
+replacement session launch. Directional and named focus controls
 previously changed only styling. They now move DOM focus to a shell pane;
 Enter explicitly enters its mapped iframe, so successive directional keys are
 not trapped inside the opaque child. The final review also corrected stacked
