@@ -27,16 +27,33 @@ struct LiveProbe {
     sentinel_url: String,
     surface_token: Option<String>,
     accepts: Arc<AtomicUsize>,
+    accept_error: Arc<Mutex<Option<String>>>,
     stop: Arc<AtomicBool>,
     thread: Option<JoinHandle<()>>,
 }
 
 impl Drop for LiveProbe {
     fn drop(&mut self) {
+        let _ = self.stop_and_drain();
+    }
+}
+
+impl LiveProbe {
+    fn stop_and_drain(&mut self) -> Result<(), String> {
         self.stop.store(true, Ordering::Release);
         if let Some(thread) = self.thread.take() {
-            let _ = thread.join();
+            thread
+                .join()
+                .map_err(|_| "hostile sentinel thread panicked".to_owned())?;
         }
+        let mut accept_error = self
+            .accept_error
+            .lock()
+            .map_err(|_| "hostile sentinel error state is poisoned".to_owned())?;
+        if let Some(error) = accept_error.take() {
+            return Err(format!("hostile sentinel accept loop failed: {error}"));
+        }
+        Ok(())
     }
 }
 
@@ -121,22 +138,32 @@ impl HostileProbeState {
             std::process::id()
         );
         let accepts = Arc::new(AtomicUsize::new(0));
+        let accept_error = Arc::new(Mutex::new(None));
         let stop = Arc::new(AtomicBool::new(false));
         let thread_accepts = Arc::clone(&accepts);
+        let thread_accept_error = Arc::clone(&accept_error);
         let thread_stop = Arc::clone(&stop);
         let thread = thread::Builder::new()
             .name("uzel-hostile-sentinel".to_owned())
             .spawn(move || {
-                while !thread_stop.load(Ordering::Acquire) {
+                loop {
                     match listener.accept() {
                         Ok((stream, _)) => {
                             thread_accepts.fetch_add(1, Ordering::AcqRel);
                             drop(stream);
                         }
                         Err(error) if error.kind() == ErrorKind::WouldBlock => {
+                            if thread_stop.load(Ordering::Acquire) {
+                                break;
+                            }
                             thread::sleep(ACCEPT_POLL);
                         }
-                        Err(_) => break,
+                        Err(error) => {
+                            if let Ok(mut stored) = thread_accept_error.lock() {
+                                *stored = Some(error.to_string());
+                            }
+                            break;
+                        }
                     }
                 }
             })
@@ -146,6 +173,7 @@ impl HostileProbeState {
             sentinel_url: sentinel_url.clone(),
             surface_token: None,
             accepts,
+            accept_error,
             stop,
             thread: Some(thread),
         });
@@ -185,7 +213,7 @@ impl HostileProbeState {
         surface_token: &str,
         report: HostileProbeReport,
     ) -> Result<HostileProbeVerdict, String> {
-        let probe = {
+        let mut probe = {
             let mut active = self
                 .active
                 .lock()
@@ -199,8 +227,8 @@ impl HostileProbeState {
             active.take().expect("active probe checked above")
         };
         thread::sleep(PROBE_SETTLE);
+        probe.stop_and_drain()?;
         let sentinel_accepts = probe.accepts.load(Ordering::Acquire);
-        drop(probe);
         let native_calls = self.native_calls.load(Ordering::Acquire);
         let denials = report.network_denials();
         report.validate_native_boundary()?;
@@ -310,6 +338,31 @@ mod tests {
             .unwrap()
     }
 
+    fn accepted_report() -> HostileProbeReport {
+        HostileProbeReport {
+            fetch: true,
+            xhr: true,
+            websocket: true,
+            eventsource: true,
+            image: true,
+            worker: true,
+            service_worker: true,
+            beacon: BeaconAttempt::Queued,
+            media: true,
+            iframe: true,
+            form: true,
+            navigation: true,
+            popup: true,
+            tauri_internals: false,
+            tauri_global: false,
+            wry_ipc: false,
+            parent_readable: false,
+            raw_webkit_transport: true,
+            raw_invoke_attempted: true,
+            identity_mutation_api: false,
+        }
+    }
+
     #[test]
     fn control_accept_is_not_counted_as_a_probe_connection() {
         let state = HostileProbeState::default();
@@ -349,29 +402,22 @@ mod tests {
 
     #[test]
     fn queued_beacon_is_counted_only_with_the_external_sentinel() {
-        let report = HostileProbeReport {
-            fetch: true,
-            xhr: true,
-            websocket: true,
-            eventsource: true,
-            image: true,
-            worker: true,
-            service_worker: true,
-            beacon: BeaconAttempt::Queued,
-            media: true,
-            iframe: true,
-            form: true,
-            navigation: true,
-            popup: true,
-            tauri_internals: false,
-            tauri_global: false,
-            wry_ipc: false,
-            parent_readable: false,
-            raw_webkit_transport: true,
-            raw_invoke_attempted: true,
-            identity_mutation_api: false,
-        };
+        let report = accepted_report();
         assert_eq!(report.network_denials(), 13);
         assert!(report.failed_network_probes().is_empty());
+    }
+
+    #[test]
+    fn recorded_accept_loop_failure_rejects_finalization() {
+        let state = HostileProbeState::default();
+        let url = state.begin().unwrap();
+        state.attach(&url, "hostile-surface").unwrap();
+        let accept_error = Arc::clone(&state.active.lock().unwrap().as_ref().unwrap().accept_error);
+        *accept_error.lock().unwrap() = Some("injected accept failure".to_owned());
+
+        let error = state
+            .finish("hostile-surface", accepted_report())
+            .unwrap_err();
+        assert!(error.contains("accept loop failed: injected accept failure"));
     }
 }

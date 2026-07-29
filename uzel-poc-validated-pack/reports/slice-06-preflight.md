@@ -38,15 +38,17 @@ The child attempts 13 browser egress surfaces: fetch, XHR, WebSocket,
 EventSource, image, worker, service worker, beacon, media, iframe, form,
 navigation, and popup. A true `sendBeacon()` return means only that WebKit
 accepted the request into a queue; it is not described as a transport denial.
-The independent sentinel remains the transport authority and accepted zero
-hostile connections after settlement.
+The independent sentinel remains the transport authority. After settlement,
+finalization signals stop, drains the listen backlog through `WouldBlock`,
+joins the accept thread, rejects any recorded accept-loop error, and only then
+samples the count. It accepted zero hostile connections.
 
 The raw forged Tauri message was synchronously dispatched before the final
 report and was visible with `invalid-child-key`, proving that the negative test
 reached the transport before finalization. The application command counter
 remained zero. The host then unmounted the child while the sentinel remained
 live, covering WebKit beacon transfer deferred until document teardown, and
-only afterward settled and sampled the listener. The hostile report was
+only afterward settled, fully drained, joined, and sampled the listener. The hostile report was
 accepted only from the mounted child's captured source, not from payload
 identity fields. The normal exact NAP-SHELL path and source-bound NAP-CONFIG
 delivery remained live. User mode hid the developer drawer and exposed no
@@ -67,7 +69,7 @@ hostile JavaScript tests
   7 passed, including raw-dispatch-before-report ordering
 
 Tauri hostile/navigation/sentinel tests
-  4 passed in an isolated Fedora target
+  5 passed in the pinned Debian target, including accept-loop failure rejection
 
 cargo test --workspace --exclude uzel
   napd 20 passed/1 ignored; napd-protocol 4; uzel-napd 1
@@ -104,8 +106,9 @@ bash scripts/debian-build-smoke.sh
 
 The Debian build used the exact `node:22.23.1-bookworm` and
 `rust:1.89.0-bookworm` image digests committed in `Containerfile.debian`,
-installed the locked frontend, built the Svelte shell, and completed
-`cargo build --workspace --locked` with WebKitGTK `2.50.6-1~deb12u2`.
+installed the locked frontend, built the Svelte shell, ran
+`cargo test -p uzel --locked`, and completed `cargo build --workspace --locked`
+with WebKitGTK `2.50.6-1~deb12u2`.
 
 ## Failed evidence and toolchain limit
 
@@ -121,9 +124,9 @@ This is host storage policy, not a source correction.
 
 The combined Fedora `pnpm test` link can mix Nix WebKitGTK libraries requiring
 `GLIBC_2.42` with the host linker. The exact failure is an undefined reference
-to `__inet_pton_chk@GLIBC_2.42`. The isolated Tauri test target passes all four
-tests, the remaining workspace tests pass, the real Tauri application runs,
-and the complete Debian workspace build passes. This is recorded as a Fedora
+to `__inet_pton_chk@GLIBC_2.42`. The pinned Debian Tauri target passes all five
+tests, the remaining workspace tests pass, the real Fedora Tauri application
+runs, and the complete Debian workspace build passes. This is recorded as a Fedora
 developer-toolchain composition issue; it is not hidden as an all-in-one test
 pass.
 
