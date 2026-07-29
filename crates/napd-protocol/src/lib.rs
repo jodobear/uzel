@@ -27,6 +27,9 @@ pub enum Request {
     StartFixture {
         fixture: String,
     },
+    StartHostileProbe {
+        sentinel_url: String,
+    },
     StopFixture {
         surface_token: String,
     },
@@ -203,9 +206,19 @@ impl UnixClient {
     }
 
     pub fn start_named_fixture(&self, fixture: &str) -> Result<FetchedSurface, ClientError> {
-        let (surface, transfer_id, total_bytes) = match self.request(&Request::StartFixture {
+        self.fetch_surface(&Request::StartFixture {
             fixture: fixture.to_owned(),
-        })? {
+        })
+    }
+
+    pub fn start_hostile_probe(&self, sentinel_url: &str) -> Result<FetchedSurface, ClientError> {
+        self.fetch_surface(&Request::StartHostileProbe {
+            sentinel_url: sentinel_url.to_owned(),
+        })
+    }
+
+    fn fetch_surface(&self, request: &Request) -> Result<FetchedSurface, ClientError> {
+        let (surface, transfer_id, total_bytes) = match self.request(request)? {
             Response::Surface {
                 surface,
                 transfer_id,

@@ -10,12 +10,14 @@ use std::{
 
 use napd_protocol::{Diagnostics, RoutedEnvelope, SurfaceMetadata};
 use nmp_native_runtime_ffi::{
-    ArtifactCoordinate, RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent,
+    ArtifactCoordinate, NativeConfigCommit, NativeSettingsExecutor, NativeSettingsOpenResult,
+    NativeSettingsRequest, RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent,
     RuntimeExecutionProfile, RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame,
     RuntimeObserver, RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
     RuntimeRelayDiagnosticsSnapshot, RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
 };
 use serde::{Deserialize, Serialize};
+use url::Url;
 
 use crate::fixtures::{ExactFixtureSource, MAXIMUM_ACTIVE_FIXTURES, fixture_by_name};
 
@@ -131,6 +133,12 @@ pub enum RunnerError {
     StatePersist(String),
     #[error("surface generation is exhausted")]
     SurfaceGenerationExhausted,
+    #[error(
+        "hostile sentinel URL must be a bounded unprivileged http://127.0.0.1 URL with a unique path"
+    )]
+    InvalidSentinel,
+    #[error("exact-session hostile configuration was refused: {0}")]
+    ConfigCommit(String),
 }
 
 #[derive(Debug, Default)]
@@ -235,6 +243,15 @@ impl RuntimeRelayDiagnosticsObserver for RelayDiagnosticsSink {
     fn update(&self, _snapshot: RuntimeRelayDiagnosticsSnapshot) {}
 }
 
+#[derive(Debug)]
+struct UnavailableSettings;
+
+impl NativeSettingsExecutor for UnavailableSettings {
+    fn try_open(&self, _request: NativeSettingsRequest) -> NativeSettingsOpenResult {
+        NativeSettingsOpenResult::Unavailable
+    }
+}
+
 pub struct LinuxRunner {
     controller: Arc<RuntimeController>,
     observation: Arc<RuntimeObservation>,
@@ -294,7 +311,7 @@ impl LinuxRunner {
     ) -> Result<Self, RunnerError> {
         let runtime_root = runtime_root.as_ref();
         fs::create_dir_all(runtime_root).map_err(RunnerError::RuntimeDirectory)?;
-        let controller = RuntimeController::open(
+        let controller = RuntimeController::open_with_settings(
             RuntimeConfig {
                 runtime_store_path: runtime_root.join("runtime.sqlite3").display().to_string(),
                 nmp_store_path: Some(runtime_root.join("nmp.redb").display().to_string()),
@@ -306,6 +323,7 @@ impl LinuxRunner {
                 ..RuntimeConfig::default()
             },
             Box::new(ExactFixtureSource),
+            Box::new(UnavailableSettings),
         )
         .map_err(|error| RunnerError::RuntimeOpen(error.to_string()))?;
         let events = Arc::new(EventBuffer::default());
@@ -649,6 +667,33 @@ impl LinuxRunner {
         Ok(launch)
     }
 
+    pub fn start_hostile_probe(
+        &mut self,
+        sentinel_url: &str,
+    ) -> Result<SurfaceLaunch, RunnerError> {
+        validate_sentinel_url(sentinel_url)?;
+        let launch = self.start_named_fixture("hostile-egress")?;
+        let (session_id, _) = self
+            .surfaces
+            .get(&launch.surface_token)
+            .ok_or(RunnerError::SessionMissing)?;
+        let commit = self.controller.commit_config_values(NativeConfigCommit {
+            manifest_author: launch.author.clone(),
+            d_tag: launch.d_tag.clone(),
+            aggregate_hash: launch.aggregate_hash.clone(),
+            session_id: *session_id,
+            values_json: serde_json::json!({"sentinel": sentinel_url}).to_string(),
+        });
+        if !commit.accepted {
+            let detail = commit
+                .refusal
+                .map_or_else(|| "unknown refusal".to_owned(), |refusal| refusal.detail);
+            let _ = self.stop_fixture(&launch.surface_token);
+            return Err(RunnerError::ConfigCommit(detail));
+        }
+        Ok(launch)
+    }
+
     pub fn forward_from_surface(
         &self,
         surface_token: &str,
@@ -700,6 +745,25 @@ impl LinuxRunner {
         self.controller.stop(session_id);
         Ok(())
     }
+}
+
+fn validate_sentinel_url(value: &str) -> Result<(), RunnerError> {
+    if value.is_empty() || value.len() > 2_048 {
+        return Err(RunnerError::InvalidSentinel);
+    }
+    let parsed = Url::parse(value).map_err(|_| RunnerError::InvalidSentinel)?;
+    let port = parsed.port().ok_or(RunnerError::InvalidSentinel)?;
+    if parsed.scheme() != "http"
+        || parsed.host_str() != Some("127.0.0.1")
+        || port < 1_024
+        || !parsed.username().is_empty()
+        || parsed.password().is_some()
+        || parsed.fragment().is_some()
+        || parsed.path().len() <= 1
+    {
+        return Err(RunnerError::InvalidSentinel);
+    }
+    Ok(())
 }
 
 fn bounded_diagnostic(detail: Option<String>) -> Option<String> {
@@ -931,6 +995,52 @@ mod tests {
                 .len(),
             4
         );
+    }
+
+    #[test]
+    fn hostile_probe_commits_exact_session_config_before_returning() {
+        let temp = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        let sentinel = "http://127.0.0.1:43129/uzel-hostile/run-7";
+        let launch = runner.start_hostile_probe(sentinel).unwrap();
+
+        let shell = runner
+            .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
+            .unwrap();
+        assert_eq!(
+            serde_json::from_str::<Value>(&shell.envelope).unwrap()["type"],
+            "shell.init"
+        );
+        let config = runner
+            .forward_from_surface(
+                &launch.surface_token,
+                br#"{"type":"config.get","id":"slice-06-config"}"#,
+            )
+            .unwrap();
+        let config: Value = serde_json::from_str(&config.envelope).unwrap();
+        assert_eq!(config["type"], "config.values");
+        assert_eq!(config["values"]["sentinel"], sentinel);
+    }
+
+    #[test]
+    fn hostile_probe_rejects_non_loopback_or_ambiguous_sentinels() {
+        let temp = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        for sentinel in [
+            "",
+            "http://127.0.0.1:9/probe",
+            "https://127.0.0.1:43129/probe",
+            "http://localhost:43129/probe",
+            "http://user@127.0.0.1:43129/probe",
+            "http://127.0.0.1:43129/",
+            "http://127.0.0.1:43129/probe#fragment",
+        ] {
+            assert!(matches!(
+                runner.start_hostile_probe(sentinel),
+                Err(RunnerError::InvalidSentinel)
+            ));
+        }
+        assert!(runner.active_surfaces().is_empty());
     }
 
     #[test]

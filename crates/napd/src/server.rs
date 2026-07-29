@@ -15,7 +15,7 @@ use napd_protocol::{
     encode_asset_chunk, read_frame, write_frame,
 };
 
-use crate::{LinuxRunner, RunnerError};
+use crate::{LinuxRunner, RunnerError, SurfaceLaunch};
 
 const STREAM_TIMEOUT: Duration = Duration::from_secs(2);
 
@@ -78,31 +78,14 @@ impl DaemonState {
                 },
                 Err(error) => runner_error(error),
             },
-            Request::StartFixture { fixture } => match self.runner.start_named_fixture(&fixture) {
-                Ok(launch) if launch.artifact_html.len() <= MAX_ASSET_BYTES => {
-                    let total_bytes = launch.artifact_html.len() as u64;
-                    let surface = launch.metadata();
-                    let transfer_id = format!("fixture-index-{}", surface.surface_token);
-                    self.transfers.insert(
-                        transfer_id.clone(),
-                        AssetTransfer {
-                            id: transfer_id.clone(),
-                            bytes: launch.artifact_html.into_bytes(),
-                            next_offset: 0,
-                        },
-                    );
-                    Response::Surface {
-                        surface,
-                        transfer_id,
-                        total_bytes,
-                    }
-                }
-                Ok(_) => Response::error(
-                    "asset_too_large",
-                    format!("verified document exceeds {MAX_ASSET_BYTES} bytes"),
-                ),
-                Err(error) => runner_error(error),
-            },
+            Request::StartFixture { fixture } => {
+                let result = self.runner.start_named_fixture(&fixture);
+                self.stage_surface(result)
+            }
+            Request::StartHostileProbe { sentinel_url } => {
+                let result = self.runner.start_hostile_probe(&sentinel_url);
+                self.stage_surface(result)
+            }
             Request::StopFixture { surface_token } => {
                 match self.runner.stop_fixture(&surface_token) {
                     Ok(()) => {
@@ -180,6 +163,34 @@ impl DaemonState {
             total_bytes: transfer.bytes.len() as u64,
             bytes_base64,
             done: end == transfer.bytes.len(),
+        }
+    }
+
+    fn stage_surface(&mut self, result: Result<SurfaceLaunch, RunnerError>) -> Response {
+        match result {
+            Ok(launch) if launch.artifact_html.len() <= MAX_ASSET_BYTES => {
+                let total_bytes = launch.artifact_html.len() as u64;
+                let surface = launch.metadata();
+                let transfer_id = format!("fixture-index-{}", surface.surface_token);
+                self.transfers.insert(
+                    transfer_id.clone(),
+                    AssetTransfer {
+                        id: transfer_id.clone(),
+                        bytes: launch.artifact_html.into_bytes(),
+                        next_offset: 0,
+                    },
+                );
+                Response::Surface {
+                    surface,
+                    transfer_id,
+                    total_bytes,
+                }
+            }
+            Ok(_) => Response::error(
+                "asset_too_large",
+                format!("verified document exceeds {MAX_ASSET_BYTES} bytes"),
+            ),
+            Err(error) => runner_error(error),
         }
     }
 }
