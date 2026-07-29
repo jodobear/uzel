@@ -800,7 +800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main",
-      "community": 41,
+      "community": 79,
       "norm_label": "main.rs"
     },
     {
@@ -810,7 +810,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_surfacelaunch",
-      "community": 41,
+      "community": 79,
       "norm_label": "surfacelaunch"
     },
     {
@@ -820,7 +820,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_rs_string",
-      "community": 41,
+      "community": 79,
       "norm_label": "string"
     },
     {
@@ -830,7 +830,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_rs_vec",
-      "community": 41,
+      "community": 79,
       "norm_label": "vec"
     },
     {
@@ -840,7 +840,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_runtimestatus",
-      "community": 41,
+      "community": 79,
       "norm_label": "runtimestatus"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_rs_option",
-      "community": 41,
+      "community": 79,
       "norm_label": "option"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_runtime_status",
-      "community": 41,
+      "community": 79,
       "norm_label": "runtime_status()"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "state",
-      "community": 41,
+      "community": 79,
       "norm_label": "state"
     },
     {
@@ -880,7 +880,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_rs_result",
-      "community": 41,
+      "community": 79,
       "norm_label": "result"
     },
     {
@@ -890,7 +890,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_select_read_identity",
-      "community": 41,
+      "community": 79,
       "norm_label": "select_read_identity()"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_runtime_diagnostics",
-      "community": 41,
+      "community": 79,
       "norm_label": "runtime_diagnostics()"
     },
     {
@@ -910,67 +910,77 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_start_fixture",
-      "community": 41,
+      "community": 79,
       "norm_label": "start_fixture()"
+    },
+    {
+      "label": "stop_fixture()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "apps_uzel_src_tauri_src_main_stop_fixture",
+      "community": 79,
+      "norm_label": "stop_fixture()"
     },
     {
       "label": "forward_surface_envelope()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
-      "community": 41,
+      "community": 79,
       "norm_label": "forward_surface_envelope()"
     },
     {
       "label": "report_shell_accepted()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L143",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_report_shell_accepted",
-      "community": 41,
+      "community": 79,
       "norm_label": "report_shell_accepted()"
     },
     {
       "label": "HostileProbe",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L156",
+      "source_location": "L167",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_hostileprobe",
-      "community": 41,
+      "community": 79,
       "norm_label": "hostileprobe"
     },
     {
       "label": "report_hostile_probe()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L165",
+      "source_location": "L176",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_report_hostile_probe",
-      "community": 41,
+      "community": 79,
       "norm_label": "report_hostile_probe()"
     },
     {
       "label": "main()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L176",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_main",
-      "community": 41,
+      "community": 79,
       "norm_label": "main()"
     },
     {
       "label": "default_socket_path()",
       "file_type": "code",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L197",
+      "source_location": "L209",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_default_socket_path",
-      "community": 41,
+      "community": 79,
       "norm_label": "default_socket_path()"
     },
     {
@@ -980,7 +990,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_rs_pathbuf",
-      "community": 41,
+      "community": 79,
       "norm_label": "pathbuf"
     },
     {
@@ -1900,7 +1910,7 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient",
-      "community": 41,
+      "community": 79,
       "norm_label": "unixclient"
     },
     {
@@ -1910,7 +1920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_pathbuf",
-      "community": 41,
+      "community": 79,
       "norm_label": "pathbuf"
     },
     {
@@ -3084,10 +3094,20 @@
       "norm_label": "restarted_daemon_gets_a_new_surface_generation()"
     },
     {
-      "label": "identity_activation_rolls_back_when_product_state_cannot_persist()",
+      "label": "stopped_fixture_relaunches_with_a_new_session_and_surface()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
       "source_location": "L975",
+      "_origin": "ast",
+      "id": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
+      "community": 47,
+      "norm_label": "stopped_fixture_relaunches_with_a_new_session_and_surface()"
+    },
+    {
+      "label": "identity_activation_rolls_back_when_product_state_cannot_persist()",
+      "file_type": "code",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L994",
       "_origin": "ast",
       "id": "crates_napd_src_runner_identity_activation_rolls_back_when_product_state_cannot_persist",
       "community": 47,
@@ -3097,7 +3117,7 @@
       "label": "product_state_symlink_is_refused()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1000",
+      "source_location": "L1019",
       "_origin": "ast",
       "id": "crates_napd_src_runner_product_state_symlink_is_refused",
       "community": 47,
@@ -3107,7 +3127,7 @@
       "label": "live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1017",
+      "source_location": "L1036",
       "_origin": "ast",
       "id": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "community": 47,
@@ -3117,7 +3137,7 @@
       "label": "payload_identity_cannot_select_surface_or_session()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1076",
+      "source_location": "L1095",
       "_origin": "ast",
       "id": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
       "community": 47,
@@ -3127,7 +3147,7 @@
       "label": "slice_three_signed_single_file_artifacts_verify_and_read_exactly()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1093",
+      "source_location": "L1112",
       "_origin": "ast",
       "id": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
       "community": 47,
@@ -3137,7 +3157,7 @@
       "label": "profile_open_crosses_inc_with_runtime_owned_sender()",
       "file_type": "code",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1199",
+      "source_location": "L1218",
       "_origin": "ast",
       "id": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
       "community": 47,
@@ -5750,7 +5770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 8,
+      "community": 86,
       "norm_label": "readme.md"
     },
     {
@@ -5760,7 +5780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_uzel",
-      "community": 8,
+      "community": 86,
       "norm_label": "uzel"
     },
     {
@@ -5770,7 +5790,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "readme_development",
-      "community": 8,
+      "community": 86,
       "norm_label": "development"
     },
     {
@@ -7480,7 +7500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight",
-      "community": 65,
+      "community": 9,
       "norm_label": "slice-01-preflight.md"
     },
     {
@@ -7927,7 +7947,7 @@
       "label": "Honest boundary",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-05-preflight.md",
-      "source_location": "L179",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_05_preflight_honest_boundary",
       "community": 61,
@@ -7937,7 +7957,7 @@
       "label": "Exact next step",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/reports/slice-05-preflight.md",
-      "source_location": "L193",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_05_preflight_exact_next_step",
       "community": 61,
@@ -8150,7 +8170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold",
-      "community": 65,
+      "community": 9,
       "norm_label": "01-scaffold.md"
     },
     {
@@ -8160,7 +8180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_work_01_scaffold",
-      "community": 79,
+      "community": 9,
       "norm_label": "work 01 \u2014 scaffold"
     },
     {
@@ -8170,7 +8190,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_status",
-      "community": 79,
+      "community": 9,
       "norm_label": "status"
     },
     {
@@ -8180,7 +8200,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_goal",
-      "community": 79,
+      "community": 9,
       "norm_label": "goal"
     },
     {
@@ -8190,7 +8210,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_depends_on",
-      "community": 79,
+      "community": 9,
       "norm_label": "depends on"
     },
     {
@@ -8200,7 +8220,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_entry_status",
-      "community": 79,
+      "community": 9,
       "norm_label": "entry status"
     },
     {
@@ -8210,7 +8230,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_tasks",
-      "community": 79,
+      "community": 9,
       "norm_label": "tasks"
     },
     {
@@ -8220,7 +8240,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_acceptance",
-      "community": 79,
+      "community": 9,
       "norm_label": "acceptance"
     },
     {
@@ -8230,7 +8250,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_non_goals",
-      "community": 79,
+      "community": 9,
       "norm_label": "non-goals"
     },
     {
@@ -8530,7 +8550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo",
-      "community": 65,
+      "community": 80,
       "norm_label": "06-hardening-demo.md"
     },
     {
@@ -8540,7 +8560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_work_06_hardening_and_demo_acceptance",
-      "community": 65,
+      "community": 80,
       "norm_label": "work 06 \u2014 hardening and demo acceptance"
     },
     {
@@ -8550,7 +8570,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_goal",
-      "community": 65,
+      "community": 80,
       "norm_label": "goal"
     },
     {
@@ -8560,7 +8580,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_tasks",
-      "community": 65,
+      "community": 80,
       "norm_label": "tasks"
     },
     {
@@ -8570,7 +8590,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_acceptance",
-      "community": 65,
+      "community": 80,
       "norm_label": "acceptance"
     }
   ],
@@ -9889,7 +9909,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L197",
+      "source_location": "L209",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_default_socket_path",
@@ -9899,7 +9919,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
@@ -9909,7 +9929,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L156",
+      "source_location": "L167",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_hostileprobe",
@@ -9919,7 +9939,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L176",
+      "source_location": "L187",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_main",
@@ -9929,7 +9949,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L165",
+      "source_location": "L176",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_report_hostile_probe",
@@ -9939,7 +9959,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L143",
+      "source_location": "L154",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
       "target": "apps_uzel_src_tauri_src_main_report_shell_accepted",
@@ -9999,6 +10019,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "apps_uzel_src_tauri_src_main",
+      "target": "apps_uzel_src_tauri_src_main_stop_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
       "source_location": "L11",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main",
@@ -10042,7 +10072,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
@@ -10053,7 +10083,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L165",
+      "source_location": "L176",
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
@@ -10064,7 +10094,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L143",
+      "source_location": "L154",
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_report_shell_accepted",
@@ -10123,6 +10153,17 @@
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "apps_uzel_src_tauri_src_main_rs_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_stop_fixture",
       "target": "apps_uzel_src_tauri_src_main_rs_string",
       "confidence_score": 1.0
     },
@@ -10196,7 +10237,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "weight": 1.0,
       "context": "parameter_type",
       "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
@@ -10240,7 +10281,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L197",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "apps_uzel_src_tauri_src_main_stop_fixture",
+      "target": "state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L209",
       "weight": 1.0,
       "context": "return_type",
       "source": "apps_uzel_src_tauri_src_main_default_socket_path",
@@ -10251,7 +10303,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "weight": 1.0,
       "context": "return_type",
       "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
@@ -10262,7 +10314,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L165",
+      "source_location": "L176",
       "weight": 1.0,
       "context": "return_type",
       "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
@@ -10273,7 +10325,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L143",
+      "source_location": "L154",
       "weight": 1.0,
       "context": "return_type",
       "source": "apps_uzel_src_tauri_src_main_report_shell_accepted",
@@ -10310,6 +10362,17 @@
       "weight": 1.0,
       "context": "return_type",
       "source": "apps_uzel_src_tauri_src_main_start_fixture",
+      "target": "apps_uzel_src_tauri_src_main_rs_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "apps_uzel_src_tauri_src_main_stop_fixture",
       "target": "apps_uzel_src_tauri_src_main_rs_result",
       "confidence_score": 1.0
     },
@@ -10364,6 +10427,17 @@
       "source_location": "L106",
       "weight": 1.0,
       "context": "generic_arg",
+      "source": "apps_uzel_src_tauri_src_main_stop_fixture",
+      "target": "crates_napd_protocol_src_lib_unixclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src-tauri/src/main.rs",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
       "target": "crates_napd_protocol_src_lib_routedenvelope",
       "confidence_score": 1.0
@@ -10372,7 +10446,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L106",
+      "source_location": "L117",
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_forward_surface_envelope",
@@ -10383,7 +10457,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L165",
+      "source_location": "L176",
       "weight": 1.0,
       "context": "parameter_type",
       "source": "apps_uzel_src_tauri_src_main_report_hostile_probe",
@@ -10395,7 +10469,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L179",
+      "source_location": "L190",
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_src_main_main",
       "target": "apps_uzel_src_tauri_src_main_default_socket_path",
@@ -10405,7 +10479,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src-tauri/src/main.rs",
-      "source_location": "L197",
+      "source_location": "L209",
       "weight": 1.0,
       "context": "generic_arg",
       "source": "apps_uzel_src_tauri_src_main_default_socket_path",
@@ -12414,7 +12488,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1095",
+      "source_location": "L1114",
       "weight": 1.0,
       "source": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
       "target": "crates_napd_src_fixtures_fixture_by_name"
@@ -12537,7 +12611,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L975",
+      "source_location": "L994",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_identity_activation_rolls_back_when_product_state_cannot_persist",
@@ -12587,7 +12661,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1017",
+      "source_location": "L1036",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
@@ -12607,7 +12681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1076",
+      "source_location": "L1095",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
@@ -12617,7 +12691,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1000",
+      "source_location": "L1019",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_product_state_symlink_is_refused",
@@ -12637,7 +12711,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1199",
+      "source_location": "L1218",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
@@ -12707,7 +12781,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1093",
+      "source_location": "L1112",
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
@@ -12731,6 +12805,16 @@
       "weight": 1.0,
       "source": "crates_napd_src_runner",
       "target": "crates_napd_src_runner_statepersistfailure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L975",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner",
+      "target": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
       "confidence_score": 1.0
     },
     {
@@ -13598,7 +13682,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1154",
+      "source_location": "L1173",
       "weight": 1.0,
       "source": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
       "target": "crates_napd_src_runner_eventbuffer_latest_sequence",
@@ -13620,7 +13704,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1156",
+      "source_location": "L1175",
       "weight": 1.0,
       "source": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
       "target": "crates_napd_src_runner_eventbuffer_response_after",
@@ -13739,7 +13823,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1110",
+      "source_location": "L1129",
       "weight": 1.0,
       "source": "crates_napd_src_runner_slice_three_signed_single_file_artifacts_verify_and_read_exactly",
       "target": "crates_napd_src_runner_eventsink",
@@ -14453,7 +14537,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1021",
+      "source_location": "L1040",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_linuxrunner_open_live",
@@ -14640,7 +14724,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1079",
+      "source_location": "L1098",
       "weight": 1.0,
       "source": "crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
       "target": "crates_napd_src_runner_linuxrunner_start_fixture",
@@ -14673,9 +14757,20 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1202",
+      "source_location": "L1221",
       "weight": 1.0,
       "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
+      "target": "crates_napd_src_runner_linuxrunner_start_named_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L978",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
       "target": "crates_napd_src_runner_linuxrunner_start_named_fixture",
       "confidence_score": 1.0
     },
@@ -14739,7 +14834,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1205",
+      "source_location": "L1224",
       "weight": 1.0,
       "source": "crates_napd_src_runner_profile_open_crosses_inc_with_runtime_owned_sender",
       "target": "crates_napd_src_runner_linuxrunner_forward_from_surface",
@@ -14764,6 +14859,17 @@
       "source_location": "L966",
       "weight": 1.0,
       "source": "crates_napd_src_runner_restarted_daemon_gets_a_new_surface_generation",
+      "target": "crates_napd_src_runner_linuxrunner_stop_fixture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "crates/napd/src/runner.rs",
+      "source_location": "L981",
+      "weight": 1.0,
+      "source": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
       "target": "crates_napd_src_runner_linuxrunner_stop_fixture",
       "confidence_score": 1.0
     },
@@ -14875,7 +14981,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1055",
+      "source_location": "L1074",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_relayprocess_drop",
@@ -14919,7 +15025,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1019",
+      "source_location": "L1038",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_start_fixture_relay",
@@ -14930,7 +15036,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1033",
+      "source_location": "L1052",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_launch_identity_surface",
@@ -14963,7 +15069,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1070",
+      "source_location": "L1089",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_identity_query",
@@ -14985,7 +15091,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "crates/napd/src/runner.rs",
-      "source_location": "L1034",
+      "source_location": "L1053",
       "weight": 1.0,
       "source": "crates_napd_src_runner_live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache",
       "target": "crates_napd_src_runner_eventually_identity_query",
@@ -20369,7 +20475,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-05-preflight.md",
-      "source_location": "L193",
+      "source_location": "L194",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_05_preflight_slice_05_preflight_integrated_composed_demo",
       "target": "uzel_poc_validated_pack_reports_slice_05_preflight_exact_next_step",
@@ -20379,7 +20485,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/reports/slice-05-preflight.md",
-      "source_location": "L179",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_reports_slice_05_preflight_slice_05_preflight_integrated_composed_demo",
       "target": "uzel_poc_validated_pack_reports_slice_05_preflight_honest_boundary",
@@ -20947,5 +21053,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "780eb0ac7a37b12a81e21b51c158e32ccb5cd6a1"
+  "built_at_commit": "5e2838761f544bdaa557c5e9e6d5e0d6ff5ee483"
 }

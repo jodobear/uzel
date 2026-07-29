@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785300308.4857888,
-    "ast_hash": "0567026cc14ffbe200ea07bc47fc3489",
+    "mtime": 1785300872.3214626,
+    "ast_hash": "73ee300781a72e3fff5aeee374ea178f",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785300308.4874537,
-    "ast_hash": "9364453910758bdd8ab5c690c1324059",
+    "mtime": 1785300872.325308,
+    "ast_hash": "0056cc24d687fe314056b4824daf417a",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/main.rs": {
-    "mtime": 1785297875.2618687,
-    "ast_hash": "4808419f019f60c345152ed70a6fab26",
+    "mtime": 1785300814.2501113,
+    "ast_hash": "4060d776bf5ea256e8acb1ae63076be0",
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/tauri.conf.json": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785300049.9099836,
-    "ast_hash": "9b34d9cd47b374047990649e0ca460eb",
+    "mtime": 1785300738.2763035,
+    "ast_hash": "e4a5b9a366d1ae543ad19a629089ad28",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/runner.rs": {
-    "mtime": 1785295071.9250462,
-    "ast_hash": "0d4fe513555967e04fb622b87939dfd7",
+    "mtime": 1785300798.795947,
+    "ast_hash": "2f1fb341c36bcb403216b049bd59a0d2",
     "semantic_hash": ""
   },
   "fixtures/good-morning/event.json": {
@@ -570,13 +570,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-012-composed-demo.md": {
-    "mtime": 1785300101.5125325,
-    "ast_hash": "5714fc9833e27651249c11abcd5168fb",
+    "mtime": 1785300860.0086665,
+    "ast_hash": "d9e5d83c9f0fd34c43ea4f48586d6cee",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-05-preflight.md": {
-    "mtime": 1785300121.99075,
-    "ast_hash": "5150710c5cfd8188e6d328657d75c8b7",
+    "mtime": 1785300860.0975993,
+    "ast_hash": "07513440e33074c54ecf523d650d49b4",
     "semantic_hash": ""
   }
 }
