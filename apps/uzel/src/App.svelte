@@ -1,6 +1,6 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/core';
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
 
   type SurfaceLaunch = {
     surfaceToken: string;
@@ -33,6 +33,33 @@
   };
 
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
+  type HostileReport = {
+    fetch: boolean;
+    xhr: boolean;
+    websocket: boolean;
+    eventsource: boolean;
+    image: boolean;
+    worker: boolean;
+    serviceWorker: boolean;
+    beacon: boolean;
+    media: boolean;
+    iframe: boolean;
+    form: boolean;
+    navigation: boolean;
+    popup: boolean;
+    tauriInternals: boolean;
+    tauriGlobal: boolean;
+    wryIpc: boolean;
+    parentReadable: boolean;
+    rawWebkitTransport: boolean;
+    rawInvokeAttempted: boolean;
+    identityMutationApi: boolean;
+  };
+  type HostileVerdict = {
+    networkDenials: number;
+    sentinelAccepts: number;
+    nativeCalls: number;
+  };
   type Pane = 'follow' | 'profile';
   type Orientation = 'horizontal' | 'vertical';
   type LogEntry = { direction: string; surface: string; type: string };
@@ -47,6 +74,7 @@
   let profile: SurfaceLaunch | null = null;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
+  let hostileSurface: HTMLElement;
   let followPane: HTMLElement;
   let profilePane: HTMLElement;
   let workspace: HTMLElement;
@@ -63,6 +91,9 @@
   let drawerOpen = false;
   let envelopeLog: LogEntry[] = [];
   let shellReady = false;
+  let hostileProbeEnabled = false;
+  let hostile: SurfaceLaunch | null = null;
+  let hostileProbePassed = false;
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
 
   function envelopeType(envelope: unknown): string {
@@ -71,6 +102,53 @@
       if (typeof type === 'string') return type.slice(0, 80);
     }
     return 'unknown';
+  }
+
+  function hostileReport(envelope: unknown): HostileReport | null {
+    if (!envelope || typeof envelope !== 'object') return null;
+    const candidate = envelope as { type?: unknown; version?: unknown; report?: unknown };
+    if (candidate.type !== 'uzel.hostile.result' || candidate.version !== 0) return null;
+    if (!candidate.report || typeof candidate.report !== 'object') return null;
+    const report = candidate.report as Record<string, unknown>;
+    const fields = [
+      'fetch', 'xhr', 'websocket', 'eventsource', 'image', 'worker', 'serviceWorker',
+      'beacon', 'media', 'iframe', 'form', 'navigation', 'popup', 'tauriInternals',
+      'tauriGlobal', 'wryIpc', 'parentReadable', 'rawWebkitTransport',
+      'rawInvokeAttempted', 'identityMutationApi',
+    ];
+    if (Object.keys(report).length !== fields.length) return null;
+    if (!fields.every((field) => typeof report[field] === 'boolean')) return null;
+    return report as HostileReport;
+  }
+
+  async function finishHostileProbe(surfaceToken: string, report: HostileReport) {
+    try {
+      const verdict = await invoke<HostileVerdict>('finish_hostile_probe', {
+        surfaceToken,
+        report,
+      });
+      hostileProbePassed = verdict.networkDenials === 13
+        && verdict.sentinelAccepts === 0
+        && verdict.nativeCalls === 0;
+      if (!hostileProbePassed) throw new Error('hostile verdict was incomplete');
+    } catch (error) {
+      reportRuntimeFailure('Hostile boundary failed', error);
+    } finally {
+      window.NMPTrustedShellHost.unmount(surfaceToken);
+    }
+  }
+
+  function mountHostileSurface(launch: SurfaceLaunch): boolean {
+    return window.NMPTrustedShellHost.mount(launch.surfaceToken, hostileSurface, {
+      session: launch.surfaceToken,
+      artifactBaseURL: launch.artifactBaseUrl,
+      artifactHTML: launch.artifactHtml,
+      title: launch.title,
+      domains: launch.domains,
+      onError: (surfaceToken, detail) => {
+        reportRuntimeFailure(`Hostile shell rejected for ${surfaceToken}`, detail);
+      },
+    });
   }
 
   function appendLog(direction: string, surface: string, type: string) {
@@ -289,6 +367,14 @@
       try {
         const parsed = JSON.parse(payload) as { session?: unknown; envelope?: unknown };
         if (typeof parsed.session !== 'string') throw new Error('missing mapped session');
+        const report = parsed.session === hostile?.surfaceToken
+          ? hostileReport(parsed.envelope)
+          : null;
+        if (report) {
+          void finishHostileProbe(parsed.session, report);
+          event.stopPropagation();
+          return;
+        }
         const type = envelopeType(parsed.envelope);
         void routeEnvelope(parsed.session, parsed.envelope).catch((error) => {
           if (type === 'shell.ready') {
@@ -318,6 +404,17 @@
         follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
         if (!mountSurface(follow, followSurface)) throw new Error('follow surface refused');
         await refreshDiagnostics();
+        await tick();
+        await invoke('report_user_mode', {
+          diagnosticsHidden: document.querySelector('.developer-drawer') === null,
+          unsafeControlsAbsent: document.querySelector('[data-unsafe-fixture-control]') === null,
+        });
+        hostileProbeEnabled = await invoke<boolean>('hostile_probe_enabled');
+        if (hostileProbeEnabled) {
+          await tick();
+          hostile = await invoke<SurfaceLaunch>('start_hostile_probe');
+          if (!mountHostileSurface(hostile)) throw new Error('hostile surface refused');
+        }
       } catch (error) {
         failShellHandshake('Composition failed', error);
       }
@@ -327,6 +424,7 @@
       document.removeEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
       if (follow) window.NMPTrustedShellHost.unmount(follow.surfaceToken);
       if (profile) window.NMPTrustedShellHost.unmount(profile.surfaceToken);
+      if (hostile) window.NMPTrustedShellHost.unmount(hostile.surfaceToken);
     };
   });
 </script>
@@ -441,4 +539,24 @@
       </div>
     </aside>
   {/if}
+  {#if hostileProbeEnabled}
+    <div
+      bind:this={hostileSurface}
+      class="hostile-probe-surface"
+      data-hostile-probe-passed={hostileProbePassed}
+      aria-hidden="true"
+    ></div>
+  {/if}
 </main>
+
+<style>
+  .hostile-probe-surface {
+    position: fixed;
+    inset: auto auto 0 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0.001;
+    pointer-events: none;
+  }
+</style>

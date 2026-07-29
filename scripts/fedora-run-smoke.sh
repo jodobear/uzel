@@ -2,13 +2,18 @@
 set -euo pipefail
 
 SMOKE_TMP=$(mktemp -d)
-FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/slice-02-fedora-failed}
+FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/slice-06-fedora-failed}
 WESTON_PID=
 DEV_PID=
 
 preserve_failure() {
   mkdir -p "$FAILED_DIR"
-  cp "$SMOKE_TMP"/*.log "$FAILED_DIR"/ 2>/dev/null || true
+  cp "$SMOKE_TMP/weston.log" "$FAILED_DIR"/ 2>/dev/null || true
+  if [[ -f "$SMOKE_TMP/uzel.log" ]]; then
+    sed -E \
+      's/(__TAURI_INVOKE_KEY__ expected )[^ ]+( but received invalid-child-key)/\1<redacted>\2/' \
+      "$SMOKE_TMP/uzel.log" > "$FAILED_DIR/uzel.log"
+  fi
   echo "Fedora smoke failed; logs preserved in $FAILED_DIR" >&2
 }
 
@@ -39,6 +44,7 @@ export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1
 export UZEL_FIXTURE_RELAY_PORT=$((44000 + ($$ % 10000)))
+export UZEL_RUN_HOSTILE_PROBE=1
 
 weston \
   --backend=headless \
@@ -68,10 +74,16 @@ for _ in $(seq 1 240); do
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log"; then
+    && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_USER_MODE_OK diagnostics=hidden unsafe_controls=absent$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate=8a05a97712fe8b19f3604da42c085366bc22c4f8a37adb4dd210a9cfce15d65f$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_HOSTILE_SENTINEL_READY control=accepted surface=uzel-hostile-egress-generation-3 url=http://127\.0\.0\.1:[0-9]+/uzel-hostile/[0-9]+-[0-9]+$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-hostile-egress-generation-3$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 network_denials=13 sentinel_accepts=0 native_calls=0 source_bound=true$' "$SMOKE_TMP/uzel.log"; then
     sleep 2
     kill -0 "$DEV_PID"
-    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=2 nap_shell=2 shell_accepted=2 artifact=responded source_bound=multi compositor=weston-headless-gl'
+    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_accepted=2 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero user_mode=hidden compositor=weston-headless-gl'
     exit 0
   fi
   kill -0 "$DEV_PID" 2>/dev/null

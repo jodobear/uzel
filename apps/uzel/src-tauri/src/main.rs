@@ -136,6 +136,10 @@ fn start_hostile_probe(
         return Err(error);
     }
     println!(
+        "UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate={}",
+        fetched.surface.aggregate_hash
+    );
+    println!(
         "UZEL_HOSTILE_SENTINEL_READY control=accepted surface={} url={}",
         fetched.surface.surface_token, sentinel_url
     );
