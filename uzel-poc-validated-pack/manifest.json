@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2766,
-      "sha256": "1a8a8b1567470962748e1c91b354448fa93b4462168b28fb46b3ba50dc0078b1"
+      "bytes": 2749,
+      "sha256": "5a0bbfcaed7ebab050984fb56d4e6506cdfa8c4c21745affbc8af3bd2688781a"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "ead661987bb2bd377c85ce9dd106e770f24ec94679b588609340737076f67f2f"
+      "sha256": "b581b6ce76fc7dcbacaa5e626242e95ffa6f9a162c7f51971bbf8be1bfee24b0"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 23550,
-      "sha256": "be998ed3896c537c8da289b60d159dc99d92b9e2789a980799c3a08bc50e4bc3"
+      "bytes": 23747,
+      "sha256": "7839a1849be8659d923453ff1c68d86f560171d5d44b80fc7ad531faebf28d1d"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 4610,
-      "sha256": "210ade64429e8e6a628807631b9bb705fef5461aa69d3136509e1b97f44e4d8b"
+      "bytes": 4596,
+      "sha256": "6ef0ab828ec73c11e299fe600fb7d31607e4509c9715a6b1f1899c988b8a78ef"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -127,8 +127,8 @@
     },
     {
       "path": "docs/facts/FACT-009-linux-runner.md",
-      "bytes": 2026,
-      "sha256": "abba6f5b7f7012fc562c8b1a1cf80efa611e1fedc1cca4515d9baa2353b8d35b"
+      "bytes": 2085,
+      "sha256": "780a9510a028d025814b75f4d465404a183269dba42ec5437b62267062a1fbe4"
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
@@ -142,8 +142,8 @@
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
-      "bytes": 3552,
-      "sha256": "37008cbedbb3ea38c2b17a599dbfe59a0316e03532d6f8c2c882ad3c29128b61"
+      "bytes": 3616,
+      "sha256": "2cef28455a42c5011cce9f4ded8cdf3a4517fdd763294043c2bd7bf9c3a73656"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -227,8 +227,8 @@
     },
     {
       "path": "reports/slice-05-preflight.md",
-      "bytes": 9631,
-      "sha256": "83c064ca6dc1f5083fcdb60dc71bdb5fbf20763d6371fb2218626077b44c6304"
+      "bytes": 9877,
+      "sha256": "fc9898c2a662481b88e096f9b6c52ce81a20efbab4225d2c90cc0adc4e946f03"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

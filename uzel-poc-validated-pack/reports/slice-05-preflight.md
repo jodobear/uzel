@@ -17,10 +17,12 @@ event, profile, follow, or app-state implementation.
 
 ## Exact dependency and upstream evidence
 
-Uzel advanced from the Gate 0 candidate to reviewed successor
-`jodobear/nampplets@e539378ef735ce06651fd94b71e06f9ce757cb13`.
-That successor adds a bounded portable multi-surface host without modifying the
-single-surface parser/bridge. The exact copied assets match SHA-256 values in
+Uzel advanced the Rust runtime from the Gate 0 candidate to validated successor
+`jodobear/nampplets@e539378ef735ce06651fd94b71e06f9ce757cb13` and copies the
+portable shell from contribution head
+`jodobear/nampplets@fc68bce0a4793a8618445e234bcc91d69e8b96de`.
+Those shell bytes add a bounded portable multi-surface host without modifying
+the NAP/native envelope. Exact asset SHA-256 values are locked in
 `compatibility.lock` and `scripts/check-pinned-assets.sh`.
 
 [Fork PR #1](https://github.com/jodobear/nampplets/pull/1) is open and mergeable.
@@ -163,9 +165,10 @@ The next exact-head review found that synchronous host delivery of
 `shell.init` was not proof that the asynchronous child prelude accepted the
 projected environment. Fork PR #1 now uses a one-shot transferred
 `MessageChannel`; only the captured prelude path acknowledges after exact
-acceptance, and invalid environments close without acknowledgement. Uzel pins
-that successor and counts a surface only from its source/remount-bound
-`onReady` callback.
+acceptance. A rejected environment explicitly reports rejection before closing
+the port; the host invokes only the source/remount-bound `onError` callback.
+Uzel counts readiness only from `onReady` and latches either rejected
+environment or identity-driven remount refusal as a failed handshake.
 
 The final review also separated lifecycle state from ordinary request health.
 Only mounting and `shell.ready`/`shell.init` routing may latch a failed
