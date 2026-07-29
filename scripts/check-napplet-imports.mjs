@@ -124,6 +124,7 @@ const resourceAttributeNames = new Set([
   'srcset',
   'xlink:href',
 ]);
+const domResourceAttributeNames = new Set([...resourceAttributeNames, 'style']);
 const resourceCreationElements = new Set([
   'audio',
   'embed',
@@ -409,7 +410,7 @@ function programmaticNetworkViolations(path, source) {
       }
       if (
         (called === 'setAttribute' || called === 'setAttributeNS') &&
-        (resourceName === null || resourceAttributeNames.has(resourceName))
+        (resourceName === null || domResourceAttributeNames.has(resourceName))
       ) {
         add(node, `DOM resource attribute ${resourceName ?? '<dynamic>'}`);
       }
@@ -568,6 +569,7 @@ function runSelfTest() {
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
     "element.setAttribute('src', remote)",
+    "element.setAttribute('style', 'background-image: url(https://example.test/x)')",
     "element.setAttributeNS(null, 'href', remote)",
     'element.style.backgroundImage = remote',
     'window.open(remote)',
