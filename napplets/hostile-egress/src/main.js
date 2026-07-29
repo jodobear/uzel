@@ -94,10 +94,13 @@ await Promise.all([
   }),
 ]);
 
-results.rawInvokeAttempted = attemptRawWebKitInvoke();
-document.querySelector('#result').textContent = JSON.stringify(results, null, 2);
-globalThis.parent.postMessage({
-  type: 'uzel.hostile.result',
-  version: 0,
-  report: results,
-}, '*');
+results.rawInvokeAttempted = results.rawWebkitTransport;
+const publishResult = () => {
+  document.querySelector('#result').textContent = JSON.stringify(results, null, 2);
+  globalThis.parent.postMessage({
+    type: 'uzel.hostile.result',
+    version: 0,
+    report: results,
+  }, '*');
+};
+if (!attemptRawWebKitInvoke(undefined, publishResult)) publishResult();
