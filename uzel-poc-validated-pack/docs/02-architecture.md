@@ -128,6 +128,14 @@ offset, an oversized aggregate, and an invalid completion marker. Tauri
 reassembles only bounded bytes, and WebKit never receives an artifact cache
 path. The Svelte application has no daemon protocol types.
 
+Slice 05 extends that same controller to at most four simultaneously active
+exact fixtures. Each launch burns a new persisted surface generation before
+exposure. The private response identifies the target surface explicitly;
+Svelte can deliver it only through the upstream multi-surface host, which maps
+the original `MessageEvent.source` to that surface. Cross-surface delivery is
+permitted only for runtime-authorized `inc.emit`; other replies remain
+source-scoped. No envelope payload chooses its destination.
+
 ## Shared Nostr flow
 
 ```mermaid

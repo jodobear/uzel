@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2307,
-      "sha256": "5cd8d5bfb8884bf9563443c3ba83d6a3892090eb69c37a72ffcc437e6450cfbb"
+      "bytes": 2573,
+      "sha256": "46a6d86931ea7251011782ed451bbc588681ef8f4c39cbed2bba24b57b0f2e81"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "25d4b0a3589e4c6883fa2e353219cb7555fc4d03b5849cf7855e9006dca6f9ff"
+      "sha256": "e853457b5b2198c592ea237b81c7f9bcbe6cc563f395415da32284a82327b538"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 19551,
-      "sha256": "27783f2f9c53952ab63c2b5d9967741013afbf98c0531c4c29f0f57f8e1b3479"
+      "bytes": 21650,
+      "sha256": "ac19bb692e6c17e9e59b262ac0117a658ef27e96fdbb6336a307f38b745412a0"
     },
     {
       "path": "config/fallow.jsonc",
@@ -52,13 +52,13 @@
     },
     {
       "path": "docs/02-architecture.md",
-      "bytes": 6947,
-      "sha256": "241fbb763c9da9ac5ed59b86ffd4ec674087291fbef2cbb7340c21709fa9afd5"
+      "bytes": 7461,
+      "sha256": "92dfd31e1f28adf555cda79451a096dba78a9b6a81293364aae59a6ee9d41ca6"
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 7694,
-      "sha256": "58666cf530f8bfa21df199cd9a32945021084ad97878aed68c509567dd8b3b3a"
+      "bytes": 8148,
+      "sha256": "6efd0db15e8b8cbf009b1be8764b23c3cd503ec526d6452b5aea13589e0a0c3f"
     },
     {
       "path": "docs/04-execution.md",
@@ -67,8 +67,8 @@
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3446,
-      "sha256": "6629da2db2b7c7e081c6d4151fa6c2ec51e8663e723d55aa135ba4a5447fdcd5"
+      "bytes": 3555,
+      "sha256": "1b2d8c634e43d3d099c5a364893946e7b4158d2425890e0a202608224f9467f0"
     },
     {
       "path": "docs/06-extraction.md",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 4130,
-      "sha256": "5c4001d739048d2cf04c988b953ac1aad808f339ec8d6bcba0148f748b74152c"
+      "bytes": 4412,
+      "sha256": "7104ca35911052d0ec2be161702c6e2a8023d3eaa2a2d29163238788904687e2"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -127,18 +127,23 @@
     },
     {
       "path": "docs/facts/FACT-009-linux-runner.md",
-      "bytes": 1742,
-      "sha256": "2c2c020f9fd797929c1268de5c0d533572dab94c8b6f9c3c1e5523265fe7cc38"
+      "bytes": 1857,
+      "sha256": "f6b97eddf4f182c8951c309c5a45320d62305164cbcc64f2f218464713dbadcf"
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 2426,
-      "sha256": "2f43b0d28dd5d79bad2f10d1281706db408c552c960b6c55b35f4a8081b3598f"
+      "bytes": 2434,
+      "sha256": "6e22e68f24c8c0a297e96b49127f12b719d3e94196c8809ea9a3997a2ec4381c"
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3501,
-      "sha256": "6af95f5aea8aed9eef9173d9e8c13f0a3654e8b82d85de0fe65dfb558d69fccb"
+      "bytes": 3647,
+      "sha256": "a423005dc9a3efdb6b01eeec4a2d8eb5f4f897d2494cf03f67bbbc6d7be37ab3"
+    },
+    {
+      "path": "docs/facts/FACT-012-composed-demo.md",
+      "bytes": 3118,
+      "sha256": "a5c8fd19e0d1d6180c9dec623680c5da6a0e64d612885c7c147b48bb0cf40a72"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -189,6 +194,11 @@
       "path": "reports/slice-04-preflight.md",
       "bytes": 9367,
       "sha256": "b46157d01675c02fb0ef95fc29627081c5aa1ed2ccfd29ce2438b0b2cddbb26b"
+    },
+    {
+      "path": "reports/slice-05-preflight.md",
+      "bytes": 6069,
+      "sha256": "c4db752d41cd1383f010d3bb54a869a3e315eeb0969409d817a98f5cc3aa2202"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

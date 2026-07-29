@@ -1,7 +1,7 @@
 # FACT-009 — Linux exact-build runner
 
 - **Claim:** The pinned portable nampplets runtime can verify, launch, and route a signed self-contained napplet in a Linux Tauri/WebKit host without child native authority.
-- **Source revision:** `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf`, transitively pinning `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c`.
+- **Source revision:** initially validated at `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf`; current reviewed successor `jodobear/nampplets@7eccdee76a1afcfc3ff026c8f41b0072a4601840`, transitively retaining `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c`.
 - **Probe/command:** `cargo +1.89.0 test -p napd --locked`; locked workspace checks; `pnpm smoke:fedora` in the pinned non-login Nix shell; `bash scripts/debian-build-smoke.sh`; `bash scripts/check-pinned-assets.sh`.
 - **Observed result:** The signed `good-morning` fixture verified to aggregate `828a6df0...`, launched with the four actually advertised domains, completed `shell.init`, and answered `identity.getPublicKey`. An unknown shell-owned surface was rejected, forged session/principal fields did not authorize routing, and the sandboxed child had no Tauri globals, Wry IPC function, or readable parent. Fedora WebKit runtime and Debian Bookworm build passed.
 - **Decision:** Reuse the upstream controller and trusted shell unchanged. Treat `link`, `resource`, and `theme` as unavailable rather than manufacturing grants. Slice 02 temporarily composed the controller inside Tauri; Slice 04 completed the bounded transfer and moved the controller to the daemon while retaining the 4096-byte frame ceiling.
