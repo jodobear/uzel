@@ -211,6 +211,7 @@
 
   async function submitIdentity(event: SubmitEvent) {
     event.preventDefault();
+    if (identityBusy || !shellReady) return;
     try {
       await selectIdentity(identityInput.trim());
     } catch (error) {
@@ -359,7 +360,7 @@
     <form onsubmit={submitIdentity}>
       <label for="read-identity">Public read identity</label>
       <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
-      <button type="submit" disabled={identityBusy}>{identityBusy ? 'Selecting…' : 'Use identity'}</button>
+      <button type="submit" disabled={identityBusy || !shellReady}>{identityBusy ? 'Selecting…' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
     </form>
     <div class="source-status">
       <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
