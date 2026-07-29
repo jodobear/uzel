@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 110 files · ~58,363 words
+- 110 files · ~58,522 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 946 nodes · 1385 edges · 91 communities (63 shown, 28 thin omitted)
+- 947 nodes · 1388 edges · 90 communities (63 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ecbbbb96`
+- Built from commit: `0f20bb8e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -78,7 +78,6 @@
 - main.js
 - 04-execution.md
 - Work 02 — Linux exact-build runner
-- Work 04 — daemon, NMP, and persistence
 - Upstream contribution ledger
 - Execution slices
 - Uzel single-repository POC
@@ -127,7 +126,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (91 total, 28 thin omitted)
+## Communities (90 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -161,13 +160,17 @@ Nodes (12): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE,
 Cohesion: 0.05
 Nodes (37): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+29 more)
 
+### Community 8 - "POC documentation audit"
+Cohesion: 0.27
+Nodes (3): Uzel agent instructions, Development, Uzel
+
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.22
 Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
-Cohesion: 0.20
-Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
+Cohesion: 0.11
+Nodes (17): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+9 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
 Cohesion: 0.11
@@ -210,8 +213,8 @@ Cohesion: 0.25
 Nodes (7): description, identifier, permissions, $schema, windows, core:default, main
 
 ### Community 22 - "Gate 0 preflight and Slice 01 decision"
-Cohesion: 0.25
-Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+Cohesion: 0.50
+Nodes (4): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test
 
 ### Community 23 - "nampplets Linux reuse map"
 Cohesion: 0.25
@@ -293,10 +296,6 @@ Nodes (12): denied(), results, target, attemptRawWebKitInvoke(), boundedAttempt(
 Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
-### Community 67 - "Work 04 — daemon, NMP, and persistence"
-Cohesion: 0.29
-Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
-
 ### Community 68 - "Upstream contribution ledger"
 Cohesion: 0.29
 Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
@@ -346,8 +345,8 @@ Cohesion: 0.25
 Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
 
 ### Community 88 - "debian13-live-test.sh"
-Cohesion: 0.33
-Nodes (6): fail(), debian13-live-test.sh script, UZEL_SMOKE_ARTIFACT_DIR, UZEL_SMOKE_EVIDENCE_DIR, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
+Cohesion: 0.36
+Nodes (7): fail(), reexec_with_nix_group(), debian13-live-test.sh script, UZEL_SMOKE_ARTIFACT_DIR, UZEL_SMOKE_EVIDENCE_DIR, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
 
 ### Community 89 - "Work 02 — Linux exact-build runner"
 Cohesion: 0.29
@@ -356,7 +355,7 @@ Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work
 ## Knowledge Gaps
 - **393 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+388 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -372,6 +371,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Observed facts` be split into smaller, more focused modules?**
   _Cohesion score 0.047619047619047616 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.10685249709639953 - nodes in this community are weakly interconnected._
-- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
+- **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
+  _Cohesion score 0.10975609756097561 - nodes in this community are weakly interconnected._

@@ -3810,7 +3810,7 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 11,
+      "community": 41,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -6136,10 +6136,24 @@
       "norm_label": "fail()"
     },
     {
+      "label": "reexec_with_nix_group()",
+      "file_type": "code",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L14",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_debian13_live_test_reexec_with_nix_group",
+      "community": 88,
+      "norm_label": "reexec_with_nix_group()"
+    },
+    {
       "label": "UZEL_SMOKE_NAME",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L104",
+      "source_location": "L135",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6153,7 +6167,7 @@
       "label": "UZEL_SMOKE_SUCCESS_MARKER",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L105",
+      "source_location": "L136",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6167,7 +6181,7 @@
       "label": "UZEL_SMOKE_ARTIFACT_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L106",
+      "source_location": "L137",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6181,7 +6195,7 @@
       "label": "UZEL_SMOKE_EVIDENCE_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L107",
+      "source_location": "L138",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6223,7 +6237,7 @@
       "label": "fail()",
       "file_type": "code",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L9",
+      "source_location": "L10",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6363,7 +6377,7 @@
       "label": "preserve_logs()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L12",
+      "source_location": "L14",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6377,7 +6391,7 @@
       "label": "preserve_failure()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L23",
+      "source_location": "L27",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6391,7 +6405,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L28",
+      "source_location": "L34",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6405,7 +6419,7 @@
       "label": "XDG_RUNTIME_DIR",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L49",
+      "source_location": "L55",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6419,7 +6433,7 @@
       "label": "XDG_DATA_HOME",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L51",
+      "source_location": "L57",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6433,7 +6447,7 @@
       "label": "WAYLAND_DISPLAY",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L53",
+      "source_location": "L59",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6447,7 +6461,7 @@
       "label": "GDK_BACKEND",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L54",
+      "source_location": "L60",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6461,7 +6475,7 @@
       "label": "NO_AT_BRIDGE",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L55",
+      "source_location": "L61",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6475,7 +6489,7 @@
       "label": "UZEL_FIXTURE_RELAY_PORT",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L56",
+      "source_location": "L62",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6489,7 +6503,7 @@
       "label": "UZEL_RUN_HOSTILE_PROBE",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L57",
+      "source_location": "L63",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6503,7 +6517,7 @@
       "label": "hostile_markers_are_ordered()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L59",
+      "source_location": "L65",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6628,7 +6642,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "debian13_live_test",
-      "community": 22,
+      "community": 8,
       "norm_label": "debian13-live-test.md"
     },
     {
@@ -6655,7 +6669,7 @@
       "label": "2. Run automated real-WebKit acceptance",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L39",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "debian13_live_test_2_run_automated_real_webkit_acceptance",
       "community": 22,
@@ -6665,7 +6679,7 @@
       "label": "3. Run visible desktop demo",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L70",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "debian13_live_test_3_run_visible_desktop_demo",
       "community": 22,
@@ -6678,7 +6692,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 22,
+      "community": 8,
       "norm_label": "readme.md"
     },
     {
@@ -6688,7 +6702,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_uzel",
-      "community": 22,
+      "community": 8,
       "norm_label": "uzel"
     },
     {
@@ -6698,7 +6712,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "readme_development",
-      "community": 22,
+      "community": 8,
       "norm_label": "development"
     },
     {
@@ -8638,7 +8652,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight",
-      "community": 65,
+      "community": 10,
       "norm_label": "slice-03-preflight.md"
     },
     {
@@ -9448,7 +9462,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp",
-      "community": 65,
+      "community": 10,
       "norm_label": "04-daemon-nmp.md"
     },
     {
@@ -9458,7 +9472,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 67,
+      "community": 10,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -9468,7 +9482,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 67,
+      "community": 10,
       "norm_label": "goal"
     },
     {
@@ -9478,7 +9492,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 67,
+      "community": 10,
       "norm_label": "entry status and pins"
     },
     {
@@ -9488,7 +9502,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 67,
+      "community": 10,
       "norm_label": "read"
     },
     {
@@ -9498,7 +9512,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 67,
+      "community": 10,
       "norm_label": "tasks"
     },
     {
@@ -9508,7 +9522,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 67,
+      "community": 10,
       "norm_label": "acceptance"
     },
     {
@@ -9518,7 +9532,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 67,
+      "community": 10,
       "norm_label": "non-goals"
     },
     {
@@ -20804,6 +20818,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "scripts_debian13_live_test",
+      "target": "scripts_debian13_live_test_reexec_with_nix_group",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
@@ -20817,7 +20841,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L106",
+      "source_location": "L137",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_artifact_dir",
@@ -20827,7 +20851,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L107",
+      "source_location": "L138",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_evidence_dir",
@@ -20837,7 +20861,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L104",
+      "source_location": "L135",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_name",
@@ -20847,7 +20871,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L105",
+      "source_location": "L136",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_success_marker",
@@ -20857,7 +20881,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L17",
+      "source_location": "L40",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_live_test_sh__entry",
@@ -20865,10 +20889,32 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_debian13_live_test_sh__entry",
+      "target": "scripts_debian13_live_test_reexec_with_nix_group",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_debian13_live_test_reexec_with_nix_group",
+      "target": "scripts_debian13_live_test_fail",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "scripts_debian13_setup",
       "target": "scripts_debian13_setup_fail",
@@ -20888,7 +20934,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_setup_sh__entry",
@@ -20949,7 +20995,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L28",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_cleanup",
@@ -20959,7 +21005,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L54",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_gdk_backend",
@@ -20969,7 +21015,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L59",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_hostile_markers_are_ordered",
@@ -20979,7 +21025,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L55",
+      "source_location": "L61",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_no_at_bridge",
@@ -20989,7 +21035,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L23",
+      "source_location": "L27",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_preserve_failure",
@@ -20999,7 +21045,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_preserve_logs",
@@ -21019,7 +21065,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L56",
+      "source_location": "L62",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_uzel_fixture_relay_port",
@@ -21029,7 +21075,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L57",
+      "source_location": "L63",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_uzel_run_hostile_probe",
@@ -21039,7 +21085,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L53",
+      "source_location": "L59",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_wayland_display",
@@ -21049,7 +21095,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L51",
+      "source_location": "L57",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_xdg_data_home",
@@ -21059,7 +21105,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L49",
+      "source_location": "L55",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_xdg_runtime_dir",
@@ -21069,7 +21115,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L103",
+      "source_location": "L109",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_sh__entry",
@@ -21080,7 +21126,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L42",
+      "source_location": "L48",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_cleanup",
@@ -21091,7 +21137,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L24",
+      "source_location": "L28",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_preserve_failure",
@@ -21102,7 +21148,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L40",
+      "source_location": "L46",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_cleanup",
@@ -21255,7 +21301,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L39",
+      "source_location": "L37",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_2_run_automated_real_webkit_acceptance",
@@ -21265,7 +21311,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L70",
+      "source_location": "L68",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_3_run_visible_desktop_demo",
@@ -24103,5 +24149,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ecbbbb96373352cfb0540f38ab7bec730e134459"
+  "built_at_commit": "0f20bb8e55aaa817af1681bded2110bb18aaf45c"
 }
