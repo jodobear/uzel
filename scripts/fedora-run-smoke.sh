@@ -76,7 +76,7 @@ for _ in $(seq 1 240); do
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_USER_MODE_OK diagnostics=hidden unsafe_controls=absent$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate=dc4bddc82894b1c74c42fa70c4f04b0a8553d9c7aa25510046d2034d85583b0d$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate=184509a15a6239cd3d3762ee78359e45dc45bb2ccd81cef09610578efb70c6b0$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_HOSTILE_SENTINEL_READY control=accepted surface=uzel-hostile-egress-generation-3 url=http://127\.0\.0\.1:[0-9]+/uzel-hostile/[0-9]+-[0-9]+$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-hostile-egress-generation-3$' "$SMOKE_TMP/uzel.log" \
     && rg -q '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key' "$SMOKE_TMP/uzel.log" \

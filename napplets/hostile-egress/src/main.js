@@ -105,5 +105,5 @@ const publishResult = () => {
 };
 publishResult();
 if (results.rawInvokeAttempted) {
-  setTimeout(() => attemptRawWebKitInvoke(), 0);
+  setTimeout(() => attemptRawWebKitInvoke(), 50);
 }

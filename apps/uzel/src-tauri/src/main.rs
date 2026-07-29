@@ -219,6 +219,7 @@ fn finish_hostile_probe(
     surface_token: String,
     report: HostileProbeReport,
 ) -> Result<HostileProbeVerdict, String> {
+    println!("UZEL_HOSTILE_RESULT_RECEIVED surface={surface_token}");
     let verdict = state.finish(&surface_token, report);
     let stopped = client
         .request(&Request::StopFixture {
@@ -229,7 +230,13 @@ fn finish_hostile_probe(
             Response::Stopped => Ok(()),
             _ => Err("daemon returned an unexpected hostile stop response".to_owned()),
         });
-    let verdict = verdict?;
+    let verdict = match verdict {
+        Ok(verdict) => verdict,
+        Err(error) => {
+            eprintln!("UZEL_HOSTILE_PROBE_FAILED surface={surface_token} reason={error}");
+            return Err(error);
+        }
+    };
     stopped?;
     println!(
         "UZEL_HOSTILE_PROBE_OK surface={} network_denials={} sentinel_accepts={} native_calls={} source_bound=true",
