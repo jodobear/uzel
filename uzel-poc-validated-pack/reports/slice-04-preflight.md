@@ -74,11 +74,14 @@ returns the same canonical profile from NMP redb.
 
 The executable restart probe rejected one original assumption: NMP redb at the
 pinned revision does not restore the active read identity. Uzel now persists
-only a bounded version-0 product record containing mode and canonical public
-read key, with mode 0600. State loading refuses symlinks and non-regular files;
-atomic temporary creation refuses pre-existing paths. Startup passes the key back through NMP's parser and
-activation path. Nostr events, replacement selection, profiles, follows,
-evidence, and freshness remain exclusively NMP-owned.
+only a bounded version-0 product record containing mode, canonical public read
+key, and last reserved surface generation, with mode 0600. State loading
+refuses symlinks and non-regular files; atomic temporary creation refuses
+pre-existing paths. Startup passes the key back through NMP's parser and
+activation path. A failed state write rolls back a changed NMP identity to the
+previous exact installation, and a generation is durably reserved before its
+surface token is exposed. Nostr events, replacement selection, profiles,
+follows, evidence, and freshness remain exclusively NMP-owned.
 
 The live loopback probe also established that profile-owned indexer/app relay
 preferences correctly reject `ws://` before NMP's local-host allowlist. The
@@ -99,7 +102,7 @@ sandbox.
 
 ```text
 cargo test -p napd --lib
-  13 passed; 1 explicit live probe ignored
+  14 passed; 1 explicit live probe ignored
 
 cargo test -p napd live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache -- --ignored
   1 passed
@@ -154,11 +157,15 @@ group and confirming the port was free, the single clean rerun emitted the
 exact success marker above. Expected headless EGL/cursor warnings did not
 affect the assertion.
 
-Codex review then exercised four previously uncovered local-boundary cases:
+Codex review then exercised six previously uncovered local-boundary cases:
 an active daemon socket must not be unlinked, accepted streams need deadlines,
 existing shared socket parents must not be chmodded, and the historical exact
-Fedora readiness line must remain stable. All four were corrected and covered
-by the 13-test daemon suite plus the final Fedora run.
+Fedora readiness line must remain stable. It also found that failed identity
+persistence must restore the prior active NMP installation and surface
+generations must survive daemon restart. All six were corrected and covered by
+the 14-test daemon suite plus the final Fedora run. The Fedora harness now also
+uses a disposable `XDG_DATA_HOME`, keeping its fresh-generation assertion
+repeatable without touching user product state.
 
 ## Remaining boundaries
 

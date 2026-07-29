@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "bc5aaa06b29f6bcd2cc89a220b757965d7ca5be858704e2f6ae4c7ea95bee9e3"
+      "sha256": "e63963eccc3377bdcc85b5976b339448b5b651b911ba07f8253b9a6f5c9b4ee1"
     },
     {
       "path": "compatibility.lock",
@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 7472,
-      "sha256": "231add0bb97ca4d0b951a5439a997b3a09407b4e762d44ded04f1dfa92031621"
+      "bytes": 7694,
+      "sha256": "58666cf530f8bfa21df199cd9a32945021084ad97878aed68c509567dd8b3b3a"
     },
     {
       "path": "docs/04-execution.md",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3045,
-      "sha256": "e7e1dbabdf831379f436cf2c834c407a8970d08eb23c31932776fb2748c0b134"
+      "bytes": 3260,
+      "sha256": "0c319603fb09ab79ffef3414cbeba75e5d2c7622c9abffa1f60d83600c8374c6"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -167,8 +167,8 @@
     },
     {
       "path": "reports/probes/slice-02-fedora-failed/weston.log",
-      "bytes": 3498,
-      "sha256": "31dfa5a46a26b4aee5d1aca2f491705f7b72a349d7767c6ad74827d715be7eeb"
+      "bytes": 3497,
+      "sha256": "d999ab0dfed284f01d0f5b770c49c67d1b5e3db1dc1ac5620065c66bf4f0c138"
     },
     {
       "path": "reports/slice-01-preflight.md",
@@ -187,8 +187,8 @@
     },
     {
       "path": "reports/slice-04-preflight.md",
-      "bytes": 8235,
-      "sha256": "d2f6c040244b19b9e3700bb964c639c366790f22cd09a844512ad18b6c0c9a65"
+      "bytes": 8730,
+      "sha256": "ce6d9501e477e4682ff566d672db0b8ddeeb8d2486a39c0956641a368047aae9"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

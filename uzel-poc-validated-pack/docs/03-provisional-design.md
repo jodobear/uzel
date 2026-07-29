@@ -64,7 +64,7 @@ Keep semantic owners separate:
 | napplet private KV | runtime storage provider |
 | Svelte transient UI state | Svelte |
 
-Use `nmp-native-runtime-store` for installed-build/runtime/app-KV facts and NMP redb for Nostr truth. The pinned NMP store did not restore its active read identity in an executable restart probe, so Uzel persists only protocol version, product mode, and the canonical public read key in a bounded mode-0600 record. Startup sends that key back through `register_read_only_account` and activation, keeping NMP's parser authoritative. Do not duplicate app KV or design a broad platform schema during the POC.
+Use `nmp-native-runtime-store` for installed-build/runtime/app-KV facts and NMP redb for Nostr truth. The pinned NMP store did not restore its active read identity in an executable restart probe, so Uzel persists only protocol version, product mode, the canonical public read key, and the last reserved surface generation in a bounded mode-0600 record. Startup sends that key back through `register_read_only_account` and activation, keeping NMP's parser authoritative. The generation is product security metadata, not runtime or Nostr truth; reserving it before exposing a surface prevents a stale host mapping from becoming valid after daemon restart. Do not duplicate app KV or design a broad platform schema during the POC.
 
 ## Exact-build fixtures
 
