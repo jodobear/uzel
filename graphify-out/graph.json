@@ -6248,10 +6248,38 @@
       "norm_label": "fail()"
     },
     {
+      "label": "refresh_nix_builder_state()",
+      "file_type": "code",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L62",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_debian13_setup_refresh_nix_builder_state",
+      "community": 90,
+      "norm_label": "refresh_nix_builder_state()"
+    },
+    {
+      "label": "print_nix_builder_state()",
+      "file_type": "code",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L80",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_debian13_setup_print_nix_builder_state",
+      "community": 90,
+      "norm_label": "print_nix_builder_state()"
+    },
+    {
       "label": "refresh_nix_daemon_state()",
       "file_type": "code",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L69",
+      "source_location": "L95",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6265,7 +6293,7 @@
       "label": "print_nix_daemon_state()",
       "file_type": "code",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L98",
+      "source_location": "L124",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6279,7 +6307,7 @@
       "label": "wait_for_nix_daemon_socket()",
       "file_type": "code",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L102",
+      "source_location": "L128",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6711,7 +6739,7 @@
       "label": "2. Run automated real-WebKit acceptance",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L47",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "debian13_live_test_2_run_automated_real_webkit_acceptance",
       "community": 22,
@@ -6721,7 +6749,7 @@
       "label": "3. Run visible desktop demo",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L78",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "debian13_live_test_3_run_visible_desktop_demo",
       "community": 22,
@@ -7824,7 +7852,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_source_baseline",
-      "community": 87,
+      "community": 8,
       "norm_label": "source baseline"
     },
     {
@@ -7904,7 +7932,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline_decision",
-      "community": 87,
+      "community": 8,
       "norm_label": "decision"
     },
     {
@@ -8504,7 +8532,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight",
-      "community": 9,
+      "community": 65,
       "norm_label": "slice-01-preflight.md"
     },
     {
@@ -8514,7 +8542,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_slice_01_preflight",
-      "community": 9,
+      "community": 91,
       "norm_label": "slice 01 preflight"
     },
     {
@@ -8524,7 +8552,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_verdict",
-      "community": 9,
+      "community": 91,
       "norm_label": "verdict"
     },
     {
@@ -8534,7 +8562,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_locked_workspace",
-      "community": 9,
+      "community": 91,
       "norm_label": "locked workspace"
     },
     {
@@ -8544,7 +8572,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_commands_and_observed_results",
-      "community": 9,
+      "community": 91,
       "norm_label": "commands and observed results"
     },
     {
@@ -8554,7 +8582,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_fedora_probe_correction",
-      "community": 9,
+      "community": 91,
       "norm_label": "fedora probe correction"
     },
     {
@@ -8564,7 +8592,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_debian_probe_correction",
-      "community": 9,
+      "community": 91,
       "norm_label": "debian probe correction"
     },
     {
@@ -8574,7 +8602,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_boundary_result",
-      "community": 9,
+      "community": 91,
       "norm_label": "boundary result"
     },
     {
@@ -8584,7 +8612,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_01_preflight_next_step",
-      "community": 9,
+      "community": 91,
       "norm_label": "next step"
     },
     {
@@ -8594,7 +8622,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_02_preflight",
-      "community": 9,
+      "community": 65,
       "norm_label": "slice-02-preflight.md"
     },
     {
@@ -9264,7 +9292,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold",
-      "community": 9,
+      "community": 65,
       "norm_label": "01-scaffold.md"
     },
     {
@@ -9274,7 +9302,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_work_01_scaffold",
-      "community": 9,
+      "community": 92,
       "norm_label": "work 01 \u2014 scaffold"
     },
     {
@@ -9284,7 +9312,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_status",
-      "community": 9,
+      "community": 92,
       "norm_label": "status"
     },
     {
@@ -9294,7 +9322,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_goal",
-      "community": 9,
+      "community": 92,
       "norm_label": "goal"
     },
     {
@@ -9304,7 +9332,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_depends_on",
-      "community": 9,
+      "community": 92,
       "norm_label": "depends on"
     },
     {
@@ -9314,7 +9342,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_entry_status",
-      "community": 9,
+      "community": 92,
       "norm_label": "entry status"
     },
     {
@@ -9324,7 +9352,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_tasks",
-      "community": 9,
+      "community": 92,
       "norm_label": "tasks"
     },
     {
@@ -9334,7 +9362,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_acceptance",
-      "community": 9,
+      "community": 92,
       "norm_label": "acceptance"
     },
     {
@@ -9344,7 +9372,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_01_scaffold_non_goals",
-      "community": 9,
+      "community": 92,
       "norm_label": "non-goals"
     },
     {
@@ -9354,7 +9382,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner",
-      "community": 9,
+      "community": 65,
       "norm_label": "02-linux-runner.md"
     },
     {
@@ -9364,7 +9392,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_work_02_linux_exact_build_runner",
-      "community": 9,
+      "community": 93,
       "norm_label": "work 02 \u2014 linux exact-build runner"
     },
     {
@@ -9374,7 +9402,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_goal",
-      "community": 9,
+      "community": 93,
       "norm_label": "goal"
     },
     {
@@ -9384,7 +9412,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_entry_status_and_pins",
-      "community": 9,
+      "community": 93,
       "norm_label": "entry status and pins"
     },
     {
@@ -9394,7 +9422,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_read",
-      "community": 9,
+      "community": 93,
       "norm_label": "read"
     },
     {
@@ -9404,7 +9432,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_tasks",
-      "community": 9,
+      "community": 93,
       "norm_label": "tasks"
     },
     {
@@ -9414,7 +9442,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_acceptance",
-      "community": 9,
+      "community": 93,
       "norm_label": "acceptance"
     },
     {
@@ -9424,7 +9452,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_02_linux_runner_non_goals",
-      "community": 9,
+      "community": 93,
       "norm_label": "non-goals"
     },
     {
@@ -20966,7 +20994,17 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L98",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "scripts_debian13_setup",
+      "target": "scripts_debian13_setup_print_nix_builder_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L124",
       "weight": 1.0,
       "source": "scripts_debian13_setup",
       "target": "scripts_debian13_setup_print_nix_daemon_state",
@@ -20976,7 +21014,17 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L69",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "scripts_debian13_setup",
+      "target": "scripts_debian13_setup_refresh_nix_builder_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L95",
       "weight": 1.0,
       "source": "scripts_debian13_setup",
       "target": "scripts_debian13_setup_refresh_nix_daemon_state",
@@ -20996,7 +21044,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L102",
+      "source_location": "L128",
       "weight": 1.0,
       "source": "scripts_debian13_setup",
       "target": "scripts_debian13_setup_wait_for_nix_daemon_socket",
@@ -21017,7 +21065,18 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L112",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_debian13_setup_sh__entry",
+      "target": "scripts_debian13_setup_print_nix_builder_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L138",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_setup_sh__entry",
@@ -21028,7 +21087,18 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L111",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_debian13_setup_sh__entry",
+      "target": "scripts_debian13_setup_refresh_nix_builder_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-setup.sh",
+      "source_location": "L137",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_setup_sh__entry",
@@ -21039,7 +21109,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L172",
+      "source_location": "L216",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_setup_sh__entry",
@@ -21406,7 +21476,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L47",
+      "source_location": "L54",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_2_run_automated_real_webkit_acceptance",
@@ -21416,7 +21486,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L78",
+      "source_location": "L85",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_3_run_visible_desktop_demo",
@@ -24254,5 +24324,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "074d4a2cf1f2ebe389779b4eee46a36ccb757362"
+  "built_at_commit": "7b2049476b976100a2ab8b34c5b7cc69d82be01d"
 }

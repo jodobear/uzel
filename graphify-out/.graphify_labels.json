@@ -89,5 +89,8 @@
   "87": "Verified facts",
   "88": "debian13-live-test.sh",
   "89": "Gate 0 preflight and Slice 01 decision",
-  "90": "debian13-setup.sh"
+  "90": "debian13-setup.sh",
+  "91": "Slice 01 preflight",
+  "92": "Work 01 — scaffold",
+  "93": "Work 02 — Linux exact-build runner"
 }

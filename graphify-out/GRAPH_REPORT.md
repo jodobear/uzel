@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 110 files · ~58,942 words
+- 110 files · ~59,175 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 950 nodes · 1394 edges · 91 communities (64 shown, 27 thin omitted)
+- 952 nodes · 1398 edges · 94 communities (68 shown, 26 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `074d4a2c`
+- Built from commit: `7b204947`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -99,6 +99,9 @@
 - debian13-live-test.sh
 - Gate 0 preflight and Slice 01 decision
 - debian13-setup.sh
+- Slice 01 preflight
+- Work 01 — scaffold
+- Work 02 — Linux exact-build runner
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 39 edges
@@ -127,7 +130,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (91 total, 27 thin omitted)
+## Communities (94 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -161,9 +164,13 @@ Nodes (12): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE,
 Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
+### Community 8 - "POC documentation audit"
+Cohesion: 0.21
+Nodes (4): Uzel agent instructions, Decision, Source baseline, FACT-XXX — title
+
 ### Community 9 - "Work 01 — scaffold"
-Cohesion: 0.06
-Nodes (32): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+24 more)
+Cohesion: 0.22
+Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
@@ -342,8 +349,8 @@ Cohesion: 0.22
 Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
 
 ### Community 87 - "Verified facts"
-Cohesion: 0.22
-Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
+Cohesion: 0.29
+Nodes (7): Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Verified facts
 
 ### Community 88 - "debian13-live-test.sh"
 Cohesion: 0.36
@@ -354,13 +361,25 @@ Cohesion: 0.22
 Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
 ### Community 90 - "debian13-setup.sh"
-Cohesion: 0.60
-Nodes (5): fail(), print_nix_daemon_state(), refresh_nix_daemon_state(), debian13-setup.sh script, wait_for_nix_daemon_socket()
+Cohesion: 0.46
+Nodes (7): fail(), print_nix_builder_state(), print_nix_daemon_state(), refresh_nix_builder_state(), refresh_nix_daemon_state(), debian13-setup.sh script, wait_for_nix_daemon_socket()
+
+### Community 91 - "Slice 01 preflight"
+Cohesion: 0.25
+Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
+
+### Community 92 - "Work 01 — scaffold"
+Cohesion: 0.25
+Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
+
+### Community 93 - "Work 02 — Linux exact-build runner"
+Cohesion: 0.29
+Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
 ## Knowledge Gaps
 - **393 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+388 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -373,9 +392,9 @@ _Questions this graph is uniquely positioned to answer:_
   _393 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
-- **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
-  _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
   _Cohesion score 0.10685249709639953 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
+- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
+  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
