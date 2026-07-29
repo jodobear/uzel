@@ -21,17 +21,17 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 - [x] 03 two portable napplets and INC fixtures
 - [x] 04 daemon, NMP, and minimal persistence
 - [x] 05 integrated composed demo
-- [ ] 06 user/dev modes, hostile tests, clean demo
+- [x] 06 user/dev modes, hostile tests, clean demo
 
 ## Latest integrated evidence
 
 ```text
-slice: 05 integrated composed demo
+slice: 06 hardening and clean demo acceptance
 commits: recorded in repository history
-commands: reports/slice-05-preflight.md
-observable result: one daemon-owned RuntimeController verifies and launches the exact profile-card and follow-list builds; the unchanged upstream host maps each MessageEvent.source to its own surface; runtime-owned INC routing delivers queryless profile/open from follow-list to profile-card; the one-window shell provides persisted orientation/ratio, focus, resize, fullscreen, read identity, source status, and a user-hidden bounded developer drawer
-known limitation: Work 05 proves the click path at the napplet contract/runtime/daemon seams and proves both artifacts in real WebKit, but the automated Fedora harness does not synthesize a pointer click inside the nested opaque-origin iframe. Full hostile WebKit execution, zero-accept sentinel attestation, clean Debian demo, and final user/dev acceptance remain Work 06
-next action: execute work/06-hardening-demo.md with the signed hostile artifact and live ephemeral sentinel, then run clean Fedora and Debian acceptance from a fresh checkout
+commands: reports/slice-06-preflight.md
+observable result: a signed exact-build hostile child ran 13 browser egress probes in real Fedora WebKit; a separately control-proven loopback sentinel accepted zero hostile connections; forged raw Tauri transport reached WebKit but executed zero commands; result attribution stayed bound to the exact child source; user mode hid diagnostics and unsafe controls; deterministic smoke passed from a detached clean checkout; pinned Debian Bookworm built the complete locked workspace
+known limitation: CSP plus the tested WebKit sandbox is a malicious-JavaScript boundary, not a browser-engine exploit boundary. Bubblewrap 0.11.0 cannot isolate only the hostile WebKit child without a separately designed subprocess policy; whole-process network unsharing would also break trusted loopback/NMP traffic. The Fedora Nix environment's mixed workspace test link can combine Nix WebKitGTK with the host linker and request GLIBC_2.42; isolated app tests and the Debian workspace build pass.
+next action: merge Slice 06 after exact-head review; then treat the POC as accepted and begin only the extraction choices in docs/06-extraction.md
 ```
 
 ## Accepted provisional risks
@@ -40,4 +40,5 @@ next action: execute work/06-hardening-demo.md with the signed hostile artifact 
 1. Upstream nampplets baseline remains unratified; Uzel owns the exact Linux-only POC adoption decision.
 2. inc.channel.opened and NAP-INTENT delivery remain unsupported and unused.
 3. Any pin or surface change reopens the affected Gate 0 probes. Apple evidence and Kehto merge are not Uzel blockers.
+4. OS-level per-WebKit-child network isolation and trusted local TLS are post-POC hardening, not retroactive claims of this acceptance.
 ```

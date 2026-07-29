@@ -33,9 +33,9 @@ check_sha256 cf95cee268f3dd05971eaa77c8dd65468b4a0d3a28f3223e8e40d18e0320967d \
   fixtures/profile-card/event.json
 check_sha256 eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63 \
   fixtures/profile-card/index.html
-check_sha256 0b4fb3c8ae2b747a2e531c1270c48305b7e859d7666d4d7b7b9e274e66cf593c \
+check_sha256 c6183534dc7d46b33c722f9d1771c62ed2a41fc92cfaae07030c6b04608b8bb3 \
   fixtures/hostile-egress/event.json
-check_sha256 94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9 \
+check_sha256 749d4742bde8d42a85f0719f12248203a86ebb9f7f0ace408951f08eb8e15285 \
   fixtures/hostile-egress/index.html
 
 echo 'PINNED_ASSETS_OK runtime=e539378ef735ce06651fd94b71e06f9ce757cb13 trusted_shell=fc68bce0a4793a8618445e234bcc91d69e8b96de'

@@ -7,11 +7,18 @@ export const PROBE_NAMES = Object.freeze([
   'worker',
   'serviceWorker',
   'beacon',
+  'media',
+  'iframe',
+  'form',
+  'navigation',
+  'popup',
   'tauriInternals',
   'tauriGlobal',
   'wryIpc',
   'parentReadable',
   'rawWebkitTransport',
+  'rawInvokeAttempted',
+  'identityMutationApi',
 ]);
 
 export function sentinelTargets(configured) {
@@ -37,20 +44,64 @@ export function sentinelTargets(configured) {
   return Object.freeze({ http: http.href, websocket: websocket.href });
 }
 
-export function nativeSurface() {
+export function nativeSurface(environment = globalThis) {
   let parentReadable = false;
   try {
-    parentReadable = Boolean(parent.document);
+    parentReadable = Boolean(environment.parent.document);
   } catch {
     // Opaque-origin sandbox must throw here.
   }
   return {
-    tauriInternals: typeof globalThis.__TAURI_INTERNALS__ !== 'undefined',
-    tauriGlobal: typeof globalThis.__TAURI__ !== 'undefined',
-    wryIpc: typeof globalThis.ipc !== 'undefined',
+    tauriInternals: typeof environment.__TAURI_INTERNALS__ !== 'undefined',
+    tauriGlobal: typeof environment.__TAURI__ !== 'undefined',
+    wryIpc: typeof environment.ipc !== 'undefined',
     parentReadable,
-    rawWebkitTransport: Boolean(globalThis.webkit?.messageHandlers?.ipc),
+    rawWebkitTransport: Boolean(environment.webkit?.messageHandlers?.ipc),
+    identityMutationApi: [
+      'setPublicKey',
+      'selectPublicKey',
+      'setIdentity',
+      'selectIdentity',
+      'switchIdentity',
+    ].some((name) => typeof environment.napplet?.identity?.[name] === 'function'),
   };
+}
+
+export function attemptRawWebKitInvoke(
+  handler = globalThis.webkit?.messageHandlers?.ipc,
+) {
+  if (!handler || typeof handler.postMessage !== 'function') return false;
+  try {
+    handler.postMessage(JSON.stringify({
+      cmd: 'hostile_native_probe',
+      callback: 91_001,
+      error: 91_002,
+      payload: {},
+      options: null,
+      __TAURI_INVOKE_KEY__: 'invalid-child-key',
+    }));
+  } catch {
+    // Rejection can surface synchronously after the authenticated boundary sees it.
+  }
+  return true;
+}
+
+export function boundedAttempt(operation, timeoutMs = 3_000) {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('probe produced no success')), timeoutMs);
+    Promise.resolve()
+      .then(operation)
+      .then(
+        (value) => {
+          clearTimeout(timeout);
+          resolve(value);
+        },
+        (error) => {
+          clearTimeout(timeout);
+          reject(error);
+        },
+      );
+  });
 }
 
 export function workerLoad(url, WorkerConstructor = globalThis.Worker, timeoutMs = 3_000) {

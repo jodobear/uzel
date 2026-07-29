@@ -29,6 +29,7 @@ podman run --rm \
     rustc --version
     pnpm install --frozen-lockfile
     pnpm --filter @uzel/shell build
+    cargo test -p uzel --locked
     cargo build --workspace --locked
   '
 

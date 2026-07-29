@@ -12,13 +12,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 3534,
-      "sha256": "9b9deffa3c567a2e41e18c79ca65458cfcaf86138b3b74f5efd8ddacd61e7060"
+      "bytes": 3639,
+      "sha256": "bf9f90edb590b920d900aee24c0eed6145e1fe6a1a4c069c4ecbbb3004046b18"
     },
     {
       "path": "STATUS.md",
-      "bytes": 2749,
-      "sha256": "5a0bbfcaed7ebab050984fb56d4e6506cdfa8c4c21745affbc8af3bd2688781a"
+      "bytes": 3025,
+      "sha256": "4a020bf5636462fd1f3afb63467f2cf93f6e13284b449d53f271ac8f344d07fa"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "85f8941a586efaca7dba05fa2371a295a5315d11cb66c3406c76468d441942ba"
+      "sha256": "a5137014980dd14fbb961ba2fafc85237fee99ca33b4c13e03fce1ce40ba089f"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 24318,
-      "sha256": "5e03382fa8017df5ed670cce277fdd51f332742e00b90c97feb567c8c958bb5f"
+      "bytes": 27990,
+      "sha256": "86321f84f7b2c75cbd504e957ecd79efa166a11976f4575ae0887dfff0c69797"
     },
     {
       "path": "config/fallow.jsonc",
@@ -67,13 +67,13 @@
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3555,
-      "sha256": "1b2d8c634e43d3d099c5a364893946e7b4158d2425890e0a202608224f9467f0"
+      "bytes": 4357,
+      "sha256": "ca71a698fbe3e5cf18c3356f29bb5afc49ad67b75716338fb015a7ebc68fa3a2"
     },
     {
       "path": "docs/06-extraction.md",
-      "bytes": 2117,
-      "sha256": "32dd896a36e2e4db17bed098a87f594567726088bd5de51ffcce94dc5a6e38b8"
+      "bytes": 3110,
+      "sha256": "914e3aa40353f56c8d3ca4c719579e6d5b759249b2b39342446d6f792a15cd58"
     },
     {
       "path": "docs/07-source-baseline.md",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 4596,
-      "sha256": "6ef0ab828ec73c11e299fe600fb7d31607e4509c9715a6b1f1899c988b8a78ef"
+      "bytes": 5153,
+      "sha256": "7ab40ba48e7f3349c32af004d444c8db40621ffffe880df449546903831bd05b"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -146,6 +146,11 @@
       "sha256": "8053e13345fc4e359ad42a856db6c2dc6022d09bbc24412ef35fb4d351bdf941"
     },
     {
+      "path": "docs/facts/FACT-013-hostile-linux-boundary.md",
+      "bytes": 3080,
+      "sha256": "f6082120d922e372d0e54e1b6baf379a548ea224a0489cac14ed6245c86795ae"
+    },
+    {
       "path": "reports/nampplets-linux-map.md",
       "bytes": 5090,
       "sha256": "972293486ff49e235d1016579210ec5191d568ca53cf2b5ba170096114990fa5"
@@ -206,6 +211,16 @@
       "sha256": "743484d7388ac369943e596f716c2e9870eb8518616bef7a0994070684ca7477"
     },
     {
+      "path": "reports/probes/slice-06-fedora-failed/uzel.log",
+      "bytes": 4101,
+      "sha256": "71cc8939b04298de3902cf6705412c1cdb942aa9da0092b9703a249b40e6474f"
+    },
+    {
+      "path": "reports/probes/slice-06-fedora-failed/weston.log",
+      "bytes": 3561,
+      "sha256": "bc1cfb3abfaf025f5c927bbe3116379821a721aa62831287445a67a81a32dae3"
+    },
+    {
       "path": "reports/slice-01-preflight.md",
       "bytes": 5202,
       "sha256": "bc1a383e4915ac102dbcb06a577ab59835016e9ddaa6852b05e89be9e9023131"
@@ -227,8 +242,13 @@
     },
     {
       "path": "reports/slice-05-preflight.md",
-      "bytes": 10333,
-      "sha256": "27e6e2436fc2ec09efc63ef91fd11f4066c0b1d0383a3a5b06a1257b8fb9ac88"
+      "bytes": 10236,
+      "sha256": "91e184fae009b9ab7c88eb7323820ca194a47a0d65e26c9861860eb3224d213b"
+    },
+    {
+      "path": "reports/slice-06-preflight.md",
+      "bytes": 7107,
+      "sha256": "2e8978dbc3f1cbb5dd5d4899d019cbe9a538878ea13a83b7fbd6fa81c8e257c1"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
@@ -242,8 +262,8 @@
     },
     {
       "path": "scripts/audit_docs.py",
-      "bytes": 4696,
-      "sha256": "bc6cad6bcfbb4a680a5d4a2f736f500421d91d3c004526bb01a2c9d7a576c1d1"
+      "bytes": 5191,
+      "sha256": "9dda9a8277c780d3a6f16fefac5f08522ebf863f2974267274e89620385ece5a"
     },
     {
       "path": "templates/fact.md",
@@ -287,8 +307,8 @@
     },
     {
       "path": "work/06-hardening-demo.md",
-      "bytes": 1586,
-      "sha256": "110712cf45864b74cadefb07b7c2e7af2cea346fd491034471bf27bdc996802d"
+      "bytes": 1948,
+      "sha256": "e6c338f3ce41aced2b4d4ec585629aa801a093763f475bb9c263834634741636"
     }
   ]
 }

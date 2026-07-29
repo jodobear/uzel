@@ -2,9 +2,13 @@
 
 use std::{env, path::PathBuf};
 
-use napd_protocol::{Diagnostics, Request, Response, RoutedEnvelope, UnixClient};
-use serde::{Deserialize, Serialize};
+use napd_protocol::{Diagnostics, FetchedSurface, Request, Response, RoutedEnvelope, UnixClient};
+use serde::Serialize;
 use tauri::Manager;
+
+mod hostile_probe;
+
+use hostile_probe::{HostileProbeReport, HostileProbeState, HostileProbeVerdict};
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -83,12 +87,16 @@ fn start_fixture(
     let fetched = client
         .start_named_fixture(&fixture)
         .map_err(|error| error.to_string())?;
-    let artifact_html = String::from_utf8(fetched.artifact_bytes)
-        .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
     println!(
         "UZEL_FIXTURE_VERIFIED fixture={} aggregate={}",
         fixture, fetched.surface.aggregate_hash
     );
+    project_surface(fetched)
+}
+
+fn project_surface(fetched: FetchedSurface) -> Result<SurfaceLaunch, String> {
+    let artifact_html = String::from_utf8(fetched.artifact_bytes)
+        .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
     Ok(SurfaceLaunch {
         surface_token: fetched.surface.surface_token,
         artifact_base_url: fetched.surface.artifact_base_url,
@@ -100,6 +108,42 @@ fn start_fixture(
         domains: fetched.surface.domains,
         unavailable_domains: fetched.surface.unavailable_domains,
     })
+}
+
+#[tauri::command]
+fn hostile_probe_enabled() -> bool {
+    env::var("UZEL_RUN_HOSTILE_PROBE").as_deref() == Ok("1")
+}
+
+#[tauri::command]
+fn start_hostile_probe(
+    client: tauri::State<'_, UnixClient>,
+    state: tauri::State<'_, HostileProbeState>,
+) -> Result<SurfaceLaunch, String> {
+    let sentinel_url = state.begin()?;
+    let fetched = match client.start_hostile_probe(&sentinel_url) {
+        Ok(fetched) => fetched,
+        Err(error) => {
+            state.cancel();
+            return Err(error.to_string());
+        }
+    };
+    if let Err(error) = state.attach(&sentinel_url, &fetched.surface.surface_token) {
+        state.cancel();
+        let _ = client.request(&Request::StopFixture {
+            surface_token: fetched.surface.surface_token,
+        });
+        return Err(error);
+    }
+    println!(
+        "UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate={}",
+        fetched.surface.aggregate_hash
+    );
+    println!(
+        "UZEL_HOSTILE_SENTINEL_READY control=accepted surface={} url={}",
+        fetched.surface.surface_token, sentinel_url
+    );
+    project_surface(fetched)
 }
 
 #[tauri::command]
@@ -162,33 +206,93 @@ fn report_shell_accepted(surface_token: String) -> Result<(), String> {
     Ok(())
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct HostileProbe {
-    tauri_internals: bool,
-    tauri_global: bool,
-    wry_ipc: bool,
-    parent_readable: bool,
-    raw_webkit_transport: bool,
+#[tauri::command]
+fn hostile_native_probe(state: tauri::State<'_, HostileProbeState>) -> Result<(), String> {
+    state.record_native_call();
+    Err("hostile native probe reached authenticated command dispatch".to_owned())
 }
 
 #[tauri::command]
-fn report_hostile_probe(report: HostileProbe) -> Result<(), String> {
-    if report.tauri_internals || report.tauri_global || report.wry_ipc || report.parent_readable {
-        return Err("sandboxed child retained trusted host authority".to_owned());
-    }
+fn finish_hostile_probe(
+    client: tauri::State<'_, UnixClient>,
+    state: tauri::State<'_, HostileProbeState>,
+    surface_token: String,
+    report: HostileProbeReport,
+) -> Result<HostileProbeVerdict, String> {
+    println!("UZEL_HOSTILE_RESULT_RECEIVED surface={surface_token}");
+    let verdict = state.finish(&surface_token, report);
+    let stopped = client
+        .request(&Request::StopFixture {
+            surface_token: surface_token.clone(),
+        })
+        .map_err(|error| error.to_string())
+        .and_then(|response| match response {
+            Response::Stopped => Ok(()),
+            _ => Err("daemon returned an unexpected hostile stop response".to_owned()),
+        });
+    let verdict = match verdict {
+        Ok(verdict) => verdict,
+        Err(error) => {
+            eprintln!("UZEL_HOSTILE_PROBE_FAILED surface={surface_token} reason={error}");
+            return Err(error);
+        }
+    };
+    stopped?;
     println!(
-        "UZEL_SLICE02_ISOLATION_OK raw_webkit_transport={}",
-        report.raw_webkit_transport
+        "UZEL_HOSTILE_PROBE_OK surface={} network_denials={} sentinel_accepts={} native_calls={} source_bound=true",
+        surface_token, verdict.network_denials, verdict.sentinel_accepts, verdict.native_calls
     );
+    Ok(verdict)
+}
+
+#[tauri::command]
+fn report_user_mode(diagnostics_hidden: bool, unsafe_controls_absent: bool) -> Result<(), String> {
+    if !diagnostics_hidden || !unsafe_controls_absent {
+        return Err("user mode exposed diagnostics or unsafe fixture controls".to_owned());
+    }
+    println!("UZEL_USER_MODE_OK diagnostics=hidden unsafe_controls=absent");
     Ok(())
+}
+
+fn navigation_policy() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    tauri::plugin::Builder::new("navigation-policy")
+        .on_navigation(|_webview, url| {
+            let allowed = allowed_navigation(url);
+            if !allowed {
+                eprintln!(
+                    "UZEL_NAVIGATION_DENIED scheme={} host={}",
+                    url.scheme(),
+                    url.host_str().unwrap_or("none")
+                );
+            }
+            allowed
+        })
+        .build()
+}
+
+fn allowed_navigation(url: &tauri::Url) -> bool {
+    match url.scheme() {
+        "tauri" => true,
+        "about" => matches!(url.path(), "blank" | "srcdoc"),
+        "http" | "https" if url.host_str() == Some("tauri.localhost") => true,
+        "http"
+            if cfg!(debug_assertions)
+                && url.host_str() == Some("127.0.0.1")
+                && url.port() == Some(1420) =>
+        {
+            true
+        }
+        _ => false,
+    }
 }
 
 fn main() {
     tauri::Builder::default()
+        .plugin(navigation_policy())
         .setup(|app| {
             let socket = default_socket_path().map_err(|error| error.to_string())?;
             app.manage(UnixClient::new(socket));
+            app.manage(HostileProbeState::default());
             println!("UZEL_SHELL_READY");
             Ok(())
         })
@@ -198,9 +302,13 @@ fn main() {
             runtime_diagnostics,
             start_fixture,
             stop_fixture,
+            hostile_probe_enabled,
+            start_hostile_probe,
             forward_surface_envelope,
             report_shell_accepted,
-            report_hostile_probe
+            hostile_native_probe,
+            finish_hostile_probe,
+            report_user_mode
         ])
         .run(tauri::generate_context!())
         .expect("Uzel shell failed");
@@ -212,4 +320,28 @@ fn default_socket_path() -> Result<PathBuf, &'static str> {
         .map(PathBuf::from)
         .map(|path| path.join("uzel/napd.sock"))
         .ok_or("XDG_RUNTIME_DIR is required for the private daemon socket")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn navigation_policy_allows_only_trusted_shell_locations() {
+        assert!(allowed_navigation(
+            &tauri::Url::parse("tauri://localhost/").unwrap()
+        ));
+        assert!(allowed_navigation(
+            &tauri::Url::parse("http://tauri.localhost/").unwrap()
+        ));
+        assert!(allowed_navigation(
+            &tauri::Url::parse("about:srcdoc").unwrap()
+        ));
+        assert!(!allowed_navigation(
+            &tauri::Url::parse("https://example.com/").unwrap()
+        ));
+        assert!(!allowed_navigation(
+            &tauri::Url::parse("http://127.0.0.1:43129/probe").unwrap()
+        ));
+    }
 }

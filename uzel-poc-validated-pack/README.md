@@ -36,7 +36,7 @@ flowchart LR
 
 Implementation does **not** begin from these documents alone. [`work/00-validate.md`](work/00-validate.md) must validate the current upstream commits, Linux build seams, WebKit trust boundary, NMP APIs, and local tools. Any contradicted design is corrected before product code proceeds.
 
-Gate 0 was completed and revalidated on 2026-07-28 with a **Linux-scoped go for Slice 01**. Linux/runtime/security feasibility and the corrected Napplet 0.29 line are proven. Uzel explicitly accepts exact provisional fork pins for this POC without claiming upstream nampplets ratification or Apple support. Kehto upstream PR [#218](https://github.com/kehto/web/pull/218) proceeds in parallel and is not a blocker. See [`reports/preflight.md`](reports/preflight.md), [`compatibility.lock`](compatibility.lock), and the [`upstream contribution ledger`](docs/08-upstream-contributions.md).
+Gate 0 was completed and revalidated on 2026-07-28 with a **Linux-scoped go for Slice 01**. Slice 06 completed the POC on 2026-07-29 with real Fedora WebKit hostile-boundary proof, a detached-clean-checkout deterministic demo, and a complete locked Debian build. Uzel explicitly accepts exact provisional runtime pins without claiming upstream nampplets ratification or Apple support. Kehto upstream PR [#218](https://github.com/kehto/web/pull/218) and the portable trusted-shell fork PR both merged. See [`reports/slice-06-preflight.md`](reports/slice-06-preflight.md), [`compatibility.lock`](compatibility.lock), and the [`upstream contribution ledger`](docs/08-upstream-contributions.md).
 
 ## Start order
 
