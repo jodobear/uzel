@@ -142,9 +142,10 @@ for exact `inc.event` with the requested topic; a regression rejects
 
 Codex also found two shell-state errors. Selecting a new public identity only
 changed daemon state, leaving the once-loaded follow list stale. The shell now
-remounts both exact frames after a successful runtime identity change, which
-forces fresh provider reads while reusing the same authorized sessions and the
-upstream host's reviewed remount behavior. Directional and named focus controls
+stops both old runtime sessions after a successful identity change, unmounts
+their frames, and launches fresh sessions and surface generations. That forces
+fresh provider reads and prevents a late old-session response from colliding
+with request identifiers reset by a new child prelude. Directional and named focus controls
 previously changed only styling. They now move DOM focus to a shell pane;
 Enter explicitly enters its mapped iframe, so successive directional keys are
 not trapped inside the opaque child. The final review also corrected stacked
@@ -168,7 +169,7 @@ projected environment. Fork PR #1 now uses a one-shot transferred
 acceptance. A rejected environment explicitly reports rejection before closing
 the port; the host invokes only the source/remount-bound `onError` callback.
 Uzel counts readiness only from `onReady` and latches either rejected
-environment or identity-driven remount refusal as a failed handshake.
+environment or identity-driven restart refusal as a failed handshake.
 
 The final review also separated lifecycle state from ordinary request health.
 Only mounting and `shell.ready`/`shell.init` routing may latch a failed
