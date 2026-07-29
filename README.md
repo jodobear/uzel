@@ -11,7 +11,7 @@ nix --extra-experimental-features 'nix-command flakes' develop
 pnpm install --frozen-lockfile
 ```
 
-Start the Linux shell, readiness daemon, and pinned exact-build fixture together:
+Start the Linux shell, private AF_UNIX daemon, and pinned exact-build fixture together:
 
 ```sh
 pnpm dev
@@ -37,9 +37,19 @@ Run the immutable-digest Debian build smoke from the Fedora host:
 bash scripts/debian-build-smoke.sh
 ```
 
-Slice 03 adds independent `follow-list` and `profile-card` napplets. They use
+Slices 03 and 04 add independent `follow-list` and `profile-card` napplets plus
+the Linux daemon boundary. Tauri is now a thin private-socket client; one
+daemon-owned upstream `RuntimeController` owns one NMP engine and redb store.
+The 96,172-byte verified fixture crosses the 4,096-byte control seam as bounded,
+ordered chunks and no artifact path reaches WebKit. The daemon persists only
+the selected public read key and mode outside upstream-owned stores, restoring
+the key through NMP's parser after restart.
+
+The napplets use
 the exact queryless `napplet:profile/open` convention through NAP-INC and
 runtime-mediated identity/outbox APIs. Their signed single-file fixtures, plus
 the test-only `hostile-egress` fixture, verify through the pinned upstream
-runtime. Daemon-owned runtime state, integrated NMP data, product persistence,
-and the full hostile WebKit run remain later slices.
+runtime. The explicit live smoke starts `nak serve`, proves NMP canonical
+kind-0 selection and direct-follow projection, then stops the relay and proves
+cache-first restart from the same NMP store. The integrated two-pane demo and
+full hostile WebKit run remain Slices 05 and 06.

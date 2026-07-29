@@ -1,0 +1,11 @@
+# FACT-011 — daemon-owned runtime and canonical NMP data
+
+- **Claim:** The Linux shell can use one daemon-owned pinned runtime/NMP data plane through bounded private AF_UNIX operations, including a 96-KiB verified asset, canonical live profile/follow reads, and cache-first restart.
+- **Classification:** verified fact
+- **Exact source/pin:** `jodobear/nampplets@08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf`, transitively pinning `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c`; pinned-Nix `nak 0.20.1` for the disposable relay probe.
+- **Probe/command:** `cargo test -p napd --lib`; `cargo test -p napd live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache -- --ignored`; `cargo test -p napd-protocol`; pinned `nix ... develop --command cargo check --workspace`.
+- **Observed result:** One daemon-owned `RuntimeController` verified and launched the 96172-byte fixture, served it as ordered 2048-byte chunks under 4096-byte frames, rejected an out-of-order request, and shut down cleanly. A signed local-relay fixture containing an older kind-0, its newer replacement, duplicate relay rows, and a direct-follow event returned only canonical Alice data and two unique follows through the existing identity provider. With the relay stopped, restart restored the public read key through NMP and returned the cached canonical profile from NMP redb.
+- **Rejected assumptions:** NMP redb does not restore the active read identity at this pin; Uzel therefore persists the canonical public key as bounded product metadata. Profile-owned indexer/app preferences reject `ws://` before the engine allowlist; disposable loopback probes use NMP's fallback lane plus explicit `allowed_local_relay_hosts`, while normal profile preferences remain `wss://`.
+- **Decision:** Keep NMP/redb as the only event/profile/follow store. Persist only version, mode, and canonical read key outside upstream stores. Correlate provider responses by request ID so an asynchronous `identity.changed` push cannot satisfy another request.
+- **Affected documents/code:** `crates/napd-protocol`, `crates/napd`, `apps/uzel-napd`, `apps/uzel/src-tauri`, `docs/02-architecture.md`, `docs/03-provisional-design.md`, `reports/slice-04-preflight.md`.
+- **Confidence:** high for the pinned Linux POC; revalidate on any runtime, NMP, protocol, or relay-configuration change.

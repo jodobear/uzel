@@ -43,13 +43,13 @@ shutdown in developer/test mode
 
 The Rust daemon and Tauri backend share `napd-protocol` Rust types. Do not generate a TypeScript copy of daemon IPC; Svelte receives a narrower product-facing model from the trusted Tauri backend.
 
-The 4096-byte frame is a control-message limit, not an artifact-transfer
-mechanism. Slice 02 measured the pinned verified `/index.html` at 96172 bytes.
-Until Work 04 implements and tests a bounded chunked verified-asset transfer (or
-an equivalently bounded private custom-scheme stream), `RuntimeController`
-remains composed directly in the trusted Tauri process. Do not increase the
-control-frame limit, expose a filesystem path to WebKit, or claim daemon runtime
-ownership before that transfer exists.
+The 4096-byte frame remains a control-message limit. Slice 04 transfers the
+pinned 96172-byte verified `/index.html` as ordered 2048-byte chunks with a
+512-KiB aggregate ceiling. Start returns bounded metadata, transfer ID, and
+total length; each subsequent request must name the same transfer and exact
+next offset. Tauri rejects changed totals, invalid base64, empty or oversized
+chunks, offset gaps, and inconsistent completion. `RuntimeController` now lives
+only in `uzel-napd`; WebKit receives reassembled bytes and never a cache path.
 
 ## Runtime state
 
@@ -64,7 +64,7 @@ Keep semantic owners separate:
 | napplet private KV | runtime storage provider |
 | Svelte transient UI state | Svelte |
 
-Use `nmp-native-runtime-store` for installed-build/runtime/app-KV facts and NMP redb for Nostr truth. Add product persistence only for a demonstrated missing Uzel field; do not duplicate app KV or design a broad platform schema during the POC.
+Use `nmp-native-runtime-store` for installed-build/runtime/app-KV facts and NMP redb for Nostr truth. The pinned NMP store did not restore its active read identity in an executable restart probe, so Uzel persists only protocol version, product mode, and the canonical public read key in a bounded mode-0600 record. Startup sends that key back through `register_read_only_account` and activation, keeping NMP's parser authoritative. Do not duplicate app KV or design a broad platform schema during the POC.
 
 ## Exact-build fixtures
 

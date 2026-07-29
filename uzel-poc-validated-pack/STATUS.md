@@ -19,19 +19,19 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 - [x] 01 workspace scaffold
 - [x] 02 Linux runner and exact-build fixture
 - [x] 03 two portable napplets and INC fixtures
-- [ ] 04 daemon, NMP, and minimal persistence
+- [x] 04 daemon, NMP, and minimal persistence
 - [ ] 05 integrated composed demo
 - [ ] 06 user/dev modes, hostile tests, clean demo
 
 ## Latest integrated evidence
 
 ```text
-slice: 03 portable napplets and INC fixtures
+slice: 04 daemon, NMP, and minimal persistence
 commits: recorded in repository history
-commands: reports/slice-03-preflight.md
-observable result: follow-list and profile-card build independently, pass released conformance, verify as signed single-file NIP-5D fixtures, and exchange the exact queryless profile-open payload through runtime-owned NAP-INC sender binding; profile-card projects exactly one NMP-selected canonical kind-0 row and never selects replaceable events; the hostile fixture requires a configured live loopback sentinel and is pinned for the later WebKit denial lane
-known limitation: released conformance skips manifest checks for local directory input; pinned NMP verification covers event signature and exact artifact bytes, while live-sentinel startup, independent zero-accept attestation, and full hostile browser execution remain Work 06
-next action: execute work/04-daemon-nmp.md; first prove bounded verified-asset transfer without enlarging the 4096-byte control frame
+commands: reports/slice-04-preflight.md
+observable result: Tauri is a thin AF_UNIX client; the daemon owns one pinned RuntimeController/NMP engine/store, transfers the 96172-byte verified fixture in ordered bounded chunks, parses and restores one public read identity through NMP, and returns canonical kind-0/direct-follow data from a disposable live relay and cache-first restart without a second Nostr cache
+known limitation: profile indexer/app preferences remain wss-only; the disposable ws loopback relay correctly uses NMP's fallback lane and explicit local-host allowlist. Full two-pane composition and hostile WebKit execution remain Work 05 and Work 06
+next action: execute work/05-integrate.md and compose follow-list/profile-card through the completed daemon seam
 ```
 
 ## Accepted provisional risks
