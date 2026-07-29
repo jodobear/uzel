@@ -1,7 +1,9 @@
 # Slice 04 preflight — daemon, NMP, and persistence
 
-Date: 2026-07-29  
-Branch: `feat/slice-04-daemon-nmp`  
+Date: 2026-07-29
+
+Branch: `feat/slice-04-daemon-nmp`
+
 Implementation commits: `8436b66`, `fc74809`
 
 ## Outcome
