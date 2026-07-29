@@ -62,6 +62,8 @@
   let developerMode = false;
   let drawerOpen = false;
   let envelopeLog: LogEntry[] = [];
+  let shellReady = false;
+  $: shellReady = readyCount === 2 && !shellHandshakeFailed;
 
   function envelopeType(envelope: unknown): string {
     if (envelope && typeof envelope === 'object' && 'type' in envelope) {
@@ -286,7 +288,7 @@
       <p class="eyebrow">Linux exact-build runtime</p>
       <h1>Uzel</h1>
     </div>
-    <div class:ready={readyCount === 2} class="runtime-status" data-shell-ready={readyCount === 2}>
+    <div class:ready={shellReady} class="runtime-status" data-shell-ready={shellReady}>
       <span aria-hidden="true"></span>
       {status}
     </div>
@@ -360,7 +362,7 @@
   </section>
 
   <section class="proof-strip" aria-label="Runtime evidence">
-    <div><span>NAP-SHELL</span><strong data-proof-shell={readyCount === 2}>{readyCount}/2 READY</strong></div>
+    <div><span>NAP-SHELL</span><strong data-proof-shell={shellReady}>{readyCount}/2 {shellHandshakeFailed ? 'FAILED' : shellReady ? 'READY' : 'WAITING'}</strong></div>
     <div><span>Sessions</span><strong>{diagnostics?.activeSessions ?? 0} EXACT</strong></div>
     <div><span>NMP</span><strong>{diagnostics?.observingRelays ? `${diagnostics.relays} RELAYS` : 'CACHE-FIRST'}</strong></div>
     <div><span>Profile route</span><strong>NAP-INC</strong></div>

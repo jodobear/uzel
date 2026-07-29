@@ -142,6 +142,9 @@ leaving a green `2/2 READY` proof beside a stale message and potentially
 overwriting a handshake error. The shell now enters waiting before the first
 mount, changes to ready only after both `shell.init` envelopes are accepted by
 the trusted host, and latches handshake failures against later ready updates.
+The shared readiness predicate also includes that failure latch, so neither the
+green indicator nor the proof strip can advertise a failed composition as
+ready merely because both surface tokens were counted.
 
 ## Honest boundary
 
