@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import {
@@ -54,6 +55,16 @@ test('raw WebKit probe sends one deliberately invalid invoke-key command', () =>
   });
   assert.equal(attemptRawWebKitInvoke(null), false);
   assert.equal(attemptRawWebKitInvoke({ postMessage: () => { throw new Error('rejected'); } }), true);
+});
+
+test('raw WebKit delivery returns before the final report is published', async () => {
+  const source = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+  const dispatch = source.indexOf('results.rawInvokeAttempted = attemptRawWebKitInvoke();');
+  const publish = source.indexOf('publishResult();');
+  assert.notEqual(dispatch, -1);
+  assert.notEqual(publish, -1);
+  assert.ok(dispatch < publish);
+  assert.doesNotMatch(source, /setTimeout\(\(\) => attemptRawWebKitInvoke/);
 });
 
 test('bounded attempts reject silent browser operations', async () => {

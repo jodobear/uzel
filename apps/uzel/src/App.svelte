@@ -123,6 +123,10 @@
   }
 
   async function finishHostileProbe(surfaceToken: string, report: HostileReport) {
+    // Tear down while the daemon-owned sentinel is still live. WebKit may defer a
+    // queued beacon until unload; finish_hostile_probe settles and samples after it.
+    window.NMPTrustedShellHost.unmount(surfaceToken);
+    hostile = null;
     try {
       const verdict = await invoke<HostileVerdict>('finish_hostile_probe', {
         surfaceToken,
@@ -134,8 +138,6 @@
       if (!hostileProbePassed) throw new Error('hostile verdict was incomplete');
     } catch (error) {
       reportRuntimeFailure('Hostile boundary failed', error);
-    } finally {
-      window.NMPTrustedShellHost.unmount(surfaceToken);
     }
   }
 

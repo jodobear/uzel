@@ -98,7 +98,9 @@ await Promise.all([
   }),
 ]);
 
-results.rawInvokeAttempted = results.rawWebkitTransport;
+// WKScriptMessageHandler delivery is synchronous: only publish the final report
+// after the invalid-key raw message has returned from the native handler.
+results.rawInvokeAttempted = attemptRawWebKitInvoke();
 const publishResult = () => {
   document.querySelector('#result').textContent = JSON.stringify(results, null, 2);
   globalThis.parent.postMessage({
@@ -108,6 +110,3 @@ const publishResult = () => {
   }, '*');
 };
 publishResult();
-if (results.rawInvokeAttempted) {
-  setTimeout(() => attemptRawWebKitInvoke(), 50);
-}

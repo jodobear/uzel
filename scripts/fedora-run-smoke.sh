@@ -46,6 +46,15 @@ export NO_AT_BRIDGE=1
 export UZEL_FIXTURE_RELAY_PORT=$((44000 + ($$ % 10000)))
 export UZEL_RUN_HOSTILE_PROBE=1
 
+hostile_markers_are_ordered() {
+  local raw_line result_line success_line
+  raw_line=$(rg -n '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key' "$SMOKE_TMP/uzel.log" | tail -1 | cut -d: -f1)
+  result_line=$(rg -n '^UZEL_HOSTILE_RESULT_RECEIVED surface=uzel-hostile-egress-generation-3$' "$SMOKE_TMP/uzel.log" | tail -1 | cut -d: -f1)
+  success_line=$(rg -n '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 ' "$SMOKE_TMP/uzel.log" | tail -1 | cut -d: -f1)
+  [[ -n "$raw_line" && -n "$result_line" && -n "$success_line" \
+    && "$raw_line" -lt "$result_line" && "$result_line" -lt "$success_line" ]]
+}
+
 weston \
   --backend=headless \
   --renderer=gl \
@@ -76,11 +85,12 @@ for _ in $(seq 1 240); do
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_USER_MODE_OK diagnostics=hidden unsafe_controls=absent$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate=4f69e62d242a6f0d1d13ff7721325906940491037c79fe4c2f0bd61c0f1e1022$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=hostile-egress aggregate=d29a7660cd37118f9d619a16854617b0d44b20d16b3f6a45b9f8e28ce5187a16$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_HOSTILE_SENTINEL_READY control=accepted surface=uzel-hostile-egress-generation-3 url=http://127\.0\.0\.1:[0-9]+/uzel-hostile/[0-9]+-[0-9]+$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-hostile-egress-generation-3$' "$SMOKE_TMP/uzel.log" \
     && rg -q '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 network_denials=13 sentinel_accepts=0 native_calls=0 source_bound=true$' "$SMOKE_TMP/uzel.log"; then
+    && rg -q '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 network_denials=13 sentinel_accepts=0 native_calls=0 source_bound=true$' "$SMOKE_TMP/uzel.log" \
+    && hostile_markers_are_ordered; then
     sleep 2
     kill -0 "$DEV_PID"
     echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_accepted=2 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero user_mode=hidden compositor=weston-headless-gl'

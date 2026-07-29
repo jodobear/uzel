@@ -5,7 +5,8 @@ Date: 2026-07-29
 Branch: `feat/slice-06-hardening-demo`
 
 Core implementation commits: `cb3cb51`, `cd5bf0e`, `e3f7fb3`, and `c271b93`;
-evidence-led corrections through `2614341` are recorded in repository history.
+evidence-led corrections and exact-head review fixes are recorded in repository
+history.
 
 ## Outcome
 
@@ -20,10 +21,11 @@ complete locked workspace built in the immutable-digest Debian toolchain.
 ## Exact hostile evidence
 
 ```text
-author: be1a049c1b9da66d504a808cbb1141ab37f03b1505eefa43f49894eff379c73f
-aggregate: 4f69e62d242a6f0d1d13ff7721325906940491037c79fe4c2f0bd61c0f1e1022
-event sha256: 56338f7191589eb490ab3a2cfa44acea4a1c09534d6f00de00bebad303869d58
-index sha256: 1843ffc7ee9710c207c7097cab5d2a376bb3b94e96ed4b7872db8403c815a828
+author: 79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798
+aggregate: d29a7660cd37118f9d619a16854617b0d44b20d16b3f6a45b9f8e28ce5187a16
+event id: 8efc7cb0c99c82e115db1009e48af6c66c110e59e87c0782c85cb1786227c3f1
+event sha256: c6183534dc7d46b33c722f9d1771c62ed2a41fc92cfaae07030c6b04608b8bb3
+index sha256: 749d4742bde8d42a85f0719f12248203a86ebb9f7f0ace408951f08eb8e15285
 ```
 
 The daemon creates an ephemeral unprivileged `127.0.0.1` listener, proves it
@@ -39,12 +41,16 @@ accepted the request into a queue; it is not described as a transport denial.
 The independent sentinel remains the transport authority and accepted zero
 hostile connections after settlement.
 
-The raw forged Tauri message was visible with `invalid-child-key`, proving that
-the negative test reached the transport. The application command counter
-remained zero. The hostile report was accepted only from the mounted child's
-captured source, not from payload identity fields. The normal exact NAP-SHELL
-path and source-bound NAP-CONFIG delivery remained live. User mode hid the
-developer drawer and exposed no unsafe fixture launcher.
+The raw forged Tauri message was synchronously dispatched before the final
+report and was visible with `invalid-child-key`, proving that the negative test
+reached the transport before finalization. The application command counter
+remained zero. The host then unmounted the child while the sentinel remained
+live, covering WebKit beacon transfer deferred until document teardown, and
+only afterward settled and sampled the listener. The hostile report was
+accepted only from the mounted child's captured source, not from payload
+identity fields. The normal exact NAP-SHELL path and source-bound NAP-CONFIG
+delivery remained live. User mode hid the developer drawer and exposed no
+unsafe fixture launcher.
 
 Accepted real-browser marker:
 
@@ -58,7 +64,7 @@ Commands ran in the pinned Nix environment unless stated otherwise.
 
 ```text
 hostile JavaScript tests
-  6 passed
+  7 passed, including raw-dispatch-before-report ordering
 
 Tauri hostile/navigation/sentinel tests
   4 passed in an isolated Fedora target
