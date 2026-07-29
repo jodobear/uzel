@@ -26,6 +26,12 @@ shell does not yet carry the configured `nix-users` group, the live-test script
 re-executes itself through Debian's `newgrp` and continues without a logout or
 reboot.
 
+The socket directory is intentionally `0770 root:nix-users`. Before group
+re-exec, setup reports its pathname as `socket=restricted` instead of treating
+an unprivileged `test -S` false result as proof that the socket is missing.
+Systemd state proves system readiness; an actual daemon-store connection after
+group activation proves client readiness.
+
 Expected terminal marker:
 
 ```text

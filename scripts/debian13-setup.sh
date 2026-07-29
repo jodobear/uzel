@@ -70,15 +70,18 @@ refresh_nix_daemon_state() {
   NIX_DAEMON_LOAD=$(systemctl show "$NIX_DAEMON_UNIT" --property=LoadState --value 2>/dev/null || true)
   NIX_DAEMON_ACTIVE=$(systemctl is-active "$NIX_DAEMON_UNIT" 2>/dev/null || true)
   NIX_DAEMON_ENABLED=$(systemctl is-enabled "$NIX_DAEMON_UNIT" 2>/dev/null || true)
-  NIX_DAEMON_SOCKET_PRESENT=0
+  NIX_DAEMON_SOCKET_STATE=missing
   NIX_DAEMON_CLIENT=not-tested
   NIX_DAEMON_READY=0
-  [[ -S "$NIX_DAEMON_SOCKET" ]] && NIX_DAEMON_SOCKET_PRESENT=1
+  if [[ -S "$NIX_DAEMON_SOCKET" ]]; then
+    NIX_DAEMON_SOCKET_STATE=visible
+  elif [[ -d "${NIX_DAEMON_SOCKET%/*}" && ! -x "${NIX_DAEMON_SOCKET%/*}" ]]; then
+    NIX_DAEMON_SOCKET_STATE=restricted
+  fi
 
   if [[ "$NIX_DAEMON_LOAD" == loaded \
     && "$NIX_DAEMON_ACTIVE" == active \
-    && "$NIX_DAEMON_ENABLED" == enabled \
-    && $NIX_DAEMON_SOCKET_PRESENT -eq 1 ]]; then
+    && "$NIX_DAEMON_ENABLED" == enabled ]]; then
     NIX_DAEMON_READY=1
     if (( GROUP_ACTIVE == 1 )) && command -v nix >/dev/null; then
       if nix --extra-experimental-features nix-command \
@@ -93,13 +96,13 @@ refresh_nix_daemon_state() {
 }
 
 print_nix_daemon_state() {
-  echo "DEBIAN13_DEPENDENCY type=nix-daemon unit=$NIX_DAEMON_UNIT load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_PRESENT client=$NIX_DAEMON_CLIENT"
+  echo "DEBIAN13_DEPENDENCY type=nix-daemon unit=$NIX_DAEMON_UNIT load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_STATE client=$NIX_DAEMON_CLIENT"
 }
 
 wait_for_nix_daemon_socket() {
   local attempt
   for (( attempt = 0; attempt < 50; attempt += 1 )); do
-    [[ -S "$NIX_DAEMON_SOCKET" ]] && return 0
+    sudo test -S "$NIX_DAEMON_SOCKET" && return 0
     sleep 0.1
   done
   return 1
@@ -176,7 +179,7 @@ else
   refresh_nix_daemon_state
   print_nix_daemon_state
   (( NIX_DAEMON_READY == 1 )) \
-    || fail "nix-daemon.socket not ready after setup; load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_PRESENT client=$NIX_DAEMON_CLIENT"
+    || fail "nix-daemon.socket not ready after setup; load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_STATE client=$NIX_DAEMON_CLIENT"
 
   if [[ " $(id -nG) " != *" nix-users "* ]]; then
     echo 'DEBIAN13_SETUP_GROUP_REEXEC_REQUIRED group=nix-users'
