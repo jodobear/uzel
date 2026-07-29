@@ -2,7 +2,7 @@
 
 use std::{env, path::PathBuf};
 
-use napd_protocol::{Request, Response, UnixClient};
+use napd_protocol::{Diagnostics, Request, Response, RoutedEnvelope, UnixClient};
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
 
@@ -20,14 +20,74 @@ struct SurfaceLaunch {
     unavailable_domains: Vec<String>,
 }
 
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeStatus {
+    mode: String,
+    active_surfaces: Vec<String>,
+    active_identity: Option<String>,
+}
+
 #[tauri::command]
-fn start_fixture(client: tauri::State<'_, UnixClient>) -> Result<SurfaceLaunch, String> {
-    let fetched = client.start_fixture().map_err(|error| error.to_string())?;
+fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus, String> {
+    match client
+        .request(&Request::Status)
+        .map_err(|error| error.to_string())?
+    {
+        Response::Status {
+            mode,
+            active_surfaces,
+            active_identity,
+            ..
+        } => Ok(RuntimeStatus {
+            mode,
+            active_surfaces,
+            active_identity,
+        }),
+        _ => Err("daemon returned an unexpected status response".to_owned()),
+    }
+}
+
+#[tauri::command]
+fn select_read_identity(
+    client: tauri::State<'_, UnixClient>,
+    public_identity: String,
+) -> Result<String, String> {
+    match client
+        .request(&Request::SetReadIdentity { public_identity })
+        .map_err(|error| error.to_string())?
+    {
+        Response::Identity {
+            active_public_key: Some(active_public_key),
+        } => Ok(active_public_key),
+        _ => Err("daemon returned no active read identity".to_owned()),
+    }
+}
+
+#[tauri::command]
+fn runtime_diagnostics(client: tauri::State<'_, UnixClient>) -> Result<Diagnostics, String> {
+    match client
+        .request(&Request::Diagnostics)
+        .map_err(|error| error.to_string())?
+    {
+        Response::Diagnostics { diagnostics } => Ok(diagnostics),
+        _ => Err("daemon returned an unexpected diagnostics response".to_owned()),
+    }
+}
+
+#[tauri::command]
+fn start_fixture(
+    client: tauri::State<'_, UnixClient>,
+    fixture: String,
+) -> Result<SurfaceLaunch, String> {
+    let fetched = client
+        .start_named_fixture(&fixture)
+        .map_err(|error| error.to_string())?;
     let artifact_html = String::from_utf8(fetched.artifact_bytes)
         .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
     println!(
-        "UZEL_SLICE02_FIXTURE_VERIFIED aggregate={}",
-        fetched.surface.aggregate_hash
+        "UZEL_FIXTURE_VERIFIED fixture={} aggregate={}",
+        fixture, fetched.surface.aggregate_hash
     );
     Ok(SurfaceLaunch {
         surface_token: fetched.surface.surface_token,
@@ -47,14 +107,18 @@ fn forward_surface_envelope(
     client: tauri::State<'_, UnixClient>,
     surface_token: String,
     envelope: String,
-) -> Result<String, String> {
+) -> Result<RoutedEnvelope, String> {
     let response = client
         .request(&Request::ForwardEnvelope {
             surface_token: surface_token.clone(),
             envelope,
         })
         .map_err(|error| error.to_string())?;
-    let Response::Envelope { envelope } = response else {
+    let Response::Envelope {
+        surface_token: target_surface,
+        envelope,
+    } = response
+    else {
         return Err("daemon returned an unexpected envelope response".to_owned());
     };
     let response_type = serde_json::from_str::<serde_json::Value>(&envelope)
@@ -62,13 +126,17 @@ fn forward_surface_envelope(
         .and_then(|value| value["type"].as_str().map(str::to_owned))
         .unwrap_or_default();
     match response_type.as_str() {
-        "shell.init" => println!("UZEL_SLICE02_HANDSHAKE_OK surface={surface_token}"),
-        "identity.getPublicKey.result" => {
-            println!("UZEL_SLICE02_ARTIFACT_RESPONDED type={response_type}")
+        "shell.init" => println!("UZEL_NAP_SHELL_OK surface={target_surface}"),
+        "identity.getPublicKey.result" | "identity.getFollows.result" => {
+            println!("UZEL_ARTIFACT_RESPONDED type={response_type}")
         }
+        "inc.event" => println!("UZEL_INC_ROUTED target={target_surface}"),
         _ => {}
     }
-    Ok(envelope)
+    Ok(RoutedEnvelope {
+        surface_token: target_surface,
+        envelope,
+    })
 }
 
 #[derive(Debug, Deserialize)]
@@ -102,6 +170,9 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            runtime_status,
+            select_read_identity,
+            runtime_diagnostics,
             start_fixture,
             forward_surface_envelope,
             report_hostile_probe

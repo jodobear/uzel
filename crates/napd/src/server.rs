@@ -1,4 +1,5 @@
 use std::{
+    collections::BTreeMap,
     fs,
     io::{self, Write},
     os::unix::{
@@ -50,14 +51,14 @@ struct AssetTransfer {
 #[derive(Debug)]
 pub struct DaemonState {
     runner: LinuxRunner,
-    transfer: Option<AssetTransfer>,
+    transfers: BTreeMap<String, AssetTransfer>,
 }
 
 impl DaemonState {
     pub fn new(runner: LinuxRunner) -> Self {
         Self {
             runner,
-            transfer: None,
+            transfers: BTreeMap::new(),
         }
     }
 
@@ -72,21 +73,24 @@ impl DaemonState {
                 Ok(active_identity) => Response::Status {
                     version: VERSION,
                     mode: self.runner.mode().as_str().to_owned(),
-                    active_surface: self.runner.active_surface().map(str::to_owned),
+                    active_surfaces: self.runner.active_surfaces(),
                     active_identity,
                 },
                 Err(error) => runner_error(error),
             },
-            Request::StartFixture => match self.runner.start_fixture() {
+            Request::StartFixture { fixture } => match self.runner.start_named_fixture(&fixture) {
                 Ok(launch) if launch.artifact_html.len() <= MAX_ASSET_BYTES => {
                     let total_bytes = launch.artifact_html.len() as u64;
                     let surface = launch.metadata();
                     let transfer_id = format!("fixture-index-{}", surface.surface_token);
-                    self.transfer = Some(AssetTransfer {
-                        id: transfer_id.clone(),
-                        bytes: launch.artifact_html.into_bytes(),
-                        next_offset: 0,
-                    });
+                    self.transfers.insert(
+                        transfer_id.clone(),
+                        AssetTransfer {
+                            id: transfer_id.clone(),
+                            bytes: launch.artifact_html.into_bytes(),
+                            next_offset: 0,
+                        },
+                    );
                     Response::Surface {
                         surface,
                         transfer_id,
@@ -102,7 +106,8 @@ impl DaemonState {
             Request::StopFixture { surface_token } => {
                 match self.runner.stop_fixture(&surface_token) {
                     Ok(()) => {
-                        self.transfer = None;
+                        self.transfers
+                            .remove(&format!("fixture-index-{surface_token}"));
                         Response::Stopped
                     }
                     Err(error) => runner_error(error),
@@ -119,7 +124,10 @@ impl DaemonState {
                 .runner
                 .forward_from_surface(&surface_token, envelope.as_bytes())
             {
-                Ok(envelope) => Response::Envelope { envelope },
+                Ok(delivery) => Response::Envelope {
+                    surface_token: delivery.surface_token,
+                    envelope: delivery.envelope,
+                },
                 Err(error) => runner_error(error),
             },
             Request::SetReadIdentity { public_identity } => {
@@ -145,12 +153,9 @@ impl DaemonState {
     }
 
     fn asset_chunk(&mut self, transfer_id: &str, offset: u64) -> Response {
-        let Some(transfer) = self.transfer.as_mut() else {
+        let Some(transfer) = self.transfers.get_mut(transfer_id) else {
             return Response::error("unknown_transfer", "no verified asset transfer is active");
         };
-        if transfer.id != transfer_id {
-            return Response::error("unknown_transfer", "asset transfer id is not active");
-        }
         let Ok(offset) = usize::try_from(offset) else {
             return Response::error("invalid_offset", "asset offset does not fit this host");
         };
@@ -383,7 +388,12 @@ mod tests {
             exchange(&socket, &Request::Hello { version: VERSION }),
             Response::Hello { version: VERSION }
         );
-        let (transfer_id, total_bytes) = match exchange(&socket, &Request::StartFixture) {
+        let (transfer_id, total_bytes) = match exchange(
+            &socket,
+            &Request::StartFixture {
+                fixture: "good-morning".to_owned(),
+            },
+        ) {
             Response::Surface {
                 transfer_id,
                 total_bytes,
@@ -492,11 +502,68 @@ mod tests {
     }
 
     #[test]
+    fn daemon_routes_inc_delivery_to_the_other_exact_surface() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("run/uzel.sock");
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let server = DaemonServer::bind(&socket, runner).unwrap();
+        let thread = std::thread::spawn(move || server.serve().unwrap());
+        let client = UnixClient::new(&socket);
+        let follow = client.start_named_fixture("follow-list").unwrap();
+        let profile = client.start_named_fixture("profile-card").unwrap();
+
+        for surface in [&follow.surface, &profile.surface] {
+            assert!(matches!(
+                client
+                    .request(&Request::ForwardEnvelope {
+                        surface_token: surface.surface_token.clone(),
+                        envelope: r#"{"type":"shell.ready"}"#.to_owned(),
+                    })
+                    .unwrap(),
+                Response::Envelope { surface_token, ref envelope }
+                    if surface_token == surface.surface_token
+                        && envelope.contains(r#""type":"shell.init""#)
+            ));
+        }
+
+        assert!(matches!(
+            client
+                .request(&Request::ForwardEnvelope {
+                    surface_token: profile.surface.surface_token.clone(),
+                    envelope: r#"{"type":"inc.subscribe","id":"profile-open-sub","topic":"napplet:profile/open"}"#.to_owned(),
+                })
+                .unwrap(),
+            Response::Envelope { surface_token, ref envelope }
+                if surface_token == profile.surface.surface_token
+                    && envelope.contains(r#""type":"inc.subscribe.result""#)
+        ));
+
+        let delivery = client
+            .request(&Request::ForwardEnvelope {
+                surface_token: follow.surface.surface_token,
+                envelope: r#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{"version":1,"pubkey":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}"#.to_owned(),
+            })
+            .unwrap();
+        assert!(matches!(
+            delivery,
+            Response::Envelope { surface_token, ref envelope }
+                if surface_token == profile.surface.surface_token
+                    && envelope.contains(r#""sender":"follow-list""#)
+        ));
+        assert_eq!(
+            client.request(&Request::Shutdown).unwrap(),
+            Response::Shutdown
+        );
+        thread.join().unwrap();
+    }
+
+    #[test]
     fn oversized_runtime_response_becomes_a_typed_error_frame() {
         let (mut server, mut client) = UnixStream::pair().unwrap();
         assert!(write_response(
             &mut server,
             &Response::Envelope {
+                surface_token: "oversized".to_owned(),
                 envelope: "x".repeat(napd_protocol::MAX_FRAME_BYTES),
             }
         ));
