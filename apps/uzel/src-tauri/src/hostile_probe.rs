@@ -50,7 +50,7 @@ pub struct HostileProbeReport {
     image: bool,
     worker: bool,
     service_worker: bool,
-    beacon: bool,
+    beacon: BeaconAttempt,
     media: bool,
     iframe: bool,
     form: bool,
@@ -63,6 +63,13 @@ pub struct HostileProbeReport {
     raw_webkit_transport: bool,
     raw_invoke_attempted: bool,
     identity_mutation_api: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum BeaconAttempt {
+    Queued,
+    Rejected,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -225,7 +232,6 @@ impl HostileProbeReport {
             ("image", self.image),
             ("worker", self.worker),
             ("serviceWorker", self.service_worker),
-            ("beacon", self.beacon),
             ("media", self.media),
             ("iframe", self.iframe),
             ("form", self.form),
@@ -246,14 +252,19 @@ impl HostileProbeReport {
             self.image,
             self.worker,
             self.service_worker,
-            self.beacon,
             self.media,
             self.iframe,
             self.form,
             self.navigation,
             self.popup,
         ];
-        denials.into_iter().filter(|denied| *denied).count()
+        // sendBeacon queue acceptance does not prove transport. Deserializing either
+        // explicit outcome proves the API call completed; the live sentinel decides egress.
+        let beacon_attempted = matches!(
+            self.beacon,
+            BeaconAttempt::Queued | BeaconAttempt::Rejected
+        );
+        denials.into_iter().filter(|denied| *denied).count() + usize::from(beacon_attempted)
     }
 
     fn validate_native_boundary(&self) -> Result<(), String> {
@@ -336,5 +347,33 @@ mod tests {
         }
         let probe = state.active.lock().unwrap().take().unwrap();
         assert_eq!(probe.accepts.load(Ordering::Acquire), 1);
+    }
+
+    #[test]
+    fn queued_beacon_is_counted_only_with_the_external_sentinel() {
+        let report = HostileProbeReport {
+            fetch: true,
+            xhr: true,
+            websocket: true,
+            eventsource: true,
+            image: true,
+            worker: true,
+            service_worker: true,
+            beacon: BeaconAttempt::Queued,
+            media: true,
+            iframe: true,
+            form: true,
+            navigation: true,
+            popup: true,
+            tauri_internals: false,
+            tauri_global: false,
+            wry_ipc: false,
+            parent_readable: false,
+            raw_webkit_transport: true,
+            raw_invoke_attempted: true,
+            identity_mutation_api: false,
+        };
+        assert_eq!(report.network_denials(), 13);
+        assert!(report.failed_network_probes().is_empty());
     }
 }

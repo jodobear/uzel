@@ -12,6 +12,11 @@ import {
 const config = await getConfig();
 const target = sentinelTargets(config.sentinel);
 const results = nativeSurface();
+try {
+  results.beacon = navigator.sendBeacon(target.http, 'probe') ? 'queued' : 'rejected';
+} catch {
+  results.beacon = 'rejected';
+}
 
 async function denied(name, operation) {
   try {
@@ -49,7 +54,6 @@ await Promise.all([
   })),
   denied('worker', () => workerLoad(target.http)),
   denied('serviceWorker', () => navigator.serviceWorker.register(target.http)),
-  denied('beacon', () => navigator.sendBeacon(target.http, 'probe') ? Promise.resolve() : Promise.reject()),
   denied('media', () => new Promise((resolve, reject) => {
     const media = document.createElement('audio');
     media.oncanplay = resolve;

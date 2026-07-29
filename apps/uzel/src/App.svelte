@@ -41,7 +41,7 @@
     image: boolean;
     worker: boolean;
     serviceWorker: boolean;
-    beacon: boolean;
+    beacon: 'queued' | 'rejected';
     media: boolean;
     iframe: boolean;
     form: boolean;
@@ -117,7 +117,8 @@
       'rawInvokeAttempted', 'identityMutationApi',
     ];
     if (Object.keys(report).length !== fields.length) return null;
-    if (!fields.every((field) => typeof report[field] === 'boolean')) return null;
+    if (!fields.filter((field) => field !== 'beacon').every((field) => typeof report[field] === 'boolean')) return null;
+    if (report.beacon !== 'queued' && report.beacon !== 'rejected') return null;
     return report as HostileReport;
   }
 
