@@ -118,12 +118,19 @@ pnpm smoke:fedora
 The expected headless software-renderer/cursor warnings do not affect the
 assertions. No failed Slice 05 run required reinterpretation as a pass.
 
-Final self-review found that the initial cross-surface wait accepted any event
-from any active session after `inc.emit`. An unrelated asynchronous provider
-push could therefore satisfy the call before the routed delivery. The final
-implementation admits other surfaces only while waiting for exact
-`inc.event`; a regression rejects both `identity.changed` and
-`inc.emit.result` as substitutes.
+Final self-review and Codex review found that the initial cross-surface wait
+accepted any event from any active session after `inc.emit`. An unrelated
+asynchronous provider push could therefore satisfy the call before the routed
+delivery. The final implementation admits other surfaces only while waiting
+for exact `inc.event` with the requested topic; a regression rejects
+`identity.changed`, `inc.emit.result`, and another INC topic as substitutes.
+
+Codex also found two shell-state errors. Selecting a new public identity only
+changed daemon state, leaving the once-loaded follow list stale. The shell now
+remounts both exact frames after a successful runtime identity change, which
+forces fresh provider reads while reusing the same authorized sessions and the
+upstream host's reviewed remount behavior. Directional and named focus controls
+previously changed only styling; they now move DOM focus to the mapped iframe.
 
 ## Honest boundary
 

@@ -105,12 +105,30 @@
     });
   }
 
+  function remountActiveSurfaces() {
+    readySurfaces = new Set();
+    readyCount = 0;
+    if (profile && !mountSurface(profile, profileSurface)) {
+      throw new Error('profile surface refused after identity change');
+    }
+    if (follow && !mountSurface(follow, followSurface)) {
+      throw new Error('follow surface refused after identity change');
+    }
+  }
+
+  function focusPane(next: Pane) {
+    focused = next;
+    const surface = next === 'follow' ? followSurface : profileSurface;
+    surface?.querySelector<HTMLIFrameElement>('iframe')?.focus();
+  }
+
   async function selectIdentity(publicIdentity: string) {
     identityBusy = true;
     try {
       const active = await invoke<string>('select_read_identity', { publicIdentity });
       identityInput = active;
       runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
+      if (follow || profile) remountActiveSurfaces();
       status = 'Read identity selected through NMP';
       await refreshDiagnostics();
     } finally {
@@ -158,8 +176,8 @@
     if (event.defaultPrevented || event.target instanceof HTMLInputElement) return;
     const previous = orientation === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
     const next = orientation === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
-    if (event.key === previous) focused = 'follow';
-    if (event.key === next) focused = 'profile';
+    if (event.key === previous) focusPane('follow');
+    if (event.key === next) focusPane('profile');
   }
 
   function handleDividerKeys(event: KeyboardEvent) {
@@ -243,8 +261,8 @@
     <nav aria-label="View controls">
       <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')}>Side by side</button>
       <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')}>Stacked</button>
-      <button type="button" class:active={focused === 'follow'} onclick={() => focused = 'follow'}>Follow</button>
-      <button type="button" class:active={focused === 'profile'} onclick={() => focused = 'profile'}>Profile</button>
+      <button type="button" class:active={focused === 'follow'} onclick={() => focusPane('follow')}>Follow</button>
+      <button type="button" class:active={focused === 'profile'} onclick={() => focusPane('profile')}>Profile</button>
       <button type="button" class:active={developerMode} onclick={() => { developerMode = !developerMode; drawerOpen = developerMode; }}>Developer</button>
     </nav>
   </header>

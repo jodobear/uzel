@@ -721,7 +721,7 @@ enum ResponseExpectation {
     Id(String),
     Type(&'static str),
     AnyFromSource,
-    IncEventAnySurface,
+    IncEventAnySurface(String),
 }
 
 impl ResponseExpectation {
@@ -735,8 +735,10 @@ impl ResponseExpectation {
         if value.get("type").and_then(serde_json::Value::as_str) == Some("shell.ready") {
             return Self::Type("shell.init");
         }
-        if value.get("type").and_then(serde_json::Value::as_str) == Some("inc.emit") {
-            return Self::IncEventAnySurface;
+        if value.get("type").and_then(serde_json::Value::as_str) == Some("inc.emit")
+            && let Some(topic) = value.get("topic").and_then(serde_json::Value::as_str)
+        {
+            return Self::IncEventAnySurface(topic.to_owned());
         }
         Self::AnyFromSource
     }
@@ -752,15 +754,17 @@ impl ResponseExpectation {
             Self::Type(expected) => {
                 value.get("type").and_then(serde_json::Value::as_str) == Some(*expected)
             }
-            Self::IncEventAnySurface => {
+            Self::IncEventAnySurface(topic) => {
                 value.get("type").and_then(serde_json::Value::as_str) == Some("inc.event")
+                    && value.get("topic").and_then(serde_json::Value::as_str)
+                        == Some(topic.as_str())
             }
             Self::AnyFromSource => true,
         }
     }
 
     fn accepts_other_surface(&self) -> bool {
-        matches!(self, Self::IncEventAnySurface)
+        matches!(self, Self::IncEventAnySurface(_))
     }
 }
 
@@ -897,7 +901,10 @@ mod tests {
         assert!(expectation.accepts_other_surface());
         assert!(!expectation.matches(r#"{"type":"identity.changed"}"#));
         assert!(!expectation.matches(r#"{"type":"inc.emit.result","ok":true}"#));
-        assert!(expectation.matches(r#"{"type":"inc.event","sender":"follow-list"}"#));
+        assert!(!expectation.matches(r#"{"type":"inc.event","topic":"other"}"#));
+        assert!(expectation.matches(
+            r#"{"type":"inc.event","topic":"napplet:profile/open","sender":"follow-list"}"#
+        ));
     }
 
     #[test]

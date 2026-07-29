@@ -380,6 +380,9 @@ fedora_run_result = "pass: exact profile-card and follow-list builds, two NAP-SH
 debian_build_result = "deferred to clean Work 06 final acceptance"
 upstream_change_required = true
 upstream_change = "portable bounded multi-surface trusted-shell host at jodobear/nampplets@7eccdee; fork PR 1 exact-head review clean"
+codex_review_round_1 = "addressed: correlate cross-surface INC delivery by exact type and topic rather than any asynchronous response"
+codex_review_round_2 = "addressed: remount exact frames after read identity changes so provider state cannot remain stale"
+codex_review_round_3 = "addressed: directional and named focus controls now move DOM focus to the selected iframe"
 
 [gates]
 V_01 = "pass"
