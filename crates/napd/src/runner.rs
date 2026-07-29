@@ -1,5 +1,5 @@
 use std::{
-    collections::VecDeque,
+    collections::{BTreeMap, VecDeque},
     fs,
     io::Write,
     os::unix::fs::OpenOptionsExt,
@@ -8,28 +8,21 @@ use std::{
     time::{Duration, Instant},
 };
 
-use napd_protocol::{Diagnostics, SurfaceMetadata};
+use napd_protocol::{Diagnostics, RoutedEnvelope, SurfaceMetadata};
 use nmp_native_runtime_ffi::{
-    ArtifactCoordinate, ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource,
-    RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent, RuntimeExecutionProfile,
-    RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame, RuntimeObserver,
-    RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
+    ArtifactCoordinate, RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent,
+    RuntimeExecutionProfile, RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame,
+    RuntimeObserver, RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
     RuntimeRelayDiagnosticsSnapshot, RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
 };
 use serde::{Deserialize, Serialize};
 
-const AUTHOR: &str = "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5";
-const D_TAG: &str = "good-morning";
-const AGGREGATE_HASH: &str = "828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8";
-const INDEX_DIGEST: &str = "ffd35eea5c84d03cdda74c23e1bbb2c40500f503833503aa688036faa52f3808";
-const ARTIFACT_BASE_URL: &str = "nmp-artifact://828a6df0-2afd-4678-a20f-805084acce65/";
+use crate::fixtures::{ExactFixtureSource, MAXIMUM_ACTIVE_FIXTURES, fixture_by_name};
+
 const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
 const RESPONSE_TIMEOUT: Duration = Duration::from_secs(2);
-const EVENT: &[u8] = include_bytes!("../../../fixtures/good-morning/event.json");
-const INDEX: &[u8] = include_bytes!("../../../fixtures/good-morning/index.html");
-const AVAILABLE_DOMAINS: [&str; 4] = ["shell", "identity", "inc", "outbox"];
 const PRODUCT_STATE_VERSION: u8 = 0;
 const MAXIMUM_PRODUCT_STATE_BYTES: u64 = 4_096;
 
@@ -120,6 +113,10 @@ pub enum RunnerError {
     DocumentEncoding(std::string::FromUtf8Error),
     #[error("surface token is not mapped by the trusted host")]
     UnknownSurface,
+    #[error("fixture name is not in the exact signed POC catalog")]
+    UnknownFixture,
+    #[error("active fixture capacity is {MAXIMUM_ACTIVE_FIXTURES}")]
+    SurfaceCapacity,
     #[error("envelope exceeds the {MAXIMUM_ENVELOPE_BYTES}-byte host limit")]
     EnvelopeTooLarge,
     #[error("runtime produced no response before the bounded deadline")]
@@ -134,23 +131,6 @@ pub enum RunnerError {
     StatePersist(String),
     #[error("surface generation is exhausted")]
     SurfaceGenerationExhausted,
-}
-
-#[derive(Debug)]
-struct ExactFixtureSource;
-
-impl ArtifactSource for ExactFixtureSource {
-    fn fetch(&self, request: ArtifactFetchRequest) -> ArtifactFetchResponse {
-        let accepted = request.logical_path == "/index.html"
-            && request.expected_sha256 == INDEX_DIGEST
-            && request.maximum_bytes >= INDEX.len() as u64
-            && !request.redirects_allowed;
-        ArtifactFetchResponse::Body {
-            source_url: request.candidate_urls.first().cloned().unwrap_or_default(),
-            http_status: if accepted { 200 } else { 404 },
-            bytes: if accepted { INDEX.to_vec() } else { Vec::new() },
-        }
-    }
 }
 
 #[derive(Debug, Default)]
@@ -173,25 +153,43 @@ impl EventBuffer {
         self.response_matching_after(cursor, session_id, |_| true)
     }
 
+    #[cfg(test)]
     fn response_matching_after(
         &self,
         cursor: u64,
         session_id: u64,
         matches: impl Fn(&str) -> bool,
     ) -> Option<String> {
+        self.routed_response_matching_after(cursor, &[session_id], matches)
+            .map(|(_, response)| response)
+    }
+
+    fn routed_response_matching_after(
+        &self,
+        cursor: u64,
+        session_ids: &[u64],
+        matches: impl Fn(&str) -> bool,
+    ) -> Option<(u64, String)> {
         let deadline = Instant::now() + RESPONSE_TIMEOUT;
         let mut events = self.events.lock().expect("event buffer poisoned");
         loop {
             if let Some(response) = events.iter().find_map(|event| {
-                (event.sequence > cursor && event.session_id == Some(session_id))
-                    .then(|| {
-                        event
-                            .response_json
-                            .as_deref()
-                            .filter(|response| matches(response))
-                    })
-                    .flatten()
-                    .map(str::to_owned)
+                (event.sequence > cursor
+                    && event
+                        .session_id
+                        .is_some_and(|session_id| session_ids.contains(&session_id)))
+                .then(|| {
+                    event
+                        .response_json
+                        .as_deref()
+                        .filter(|response| matches(response))
+                })
+                .flatten()
+                .and_then(|response| {
+                    event
+                        .session_id
+                        .map(|session_id| (session_id, response.to_owned()))
+                })
             }) {
                 return Some(response);
             }
@@ -242,7 +240,7 @@ pub struct LinuxRunner {
     observation: Arc<RuntimeObservation>,
     relay_observation: Arc<RuntimeRelayDiagnosticsObservation>,
     events: Arc<EventBuffer>,
-    surface: Option<(u64, SurfaceLaunch)>,
+    surfaces: BTreeMap<String, (u64, SurfaceLaunch)>,
     mode: RuntimeMode,
     state_path: std::path::PathBuf,
     next_surface_generation: u64,
@@ -252,7 +250,7 @@ impl std::fmt::Debug for LinuxRunner {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         formatter
             .debug_struct("LinuxRunner")
-            .field("surface", &self.surface.as_ref().map(|(_, launch)| launch))
+            .field("surfaces", &self.surfaces)
             .finish_non_exhaustive()
     }
 }
@@ -332,7 +330,7 @@ impl LinuxRunner {
             observation,
             relay_observation,
             events,
-            surface: None,
+            surfaces: BTreeMap::new(),
             mode,
             state_path: runtime_root.join("uzel-state.json"),
             next_surface_generation: 0,
@@ -348,10 +346,8 @@ impl LinuxRunner {
         self.mode
     }
 
-    pub fn active_surface(&self) -> Option<&str> {
-        self.surface
-            .as_ref()
-            .map(|(_, launch)| launch.surface_token.as_str())
+    pub fn active_surfaces(&self) -> Vec<String> {
+        self.surfaces.keys().cloned().collect()
     }
 
     pub fn get_read_identity(&self) -> Result<Option<String>, RunnerError> {
@@ -549,8 +545,20 @@ impl LinuxRunner {
     }
 
     pub fn start_fixture(&mut self) -> Result<SurfaceLaunch, RunnerError> {
-        if let Some((_, launch)) = &self.surface {
+        self.start_named_fixture("good-morning")
+    }
+
+    pub fn start_named_fixture(&mut self, name: &str) -> Result<SurfaceLaunch, RunnerError> {
+        let fixture = fixture_by_name(name).ok_or(RunnerError::UnknownFixture)?;
+        if let Some((_, launch)) = self
+            .surfaces
+            .values()
+            .find(|(_, launch)| launch.d_tag == fixture.d_tag)
+        {
             return Ok(launch.clone());
+        }
+        if self.surfaces.len() == MAXIMUM_ACTIVE_FIXTURES {
+            return Err(RunnerError::SurfaceCapacity);
         }
         self.next_surface_generation = self
             .next_surface_generation
@@ -559,10 +567,10 @@ impl LinuxRunner {
         self.persist_product_state()
             .map_err(StatePersistFailure::into_runner)?;
         let verification = self.controller.verify_artifact(
-            EVENT.to_vec(),
+            fixture.event.to_vec(),
             ArtifactCoordinate::Named {
-                author: AUTHOR.to_owned(),
-                d_tag: D_TAG.to_owned(),
+                author: fixture.author.to_owned(),
+                d_tag: fixture.d_tag.to_owned(),
             },
         );
         let artifact = verification.artifact.ok_or_else(|| {
@@ -572,17 +580,17 @@ impl LinuxRunner {
                     .map_or_else(|| "unknown refusal".to_owned(), |refusal| refusal.detail),
             )
         })?;
-        if artifact.author() != AUTHOR
-            || artifact.d_tag().as_deref() != Some(D_TAG)
-            || artifact.aggregate_hash() != AGGREGATE_HASH
+        if artifact.author() != fixture.author
+            || artifact.d_tag().as_deref() != Some(fixture.d_tag)
+            || artifact.aggregate_hash() != fixture.aggregate_hash
         {
             return Err(RunnerError::IdentityMismatch);
         }
         self.controller.install(Arc::clone(&artifact));
-        for domain in AVAILABLE_DOMAINS {
+        for domain in fixture.domains {
             self.controller.set_grant(
                 Arc::clone(&artifact),
-                domain.to_owned(),
+                (*domain).to_owned(),
                 RuntimeSensitivity::Ordinary,
                 RuntimeGrantDecision::AllowExactBuild,
             );
@@ -599,9 +607,9 @@ impl LinuxRunner {
             .sessions
             .into_iter()
             .find(|session| {
-                session.author == AUTHOR
-                    && session.d_tag == D_TAG
-                    && session.aggregate_hash == AGGREGATE_HASH
+                session.author == fixture.author
+                    && session.d_tag == fixture.d_tag
+                    && session.aggregate_hash == fixture.aggregate_hash
                     && session.state.starts_with("running")
             })
             .ok_or(RunnerError::SessionMissing)?;
@@ -617,18 +625,27 @@ impl LinuxRunner {
                 return Err(RunnerError::VerifiedRead(refusal.detail));
             }
         };
+        let surface_name = if fixture.name == "good-morning" {
+            "surface-1"
+        } else {
+            fixture.name
+        };
         let launch = SurfaceLaunch {
-            surface_token: format!("uzel-surface-1-generation-{}", self.next_surface_generation),
-            artifact_base_url: ARTIFACT_BASE_URL.to_owned(),
+            surface_token: format!(
+                "uzel-{}-generation-{}",
+                surface_name, self.next_surface_generation
+            ),
+            artifact_base_url: fixture.artifact_base_url.to_owned(),
             artifact_html,
-            title: "Good Morning Protocol".to_owned(),
-            author: AUTHOR.to_owned(),
-            d_tag: D_TAG.to_owned(),
-            aggregate_hash: AGGREGATE_HASH.to_owned(),
+            title: fixture.title.to_owned(),
+            author: fixture.author.to_owned(),
+            d_tag: fixture.d_tag.to_owned(),
+            aggregate_hash: fixture.aggregate_hash.to_owned(),
             domains: session.domains,
             unavailable_domains: session.unavailable_domains,
         };
-        self.surface = Some((session.id, launch.clone()));
+        self.surfaces
+            .insert(launch.surface_token.clone(), (session.id, launch.clone()));
         Ok(launch)
     }
 
@@ -636,34 +653,51 @@ impl LinuxRunner {
         &self,
         surface_token: &str,
         envelope: &[u8],
-    ) -> Result<String, RunnerError> {
+    ) -> Result<RoutedEnvelope, RunnerError> {
         if envelope.len() > MAXIMUM_ENVELOPE_BYTES {
             return Err(RunnerError::EnvelopeTooLarge);
         }
         let (session_id, _) = self
-            .surface
-            .as_ref()
-            .filter(|(_, launch)| launch.surface_token == surface_token)
+            .surfaces
+            .get(surface_token)
             .ok_or(RunnerError::UnknownSurface)?;
         let cursor = self.events.latest_sequence();
         let expectation = ResponseExpectation::from_envelope(envelope);
         self.controller
             .mapped_envelope(*session_id, envelope.to_vec());
-        self.events
-            .response_matching_after(cursor, *session_id, |response| {
+        let eligible_sessions = if expectation.accepts_other_surface() {
+            self.surfaces
+                .values()
+                .map(|(session_id, _)| *session_id)
+                .collect::<Vec<_>>()
+        } else {
+            vec![*session_id]
+        };
+        let (target_session, envelope) = self
+            .events
+            .routed_response_matching_after(cursor, &eligible_sessions, |response| {
                 expectation.matches(response)
             })
-            .ok_or(RunnerError::ResponseTimeout)
+            .ok_or(RunnerError::ResponseTimeout)?;
+        let surface_token = self
+            .surfaces
+            .iter()
+            .find_map(|(surface_token, (session_id, _))| {
+                (*session_id == target_session).then(|| surface_token.clone())
+            })
+            .ok_or(RunnerError::UnknownSurface)?;
+        Ok(RoutedEnvelope {
+            surface_token,
+            envelope,
+        })
     }
 
     pub fn stop_fixture(&mut self, surface_token: &str) -> Result<(), RunnerError> {
         let (session_id, _) = self
-            .surface
-            .as_ref()
-            .filter(|(_, launch)| launch.surface_token == surface_token)
+            .surfaces
+            .remove(surface_token)
             .ok_or(RunnerError::UnknownSurface)?;
-        self.controller.stop(*session_id);
-        self.surface = None;
+        self.controller.stop(session_id);
         Ok(())
     }
 }
@@ -686,13 +720,14 @@ fn bounded_diagnostic(detail: Option<String>) -> Option<String> {
 enum ResponseExpectation {
     Id(String),
     Type(&'static str),
-    Any,
+    AnyFromSource,
+    IncEventAnySurface(String),
 }
 
 impl ResponseExpectation {
     fn from_envelope(envelope: &[u8]) -> Self {
         let Ok(value) = serde_json::from_slice::<serde_json::Value>(envelope) else {
-            return Self::Any;
+            return Self::AnyFromSource;
         };
         if let Some(id) = value.get("id").and_then(serde_json::Value::as_str) {
             return Self::Id(id.to_owned());
@@ -700,7 +735,12 @@ impl ResponseExpectation {
         if value.get("type").and_then(serde_json::Value::as_str) == Some("shell.ready") {
             return Self::Type("shell.init");
         }
-        Self::Any
+        if value.get("type").and_then(serde_json::Value::as_str) == Some("inc.emit")
+            && let Some(topic) = value.get("topic").and_then(serde_json::Value::as_str)
+        {
+            return Self::IncEventAnySurface(topic.to_owned());
+        }
+        Self::AnyFromSource
     }
 
     fn matches(&self, response: &str) -> bool {
@@ -714,8 +754,17 @@ impl ResponseExpectation {
             Self::Type(expected) => {
                 value.get("type").and_then(serde_json::Value::as_str) == Some(*expected)
             }
-            Self::Any => true,
+            Self::IncEventAnySurface(topic) => {
+                value.get("type").and_then(serde_json::Value::as_str) == Some("inc.event")
+                    && value.get("topic").and_then(serde_json::Value::as_str)
+                        == Some(topic.as_str())
+            }
+            Self::AnyFromSource => true,
         }
+    }
+
+    fn accepts_other_surface(&self) -> bool {
+        matches!(self, Self::IncEventAnySurface(_))
     }
 }
 
@@ -744,20 +793,9 @@ mod tests {
 
     use super::*;
 
-    const SLICE_THREE_AUTHOR: &str =
-        "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2";
-    const FOLLOW_LIST_EVENT: &[u8] = include_bytes!("../../../fixtures/follow-list/event.json");
-    const FOLLOW_LIST_INDEX: &[u8] = include_bytes!("../../../fixtures/follow-list/index.html");
-    const PROFILE_CARD_EVENT: &[u8] = include_bytes!("../../../fixtures/profile-card/event.json");
-    const PROFILE_CARD_INDEX: &[u8] = include_bytes!("../../../fixtures/profile-card/index.html");
-    const HOSTILE_EGRESS_EVENT: &[u8] =
-        include_bytes!("../../../fixtures/hostile-egress/event.json");
-    const HOSTILE_EGRESS_INDEX: &[u8] =
-        include_bytes!("../../../fixtures/hostile-egress/index.html");
+    const GOOD_MORNING_AUTHOR: &str =
+        "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5";
     const LIVE_IDENTITY: &str = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798";
-
-    #[derive(Debug)]
-    struct SliceThreeFixtureSource;
 
     #[derive(Debug)]
     struct AcceptSettings;
@@ -774,74 +812,6 @@ mod tests {
     impl NativeSettingsExecutor for AcceptSettings {
         fn try_open(&self, _request: NativeSettingsRequest) -> NativeSettingsOpenResult {
             NativeSettingsOpenResult::Accepted
-        }
-    }
-
-    impl ArtifactSource for SliceThreeFixtureSource {
-        fn fetch(&self, request: ArtifactFetchRequest) -> ArtifactFetchResponse {
-            let bytes = match request.expected_sha256.as_str() {
-                "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4" => {
-                    Some(FOLLOW_LIST_INDEX)
-                }
-                "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63" => {
-                    Some(PROFILE_CARD_INDEX)
-                }
-                "94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9" => {
-                    Some(HOSTILE_EGRESS_INDEX)
-                }
-                _ => None,
-            };
-            let accepted = request.logical_path == "/index.html"
-                && bytes.is_some_and(|body| request.maximum_bytes >= body.len() as u64)
-                && !request.redirects_allowed;
-            ArtifactFetchResponse::Body {
-                source_url: request.candidate_urls.first().cloned().unwrap_or_default(),
-                http_status: if accepted { 200 } else { 404 },
-                bytes: if accepted {
-                    bytes.unwrap_or_default().to_vec()
-                } else {
-                    Vec::new()
-                },
-            }
-        }
-    }
-
-    fn launch_slice_three_fixture(
-        controller: &Arc<RuntimeController>,
-        event: &[u8],
-        d_tag: &str,
-        domains: &[&str],
-    ) -> u64 {
-        let artifact = controller
-            .verify_artifact(
-                event.to_vec(),
-                ArtifactCoordinate::Named {
-                    author: SLICE_THREE_AUTHOR.to_owned(),
-                    d_tag: d_tag.to_owned(),
-                },
-            )
-            .artifact
-            .unwrap_or_else(|| panic!("signed fixture {d_tag} verifies"));
-        controller.install(Arc::clone(&artifact));
-        for domain in std::iter::once("shell").chain(domains.iter().copied()) {
-            controller.set_grant(
-                Arc::clone(&artifact),
-                domain.to_owned(),
-                RuntimeSensitivity::Ordinary,
-                RuntimeGrantDecision::AllowExactBuild,
-            );
-        }
-        controller.launch(artifact, RuntimeExecutionProfile::Legacy);
-        match controller.snapshot() {
-            RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
-                .sessions
-                .into_iter()
-                .find(|session| session.d_tag == d_tag)
-                .map(|session| session.id)
-                .unwrap_or_else(|| panic!("fixture session {d_tag} exists")),
-            RuntimeSnapshotProjection::Refused { refusal, .. } => {
-                panic!("snapshot refused: {}", refusal.detail)
-            }
         }
     }
 
@@ -881,7 +851,7 @@ mod tests {
             .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
             .unwrap();
         assert_eq!(
-            serde_json::from_str::<Value>(&response).unwrap()["type"],
+            serde_json::from_str::<Value>(&response.envelope).unwrap()["type"],
             "shell.init"
         );
         launch
@@ -897,7 +867,7 @@ mod tests {
         let response = runner
             .forward_from_surface(&launch.surface_token, request.to_string().as_bytes())
             .unwrap();
-        serde_json::from_str(&response).unwrap()
+        serde_json::from_str(&response.envelope).unwrap()
     }
 
     fn eventually_identity_query(
@@ -924,18 +894,35 @@ mod tests {
     }
 
     #[test]
+    fn inc_emit_waits_for_an_inc_event_not_an_unrelated_push() {
+        let expectation = ResponseExpectation::from_envelope(
+            br#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{}}"#,
+        );
+        assert!(expectation.accepts_other_surface());
+        assert!(!expectation.matches(r#"{"type":"identity.changed"}"#));
+        assert!(!expectation.matches(r#"{"type":"inc.emit.result","ok":true}"#));
+        assert!(!expectation.matches(r#"{"type":"inc.event","topic":"other"}"#));
+        assert!(expectation.matches(
+            r#"{"type":"inc.event","topic":"napplet:profile/open","sender":"follow-list"}"#
+        ));
+    }
+
+    #[test]
     fn verified_fixture_handshakes_through_runtime() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
         let launch = runner.start_fixture().unwrap();
-        assert_eq!(launch.aggregate_hash, AGGREGATE_HASH);
+        assert_eq!(
+            launch.aggregate_hash,
+            fixture_by_name("good-morning").unwrap().aggregate_hash
+        );
         assert_eq!(launch.domains, ["identity", "inc", "outbox", "shell"]);
         assert_eq!(launch.unavailable_domains, ["link", "resource", "theme"]);
 
         let response = runner
             .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
             .unwrap();
-        let response: Value = serde_json::from_str(&response).unwrap();
+        let response: Value = serde_json::from_str(&response.envelope).unwrap();
         assert_eq!(response["type"], "shell.init");
         assert_eq!(
             response["capabilities"]["domains"]
@@ -952,14 +939,22 @@ mod tests {
         {
             let mut runner = LinuxRunner::open(temp.path()).unwrap();
             assert_eq!(runner.get_read_identity().unwrap(), None);
-            assert_eq!(runner.set_read_identity(AUTHOR.to_owned()).unwrap(), AUTHOR);
+            assert_eq!(
+                runner
+                    .set_read_identity(GOOD_MORNING_AUTHOR.to_owned())
+                    .unwrap(),
+                GOOD_MORNING_AUTHOR
+            );
             assert!(matches!(
-                runner.set_read_identity(AUTHOR.to_ascii_uppercase()),
+                runner.set_read_identity(GOOD_MORNING_AUTHOR.to_ascii_uppercase()),
                 Err(RunnerError::Identity(_))
             ));
         }
         let runner = LinuxRunner::open(temp.path()).unwrap();
-        assert_eq!(runner.get_read_identity().unwrap().as_deref(), Some(AUTHOR));
+        assert_eq!(
+            runner.get_read_identity().unwrap().as_deref(),
+            Some(GOOD_MORNING_AUTHOR)
+        );
     }
 
     #[test]
@@ -977,10 +972,34 @@ mod tests {
     }
 
     #[test]
+    fn stopped_fixture_relaunches_with_a_new_session_and_surface() {
+        let temp = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        let first = runner.start_named_fixture("follow-list").unwrap();
+        let first_session = runner.surfaces[&first.surface_token].0;
+
+        runner.stop_fixture(&first.surface_token).unwrap();
+        let second = runner.start_named_fixture("follow-list").unwrap();
+        let second_session = runner.surfaces[&second.surface_token].0;
+
+        assert_ne!(first.surface_token, second.surface_token);
+        assert_ne!(first_session, second_session);
+        assert!(matches!(
+            runner.forward_from_surface(&first.surface_token, br#"{"type":"shell.ready"}"#),
+            Err(RunnerError::UnknownSurface)
+        ));
+    }
+
+    #[test]
     fn identity_activation_rolls_back_when_product_state_cannot_persist() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
-        assert_eq!(runner.set_read_identity(AUTHOR.to_owned()).unwrap(), AUTHOR);
+        assert_eq!(
+            runner
+                .set_read_identity(GOOD_MORNING_AUTHOR.to_owned())
+                .unwrap(),
+            GOOD_MORNING_AUTHOR
+        );
         let temporary = temp
             .path()
             .join(format!("uzel-state.json.{}.tmp", std::process::id()));
@@ -990,7 +1009,10 @@ mod tests {
             runner.set_read_identity(LIVE_IDENTITY.to_owned()),
             Err(RunnerError::StatePersist(_))
         ));
-        assert_eq!(runner.get_read_identity().unwrap().as_deref(), Some(AUTHOR));
+        assert_eq!(
+            runner.get_read_identity().unwrap().as_deref(),
+            Some(GOOD_MORNING_AUTHOR)
+        );
     }
 
     #[test]
@@ -1088,31 +1110,8 @@ mod tests {
 
     #[test]
     fn slice_three_signed_single_file_artifacts_verify_and_read_exactly() {
-        let fixtures = [
-            (
-                "follow-list",
-                "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a",
-                FOLLOW_LIST_EVENT,
-                FOLLOW_LIST_INDEX,
-                &["identity", "inc"][..],
-            ),
-            (
-                "profile-card",
-                "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
-                PROFILE_CARD_EVENT,
-                PROFILE_CARD_INDEX,
-                &["inc", "outbox"][..],
-            ),
-            (
-                "egress-probe",
-                "6dcafdf3a2622d7daa6544f1c668ffce7b5dd1f0c7984d658ae0803da93410c0",
-                HOSTILE_EGRESS_EVENT,
-                HOSTILE_EGRESS_INDEX,
-                &["config"][..],
-            ),
-        ];
-
-        for (d_tag, aggregate_hash, event, index, domains) in fixtures {
+        for name in ["follow-list", "profile-card", "hostile-egress"] {
+            let fixture = fixture_by_name(name).unwrap();
             let temp = TempDir::new().unwrap();
             let controller = RuntimeController::open_with_settings(
                 RuntimeConfig {
@@ -1121,7 +1120,7 @@ mod tests {
                     artifact_cache_path: temp.path().join("artifacts").display().to_string(),
                     ..RuntimeConfig::default()
                 },
-                Box::new(SliceThreeFixtureSource),
+                Box::new(ExactFixtureSource),
                 Box::new(AcceptSettings),
             )
             .unwrap();
@@ -1130,28 +1129,28 @@ mod tests {
                 Arc::clone(&controller).observe(Box::new(EventSink(Arc::clone(&events))));
             let _observation = observation.observation.expect("runtime observation starts");
             let verification = controller.verify_artifact(
-                event.to_vec(),
+                fixture.event.to_vec(),
                 ArtifactCoordinate::Named {
-                    author: SLICE_THREE_AUTHOR.to_owned(),
-                    d_tag: d_tag.to_owned(),
+                    author: fixture.author.to_owned(),
+                    d_tag: fixture.d_tag.to_owned(),
                 },
             );
             let artifact = verification.artifact.unwrap_or_else(|| {
                 panic!(
-                    "signed fixture {d_tag} verifies: {:?}",
-                    verification.refusal
+                    "signed fixture {} verifies: {:?}",
+                    fixture.d_tag, verification.refusal
                 )
             });
             assert!(verification.refusal.is_none());
-            assert_eq!(artifact.author(), SLICE_THREE_AUTHOR);
-            assert_eq!(artifact.d_tag().as_deref(), Some(d_tag));
-            assert_eq!(artifact.aggregate_hash(), aggregate_hash);
+            assert_eq!(artifact.author(), fixture.author);
+            assert_eq!(artifact.d_tag().as_deref(), Some(fixture.d_tag));
+            assert_eq!(artifact.aggregate_hash(), fixture.aggregate_hash);
 
             controller.install(Arc::clone(&artifact));
-            for domain in std::iter::once("shell").chain(domains.iter().copied()) {
+            for domain in fixture.domains {
                 controller.set_grant(
                     Arc::clone(&artifact),
-                    domain.to_owned(),
+                    (*domain).to_owned(),
                     RuntimeSensitivity::Ordinary,
                     RuntimeGrantDecision::AllowExactBuild,
                 );
@@ -1161,16 +1160,16 @@ mod tests {
                 RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
                     .sessions
                     .into_iter()
-                    .find(|session| session.d_tag == d_tag)
+                    .find(|session| session.d_tag == fixture.d_tag)
                     .expect("fixture session exists"),
                 RuntimeSnapshotProjection::Refused { refusal, .. } => {
                     panic!("snapshot refused: {}", refusal.detail)
                 }
             };
-            for domain in domains {
-                assert!(session.domains.iter().any(|granted| granted == domain));
+            for domain in fixture.domains {
+                assert!(session.domains.iter().any(|granted| granted == *domain));
             }
-            if d_tag == "egress-probe" {
+            if fixture.d_tag == "egress-probe" {
                 let cursor = events.latest_sequence();
                 controller.mapped_envelope(session.id, br#"{"type":"shell.ready"}"#.to_vec());
                 let response = events
@@ -1180,9 +1179,9 @@ mod tests {
                 assert_eq!(response["type"], "shell.init");
                 let sentinel = "http://127.0.0.1:43129/hostile-egress?run=fixture";
                 let commit = controller.commit_config_values(NativeConfigCommit {
-                    manifest_author: SLICE_THREE_AUTHOR.to_owned(),
-                    d_tag: d_tag.to_owned(),
-                    aggregate_hash: aggregate_hash.to_owned(),
+                    manifest_author: fixture.author.to_owned(),
+                    d_tag: fixture.d_tag.to_owned(),
+                    aggregate_hash: fixture.aggregate_hash.to_owned(),
                     session_id: session.id,
                     values_json: serde_json::json!({"sentinel": sentinel}).to_string(),
                 });
@@ -1208,7 +1207,7 @@ mod tests {
                 "/index.html".to_owned(),
                 MAXIMUM_VERIFIED_DOCUMENT_BYTES,
             ) {
-                VerifiedRead::Bytes { bytes, .. } => assert_eq!(bytes, index),
+                VerifiedRead::Bytes { bytes, .. } => assert_eq!(bytes, fixture.index),
                 VerifiedRead::Refused { refusal } => panic!("verified read refused: {refusal:?}"),
             }
             controller.close();
@@ -1218,68 +1217,40 @@ mod tests {
     #[test]
     fn profile_open_crosses_inc_with_runtime_owned_sender() {
         let temp = TempDir::new().unwrap();
-        let controller = RuntimeController::open(
-            RuntimeConfig {
-                runtime_store_path: temp.path().join("runtime.sqlite3").display().to_string(),
-                nmp_store_path: None,
-                artifact_cache_path: temp.path().join("artifacts").display().to_string(),
-                ..RuntimeConfig::default()
-            },
-            Box::new(SliceThreeFixtureSource),
-        )
-        .unwrap();
-        let events = Arc::new(EventBuffer::default());
-        let observation = Arc::clone(&controller).observe(Box::new(EventSink(Arc::clone(&events))));
-        let _observation = observation.observation.expect("runtime observation starts");
-        let follow_session = launch_slice_three_fixture(
-            &controller,
-            FOLLOW_LIST_EVENT,
-            "follow-list",
-            &["identity", "inc"],
-        );
-        let profile_session = launch_slice_three_fixture(
-            &controller,
-            PROFILE_CARD_EVENT,
-            "profile-card",
-            &["inc", "outbox"],
-        );
-        for session in [follow_session, profile_session] {
-            let cursor = events.latest_sequence();
-            controller.mapped_envelope(session, br#"{"type":"shell.ready"}"#.to_vec());
-            let response = events
-                .response_after(cursor, session)
-                .expect("NAP-SHELL initialization response");
-            let response: Value = serde_json::from_str(&response).unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        let follow = runner.start_named_fixture("follow-list").unwrap();
+        let profile = runner.start_named_fixture("profile-card").unwrap();
+        for launch in [&follow, &profile] {
+            let response = runner
+                .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
+                .unwrap();
+            assert_eq!(response.surface_token, launch.surface_token);
+            let response: Value = serde_json::from_str(&response.envelope).unwrap();
             assert_eq!(response["type"], "shell.init");
         }
 
-        let cursor = events.latest_sequence();
-        controller.mapped_envelope(
-            profile_session,
-            br#"{"type":"inc.subscribe","id":"profile-open-sub","topic":"napplet:profile/open"}"#
-                .to_vec(),
-        );
-        let response = events
-            .response_after(cursor, profile_session)
-            .expect("INC subscription response");
-        let response: Value = serde_json::from_str(&response).unwrap();
+        let response = runner
+            .forward_from_surface(
+                &profile.surface_token,
+                br#"{"type":"inc.subscribe","id":"profile-open-sub","topic":"napplet:profile/open"}"#,
+            )
+            .unwrap();
+        assert_eq!(response.surface_token, profile.surface_token);
+        let response: Value = serde_json::from_str(&response.envelope).unwrap();
         assert_eq!(response["type"], "inc.subscribe.result");
 
-        let cursor = events.latest_sequence();
-        controller.mapped_envelope(
-            follow_session,
-            br#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{"version":1,"pubkey":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}"#
-                .to_vec(),
-        );
-        let delivery = events
-            .response_after(cursor, profile_session)
-            .expect("INC profile-open delivery");
-        let delivery: Value = serde_json::from_str(&delivery).unwrap();
+        let delivery = runner
+            .forward_from_surface(
+                &follow.surface_token,
+                br#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{"version":1,"pubkey":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}"#,
+            )
+            .unwrap();
+        assert_eq!(delivery.surface_token, profile.surface_token);
+        let delivery: Value = serde_json::from_str(&delivery.envelope).unwrap();
         assert_eq!(delivery["type"], "inc.event");
         assert_eq!(delivery["topic"], "napplet:profile/open");
         assert_eq!(delivery["sender"], "follow-list");
         assert_eq!(delivery["payload"]["version"], 1);
         assert_eq!(delivery["payload"]["pubkey"], "a".repeat(64));
-        controller.close();
     }
 }

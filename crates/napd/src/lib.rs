@@ -1,6 +1,7 @@
 #![forbid(unsafe_code)]
 #![doc = "Linux daemon composition boundary for the Uzel POC."]
 
+mod fixtures;
 mod runner;
 mod server;
 

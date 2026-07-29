@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2307,
-      "sha256": "5cd8d5bfb8884bf9563443c3ba83d6a3892090eb69c37a72ffcc437e6450cfbb"
+      "bytes": 2749,
+      "sha256": "5a0bbfcaed7ebab050984fb56d4e6506cdfa8c4c21745affbc8af3bd2688781a"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "25d4b0a3589e4c6883fa2e353219cb7555fc4d03b5849cf7855e9006dca6f9ff"
+      "sha256": "85f8941a586efaca7dba05fa2371a295a5315d11cb66c3406c76468d441942ba"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 19551,
-      "sha256": "27783f2f9c53952ab63c2b5d9967741013afbf98c0531c4c29f0f57f8e1b3479"
+      "bytes": 24318,
+      "sha256": "5e03382fa8017df5ed670cce277fdd51f332742e00b90c97feb567c8c958bb5f"
     },
     {
       "path": "config/fallow.jsonc",
@@ -52,13 +52,13 @@
     },
     {
       "path": "docs/02-architecture.md",
-      "bytes": 6947,
-      "sha256": "241fbb763c9da9ac5ed59b86ffd4ec674087291fbef2cbb7340c21709fa9afd5"
+      "bytes": 7461,
+      "sha256": "92dfd31e1f28adf555cda79451a096dba78a9b6a81293364aae59a6ee9d41ca6"
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 7694,
-      "sha256": "58666cf530f8bfa21df199cd9a32945021084ad97878aed68c509567dd8b3b3a"
+      "bytes": 8148,
+      "sha256": "6efd0db15e8b8cbf009b1be8764b23c3cd503ec526d6452b5aea13589e0a0c3f"
     },
     {
       "path": "docs/04-execution.md",
@@ -67,8 +67,8 @@
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3446,
-      "sha256": "6629da2db2b7c7e081c6d4151fa6c2ec51e8663e723d55aa135ba4a5447fdcd5"
+      "bytes": 3555,
+      "sha256": "1b2d8c634e43d3d099c5a364893946e7b4158d2425890e0a202608224f9467f0"
     },
     {
       "path": "docs/06-extraction.md",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 4130,
-      "sha256": "5c4001d739048d2cf04c988b953ac1aad808f339ec8d6bcba0148f748b74152c"
+      "bytes": 4596,
+      "sha256": "6ef0ab828ec73c11e299fe600fb7d31607e4509c9715a6b1f1899c988b8a78ef"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -127,18 +127,23 @@
     },
     {
       "path": "docs/facts/FACT-009-linux-runner.md",
-      "bytes": 1742,
-      "sha256": "2c2c020f9fd797929c1268de5c0d533572dab94c8b6f9c3c1e5523265fe7cc38"
+      "bytes": 2085,
+      "sha256": "780a9510a028d025814b75f4d465404a183269dba42ec5437b62267062a1fbe4"
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 2426,
-      "sha256": "2f43b0d28dd5d79bad2f10d1281706db408c552c960b6c55b35f4a8081b3598f"
+      "bytes": 2445,
+      "sha256": "20db9a8a094a5700787bd97b9d01bd692341a2f5a9f6251d6dc78562fc8923d4"
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3501,
-      "sha256": "6af95f5aea8aed9eef9173d9e8c13f0a3654e8b82d85de0fe65dfb558d69fccb"
+      "bytes": 3650,
+      "sha256": "ba08e3dd199503e1838edb52af22b74af17ae5f61b1a9b8820456750a940ce44"
+    },
+    {
+      "path": "docs/facts/FACT-012-composed-demo.md",
+      "bytes": 4114,
+      "sha256": "8053e13345fc4e359ad42a856db6c2dc6022d09bbc24412ef35fb4d351bdf941"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -171,6 +176,36 @@
       "sha256": "d999ab0dfed284f01d0f5b770c49c67d1b5e3db1dc1ac5620065c66bf4f0c138"
     },
     {
+      "path": "reports/probes/slice-05-current-upstream-relay-policy-failed/uzel.log",
+      "bytes": 28715,
+      "sha256": "afccb5373191fc8ebc21101af23de2d88d85a69cb61f17d342c031ace4e32c86"
+    },
+    {
+      "path": "reports/probes/slice-05-current-upstream-relay-policy-failed/weston.log",
+      "bytes": 3497,
+      "sha256": "d999ab0dfed284f01d0f5b770c49c67d1b5e3db1dc1ac5620065c66bf4f0c138"
+    },
+    {
+      "path": "reports/probes/slice-05-fedora-cold-build-timeout-failed/uzel.log",
+      "bytes": 61337,
+      "sha256": "ea3dbc92a72a12fa88760d5f36e8bdf2fc33b9ea305c224377c9454808621831"
+    },
+    {
+      "path": "reports/probes/slice-05-fedora-cold-build-timeout-failed/weston.log",
+      "bytes": 3498,
+      "sha256": "79c36d31dd37e7577c87237b25aece990dc29e2e40a8b810cbba7b30068c8676"
+    },
+    {
+      "path": "reports/probes/slice-05-fedora-linker-contamination-failed/uzel.log",
+      "bytes": 14742,
+      "sha256": "f87a7f83a98a8747cbe84e2ca68640fceac080bfdc65e0eecc7d893933c55488"
+    },
+    {
+      "path": "reports/probes/slice-05-fedora-linker-contamination-failed/weston.log",
+      "bytes": 3498,
+      "sha256": "743484d7388ac369943e596f716c2e9870eb8518616bef7a0994070684ca7477"
+    },
+    {
       "path": "reports/slice-01-preflight.md",
       "bytes": 5202,
       "sha256": "bc1a383e4915ac102dbcb06a577ab59835016e9ddaa6852b05e89be9e9023131"
@@ -189,6 +224,11 @@
       "path": "reports/slice-04-preflight.md",
       "bytes": 9367,
       "sha256": "b46157d01675c02fb0ef95fc29627081c5aa1ed2ccfd29ce2438b0b2cddbb26b"
+    },
+    {
+      "path": "reports/slice-05-preflight.md",
+      "bytes": 10333,
+      "sha256": "27e6e2436fc2ec09efc63ef91fd11f4066c0b1d0383a3a5b06a1257b8fb9ac88"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

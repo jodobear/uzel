@@ -38,6 +38,7 @@ mkdir -m 700 "$XDG_DATA_HOME"
 export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1
+export UZEL_FIXTURE_RELAY_PORT=$((44000 + ($$ % 10000)))
 
 weston \
   --backend=headless \
@@ -61,13 +62,16 @@ DEV_PID=$!
 for _ in $(seq 1 240); do
   if rg -q '^UZEL_NAPD_READY role=runtime-authority$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_SLICE02_FIXTURE_VERIFIED aggregate=828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_SLICE02_HANDSHAKE_OK surface=uzel-surface-1-generation-1$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_SLICE02_ARTIFACT_RESPONDED type=identity.getPublicKey.result$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_SLICE02_ISOLATION_OK raw_webkit_transport=' "$SMOKE_TMP/uzel.log"; then
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log"; then
     sleep 2
     kill -0 "$DEV_PID"
-    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_build=verified nap_shell=ready artifact=responded child_native=denied compositor=weston-headless-gl'
+    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=2 nap_shell=2 shell_accepted=2 artifact=responded source_bound=multi compositor=weston-headless-gl'
     exit 0
   fi
   kill -0 "$DEV_PID" 2>/dev/null

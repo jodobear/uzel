@@ -24,7 +24,9 @@ pub enum Request {
         version: u8,
     },
     Status,
-    StartFixture,
+    StartFixture {
+        fixture: String,
+    },
     StopFixture {
         surface_token: String,
     },
@@ -59,6 +61,13 @@ pub struct SurfaceMetadata {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct RoutedEnvelope {
+    pub surface_token: String,
+    pub envelope: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Diagnostics {
     pub snapshot_revision: u64,
     pub active_sessions: u64,
@@ -80,7 +89,7 @@ pub enum Response {
     Status {
         version: u8,
         mode: String,
-        active_surface: Option<String>,
+        active_surfaces: Vec<String>,
         active_identity: Option<String>,
     },
     Surface {
@@ -97,6 +106,7 @@ pub enum Response {
         done: bool,
     },
     Envelope {
+        surface_token: String,
         envelope: String,
     },
     Identity {
@@ -189,7 +199,13 @@ impl UnixClient {
     }
 
     pub fn start_fixture(&self) -> Result<FetchedSurface, ClientError> {
-        let (surface, transfer_id, total_bytes) = match self.request(&Request::StartFixture)? {
+        self.start_named_fixture("good-morning")
+    }
+
+    pub fn start_named_fixture(&self, fixture: &str) -> Result<FetchedSurface, ClientError> {
+        let (surface, transfer_id, total_bytes) = match self.request(&Request::StartFixture {
+            fixture: fixture.to_owned(),
+        })? {
             Response::Surface {
                 surface,
                 transfer_id,

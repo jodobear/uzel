@@ -12,7 +12,8 @@
   "ignoreUnresolvedImports": [
     "/trusted-shell/trusted-shell-policy.js",
     "/trusted-shell/trusted-shell-prelude-domains.js",
-    "/trusted-shell/trusted-shell.js"
+    "/trusted-shell/trusted-shell.js",
+    "/trusted-shell/trusted-shell-surface-host.js"
   ],
   "ignoreDependencies": [
     "@napplet/cli"
