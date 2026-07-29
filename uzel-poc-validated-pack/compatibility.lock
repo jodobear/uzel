@@ -350,6 +350,7 @@ codex_review_round_27 = "addressed: reject modern and legacy resource-bearing ma
 codex_review_round_28 = "addressed: reject DOMParser-created resource nodes"
 codex_review_round_29 = "addressed: reject programmatic style-attribute mutation"
 codex_review_round_30 = "addressed: reject constructed stylesheet replacement and adoption; graph refresh separation reconfirmed from commit history"
+codex_review_round_31 = "addressed: exact dependency allowlist, indirect DOM setter denial, and CSS custom-property mutation denial"
 
 [gates]
 V_01 = "pass"
