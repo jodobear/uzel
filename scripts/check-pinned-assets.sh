@@ -23,5 +23,17 @@ check_sha256 d130c02862f8934caba77bfaca4a72cc2f94158daecfaf888830c0807e2352c4 \
   apps/uzel/public/trusted-shell/trusted-shell-policy.js
 check_sha256 d4c930f66df0ae1767147598d2a05b9940a06ba8f6681a1093af36e6e35251c5 \
   apps/uzel/public/trusted-shell/trusted-shell-prelude-domains.js
+check_sha256 e582973897da149a64a4f4c130e2752f417d4e48d3f07192a6be7fc8bbe14ba7 \
+  fixtures/follow-list/event.json
+check_sha256 3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4 \
+  fixtures/follow-list/index.html
+check_sha256 cf95cee268f3dd05971eaa77c8dd65468b4a0d3a28f3223e8e40d18e0320967d \
+  fixtures/profile-card/event.json
+check_sha256 eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63 \
+  fixtures/profile-card/index.html
+check_sha256 0b4fb3c8ae2b747a2e531c1270c48305b7e859d7666d4d7b7b9e274e66cf593c \
+  fixtures/hostile-egress/event.json
+check_sha256 94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9 \
+  fixtures/hostile-egress/index.html
 
 echo 'PINNED_ASSETS_OK nampplets=08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf'

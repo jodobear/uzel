@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://uzel.invalid/contracts/profile-open-v1.schema.json",
+  "title": "Profile open convention payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "pubkey"],
+  "properties": {
+    "version": { "const": 1 },
+    "pubkey": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

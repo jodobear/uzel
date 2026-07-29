@@ -300,10 +300,104 @@ impl Drop for LinuxRunner {
 
 #[cfg(test)]
 mod tests {
+    use nmp_native_runtime_ffi::{
+        NativeConfigCommit, NativeSettingsExecutor, NativeSettingsOpenResult, NativeSettingsRequest,
+    };
     use serde_json::Value;
     use tempfile::TempDir;
 
-    use super::{AGGREGATE_HASH, LinuxRunner, RunnerError};
+    use super::*;
+
+    const SLICE_THREE_AUTHOR: &str =
+        "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2";
+    const FOLLOW_LIST_EVENT: &[u8] = include_bytes!("../../../fixtures/follow-list/event.json");
+    const FOLLOW_LIST_INDEX: &[u8] = include_bytes!("../../../fixtures/follow-list/index.html");
+    const PROFILE_CARD_EVENT: &[u8] = include_bytes!("../../../fixtures/profile-card/event.json");
+    const PROFILE_CARD_INDEX: &[u8] = include_bytes!("../../../fixtures/profile-card/index.html");
+    const HOSTILE_EGRESS_EVENT: &[u8] =
+        include_bytes!("../../../fixtures/hostile-egress/event.json");
+    const HOSTILE_EGRESS_INDEX: &[u8] =
+        include_bytes!("../../../fixtures/hostile-egress/index.html");
+
+    #[derive(Debug)]
+    struct SliceThreeFixtureSource;
+
+    #[derive(Debug)]
+    struct AcceptSettings;
+
+    impl NativeSettingsExecutor for AcceptSettings {
+        fn try_open(&self, _request: NativeSettingsRequest) -> NativeSettingsOpenResult {
+            NativeSettingsOpenResult::Accepted
+        }
+    }
+
+    impl ArtifactSource for SliceThreeFixtureSource {
+        fn fetch(&self, request: ArtifactFetchRequest) -> ArtifactFetchResponse {
+            let bytes = match request.expected_sha256.as_str() {
+                "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4" => {
+                    Some(FOLLOW_LIST_INDEX)
+                }
+                "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63" => {
+                    Some(PROFILE_CARD_INDEX)
+                }
+                "94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9" => {
+                    Some(HOSTILE_EGRESS_INDEX)
+                }
+                _ => None,
+            };
+            let accepted = request.logical_path == "/index.html"
+                && bytes.is_some_and(|body| request.maximum_bytes >= body.len() as u64)
+                && !request.redirects_allowed;
+            ArtifactFetchResponse::Body {
+                source_url: request.candidate_urls.first().cloned().unwrap_or_default(),
+                http_status: if accepted { 200 } else { 404 },
+                bytes: if accepted {
+                    bytes.unwrap_or_default().to_vec()
+                } else {
+                    Vec::new()
+                },
+            }
+        }
+    }
+
+    fn launch_slice_three_fixture(
+        controller: &Arc<RuntimeController>,
+        event: &[u8],
+        d_tag: &str,
+        domains: &[&str],
+    ) -> u64 {
+        let artifact = controller
+            .verify_artifact(
+                event.to_vec(),
+                ArtifactCoordinate::Named {
+                    author: SLICE_THREE_AUTHOR.to_owned(),
+                    d_tag: d_tag.to_owned(),
+                },
+            )
+            .artifact
+            .unwrap_or_else(|| panic!("signed fixture {d_tag} verifies"));
+        controller.install(Arc::clone(&artifact));
+        for domain in std::iter::once("shell").chain(domains.iter().copied()) {
+            controller.set_grant(
+                Arc::clone(&artifact),
+                domain.to_owned(),
+                RuntimeSensitivity::Ordinary,
+                RuntimeGrantDecision::AllowExactBuild,
+            );
+        }
+        controller.launch(artifact, RuntimeExecutionProfile::Legacy);
+        match controller.snapshot() {
+            RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
+                .sessions
+                .into_iter()
+                .find(|session| session.d_tag == d_tag)
+                .map(|session| session.id)
+                .unwrap_or_else(|| panic!("fixture session {d_tag} exists")),
+            RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                panic!("snapshot refused: {}", refusal.detail)
+            }
+        }
+    }
 
     #[test]
     fn verified_fixture_handshakes_through_runtime() {
@@ -343,5 +437,202 @@ mod tests {
             runner.forward_from_surface(&launch.surface_token, forged),
             Err(RunnerError::ResponseTimeout)
         ));
+    }
+
+    #[test]
+    fn slice_three_signed_single_file_artifacts_verify_and_read_exactly() {
+        let fixtures = [
+            (
+                "follow-list",
+                "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a",
+                FOLLOW_LIST_EVENT,
+                FOLLOW_LIST_INDEX,
+                &["identity", "inc"][..],
+            ),
+            (
+                "profile-card",
+                "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
+                PROFILE_CARD_EVENT,
+                PROFILE_CARD_INDEX,
+                &["inc", "outbox"][..],
+            ),
+            (
+                "egress-probe",
+                "6dcafdf3a2622d7daa6544f1c668ffce7b5dd1f0c7984d658ae0803da93410c0",
+                HOSTILE_EGRESS_EVENT,
+                HOSTILE_EGRESS_INDEX,
+                &["config"][..],
+            ),
+        ];
+
+        for (d_tag, aggregate_hash, event, index, domains) in fixtures {
+            let temp = TempDir::new().unwrap();
+            let controller = RuntimeController::open_with_settings(
+                RuntimeConfig {
+                    runtime_store_path: temp.path().join("runtime.sqlite3").display().to_string(),
+                    nmp_store_path: None,
+                    artifact_cache_path: temp.path().join("artifacts").display().to_string(),
+                    ..RuntimeConfig::default()
+                },
+                Box::new(SliceThreeFixtureSource),
+                Box::new(AcceptSettings),
+            )
+            .unwrap();
+            let events = Arc::new(EventBuffer::default());
+            let observation =
+                Arc::clone(&controller).observe(Box::new(EventSink(Arc::clone(&events))));
+            let _observation = observation.observation.expect("runtime observation starts");
+            let verification = controller.verify_artifact(
+                event.to_vec(),
+                ArtifactCoordinate::Named {
+                    author: SLICE_THREE_AUTHOR.to_owned(),
+                    d_tag: d_tag.to_owned(),
+                },
+            );
+            let artifact = verification.artifact.unwrap_or_else(|| {
+                panic!(
+                    "signed fixture {d_tag} verifies: {:?}",
+                    verification.refusal
+                )
+            });
+            assert!(verification.refusal.is_none());
+            assert_eq!(artifact.author(), SLICE_THREE_AUTHOR);
+            assert_eq!(artifact.d_tag().as_deref(), Some(d_tag));
+            assert_eq!(artifact.aggregate_hash(), aggregate_hash);
+
+            controller.install(Arc::clone(&artifact));
+            for domain in std::iter::once("shell").chain(domains.iter().copied()) {
+                controller.set_grant(
+                    Arc::clone(&artifact),
+                    domain.to_owned(),
+                    RuntimeSensitivity::Ordinary,
+                    RuntimeGrantDecision::AllowExactBuild,
+                );
+            }
+            controller.launch(artifact, RuntimeExecutionProfile::Legacy);
+            let session = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
+                    .sessions
+                    .into_iter()
+                    .find(|session| session.d_tag == d_tag)
+                    .expect("fixture session exists"),
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("snapshot refused: {}", refusal.detail)
+                }
+            };
+            for domain in domains {
+                assert!(session.domains.iter().any(|granted| granted == domain));
+            }
+            if d_tag == "egress-probe" {
+                let cursor = events.latest_sequence();
+                controller.mapped_envelope(session.id, br#"{"type":"shell.ready"}"#.to_vec());
+                let response = events
+                    .response_after(cursor, session.id)
+                    .expect("NAP-SHELL initialization response");
+                let response: Value = serde_json::from_str(&response).unwrap();
+                assert_eq!(response["type"], "shell.init");
+                let sentinel = "http://127.0.0.1:43129/hostile-egress?run=fixture";
+                let commit = controller.commit_config_values(NativeConfigCommit {
+                    manifest_author: SLICE_THREE_AUTHOR.to_owned(),
+                    d_tag: d_tag.to_owned(),
+                    aggregate_hash: aggregate_hash.to_owned(),
+                    session_id: session.id,
+                    values_json: serde_json::json!({"sentinel": sentinel}).to_string(),
+                });
+                assert!(
+                    commit.accepted,
+                    "exact-session sentinel commit is accepted: {:?}",
+                    commit.refusal
+                );
+                let cursor = events.latest_sequence();
+                controller.mapped_envelope(
+                    session.id,
+                    br#"{"type":"config.get","id":"sentinel-get"}"#.to_vec(),
+                );
+                let response = events
+                    .response_after(cursor, session.id)
+                    .expect("source-bound config response");
+                let response: Value = serde_json::from_str(&response).unwrap();
+                assert_eq!(response["type"], "config.values");
+                assert_eq!(response["values"]["sentinel"], sentinel);
+            }
+            match controller.read_verified(
+                session.id,
+                "/index.html".to_owned(),
+                MAXIMUM_VERIFIED_DOCUMENT_BYTES,
+            ) {
+                VerifiedRead::Bytes { bytes, .. } => assert_eq!(bytes, index),
+                VerifiedRead::Refused { refusal } => panic!("verified read refused: {refusal:?}"),
+            }
+            controller.close();
+        }
+    }
+
+    #[test]
+    fn profile_open_crosses_inc_with_runtime_owned_sender() {
+        let temp = TempDir::new().unwrap();
+        let controller = RuntimeController::open(
+            RuntimeConfig {
+                runtime_store_path: temp.path().join("runtime.sqlite3").display().to_string(),
+                nmp_store_path: None,
+                artifact_cache_path: temp.path().join("artifacts").display().to_string(),
+                ..RuntimeConfig::default()
+            },
+            Box::new(SliceThreeFixtureSource),
+        )
+        .unwrap();
+        let events = Arc::new(EventBuffer::default());
+        let observation = Arc::clone(&controller).observe(Box::new(EventSink(Arc::clone(&events))));
+        let _observation = observation.observation.expect("runtime observation starts");
+        let follow_session = launch_slice_three_fixture(
+            &controller,
+            FOLLOW_LIST_EVENT,
+            "follow-list",
+            &["identity", "inc"],
+        );
+        let profile_session = launch_slice_three_fixture(
+            &controller,
+            PROFILE_CARD_EVENT,
+            "profile-card",
+            &["inc", "outbox"],
+        );
+        for session in [follow_session, profile_session] {
+            let cursor = events.latest_sequence();
+            controller.mapped_envelope(session, br#"{"type":"shell.ready"}"#.to_vec());
+            let response = events
+                .response_after(cursor, session)
+                .expect("NAP-SHELL initialization response");
+            let response: Value = serde_json::from_str(&response).unwrap();
+            assert_eq!(response["type"], "shell.init");
+        }
+
+        let cursor = events.latest_sequence();
+        controller.mapped_envelope(
+            profile_session,
+            br#"{"type":"inc.subscribe","id":"profile-open-sub","topic":"napplet:profile/open"}"#
+                .to_vec(),
+        );
+        let response = events
+            .response_after(cursor, profile_session)
+            .expect("INC subscription response");
+        let response: Value = serde_json::from_str(&response).unwrap();
+        assert_eq!(response["type"], "inc.subscribe.result");
+
+        let cursor = events.latest_sequence();
+        controller.mapped_envelope(
+            follow_session,
+            br#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{"version":1,"pubkey":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}}"#
+                .to_vec(),
+        );
+        let delivery = events
+            .response_after(cursor, profile_session)
+            .expect("INC profile-open delivery");
+        let delivery: Value = serde_json::from_str(&delivery).unwrap();
+        assert_eq!(delivery["type"], "inc.event");
+        assert_eq!(delivery["topic"], "napplet:profile/open");
+        assert_eq!(delivery["sender"], "follow-list");
+        assert_eq!(delivery["payload"]["version"], 1);
+        assert_eq!(delivery["payload"]["pubkey"], "a".repeat(64));
+        controller.close();
     }
 }

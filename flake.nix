@@ -14,6 +14,7 @@
           cargo-tauri
           corepack_22
           curl
+          deno
           gtk3
           jq
           libayatana-appindicator

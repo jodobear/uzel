@@ -78,7 +78,14 @@ file hashes
 required capability domains
 ```
 
-The runtime verifies the upstream signed manifest and hashes before execution. Reuse upstream cryptographic formats and libraries. Remote scripts, dynamic CDN imports, service-worker updates, module-preload network helpers, and direct browser network dependencies are rejected.
+The Vite plugin creates each single-file artifact and its manifest inputs. Its
+sidecar alone is not launchable through the pinned NMP resolver because it lacks
+a signed source tag. The released `@napplet/cli@0.0.0` dry-run path creates the
+final source-bearing signed event with upstream `nostr-tools`; Uzel never
+implements manifest hashing or signing. The runtime then verifies that event
+and exact artifact bytes before execution. Remote scripts, dynamic CDN imports,
+service-worker updates, module-preload network helpers, and direct browser
+network dependencies are rejected.
 
 ## Identity and Nostr reads
 
@@ -116,6 +123,10 @@ Payload:
 ```
 
 Use the exact queryless convention and runtime-attested sender behavior from the pinned packages/#204. Do not build a private event bus.
+
+This direct NAP-INC convention does not require an archetype tag or
+NAP-INTENT. `profile-card` intentionally declares only `inc` and `outbox`; the
+POC continues to treat `intent.deliver` as unsupported.
 
 ## Web trust boundary
 

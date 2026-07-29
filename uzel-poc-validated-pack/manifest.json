@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 2138,
-      "sha256": "af019404af83143984003ee89bd21fff5861fe9914a49a218465ba5e93b0a21e"
+      "bytes": 2440,
+      "sha256": "55c4eb644d14fc45280a1c40946553138c732c9fac1a9d3d1087b90dc9d59b6f"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "e728d4b800a93eee9dfb574c88b9ad4017b7f6e54fede7e4a5de7d76ba3faf38"
+      "sha256": "3921394d0ececa49cceea328ad3f245f5dcbd521f83c12504f790798c4c555e9"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 12829,
-      "sha256": "54a57fd50a0a4913255a2a1a74dbbc7be9c7c6e65a85e02899cd43dc276f9a8f"
+      "bytes": 19551,
+      "sha256": "27783f2f9c53952ab63c2b5d9967741013afbf98c0531c4c29f0f57f8e1b3479"
     },
     {
       "path": "config/fallow.jsonc",
@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 6666,
-      "sha256": "820ad237b3e00403f98284d4f4cc0c8c9221782e445efbd722076ef479128eed"
+      "bytes": 7173,
+      "sha256": "13dbd8784b92936e7006f8dcaa0bc3d02ac35e8a17098b01b23eb4f2e21805d5"
     },
     {
       "path": "docs/04-execution.md",
@@ -67,8 +67,8 @@
     },
     {
       "path": "docs/05-test-and-demo.md",
-      "bytes": 3313,
-      "sha256": "05eefc0dfbf9bd5c5d0b3dff5f303c2d7bbd77208f822d04ef323c4c40739c3d"
+      "bytes": 3446,
+      "sha256": "6629da2db2b7c7e081c6d4151fa6c2ec51e8663e723d55aa135ba4a5447fdcd5"
     },
     {
       "path": "docs/06-extraction.md",
@@ -77,13 +77,13 @@
     },
     {
       "path": "docs/07-source-baseline.md",
-      "bytes": 4424,
-      "sha256": "4dfa108fc6f71f55fd7e6a63a8f3b36f84afb9c8a9193987984a69727d8f558a"
+      "bytes": 5020,
+      "sha256": "94f08487b757d331fbe4d7435c41eb525517221ac31fb6d578b99e847aa8f327"
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 2945,
-      "sha256": "ee0d620fbca2980136dbc4ee0d695371f3994720cb91fa52af571fea5dccd902"
+      "bytes": 3500,
+      "sha256": "c9762df047fbbebcb493dff5bd3e27d58b1586bb786aa2eea8da2f7c9f4a4717"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -131,6 +131,11 @@
       "sha256": "955227e076566cd086c24ee160b425045f8d8ec4143c80d9a2f5b9b96517df44"
     },
     {
+      "path": "docs/facts/FACT-010-portable-napplets.md",
+      "bytes": 2426,
+      "sha256": "2f43b0d28dd5d79bad2f10d1281706db408c552c960b6c55b35f4a8081b3598f"
+    },
+    {
       "path": "reports/nampplets-linux-map.md",
       "bytes": 5090,
       "sha256": "972293486ff49e235d1016579210ec5191d568ca53cf2b5ba170096114990fa5"
@@ -169,6 +174,11 @@
       "path": "reports/slice-02-preflight.md",
       "bytes": 5714,
       "sha256": "0f6c347e5537fbfeb6ff83311c3e6c3bf1073c19f7bbcc244887fa82ced31a6c"
+    },
+    {
+      "path": "reports/slice-03-preflight.md",
+      "bytes": 17076,
+      "sha256": "8550c9d59d06a9c0a61ce5e0d42d14e352a97352c1dca55f28a590dd9904f562"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
@@ -212,8 +222,8 @@
     },
     {
       "path": "work/03-napplets.md",
-      "bytes": 1330,
-      "sha256": "f1eacd0fa350e49b4bf86c3cfd56ee46ad16fc53b0642bda841cf4d5bc5d9eb7"
+      "bytes": 1600,
+      "sha256": "619199aa66aad45f332cbe6aee453faffe2367f611d757afe38ea5dd3a35aac9"
     },
     {
       "path": "work/04-daemon-nmp.md",
@@ -227,8 +237,8 @@
     },
     {
       "path": "work/06-hardening-demo.md",
-      "bytes": 1044,
-      "sha256": "3de378a7d8cc1b34f389dc6f10998a258c811c7c5a1b5b2600ba479d2fc58cbe"
+      "bytes": 1586,
+      "sha256": "110712cf45864b74cadefb07b7c2e7af2cea346fd491034471bf27bdc996802d"
     }
   ]
 }

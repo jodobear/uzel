@@ -6,9 +6,6 @@ if rg -n '(tauri|svelte)' crates --glob '*.rs' --glob 'Cargo.toml'; then
   exit 1
 fi
 
-if rg -n '(uzel|napd|tauri)' napplets --glob '*.ts' --glob '*.js' --glob '*.svelte' --glob 'package.json'; then
-  echo 'boundary violation: portable napplet depends on Uzel/runtime code' >&2
-  exit 1
-fi
+node scripts/check-napplet-imports.mjs
 
 echo 'BOUNDARIES_OK'

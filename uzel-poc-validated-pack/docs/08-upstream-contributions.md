@@ -32,6 +32,16 @@ Linux evidence and is the contribution to submit. Any later upstream-worthy
 change must be made in its own branch in the relevant `jodobear` fork and added
 to this ledger before Uzel depends on it.
 
+## Slice 03 upstream result
+
+No upstream code change was required. The napplets use released
+`@napplet/nap`, `@napplet/shim`, `@napplet/vite-plugin`, conformance, and deploy
+CLI APIs directly. The signed-manifest source-tag requirement was an integration
+fact, not an upstream defect: the deploy CLI owns final source-bearing event
+creation, while the Vite plugin owns the single-file build and sidecar inputs.
+The queryless NAP-INC flow also needs no archetype or NAP-INTENT workaround.
+Slice 03 therefore created no fork branch or upstream ledger row.
+
 ## Entry template
 
 ```text

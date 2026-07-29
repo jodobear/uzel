@@ -1,0 +1,44 @@
+{
+  "kind": 35129,
+  "created_at": 1785281827,
+  "tags": [
+    [
+      "d",
+      "profile-card"
+    ],
+    [
+      "path",
+      "/index.html",
+      "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63"
+    ],
+    [
+      "x",
+      "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
+      "aggregate"
+    ],
+    [
+      "server",
+      "https://blossom.invalid/"
+    ],
+    [
+      "title",
+      "Profile card"
+    ],
+    [
+      "description",
+      "Latest-known profile using runtime-mediated outbox data."
+    ],
+    [
+      "requires",
+      "inc"
+    ],
+    [
+      "requires",
+      "outbox"
+    ]
+  ],
+  "content": "",
+  "id": "dd3a9f4f03a789de99c0933f09f777c2a0db81028d5c516021e9753e1c44c6ca",
+  "pubkey": "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+  "sig": "6ff63feab14d87dea32c697c4bd576846dd9aacb1799b98be4ba02d1de534393978d41dd8554c752a306b7886ad9bf09d832ae9dd956f2690b3a165f917c70cd"
+}

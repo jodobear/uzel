@@ -1,5 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/AdrianGonz97/fallow/main/schema.json",
+  "entry": [
+    "scripts/check-napplet-imports.mjs"
+  ],
   "rules": {
     "unresolved-imports": "error",
     "unlisted-dependencies": "error",
@@ -10,6 +13,9 @@
     "/trusted-shell/trusted-shell-policy.js",
     "/trusted-shell/trusted-shell-prelude-domains.js",
     "/trusted-shell/trusted-shell.js"
+  ],
+  "ignoreDependencies": [
+    "@napplet/cli"
   ],
   "ignorePatterns": [
     "graphify-out/**",

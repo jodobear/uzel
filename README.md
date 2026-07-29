@@ -11,17 +11,18 @@ nix --extra-experimental-features 'nix-command flakes' develop
 pnpm install --frozen-lockfile
 ```
 
-Start the Slice 02 Linux shell, readiness daemon, and pinned exact-build fixture together:
+Start the Linux shell, readiness daemon, and pinned exact-build fixture together:
 
 ```sh
 pnpm dev
 ```
 
-Run the Slice 02 checks:
+Run the repository checks, including the Slice 03 napplets:
 
 ```sh
 pnpm check
 pnpm test
+pnpm test:conformance
 pnpm lint
 pnpm format:check
 pnpm docs:check
@@ -36,7 +37,9 @@ Run the immutable-digest Debian build smoke from the Fedora host:
 bash scripts/debian-build-smoke.sh
 ```
 
-Slice 02 verifies and launches the pinned `good-morning` artifact through the
-upstream `RuntimeController`, completes NAP-SHELL, and exercises the sandboxed
-WebKit boundary. NMP reads, a second napplet, daemon-owned runtime state, and
-product persistence remain later slices.
+Slice 03 adds independent `follow-list` and `profile-card` napplets. They use
+the exact queryless `napplet:profile/open` convention through NAP-INC and
+runtime-mediated identity/outbox APIs. Their signed single-file fixtures, plus
+the test-only `hostile-egress` fixture, verify through the pinned upstream
+runtime. Daemon-owned runtime state, integrated NMP data, product persistence,
+and the full hostile WebKit run remain later slices.

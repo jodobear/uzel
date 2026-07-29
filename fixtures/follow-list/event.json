@@ -1,0 +1,44 @@
+{
+  "kind": 35129,
+  "created_at": 1785281827,
+  "tags": [
+    [
+      "d",
+      "follow-list"
+    ],
+    [
+      "path",
+      "/index.html",
+      "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4"
+    ],
+    [
+      "x",
+      "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a",
+      "aggregate"
+    ],
+    [
+      "server",
+      "https://blossom.invalid/"
+    ],
+    [
+      "title",
+      "Direct follows"
+    ],
+    [
+      "description",
+      "Small direct-follow selector using runtime-mediated identity data."
+    ],
+    [
+      "requires",
+      "identity"
+    ],
+    [
+      "requires",
+      "inc"
+    ]
+  ],
+  "content": "",
+  "id": "1dd1a6658be603e127b46a3a1f78b2b4dab324fe116fb4f795aca601277014a6",
+  "pubkey": "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+  "sig": "2709e90a19ab673062999314c34d6d7dec6989420888d31c9418591eee26455312562ebedfad30f558e45851e5db55a9b7770e2f9205092b02211c07de1abf84"
+}
