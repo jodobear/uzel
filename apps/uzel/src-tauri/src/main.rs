@@ -96,7 +96,8 @@ fn report_hostile_probe(report: HostileProbe) -> Result<(), String> {
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            app.manage(UnixClient::new(default_socket_path()));
+            let socket = default_socket_path().map_err(|error| error.to_string())?;
+            app.manage(UnixClient::new(socket));
             println!("UZEL_SHELL_READY");
             Ok(())
         })
@@ -109,9 +110,10 @@ fn main() {
         .expect("Uzel shell failed");
 }
 
-fn default_socket_path() -> PathBuf {
+fn default_socket_path() -> Result<PathBuf, &'static str> {
     env::var_os("XDG_RUNTIME_DIR")
+        .filter(|path| !path.is_empty())
         .map(PathBuf::from)
-        .unwrap_or_else(env::temp_dir)
-        .join("uzel/napd.sock")
+        .map(|path| path.join("uzel/napd.sock"))
+        .ok_or("XDG_RUNTIME_DIR is required for the private daemon socket")
 }

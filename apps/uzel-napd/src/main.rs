@@ -91,8 +91,16 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
     Ok(Options {
         check,
         live,
-        socket: socket.unwrap_or_else(default_socket_path),
-        runtime_root: runtime_root.unwrap_or_else(default_runtime_root),
+        socket: match socket {
+            Some(path) => path,
+            None if check => PathBuf::new(),
+            None => default_socket_path()?,
+        },
+        runtime_root: match runtime_root {
+            Some(path) => path,
+            None if check => PathBuf::new(),
+            None => default_runtime_root()?,
+        },
         indexer_relays,
         app_relays,
         fallback_relays,
@@ -117,19 +125,23 @@ fn next_path(
     next_value(arguments, option).map(PathBuf::from)
 }
 
-fn default_socket_path() -> PathBuf {
+fn default_socket_path() -> Result<PathBuf, String> {
     env::var_os("XDG_RUNTIME_DIR")
+        .filter(|path| !path.is_empty())
         .map(PathBuf::from)
-        .unwrap_or_else(env::temp_dir)
-        .join("uzel/napd.sock")
+        .map(|path| path.join("uzel/napd.sock"))
+        .ok_or_else(|| "XDG_RUNTIME_DIR is required unless --socket is supplied".to_owned())
 }
 
-fn default_runtime_root() -> PathBuf {
+fn default_runtime_root() -> Result<PathBuf, String> {
     env::var_os("XDG_DATA_HOME")
+        .filter(|path| !path.is_empty())
         .map(PathBuf::from)
         .or_else(|| env::var_os("HOME").map(|home| PathBuf::from(home).join(".local/share")))
-        .unwrap_or_else(env::temp_dir)
-        .join("uzel")
+        .map(|path| path.join("uzel"))
+        .ok_or_else(|| {
+            "XDG_DATA_HOME or HOME is required unless --runtime-root is supplied".to_owned()
+        })
 }
 
 #[cfg(test)]

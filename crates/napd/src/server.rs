@@ -14,14 +14,14 @@ use napd_protocol::{
 
 use crate::{LinuxRunner, RunnerError};
 
-const TRANSFER_ID: &str = "fixture-index-generation-1";
-
 #[derive(Debug, thiserror::Error)]
 pub enum ServerError {
     #[error("daemon socket parent could not be prepared: {0}")]
     SocketParent(io::Error),
     #[error("refusing unsafe stale daemon socket at {0}")]
     UnsafeStaleSocket(PathBuf),
+    #[error("refusing non-directory or symlink daemon socket parent at {0}")]
+    UnsafeSocketParent(PathBuf),
     #[error("daemon socket could not bind: {0}")]
     Bind(io::Error),
     #[error("daemon socket permissions could not be set: {0}")]
@@ -71,14 +71,15 @@ impl DaemonState {
                 Ok(launch) if launch.artifact_html.len() <= MAX_ASSET_BYTES => {
                     let total_bytes = launch.artifact_html.len() as u64;
                     let surface = launch.metadata();
+                    let transfer_id = format!("fixture-index-{}", surface.surface_token);
                     self.transfer = Some(AssetTransfer {
-                        id: TRANSFER_ID.to_owned(),
+                        id: transfer_id.clone(),
                         bytes: launch.artifact_html.into_bytes(),
                         next_offset: 0,
                     });
                     Response::Surface {
                         surface,
-                        transfer_id: TRANSFER_ID.to_owned(),
+                        transfer_id,
                         total_bytes,
                     }
                 }
@@ -188,7 +189,14 @@ fn bounded_detail(mut detail: String) -> String {
 pub struct DaemonServer {
     listener: UnixListener,
     socket_path: PathBuf,
+    socket_identity: SocketIdentity,
     state: DaemonState,
+}
+
+#[derive(Debug)]
+struct SocketIdentity {
+    device: u64,
+    inode: u64,
 }
 
 impl DaemonServer {
@@ -199,9 +207,14 @@ impl DaemonServer {
         let listener = UnixListener::bind(&socket_path).map_err(ServerError::Bind)?;
         fs::set_permissions(&socket_path, fs::Permissions::from_mode(0o600))
             .map_err(ServerError::Permissions)?;
+        let metadata = fs::symlink_metadata(&socket_path).map_err(ServerError::Bind)?;
         Ok(Self {
             listener,
             socket_path,
+            socket_identity: SocketIdentity {
+                device: metadata.dev(),
+                inode: metadata.ino(),
+            },
             state: DaemonState::new(runner),
         })
     }
@@ -219,7 +232,15 @@ impl DaemonServer {
 
 impl Drop for DaemonServer {
     fn drop(&mut self) {
-        let _ = fs::remove_file(&self.socket_path);
+        let Ok(metadata) = fs::symlink_metadata(&self.socket_path) else {
+            return;
+        };
+        if metadata.file_type().is_socket()
+            && metadata.dev() == self.socket_identity.device
+            && metadata.ino() == self.socket_identity.inode
+        {
+            let _ = fs::remove_file(&self.socket_path);
+        }
     }
 }
 
@@ -246,6 +267,10 @@ fn prepare_socket_parent(socket_path: &Path) -> Result<(), ServerError> {
         .parent()
         .ok_or_else(|| ServerError::UnsafeStaleSocket(socket_path.to_path_buf()))?;
     fs::create_dir_all(parent).map_err(ServerError::SocketParent)?;
+    let metadata = fs::symlink_metadata(parent).map_err(ServerError::SocketParent)?;
+    if !metadata.file_type().is_dir() {
+        return Err(ServerError::UnsafeSocketParent(parent.to_path_buf()));
+    }
     fs::set_permissions(parent, fs::Permissions::from_mode(0o700)).map_err(ServerError::Permissions)
 }
 
@@ -267,7 +292,7 @@ fn remove_owned_stale_socket(socket_path: &Path) -> Result<(), ServerError> {
 
 #[cfg(test)]
 mod tests {
-    use std::os::unix::net::UnixStream;
+    use std::os::unix::{fs::symlink, net::UnixStream};
 
     use napd_protocol::{Request, Response, UnixClient, read_frame, write_frame};
     use tempfile::TempDir;
@@ -318,5 +343,33 @@ mod tests {
         assert_eq!(exchange(&socket, &Request::Shutdown), Response::Shutdown);
         thread.join().unwrap();
         assert!(!socket.exists());
+    }
+
+    #[test]
+    fn server_drop_does_not_remove_a_replacement_socket() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("run/uzel.sock");
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let server = DaemonServer::bind(&socket, runner).unwrap();
+        fs::remove_file(&socket).unwrap();
+        let replacement = UnixListener::bind(&socket).unwrap();
+        drop(server);
+        assert!(socket.exists());
+        drop(replacement);
+        fs::remove_file(&socket).unwrap();
+    }
+
+    #[test]
+    fn socket_parent_symlink_is_refused() {
+        let temp = TempDir::new().unwrap();
+        let target = temp.path().join("target");
+        fs::create_dir(&target).unwrap();
+        let parent = temp.path().join("run");
+        symlink(&target, &parent).unwrap();
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        assert!(matches!(
+            DaemonServer::bind(parent.join("uzel.sock"), runner),
+            Err(ServerError::UnsafeSocketParent(_))
+        ));
     }
 }

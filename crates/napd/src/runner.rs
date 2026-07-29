@@ -22,7 +22,6 @@ const AUTHOR: &str = "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106c
 const D_TAG: &str = "good-morning";
 const AGGREGATE_HASH: &str = "828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8";
 const INDEX_DIGEST: &str = "ffd35eea5c84d03cdda74c23e1bbb2c40500f503833503aa688036faa52f3808";
-const SURFACE_TOKEN: &str = "uzel-surface-1-generation-1";
 const ARTIFACT_BASE_URL: &str = "nmp-artifact://828a6df0-2afd-4678-a20f-805084acce65/";
 const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
@@ -35,6 +34,7 @@ const PRODUCT_STATE_VERSION: u8 = 0;
 const MAXIMUM_PRODUCT_STATE_BYTES: u64 = 4_096;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct ProductState {
     version: u8,
     mode: String,
@@ -115,6 +115,8 @@ pub enum RunnerError {
     StateLoad(String),
     #[error("product state could not be persisted: {0}")]
     StatePersist(String),
+    #[error("surface generation is exhausted")]
+    SurfaceGenerationExhausted,
 }
 
 #[derive(Debug)]
@@ -226,6 +228,7 @@ pub struct LinuxRunner {
     surface: Option<(u64, SurfaceLaunch)>,
     mode: RuntimeMode,
     state_path: std::path::PathBuf,
+    next_surface_generation: u64,
 }
 
 impl std::fmt::Debug for LinuxRunner {
@@ -315,6 +318,7 @@ impl LinuxRunner {
             surface: None,
             mode,
             state_path: runtime_root.join("uzel-state.json"),
+            next_surface_generation: 0,
         };
         runner.restore_product_state()?;
         runner.persist_product_state()?;
@@ -363,11 +367,16 @@ impl LinuxRunner {
     }
 
     fn restore_product_state(&mut self) -> Result<(), RunnerError> {
-        let metadata = match fs::metadata(&self.state_path) {
+        let metadata = match fs::symlink_metadata(&self.state_path) {
             Ok(metadata) => metadata,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
             Err(error) => return Err(RunnerError::StateLoad(error.to_string())),
         };
+        if !metadata.file_type().is_file() {
+            return Err(RunnerError::StateLoad(
+                "state path is not a regular file".to_owned(),
+            ));
+        }
         if metadata.len() > MAXIMUM_PRODUCT_STATE_BYTES {
             return Err(RunnerError::StateLoad(format!(
                 "state exceeds {MAXIMUM_PRODUCT_STATE_BYTES} bytes"
@@ -381,6 +390,12 @@ impl LinuxRunner {
             return Err(RunnerError::StateLoad(format!(
                 "unsupported state version {}",
                 state.version
+            )));
+        }
+        if state.mode != RuntimeMode::Fixture.as_str() && state.mode != RuntimeMode::Live.as_str() {
+            return Err(RunnerError::StateLoad(format!(
+                "unsupported product mode {}",
+                state.mode
             )));
         }
         if let Some(public_identity) = state.active_read_identity {
@@ -400,11 +415,12 @@ impl LinuxRunner {
         if bytes.len() as u64 > MAXIMUM_PRODUCT_STATE_BYTES {
             return Err(RunnerError::StatePersist("state is oversized".to_owned()));
         }
-        let temporary = self.state_path.with_extension("json.tmp");
+        let temporary = self
+            .state_path
+            .with_extension(format!("json.{}.tmp", std::process::id()));
         let mut file = fs::OpenOptions::new()
             .write(true)
-            .create(true)
-            .truncate(true)
+            .create_new(true)
             .mode(0o600)
             .open(&temporary)
             .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
@@ -432,8 +448,8 @@ impl LinuxRunner {
             observing_relays: relay.observing,
             relays: relay.relays.len() as u64,
             omitted_relays: relay.omitted_relays,
-            store_degraded: relay.store_degraded,
-            transport_degraded: relay.transport_degraded,
+            store_degraded: bounded_diagnostic(relay.store_degraded),
+            transport_degraded: bounded_diagnostic(relay.transport_degraded),
         })
     }
 
@@ -485,6 +501,7 @@ impl LinuxRunner {
                 session.author == AUTHOR
                     && session.d_tag == D_TAG
                     && session.aggregate_hash == AGGREGATE_HASH
+                    && session.state.starts_with("running")
             })
             .ok_or(RunnerError::SessionMissing)?;
         let artifact_html = match self.controller.read_verified(
@@ -499,8 +516,12 @@ impl LinuxRunner {
                 return Err(RunnerError::VerifiedRead(refusal.detail));
             }
         };
+        self.next_surface_generation = self
+            .next_surface_generation
+            .checked_add(1)
+            .ok_or(RunnerError::SurfaceGenerationExhausted)?;
         let launch = SurfaceLaunch {
-            surface_token: SURFACE_TOKEN.to_owned(),
+            surface_token: format!("uzel-surface-1-generation-{}", self.next_surface_generation),
             artifact_base_url: ARTIFACT_BASE_URL.to_owned(),
             artifact_html,
             title: "Good Morning Protocol".to_owned(),
@@ -548,6 +569,20 @@ impl LinuxRunner {
         self.surface = None;
         Ok(())
     }
+}
+
+fn bounded_diagnostic(detail: Option<String>) -> Option<String> {
+    const MAXIMUM_DIAGNOSTIC_BYTES: usize = 512;
+    detail.map(|mut value| {
+        if value.len() > MAXIMUM_DIAGNOSTIC_BYTES {
+            let mut boundary = MAXIMUM_DIAGNOSTIC_BYTES;
+            while !value.is_char_boundary(boundary) {
+                boundary -= 1;
+            }
+            value.truncate(boundary);
+        }
+        value
+    })
 }
 
 #[derive(Debug)]
@@ -599,6 +634,7 @@ impl Drop for LinuxRunner {
 mod tests {
     use std::{
         net::{TcpListener, TcpStream},
+        os::unix::fs::symlink,
         process::{Child, Command, Stdio},
         thread,
     };
@@ -827,6 +863,32 @@ mod tests {
         }
         let runner = LinuxRunner::open(temp.path()).unwrap();
         assert_eq!(runner.get_read_identity().unwrap().as_deref(), Some(AUTHOR));
+    }
+
+    #[test]
+    fn restarted_fixture_gets_a_new_surface_generation() {
+        let temp = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        let first = runner.start_fixture().unwrap();
+        runner.stop_fixture(&first.surface_token).unwrap();
+        let second = runner.start_fixture().unwrap();
+        assert_ne!(first.surface_token, second.surface_token);
+    }
+
+    #[test]
+    fn product_state_symlink_is_refused() {
+        let temp = TempDir::new().unwrap();
+        let external = temp.path().join("external-state.json");
+        fs::write(
+            &external,
+            br#"{"version":0,"mode":"fixture","active_read_identity":null}"#,
+        )
+        .unwrap();
+        symlink(&external, temp.path().join("uzel-state.json")).unwrap();
+        assert!(matches!(
+            LinuxRunner::open(temp.path()),
+            Err(RunnerError::StateLoad(_))
+        ));
     }
 
     #[test]
