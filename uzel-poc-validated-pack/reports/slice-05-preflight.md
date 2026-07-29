@@ -136,6 +136,13 @@ not trapped inside the opaque child. The final review also corrected stacked
 fullscreen track specificity and preserves the declared 42/58 split when
 local storage has no prior value.
 
+The final exact-head review found one remaining presentation-state race: both
+handshakes could complete before startup wrote its unconditional waiting text,
+leaving a green `2/2 READY` proof beside a stale message and potentially
+overwriting a handshake error. The shell now enters waiting before the first
+mount, changes to ready only after both `shell.init` envelopes are accepted by
+the trusted host, and latches handshake failures against later ready updates.
+
 ## Honest boundary
 
 The contract test proves the queryless payload. Runtime and daemon tests prove

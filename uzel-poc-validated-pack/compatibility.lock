@@ -386,6 +386,7 @@ codex_review_round_3 = "addressed: directional and named focus controls now move
 codex_review_round_4 = "addressed: stacked fullscreen overrides the vertical split track and fills the workspace"
 codex_review_round_5 = "addressed: directional navigation focuses a shell pane first; Enter enters its iframe without trapping the next arrow in the child"
 codex_review_round_6 = "addressed: absent split storage retains the declared 42 percent default"
+codex_review_round_7 = "addressed: begin the shell wait before mounting, transition to ready only after both accepted shell.init deliveries, and preserve later handshake failures"
 
 [gates]
 V_01 = "pass"

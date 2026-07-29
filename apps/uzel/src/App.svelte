@@ -54,6 +54,7 @@
   let identityBusy = false;
   let readyCount = 0;
   let readySurfaces = new Set<string>();
+  let shellHandshakeFailed = false;
   let focused: Pane = 'follow';
   let orientation: Orientation = 'horizontal';
   let split = 42;
@@ -87,12 +88,15 @@
     const projected = JSON.parse(delivery.envelope) as unknown;
     const type = envelopeType(projected);
     appendLog('daemon → napplet', delivery.surfaceToken, type);
+    if (!window.NMPTrustedShellHost.receive(delivery.surfaceToken, projected)) {
+      throw new Error('trusted shell refused the target surface');
+    }
     if (type === 'shell.init' && !readySurfaces.has(delivery.surfaceToken)) {
       readySurfaces = new Set([...readySurfaces, delivery.surfaceToken]);
       readyCount = readySurfaces.size;
-    }
-    if (!window.NMPTrustedShellHost.receive(delivery.surfaceToken, projected)) {
-      throw new Error('trusted shell refused the target surface');
+      if (readyCount === 2 && !shellHandshakeFailed) {
+        status = 'Two exact builds ready through NAP-SHELL';
+      }
     }
     await refreshDiagnostics();
   }
@@ -107,9 +111,20 @@
     });
   }
 
-  function remountActiveSurfaces() {
+  function beginShellHandshake() {
     readySurfaces = new Set();
     readyCount = 0;
+    shellHandshakeFailed = false;
+    status = 'Two exact builds mounted · waiting for NAP-SHELL';
+  }
+
+  function failShellHandshake(prefix: string, error: unknown) {
+    shellHandshakeFailed = true;
+    status = `${prefix}: ${String(error)}`;
+  }
+
+  function remountActiveSurfaces() {
+    beginShellHandshake();
     if (profile && !mountSurface(profile, profileSurface)) {
       throw new Error('profile surface refused after identity change');
     }
@@ -223,10 +238,10 @@
         const parsed = JSON.parse(payload) as { session?: unknown; envelope?: unknown };
         if (typeof parsed.session !== 'string') throw new Error('missing mapped session');
         void routeEnvelope(parsed.session, parsed.envelope).catch((error) => {
-          status = `Runtime refused envelope: ${String(error)}`;
+          failShellHandshake('Runtime refused envelope', error);
         });
       } catch (error) {
-        status = `Trusted-shell payload refused: ${String(error)}`;
+        failShellHandshake('Trusted-shell payload refused', error);
       }
       event.stopPropagation();
     };
@@ -241,13 +256,13 @@
           await selectIdentity(FIXTURE_IDENTITY);
         }
         profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
+        beginShellHandshake();
         if (!mountSurface(profile, profileSurface)) throw new Error('profile surface refused');
         follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
         if (!mountSurface(follow, followSurface)) throw new Error('follow surface refused');
         await refreshDiagnostics();
-        status = 'Two exact builds mounted · waiting for NAP-SHELL';
       } catch (error) {
-        status = `Composition failed: ${String(error)}`;
+        failShellHandshake('Composition failed', error);
       }
     })();
 
