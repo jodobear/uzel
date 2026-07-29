@@ -103,6 +103,17 @@ fn start_fixture(
 }
 
 #[tauri::command]
+fn stop_fixture(client: tauri::State<'_, UnixClient>, surface_token: String) -> Result<(), String> {
+    match client
+        .request(&Request::StopFixture { surface_token })
+        .map_err(|error| error.to_string())?
+    {
+        Response::Stopped => Ok(()),
+        _ => Err("daemon returned an unexpected stop response".to_owned()),
+    }
+}
+
+#[tauri::command]
 fn forward_surface_envelope(
     client: tauri::State<'_, UnixClient>,
     surface_token: String,
@@ -186,6 +197,7 @@ fn main() {
             select_read_identity,
             runtime_diagnostics,
             start_fixture,
+            stop_fixture,
             forward_surface_envelope,
             report_shell_accepted,
             report_hostile_probe

@@ -141,16 +141,35 @@
     status = `${prefix}: ${String(error)}`;
   }
 
-  function remountActiveSurfaces() {
+  async function restartActiveSurfaces() {
     beginShellHandshake();
-    if (profile && !mountSurface(profile, profileSurface)) {
-      const error = new Error('profile surface refused after identity change');
-      failShellHandshake('Shell remount failed', error);
-      throw error;
-    }
-    if (follow && !mountSurface(follow, followSurface)) {
-      const error = new Error('follow surface refused after identity change');
-      failShellHandshake('Shell remount failed', error);
+    const previousProfile = profile;
+    const previousFollow = follow;
+    try {
+      if (previousProfile) {
+        window.NMPTrustedShellHost.unmount(previousProfile.surfaceToken);
+        await invoke('stop_fixture', { surfaceToken: previousProfile.surfaceToken });
+        profile = null;
+      }
+      if (previousFollow) {
+        window.NMPTrustedShellHost.unmount(previousFollow.surfaceToken);
+        await invoke('stop_fixture', { surfaceToken: previousFollow.surfaceToken });
+        follow = null;
+      }
+      if (previousProfile) {
+        profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
+      }
+      if (profile && !mountSurface(profile, profileSurface)) {
+        throw new Error('profile surface refused after identity change');
+      }
+      if (previousFollow) {
+        follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
+      }
+      if (follow && !mountSurface(follow, followSurface)) {
+        throw new Error('follow surface refused after identity change');
+      }
+    } catch (error) {
+      failShellHandshake('Shell restart failed', error);
       throw error;
     }
   }
@@ -172,8 +191,11 @@
       const active = await invoke<string>('select_read_identity', { publicIdentity });
       identityInput = active;
       runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
-      if (follow || profile) remountActiveSurfaces();
-      status = 'Read identity selected through NMP';
+      if (follow || profile) {
+        await restartActiveSurfaces();
+      } else {
+        status = 'Read identity selected through NMP';
+      }
       await refreshDiagnostics();
     } finally {
       identityBusy = false;

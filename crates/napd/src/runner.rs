@@ -972,6 +972,25 @@ mod tests {
     }
 
     #[test]
+    fn stopped_fixture_relaunches_with_a_new_session_and_surface() {
+        let temp = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(temp.path()).unwrap();
+        let first = runner.start_named_fixture("follow-list").unwrap();
+        let first_session = runner.surfaces[&first.surface_token].0;
+
+        runner.stop_fixture(&first.surface_token).unwrap();
+        let second = runner.start_named_fixture("follow-list").unwrap();
+        let second_session = runner.surfaces[&second.surface_token].0;
+
+        assert_ne!(first.surface_token, second.surface_token);
+        assert_ne!(first_session, second_session);
+        assert!(matches!(
+            runner.forward_from_surface(&first.surface_token, br#"{"type":"shell.ready"}"#),
+            Err(RunnerError::UnknownSurface)
+        ));
+    }
+
+    #[test]
     fn identity_activation_rolls_back_when_product_state_cannot_persist() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
