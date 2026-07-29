@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 103 files · ~51,442 words
+- 103 files · ~51,873 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 846 nodes · 1184 edges · 86 communities (59 shown, 27 thin omitted)
+- 847 nodes · 1187 edges · 85 communities (61 shown, 24 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2de7d2c5`
+- Built from commit: `6e8bb31d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -88,7 +88,6 @@
 - FACT-010-portable-napplets.md
 - Work 05 — composed demo
 - Work 06 — hardening and demo acceptance
-- README.md
 - AcceptSettings
 - RelayDiagnosticsSink
 - FACT-011-daemon-nmp.md
@@ -122,7 +121,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (86 total, 27 thin omitted)
+## Communities (85 total, 24 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -156,16 +155,20 @@ Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repositor
 Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
+### Community 8 - "POC documentation audit"
+Cohesion: 0.21
+Nodes (4): Uzel agent instructions, Development, Uzel, FACT-XXX — title
+
 ### Community 9 - "Work 01 — scaffold"
-Cohesion: 0.11
-Nodes (16): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+8 more)
+Cohesion: 0.25
+Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
 
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
-Cohesion: 0.12
+Cohesion: 0.11
 Nodes (31): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+23 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
@@ -234,7 +237,7 @@ Nodes (6): Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that
 
 ### Community 41 - "lib.rs"
 Cohesion: 0.08
-Nodes (48): default_socket_path(), forward_surface_envelope(), HostileProbe, main(), report_hostile_probe(), Option, PathBuf, Result (+40 more)
+Nodes (49): default_socket_path(), forward_surface_envelope(), HostileProbe, main(), report_hostile_probe(), report_shell_accepted(), Option, PathBuf (+41 more)
 
 ### Community 47 - "lib.rs"
 Cohesion: 0.06
@@ -284,6 +287,10 @@ Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — v
 Cohesion: 0.15
 Nodes (9): results, target, nativeSurface(), PROBE_NAMES, sentinelTargets(), workerLoad(), LoadedWorker, RejectedWorker (+1 more)
 
+### Community 65 - "04-execution.md"
+Cohesion: 0.16
+Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
+
 ### Community 66 - "Work 02 — Linux exact-build runner"
 Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
@@ -317,8 +324,8 @@ Cohesion: 0.33
 Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 
 ### Community 79 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.40
-Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
+Cohesion: 0.25
+Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
 
 ### Community 81 - "AcceptSettings"
 Cohesion: 0.40
@@ -335,7 +342,7 @@ Nodes (9): Assumption validation and decision gates, Current observed baseline, 
 ## Knowledge Gaps
 - **370 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+365 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **24 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -350,7 +357,7 @@ _Questions this graph is uniquely positioned to answer:_
   _370 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
-- **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
-  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.11605937921727395 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11153846153846154 - nodes in this community are weakly interconnected._
+- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
+  _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
