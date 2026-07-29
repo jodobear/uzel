@@ -5,6 +5,7 @@ MODE=
 ASSUME_YES=0
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$ROOT"
+CURRENT_USER=$(id -un)
 
 fail() {
   echo "DEBIAN13_SETUP_ERROR $*" >&2
@@ -37,7 +38,7 @@ source /etc/os-release
 [[ $EUID -ne 0 ]] || fail 'run as normal desktop user, not root'
 command -v dpkg-query >/dev/null || fail 'dpkg-query missing on Debian host'
 
-APT_PACKAGES=(git nix-setup-systemd)
+APT_PACKAGES=(git login nix-setup-systemd)
 MISSING_APT=()
 for package in "${APT_PACKAGES[@]}"; do
   if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" == 'install ok installed' ]]; then
@@ -48,7 +49,7 @@ for package in "${APT_PACKAGES[@]}"; do
   fi
 done
 
-CONFIGURED_GROUPS=$(id -nG "$USER" 2>/dev/null || true)
+CONFIGURED_GROUPS=$(id -nG "$CURRENT_USER" 2>/dev/null || true)
 ACTIVE_GROUPS=$(id -nG)
 GROUP_CONFIGURED=0
 GROUP_ACTIVE=0
@@ -67,8 +68,8 @@ if [[ "$MODE" == --check ]]; then
     exit 2
   fi
   if (( GROUP_ACTIVE == 0 )); then
-    echo 'DEBIAN13_SETUP_RELOGIN_REQUIRED group=nix-users' >&2
-    exit 2
+    echo 'DEBIAN13_SETUP_GROUP_REEXEC_REQUIRED group=nix-users' >&2
+    exit 4
   fi
 else
   NEEDS_CHANGE=0
@@ -78,7 +79,7 @@ else
     APT_PLAN=none
     GROUP_PLAN=none
     (( ${#MISSING_APT[@]} > 0 )) && APT_PLAN="${MISSING_APT[*]}"
-    (( GROUP_CONFIGURED == 0 )) && GROUP_PLAN="$USER:nix-users"
+    (( GROUP_CONFIGURED == 0 )) && GROUP_PLAN="$CURRENT_USER:nix-users"
     echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN"
     command -v sudo >/dev/null || fail 'sudo missing; root must install listed apt packages'
     if (( ASSUME_YES == 0 )); then
@@ -94,17 +95,16 @@ else
       sudo apt-get update
       sudo apt-get install --yes "${MISSING_APT[@]}"
     fi
-    if [[ " $(id -nG "$USER" 2>/dev/null || true) " != *" nix-users "* ]]; then
-      sudo /sbin/adduser "$USER" nix-users
+    if [[ " $(id -nG "$CURRENT_USER" 2>/dev/null || true) " != *" nix-users "* ]]; then
+      sudo /sbin/adduser "$CURRENT_USER" nix-users
     fi
   else
     echo 'DEBIAN13_SETUP_NO_CHANGES system_dependencies=ready'
   fi
 
   if [[ " $(id -nG) " != *" nix-users "* ]]; then
-    echo 'DEBIAN13_SETUP_RELOGIN_REQUIRED group=nix-users'
-    echo 'Log out completely, log in, then rerun the original command.'
-    exit 2
+    echo 'DEBIAN13_SETUP_GROUP_REEXEC_REQUIRED group=nix-users'
+    exit 4
   fi
 fi
 

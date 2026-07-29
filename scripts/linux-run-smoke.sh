@@ -9,6 +9,8 @@ EVIDENCE_DIR=${UZEL_SMOKE_EVIDENCE_DIR:-}
 WESTON_PID=
 DEV_PID=
 
+# Invoked through the trap-called cleanup chain.
+# shellcheck disable=SC2329
 preserve_logs() {
   local output_dir=$1
   mkdir -p "$output_dir"
@@ -20,11 +22,15 @@ preserve_logs() {
   fi
 }
 
+# Invoked through cleanup.
+# shellcheck disable=SC2329
 preserve_failure() {
   preserve_logs "$FAILED_DIR"
   echo "Linux runtime smoke failed; logs preserved in $FAILED_DIR" >&2
 }
 
+# Invoked through the EXIT/INT/TERM trap.
+# shellcheck disable=SC2329
 cleanup() {
   local status=$?
   trap - EXIT INT TERM

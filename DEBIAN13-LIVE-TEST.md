@@ -17,13 +17,10 @@ bash scripts/debian13-setup.sh --install
 
 The setup script inventories every system prerequisite, prints each installed
 or missing item, then prints the exact apt/group change plan. It asks `[y/N]`
-before using `sudo`. It installs only missing Debian packages. If it prints
-`DEBIAN13_SETUP_RELOGIN_REQUIRED`, log out completely, log back in, then:
-
-```sh
-cd uzel
-bash scripts/debian13-setup.sh --check
-```
+before using `sudo`. It installs only missing Debian packages. If the current
+shell does not yet carry the configured `nix-users` group, the live-test script
+re-executes itself through Debian's `newgrp` and continues without a logout or
+reboot.
 
 Expected terminal marker:
 
@@ -34,7 +31,8 @@ DEBIAN13_SETUP_OK os=debian-13 arch=x86_64 nix=ready flake=locked
 `--check` makes no system changes. `--install` asks before any system change.
 Use `--install --yes` only for an explicitly approved unattended installation.
 Once ready, repeating `--install` runs no apt update, package install, or group
-change.
+change. A configured but inactive group is process-local state; it does not
+cause another install or a logout loop.
 
 ## 2. Run automated real-WebKit acceptance
 

@@ -11,6 +11,29 @@ fail() {
   exit 1
 }
 
+reexec_with_nix_group() {
+  command -v newgrp >/dev/null \
+    || fail 'newgrp missing after Debian login package validation'
+  [[ "${UZEL_DEBIAN13_GROUP_REEXEC:-}" != 1 ]] \
+    || fail 'newgrp re-exec did not activate nix-users'
+  export UZEL_DEBIAN13_GROUP_REEXEC=1
+  export UZEL_DEBIAN13_REEXEC_SCRIPT="$ROOT/scripts/debian13-live-test.sh"
+  export UZEL_DEBIAN13_REEXEC_MODE="$MODE"
+  echo 'DEBIAN13_GROUP_REEXEC group=nix-users action=continue-without-logout'
+  if (( ASSUME_YES == 1 )); then
+    # Variables intentionally expand in the shell started by newgrp.
+    # shellcheck disable=SC2016
+    exec newgrp -c \
+      'exec bash "$UZEL_DEBIAN13_REEXEC_SCRIPT" "$UZEL_DEBIAN13_REEXEC_MODE" --yes' \
+      nix-users
+  fi
+  # Variables intentionally expand in the shell started by newgrp.
+  # shellcheck disable=SC2016
+  exec newgrp -c \
+    'exec bash "$UZEL_DEBIAN13_REEXEC_SCRIPT" "$UZEL_DEBIAN13_REEXEC_MODE"' \
+    nix-users
+}
+
 for argument in "$@"; do
   case "$argument" in
     headless|interactive)
@@ -26,7 +49,15 @@ MODE=${MODE:-headless}
 if [[ "${UZEL_DEBIAN13_NIX_SHELL:-}" != 1 ]]; then
   SETUP_ARGS=(--install)
   (( ASSUME_YES == 1 )) && SETUP_ARGS+=(--yes)
+  set +e
   bash scripts/debian13-setup.sh "${SETUP_ARGS[@]}"
+  SETUP_STATUS=$?
+  set -e
+  case "$SETUP_STATUS" in
+    0) ;;
+    4) reexec_with_nix_group ;;
+    *) exit "$SETUP_STATUS" ;;
+  esac
 
   echo 'DEBIAN13_NIX_PLAN source=flake.lock tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
   NIX_NEEDS_APPROVAL=1
