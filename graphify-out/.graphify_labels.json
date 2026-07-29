@@ -11,7 +11,9 @@
   "9": "Work 01 — scaffold",
   "10": "Work 00 — validate assumptions",
   "11": "Work 00 — validate assumptions",
+  "12": "Slice 04 preflight — daemon, NMP, and persistence",
   "13": "Work 04 — daemon, NMP, and persistence",
+  "14": ".fetch",
   "15": "Uzel single-repository POC",
   "16": "POC status",
   "17": "Work 05 — composed demo",
@@ -77,5 +79,8 @@
   "77": "vite.config.js",
   "78": "Work 05 — composed demo",
   "79": "Work 06 — hardening and demo acceptance",
-  "80": "README.md"
+  "80": "README.md",
+  "81": "AcceptSettings",
+  "82": "RelayDiagnosticsSink",
+  "83": "FACT-011-daemon-nmp.md"
 }
