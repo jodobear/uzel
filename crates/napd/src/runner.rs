@@ -33,6 +33,21 @@ const AVAILABLE_DOMAINS: [&str; 4] = ["shell", "identity", "inc", "outbox"];
 const PRODUCT_STATE_VERSION: u8 = 0;
 const MAXIMUM_PRODUCT_STATE_BYTES: u64 = 4_096;
 
+#[derive(Debug)]
+enum StatePersistFailure {
+    Unchanged(String),
+    Replaced(String),
+}
+
+impl StatePersistFailure {
+    fn into_runner(self) -> RunnerError {
+        let detail = match self {
+            Self::Unchanged(detail) | Self::Replaced(detail) => detail,
+        };
+        RunnerError::StatePersist(detail)
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ProductState {
@@ -323,7 +338,9 @@ impl LinuxRunner {
             next_surface_generation: 0,
         };
         runner.restore_product_state()?;
-        runner.persist_product_state()?;
+        runner
+            .persist_product_state()
+            .map_err(StatePersistFailure::into_runner)?;
         Ok(runner)
     }
 
@@ -373,14 +390,17 @@ impl LinuxRunner {
             .handle
             .ok_or_else(|| RunnerError::Identity(format!("{:?}", registered.failure)))?;
         if previous_identity.as_deref() == Some(handle.public_key.as_str()) {
-            self.persist_product_state()?;
+            self.persist_product_state()
+                .map_err(StatePersistFailure::into_runner)?;
             return Ok(handle.public_key);
         }
 
         let active = self.activate_account(handle.clone())?;
         if let Err(persist_error) = self.persist_product_state() {
-            self.rollback_identity(previous_handle, handle)?;
-            return Err(persist_error);
+            if matches!(&persist_error, StatePersistFailure::Unchanged(_)) {
+                self.rollback_identity(previous_handle, handle)?;
+            }
+            return Err(persist_error.into_runner());
         }
         Ok(active)
     }
@@ -468,17 +488,21 @@ impl LinuxRunner {
         Ok(())
     }
 
-    fn persist_product_state(&self) -> Result<(), RunnerError> {
+    fn persist_product_state(&self) -> Result<(), StatePersistFailure> {
         let state = ProductState {
             version: PRODUCT_STATE_VERSION,
             mode: self.mode.as_str().to_owned(),
-            active_read_identity: self.get_read_identity()?,
+            active_read_identity: self
+                .get_read_identity()
+                .map_err(|error| StatePersistFailure::Unchanged(error.to_string()))?,
             next_surface_generation: self.next_surface_generation,
         };
         let bytes = serde_json::to_vec(&state)
-            .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
+            .map_err(|error| StatePersistFailure::Unchanged(error.to_string()))?;
         if bytes.len() as u64 > MAXIMUM_PRODUCT_STATE_BYTES {
-            return Err(RunnerError::StatePersist("state is oversized".to_owned()));
+            return Err(StatePersistFailure::Unchanged(
+                "state is oversized".to_owned(),
+            ));
         }
         let temporary = self
             .state_path
@@ -488,12 +512,18 @@ impl LinuxRunner {
             .create_new(true)
             .mode(0o600)
             .open(&temporary)
-            .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
+            .map_err(|error| StatePersistFailure::Unchanged(error.to_string()))?;
         file.write_all(&bytes)
             .and_then(|()| file.sync_all())
-            .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
+            .map_err(|error| StatePersistFailure::Unchanged(error.to_string()))?;
         fs::rename(&temporary, &self.state_path)
-            .map_err(|error| RunnerError::StatePersist(error.to_string()))?;
+            .map_err(|error| StatePersistFailure::Unchanged(error.to_string()))?;
+        let parent = self.state_path.parent().ok_or_else(|| {
+            StatePersistFailure::Replaced("state path has no parent directory".to_owned())
+        })?;
+        fs::File::open(parent)
+            .and_then(|directory| directory.sync_all())
+            .map_err(|error| StatePersistFailure::Replaced(error.to_string()))?;
         Ok(())
     }
 
@@ -522,14 +552,12 @@ impl LinuxRunner {
         if let Some((_, launch)) = &self.surface {
             return Ok(launch.clone());
         }
-        let previous_generation = self.next_surface_generation;
-        self.next_surface_generation = previous_generation
+        self.next_surface_generation = self
+            .next_surface_generation
             .checked_add(1)
             .ok_or(RunnerError::SurfaceGenerationExhausted)?;
-        if let Err(error) = self.persist_product_state() {
-            self.next_surface_generation = previous_generation;
-            return Err(error);
-        }
+        self.persist_product_state()
+            .map_err(StatePersistFailure::into_runner)?;
         let verification = self.controller.verify_artifact(
             EVENT.to_vec(),
             ArtifactCoordinate::Named {

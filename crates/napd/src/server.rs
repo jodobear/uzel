@@ -1,5 +1,6 @@
 use std::{
-    fs, io,
+    fs,
+    io::{self, Write},
     os::unix::{
         fs::{FileTypeExt, MetadataExt, PermissionsExt},
         net::{UnixListener, UnixStream},
@@ -9,8 +10,8 @@ use std::{
 };
 
 use napd_protocol::{
-    ASSET_CHUNK_BYTES, MAX_ASSET_BYTES, Request, Response, VERSION, encode_asset_chunk, read_frame,
-    write_frame,
+    ASSET_CHUNK_BYTES, MAX_ASSET_BYTES, ProtocolError, Request, Response, VERSION,
+    encode_asset_chunk, read_frame, write_frame,
 };
 
 use crate::{LinuxRunner, RunnerError};
@@ -271,10 +272,29 @@ fn handle_stream(state: &mut DaemonState, stream: &mut UnixStream) -> bool {
         }
     };
     let (response, shutdown) = state.handle(request);
-    if write_frame(stream, &response).is_err() {
+    if !write_response(stream, &response) {
         return false;
     }
     shutdown
+}
+
+fn write_response(stream: &mut UnixStream, response: &Response) -> bool {
+    let mut frame = Vec::new();
+    match write_frame(&mut frame, response) {
+        Ok(()) => stream
+            .write_all(&frame)
+            .and_then(|()| stream.flush())
+            .is_ok(),
+        Err(ProtocolError::FrameTooLarge { .. }) => write_frame(
+            stream,
+            &Response::error(
+                "response_too_large",
+                "runtime response exceeds the private control-frame limit",
+            ),
+        )
+        .is_ok(),
+        Err(_) => false,
+    }
 }
 
 fn prepare_socket_parent(socket_path: &Path) -> Result<(), ServerError> {
@@ -469,5 +489,23 @@ mod tests {
         );
         assert_eq!(exchange(&socket, &Request::Shutdown), Response::Shutdown);
         thread.join().unwrap();
+    }
+
+    #[test]
+    fn oversized_runtime_response_becomes_a_typed_error_frame() {
+        let (mut server, mut client) = UnixStream::pair().unwrap();
+        assert!(write_response(
+            &mut server,
+            &Response::Envelope {
+                envelope: "x".repeat(napd_protocol::MAX_FRAME_BYTES),
+            }
+        ));
+        assert_eq!(
+            read_frame::<Response>(&mut client).unwrap(),
+            Response::error(
+                "response_too_large",
+                "runtime response exceeds the private control-frame limit"
+            )
+        );
     }
 }
