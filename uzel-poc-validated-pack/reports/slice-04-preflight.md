@@ -4,7 +4,8 @@ Date: 2026-07-29
 
 Branch: `feat/slice-04-daemon-nmp`
 
-Implementation commits: `8436b66`, `fc74809`, `2cf7f48`
+Implementation commits: `8436b66`, `fc74809`, `2cf7f48`, plus the final
+review-hardening commit recorded in repository history.
 
 ## Outcome
 
@@ -26,13 +27,19 @@ No Uzel event, profile, or follow table/cache exists.
   allocation.
 - `$XDG_RUNTIME_DIR/uzel` is mode 0700 and `napd.sock` is mode 0600.
 - A stale path is removed only when it is a Unix socket owned by the same UID
-  as its private parent directory.
+  as its private parent directory, a connection probe proves no daemon is
+  listening, and a final device/inode check proves the path was not replaced.
 - The socket parent must be a real directory, never a symlink. Server teardown
   removes only the exact device/inode it bound, not a replacement socket.
+- A newly created private parent is set to mode 0700. An existing parent must
+  already exclude group/other access; the daemon refuses it instead of
+  changing caller-owned or shared-directory permissions.
 - Missing `XDG_RUNTIME_DIR` is a startup refusal unless an explicit socket path
   is supplied; the daemon never falls back to a shared `/tmp/uzel` path.
 - The server accepts one request per private local connection and processes one
-  shell client's state serially for the POC.
+  shell client's state serially for the POC. Accepted streams have bounded
+  read/write deadlines, so an incomplete client cannot block later requests
+  indefinitely.
 - Invalid protocol JSON, changed versions, unknown surfaces/transfers,
   out-of-order chunks, and runtime refusals are typed bounded errors.
 - Each fixture restart advances the shell-owned surface and transfer generation,
@@ -92,7 +99,7 @@ sandbox.
 
 ```text
 cargo test -p napd --lib
-  10 passed; 1 explicit live probe ignored
+  13 passed; 1 explicit live probe ignored
 
 cargo test -p napd live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache -- --ignored
   1 passed
@@ -130,10 +137,28 @@ nix --extra-experimental-features 'nix-command flakes' develop --command pnpm fa
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke
   SLICE_04_DAEMON_NMP_SMOKE_OK
 
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:fedora
+  FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_build=verified
+  nap_shell=ready artifact=responded child_native=denied
+  compositor=weston-headless-gl
+
 nix --extra-experimental-features 'nix-command flakes' develop --command bash -c \
   'while IFS= read -r event; do nak verify "$event"; done < fixtures/nostr/live-events.jsonl'
   every signed fixture event verified
 ```
+
+The first Fedora review regression run found an unrelated orphaned prior Vite
+process holding port 1420. The harness preserved that failed run under
+`reports/probes/slice-02-fedora-failed/`; after terminating only that process
+group and confirming the port was free, the single clean rerun emitted the
+exact success marker above. Expected headless EGL/cursor warnings did not
+affect the assertion.
+
+Codex review then exercised four previously uncovered local-boundary cases:
+an active daemon socket must not be unlinked, accepted streams need deadlines,
+existing shared socket parents must not be chmodded, and the historical exact
+Fedora readiness line must remain stable. All four were corrected and covered
+by the 13-test daemon suite plus the final Fedora run.
 
 ## Remaining boundaries
 
