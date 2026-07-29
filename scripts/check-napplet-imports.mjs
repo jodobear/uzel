@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { extname, join, relative, resolve } from 'node:path';
+import { extname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -75,6 +75,7 @@ const guardedBrowserGlobals = new Set([
 ]);
 const allowedGuardedGlobalAccesses = new Set([
   'Object.freeze',
+  'Object.keys',
   'document.createElement',
   'document.querySelector',
 ]);
@@ -344,6 +345,16 @@ function propertyName(node) {
   return ts.isIdentifier(node) ? node.text : null;
 }
 
+function propertyChain(node) {
+  const names = [];
+  let current = node;
+  while (ts.isPropertyAccessExpression(current) || ts.isElementAccessExpression(current)) {
+    names.push(propertyName(current));
+    current = current.expression;
+  }
+  return names;
+}
+
 function isDirectGlobalMemberOwner(node) {
   const parent = node.parent;
   return (
@@ -419,10 +430,14 @@ function programmaticNetworkViolations(path, source) {
     if (
       ts.isBinaryExpression(node) &&
       node.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
-      node.operatorToken.kind <= ts.SyntaxKind.LastAssignment &&
-      resourceAssignmentProperties.has(propertyName(node.left))
+      node.operatorToken.kind <= ts.SyntaxKind.LastAssignment
     ) {
-      add(node, `DOM resource assignment ${propertyName(node.left)}`);
+      const resource = propertyChain(node.left).find((name) =>
+        resourceAssignmentProperties.has(name)
+      );
+      if (resource) {
+        add(node, `DOM resource assignment ${resource}`);
+      }
     }
 
     if (ts.isCallExpression(node)) {
@@ -610,6 +625,7 @@ function runSelfTest() {
     "element.setAttribute('style', 'background-image: url(https://example.test/x)')",
     "element.setAttributeNS(null, 'href', remote)",
     'element.style.backgroundImage = remote',
+    "document.querySelector('#remote-image').href.baseVal = remote",
     "style.setProperty('--remote', 'url(http://127.0.0.1:43129/leak)')",
     'window.open(remote)',
     'document.write(markup)',
@@ -721,6 +737,12 @@ runSelfTest();
 
 let failed = false;
 const nappletsRoot = join(repositoryRoot, 'napplets');
+const contractsRoot = join(repositoryRoot, 'contracts');
+const productSourceRoots = [
+  join(nappletsRoot, 'follow-list'),
+  join(nappletsRoot, 'profile-card'),
+  contractsRoot,
+];
 for (const entry of readdirSync(nappletsRoot, { withFileTypes: true })) {
   if (!entry.isDirectory()) {
     continue;
@@ -739,11 +761,12 @@ for (const entry of readdirSync(nappletsRoot, { withFileTypes: true })) {
   }
 }
 
-for (const path of sourceFiles(nappletsRoot)) {
+const sourcePaths = new Set([...sourceFiles(nappletsRoot), ...sourceFiles(contractsRoot)]);
+for (const path of sourcePaths) {
   const source = readFileSync(path, 'utf8');
-  const productNapplet =
-    path.startsWith(join(nappletsRoot, 'follow-list')) ||
-    path.startsWith(join(nappletsRoot, 'profile-card'));
+  const productNapplet = productSourceRoots.some(
+    (root) => path === root || path.startsWith(`${root}${sep}`),
+  );
   if (extname(path) === '.html' && !productNapplet) {
     continue;
   }
