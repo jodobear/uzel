@@ -167,6 +167,12 @@ acceptance, and invalid environments close without acknowledgement. Uzel pins
 that successor and counts a surface only from its source/remount-bound
 `onReady` callback.
 
+The final review also separated lifecycle state from ordinary request health.
+Only mounting and `shell.ready`/`shell.init` routing may latch a failed
+NAP-SHELL proof. A later napplet request or diagnostics refresh failure remains
+visible as a runtime error but cannot rewrite two already accepted handshakes
+as `FAILED`.
+
 ## Honest boundary
 
 The contract test proves the queryless payload. Runtime and daemon tests prove
