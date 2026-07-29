@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 96 files · ~41,935 words
+- 96 files · ~41,998 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 664 nodes · 740 edges · 81 communities (54 shown, 27 thin omitted)
+- 668 nodes · 745 edges · 79 communities (53 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b61f07f8`
+- Built from commit: `bff024a9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -27,9 +27,7 @@
 - Work 01 — scaffold
 - Work 00 — validate assumptions
 - Work 00 — validate assumptions
-- Work 02 — Linux exact-build runner
 - Work 04 — daemon, NMP, and persistence
-- Execution slices
 - Uzel single-repository POC
 - POC status
 - Work 05 — composed demo
@@ -115,7 +113,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (81 total, 27 thin omitted)
+## Communities (79 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -127,7 +125,7 @@ Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), 
 
 ### Community 2 - "check-napplet-imports.mjs"
 Cohesion: 0.07
-Nodes (29): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers, domResourceAttributeNames (+21 more)
+Nodes (33): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+25 more)
 
 ### Community 3 - "Provisional component design"
 Cohesion: 0.20
@@ -150,8 +148,8 @@ Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 9 - "Work 01 — scaffold"
-Cohesion: 0.25
-Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
+Cohesion: 0.11
+Nodes (16): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+8 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
@@ -160,10 +158,6 @@ Nodes (10): API and ownership evidence, Automated review corrections, Commands a
 ### Community 11 - "Work 00 — validate assumptions"
 Cohesion: 0.38
 Nodes (8): forward_surface_envelope(), HostileProbe, report_hostile_probe(), Mutex, Result, String, start_fixture(), State
-
-### Community 12 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.25
-Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.12
@@ -298,9 +292,9 @@ Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ## Knowledge Gaps
-- **350 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+345 more)
+- **353 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+348 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -308,14 +302,14 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Slice 03 preflight` connect `Work 00 — validate assumptions` to `04-execution.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _350 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _353 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.07308377896613191 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
+- **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
-- **Should `POC status` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
