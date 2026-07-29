@@ -96,6 +96,15 @@ print_nix_daemon_state() {
   echo "DEBIAN13_DEPENDENCY type=nix-daemon unit=$NIX_DAEMON_UNIT load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_PRESENT client=$NIX_DAEMON_CLIENT"
 }
 
+wait_for_nix_daemon_socket() {
+  local attempt
+  for (( attempt = 0; attempt < 50; attempt += 1 )); do
+    [[ -S "$NIX_DAEMON_SOCKET" ]] && return 0
+    sleep 0.1
+  done
+  return 1
+}
+
 refresh_nix_daemon_state
 print_nix_daemon_state
 
@@ -109,7 +118,7 @@ if [[ "$MODE" == --check ]]; then
     exit 2
   fi
   if (( NIX_DAEMON_READY == 0 )); then
-    echo 'DEBIAN13_SETUP_ACTION_REQUIRED unit=nix-daemon.socket action=enable-restart run=bash scripts/debian13-setup.sh --install' >&2
+    echo 'DEBIAN13_SETUP_ACTION_REQUIRED unit=nix-daemon.socket action=enable-rebind run=bash scripts/debian13-setup.sh --install' >&2
     exit 2
   fi
   if (( GROUP_ACTIVE == 0 )); then
@@ -126,7 +135,7 @@ else
     DAEMON_PLAN=none
     (( ${#MISSING_APT[@]} > 0 )) && APT_PLAN="${MISSING_APT[*]}"
     (( GROUP_CONFIGURED == 0 )) && GROUP_PLAN="$CURRENT_USER:nix-users"
-    (( NIX_DAEMON_READY == 0 )) && DAEMON_PLAN=enable-restart:nix-daemon.socket
+    (( NIX_DAEMON_READY == 0 )) && DAEMON_PLAN=enable-rebind:nix-daemon.socket
     echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN nix_daemon=$DAEMON_PLAN"
     command -v sudo >/dev/null || fail 'sudo missing; root must install listed apt packages'
     if (( ASSUME_YES == 0 )); then
@@ -153,7 +162,12 @@ else
       [[ "$NIX_DAEMON_LOAD" == loaded ]] \
         || fail "nix-daemon.socket unavailable after package install and daemon-reload; load=$NIX_DAEMON_LOAD"
       sudo systemctl enable "$NIX_DAEMON_UNIT"
-      sudo systemctl restart "$NIX_DAEMON_UNIT"
+      # Explicit stop/start closes any retained socket file descriptor before
+      # systemd binds a new filesystem endpoint. A restart may retain it.
+      sudo systemctl stop nix-daemon.socket nix-daemon.service
+      sudo systemctl start nix-daemon.socket
+      wait_for_nix_daemon_socket \
+        || fail "nix-daemon.socket did not create $NIX_DAEMON_SOCKET within 5 seconds"
     fi
   else
     echo 'DEBIAN13_SETUP_NO_CHANGES system_dependencies=ready'

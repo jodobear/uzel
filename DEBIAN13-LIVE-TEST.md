@@ -19,7 +19,9 @@ The setup script inventories every system prerequisite, including the systemd
 Nix daemon unit, socket file, boot enablement, and an actual daemon-store
 connection. It prints the exact apt/group/daemon change plan and asks `[y/N]`
 before using `sudo`. It installs only missing Debian packages and enables or
-restarts `nix-daemon.socket` only when its readiness checks fail. If the current
+rebinds `nix-daemon.socket` only when its readiness checks fail. Rebinding uses
+an explicit daemon/socket stop followed by a socket start, then waits up to five
+seconds for the filesystem endpoint and proves a client connection. If the current
 shell does not yet carry the configured `nix-users` group, the live-test script
 re-executes itself through Debian's `newgrp` and continues without a logout or
 reboot.
