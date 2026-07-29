@@ -41,9 +41,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         LinuxRunner::open(&options.runtime_root)?
     };
     let server = DaemonServer::bind(&options.socket, runner)?;
+    println!("UZEL_NAPD_READY role={}", napd::PROCESS_ROLE);
     println!(
-        "UZEL_NAPD_READY role={} mode={} socket={}",
-        napd::PROCESS_ROLE,
+        "UZEL_NAPD_ENDPOINT mode={} socket={}",
         if options.live { "live" } else { "fixture" },
         options.socket.display()
     );

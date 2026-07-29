@@ -5,6 +5,7 @@ use std::{
         net::{UnixListener, UnixStream},
     },
     path::{Path, PathBuf},
+    time::Duration,
 };
 
 use napd_protocol::{
@@ -14,6 +15,8 @@ use napd_protocol::{
 
 use crate::{LinuxRunner, RunnerError};
 
+const STREAM_TIMEOUT: Duration = Duration::from_secs(2);
+
 #[derive(Debug, thiserror::Error)]
 pub enum ServerError {
     #[error("daemon socket parent could not be prepared: {0}")]
@@ -22,6 +25,12 @@ pub enum ServerError {
     UnsafeStaleSocket(PathBuf),
     #[error("refusing non-directory or symlink daemon socket parent at {0}")]
     UnsafeSocketParent(PathBuf),
+    #[error("refusing insecure daemon socket parent permissions at {0}")]
+    InsecureSocketParent(PathBuf),
+    #[error("another daemon is already listening at {0}")]
+    ActiveSocket(PathBuf),
+    #[error("daemon socket activity probe failed: {0}")]
+    SocketProbe(io::Error),
     #[error("daemon socket could not bind: {0}")]
     Bind(io::Error),
     #[error("daemon socket permissions could not be set: {0}")]
@@ -222,6 +231,12 @@ impl DaemonServer {
     pub fn serve(mut self) -> Result<(), ServerError> {
         loop {
             let (mut stream, _) = self.listener.accept().map_err(ServerError::Accept)?;
+            stream
+                .set_read_timeout(Some(STREAM_TIMEOUT))
+                .map_err(ServerError::SocketProbe)?;
+            stream
+                .set_write_timeout(Some(STREAM_TIMEOUT))
+                .map_err(ServerError::SocketProbe)?;
             let shutdown = handle_stream(&mut self.state, &mut stream);
             if shutdown {
                 return Ok(());
@@ -266,12 +281,25 @@ fn prepare_socket_parent(socket_path: &Path) -> Result<(), ServerError> {
     let parent = socket_path
         .parent()
         .ok_or_else(|| ServerError::UnsafeStaleSocket(socket_path.to_path_buf()))?;
-    fs::create_dir_all(parent).map_err(ServerError::SocketParent)?;
+    let created = match fs::symlink_metadata(parent) {
+        Ok(_) => false,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {
+            fs::create_dir_all(parent).map_err(ServerError::SocketParent)?;
+            true
+        }
+        Err(error) => return Err(ServerError::SocketParent(error)),
+    };
     let metadata = fs::symlink_metadata(parent).map_err(ServerError::SocketParent)?;
     if !metadata.file_type().is_dir() {
         return Err(ServerError::UnsafeSocketParent(parent.to_path_buf()));
     }
-    fs::set_permissions(parent, fs::Permissions::from_mode(0o700)).map_err(ServerError::Permissions)
+    if created {
+        fs::set_permissions(parent, fs::Permissions::from_mode(0o700))
+            .map_err(ServerError::Permissions)?;
+    } else if metadata.permissions().mode() & 0o077 != 0 {
+        return Err(ServerError::InsecureSocketParent(parent.to_path_buf()));
+    }
+    Ok(())
 }
 
 fn remove_owned_stale_socket(socket_path: &Path) -> Result<(), ServerError> {
@@ -285,6 +313,22 @@ fn remove_owned_stale_socket(socket_path: &Path) -> Result<(), ServerError> {
         .ok_or_else(|| ServerError::UnsafeStaleSocket(socket_path.to_path_buf()))?;
     let parent_metadata = fs::metadata(parent).map_err(ServerError::SocketParent)?;
     if !metadata.file_type().is_socket() || metadata.uid() != parent_metadata.uid() {
+        return Err(ServerError::UnsafeStaleSocket(socket_path.to_path_buf()));
+    }
+    match UnixStream::connect(socket_path) {
+        Ok(_) => return Err(ServerError::ActiveSocket(socket_path.to_path_buf())),
+        Err(error)
+            if matches!(
+                error.kind(),
+                io::ErrorKind::ConnectionRefused | io::ErrorKind::NotFound
+            ) => {}
+        Err(error) => return Err(ServerError::SocketProbe(error)),
+    }
+    let current = fs::symlink_metadata(socket_path).map_err(ServerError::Bind)?;
+    if !current.file_type().is_socket()
+        || current.dev() != metadata.dev()
+        || current.ino() != metadata.ino()
+    {
         return Err(ServerError::UnsafeStaleSocket(socket_path.to_path_buf()));
     }
     fs::remove_file(socket_path).map_err(ServerError::Bind)
@@ -371,5 +415,59 @@ mod tests {
             DaemonServer::bind(parent.join("uzel.sock"), runner),
             Err(ServerError::UnsafeSocketParent(_))
         ));
+    }
+
+    #[test]
+    fn active_daemon_socket_is_not_unlinked() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("run/uzel.sock");
+        let first_runner = LinuxRunner::open(temp.path().join("state-one")).unwrap();
+        let first = DaemonServer::bind(&socket, first_runner).unwrap();
+        let second_runner = LinuxRunner::open(temp.path().join("state-two")).unwrap();
+        assert!(matches!(
+            DaemonServer::bind(&socket, second_runner),
+            Err(ServerError::ActiveSocket(_))
+        ));
+        assert!(socket.exists());
+        drop(first);
+    }
+
+    #[test]
+    fn existing_shared_socket_parent_is_not_chmodded() {
+        let temp = TempDir::new().unwrap();
+        fs::set_permissions(temp.path(), fs::Permissions::from_mode(0o755)).unwrap();
+        let socket = temp.path().join("uzel.sock");
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        assert!(matches!(
+            DaemonServer::bind(&socket, runner),
+            Err(ServerError::InsecureSocketParent(_))
+        ));
+        assert_eq!(
+            fs::metadata(temp.path()).unwrap().permissions().mode() & 0o777,
+            0o755
+        );
+    }
+
+    #[test]
+    fn incomplete_client_times_out_without_blocking_the_next_request() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("run/uzel.sock");
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let server = DaemonServer::bind(&socket, runner).unwrap();
+        let thread = std::thread::spawn(move || server.serve().unwrap());
+        let mut stalled = UnixStream::connect(&socket).unwrap();
+        stalled
+            .set_read_timeout(Some(STREAM_TIMEOUT + Duration::from_secs(1)))
+            .unwrap();
+        assert!(matches!(
+            read_frame::<Response>(&mut stalled).unwrap(),
+            Response::Error { ref code, .. } if code == "invalid_frame"
+        ));
+        assert_eq!(
+            exchange(&socket, &Request::Hello { version: VERSION }),
+            Response::Hello { version: VERSION }
+        );
+        assert_eq!(exchange(&socket, &Request::Shutdown), Response::Shutdown);
+        thread.join().unwrap();
     }
 }
