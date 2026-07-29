@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 103 files · ~50,914 words
+- 103 files · ~50,986 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 845 nodes · 1182 edges · 86 communities (59 shown, 27 thin omitted)
+- 846 nodes · 1184 edges · 86 communities (59 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c729c5b7`
+- Built from commit: `8cb4fbd0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -137,8 +137,8 @@ Cohesion: 0.07
 Nodes (33): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+25 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.10
-Nodes (18): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+10 more)
+Cohesion: 0.20
+Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
 Cohesion: 0.20
@@ -157,8 +157,8 @@ Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 9 - "Work 01 — scaffold"
-Cohesion: 0.25
-Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
+Cohesion: 0.11
+Nodes (16): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+8 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
@@ -238,7 +238,7 @@ Nodes (48): default_socket_path(), forward_surface_envelope(), HostileProbe, mai
 
 ### Community 47 - "lib.rs"
 Cohesion: 0.06
-Nodes (49): Arc, Child, Condvar, bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), identity_query() (+41 more)
+Nodes (50): Arc, Child, Condvar, bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), identity_query() (+42 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.25
@@ -309,7 +309,7 @@ Cohesion: 0.33
 Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
 
 ### Community 72 - "POC status"
-Cohesion: 0.40
+Cohesion: 0.33
 Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 78 - "Work 05 — composed demo"
@@ -329,8 +329,8 @@ Cohesion: 0.50
 Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
 
 ### Community 84 - "Work 01 — scaffold"
-Cohesion: 0.25
-Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
+Cohesion: 0.22
+Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
 ## Knowledge Gaps
 - **370 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+365 more)
@@ -350,7 +350,7 @@ _Questions this graph is uniquely positioned to answer:_
   _370 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
-- **Should `Provisional component design` be split into smaller, more focused modules?**
-  _Cohesion score 0.09941520467836257 - nodes in this community are weakly interconnected._
+- **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
   _Cohesion score 0.11605937921727395 - nodes in this community are weakly interconnected._
