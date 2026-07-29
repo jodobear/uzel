@@ -16,6 +16,19 @@ const dependencyGroups = [
   'optionalDependencies',
   'peerDependencies',
 ];
+const allowedDependencyTargets = new Map([
+  ['dependencies', new Map([
+    ['@napplet/nap', '0.29.0'],
+    ['@napplet/shim', '0.27.0'],
+  ])],
+  ['devDependencies', new Map([
+    ['@napplet/conformance-cli', '0.2.16'],
+    ['@napplet/vite-plugin', '0.12.0'],
+    ['vite', '8.1.5'],
+  ])],
+  ['optionalDependencies', new Map()],
+  ['peerDependencies', new Map()],
+]);
 const directNetworkIdentifiers = new Set([
   'Audio',
   'CSSStyleSheet',
@@ -127,6 +140,14 @@ const resourceAttributeNames = new Set([
   'xlink:href',
 ]);
 const domResourceAttributeNames = new Set([...resourceAttributeNames, 'style']);
+const resourceMutationMethods = new Set([
+  'insertAdjacentHTML',
+  'insertRule',
+  'replaceSync',
+  'setAttribute',
+  'setAttributeNS',
+  'setProperty',
+]);
 const resourceCreationElements = new Set([
   'audio',
   'embed',
@@ -331,6 +352,10 @@ function isDirectGlobalMemberOwner(node) {
   );
 }
 
+function isDirectCallTarget(node) {
+  return ts.isCallExpression(node.parent) && node.parent.expression === node;
+}
+
 function programmaticNetworkViolations(path, source) {
   const parsed = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
   const found = new Set();
@@ -379,6 +404,9 @@ function programmaticNetworkViolations(path, source) {
       if (reflectiveCodeProperties.has(member)) {
         add(node, `reflective code access ${member}`);
       }
+      if (resourceMutationMethods.has(member) && !isDirectCallTarget(node)) {
+        add(node, `resource-mutating method reference ${member}`);
+      }
       if (
         ts.isElementAccessExpression(node) &&
         member === null &&
@@ -418,7 +446,7 @@ function programmaticNetworkViolations(path, source) {
       }
       if (
         called === 'setProperty' &&
-        (first === null || resourceStyleDirective.test(first))
+        (first === null || first.startsWith('--') || resourceStyleDirective.test(first))
       ) {
         add(node, `CSS resource property ${first ?? '<dynamic>'}`);
       }
@@ -484,7 +512,10 @@ function violations(path, source) {
 function dependencyViolations(packageJson) {
   return dependencyGroups.flatMap((group) =>
     Object.entries(packageJson[group] ?? {}).flatMap(([name, target]) =>
-      forbiddenSpecifier.test(`${name}\n${target}`) ? [{ group, name, target }] : [],
+      allowedDependencyTargets.get(group)?.get(name) === target &&
+        !forbiddenSpecifier.test(`${name}\n${target}`)
+        ? []
+        : [{ group, name, target }],
     ),
   );
 }
@@ -537,6 +568,9 @@ function runSelfTest() {
   ) {
     throw new Error('boundary self-test rejected an allowed NAP dependency');
   }
+  if (dependencyViolations({ dependencies: { undici: '7.0.0' } }).length === 0) {
+    throw new Error('boundary self-test accepted a non-allowlisted dependency');
+  }
   for (const source of [
     "const socket = new WebSocket('wss://example.test')",
     "globalThis['fetch'](remote)",
@@ -572,9 +606,11 @@ function runSelfTest() {
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
     "element.setAttribute('src', remote)",
+    "element.setAttribute.call(element, 'src', remote)",
     "element.setAttribute('style', 'background-image: url(https://example.test/x)')",
     "element.setAttributeNS(null, 'href', remote)",
     'element.style.backgroundImage = remote',
+    "style.setProperty('--remote', 'url(http://127.0.0.1:43129/leak)')",
     'window.open(remote)',
     'document.write(markup)',
     'target.innerHTML = markup',
