@@ -6125,7 +6125,7 @@
       "label": "fail()",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6139,7 +6139,7 @@
       "label": "UZEL_SMOKE_NAME",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L58",
+      "source_location": "L104",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6153,7 +6153,7 @@
       "label": "UZEL_SMOKE_SUCCESS_MARKER",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L59",
+      "source_location": "L105",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6167,7 +6167,7 @@
       "label": "UZEL_SMOKE_ARTIFACT_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L60",
+      "source_location": "L106",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6181,7 +6181,7 @@
       "label": "UZEL_SMOKE_EVIDENCE_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L61",
+      "source_location": "L107",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6223,7 +6223,7 @@
       "label": "fail()",
       "file_type": "code",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6655,7 +6655,7 @@
       "label": "2. Run automated real-WebKit acceptance",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L34",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "debian13_live_test_2_run_automated_real_webkit_acceptance",
       "community": 22,
@@ -6665,7 +6665,7 @@
       "label": "3. Run visible desktop demo",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L58",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "debian13_live_test_3_run_visible_desktop_demo",
       "community": 22,
@@ -20797,7 +20797,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_fail",
@@ -20817,7 +20817,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L60",
+      "source_location": "L106",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_artifact_dir",
@@ -20827,7 +20827,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L61",
+      "source_location": "L107",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_evidence_dir",
@@ -20837,7 +20837,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L58",
+      "source_location": "L104",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_name",
@@ -20847,7 +20847,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L59",
+      "source_location": "L105",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_success_marker",
@@ -20857,7 +20857,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L14",
+      "source_location": "L17",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_live_test_sh__entry",
@@ -20868,7 +20868,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "scripts_debian13_setup",
       "target": "scripts_debian13_setup_fail",
@@ -20888,7 +20888,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-setup.sh",
-      "source_location": "L14",
+      "source_location": "L17",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_debian13_setup_sh__entry",
@@ -21255,7 +21255,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L34",
+      "source_location": "L39",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_2_run_automated_real_webkit_acceptance",
@@ -21265,7 +21265,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L58",
+      "source_location": "L70",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_3_run_visible_desktop_demo",
@@ -24103,5 +24103,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d7dc0c99a8f44aeaee22b95e18d27f77ef98efbc"
+  "built_at_commit": "ecbbbb96373352cfb0540f38ab7bec730e134459"
 }
