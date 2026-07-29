@@ -13,6 +13,7 @@ declare global {
           title: string;
           domains: string[];
           onReady?: (surfaceId: string) => void;
+          onError?: (surfaceId: string, detail: string) => void;
         },
       ): boolean;
       receive(surfaceId: string, envelope: unknown): boolean;
@@ -25,6 +26,7 @@ declare global {
       title: string;
       domains: string[];
       onReady?: (surfaceId: string) => void;
+      onError?: (surfaceId: string, detail: string) => void;
     }): boolean;
     __nmpTrustedShellReceive(envelope: unknown): boolean;
   }

@@ -109,6 +109,10 @@
     }
   }
 
+  function rejectSurface(surfaceToken: string, detail: string) {
+    failShellHandshake(`Shell environment rejected for ${surfaceToken}`, detail);
+  }
+
   function mountSurface(launch: SurfaceLaunch, target: HTMLElement): boolean {
     return window.NMPTrustedShellHost.mount(launch.surfaceToken, target, {
       session: launch.surfaceToken,
@@ -117,6 +121,7 @@
       title: launch.title,
       domains: launch.domains,
       onReady: acknowledgeSurface,
+      onError: rejectSurface,
     });
   }
 
@@ -139,10 +144,14 @@
   function remountActiveSurfaces() {
     beginShellHandshake();
     if (profile && !mountSurface(profile, profileSurface)) {
-      throw new Error('profile surface refused after identity change');
+      const error = new Error('profile surface refused after identity change');
+      failShellHandshake('Shell remount failed', error);
+      throw error;
     }
     if (follow && !mountSurface(follow, followSurface)) {
-      throw new Error('follow surface refused after identity change');
+      const error = new Error('follow surface refused after identity change');
+      failShellHandshake('Shell remount failed', error);
+      throw error;
     }
   }
 
@@ -176,7 +185,7 @@
     try {
       await selectIdentity(identityInput.trim());
     } catch (error) {
-      status = `Identity refused: ${String(error)}`;
+      if (!shellHandshakeFailed) status = `Identity refused: ${String(error)}`;
     }
   }
 

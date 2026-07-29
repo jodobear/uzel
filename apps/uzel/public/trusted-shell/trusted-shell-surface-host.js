@@ -19,6 +19,7 @@
       throw new Error("The trusted shell surface host is unavailable");
     }
     const surfaces = new Map();
+    let disposed = false;
 
     function closeAcknowledgement(state) {
       if (state.acknowledgement) {
@@ -50,7 +51,8 @@
     }
 
     function mount(surfaceId, surface, configuration) {
-      if (!validSurfaceId(surfaceId) ||
+      if (disposed ||
+          !validSurfaceId(surfaceId) ||
           !surface ||
           typeof surface.replaceChildren !== "function" ||
           !primitives.isPlainObject(configuration) ||
@@ -61,6 +63,8 @@
             typeof configuration.domains !== "undefined") ||
           (typeof configuration.onReady !== "undefined" &&
             typeof configuration.onReady !== "function") ||
+          (typeof configuration.onError !== "undefined" &&
+            typeof configuration.onError !== "function") ||
           (!surfaces.has(surfaceId) && surfaces.size >= MAX_SURFACES)) {
         return false;
       }
@@ -89,6 +93,7 @@
         frame,
         session: configuration.session,
         onReady: configuration.onReady,
+        onError: configuration.onError,
         acknowledgement: null,
         ready: false,
         domains: Object.freeze(Array.from(new Set(
@@ -121,7 +126,12 @@
           if (surfaces.get(surfaceId) !== state) return;
           const accepted = event.data === "accepted";
           closeAcknowledgement(state);
-          if (!accepted) return;
+          if (!accepted) {
+            try {
+              if (state.onError) state.onError(surfaceId, "shell.init rejected");
+            } catch (_) {}
+            return;
+          }
           state.ready = true;
           try {
             if (state.onReady) state.onReady(surfaceId);
@@ -149,6 +159,8 @@
     }
 
     function dispose() {
+      if (disposed) return;
+      disposed = true;
       for (const surfaceId of Array.from(surfaces.keys())) {
         unmount(surfaceId);
       }
