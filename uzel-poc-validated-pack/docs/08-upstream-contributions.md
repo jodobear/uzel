@@ -21,7 +21,7 @@ Uzel uses implementation repositories as dependencies, not protocol authorities.
 |---|---|---|---|---|---|
 | `kehto/web` | `jodobear/kehto-web:fix/napplet-conformance-no-modulepreload` | `62241de0b4526ba4fdc8a7b3c766c2499d3ae24d`; upstream merge `4fd4affdd0043ea093c6b56a866f0f9f333e5375` | build 32/32; typecheck 17/17; unit 1,576/1,576; gateway 15/15; chat/feed conformance 6/0/4 each; E2E and AI-slop green | [kehto/web#218](https://github.com/kehto/web/pull/218), merged 2026-07-29 | keep exact evidence pins; advance dependent corpus only through a separately validated change |
 | `pablof7z/nampplets` | `jodobear/nampplets:compat/napplet-0.29` | `08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf` | all 16 Rust crates; 22 Python tests; four trusted-shell tests; digests and file-growth gate; exact Kehto repository binding; Uzel Slice 02 exact fixture verification, NAP-SHELL, runtime response, Fedora WebKit isolation, and Debian build pass | ready to submit from the existing fork branch; no Uzel-side upstream patch was needed | retain exact fork revision until an accepted upstream successor passes the same integrated Slice 02 probes |
-| `pablof7z/nampplets` | `jodobear/nampplets:feat/trusted-shell-multi-surface` | `fc68bce0a4793a8618445e234bcc91d69e8b96de` | focused trusted-shell Node tests; real Chromium legacy host 4/4 and package 4/4 with one declared external-asset not-run; 22 Python conformance tests; 52-file/211-envelope/10-falsifier baseline; digests, file-growth, fmt, Clippy, and full Rust workspace tests; one-shot accepted/rejected environment acknowledgement and terminal host disposal added after Uzel review; fork main synchronized to current upstream before final CI | [jodobear fork PR #1](https://github.com/jodobear/nampplets/pull/1), open and mergeable; exact-head Codex review and CI pending; cross-owner PR creation blocked by current fine-grained PAT | Uzel pins validated Rust runtime predecessor `e539378...` and copies exact portable shell bytes from `fc68bce...`; the contribution's later Rust runtime rejects the POC's plaintext loopback relay. Merge the fork PR only after review/CI, and require trusted local TLS before a future Rust runtime repin |
+| `pablof7z/nampplets` | `jodobear/nampplets:feat/trusted-shell-multi-surface` | `fc68bce0a4793a8618445e234bcc91d69e8b96de`; fork merge `570a01f8ae85c4dccd5452aa764e97d88c2f6611` | focused trusted-shell Node tests; real Chromium legacy host 4/4 and package 4/4 with one declared external-asset not-run; 22 Python conformance tests; 52-file/211-envelope/10-falsifier baseline; digests, file-growth, fmt, Clippy, and full Rust workspace tests; one-shot accepted/rejected environment acknowledgement and terminal host disposal added after Uzel review; exact-head Codex review clean; Linux-relevant CI green | [jodobear fork PR #1](https://github.com/jodobear/nampplets/pull/1), merged 2026-07-29; cross-owner upstream submission remains separately tracked | Uzel pins validated Rust runtime predecessor `e539378...` and copies exact portable shell bytes from `fc68bce...`; the contribution's later Rust runtime rejects the POC's plaintext loopback relay. Require trusted local TLS before a future Rust runtime repin |
 
 ## Slice 02 upstream result
 
@@ -42,6 +42,17 @@ fact, not an upstream defect: the deploy CLI owns final source-bearing event
 creation, while the Vite plugin owns the single-file build and sidecar inputs.
 The queryless NAP-INC flow also needs no archetype or NAP-INTENT workaround.
 Slice 03 therefore created no fork branch or upstream ledger row.
+
+## Slice 06 upstream result
+
+No new upstream defect was required to complete the malicious-child boundary.
+Uzel's live sentinel, exact hostile NAP-CONFIG staging, Tauri command counter,
+navigation policy, and acceptance harness are product-side proof code. They do
+not change the NAP specs, NMP facade, or reusable nampplets runtime. The only
+reusable shell work remains the merged fork contribution above. Any future
+per-WebKit-child OS sandbox or trusted-local-TLS runtime change must start on a
+separate branch in the relevant `jodobear` fork and be added here before Uzel
+depends on it.
 
 ## Entry template
 

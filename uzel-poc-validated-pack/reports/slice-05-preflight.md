@@ -25,19 +25,21 @@ Those shell bytes add a bounded portable multi-surface host without modifying
 the NAP/native envelope. Exact asset SHA-256 values are locked in
 `compatibility.lock` and `scripts/check-pinned-assets.sh`.
 
-[Fork PR #1](https://github.com/jodobear/nampplets/pull/1) is open and mergeable.
-Codex reported no major issue at predecessor `7eccdee...` after fixes for stale
+[Fork PR #1](https://github.com/jodobear/nampplets/pull/1) later merged as
+`570a01f8ae85c4dccd5452aa764e97d88c2f6611` after exact-head Codex review was
+clean and Linux-relevant CI was green. Codex had reported no major issue at
+predecessor `7eccdee...` after fixes for stale
 same-ID frame mappings and the moved Apple sandbox assertion. The fork main was
 then fast-forwarded to current upstream main and merged into the contribution
-branch so PR CI compares only contribution changes. Exact-head review and CI
-remain pending; Apple execution is outside Uzel's Linux gate. Uzel does not pin
+branch so PR CI compared only contribution changes. Apple execution is outside
+Uzel's Linux gate. Uzel does not pin
 that merged branch head: current upstream now refuses every plaintext operator
 relay, including the explicit loopback fixture. The exact attempt failed before
 NMP refresh with `fallback relay ... must use a wss:// address`. This POC keeps
 the previously validated `e539378...` runtime pin and records trusted local TLS
 as post-POC deployment work rather than weakening upstream relay policy.
-Cross-owner PR creation remains blocked by the fine-grained token, so the fork
-branch and exact pin are the durable contribution record.
+Cross-owner upstream submission remains separate, so the fork branch, merge,
+and exact pin are the durable contribution record.
 
 Kehto contribution [#218](https://github.com/kehto/web/pull/218) merged on
 2026-07-29 as `4fd4affdd0043ea093c6b56a866f0f9f333e5375` with head
@@ -190,15 +192,13 @@ exact frames, both handshakes, and artifact-authored provider traffic. It does
 not synthesize a pointer click inside the nested opaque-origin frame, so this
 report does not claim a browser-automation click proof.
 
-Work 06 still owns the signed hostile artifact's complete WebKit probe matrix,
-an independently validated ephemeral TCP sentinel with zero probe accepts, the
-raw-handler authentication denial, final user/dev presentation assertions,
-fresh-checkout demo reproduction, Debian acceptance, limitations, and
-extraction debt.
+At this report's Slice 05 boundary, Work 06 still owned the signed hostile
+artifact's complete WebKit probe matrix, independently validated ephemeral TCP
+sentinel, raw-handler authentication denial, final user/dev assertions,
+fresh-checkout reproduction, Debian acceptance, limitations, and extraction
+debt. Those items later passed; see `slice-06-preflight.md`.
 
 ## Exact next step
 
-Execute `work/06-hardening-demo.md`. Configure the signed hostile fixture with
-the live sentinel URL through exact-principal/exact-session NAP-CONFIG before
-mount, collect each probe verdict, independently assert zero sentinel accepts
-and raw WebKit command denial, then run final clean Fedora and Debian gates.
+Completed by `work/06-hardening-demo.md`; the exact accepted outcome is recorded
+in `slice-06-preflight.md`.
