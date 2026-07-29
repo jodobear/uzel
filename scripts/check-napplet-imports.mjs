@@ -18,6 +18,7 @@ const dependencyGroups = [
 ];
 const directNetworkIdentifiers = new Set([
   'Audio',
+  'CSSStyleSheet',
   'DOMParser',
   'EventSource',
   'Image',
@@ -84,6 +85,7 @@ const globalReturningProperties = new Set([
 ]);
 const resourceAssignmentProperties = new Set([
   'action',
+  'adoptedStyleSheets',
   'background',
   'backgroundImage',
   'cssText',
@@ -565,6 +567,7 @@ function runSelfTest() {
     "const anchor = document.createElement('a'); Object.assign(anchor, { href: remote }); anchor.click()",
     'new RTCPeerConnection({ iceServers: [{ urls: remote }] })',
     `new DOMParser().parseFromString('<img src="https://example.test/x">', 'text/html')`,
+    "const sheet = new CSSStyleSheet(); sheet.replace('body{background:url(http://127.0.0.1:43129/leak)}'); document.adoptedStyleSheets = [sheet]",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
