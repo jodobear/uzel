@@ -33,6 +33,8 @@ trap cleanup EXIT INT TERM
 
 export XDG_RUNTIME_DIR="$SMOKE_TMP/runtime"
 mkdir -m 700 "$XDG_RUNTIME_DIR"
+export XDG_DATA_HOME="$SMOKE_TMP/data"
+mkdir -m 700 "$XDG_DATA_HOME"
 export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1

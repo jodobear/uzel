@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 96 files · ~41,998 words
+- 99 files · ~48,076 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 668 nodes · 745 edges · 79 communities (53 shown, 26 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- 815 nodes · 1121 edges · 84 communities (57 shown, 27 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bff024a9`
+- Built from commit: `ef9f9c64`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -27,7 +27,9 @@
 - Work 01 — scaffold
 - Work 00 — validate assumptions
 - Work 00 — validate assumptions
+- Slice 04 preflight — daemon, NMP, and persistence
 - Work 04 — daemon, NMP, and persistence
+- .fetch
 - Uzel single-repository POC
 - POC status
 - Work 05 — composed demo
@@ -50,8 +52,10 @@
 - fedora-run-smoke.sh
 - debian-build-smoke.sh
 - dev.sh
+- main.rs
 - App.svelte
 - Post-POC extraction
+- lib.rs
 - README.md
 - README.md
 - check-boundaries.sh
@@ -85,35 +89,38 @@
 - Work 05 — composed demo
 - Work 06 — hardening and demo acceptance
 - README.md
+- AcceptSettings
+- RelayDiagnosticsSink
+- FACT-011-daemon-nmp.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `LinuxRunner` - 16 edges
-2. `compilerOptions` - 15 edges
-3. `scripts` - 14 edges
-4. `Slice 03 preflight` - 10 edges
-5. `EventBuffer` - 9 edges
-6. `Uzel POC agent instructions` - 9 edges
-7. `Assumption validation and decision gates` - 9 edges
-8. `POC architecture` - 9 edges
-9. `Provisional component design` - 9 edges
-10. `Gate 0 preflight and Slice 01 decision` - 9 edges
+1. `LinuxRunner` - 36 edges
+2. `RunnerError` - 19 edges
+3. `compilerOptions` - 15 edges
+4. `scripts` - 14 edges
+5. `parse_options()` - 12 edges
+6. `Response` - 12 edges
+7. `write_frame()` - 11 edges
+8. `EventBuffer` - 10 edges
+9. `Slice 03 preflight` - 10 edges
+10. `SurfaceLaunch` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `start_fixture()` --references--> `LinuxRunner`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd/src/runner.rs
-- `start_fixture()` --references--> `SurfaceLaunch`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd/src/runner.rs
-- `forward_surface_envelope()` --references--> `LinuxRunner`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd/src/runner.rs
+- `start_fixture()` --references--> `UnixClient`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `forward_surface_envelope()` --references--> `UnixClient`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `directFollows()` --calls--> `isCanonicalPubkey()`  [EXTRACTED]
   napplets/follow-list/src/model.js → contracts/profile-open.js
 - `canonicalProfile()` --calls--> `isCanonicalPubkey()`  [EXTRACTED]
   napplets/profile-card/src/model.js → contracts/profile-open.js
+- `openProfile()` --calls--> `parseProfileOpen()`  [EXTRACTED]
+  napplets/profile-card/src/main.js → contracts/profile-open.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (79 total, 26 thin omitted)
+## Communities (84 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -156,12 +163,20 @@ Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
-Cohesion: 0.38
-Nodes (8): forward_surface_envelope(), HostileProbe, report_hostile_probe(), Mutex, Result, String, start_fixture(), State
+Cohesion: 0.28
+Nodes (12): default_socket_path(), forward_surface_envelope(), HostileProbe, main(), report_hostile_probe(), PathBuf, Result, String (+4 more)
+
+### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
+Cohesion: 0.25
+Nodes (7): Commands and results, Exact next step, NMP and persistence evidence, Outcome, Private protocol evidence, Remaining boundaries, Slice 04 preflight — daemon, NMP, and persistence
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.12
 Nodes (24): isCanonicalPubkey(), parseProfileOpen(), profileOpen(), PUBKEY, list, render(), start(), status (+16 more)
+
+### Community 14 - ".fetch"
+Cohesion: 0.38
+Nodes (5): ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource, ExactFixtureSource, SliceThreeFixtureSource
 
 ### Community 15 - "Uzel single-repository POC"
 Cohesion: 0.08
@@ -204,16 +219,24 @@ Cohesion: 0.29
 Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and ownership map, Ownership boundary, Public facade
 
 ### Community 34 - "fedora-run-smoke.sh"
-Cohesion: 0.29
-Nodes (7): cleanup(), GDK_BACKEND, NO_AT_BRIDGE, preserve_failure(), fedora-run-smoke.sh script, WAYLAND_DISPLAY, XDG_RUNTIME_DIR
+Cohesion: 0.25
+Nodes (8): cleanup(), GDK_BACKEND, NO_AT_BRIDGE, preserve_failure(), fedora-run-smoke.sh script, WAYLAND_DISPLAY, XDG_DATA_HOME, XDG_RUNTIME_DIR
+
+### Community 37 - "main.rs"
+Cohesion: 0.27
+Nodes (17): default_runtime_root(), default_socket_path(), live_relays_require_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
 
 ### Community 40 - "Post-POC extraction"
 Cohesion: 0.29
 Nodes (6): Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
-### Community 47 - "lib.rs"
+### Community 41 - "lib.rs"
 Cohesion: 0.06
-Nodes (40): Arc, ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource, AsRef, Condvar, AcceptSettings, EventBuffer (+32 more)
+Nodes (60): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+52 more)
+
+### Community 47 - "lib.rs"
+Cohesion: 0.07
+Nodes (49): Arc, Child, Condvar, bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), identity_query() (+41 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.25
@@ -291,25 +314,33 @@ Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 Cohesion: 0.40
 Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
+### Community 81 - "AcceptSettings"
+Cohesion: 0.40
+Nodes (4): AcceptSettings, NativeSettingsExecutor, NativeSettingsOpenResult, NativeSettingsRequest
+
+### Community 82 - "RelayDiagnosticsSink"
+Cohesion: 0.50
+Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
+
 ## Knowledge Gaps
-- **353 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+348 more)
+- **361 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+356 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Slice 03 preflight` connect `Work 00 — validate assumptions` to `04-execution.md`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
-- **Why does `Uzel POC agent instructions` connect `Uzel POC agent instructions` to `POC documentation audit`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `UnixClient` connect `lib.rs` to `Work 00 — validate assumptions`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `RunnerError` connect `lib.rs` to `lib.rs`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _353 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _361 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
 - **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
   _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
-- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._

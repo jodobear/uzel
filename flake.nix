@@ -21,6 +21,7 @@
           librsvg
           mesa
           mermaid-cli
+          nak
           nodejs_22
           openssl
           pkg-config
