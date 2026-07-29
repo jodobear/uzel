@@ -349,6 +349,7 @@ codex_review_round_26 = "addressed: regenerate, re-sign, and repin exact source 
 codex_review_round_27 = "addressed: reject modern and legacy resource-bearing markup attributes independent of element name"
 codex_review_round_28 = "addressed: reject DOMParser-created resource nodes"
 codex_review_round_29 = "addressed: reject programmatic style-attribute mutation"
+codex_review_round_30 = "addressed: reject constructed stylesheet replacement and adoption; graph refresh separation reconfirmed from commit history"
 
 [gates]
 V_01 = "pass"

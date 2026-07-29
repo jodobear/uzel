@@ -277,8 +277,8 @@ Codex's twenty-third review found reflective constructor recovery through
 prototype introspection methods. Self-tests cover the reported Reflect form and
 `Object.getOwnPropertyDescriptor` recovery.
 
-Rounds 24–29 deny destructured constructors, non-freeze `Object` use, raw
-`RTCPeerConnection`, parsed DOM, style mutation, Window event targets, and legacy resource attributes, with probes.
+Rounds 24–30 deny destructured constructors, non-freeze `Object` use, raw
+`RTCPeerConnection`, parsed DOM, constructed CSS, style mutation, Window event targets, and legacy resource attributes, with probes.
 Round 25's graph claim was rejected: code (`0729925`), evidence (`aebbb0c`), and
 graph (`ecef25a`) were separate. Round 26 rebuilt and re-signed all fixtures
 with a disposable key, then updated exact runtime and asset pins.
