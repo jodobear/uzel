@@ -4,7 +4,7 @@ Date: 2026-07-29
 
 Branch: `feat/slice-04-daemon-nmp`
 
-Implementation commits: `8436b66`, `fc74809`
+Implementation commits: `8436b66`, `fc74809`, `2cf7f48`
 
 ## Outcome
 
@@ -27,10 +27,16 @@ No Uzel event, profile, or follow table/cache exists.
 - `$XDG_RUNTIME_DIR/uzel` is mode 0700 and `napd.sock` is mode 0600.
 - A stale path is removed only when it is a Unix socket owned by the same UID
   as its private parent directory.
+- The socket parent must be a real directory, never a symlink. Server teardown
+  removes only the exact device/inode it bound, not a replacement socket.
+- Missing `XDG_RUNTIME_DIR` is a startup refusal unless an explicit socket path
+  is supplied; the daemon never falls back to a shared `/tmp/uzel` path.
 - The server accepts one request per private local connection and processes one
   shell client's state serially for the POC.
 - Invalid protocol JSON, changed versions, unknown surfaces/transfers,
   out-of-order chunks, and runtime refusals are typed bounded errors.
+- Each fixture restart advances the shell-owned surface and transfer generation,
+  so stale IDs cannot authorize a replacement session.
 - Shutdown exits the accept loop; runtime and relay observations stop
   idempotently before `RuntimeController::close`, which closes NMP.
 
@@ -62,7 +68,8 @@ returns the same canonical profile from NMP redb.
 The executable restart probe rejected one original assumption: NMP redb at the
 pinned revision does not restore the active read identity. Uzel now persists
 only a bounded version-0 product record containing mode and canonical public
-read key, with mode 0600. Startup passes that key back through NMP's parser and
+read key, with mode 0600. State loading refuses symlinks and non-regular files;
+atomic temporary creation refuses pre-existing paths. Startup passes the key back through NMP's parser and
 activation path. Nostr events, replacement selection, profiles, follows,
 evidence, and freshness remain exclusively NMP-owned.
 
@@ -85,7 +92,7 @@ sandbox.
 
 ```text
 cargo test -p napd --lib
-  6 passed; 1 explicit live probe ignored
+  10 passed; 1 explicit live probe ignored
 
 cargo test -p napd live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache -- --ignored
   1 passed

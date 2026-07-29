@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "01924944ab29be1c825a1e61d3909012092da7af76c7e93a94136bb1161bacb6"
+      "sha256": "309c87925001a6ede64a5726e5f215ce5b60bf5c241d5515249853f6512602d5"
     },
     {
       "path": "compatibility.lock",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 2352,
-      "sha256": "154587df01312dcd536e33d6c277774e4f996ddb50a67f12639c3d584cbecca4"
+      "bytes": 2496,
+      "sha256": "110355ef75de2500f38a26178b9ea3d4313d9cfa20f83781a7e0d6214005e044"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -187,8 +187,8 @@
     },
     {
       "path": "reports/slice-04-preflight.md",
-      "bytes": 6144,
-      "sha256": "521ee0d7143d519137826f711a3741b8cffae94b8d52719a1c7690cd0c2f330d"
+      "bytes": 6703,
+      "sha256": "ee7be4ae725e3e6c6f9289e49291f2c4386e051b78f0ad8372e2c6ffadcd10aa"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
