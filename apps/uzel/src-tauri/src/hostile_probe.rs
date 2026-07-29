@@ -260,10 +260,8 @@ impl HostileProbeReport {
         ];
         // sendBeacon queue acceptance does not prove transport. Deserializing either
         // explicit outcome proves the API call completed; the live sentinel decides egress.
-        let beacon_attempted = matches!(
-            self.beacon,
-            BeaconAttempt::Queued | BeaconAttempt::Rejected
-        );
+        let beacon_attempted =
+            matches!(self.beacon, BeaconAttempt::Queued | BeaconAttempt::Rejected);
         denials.into_iter().filter(|denied| *denied).count() + usize::from(beacon_attempted)
     }
 
