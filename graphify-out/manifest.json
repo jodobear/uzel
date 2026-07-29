@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785305947.4489546,
-    "ast_hash": "c618712d4bc243b934fac2b2ff272008",
+    "mtime": 1785306930.3807225,
+    "ast_hash": "117f72e297ffb31f7ffe98fd78397fd8",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785305947.4536319,
-    "ast_hash": "ff387cb0046f065633d45e2c350abe6a",
+    "mtime": 1785306930.3844078,
+    "ast_hash": "551f8a9aa528e08d0cb6c2414850b790",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "scripts/debian-build-smoke.sh": {
-    "mtime": 1785265304.6079373,
-    "ast_hash": "c08917a1724068901f2c56d888d262e5",
+    "mtime": 1785306821.514054,
+    "ast_hash": "8c9edaef53caed8e0991a3d2544ee4b7",
     "semantic_hash": ""
   },
   "scripts/dev.sh": {
@@ -580,18 +580,18 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/hostile_probe.rs": {
-    "mtime": 1785303941.817394,
-    "ast_hash": "98fcab01a55b15d3212f60b904f8a4ca",
+    "mtime": 1785306709.8118649,
+    "ast_hash": "9fe2a28764cfacbf249a59b697e907c0",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-013-hostile-linux-boundary.md": {
-    "mtime": 1785305819.109382,
-    "ast_hash": "cff47030b0d50cb39f5d67f2b3418444",
+    "mtime": 1785306859.5154586,
+    "ast_hash": "5ff2b901ef9743d20fb6ff8a20c9d71a",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-06-preflight.md": {
-    "mtime": 1785305918.4744396,
-    "ast_hash": "54346351fb3545aadb84e0a4c70672a2",
+    "mtime": 1785306859.4304578,
+    "ast_hash": "cb27e09709ce664cc03a934afca8eae2",
     "semantic_hash": ""
   }
 }
