@@ -92,7 +92,7 @@ pnpm check
 
 pnpm test
   contract 2; follow-list 1; profile-card 4; hostile-egress 3;
-  napd 16 passed/1 ignored; napd-protocol 4; uzel-napd 1;
+  napd 17 passed/1 ignored; napd-protocol 4; uzel-napd 1;
   exact pinned trusted-shell assets passed
 
 cargo test -p napd live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache -- --ignored
@@ -117,6 +117,13 @@ pnpm smoke:fedora
 
 The expected headless software-renderer/cursor warnings do not affect the
 assertions. No failed Slice 05 run required reinterpretation as a pass.
+
+Final self-review found that the initial cross-surface wait accepted any event
+from any active session after `inc.emit`. An unrelated asynchronous provider
+push could therefore satisfy the call before the routed delivery. The final
+implementation admits other surfaces only while waiting for exact
+`inc.event`; a regression rejects both `identity.changed` and
+`inc.emit.result` as substitutes.
 
 ## Honest boundary
 

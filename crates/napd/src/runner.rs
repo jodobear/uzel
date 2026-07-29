@@ -721,7 +721,7 @@ enum ResponseExpectation {
     Id(String),
     Type(&'static str),
     AnyFromSource,
-    AnySurface,
+    IncEventAnySurface,
 }
 
 impl ResponseExpectation {
@@ -736,7 +736,7 @@ impl ResponseExpectation {
             return Self::Type("shell.init");
         }
         if value.get("type").and_then(serde_json::Value::as_str) == Some("inc.emit") {
-            return Self::AnySurface;
+            return Self::IncEventAnySurface;
         }
         Self::AnyFromSource
     }
@@ -752,12 +752,15 @@ impl ResponseExpectation {
             Self::Type(expected) => {
                 value.get("type").and_then(serde_json::Value::as_str) == Some(*expected)
             }
-            Self::AnyFromSource | Self::AnySurface => true,
+            Self::IncEventAnySurface => {
+                value.get("type").and_then(serde_json::Value::as_str) == Some("inc.event")
+            }
+            Self::AnyFromSource => true,
         }
     }
 
     fn accepts_other_surface(&self) -> bool {
-        matches!(self, Self::AnySurface)
+        matches!(self, Self::IncEventAnySurface)
     }
 }
 
@@ -884,6 +887,17 @@ mod tests {
             attempt += 1;
             thread::sleep(Duration::from_millis(50));
         }
+    }
+
+    #[test]
+    fn inc_emit_waits_for_an_inc_event_not_an_unrelated_push() {
+        let expectation = ResponseExpectation::from_envelope(
+            br#"{"type":"inc.emit","topic":"napplet:profile/open","payload":{}}"#,
+        );
+        assert!(expectation.accepts_other_surface());
+        assert!(!expectation.matches(r#"{"type":"identity.changed"}"#));
+        assert!(!expectation.matches(r#"{"type":"inc.emit.result","ok":true}"#));
+        assert!(expectation.matches(r#"{"type":"inc.event","sender":"follow-list"}"#));
     }
 
     #[test]
