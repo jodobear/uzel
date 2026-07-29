@@ -85,5 +85,9 @@
   "83": "FACT-011-daemon-nmp.md",
   "84": "Work 01 — scaffold",
   "85": "FACT-012-composed-demo.md",
-  "86": "README.md"
+  "86": "README.md",
+  "87": "Work 01 — scaffold",
+  "88": "debian13-live-test.sh",
+  "89": "Work 02 — Linux exact-build runner",
+  "90": "debian13-setup.sh"
 }
