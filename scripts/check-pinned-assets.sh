@@ -17,9 +17,9 @@ check_sha256 66d2a7ed73973e422c86119c3b5c5f1914cb15bad1bfbddecb61cc2edf1c9c17 \
   fixtures/good-morning/event.json
 check_sha256 ffd35eea5c84d03cdda74c23e1bbb2c40500f503833503aa688036faa52f3808 \
   fixtures/good-morning/index.html
-check_sha256 036a63361eafa0f7c997cad02cb1cb80351c0cab58e6d746bf95fc0680a24a14 \
+check_sha256 c39443bd0571dcbe74965fe97e90f78908c00cd57ba246b6a4509189890d7db6 \
   apps/uzel/public/trusted-shell/trusted-shell.js
-check_sha256 4a90816305125b30fbeaa8ae3e64a992cab8f89734eabe7fa8adbee9f40bc8a4 \
+check_sha256 88c8b19ad652e1ef74a93824d71e25babe9f0ee3934540476a6c4e3dc19841d1 \
   apps/uzel/public/trusted-shell/trusted-shell-surface-host.js
 check_sha256 d130c02862f8934caba77bfaca4a72cc2f94158daecfaf888830c0807e2352c4 \
   apps/uzel/public/trusted-shell/trusted-shell-policy.js
@@ -38,4 +38,4 @@ check_sha256 0b4fb3c8ae2b747a2e531c1270c48305b7e859d7666d4d7b7b9e274e66cf593c \
 check_sha256 94fd9d4e5ab363b17be0a6baba4b19783fabe115bced157fc081087039f1a4a9 \
   fixtures/hostile-egress/index.html
 
-echo 'PINNED_ASSETS_OK nampplets=7eccdee76a1afcfc3ff026c8f41b0072a4601840'
+echo 'PINNED_ASSETS_OK nampplets=e539378ef735ce06651fd94b71e06f9ce757cb13'

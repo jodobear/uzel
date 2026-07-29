@@ -12,6 +12,7 @@ declare global {
           artifactHTML: string;
           title: string;
           domains: string[];
+          onReady?: (surfaceId: string) => void;
         },
       ): boolean;
       receive(surfaceId: string, envelope: unknown): boolean;
@@ -23,6 +24,7 @@ declare global {
       artifactHTML: string;
       title: string;
       domains: string[];
+      onReady?: (surfaceId: string) => void;
     }): boolean;
     __nmpTrustedShellReceive(envelope: unknown): boolean;
   }

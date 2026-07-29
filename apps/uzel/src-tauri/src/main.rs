@@ -139,6 +139,18 @@ fn forward_surface_envelope(
     })
 }
 
+#[tauri::command]
+fn report_shell_accepted(surface_token: String) -> Result<(), String> {
+    if surface_token.is_empty()
+        || surface_token.len() > 128
+        || surface_token.chars().any(char::is_control)
+    {
+        return Err("shell acceptance surface token is invalid".to_owned());
+    }
+    println!("UZEL_SHELL_ACCEPTED surface={surface_token}");
+    Ok(())
+}
+
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct HostileProbe {
@@ -175,6 +187,7 @@ fn main() {
             runtime_diagnostics,
             start_fixture,
             forward_surface_envelope,
+            report_shell_accepted,
             report_hostile_probe
         ])
         .run(tauri::generate_context!())

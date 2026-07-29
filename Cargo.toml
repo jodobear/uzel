@@ -17,7 +17,7 @@ license = "MIT"
 base64 = "0.22.1"
 napd = { path = "crates/napd" }
 napd-protocol = { path = "crates/napd-protocol" }
-nmp-native-runtime-ffi = { git = "https://github.com/jodobear/nampplets", rev = "7eccdee76a1afcfc3ff026c8f41b0072a4601840" }
+nmp-native-runtime-ffi = { git = "https://github.com/jodobear/nampplets", rev = "e539378ef735ce06651fd94b71e06f9ce757cb13" }
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.138"
 tauri = { version = "=2.11.5" }

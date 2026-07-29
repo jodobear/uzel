@@ -1,7 +1,7 @@
 # Pinned portable trusted shell
 
 Files in this directory are copied unchanged from
-`jodobear/nampplets@7eccdee76a1afcfc3ff026c8f41b0072a4601840` under
+`jodobear/nampplets@e539378ef735ce06651fd94b71e06f9ce757cb13` under
 `web/trusted-shell/`.
 
 Uzel bundles these reviewed browser bytes because Cargo's Rust dependency does

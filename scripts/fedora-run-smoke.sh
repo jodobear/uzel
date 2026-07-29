@@ -66,10 +66,12 @@ for _ in $(seq 1 240); do
     && rg -q '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_ARTIFACT_RESPONDED type=identity.getFollows.result$' "$SMOKE_TMP/uzel.log"; then
     sleep 2
     kill -0 "$DEV_PID"
-    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=2 nap_shell=2 artifact=responded source_bound=multi compositor=weston-headless-gl'
+    echo 'FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=2 nap_shell=2 shell_accepted=2 artifact=responded source_bound=multi compositor=weston-headless-gl'
     exit 0
   fi
   kill -0 "$DEV_PID" 2>/dev/null

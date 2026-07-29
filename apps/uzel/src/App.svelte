@@ -93,14 +93,20 @@
     if (!window.NMPTrustedShellHost.receive(delivery.surfaceToken, projected)) {
       throw new Error('trusted shell refused the target surface');
     }
-    if (type === 'shell.init' && !readySurfaces.has(delivery.surfaceToken)) {
-      readySurfaces = new Set([...readySurfaces, delivery.surfaceToken]);
+    await refreshDiagnostics();
+  }
+
+  function acknowledgeSurface(surfaceToken: string) {
+    if (!readySurfaces.has(surfaceToken)) {
+      readySurfaces = new Set([...readySurfaces, surfaceToken]);
       readyCount = readySurfaces.size;
+      void invoke('report_shell_accepted', { surfaceToken }).catch((error) => {
+        failShellHandshake('Shell acceptance report failed', error);
+      });
       if (readyCount === 2 && !shellHandshakeFailed) {
         status = 'Two exact builds ready through NAP-SHELL';
       }
     }
-    await refreshDiagnostics();
   }
 
   function mountSurface(launch: SurfaceLaunch, target: HTMLElement): boolean {
@@ -110,6 +116,7 @@
       artifactHTML: launch.artifactHtml,
       title: launch.title,
       domains: launch.domains,
+      onReady: acknowledgeSurface,
     });
   }
 
