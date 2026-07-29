@@ -1,14 +1,61 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { PROBE_NAMES, sentinelTargets, workerLoad } from '../src/probes.js';
+import {
+  PROBE_NAMES,
+  attemptRawWebKitInvoke,
+  boundedAttempt,
+  nativeSurface,
+  sentinelTargets,
+  workerLoad,
+} from '../src/probes.js';
 
 test('hostile fixture keeps required probe inventory explicit', () => {
   assert.deepEqual(PROBE_NAMES, [
     'fetch', 'xhr', 'websocket', 'eventsource', 'image', 'worker', 'serviceWorker',
-    'beacon', 'tauriInternals', 'tauriGlobal', 'wryIpc', 'parentReadable',
-    'rawWebkitTransport',
+    'beacon', 'media', 'iframe', 'form', 'navigation', 'popup', 'tauriInternals',
+    'tauriGlobal', 'wryIpc', 'parentReadable', 'rawWebkitTransport',
+    'rawInvokeAttempted', 'identityMutationApi',
   ]);
+});
+
+test('native surface reports read-only identity and the raw transport separately', () => {
+  assert.deepEqual(nativeSurface({
+    parent: {},
+    webkit: { messageHandlers: { ipc: {} } },
+    napplet: { identity: { getPublicKey() {} } },
+  }), {
+    tauriInternals: false,
+    tauriGlobal: false,
+    wryIpc: false,
+    parentReadable: false,
+    rawWebkitTransport: true,
+    identityMutationApi: false,
+  });
+  assert.equal(nativeSurface({
+    parent: {},
+    napplet: { identity: { switchIdentity() {} } },
+  }).identityMutationApi, true);
+});
+
+test('raw WebKit probe sends one deliberately invalid invoke-key command', () => {
+  const messages = [];
+  assert.equal(attemptRawWebKitInvoke({ postMessage: (message) => messages.push(message) }), true);
+  assert.equal(messages.length, 1);
+  assert.deepEqual(JSON.parse(messages[0]), {
+    cmd: 'hostile_native_probe',
+    callback: 91_001,
+    error: 91_002,
+    payload: {},
+    options: null,
+    __TAURI_INVOKE_KEY__: 'invalid-child-key',
+  });
+  assert.equal(attemptRawWebKitInvoke(null), false);
+});
+
+test('bounded attempts reject silent browser operations', async () => {
+  await assert.rejects(boundedAttempt(() => new Promise(() => {}), 5), /no success/);
+  await assert.doesNotReject(boundedAttempt(() => Promise.resolve('loaded'), 50));
 });
 
 test('hostile fixture requires an explicit unprivileged loopback sentinel', () => {

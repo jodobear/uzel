@@ -7,8 +7,22 @@ temporary_directory="$(mktemp -d)"
 trap 'rm -rf "$temporary_directory"' EXIT
 cp -R --dereference node_modules/@napplet/cli "$temporary_directory/cli"
 
+selected_fixture=${UZEL_NAPPLET_FIXTURE:-}
+case "$selected_fixture" in
+  ''|follow-list|profile-card|hostile-egress) ;;
+  *)
+    echo "unknown UZEL_NAPPLET_FIXTURE: $selected_fixture" >&2
+    exit 1
+    ;;
+esac
+
+fixture_count=0
+
 for entry in follow-list:follow-list profile-card:profile-card hostile-egress:egress-probe; do
   napplet="${entry%%:*}"
+  if [[ -n "$selected_fixture" && "$napplet" != "$selected_fixture" ]]; then
+    continue
+  fi
   d_tag="${entry##*:}"
   corepack pnpm@10.8.0 --filter "@jodobear/$napplet" build
   config="$temporary_directory/$napplet-config.json"
@@ -49,6 +63,7 @@ for entry in follow-list:follow-list profile-card:profile-card hostile-egress:eg
     --arg d_tag "$d_tag" \
     '.kind == 35129 and .id and .sig and any(.tags[]; . == ["d", $d_tag]) and any(.tags[]; . == ["server", "https://blossom.invalid/"])' \
     "$fixture/event.json" >/dev/null
+  fixture_count=$((fixture_count + 1))
 done
 
-echo 'SIGNED_NAPPLET_FIXTURES_OK count=3 key=discarded-by-caller'
+echo "SIGNED_NAPPLET_FIXTURES_OK count=$fixture_count key=discarded-by-caller"
