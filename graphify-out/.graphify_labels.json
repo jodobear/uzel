@@ -66,6 +66,7 @@
   "64": "main.js",
   "65": "04-execution.md",
   "66": "Work 02 — Linux exact-build runner",
+  "67": "lib.rs",
   "68": "Upstream contribution ledger",
   "69": "Execution slices",
   "70": "Uzel single-repository POC",
@@ -82,8 +83,11 @@
   "81": "AcceptSettings",
   "82": "RelayDiagnosticsSink",
   "83": "FACT-011-daemon-nmp.md",
+  "84": "POC architecture",
   "85": "FACT-012-composed-demo.md",
   "86": "README.md",
+  "87": "Verified facts",
   "88": "debian13-live-test.sh",
+  "89": "Gate 0 preflight and Slice 01 decision",
   "90": "debian13-setup.sh"
 }
