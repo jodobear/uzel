@@ -216,6 +216,27 @@ impl HostileProbeState {
 }
 
 impl HostileProbeReport {
+    fn failed_network_probes(&self) -> Vec<&'static str> {
+        [
+            ("fetch", self.fetch),
+            ("xhr", self.xhr),
+            ("websocket", self.websocket),
+            ("eventsource", self.eventsource),
+            ("image", self.image),
+            ("worker", self.worker),
+            ("serviceWorker", self.service_worker),
+            ("beacon", self.beacon),
+            ("media", self.media),
+            ("iframe", self.iframe),
+            ("form", self.form),
+            ("navigation", self.navigation),
+            ("popup", self.popup),
+        ]
+        .into_iter()
+        .filter_map(|(name, denied)| (!denied).then_some(name))
+        .collect()
+    }
+
     fn network_denials(&self) -> usize {
         let denials = [
             self.fetch,
@@ -238,7 +259,10 @@ impl HostileProbeReport {
     fn validate_native_boundary(&self) -> Result<(), String> {
         const EXPECTED_NETWORK_DENIALS: usize = 13;
         if self.network_denials() != EXPECTED_NETWORK_DENIALS {
-            return Err("one or more hostile browser network probes reported success".to_owned());
+            return Err(format!(
+                "hostile browser network probes reported success: {}",
+                self.failed_network_probes().join(",")
+            ));
         }
         if self.tauri_internals
             || self.tauri_global
