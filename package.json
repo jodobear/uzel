@@ -30,7 +30,10 @@
     "docs:check": "python3 uzel-poc-validated-pack/scripts/audit_docs.py",
     "fallow": "fallow --root . --config config/fallow.jsonc --format json --quiet --fail-on-issues",
     "smoke": "bash scripts/smoke.sh",
+    "smoke:linux": "bash scripts/linux-run-smoke.sh",
     "smoke:fedora": "bash scripts/fedora-run-smoke.sh",
+    "smoke:debian13": "bash scripts/debian13-live-test.sh headless",
+    "dev:debian13": "bash scripts/debian13-live-test.sh interactive",
     "smoke:debian": "bash scripts/debian-build-smoke.sh"
   }
 }

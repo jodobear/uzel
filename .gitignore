@@ -1,4 +1,5 @@
 /.cache/
+/.artifacts/
 /node_modules/
 /target/
 apps/uzel/src-tauri/gen/
