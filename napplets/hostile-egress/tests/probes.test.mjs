@@ -51,6 +51,7 @@ test('raw WebKit probe sends one deliberately invalid invoke-key command', () =>
     __TAURI_INVOKE_KEY__: 'invalid-child-key',
   });
   assert.equal(attemptRawWebKitInvoke(null), false);
+  assert.equal(attemptRawWebKitInvoke({ postMessage: () => { throw new Error('rejected'); } }), true);
 });
 
 test('bounded attempts reject silent browser operations', async () => {

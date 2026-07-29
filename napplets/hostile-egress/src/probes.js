@@ -71,14 +71,18 @@ export function attemptRawWebKitInvoke(
   handler = globalThis.webkit?.messageHandlers?.ipc,
 ) {
   if (!handler || typeof handler.postMessage !== 'function') return false;
-  handler.postMessage(JSON.stringify({
-    cmd: 'hostile_native_probe',
-    callback: 91_001,
-    error: 91_002,
-    payload: {},
-    options: null,
-    __TAURI_INVOKE_KEY__: 'invalid-child-key',
-  }));
+  try {
+    handler.postMessage(JSON.stringify({
+      cmd: 'hostile_native_probe',
+      callback: 91_001,
+      error: 91_002,
+      payload: {},
+      options: null,
+      __TAURI_INVOKE_KEY__: 'invalid-child-key',
+    }));
+  } catch {
+    // Rejection can surface synchronously after the authenticated boundary sees it.
+  }
   return true;
 }
 
