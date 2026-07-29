@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "e63963eccc3377bdcc85b5976b339448b5b651b911ba07f8253b9a6f5c9b4ee1"
+      "sha256": "25d4b0a3589e4c6883fa2e353219cb7555fc4d03b5849cf7855e9006dca6f9ff"
     },
     {
       "path": "compatibility.lock",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 3500,
-      "sha256": "c9762df047fbbebcb493dff5bd3e27d58b1586bb786aa2eea8da2f7c9f4a4717"
+      "bytes": 4130,
+      "sha256": "5c4001d739048d2cf04c988b953ac1aad808f339ec8d6bcba0148f748b74152c"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3260,
-      "sha256": "0c319603fb09ab79ffef3414cbeba75e5d2c7622c9abffa1f60d83600c8374c6"
+      "bytes": 3501,
+      "sha256": "6af95f5aea8aed9eef9173d9e8c13f0a3654e8b82d85de0fe65dfb558d69fccb"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -187,8 +187,8 @@
     },
     {
       "path": "reports/slice-04-preflight.md",
-      "bytes": 8730,
-      "sha256": "ce6d9501e477e4682ff566d672db0b8ddeeb8d2486a39c0956641a368047aae9"
+      "bytes": 9367,
+      "sha256": "b46157d01675c02fb0ef95fc29627081c5aa1ed2ccfd29ce2438b0b2cddbb26b"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",
