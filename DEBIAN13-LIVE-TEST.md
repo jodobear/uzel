@@ -16,8 +16,9 @@ bash scripts/debian13-setup.sh --install
 ```
 
 The setup script inventories every system prerequisite, including the systemd
-Nix daemon unit, socket file, boot enablement, and an actual daemon-store
-connection. It prints the exact apt/group/daemon change plan and asks `[y/N]`
+Nix daemon unit, socket file, boot enablement, Debian's `nixbld` group and ten
+package-owned build users, and an actual daemon-store connection. It prints the
+exact apt/group/builder/daemon change plan and asks `[y/N]`
 before using `sudo`. It installs only missing Debian packages and enables or
 rebinds `nix-daemon.socket` only when its readiness checks fail. Rebinding uses
 an explicit daemon/socket stop followed by a socket start, then waits up to five
@@ -31,6 +32,12 @@ re-exec, setup reports its pathname as `socket=restricted` instead of treating
 an unprivileged `test -S` false result as proof that the socket is missing.
 Systemd state proves system readiness; an actual daemon-store connection after
 group activation proves client readiness.
+
+Debian's `nix-setup-systemd` post-install script owns the `nixbld` group and
+`nixbld1` through `nixbld10` system users. If any are absent, setup asks before
+running the package-owned, idempotent `dpkg-reconfigure nix-setup-systemd`
+repair and rebinding the daemon. It does not invent or directly manage those
+accounts.
 
 Expected terminal marker:
 

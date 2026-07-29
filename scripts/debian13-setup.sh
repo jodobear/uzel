@@ -37,6 +37,7 @@ source /etc/os-release
   || fail "current flake supports x86_64-linux only; found $(uname -m)"
 [[ $EUID -ne 0 ]] || fail 'run as normal desktop user, not root'
 command -v dpkg-query >/dev/null || fail 'dpkg-query missing on Debian host'
+command -v getent >/dev/null || fail 'getent missing on Debian host'
 
 APT_PACKAGES=(git login nix-setup-systemd)
 MISSING_APT=()
@@ -57,6 +58,31 @@ GROUP_ACTIVE=0
 [[ " $ACTIVE_GROUPS " == *" nix-users "* ]] && GROUP_ACTIVE=1
 echo "DEBIAN13_DEPENDENCY type=group name=nix-users configured=$GROUP_CONFIGURED active=$GROUP_ACTIVE"
 echo 'DEBIAN13_DEPENDENCY type=nix-closure status=resolved-by-flake tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
+
+refresh_nix_builder_state() {
+  local builder_number builder_user
+  NIX_BUILD_GROUP_PRESENT=0
+  NIX_BUILD_USERS_READY=0
+  NIX_BUILDERS_READY=0
+  getent group nixbld >/dev/null 2>&1 && NIX_BUILD_GROUP_PRESENT=1
+  for builder_number in {1..10}; do
+    builder_user="nixbld$builder_number"
+    if id "$builder_user" >/dev/null 2>&1 \
+      && [[ "$(id -gn "$builder_user" 2>/dev/null || true)" == nixbld ]]; then
+      (( NIX_BUILD_USERS_READY += 1 ))
+    fi
+  done
+  if (( NIX_BUILD_GROUP_PRESENT == 1 && NIX_BUILD_USERS_READY == 10 )); then
+    NIX_BUILDERS_READY=1
+  fi
+}
+
+print_nix_builder_state() {
+  echo "DEBIAN13_DEPENDENCY type=nix-builders group=nixbld present=$NIX_BUILD_GROUP_PRESENT users=$NIX_BUILD_USERS_READY/10"
+}
+
+refresh_nix_builder_state
+print_nix_builder_state
 
 command -v systemctl >/dev/null \
   || fail 'systemctl missing; nix-setup-systemd requires a systemd host'
@@ -120,6 +146,10 @@ if [[ "$MODE" == --check ]]; then
     echo 'DEBIAN13_SETUP_ACTION_REQUIRED group=nix-users run=bash scripts/debian13-setup.sh --install' >&2
     exit 2
   fi
+  if (( NIX_BUILDERS_READY == 0 )); then
+    echo 'DEBIAN13_SETUP_ACTION_REQUIRED builders=nixbld action=dpkg-reconfigure:nix-setup-systemd run=bash scripts/debian13-setup.sh --install' >&2
+    exit 2
+  fi
   if (( NIX_DAEMON_READY == 0 )); then
     echo 'DEBIAN13_SETUP_ACTION_REQUIRED unit=nix-daemon.socket action=enable-rebind run=bash scripts/debian13-setup.sh --install' >&2
     exit 2
@@ -130,16 +160,20 @@ if [[ "$MODE" == --check ]]; then
   fi
 else
   NEEDS_CHANGE=0
-  (( ${#MISSING_APT[@]} > 0 || GROUP_CONFIGURED == 0 || NIX_DAEMON_READY == 0 )) && NEEDS_CHANGE=1
+  (( ${#MISSING_APT[@]} > 0 || GROUP_CONFIGURED == 0 \
+    || NIX_BUILDERS_READY == 0 || NIX_DAEMON_READY == 0 )) && NEEDS_CHANGE=1
 
   if (( NEEDS_CHANGE == 1 )); then
     APT_PLAN=none
     GROUP_PLAN=none
+    BUILDER_PLAN=none
     DAEMON_PLAN=none
     (( ${#MISSING_APT[@]} > 0 )) && APT_PLAN="${MISSING_APT[*]}"
     (( GROUP_CONFIGURED == 0 )) && GROUP_PLAN="$CURRENT_USER:nix-users"
-    (( NIX_DAEMON_READY == 0 )) && DAEMON_PLAN=enable-rebind:nix-daemon.socket
-    echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN nix_daemon=$DAEMON_PLAN"
+    (( NIX_BUILDERS_READY == 0 )) && BUILDER_PLAN=reconfigure:nix-setup-systemd
+    (( NIX_BUILDERS_READY == 0 || NIX_DAEMON_READY == 0 )) \
+      && DAEMON_PLAN=enable-rebind:nix-daemon.socket
+    echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN nix_builders=$BUILDER_PLAN nix_daemon=$DAEMON_PLAN"
     command -v sudo >/dev/null || fail 'sudo missing; root must install listed apt packages'
     if (( ASSUME_YES == 0 )); then
       [[ -t 0 ]] || fail 'approval requires interactive terminal; rerun with --yes for unattended install'
@@ -156,6 +190,16 @@ else
     fi
     if [[ " $(id -nG "$CURRENT_USER" 2>/dev/null || true) " != *" nix-users "* ]]; then
       sudo /sbin/adduser "$CURRENT_USER" nix-users
+    fi
+    if [[ "$BUILDER_PLAN" != none ]]; then
+      [[ -x /usr/sbin/dpkg-reconfigure ]] \
+        || fail '/usr/sbin/dpkg-reconfigure missing; cannot repair Debian-owned Nix build users'
+      sudo /usr/bin/env DEBIAN_FRONTEND=noninteractive \
+        /usr/sbin/dpkg-reconfigure nix-setup-systemd
+      refresh_nix_builder_state
+      print_nix_builder_state
+      (( NIX_BUILDERS_READY == 1 )) \
+        || fail "nix-setup-systemd reconfigure did not restore nixbld1..nixbld10; ready=$NIX_BUILD_USERS_READY/10"
     fi
     if [[ "$DAEMON_PLAN" != none ]]; then
       sudo systemctl daemon-reload
@@ -176,6 +220,10 @@ else
     echo 'DEBIAN13_SETUP_NO_CHANGES system_dependencies=ready'
   fi
 
+  refresh_nix_builder_state
+  print_nix_builder_state
+  (( NIX_BUILDERS_READY == 1 )) \
+    || fail "Nix build users not ready after setup; group=$NIX_BUILD_GROUP_PRESENT users=$NIX_BUILD_USERS_READY/10"
   refresh_nix_daemon_state
   print_nix_daemon_state
   (( NIX_DAEMON_READY == 1 )) \
