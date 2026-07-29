@@ -12,7 +12,7 @@
 - [x] Nix/Rust/Node/Tauri/Fallow/Mermaid commands recorded
 - [x] Provisional design corrected where evidence required it
 
-Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 through V-08 probe passes. Uzel now pins reviewed successor `jodobear/nampplets@7eccdee...` provisionally without claiming upstream ratification; Apple evidence is outside scope. Kehto PR #218 merged as `4fd4aff...`.
+Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 through V-08 probe passes. Uzel pins validated Linux successor `jodobear/nampplets@e539378...` provisionally without claiming upstream ratification. Fork contribution head `0609f53...` is under exact-head review; its current-upstream runtime merge is not an accepted Uzel pin because it refuses the deterministic plaintext loopback relay. Apple evidence is outside scope. Kehto PR #218 merged as `4fd4aff...`.
 
 ## Implementation
 

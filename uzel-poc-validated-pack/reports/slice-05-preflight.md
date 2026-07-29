@@ -18,17 +18,22 @@ event, profile, follow, or app-state implementation.
 ## Exact dependency and upstream evidence
 
 Uzel advanced from the Gate 0 candidate to reviewed successor
-`jodobear/nampplets@7eccdee76a1afcfc3ff026c8f41b0072a4601840`.
+`jodobear/nampplets@e539378ef735ce06651fd94b71e06f9ce757cb13`.
 That successor adds a bounded portable multi-surface host without modifying the
 single-surface parser/bridge. The exact copied assets match SHA-256 values in
 `compatibility.lock` and `scripts/check-pinned-assets.sh`.
 
 [Fork PR #1](https://github.com/jodobear/nampplets/pull/1) is open and mergeable.
-Codex reported no major issue at exact head `7eccdee...` after fixes for stale
-same-ID frame mappings and the moved Apple sandbox assertion. Offline baseline,
-AntiSlop, legacy evidence, file growth, Rust workspace, trusted shell, and
-UniFFI Swift-binding CI are green. The Apple package job remained in progress
-when this report was recorded; Apple execution is outside Uzel's Linux gate.
+Codex reported no major issue at predecessor `7eccdee...` after fixes for stale
+same-ID frame mappings and the moved Apple sandbox assertion. The fork main was
+then fast-forwarded to current upstream main and merged into the contribution
+branch so PR CI compares only contribution changes. Exact-head review and CI
+remain pending; Apple execution is outside Uzel's Linux gate. Uzel does not pin
+that merged branch head: current upstream now refuses every plaintext operator
+relay, including the explicit loopback fixture. The exact attempt failed before
+NMP refresh with `fallback relay ... must use a wss:// address`. This POC keeps
+the previously validated `e539378...` runtime pin and records trusted local TLS
+as post-POC deployment work rather than weakening upstream relay policy.
 Cross-owner PR creation remains blocked by the fine-grained token, so the fork
 branch and exact pin are the durable contribution record.
 
@@ -112,11 +117,19 @@ pnpm smoke
 
 pnpm smoke:fedora
   FEDORA_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=2 nap_shell=2
-  artifact=responded source_bound=multi compositor=weston-headless-gl
+  shell_accepted=2 artifact=responded source_bound=multi
+  compositor=weston-headless-gl
 ```
 
 The expected headless software-renderer/cursor warnings do not affect the
-assertions. No failed Slice 05 run required reinterpretation as a pass.
+assertions. No failed Slice 05 run required reinterpretation as a pass. Two
+pre-runtime Fedora attempts are preserved locally under
+`reports/probes/slice-05-fedora-linker-contamination-failed/` and
+`reports/probes/slice-05-fedora-cold-build-timeout-failed/`: the first mixed a
+Nix WebKitGTK library requiring `GLIBC_2.42` with a host-linked Cargo target;
+the second reached crate 420/426 but exhausted the harness deadline on a cold
+isolated target. The accepted command reused only that isolated target after
+the failed cold build, launched WebKit, and observed both acknowledgements.
 
 Final self-review and Codex review found that the initial cross-surface wait
 accepted any event from any active session after `inc.emit`. An unrelated
@@ -145,6 +158,14 @@ the trusted host, and latches handshake failures against later ready updates.
 The shared readiness predicate also includes that failure latch, so neither the
 green indicator nor the proof strip can advertise a failed composition as
 ready merely because both surface tokens were counted.
+
+The next exact-head review found that synchronous host delivery of
+`shell.init` was not proof that the asynchronous child prelude accepted the
+projected environment. Fork PR #1 now uses a one-shot transferred
+`MessageChannel`; only the captured prelude path acknowledges after exact
+acceptance, and invalid environments close without acknowledgement. Uzel pins
+that successor and counts a surface only from its source/remount-bound
+`onReady` callback.
 
 ## Honest boundary
 
