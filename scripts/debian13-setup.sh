@@ -58,6 +58,47 @@ GROUP_ACTIVE=0
 echo "DEBIAN13_DEPENDENCY type=group name=nix-users configured=$GROUP_CONFIGURED active=$GROUP_ACTIVE"
 echo 'DEBIAN13_DEPENDENCY type=nix-closure status=resolved-by-flake tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
 
+command -v systemctl >/dev/null \
+  || fail 'systemctl missing; nix-setup-systemd requires a systemd host'
+systemctl show --property=Version --value >/dev/null 2>&1 \
+  || fail 'systemd system manager unreachable; boot Debian with systemd before using nix-setup-systemd'
+
+NIX_DAEMON_UNIT=nix-daemon.socket
+NIX_DAEMON_SOCKET=/nix/var/nix/daemon-socket/socket
+
+refresh_nix_daemon_state() {
+  NIX_DAEMON_LOAD=$(systemctl show "$NIX_DAEMON_UNIT" --property=LoadState --value 2>/dev/null || true)
+  NIX_DAEMON_ACTIVE=$(systemctl is-active "$NIX_DAEMON_UNIT" 2>/dev/null || true)
+  NIX_DAEMON_ENABLED=$(systemctl is-enabled "$NIX_DAEMON_UNIT" 2>/dev/null || true)
+  NIX_DAEMON_SOCKET_PRESENT=0
+  NIX_DAEMON_CLIENT=not-tested
+  NIX_DAEMON_READY=0
+  [[ -S "$NIX_DAEMON_SOCKET" ]] && NIX_DAEMON_SOCKET_PRESENT=1
+
+  if [[ "$NIX_DAEMON_LOAD" == loaded \
+    && "$NIX_DAEMON_ACTIVE" == active \
+    && "$NIX_DAEMON_ENABLED" == enabled \
+    && $NIX_DAEMON_SOCKET_PRESENT -eq 1 ]]; then
+    NIX_DAEMON_READY=1
+    if (( GROUP_ACTIVE == 1 )) && command -v nix >/dev/null; then
+      if nix --extra-experimental-features nix-command \
+        store info --store daemon >/dev/null 2>&1; then
+        NIX_DAEMON_CLIENT=ok
+      else
+        NIX_DAEMON_CLIENT=failed
+        NIX_DAEMON_READY=0
+      fi
+    fi
+  fi
+}
+
+print_nix_daemon_state() {
+  echo "DEBIAN13_DEPENDENCY type=nix-daemon unit=$NIX_DAEMON_UNIT load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_PRESENT client=$NIX_DAEMON_CLIENT"
+}
+
+refresh_nix_daemon_state
+print_nix_daemon_state
+
 if [[ "$MODE" == --check ]]; then
   if (( ${#MISSING_APT[@]} > 0 )); then
     echo 'DEBIAN13_SETUP_ACTION_REQUIRED run=bash scripts/debian13-setup.sh --install' >&2
@@ -67,20 +108,26 @@ if [[ "$MODE" == --check ]]; then
     echo 'DEBIAN13_SETUP_ACTION_REQUIRED group=nix-users run=bash scripts/debian13-setup.sh --install' >&2
     exit 2
   fi
+  if (( NIX_DAEMON_READY == 0 )); then
+    echo 'DEBIAN13_SETUP_ACTION_REQUIRED unit=nix-daemon.socket action=enable-restart run=bash scripts/debian13-setup.sh --install' >&2
+    exit 2
+  fi
   if (( GROUP_ACTIVE == 0 )); then
     echo 'DEBIAN13_SETUP_GROUP_REEXEC_REQUIRED group=nix-users' >&2
     exit 4
   fi
 else
   NEEDS_CHANGE=0
-  (( ${#MISSING_APT[@]} > 0 || GROUP_CONFIGURED == 0 )) && NEEDS_CHANGE=1
+  (( ${#MISSING_APT[@]} > 0 || GROUP_CONFIGURED == 0 || NIX_DAEMON_READY == 0 )) && NEEDS_CHANGE=1
 
   if (( NEEDS_CHANGE == 1 )); then
     APT_PLAN=none
     GROUP_PLAN=none
+    DAEMON_PLAN=none
     (( ${#MISSING_APT[@]} > 0 )) && APT_PLAN="${MISSING_APT[*]}"
     (( GROUP_CONFIGURED == 0 )) && GROUP_PLAN="$CURRENT_USER:nix-users"
-    echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN"
+    (( NIX_DAEMON_READY == 0 )) && DAEMON_PLAN=enable-restart:nix-daemon.socket
+    echo "DEBIAN13_SETUP_PLAN apt_install=$APT_PLAN group_add=$GROUP_PLAN nix_daemon=$DAEMON_PLAN"
     command -v sudo >/dev/null || fail 'sudo missing; root must install listed apt packages'
     if (( ASSUME_YES == 0 )); then
       [[ -t 0 ]] || fail 'approval requires interactive terminal; rerun with --yes for unattended install'
@@ -98,9 +145,24 @@ else
     if [[ " $(id -nG "$CURRENT_USER" 2>/dev/null || true) " != *" nix-users "* ]]; then
       sudo /sbin/adduser "$CURRENT_USER" nix-users
     fi
+    if [[ "$DAEMON_PLAN" != none ]]; then
+      sudo systemctl daemon-reload
+      NIX_DAEMON_LOAD=$(systemctl show "$NIX_DAEMON_UNIT" --property=LoadState --value 2>/dev/null || true)
+      [[ "$NIX_DAEMON_LOAD" != masked ]] \
+        || fail 'nix-daemon.socket is masked; inspect local system policy before unmasking it'
+      [[ "$NIX_DAEMON_LOAD" == loaded ]] \
+        || fail "nix-daemon.socket unavailable after package install and daemon-reload; load=$NIX_DAEMON_LOAD"
+      sudo systemctl enable "$NIX_DAEMON_UNIT"
+      sudo systemctl restart "$NIX_DAEMON_UNIT"
+    fi
   else
     echo 'DEBIAN13_SETUP_NO_CHANGES system_dependencies=ready'
   fi
+
+  refresh_nix_daemon_state
+  print_nix_daemon_state
+  (( NIX_DAEMON_READY == 1 )) \
+    || fail "nix-daemon.socket not ready after setup; load=${NIX_DAEMON_LOAD:-unknown} active=${NIX_DAEMON_ACTIVE:-unknown} enabled=${NIX_DAEMON_ENABLED:-unknown} socket=$NIX_DAEMON_SOCKET_PRESENT client=$NIX_DAEMON_CLIENT"
 
   if [[ " $(id -nG) " != *" nix-users "* ]]; then
     echo 'DEBIAN13_SETUP_GROUP_REEXEC_REQUIRED group=nix-users'

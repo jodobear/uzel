@@ -15,9 +15,11 @@ cd uzel
 bash scripts/debian13-setup.sh --install
 ```
 
-The setup script inventories every system prerequisite, prints each installed
-or missing item, then prints the exact apt/group change plan. It asks `[y/N]`
-before using `sudo`. It installs only missing Debian packages. If the current
+The setup script inventories every system prerequisite, including the systemd
+Nix daemon unit, socket file, boot enablement, and an actual daemon-store
+connection. It prints the exact apt/group/daemon change plan and asks `[y/N]`
+before using `sudo`. It installs only missing Debian packages and enables or
+restarts `nix-daemon.socket` only when its readiness checks fail. If the current
 shell does not yet carry the configured `nix-users` group, the live-test script
 re-executes itself through Debian's `newgrp` and continues without a logout or
 reboot.
@@ -30,9 +32,9 @@ DEBIAN13_SETUP_OK os=debian-13 arch=x86_64 nix=ready flake=locked
 
 `--check` makes no system changes. `--install` asks before any system change.
 Use `--install --yes` only for an explicitly approved unattended installation.
-Once ready, repeating `--install` runs no apt update, package install, or group
-change. A configured but inactive group is process-local state; it does not
-cause another install or a logout loop.
+Once ready, repeating `--install` runs no apt update, package install, group
+change, or systemd mutation. A configured but inactive group is process-local
+state; it does not cause another install or a logout loop.
 
 ## 2. Run automated real-WebKit acceptance
 
