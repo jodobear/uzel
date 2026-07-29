@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-29)
 
 ## Corpus Check
-- 106 files · ~56,464 words
+- 106 files · ~56,689 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 919 nodes · 1346 edges · 87 communities (61 shown, 26 thin omitted)
+- 920 nodes · 1348 edges · 87 communities (61 shown, 26 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `04a88826`
+- Built from commit: `32b743df`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -163,11 +163,11 @@ Nodes (4): Uzel agent instructions, Development, Uzel, FACT-XXX — title
 
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.06
-Nodes (32): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict (+24 more)
+Nodes (32): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+24 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
-Cohesion: 0.20
-Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
+Cohesion: 0.25
+Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
 
 ### Community 11 - "Work 00 — validate assumptions"
 Cohesion: 0.11
@@ -227,7 +227,7 @@ Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and o
 
 ### Community 34 - "fedora-run-smoke.sh"
 Cohesion: 0.20
-Nodes (10): cleanup(), GDK_BACKEND, NO_AT_BRIDGE, preserve_failure(), fedora-run-smoke.sh script, UZEL_FIXTURE_RELAY_PORT, UZEL_RUN_HOSTILE_PROBE, WAYLAND_DISPLAY (+2 more)
+Nodes (11): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), fedora-run-smoke.sh script, UZEL_FIXTURE_RELAY_PORT, UZEL_RUN_HOSTILE_PROBE (+3 more)
 
 ### Community 37 - "main.rs"
 Cohesion: 0.27
@@ -294,8 +294,8 @@ Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 67 - "Work 04 — daemon, NMP, and persistence"
-Cohesion: 0.29
-Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
+Cohesion: 0.25
+Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
 
 ### Community 68 - "Upstream contribution ledger"
 Cohesion: 0.29
@@ -310,8 +310,8 @@ Cohesion: 0.33
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 71 - "Work 03 — portable napplets"
-Cohesion: 0.33
-Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
+Cohesion: 0.29
+Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
 ### Community 72 - "POC status"
 Cohesion: 0.33
@@ -342,7 +342,7 @@ Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
 ## Knowledge Gaps
-- **381 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+376 more)
+- **380 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+375 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -354,7 +354,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `UnixClient` connect `Work 06 — hardening and demo acceptance` to `lib.rs`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _381 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _380 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
 - **Should `Work 01 — scaffold` be split into smaller, more focused modules?**

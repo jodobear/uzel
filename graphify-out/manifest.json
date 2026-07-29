@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785304790.4199874,
-    "ast_hash": "243de8b7df8977893df8b5bac275b4d3",
+    "mtime": 1785305947.4489546,
+    "ast_hash": "c618712d4bc243b934fac2b2ff272008",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785304790.425121,
-    "ast_hash": "bf379e435a1562f50e14edb87e667bff",
+    "mtime": 1785305947.4536319,
+    "ast_hash": "ff387cb0046f065633d45e2c350abe6a",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785303615.42592,
-    "ast_hash": "1b993aa42e40474a3864b716e5e8050d",
+    "mtime": 1785305593.7159822,
+    "ast_hash": "e79a9ce34394474b892b825e7209fd0b",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -265,8 +265,8 @@
     "semantic_hash": ""
   },
   "scripts/fedora-run-smoke.sh": {
-    "mtime": 1785303658.65238,
-    "ast_hash": "b5555d60f6b19b1c79c7b5f6232bcf91",
+    "mtime": 1785305757.1917226,
+    "ast_hash": "30f816a79cc1322e8a73bb65913a864b",
     "semantic_hash": ""
   },
   "scripts/smoke.sh": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785303658.566379,
-    "ast_hash": "8bffd9d720b8bc695517a16895deed09",
+    "mtime": 1785305757.0997217,
+    "ast_hash": "e20233403036f1978c5e285277cd4fdb",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
@@ -410,8 +410,8 @@
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/event.json": {
-    "mtime": 1785303634.6061242,
-    "ast_hash": "6f367dbf02b6b925dcefdaac46a83a9d",
+    "mtime": 1785305656.2826483,
+    "ast_hash": "d2145487773c1cca2179532c77ecae6c",
     "semantic_hash": ""
   },
   "fixtures/profile-card/event.json": {
@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "napplets/hostile-egress/src/main.js": {
-    "mtime": 1785303615.330919,
-    "ast_hash": "9bd8072a22255480da21805f21e34fd4",
+    "mtime": 1785305593.6259813,
+    "ast_hash": "af6616f6488ca2f079cbb721eb6521e5",
     "semantic_hash": ""
   },
   "napplets/hostile-egress/src/probes.js": {
@@ -460,8 +460,8 @@
     "semantic_hash": ""
   },
   "napplets/hostile-egress/tests/probes.test.mjs": {
-    "mtime": 1785303111.7765596,
-    "ast_hash": "cfbd22787b538c700989b1816ebaf6fc",
+    "mtime": 1785305593.8129833,
+    "ast_hash": "5892df724dbaeabb9667c57dcbd8f7e9",
     "semantic_hash": ""
   },
   "napplets/hostile-egress/vite.config.js": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/index.html": {
-    "mtime": 1785303634.6044993,
-    "ast_hash": "cea9826fa060edd9c5304b70429f503c",
+    "mtime": 1785305656.2800972,
+    "ast_hash": "b130210a5926836be514edfa00680dcc",
     "semantic_hash": ""
   },
   "fixtures/profile-card/index.html": {
@@ -565,8 +565,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/fixtures.rs": {
-    "mtime": 1785303658.465378,
-    "ast_hash": "97f88534f568d43ac40c39fc6d5b9247",
+    "mtime": 1785305757.0117207,
+    "ast_hash": "40fd7f76ae0df95bde59ca9b2363ac21",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-012-composed-demo.md": {
@@ -585,13 +585,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-013-hostile-linux-boundary.md": {
-    "mtime": 1785304682.2732785,
-    "ast_hash": "51d8673c5bf1da0dff9eda951d5db6f7",
+    "mtime": 1785305819.109382,
+    "ast_hash": "cff47030b0d50cb39f5d67f2b3418444",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-06-preflight.md": {
-    "mtime": 1785304682.3562791,
-    "ast_hash": "61cf93e113b38f0f23da77c4c544ee69",
+    "mtime": 1785305918.4744396,
+    "ast_hash": "54346351fb3545aadb84e0a4c70672a2",
     "semantic_hash": ""
   }
 }
