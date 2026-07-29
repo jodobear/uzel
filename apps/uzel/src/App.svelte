@@ -97,6 +97,9 @@
   }
 
   function acknowledgeSurface(surfaceToken: string) {
+    if (surfaceToken !== profile?.surfaceToken && surfaceToken !== follow?.surfaceToken) {
+      return;
+    }
     if (!readySurfaces.has(surfaceToken)) {
       readySurfaces = new Set([...readySurfaces, surfaceToken]);
       readyCount = readySurfaces.size;
@@ -148,13 +151,17 @@
     try {
       if (previousProfile) {
         window.NMPTrustedShellHost.unmount(previousProfile.surfaceToken);
-        await invoke('stop_fixture', { surfaceToken: previousProfile.surfaceToken });
-        profile = null;
       }
       if (previousFollow) {
         window.NMPTrustedShellHost.unmount(previousFollow.surfaceToken);
+      }
+      profile = null;
+      follow = null;
+      if (previousProfile) {
+        await invoke('stop_fixture', { surfaceToken: previousProfile.surfaceToken });
+      }
+      if (previousFollow) {
         await invoke('stop_fixture', { surfaceToken: previousFollow.surfaceToken });
-        follow = null;
       }
       if (previousProfile) {
         profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
