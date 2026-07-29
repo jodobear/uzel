@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "056e89431abc1df9a691e0ca959ef00860f9792320473ff4f3fbd0414293ba32"
+      "sha256": "8fb944b9ee95207cd1b2ca15d3bc7e3c36199fecec8b02a2ed2a8365602ca316"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 22023,
-      "sha256": "7fea1668de62179861130a4a807f69bcd5b2b50d453b41d6912b3bca59efc444"
+      "bytes": 22394,
+      "sha256": "1f1b05cc557b06edfc311dcf569fcc51230bdb4fd11f8be026d48b6da5661490"
     },
     {
       "path": "config/fallow.jsonc",
@@ -142,8 +142,8 @@
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
-      "bytes": 3207,
-      "sha256": "77fe20091a12a5bcdd854f2b6d5cfa305efebd6af7c201bd1b102679c773bce0"
+      "bytes": 3295,
+      "sha256": "7f326c16fcfd3bcd2e2922bfa52a15313e66a898c3e7046b2903e7d32dc8f415"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -197,8 +197,8 @@
     },
     {
       "path": "reports/slice-05-preflight.md",
-      "bytes": 6994,
-      "sha256": "568bec4e69155ccbdf1a32116558bddb400f3ad98a603374824233971409c018"
+      "bytes": 7251,
+      "sha256": "8d6e4b20a68618ff08940c7cf0b3530322c99c0f929a0b29fe681ad39677ddf8"
     },
     {
       "path": "reports/upstream/kehto-62241de.patch",

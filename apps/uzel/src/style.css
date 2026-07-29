@@ -262,6 +262,8 @@ nav button.active,
 
 .fullscreen-follow,
 .fullscreen-profile { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+.workspace.vertical.fullscreen-follow,
+.workspace.vertical.fullscreen-profile { grid-template-rows: minmax(0, 1fr); }
 .fullscreen-follow .profile-pane,
 .fullscreen-profile .follow-pane,
 .fullscreen-follow .divider,

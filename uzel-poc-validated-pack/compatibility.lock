@@ -382,7 +382,10 @@ upstream_change_required = true
 upstream_change = "portable bounded multi-surface trusted-shell host at jodobear/nampplets@7eccdee; fork PR 1 exact-head review clean"
 codex_review_round_1 = "addressed: correlate cross-surface INC delivery by exact type and topic rather than any asynchronous response"
 codex_review_round_2 = "addressed: remount exact frames after read identity changes so provider state cannot remain stale"
-codex_review_round_3 = "addressed: directional and named focus controls now move DOM focus to the selected iframe"
+codex_review_round_3 = "addressed: directional and named focus controls now move DOM focus to the selected shell pane"
+codex_review_round_4 = "addressed: stacked fullscreen overrides the vertical split track and fills the workspace"
+codex_review_round_5 = "addressed: directional navigation focuses a shell pane first; Enter enters its iframe without trapping the next arrow in the child"
+codex_review_round_6 = "addressed: absent split storage retains the declared 42 percent default"
 
 [gates]
 V_01 = "pass"

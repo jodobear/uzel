@@ -130,7 +130,11 @@ changed daemon state, leaving the once-loaded follow list stale. The shell now
 remounts both exact frames after a successful runtime identity change, which
 forces fresh provider reads while reusing the same authorized sessions and the
 upstream host's reviewed remount behavior. Directional and named focus controls
-previously changed only styling; they now move DOM focus to the mapped iframe.
+previously changed only styling. They now move DOM focus to a shell pane;
+Enter explicitly enters its mapped iframe, so successive directional keys are
+not trapped inside the opaque child. The final review also corrected stacked
+fullscreen track specificity and preserves the declared 42/58 split when
+local storage has no prior value.
 
 ## Honest boundary
 

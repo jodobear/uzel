@@ -47,6 +47,8 @@
   let profile: SurfaceLaunch | null = null;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
+  let followPane: HTMLElement;
+  let profilePane: HTMLElement;
   let workspace: HTMLElement;
   let identityInput = FIXTURE_IDENTITY;
   let identityBusy = false;
@@ -118,7 +120,12 @@
 
   function focusPane(next: Pane) {
     focused = next;
-    const surface = next === 'follow' ? followSurface : profileSurface;
+    const pane = next === 'follow' ? followPane : profilePane;
+    pane?.focus();
+  }
+
+  function enterFocusedPane() {
+    const surface = focused === 'follow' ? followSurface : profileSurface;
     surface?.querySelector<HTMLIFrameElement>('iframe')?.focus();
   }
 
@@ -178,6 +185,13 @@
     const next = orientation === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
     if (event.key === previous) focusPane('follow');
     if (event.key === next) focusPane('profile');
+    if (
+      event.key === 'Enter'
+      && (event.target === followPane || event.target === profilePane)
+    ) {
+      event.preventDefault();
+      enterFocusedPane();
+    }
   }
 
   function handleDividerKeys(event: KeyboardEvent) {
@@ -196,8 +210,11 @@
     if (savedOrientation === 'horizontal' || savedOrientation === 'vertical') {
       orientation = savedOrientation;
     }
-    const savedSplit = Number(localStorage.getItem('uzel.split'));
-    if (Number.isFinite(savedSplit)) setSplit(savedSplit);
+    const storedSplit = localStorage.getItem('uzel.split');
+    if (storedSplit !== null) {
+      const savedSplit = Number(storedSplit);
+      if (Number.isFinite(savedSplit)) setSplit(savedSplit);
+    }
 
     const receiveRuntimeEnvelope = (event: Event) => {
       const payload = document.documentElement.getAttribute('data-nmp-native-envelope');
@@ -288,7 +305,13 @@
     style={`--first: ${split}fr; --second: ${100 - split}fr`}
     aria-label="Composed napplet workspace"
   >
-    <article class:focused={focused === 'follow'} class="pane follow-pane">
+    <article
+      bind:this={followPane}
+      class:focused={focused === 'follow'}
+      class="pane follow-pane"
+      tabindex="-1"
+      aria-label="Follow napplet pane. Press Enter to interact."
+    >
       <div class="pane-title">
         <div><span>01</span><strong>{follow?.title ?? 'Direct follows'}</strong></div>
         <button type="button" onclick={() => fullscreen = fullscreen === 'follow' ? null : 'follow'}>{fullscreen === 'follow' ? 'Restore' : 'Fullscreen'}</button>
@@ -305,7 +328,13 @@
       onpointerdown={beginResize}
     ><span></span></button>
 
-    <article class:focused={focused === 'profile'} class="pane profile-pane">
+    <article
+      bind:this={profilePane}
+      class:focused={focused === 'profile'}
+      class="pane profile-pane"
+      tabindex="-1"
+      aria-label="Profile napplet pane. Press Enter to interact."
+    >
       <div class="pane-title">
         <div><span>02</span><strong>{profile?.title ?? 'Profile card'}</strong></div>
         <button type="button" onclick={() => fullscreen = fullscreen === 'profile' ? null : 'profile'}>{fullscreen === 'profile' ? 'Restore' : 'Fullscreen'}</button>
