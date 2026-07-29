@@ -132,6 +132,10 @@
     status = `${prefix}: ${String(error)}`;
   }
 
+  function reportRuntimeFailure(prefix: string, error: unknown) {
+    status = `${prefix}: ${String(error)}`;
+  }
+
   function remountActiveSurfaces() {
     beginShellHandshake();
     if (profile && !mountSurface(profile, profileSurface)) {
@@ -246,11 +250,16 @@
       try {
         const parsed = JSON.parse(payload) as { session?: unknown; envelope?: unknown };
         if (typeof parsed.session !== 'string') throw new Error('missing mapped session');
+        const type = envelopeType(parsed.envelope);
         void routeEnvelope(parsed.session, parsed.envelope).catch((error) => {
-          failShellHandshake('Runtime refused envelope', error);
+          if (type === 'shell.ready') {
+            failShellHandshake('Shell handshake failed', error);
+          } else {
+            reportRuntimeFailure('Runtime refused envelope', error);
+          }
         });
       } catch (error) {
-        failShellHandshake('Trusted-shell payload refused', error);
+        reportRuntimeFailure('Trusted-shell payload refused', error);
       }
       event.stopPropagation();
     };
