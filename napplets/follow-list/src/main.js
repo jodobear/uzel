@@ -10,6 +10,7 @@ const status = document.querySelector('#status');
 const list = document.querySelector('#follows');
 const refresh = document.querySelector('#refresh');
 let refreshGeneration = 0;
+let followEvidenceKey;
 
 function render(values) {
   const pubkeys = directFollows(values);
@@ -34,10 +35,15 @@ async function loadFollows() {
   const generation = ++refreshGeneration;
   refresh.disabled = true;
   try {
+    const previousEvidenceKey = followEvidenceKey;
     const values = await waitForEvidence(
       identityGetFollows,
       (candidate) => Array.isArray(candidate) && candidate.length > 0,
       {
+        isFresh: (candidate) => (
+          previousEvidenceKey === undefined
+          || JSON.stringify(directFollows(candidate)) !== previousEvidenceKey
+        ),
         onAttempt: (attempt, attempts) => {
           if (generation === refreshGeneration) {
             status.textContent = `Refreshing NMP evidence… ${attempt}/${attempts}`;
@@ -45,7 +51,10 @@ async function loadFollows() {
         },
       },
     );
-    if (generation === refreshGeneration) render(values);
+    if (generation === refreshGeneration) {
+      followEvidenceKey = JSON.stringify(directFollows(values));
+      render(values);
+    }
   } catch (error) {
     if (generation === refreshGeneration) {
       status.textContent = `Identity unavailable: ${error instanceof Error ? error.message : String(error)}`;

@@ -20,6 +20,7 @@ const evidence = document.querySelector('#evidence');
 const refresh = document.querySelector('#refresh');
 const profileRequests = createLatestRequestGate();
 let pictureObjectUrl = null;
+let activeProfileEvidenceKey;
 
 function clearPicture() {
   if (pictureObjectUrl !== null) URL.revokeObjectURL(pictureObjectUrl);
@@ -69,10 +70,16 @@ async function loadActiveProfile() {
   try {
     const active = await identityGetPublicKey();
     pubkey.textContent = active;
+    const previousEvidenceKey = activeProfileEvidenceKey;
     const projected = await waitForEvidence(
       identityGetProfile,
       (candidate) => candidate !== null,
       {
+        isFresh: (candidate) => {
+          const profile = canonicalIdentityProfile(candidate, active);
+          const evidenceKey = profile === null ? null : JSON.stringify(profile);
+          return previousEvidenceKey === undefined || evidenceKey !== previousEvidenceKey;
+        },
         onAttempt: (attempt, attempts) => {
           if (profileRequests.isCurrent(requestGeneration)) {
             status.textContent = `Refreshing NMP profile… ${attempt}/${attempts}`;
@@ -82,6 +89,7 @@ async function loadActiveProfile() {
     );
     if (!profileRequests.isCurrent(requestGeneration)) return;
     const profile = canonicalIdentityProfile(projected, active);
+    activeProfileEvidenceKey = profile === null ? null : JSON.stringify(profile);
     if (profile === null) {
       name.textContent = 'Profile not found';
       status.textContent = 'No kind 0 in current NMP evidence. Refresh to retry.';
