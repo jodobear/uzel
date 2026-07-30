@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785452028.6388247,
+    "mtime": 1785452117.4117892,
     "ast_hash": "fecc1b3e2135efa1960b3fae92413d62",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785452028.6406808,
-    "ast_hash": "0ce9bbc46e2239d74837abfe7cce5946",
+    "mtime": 1785452117.4177616,
+    "ast_hash": "eb9d0e62079c802d812837dfdb15df97",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785451844.628784,
-    "ast_hash": "bb11f29808bd5aca08fe2497370f454f",
+    "mtime": 1785452099.4325209,
+    "ast_hash": "2e3c6e42d3356a1f1e635715b412b0f9",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -245,8 +245,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785421803.831498,
-    "ast_hash": "43c39fccd58d4464503ffcbe08e8ffb6",
+    "mtime": 1785452472.7645326,
+    "ast_hash": "17a897bdbcda0f64a68dfdb323ebfcbc",
     "semantic_hash": ""
   },
   "scripts/check-boundaries.sh": {
