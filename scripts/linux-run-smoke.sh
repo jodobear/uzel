@@ -148,6 +148,10 @@ report_marker_state() {
 SMOKE_STARTED_AT=$SECONDS
 echo "LINUX_SMOKE_PHASE phase=startup timeout_seconds=$STARTUP_TIMEOUT_SECONDS"
 
+startup_deadline_expired() {
+  (( SECONDS - SMOKE_STARTED_AT >= STARTUP_TIMEOUT_SECONDS ))
+}
+
 weston \
   --backend=headless \
   --renderer=gl \
@@ -159,10 +163,19 @@ WESTON_PID=$!
 
 for _ in $(seq 1 80); do
   [[ -S "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" ]] && break
+  if startup_deadline_expired; then
+    echo "Linux smoke timed out during compositor startup after ${STARTUP_TIMEOUT_SECONDS}s" >&2
+    exit 1
+  fi
   kill -0 "$WESTON_PID" 2>/dev/null
   sleep 0.25
 done
 [[ -S "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" ]]
+
+if startup_deadline_expired; then
+  echo "Linux smoke timed out during compositor startup after ${STARTUP_TIMEOUT_SECONDS}s" >&2
+  exit 1
+fi
 
 setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
 DEV_PID=$!
@@ -170,6 +183,12 @@ DEV_PID=$!
 RUNTIME_STARTED_AT=
 
 while true; do
+  if [[ -z "$RUNTIME_STARTED_AT" ]] && startup_deadline_expired; then
+    echo "Linux smoke timed out during build/startup before UZEL_SHELL_READY after ${STARTUP_TIMEOUT_SECONDS}s" >&2
+    report_marker_state
+    exit 1
+  fi
+
   if [[ -z "$RUNTIME_STARTED_AT" ]] && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log"; then
     RUNTIME_STARTED_AT=$SECONDS
     echo "LINUX_SMOKE_PHASE phase=runtime timeout_seconds=$RUNTIME_TIMEOUT_SECONDS"
@@ -188,13 +207,6 @@ while true; do
 
   if ! kill -0 "$DEV_PID" 2>/dev/null; then
     echo 'Linux runtime exited before readiness markers' >&2
-    report_marker_state
-    exit 1
-  fi
-
-  if [[ -z "$RUNTIME_STARTED_AT" ]] \
-    && (( SECONDS - SMOKE_STARTED_AT >= STARTUP_TIMEOUT_SECONDS )); then
-    echo "Linux smoke timed out during build/startup before UZEL_SHELL_READY after ${STARTUP_TIMEOUT_SECONDS}s" >&2
     report_marker_state
     exit 1
   fi
