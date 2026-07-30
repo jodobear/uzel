@@ -136,6 +136,7 @@
   let profile: SurfaceLaunch | null = null;
   let loaded: SurfaceLaunch | null = null;
   let cleanupRequired: CleanupRequired | null = null;
+  let initializationRetryRequired: string | null = null;
   let orphanCleanupRequired: StartupCleanupRequired[] = [];
   let baseRecoveryRequired: BaseRecoveryRequired | null = null;
   let runtimeLocked = false;
@@ -186,6 +187,7 @@
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
   $: runtimeLocked = loaded !== null
     || cleanupRequired !== null
+    || initializationRetryRequired !== null
     || orphanCleanupRequired.length > 0
     || baseRecoveryRequired !== null
     || reviewAmbiguous !== null
@@ -409,6 +411,7 @@
       runtime = reconciliation.runtime;
       orphanCleanupRequired = reconciliation.cleanupFailures;
       if (orphanCleanupRequired.length > 0) {
+        initializationRetryRequired = null;
         failShellHandshake(
           'Runtime cleanup required',
           orphanCleanupRequired.map((entry) => `${entry.kind} ${entry.token}: ${entry.detail}`).join('; '),
@@ -437,15 +440,24 @@
         hostile = await invoke<SurfaceLaunch>('start_hostile_probe');
         if (!mountHostileSurface(hostile)) throw new Error('hostile surface refused');
       }
+      initializationRetryRequired = null;
     } catch (error) {
       if (profile || follow) {
+        initializationRetryRequired = null;
         await retainBaseRecovery(['profile', 'follow'], error);
       } else {
+        initializationRetryRequired = String(error);
         failShellHandshake('Composition failed', error);
       }
     } finally {
       runtimeInitializationBusy = false;
     }
+  }
+
+  async function retryRuntimeInitialization() {
+    if (runtimeInitializationBusy || initializationRetryRequired === null) return;
+    status = 'Retrying private runtime initialization…';
+    await initializeRuntime();
   }
 
   async function retryOrphanCleanup() {
@@ -1163,6 +1175,21 @@
           <button type="button" disabled={loadedCleanupBusy} onclick={retryRequiredCleanup}>{loadedCleanupBusy ? 'Stopping…' : 'Retry cleanup'}</button>
         </div>
         <div class="surface cleanup-surface"><p>{cleanupRequired.detail}</p><code>{cleanupRequired.surfaceToken}</code></div>
+      </article>
+    </section>
+  {/if}
+
+  {#if initializationRetryRequired}
+    <section class="loaded-workspace cleanup-workspace" aria-label="Runtime initialization recovery">
+      <article class="pane loaded-pane cleanup-pane">
+        <div class="pane-title">
+          <div><span>RECOVER</span><strong>Runtime initialization paused</strong></div>
+          <button type="button" disabled={runtimeInitializationBusy} onclick={retryRuntimeInitialization}>{runtimeInitializationBusy ? 'Retrying…' : 'Retry initialization'}</button>
+        </div>
+        <div class="surface cleanup-surface">
+          <p>Uzel could not finish private-runtime setup before either pane opened.</p>
+          <code>{initializationRetryRequired}</code>
+        </div>
       </article>
     </section>
   {/if}
