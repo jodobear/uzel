@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785449404.9791367,
-    "ast_hash": "0304c15493e856d2012249e6d7399d7e",
+    "mtime": 1785450632.4332616,
+    "ast_hash": "77adb5e81612ba55b8a67cca157206ea",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785449404.9839118,
-    "ast_hash": "c4830712a7c080d094cfe6098c95e92c",
+    "mtime": 1785450632.4353888,
+    "ast_hash": "b219466aff9fe8d06182fdf9d3f76e94",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785449185.476096,
-    "ast_hash": "17b9e67c3b7e460f07bc70f0d771667f",
+    "mtime": 1785450537.9977307,
+    "ast_hash": "949c37b9d5774e251bb0ab2238d96081",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/main.rs": {
-    "mtime": 1785449058.0067146,
-    "ast_hash": "7ca65b1e822fc2509e977f39d2c82d25",
+    "mtime": 1785451387.7398791,
+    "ast_hash": "1e40b3fd568ff910ffc27ddabd22b8ad",
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/tauri.conf.json": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785449952.9344103,
-    "ast_hash": "b57e6a0a9901c34a6bfe0ca48e5bf334",
+    "mtime": 1785451420.4682305,
+    "ast_hash": "868b0f21e38161194330c02b1ad19845",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785426736.9274375,
-    "ast_hash": "6eb9a30b67d71dc6bc27233cc73b22ca",
+    "mtime": 1785451506.597155,
+    "ast_hash": "7b578dfc546e708c98f183e436587682",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/event.json": {
-    "mtime": 1785421175.8947625,
-    "ast_hash": "4575106fea321e383a3b658ea11e2266",
+    "mtime": 1785451469.7257593,
+    "ast_hash": "8a4cd7834409186f2f49e3adfabd3807",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/event.json": {
@@ -415,8 +415,8 @@
     "semantic_hash": ""
   },
   "fixtures/profile-card/event.json": {
-    "mtime": 1785421176.8177724,
-    "ast_hash": "413f2c4eff270c0991a32b08b4e50f5e",
+    "mtime": 1785451470.5967686,
+    "ast_hash": "14a6c3133cd5951dd5ba3b9a0b5a73e1",
     "semantic_hash": ""
   },
   "napplets/follow-list/package.json": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/index.html": {
-    "mtime": 1785421175.891303,
-    "ast_hash": "d7cc10211bd519c4c44992081f0641b0",
+    "mtime": 1785451469.7234278,
+    "ast_hash": "c9104104a520fc51e60bf0a711440bce",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/index.html": {
@@ -510,8 +510,8 @@
     "semantic_hash": ""
   },
   "fixtures/profile-card/index.html": {
-    "mtime": 1785421176.8140678,
-    "ast_hash": "d34834da3641536393ab61f2619ea5d1",
+    "mtime": 1785451470.5947154,
+    "ast_hash": "15af3648d7a48246b07001386f2c065c",
     "semantic_hash": ""
   },
   "napplets/follow-list/index.html": {
@@ -565,8 +565,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/fixtures.rs": {
-    "mtime": 1785428938.520097,
-    "ast_hash": "75a3a65e10dde07798060de4290640ea",
+    "mtime": 1785451506.689156,
+    "ast_hash": "d9143a436451d17d8b8569c847edd2fe",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-012-composed-demo.md": {
@@ -580,8 +580,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/hostile_probe.rs": {
-    "mtime": 1785307640.4177752,
-    "ast_hash": "9fe2a28764cfacbf249a59b697e907c0",
+    "mtime": 1785451387.648878,
+    "ast_hash": "1eda4f2c6dfb750ea008684c80143568",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-013-hostile-linux-boundary.md": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785449185.6750982,
-    "ast_hash": "71a0f7d5b2b9fed7bff2892d6a68eacc",
+    "mtime": 1785450538.0887318,
+    "ast_hash": "7aacba9ff8b17dbbc0bcbe04e517e973",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {
