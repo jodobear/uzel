@@ -1,16 +1,16 @@
-# Graph Report - uzel  (2026-07-29)
+# Graph Report - uzel  (2026-07-30)
 
 ## Corpus Check
-- 110 files · ~59,175 words
+- 110 files · ~59,492 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 952 nodes · 1398 edges · 94 communities (68 shown, 26 thin omitted)
+- 957 nodes · 1407 edges · 93 communities (67 shown, 26 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7b204947`
+- Built from commit: `39ce1bf1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -78,7 +78,6 @@
 - main.js
 - 04-execution.md
 - Work 02 — Linux exact-build runner
-- lib.rs
 - Upstream contribution ledger
 - Execution slices
 - Uzel single-repository POC
@@ -130,7 +129,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (94 total, 26 thin omitted)
+## Communities (93 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -157,8 +156,8 @@ Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 6 - "POC architecture"
-Cohesion: 0.21
-Nodes (12): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), linux-run-smoke.sh script, UZEL_FIXTURE_RELAY_PORT (+4 more)
+Cohesion: 0.19
+Nodes (15): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+7 more)
 
 ### Community 7 - "Observed facts"
 Cohesion: 0.22
@@ -177,8 +176,8 @@ Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
-Cohesion: 0.11
-Nodes (32): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+24 more)
+Cohesion: 0.06
+Nodes (61): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+53 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.25
@@ -300,10 +299,6 @@ Nodes (12): denied(), results, target, attemptRawWebKitInvoke(), boundedAttempt(
 Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
-### Community 67 - "lib.rs"
-Cohesion: 0.12
-Nodes (29): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+21 more)
-
 ### Community 68 - "Upstream contribution ledger"
 Cohesion: 0.29
 Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
@@ -353,8 +348,8 @@ Cohesion: 0.29
 Nodes (7): Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Verified facts
 
 ### Community 88 - "debian13-live-test.sh"
-Cohesion: 0.36
-Nodes (7): fail(), reexec_with_nix_group(), debian13-live-test.sh script, UZEL_SMOKE_ARTIFACT_DIR, UZEL_SMOKE_EVIDENCE_DIR, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
+Cohesion: 0.27
+Nodes (9): CARGO_INCREMENTAL, CARGO_PROFILE_DEV_DEBUG, fail(), reexec_with_nix_group(), debian13-live-test.sh script, UZEL_SMOKE_ARTIFACT_DIR, UZEL_SMOKE_EVIDENCE_DIR, UZEL_SMOKE_NAME (+1 more)
 
 ### Community 89 - "Gate 0 preflight and Slice 01 decision"
 Cohesion: 0.22
@@ -377,7 +372,7 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
 ## Knowledge Gaps
-- **393 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+388 more)
+- **395 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+390 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -386,14 +381,14 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `LinuxRunner` connect `lib.rs` to `Work 00 — validate assumptions`?**
   _High betweenness centrality (0.018) - this node is a cross-community bridge._
-- **Why does `UnixClient` connect `Work 06 — hardening and demo acceptance` to `lib.rs`?**
+- **Why does `UnixClient` connect `Work 06 — hardening and demo acceptance` to `Work 00 — validate assumptions`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _393 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _395 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.10685249709639953 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0595679012345679 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**

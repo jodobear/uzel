@@ -2180,7 +2180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib",
-      "community": 67,
+      "community": 11,
       "norm_label": "lib.rs"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_request",
-      "community": 67,
+      "community": 11,
       "norm_label": "request"
     },
     {
@@ -2200,7 +2200,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_string",
-      "community": 67,
+      "community": 11,
       "norm_label": "string"
     },
     {
@@ -2210,7 +2210,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 67,
+      "community": 11,
       "norm_label": "surfacemetadata"
     },
     {
@@ -2220,7 +2220,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_vec",
-      "community": 67,
+      "community": 11,
       "norm_label": "vec"
     },
     {
@@ -2230,7 +2230,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_routedenvelope",
-      "community": 67,
+      "community": 11,
       "norm_label": "routedenvelope"
     },
     {
@@ -2240,7 +2240,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_diagnostics",
-      "community": 67,
+      "community": 11,
       "norm_label": "diagnostics"
     },
     {
@@ -2250,7 +2250,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_option",
-      "community": 67,
+      "community": 11,
       "norm_label": "option"
     },
     {
@@ -2260,7 +2260,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response",
-      "community": 67,
+      "community": 11,
       "norm_label": "response"
     },
     {
@@ -2270,7 +2270,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response_error",
-      "community": 67,
+      "community": 11,
       "norm_label": ".error()"
     },
     {
@@ -2280,7 +2280,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "into",
-      "community": 67,
+      "community": 11,
       "norm_label": "into"
     },
     {
@@ -2290,7 +2290,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_self",
-      "community": 67,
+      "community": 11,
       "norm_label": "self"
     },
     {
@@ -2300,7 +2300,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_protocolerror",
-      "community": 67,
+      "community": 11,
       "norm_label": "protocolerror"
     },
     {
@@ -2310,7 +2310,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_error",
-      "community": 67,
+      "community": 11,
       "norm_label": "error"
     },
     {
@@ -2320,7 +2320,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodeerror",
-      "community": 67,
+      "community": 11,
       "norm_label": "decodeerror"
     },
     {
@@ -2330,7 +2330,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_fetchedsurface",
-      "community": 67,
+      "community": 11,
       "norm_label": "fetchedsurface"
     },
     {
@@ -2340,7 +2340,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_clienterror",
-      "community": 67,
+      "community": 11,
       "norm_label": "clienterror"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_new",
-      "community": 67,
+      "community": 11,
       "norm_label": ".new()"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_asref",
-      "community": 67,
+      "community": 11,
       "norm_label": "asref"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_path",
-      "community": 67,
+      "community": 11,
       "norm_label": "path"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_request",
-      "community": 67,
+      "community": 11,
       "norm_label": ".request()"
     },
     {
@@ -2410,7 +2410,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_result",
-      "community": 67,
+      "community": 11,
       "norm_label": "result"
     },
     {
@@ -2420,7 +2420,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_fixture",
-      "community": 67,
+      "community": 11,
       "norm_label": ".start_fixture()"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_named_fixture",
-      "community": 67,
+      "community": 11,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L214",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_hostile_probe",
-      "community": 67,
+      "community": 11,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_fetch_surface",
-      "community": 67,
+      "community": 11,
       "norm_label": ".fetch_surface()"
     },
     {
@@ -2460,7 +2460,7 @@
       "source_location": "L287",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_write_frame",
-      "community": 67,
+      "community": 11,
       "norm_label": "write_frame()"
     },
     {
@@ -2470,7 +2470,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "write",
-      "community": 67,
+      "community": 11,
       "norm_label": "write"
     },
     {
@@ -2480,7 +2480,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "t",
-      "community": 67,
+      "community": 11,
       "norm_label": "t"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_frame",
-      "community": 67,
+      "community": 11,
       "norm_label": "read_frame()"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "read",
-      "community": 67,
+      "community": 11,
       "norm_label": "read"
     },
     {
@@ -2510,7 +2510,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_encode_asset_chunk",
-      "community": 67,
+      "community": 11,
       "norm_label": "encode_asset_chunk()"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L320",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_decode_asset_chunk",
-      "community": 67,
+      "community": 11,
       "norm_label": "decode_asset_chunk()"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L324",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_exact_or_truncated",
-      "community": 67,
+      "community": 11,
       "norm_label": "read_exact_or_truncated()"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_gate_zero_bounds_remain_exact",
-      "community": 67,
+      "community": 11,
       "norm_label": "gate_zero_bounds_remain_exact()"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L347",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_frames_round_trip_with_big_endian_length",
-      "community": 67,
+      "community": 11,
       "norm_label": "frames_round_trip_with_big_endian_length()"
     },
     {
@@ -2560,7 +2560,7 @@
       "source_location": "L362",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_oversized_frame_is_rejected_before_body_read",
-      "community": 67,
+      "community": 11,
       "norm_label": "oversized_frame_is_rejected_before_body_read()"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "L371",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_asset_chunk_fits_control_frame",
-      "community": 67,
+      "community": 11,
       "norm_label": "maximum_asset_chunk_fits_control_frame()"
     },
     {
@@ -2760,7 +2760,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 67,
+      "community": 11,
       "norm_label": ".metadata()"
     },
     {
@@ -6150,10 +6150,38 @@
       "norm_label": "reexec_with_nix_group()"
     },
     {
+      "label": "CARGO_INCREMENTAL",
+      "file_type": "code",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L109",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "scripts_debian13_live_test_cargo_incremental",
+      "community": 88,
+      "norm_label": "cargo_incremental"
+    },
+    {
+      "label": "CARGO_PROFILE_DEV_DEBUG",
+      "file_type": "code",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L110",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "scripts_debian13_live_test_cargo_profile_dev_debug",
+      "community": 88,
+      "norm_label": "cargo_profile_dev_debug"
+    },
+    {
       "label": "UZEL_SMOKE_NAME",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L135",
+      "source_location": "L137",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6167,7 +6195,7 @@
       "label": "UZEL_SMOKE_SUCCESS_MARKER",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L136",
+      "source_location": "L138",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6181,7 +6209,7 @@
       "label": "UZEL_SMOKE_ARTIFACT_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L137",
+      "source_location": "L139",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6195,7 +6223,7 @@
       "label": "UZEL_SMOKE_EVIDENCE_DIR",
       "file_type": "code",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L138",
+      "source_location": "L140",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6447,7 +6475,7 @@
       "label": "preserve_logs()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L14",
+      "source_location": "L22",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6461,7 +6489,7 @@
       "label": "preserve_failure()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L27",
+      "source_location": "L35",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6475,7 +6503,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L34",
+      "source_location": "L42",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6489,7 +6517,7 @@
       "label": "XDG_RUNTIME_DIR",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L55",
+      "source_location": "L63",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6503,7 +6531,7 @@
       "label": "XDG_DATA_HOME",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L57",
+      "source_location": "L65",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6517,7 +6545,7 @@
       "label": "WAYLAND_DISPLAY",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L59",
+      "source_location": "L67",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6531,7 +6559,7 @@
       "label": "GDK_BACKEND",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L60",
+      "source_location": "L68",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6545,7 +6573,7 @@
       "label": "NO_AT_BRIDGE",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L61",
+      "source_location": "L69",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6559,7 +6587,7 @@
       "label": "UZEL_FIXTURE_RELAY_PORT",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L62",
+      "source_location": "L70",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6573,7 +6601,7 @@
       "label": "UZEL_RUN_HOSTILE_PROBE",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L63",
+      "source_location": "L71",
       "metadata": {
         "language": "bash",
         "kind": "code"
@@ -6587,7 +6615,7 @@
       "label": "hostile_markers_are_ordered()",
       "file_type": "code",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L65",
+      "source_location": "L73",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -6596,6 +6624,48 @@
       "id": "scripts_linux_run_smoke_hostile_markers_are_ordered",
       "community": 6,
       "norm_label": "hostile_markers_are_ordered()"
+    },
+    {
+      "label": "runtime_markers_ready()",
+      "file_type": "code",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L82",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_linux_run_smoke_runtime_markers_ready",
+      "community": 6,
+      "norm_label": "runtime_markers_ready()"
+    },
+    {
+      "label": "report_marker()",
+      "file_type": "code",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L101",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_linux_run_smoke_report_marker",
+      "community": 6,
+      "norm_label": "report_marker()"
+    },
+    {
+      "label": "report_marker_state()",
+      "file_type": "code",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L111",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_linux_run_smoke_report_marker_state",
+      "community": 6,
+      "norm_label": "report_marker_state()"
     },
     {
       "label": "smoke.sh",
@@ -6749,7 +6819,7 @@
       "label": "3. Run visible desktop demo",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L85",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "debian13_live_test_3_run_visible_desktop_demo",
       "community": 22,
@@ -20881,6 +20951,26 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "scripts_debian13_live_test",
+      "target": "scripts_debian13_live_test_cargo_incremental",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-live-test.sh",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "scripts_debian13_live_test",
+      "target": "scripts_debian13_live_test_cargo_profile_dev_debug",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/debian13-live-test.sh",
       "source_location": "L9",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
@@ -20911,7 +21001,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L137",
+      "source_location": "L139",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_artifact_dir",
@@ -20921,7 +21011,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L138",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_evidence_dir",
@@ -20931,7 +21021,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L135",
+      "source_location": "L137",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_name",
@@ -20941,7 +21031,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/debian13-live-test.sh",
-      "source_location": "L136",
+      "source_location": "L138",
       "weight": 1.0,
       "source": "scripts_debian13_live_test",
       "target": "scripts_debian13_live_test_uzel_smoke_success_marker",
@@ -21170,7 +21260,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_cleanup",
@@ -21180,7 +21270,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L60",
+      "source_location": "L68",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_gdk_backend",
@@ -21190,7 +21280,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L65",
+      "source_location": "L73",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_hostile_markers_are_ordered",
@@ -21200,7 +21290,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L61",
+      "source_location": "L69",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_no_at_bridge",
@@ -21210,7 +21300,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L27",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_preserve_failure",
@@ -21220,10 +21310,40 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L14",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_preserve_logs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L101",
+      "weight": 1.0,
+      "source": "scripts_linux_run_smoke",
+      "target": "scripts_linux_run_smoke_report_marker",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L111",
+      "weight": 1.0,
+      "source": "scripts_linux_run_smoke",
+      "target": "scripts_linux_run_smoke_report_marker_state",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "scripts_linux_run_smoke",
+      "target": "scripts_linux_run_smoke_runtime_markers_ready",
       "confidence_score": 1.0
     },
     {
@@ -21240,7 +21360,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L62",
+      "source_location": "L70",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_uzel_fixture_relay_port",
@@ -21250,7 +21370,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L63",
+      "source_location": "L71",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_uzel_run_hostile_probe",
@@ -21260,7 +21380,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L59",
+      "source_location": "L67",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_wayland_display",
@@ -21270,7 +21390,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L57",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_xdg_data_home",
@@ -21280,7 +21400,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L55",
+      "source_location": "L63",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
       "target": "scripts_linux_run_smoke_xdg_runtime_dir",
@@ -21290,18 +21410,29 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L109",
+      "source_location": "L167",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_sh__entry",
-      "target": "scripts_linux_run_smoke_hostile_markers_are_ordered",
+      "target": "scripts_linux_run_smoke_report_marker_state",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L48",
+      "source_location": "L163",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_linux_run_smoke_sh__entry",
+      "target": "scripts_linux_run_smoke_runtime_markers_ready",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L56",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_cleanup",
@@ -21312,7 +21443,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L28",
+      "source_location": "L36",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_preserve_failure",
@@ -21323,11 +21454,44 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L46",
+      "source_location": "L54",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_cleanup",
       "target": "scripts_linux_run_smoke_preserve_failure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_linux_run_smoke_report_marker_state",
+      "target": "scripts_linux_run_smoke_hostile_markers_are_ordered",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_linux_run_smoke_runtime_markers_ready",
+      "target": "scripts_linux_run_smoke_hostile_markers_are_ordered",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_linux_run_smoke_report_marker_state",
+      "target": "scripts_linux_run_smoke_report_marker",
       "confidence_score": 1.0
     },
     {
@@ -21486,7 +21650,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L85",
+      "source_location": "L92",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_3_run_visible_desktop_demo",
@@ -24324,5 +24488,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7b2049476b976100a2ab8b34c5b7cc69d82be01d"
+  "built_at_commit": "39ce1bf1dc448e4480268d097120fb71be76295c"
 }
