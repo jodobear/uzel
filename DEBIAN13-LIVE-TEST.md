@@ -69,13 +69,14 @@ workspace prebuild is exported into the dev runtime so Cargo does not discard
 that cache and rebuild every dependency with a different profile.
 
 The test starts headless Weston, the local signed Nostr fixture relay,
-`uzel-napd`, Tauri, and real WebKitGTK. Build and startup have a bounded
-ten-minute deadline. After `UZEL_SHELL_READY`, runtime acceptance has a separate
-two-minute deadline. A timeout reports every required marker as present or
-missing before preserving logs. The test verifies three exact builds, both
-product napplets, NAP-SHELL/NAP-INC routing, all 13 hostile browser-egress
-denials, zero sentinel accepts, zero native calls, source binding, and clean
-user mode.
+`uzel-napd`, Tauri, and real WebKitGTK. Dependency installation, workspace
+prebuild, and runtime startup share one bounded ten-minute deadline. Each
+prebuild command receives only the remaining budget. After `UZEL_SHELL_READY`,
+runtime acceptance has a separate two-minute deadline. A timeout reports every
+required runtime marker as present or missing before preserving logs. The test
+verifies three exact builds, both product napplets, NAP-SHELL/NAP-INC routing,
+all 13 hostile browser-egress denials, zero sentinel accepts, zero native calls,
+source binding, and clean user mode.
 
 Pass ends with:
 
@@ -84,10 +85,13 @@ DEBIAN13_LIVE_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell
 DEBIAN13_EVIDENCE_OK path=.../.artifacts/debian13-live/<UTC timestamp>
 ```
 
-Keep `environment.txt`, `run.log`, `uzel.log`, and `weston.log` from that
-evidence directory. On failure, redacted WebKit/Uzel and Weston logs are stored
-beneath its `failure/` directory. Each run creates a unique directory and never
-overwrites earlier evidence.
+Keep `environment.txt`, `prebuild.log`, `run.log`, `uzel.log`, and `weston.log`
+from that evidence directory. The directory is created before dependency and
+workspace prebuild, so a prebuild timeout retains its log. On runtime failure,
+redacted WebKit/Uzel and Weston logs are stored beneath its `failure/`
+directory. Each run creates a unique directory and never overwrites earlier
+evidence. Interrupting the outer live-test PID forwards the signal to the active
+prebuild or smoke child, waits for cleanup, and exits nonzero.
 
 ## 3. Run visible desktop demo
 
