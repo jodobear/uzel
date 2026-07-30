@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-30)
 
 ## Corpus Check
-- 110 files · ~60,117 words
+- 110 files · ~60,212 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 965 nodes · 1420 edges · 90 communities (64 shown, 26 thin omitted)
+- 966 nodes · 1422 edges · 91 communities (65 shown, 26 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `189e4c4e`
+- Built from commit: `e8357774`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,6 +92,7 @@
 - AcceptSettings
 - RelayDiagnosticsSink
 - FACT-011-daemon-nmp.md
+- lib.rs
 - FACT-012-composed-demo.md
 - README.md
 - Verified facts
@@ -112,21 +113,21 @@
 10. `write_frame()` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `runtime_status()` --references--> `UnixClient`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `select_read_identity()` --references--> `UnixClient`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `start_fixture()` --references--> `UnixClient`  [EXTRACTED]
+- `runtime_diagnostics()` --references--> `Diagnostics`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `project_surface()` --references--> `FetchedSurface`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `start_hostile_probe()` --references--> `UnixClient`  [EXTRACTED]
+- `forward_surface_envelope()` --references--> `RoutedEnvelope`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `runtime_status()` --references--> `UnixClient`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `select_read_identity()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 
 ## Import Cycles
 - None detected.
 
-## Communities (90 total, 26 thin omitted)
+## Communities (91 total, 26 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -153,8 +154,8 @@ Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 6 - "POC architecture"
-Cohesion: 0.16
-Nodes (16): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+8 more)
+Cohesion: 0.15
+Nodes (17): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+9 more)
 
 ### Community 7 - "Observed facts"
 Cohesion: 0.29
@@ -173,8 +174,8 @@ Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
-Cohesion: 0.06
-Nodes (63): runtime_diagnostics(), ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame() (+55 more)
+Cohesion: 0.11
+Nodes (32): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+24 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.25
@@ -282,7 +283,7 @@ Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact n
 
 ### Community 62 - "Slice 02 preflight"
 Cohesion: 0.12
-Nodes (24): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+16 more)
+Nodes (23): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+15 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.25
@@ -326,7 +327,7 @@ Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 
 ### Community 79 - "Work 06 — hardening and demo acceptance"
 Cohesion: 0.16
-Nodes (26): allowed_navigation(), default_socket_path(), forward_surface_envelope(), hostile_native_probe(), main(), navigation_policy(), project_surface(), report_shell_accepted() (+18 more)
+Nodes (29): allowed_navigation(), default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe(), main(), navigation_policy(), project_surface() (+21 more)
 
 ### Community 80 - "Work 06 — hardening and demo acceptance"
 Cohesion: 0.40
@@ -339,6 +340,10 @@ Nodes (5): AcceptSettings, UnavailableSettings, NativeSettingsExecutor, NativeSe
 ### Community 82 - "RelayDiagnosticsSink"
 Cohesion: 0.50
 Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
+
+### Community 84 - "lib.rs"
+Cohesion: 0.12
+Nodes (29): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+21 more)
 
 ### Community 87 - "Verified facts"
 Cohesion: 0.05
@@ -366,14 +371,14 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `LinuxRunner` connect `lib.rs` to `Work 00 — validate assumptions`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `UnixClient` connect `Work 00 — validate assumptions` to `Slice 02 preflight`, `Work 06 — hardening and demo acceptance`?**
+- **Why does `UnixClient` connect `Work 06 — hardening and demo acceptance` to `lib.rs`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _396 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.05906553041434029 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10685249709639953 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.11553030303030302 - nodes in this community are weakly interconnected._
 - **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
