@@ -27,12 +27,16 @@ test('returns the final bounded snapshot when evidence stays absent', async () =
 
 test('waits past an accepted cache hit until changed evidence appears', async () => {
   const snapshots = ['cached', 'cached', 'fresh'];
+  const attempts = snapshots.length;
   let calls = 0;
   const result = await waitForEvidence(
-    async () => snapshots[calls++],
+    async () => {
+      calls += 1;
+      return snapshots.shift();
+    },
     () => true,
     {
-      attempts: snapshots.length,
+      attempts,
       intervalMs: 0,
       isFresh: (value) => value !== 'cached',
     },
