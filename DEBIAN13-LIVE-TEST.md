@@ -95,8 +95,9 @@ from that evidence directory. The directory is created before dependency and
 workspace prebuild, so a prebuild timeout retains its log. On runtime failure,
 redacted WebKit/Uzel and Weston logs are stored beneath its `failure/`
 directory. Each run creates a unique directory and never overwrites earlier
-evidence. Interrupting the outer live-test PID forwards the signal to the active
-prebuild or smoke child, waits for cleanup, and exits nonzero.
+evidence. The smoke runner uses its own process group. Interrupting the outer
+live-test PID forwards the signal to the active prebuild or smoke child group,
+waits for cleanup, and exits nonzero.
 
 ## 3. Run visible desktop demo
 

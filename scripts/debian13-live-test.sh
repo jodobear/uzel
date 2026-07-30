@@ -302,8 +302,8 @@ if (( STARTUP_REMAINING <= 0 )); then
 fi
 export UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS=$STARTUP_REMAINING
 
-ACTIVE_CHILD_GROUP=0
-bash scripts/linux-run-smoke.sh > >(tee "$EVIDENCE_DIR/run.log") 2>&1 &
+ACTIVE_CHILD_GROUP=1
+setsid bash scripts/linux-run-smoke.sh > >(tee "$EVIDENCE_DIR/run.log") 2>&1 &
 ACTIVE_CHILD_PID=$!
 set +e
 wait "$ACTIVE_CHILD_PID"
