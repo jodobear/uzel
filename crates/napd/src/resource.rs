@@ -212,7 +212,12 @@ impl SvgRasterizer for UnsupportedSvgRasterizer {
     }
 }
 
-pub(crate) fn linux_resource_provider() -> Result<Arc<dyn Provider>, String> {
+pub(crate) fn linux_resource_provider(
+    blossom_servers: Vec<String>,
+) -> Result<Arc<dyn Provider>, String> {
+    // These are only bounded fallback servers for content-addressed
+    // `blossom:` URLs. Ordinary public HTTPS resources remain governed by
+    // NAP-RESOURCE's DNS pinning, redirect, MIME, and size policy.
     let clock = Arc::new(MonotonicResourceClock::new());
     let network = Arc::new(
         LinuxResourceNetwork::new(Arc::clone(&clock))
@@ -230,10 +235,7 @@ pub(crate) fn linux_resource_provider() -> Result<Arc<dyn Provider>, String> {
         clock,
         Arc::new(NoopResourceActivity),
         limits,
-        [
-            Arc::<str>::from("https://cdn.hzrd149.com/"),
-            Arc::<str>::from("https://blossom.ditto.pub/"),
-        ],
+        blossom_servers,
     )
     .map_err(|error| format!("Linux resource provider could not open: {error}"))?;
     Ok(Arc::new(provider))
