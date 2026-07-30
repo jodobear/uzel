@@ -1,6 +1,10 @@
 #![forbid(unsafe_code)]
 
-use std::{env, path::PathBuf};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    env,
+    path::PathBuf,
+};
 
 use napd_protocol::{
     ClientError, Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope,
@@ -67,8 +71,21 @@ struct RuntimeStatus {
     active_identity: Option<String>,
 }
 
-#[tauri::command]
-fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus, String> {
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeCleanupFailure {
+    surface_token: String,
+    detail: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeReconciliation {
+    runtime: RuntimeStatus,
+    cleanup_failures: Vec<RuntimeCleanupFailure>,
+}
+
+fn read_runtime_status(client: &UnixClient) -> Result<RuntimeStatus, String> {
     match client
         .request(&Request::Status)
         .map_err(|error| error.to_string())?
@@ -85,6 +102,66 @@ fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus,
         }),
         _ => Err("daemon returned an unexpected status response".to_owned()),
     }
+}
+
+#[tauri::command]
+fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus, String> {
+    read_runtime_status(&client)
+}
+
+fn stop_surface_snapshot(
+    active_surfaces: &[String],
+    mut stop: impl FnMut(&str) -> Result<(), String>,
+) -> BTreeMap<String, String> {
+    let mut failures = BTreeMap::new();
+    for surface_token in active_surfaces.iter().collect::<BTreeSet<_>>() {
+        if let Err(error) = stop(surface_token) {
+            failures.insert(surface_token.clone(), error);
+        }
+    }
+    failures
+}
+
+fn remaining_cleanup_failures(
+    active_surfaces: &[String],
+    attempted_failures: &BTreeMap<String, String>,
+) -> Vec<RuntimeCleanupFailure> {
+    active_surfaces
+        .iter()
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .map(|surface_token| RuntimeCleanupFailure {
+            surface_token: surface_token.clone(),
+            detail: attempted_failures
+                .get(surface_token)
+                .cloned()
+                .unwrap_or_else(|| "daemon still reports the surface after cleanup".to_owned()),
+        })
+        .collect()
+}
+
+#[tauri::command]
+fn reconcile_runtime(
+    client: tauri::State<'_, UnixClient>,
+    hostile_state: tauri::State<'_, HostileProbeState>,
+) -> Result<RuntimeReconciliation, String> {
+    // A fresh renderer owns none of the daemon's existing surfaces. Cancel any
+    // renderer-owned hostile sentinel, stop the exact initial snapshot, then use
+    // a second status read as the authoritative result for ambiguous replies.
+    hostile_state.cancel();
+    let before = read_runtime_status(&client)?;
+    let attempted_failures = stop_surface_snapshot(&before.active_surfaces, |surface_token| {
+        client
+            .stop_fixture(surface_token)
+            .map_err(|error| error.to_string())
+    });
+    let runtime = read_runtime_status(&client)?;
+    let cleanup_failures =
+        remaining_cleanup_failures(&runtime.active_surfaces, &attempted_failures);
+    Ok(RuntimeReconciliation {
+        runtime,
+        cleanup_failures,
+    })
 }
 
 #[tauri::command]
@@ -376,6 +453,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             runtime_status,
+            reconcile_runtime,
             select_read_identity,
             runtime_diagnostics,
             start_fixture,
@@ -441,6 +519,49 @@ mod tests {
                 .as_str()
                 .unwrap()
                 .contains("cleanup also failed")
+        );
+    }
+
+    #[test]
+    fn reconciliation_stops_each_snapshot_surface_once() {
+        let active = vec![
+            "surface-b".to_owned(),
+            "surface-a".to_owned(),
+            "surface-b".to_owned(),
+        ];
+        let mut stopped = Vec::new();
+        let failures = stop_surface_snapshot(&active, |surface_token| {
+            stopped.push(surface_token.to_owned());
+            Ok(())
+        });
+        assert_eq!(stopped, ["surface-a", "surface-b"]);
+        assert!(failures.is_empty());
+    }
+
+    #[test]
+    fn post_status_reconciles_lost_stop_replies_and_retains_real_failures() {
+        let attempted_failures = BTreeMap::from([
+            ("already-stopped".to_owned(), "response lost".to_owned()),
+            ("still-live".to_owned(), "daemon unavailable".to_owned()),
+        ]);
+        let remaining = remaining_cleanup_failures(
+            &["newly-observed".to_owned(), "still-live".to_owned()],
+            &attempted_failures,
+        );
+        let values = serde_json::to_value(remaining).unwrap();
+        assert_eq!(values[0]["surfaceToken"], "newly-observed");
+        assert_eq!(
+            values[0]["detail"],
+            "daemon still reports the surface after cleanup"
+        );
+        assert_eq!(values[1]["surfaceToken"], "still-live");
+        assert_eq!(values[1]["detail"], "daemon unavailable");
+        assert!(
+            values
+                .as_array()
+                .unwrap()
+                .iter()
+                .all(|entry| entry["surfaceToken"] != "already-stopped")
         );
     }
 }
