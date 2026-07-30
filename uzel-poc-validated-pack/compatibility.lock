@@ -477,6 +477,7 @@ runtime_response_retention_commit = "bc105ff92b1ac0e82d21ba2c881d4180a4daafc6"
 pending_operation_retention_commit = "ac69aa71823f639b5ac499a4c2b168cbc584f859"
 no_blossom_product_config_commit = "33582d9b1d3b780e749bc7c61ba56f344e1a19f4"
 ambiguous_confirmation_commit = "07f49eacd8fbfdcf77f7a52f19524fcf0084b87f"
+recoverable_shell_states_commit = "d3fdd83b54e650e6c38972f2319b490525d9260e"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 maximum_routed_envelope_bytes = 104923136
@@ -490,6 +491,8 @@ pending_operation_retention_result = "pass: ambiguous replay IDs are capped at 6
 blossom_product_configured = false
 blossom_product_config_result = "pass: live mode accepts no Blossom endpoint; the upstream constructor receives only the reserved non-routable blossom.invalid placeholder; ordinary HTTPS remains governed by NAP-RESOURCE"
 ambiguous_confirmation_result = "pass: two lost confirmation replies produce a typed UI lock; Retry Install sends byte-identical frozen inputs and operation ID, receives the original surface, and never cancels the consumed review"
+partial_base_recovery_result = "pass: injected second-pane launch failure stops the created first pane exactly once, exposes the compact locked recovery card, and Retry panes restores both exact panes"
+ambiguous_review_result = "pass: two lost review replies cross Tauri as typed state; Close, identity, and coordinate mutation stay locked until Retry review sends the identical coordinate without cancellation"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -511,6 +514,8 @@ codex_review_round_15 = "addressed: consume matched runtime responses and enforc
 codex_review_round_16 = "addressed: cap ambiguous client operations and discard deterministic pre-send failures instead of retaining them for shell lifetime"
 codex_review_round_17 = "addressed: remove mandatory Blossom endpoint configuration from the Linux product and keep the upstream-required slot non-routable"
 codex_review_round_18 = "addressed: surface double-lost confirmation replies as a typed lock and reconcile with the identical retained operation before allowing close or mutation"
+codex_review_round_19 = "addressed: route partial base-pane initialization failures through exact cleanup and the existing visible retry flow"
+codex_review_round_20 = "addressed: preserve double-lost review replies as a typed lock and retry the identical retained operation before allowing close or coordinate mutation"
 
 [gates]
 V_01 = "pass"
