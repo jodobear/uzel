@@ -11,8 +11,9 @@ use std::{
 };
 
 use napd_protocol::{
-    ASSET_CHUNK_BYTES, MAX_ASSET_BYTES, ProtocolError, Request, Response, VERSION,
-    encode_asset_chunk, read_frame, write_frame,
+    ASSET_CHUNK_BYTES, ENVELOPE_CHUNK_BYTES, MAX_ASSET_BYTES, MAXIMUM_ENVELOPE_BYTES,
+    MAXIMUM_ROUTED_ENVELOPE_BYTES, ProtocolError, Request, Response, VERSION, encode_asset_chunk,
+    read_frame, write_frame,
 };
 
 use crate::{LinuxRunner, RunnerError, SurfaceLaunch};
@@ -411,22 +412,68 @@ fn handle_stream(state: &mut DaemonState, stream: &mut UnixStream) -> bool {
 }
 
 fn write_response(stream: &mut UnixStream, response: &Response) -> bool {
+    if let Response::Envelope {
+        surface_token,
+        envelope,
+    } = response
+        && envelope.len() > MAXIMUM_ENVELOPE_BYTES
+    {
+        return write_chunked_envelope(stream, surface_token, envelope);
+    }
     let mut frame = Vec::new();
     match write_frame(&mut frame, response) {
         Ok(()) => stream
             .write_all(&frame)
             .and_then(|()| stream.flush())
             .is_ok(),
-        Err(ProtocolError::FrameTooLarge { .. }) => write_frame(
-            stream,
-            &Response::error(
-                "response_too_large",
-                "runtime response exceeds the private control-frame limit",
-            ),
-        )
-        .is_ok(),
+        Err(ProtocolError::FrameTooLarge { .. }) => match response {
+            Response::Envelope {
+                surface_token,
+                envelope,
+            } => write_chunked_envelope(stream, surface_token, envelope),
+            _ => write_frame(
+                stream,
+                &Response::error(
+                    "response_too_large",
+                    "runtime response exceeds the private control-frame limit",
+                ),
+            )
+            .is_ok(),
+        },
         Err(_) => false,
     }
+}
+
+fn write_chunked_envelope(stream: &mut UnixStream, surface_token: &str, envelope: &str) -> bool {
+    let bytes = envelope.as_bytes();
+    if bytes.len() > MAXIMUM_ROUTED_ENVELOPE_BYTES {
+        return write_frame(
+            stream,
+            &Response::error(
+                "envelope_too_large",
+                format!("routed envelope exceeds {MAXIMUM_ROUTED_ENVELOPE_BYTES} bytes"),
+            ),
+        )
+        .is_ok();
+    }
+    let total_bytes = bytes.len() as u64;
+    let mut offset = 0_usize;
+    while offset < bytes.len() {
+        let end = offset.saturating_add(ENVELOPE_CHUNK_BYTES).min(bytes.len());
+        let response = Response::EnvelopeChunk {
+            surface_token: surface_token.to_owned(),
+            offset: offset as u64,
+            next_offset: end as u64,
+            total_bytes,
+            bytes_base64: encode_asset_chunk(&bytes[offset..end]),
+            done: end == bytes.len(),
+        };
+        if write_frame(stream, &response).is_err() {
+            return false;
+        }
+        offset = end;
+    }
+    true
 }
 
 fn prepare_socket_parent(socket_path: &Path) -> Result<(), ServerError> {
@@ -685,22 +732,36 @@ mod tests {
     }
 
     #[test]
-    fn oversized_runtime_response_becomes_a_typed_error_frame() {
-        let (mut server, mut client) = UnixStream::pair().unwrap();
-        assert!(write_response(
-            &mut server,
-            &Response::Envelope {
-                surface_token: "oversized".to_owned(),
-                envelope: "x".repeat(napd_protocol::MAX_FRAME_BYTES),
-            }
-        ));
+    fn oversized_routed_envelope_is_chunked_without_raising_the_frame_limit() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("chunked-envelope.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let expected = "x".repeat(napd_protocol::MAX_FRAME_BYTES);
+        let writer_expected = expected.clone();
+        let writer = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            assert_eq!(
+                read_frame::<Request>(&mut stream).unwrap(),
+                Request::Hello { version: VERSION }
+            );
+            assert!(write_response(
+                &mut stream,
+                &Response::Envelope {
+                    surface_token: "chunked-resource".to_owned(),
+                    envelope: writer_expected,
+                },
+            ));
+        });
         assert_eq!(
-            read_frame::<Response>(&mut client).unwrap(),
-            Response::error(
-                "response_too_large",
-                "runtime response exceeds the private control-frame limit"
-            )
+            UnixClient::new(&socket)
+                .request(&Request::Hello { version: VERSION })
+                .unwrap(),
+            Response::Envelope {
+                surface_token: "chunked-resource".to_owned(),
+                envelope: expected,
+            }
         );
+        writer.join().unwrap();
     }
 
     #[test]

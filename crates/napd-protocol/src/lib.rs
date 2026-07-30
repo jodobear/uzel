@@ -26,6 +26,10 @@ pub const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
 pub const MAX_FRAME_BYTES: usize = 512 * 1_024;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
+/// Matches the pinned trusted shell's aggregate NAP-RESOURCE transport bound.
+pub const MAXIMUM_ROUTED_ENVELOPE_BYTES: usize = (100 * 1_024 * 1_024) + (64 * 1_024);
+/// Base64 plus the response wrapper must remain below `MAX_FRAME_BYTES`.
+pub const ENVELOPE_CHUNK_BYTES: usize = 256 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(20);
 const REPLAYABLE_REQUEST_ATTEMPTS: usize = 2;
 
@@ -188,6 +192,14 @@ pub enum Response {
         surface_token: String,
         envelope: String,
     },
+    EnvelopeChunk {
+        surface_token: String,
+        offset: u64,
+        next_offset: u64,
+        total_bytes: u64,
+        bytes_base64: String,
+        done: bool,
+    },
     Identity {
         active_public_key: Option<String>,
     },
@@ -227,6 +239,8 @@ pub enum ProtocolError {
     AssetTooLarge,
     #[error("asset chunk is not valid base64: {0}")]
     Base64(#[from] base64::DecodeError),
+    #[error("routed envelope transfer exceeds the {MAXIMUM_ROUTED_ENVELOPE_BYTES}-byte limit")]
+    EnvelopeTooLarge,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -294,11 +308,100 @@ impl UnixClient {
             .set_write_timeout(Some(IPC_TIMEOUT))
             .map_err(ProtocolError::Io)?;
         write_frame(&mut stream, request)?;
-        let response = read_frame(&mut stream)?;
+        let response = Self::read_response(&mut stream)?;
         if let Response::Error { code, detail } = response {
             return Err(ClientError::Refused { code, detail });
         }
         Ok(response)
+    }
+
+    fn read_response(stream: &mut UnixStream) -> Result<Response, ClientError> {
+        let response = read_frame(stream)?;
+        let Response::EnvelopeChunk {
+            surface_token,
+            offset,
+            next_offset,
+            total_bytes,
+            bytes_base64,
+            done,
+        } = response
+        else {
+            return Ok(response);
+        };
+        let total = usize::try_from(total_bytes).map_err(|_| ProtocolError::EnvelopeTooLarge)?;
+        if total == 0 || total > MAXIMUM_ROUTED_ENVELOPE_BYTES {
+            return Err(ProtocolError::EnvelopeTooLarge.into());
+        }
+        let mut envelope_bytes = Vec::with_capacity(total);
+        let mut chunk = Some((
+            surface_token.clone(),
+            offset,
+            next_offset,
+            total_bytes,
+            bytes_base64,
+            done,
+        ));
+        let mut expected_offset = 0_u64;
+        loop {
+            let Some((
+                returned_surface,
+                returned_offset,
+                next_offset,
+                returned_total,
+                bytes_base64,
+                done,
+            )) = chunk.take()
+            else {
+                return Err(ClientError::InvalidChunk);
+            };
+            if returned_surface != surface_token
+                || returned_offset != expected_offset
+                || returned_total != total_bytes
+            {
+                return Err(ClientError::InvalidChunk);
+            }
+            let bytes = decode_asset_chunk(&bytes_base64)?;
+            let chunk_length = u64::try_from(bytes.len()).map_err(|_| ClientError::InvalidChunk)?;
+            if bytes.is_empty()
+                || bytes.len() > ENVELOPE_CHUNK_BYTES
+                || next_offset != expected_offset.saturating_add(chunk_length)
+                || next_offset > total_bytes
+                || done != (next_offset == total_bytes)
+            {
+                return Err(ClientError::InvalidChunk);
+            }
+            envelope_bytes.extend(bytes);
+            expected_offset = next_offset;
+            if done {
+                break;
+            }
+            chunk = match read_frame(stream)? {
+                Response::EnvelopeChunk {
+                    surface_token,
+                    offset,
+                    next_offset,
+                    total_bytes,
+                    bytes_base64,
+                    done,
+                } => Some((
+                    surface_token,
+                    offset,
+                    next_offset,
+                    total_bytes,
+                    bytes_base64,
+                    done,
+                )),
+                _ => return Err(ClientError::InvalidChunk),
+            };
+        }
+        if envelope_bytes.len() != total {
+            return Err(ClientError::InvalidChunk);
+        }
+        let envelope = String::from_utf8(envelope_bytes).map_err(|_| ClientError::InvalidChunk)?;
+        Ok(Response::Envelope {
+            surface_token,
+            envelope,
+        })
     }
 
     pub fn start_fixture(&self) -> Result<FetchedSurface, ClientError> {
@@ -588,6 +691,11 @@ mod tests {
         assert_eq!(VERSION, 0);
         assert_eq!(MAXIMUM_ENVELOPE_BYTES, 64 * 1_024);
         assert_eq!(MAX_FRAME_BYTES, 512 * 1_024);
+        assert_eq!(ENVELOPE_CHUNK_BYTES, 256 * 1_024);
+        assert_eq!(
+            MAXIMUM_ROUTED_ENVELOPE_BYTES,
+            (100 * 1_024 * 1_024) + (64 * 1_024)
+        );
     }
 
     #[test]
@@ -654,6 +762,57 @@ mod tests {
         for wire in [request_wire, response_wire] {
             assert!(wire.len() <= MAX_FRAME_BYTES + 4);
         }
+    }
+
+    #[test]
+    fn chunked_routed_envelope_reassembles_on_one_connection() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-envelope-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let socket = root.join("napd.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let expected = "resource-envelope:".to_owned() + &"x".repeat(MAX_FRAME_BYTES);
+        let server_expected = expected.clone();
+        let server = thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            assert_eq!(
+                read_frame::<Request>(&mut stream).unwrap(),
+                Request::Hello { version: VERSION }
+            );
+            let bytes = server_expected.as_bytes();
+            let mut offset = 0_usize;
+            while offset < bytes.len() {
+                let end = offset.saturating_add(ENVELOPE_CHUNK_BYTES).min(bytes.len());
+                write_frame(
+                    &mut stream,
+                    &Response::EnvelopeChunk {
+                        surface_token: "resource-surface".to_owned(),
+                        offset: offset as u64,
+                        next_offset: end as u64,
+                        total_bytes: bytes.len() as u64,
+                        bytes_base64: encode_asset_chunk(&bytes[offset..end]),
+                        done: end == bytes.len(),
+                    },
+                )
+                .unwrap();
+                offset = end;
+            }
+        });
+        assert_eq!(
+            UnixClient::new(&socket)
+                .request(&Request::Hello { version: VERSION })
+                .unwrap(),
+            Response::Envelope {
+                surface_token: "resource-surface".to_owned(),
+                envelope: expected,
+            }
+        );
+        server.join().unwrap();
+        fs::remove_file(&socket).unwrap();
+        fs::remove_dir(&root).unwrap();
     }
 
     #[test]
