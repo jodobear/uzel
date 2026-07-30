@@ -12,13 +12,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 3639,
-      "sha256": "bf9f90edb590b920d900aee24c0eed6145e1fe6a1a4c069c4ecbbb3004046b18"
+      "bytes": 3784,
+      "sha256": "5194327a900ccf66e24d1f739a30f2be4582801cfc6ed6b5ba3be290d0bdbcde"
     },
     {
       "path": "STATUS.md",
-      "bytes": 3025,
-      "sha256": "4a020bf5636462fd1f3afb63467f2cf93f6e13284b449d53f271ac8f344d07fa"
+      "bytes": 3108,
+      "sha256": "5d636f419b1c98d87b54832339066fc74d9e3773a6ba6b9b37aa6916f710e72f"
     },
     {
       "path": "TREE.txt",
@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "414456a0524b20d16df131076cad929ded426b10a9f6a4ec36e696a7c56a10b0"
+      "sha256": "c61c2a0f9eb43499f39a94272d352be9268ee0a0a78f6cf81eb0bd7eafada6b6"
     },
     {
       "path": "compatibility.lock",
@@ -42,8 +42,8 @@
     },
     {
       "path": "docs/00-scope.md",
-      "bytes": 3811,
-      "sha256": "d526290cd6b5ea10f61ca74fab8b4fd8787857e1047dcaa58bb806e07f81340a"
+      "bytes": 4434,
+      "sha256": "1816ff1d8adb5e13489c7d6363d6c51f569b3d45c7218157be9c5352a35ed239"
     },
     {
       "path": "docs/01-validation.md",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 7095,
-      "sha256": "372e067c2c2ffadee22a9b224009e5b2e47e74a041298a330ae049e6e33ac801"
+      "bytes": 7249,
+      "sha256": "83602c8d20a375db40df548fdcfae5db97cc84d74dfdf796f7ef4a999baf995d"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 3336,
-      "sha256": "22ff69b4222ea9e45b69cdfc78bcb8640875f91dc80f25b852be625f3c06f1bb"
+      "bytes": 3770,
+      "sha256": "91ba6a308038cc82a47fd35c36f5576b9393ef2571b11a7c876e0546bbd6e077"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -172,13 +172,13 @@
     },
     {
       "path": "reports/probes/linux-failed/uzel.log",
-      "bytes": 4003,
-      "sha256": "d57ca173bc5ec47afe207a80c605bd19f15318bd5a339789386f2f4d3b9e4de3"
+      "bytes": 2957,
+      "sha256": "356a88383bc66dc7704bc54252502bb5fb77f998083b61cf37b0076d55e8bb3e"
     },
     {
       "path": "reports/probes/linux-failed/weston.log",
-      "bytes": 3561,
-      "sha256": "180644c3998d00935ecc18c5c0fa3ba12dfedf7536252a9234950de7657edf79"
+      "bytes": 3498,
+      "sha256": "61350ea63dd35ef3058d640c8507f0860cd787ec793e5349bb13249e0db085ba"
     },
     {
       "path": "reports/probes/slice-01-fedora-failed/weston.txt",
