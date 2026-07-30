@@ -26,6 +26,14 @@ Uzel uses implementation repositories as dependencies, not protocol authorities.
 | `pablof7z/nampplets` | `jodobear/nampplets:feat/runtime-rust-provider-composition` | `488afb674a7279ebc4884e964bfcdfd4fa9e6823` | injected Rust provider remains available through exact-build permission review; 18 Python conformance tests; baseline verification; fmt; workspace all-target Clippy with warnings denied; full workspace tests | [jodobear fork PR #3](https://github.com/jodobear/nampplets/pull/3), open | Uzel consumes the compatibility branch composition at `dd64c5a8afa7eb32ed156a8acedca51617680c4e`, folded into current pin `d533a63d519c14470f900323958509cdea1c6479` |
 | `pablof7z/nampplets` | `jodobear/nampplets:feat/identity-cache-refresh` | `dc5e974116e38f1945cbe7507a0ff52d38ae50a4`; fork merge `3849595288d08d5b7c46c02987236a4bc2d8dd53` | retains a configured relay observation after an empty cache frame; terminal empty evidence returns immediately; author-bearing identity reads use operator public lanes; cancellation uses at most eight lifecycle-owned callbacks with typed capacity refusal, drop-time unregistering, and no polling or waiter threads; `identity.rs` is 296 lines, `identity_refresh.rs` is 198, and `cancellation.rs` is 240; file-growth ratchet, 18 Python conformance tests, baseline verification, fmt, workspace all-target Clippy, focused runtime/adapter tests, full workspace tests, exact-head Codex review, and all eight CI jobs pass | [jodobear fork PR #4](https://github.com/jodobear/nampplets/pull/4), merged 2026-07-30 | Uzel still pins compatibility head `d533a63d519c14470f900323958509cdea1c6479`, which also composes open PRs #2/#3; build a combined successor from merged main plus those tracked heads, then advance only after exact identity, follows, picture, naddr, and Linux runtime probes pass |
 
+The final Uzel lifecycle review required no new upstream patch. The public
+controller already exposes `snapshot`, exact `stop(session_id)`, and terminal
+`close`. Uzel's thin adapter stops every identifiable session created by a
+failed catalog launch refinement; if the post-launch projection refuses before
+exposing any session identifier, it closes the controller fail-closed. Base
+pane token retention and retry are shell-owned product state. Therefore no
+additional fork branch or unpublished dependency was created for this round.
+
 ## Slice 02 upstream result
 
 Uzel consumed the public `RuntimeController` facade and portable trusted-shell

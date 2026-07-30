@@ -466,17 +466,20 @@ codex_review_round_4 = "addressed: retain any non-WouldBlock accept-loop failure
 validated_at = "2026-07-30"
 implementation_commit = "f85452be2b9c4817a8172ac615b35c0755738f50"
 cleanup_bridge_commit = "9650c01aa027de891abffbe83a563e46e7c68aa5"
+lifecycle_cleanup_commit = "c1c74b775ba877ffe4448ae32b69c63c3e4dcedb"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
-browser_fault_injection_result = "pass: Playwright clicked stop, cancellation, and transfer-cleanup failure/retry paths; exact state remained locked until retry; compact recovery screenshot inspected; browser console had zero errors"
+browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
 codex_review_round_1 = "addressed: loaded-session stop retry after a lost response"
 codex_review_round_2 = "addressed: retain review tokens after retryable UI cancellation failure"
 codex_review_round_3 = "addressed: reserve explicit JSON escaping and wrapper headroom in the private IPC frame"
 codex_review_round_4 = "addressed: synchronize architecture, design, fact, work, report, and compatibility records to the current frame ceiling"
 codex_review_round_5 = "addressed: preserve TransferCleanupFailed surface token as structured Tauri error and retain a retryable locked shell state"
+codex_review_round_6 = "addressed: stop every new catalog session on post-launch refinement failure and close an unprojectable runtime fail-closed"
+codex_review_round_7 = "addressed: retain failed base-pane stop tokens across identity changes and expose idempotent retry before reopening identity or catalog work"
 
 [gates]
 V_01 = "pass"

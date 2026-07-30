@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 3579,
-      "sha256": "b8f1a90fc8475e26c1462e95a6c9490c6c4e7a92415dc59d14210961d8c3977c"
+      "bytes": 3714,
+      "sha256": "9fdc6f181fe1e26fc31d8cc179f0302341b94d0d3c57594c5aa339ecfd723c75"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "682499e77a9ba163053ecae03960aeaaf0023abb72586970570d36c141abb829"
+      "sha256": "e51c88caf4176c52a1a8d6716ec1d207a0dc21c9fa7c25e116112186d22419d8"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 31580,
-      "sha256": "e6f7ac635f6029b1ebe7b511ad233d3428c3828e22ce421cfbe0a1fd1285e8bf"
+      "bytes": 32005,
+      "sha256": "b5780fd217878eb20fa171d433ca6ecfa8189d8216d0413071b7aaa903329e09"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 7525,
-      "sha256": "de39d508d41ee57c804f0f9ccca600dfd8f4cd4ebb8476b75652ea4d72bc5719"
+      "bytes": 8061,
+      "sha256": "54fe31b01c153d1db60359da34390f51de78e888abc61b72d26320702c6637ab"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 4622,
-      "sha256": "2274316f52c8a98503e7ce332f419112bdef452ec8429d30891b3832bc99f286"
+      "bytes": 5314,
+      "sha256": "25bba067861901887809db47eeca6007c760561abe595006d69bb604ea79203e"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -172,13 +172,13 @@
     },
     {
       "path": "reports/probes/linux-failed/uzel.log",
-      "bytes": 2957,
-      "sha256": "356a88383bc66dc7704bc54252502bb5fb77f998083b61cf37b0076d55e8bb3e"
+      "bytes": 2246,
+      "sha256": "69e538069f09aed2200a3187ebdaab771b97fd55a89e571fd074e29ed5b8bb4c"
     },
     {
       "path": "reports/probes/linux-failed/weston.log",
       "bytes": 3498,
-      "sha256": "61350ea63dd35ef3058d640c8507f0860cd787ec793e5349bb13249e0db085ba"
+      "sha256": "387147c1da79ad8f02a0e8cf3ed9fa0183d00166adf00ab966566b20e3131113"
     },
     {
       "path": "reports/probes/slice-01-fedora-failed/weston.txt",
