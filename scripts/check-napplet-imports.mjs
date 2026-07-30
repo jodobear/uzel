@@ -61,6 +61,7 @@ const reflectiveCodeProperties = new Set([
 ]);
 const guardedBrowserGlobals = new Set([
   'Object',
+  'URL',
   'document',
   'frames',
   'globalThis',
@@ -76,6 +77,8 @@ const guardedBrowserGlobals = new Set([
 const allowedGuardedGlobalAccesses = new Set([
   'Object.freeze',
   'Object.keys',
+  'URL.createObjectURL',
+  'URL.revokeObjectURL',
   'document.createElement',
   'document.querySelector',
 ]);
@@ -384,6 +387,15 @@ function isLocalObjectUrl(node) {
     node.arguments.length === 1;
 }
 
+function isNativeObjectUrlMember(node) {
+  return (
+    (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === 'URL' &&
+    ['createObjectURL', 'revokeObjectURL'].includes(propertyName(node))
+  );
+}
+
 function programmaticNetworkViolations(path, source) {
   const parsed = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
   const found = new Set();
@@ -453,6 +465,9 @@ function programmaticNetworkViolations(path, source) {
       node.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
       node.operatorToken.kind <= ts.SyntaxKind.LastAssignment
     ) {
+      if (isNativeObjectUrlMember(node.left)) {
+        add(node, 'native URL object-URL method reassignment');
+      }
       const resource = propertyChain(node.left).find((name) =>
         resourceAssignmentProperties.has(name)
       );
@@ -638,6 +653,9 @@ function runSelfTest() {
     'new RTCPeerConnection({ iceServers: [{ urls: remote }] })',
     `new DOMParser().parseFromString('<img src="https://example.test/x">', 'text/html')`,
     "const sheet = new CSSStyleSheet(); sheet.replace('body{background:url(http://127.0.0.1:43129/leak)}'); document.adoptedStyleSheets = [sheet]",
+    "const URL = { createObjectURL: () => remote }; image.src = URL.createObjectURL(blob)",
+    "function render(URL) { image.src = URL.createObjectURL(blob) }",
+    "URL.createObjectURL = () => remote; image.src = URL.createObjectURL(blob)",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",

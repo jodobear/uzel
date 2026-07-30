@@ -869,6 +869,7 @@ impl LinuxRunner {
                 return Err(RunnerError::Verification(refusal.detail));
             }
         };
+        let artifact_base_url = artifact_base_url(self.next_surface_generation)?;
         self.controller
             .launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
         let snapshot = match self.controller.snapshot() {
@@ -888,19 +889,11 @@ impl LinuxRunner {
                     && session.state.starts_with("running")
             })
             .ok_or(RunnerError::SessionMissing)?;
-        let artifact_html = match self.controller.read_verified(
+        let artifact_html = read_launched_document(
+            &self.controller,
             session.id,
-            "/index.html".to_owned(),
             MAXIMUM_VERIFIED_DOCUMENT_BYTES,
-        ) {
-            VerifiedRead::Bytes { bytes, .. } => {
-                String::from_utf8(bytes).map_err(RunnerError::DocumentEncoding)?
-            }
-            VerifiedRead::Refused { refusal } => {
-                return Err(RunnerError::VerifiedRead(refusal.detail));
-            }
-        };
-        let artifact_base_url = artifact_base_url(self.next_surface_generation)?;
+        )?;
         let launch = SurfaceLaunch {
             surface_token: format!("uzel-catalog-generation-{}", self.next_surface_generation),
             artifact_base_url,
@@ -1026,18 +1019,11 @@ impl LinuxRunner {
                     && session.state.starts_with("running")
             })
             .ok_or(RunnerError::SessionMissing)?;
-        let artifact_html = match self.controller.read_verified(
+        let artifact_html = read_launched_document(
+            &self.controller,
             session.id,
-            "/index.html".to_owned(),
             MAXIMUM_VERIFIED_DOCUMENT_BYTES,
-        ) {
-            VerifiedRead::Bytes { bytes, .. } => {
-                String::from_utf8(bytes).map_err(RunnerError::DocumentEncoding)?
-            }
-            VerifiedRead::Refused { refusal } => {
-                return Err(RunnerError::VerifiedRead(refusal.detail));
-            }
-        };
+        )?;
         let surface_name = if fixture.name == "good-morning" {
             "surface-1"
         } else {
@@ -1140,6 +1126,24 @@ impl LinuxRunner {
         self.controller.stop(session_id);
         Ok(())
     }
+}
+
+fn read_launched_document(
+    controller: &RuntimeController,
+    session_id: u64,
+    maximum_bytes: u64,
+) -> Result<String, RunnerError> {
+    let result = match controller.read_verified(session_id, "/index.html".to_owned(), maximum_bytes)
+    {
+        VerifiedRead::Bytes { bytes, .. } => {
+            String::from_utf8(bytes).map_err(RunnerError::DocumentEncoding)
+        }
+        VerifiedRead::Refused { refusal } => Err(RunnerError::VerifiedRead(refusal.detail)),
+    };
+    if result.is_err() {
+        controller.stop(session_id);
+    }
+    result
 }
 
 fn artifact_base_url(generation: u64) -> Result<String, RunnerError> {
@@ -1778,6 +1782,21 @@ mod tests {
                 VerifiedRead::Bytes { bytes, .. } => assert_eq!(bytes, fixture.index),
                 VerifiedRead::Refused { refusal } => panic!("verified read refused: {refusal:?}"),
             }
+            assert!(matches!(
+                read_launched_document(&controller, session.id, 1),
+                Err(RunnerError::VerifiedRead(_))
+            ));
+            let still_running = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => {
+                    snapshot.sessions.iter().any(|candidate| {
+                        candidate.id == session.id && candidate.state.starts_with("running")
+                    })
+                }
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("post-cleanup snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(!still_running, "failed document read must stop its session");
             controller.close();
         }
     }
