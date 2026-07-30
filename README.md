@@ -43,8 +43,9 @@ and interactive paths in [`DEBIAN13-LIVE-TEST.md`](DEBIAN13-LIVE-TEST.md).
 Slices 03 through 06 add independent `follow-list` and `profile-card` napplets,
 the Linux daemon boundary, and the composed two-pane shell. Tauri is a thin private-socket client; one
 daemon-owned upstream `RuntimeController` owns one NMP engine and redb store.
-The 96,172-byte verified fixture crosses the 131,072-byte control seam as bounded,
-ordered chunks and no artifact path reaches WebKit. The daemon persists only
+The 96,172-byte verified fixture crosses the 524,288-byte control seam as bounded,
+ordered chunks; the same ceiling includes JSON-escaping headroom for a 65,536-byte
+runtime envelope. No artifact path reaches WebKit. The daemon persists only
 the selected public read key and mode outside upstream-owned stores, restoring
 the key through NMP's parser after restart.
 
