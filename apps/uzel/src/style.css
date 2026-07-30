@@ -10,6 +10,8 @@
 button,
 input { font: inherit; }
 
+button:disabled { cursor: not-allowed; opacity: 0.5; }
+
 button { cursor: pointer; }
 
 body {
@@ -175,6 +177,13 @@ nav button.active,
 .workspace.vertical {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, var(--first)) 0.7rem minmax(0, var(--second));
+}
+
+.workspace.hidden-by-loaded { display: none; }
+
+.loaded-workspace {
+  display: grid;
+  min-height: 0;
 }
 
 .pane {
@@ -355,6 +364,58 @@ kbd { overflow: hidden; padding: 0.35rem 0.5rem; border: 1px solid #343a30; bord
 .settings-page button.primary { border-color: #72835c; color: #f0eee7; background: #28331f; }
 .settings-actions { justify-content: flex-end; }
 .settings-actions span { margin-right: auto; color: #d0a85c; font-size: 0.72rem; }
+
+.catalog-form,
+.catalog-review,
+.capability-review {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #242a21;
+}
+
+.catalog-form label,
+.capability-review h3 {
+  margin: 0;
+  color: #d8ddd0;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.catalog-form > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.45rem;
+}
+
+.catalog-form input {
+  min-width: 0;
+  border: 1px solid #343a30;
+  border-radius: 0.3rem;
+  outline: none;
+  color: #d7d9cf;
+  background: #0d0f0c;
+  padding: 0.5rem 0.6rem;
+  font: 0.72rem ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.catalog-form input:focus { border-color: #879b6b; }
+.catalog-form small,
+.catalog-review > p,
+.catalog-review details { color: #8f9684; font-size: 0.72rem; line-height: 1.5; }
+.catalog-title { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.catalog-title h3 { margin: 0.1rem 0 0; font-size: 1rem; }
+.catalog-title > strong { color: #9dbd72; font-size: 0.65rem; letter-spacing: 0.1em; }
+.catalog-title > strong.blocked,
+.catalog-review .network-warning { color: #d0a85c; }
+.catalog-review dl { display: grid; gap: 0.35rem; margin: 0; }
+.catalog-review dl > div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.5rem; }
+.catalog-review dt { color: #8f9684; font-size: 0.68rem; text-transform: uppercase; }
+.catalog-review dd { min-width: 0; margin: 0; }
+.catalog-review code { display: block; overflow: hidden; color: #bfd098; font-size: 0.66rem; text-overflow: ellipsis; white-space: nowrap; }
+.capability-review { padding: 0.7rem 0; border: 0; }
+.capability-review p { margin: 0; color: #8f9684; font-size: 0.72rem; }
+.catalog-review details p { margin-top: 0.45rem; overflow-wrap: anywhere; }
 
 .developer-drawer dl {
   display: grid;

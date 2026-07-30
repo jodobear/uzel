@@ -24,6 +24,23 @@
     unavailableDomains: string[];
   };
 
+  type CatalogCapability = { domain: string; required: boolean };
+  type NappletReview = {
+    token: string;
+    eventId: string;
+    coordinate: string;
+    manifestAuthor: string;
+    dTag: string;
+    title: string;
+    description: string | null;
+    aggregateHash: string;
+    capabilities: CatalogCapability[];
+    blobSources: string[];
+    provenance: string[];
+    canInstall: boolean;
+    blocker: string | null;
+  };
+
   type RuntimeStatus = {
     mode: string;
     activeSurfaces: string[];
@@ -99,8 +116,10 @@
   let diagnostics: Diagnostics | null = null;
   let follow: SurfaceLaunch | null = null;
   let profile: SurfaceLaunch | null = null;
+  let loaded: SurfaceLaunch | null = null;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
+  let loadedSurface: HTMLElement;
   let hostileSurface: HTMLElement;
   let followPane: HTMLElement;
   let profilePane: HTMLElement;
@@ -117,6 +136,15 @@
   let developerMode = false;
   let drawerOpen = false;
   let settingsOpen = false;
+  let loaderOpen = false;
+  let nappletCoordinate = '';
+  let nappletReview: NappletReview | null = null;
+  let grantedDomains = new Set<string>();
+  let catalogBusy = false;
+  let catalogInstalling = false;
+  let catalogMessage = '';
+  let catalogRequestRevision = 0;
+  let requiredCapabilitiesGranted = true;
   let showEvidence = false;
   let keybindings: Keybindings = { ...DEFAULT_KEYBINDINGS };
   let draftBindings: Keybindings = { ...DEFAULT_KEYBINDINGS };
@@ -129,6 +157,11 @@
   let hostile: SurfaceLaunch | null = null;
   let hostileProbePassed = false;
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
+  $: requiredCapabilitiesGranted = nappletReview
+    ? nappletReview.capabilities.every(
+        (capability) => !capability.required || grantedDomains.has(capability.domain),
+      )
+    : true;
 
   function envelopeType(envelope: unknown): string {
     if (envelope && typeof envelope === 'object' && 'type' in envelope) {
@@ -231,16 +264,173 @@
     failShellHandshake(`Shell environment rejected for ${surfaceToken}`, detail);
   }
 
-  function mountSurface(launch: SurfaceLaunch, target: HTMLElement): boolean {
+  function mountSurface(
+    launch: SurfaceLaunch,
+    target: HTMLElement,
+    onReady: (surfaceToken: string) => void = acknowledgeSurface,
+    onError: (surfaceToken: string, detail: string) => void = rejectSurface,
+  ): boolean {
     return window.NMPTrustedShellHost.mount(launch.surfaceToken, target, {
       session: launch.surfaceToken,
       artifactBaseURL: launch.artifactBaseUrl,
       artifactHTML: launch.artifactHtml,
       title: launch.title,
       domains: launch.domains,
-      onReady: acknowledgeSurface,
-      onError: rejectSurface,
+      onReady,
+      onError,
     });
+  }
+
+  function acknowledgeLoadedSurface(surfaceToken: string) {
+    if (surfaceToken !== loaded?.surfaceToken) return;
+    status = `${loaded.title} ready through NAP-SHELL`;
+    void invoke('report_shell_accepted', { surfaceToken }).catch((error) => {
+      reportRuntimeFailure('Loaded shell acceptance report failed', error);
+    });
+  }
+
+  function rejectLoadedSurface(surfaceToken: string, detail: string) {
+    const current = loaded;
+    if (!current || current.surfaceToken !== surfaceToken) return;
+    window.NMPTrustedShellHost.unmount(surfaceToken);
+    loaded = null;
+    const rejected = `Loaded shell rejected for ${surfaceToken}: ${detail}`;
+    status = rejected;
+    void invoke('stop_fixture', { surfaceToken }).catch((error) => {
+      status = `${rejected}; cleanup failed: ${String(error)}`;
+    }).finally(() => refreshDiagnostics().catch(() => {}));
+  }
+
+  function openNappletLoader() {
+    if (loaded) {
+      status = 'Close the open napplet before loading another exact build';
+      return;
+    }
+    settingsOpen = false;
+    drawerOpen = false;
+    loaderOpen = true;
+    catalogMessage = '';
+  }
+
+  async function closeNappletLoader() {
+    const token = nappletReview?.token;
+    catalogRequestRevision += 1;
+    loaderOpen = false;
+    nappletReview = null;
+    grantedDomains = new Set();
+    catalogBusy = false;
+    catalogMessage = '';
+    if (token) {
+      await invoke('cancel_napplet_review', { token }).catch(() => {});
+    }
+  }
+
+  async function reviewNapplet(event: SubmitEvent) {
+    event.preventDefault();
+    const coordinate = nappletCoordinate.trim();
+    if (!coordinate || catalogBusy) return;
+    const requestRevision = ++catalogRequestRevision;
+    catalogBusy = true;
+    catalogMessage = 'Resolving and verifying the signed manifest…';
+    const previousToken = nappletReview?.token;
+    nappletReview = null;
+    grantedDomains = new Set();
+    try {
+      if (previousToken) {
+        await invoke('cancel_napplet_review', { token: previousToken }).catch(() => {});
+      }
+      const review = await invoke<NappletReview>('review_napplet', { coordinate });
+      if (requestRevision !== catalogRequestRevision || !loaderOpen) {
+        await invoke('cancel_napplet_review', { token: review.token }).catch(() => {});
+        return;
+      }
+      nappletReview = review;
+      grantedDomains = new Set(
+        review.capabilities
+          .filter((capability) => capability.required)
+          .map((capability) => capability.domain),
+      );
+      catalogMessage = review.canInstall
+        ? 'Verified. Review exact identity and capabilities before installing.'
+        : (review.blocker ?? 'This exact build cannot be installed.');
+    } catch (error) {
+      if (requestRevision === catalogRequestRevision) {
+        catalogMessage = `Review refused: ${String(error)}`;
+      }
+    } finally {
+      if (requestRevision === catalogRequestRevision) {
+        catalogBusy = false;
+      }
+    }
+  }
+
+  function toggleGrantedDomain(domain: string, checked: boolean) {
+    const next = new Set(grantedDomains);
+    checked ? next.add(domain) : next.delete(domain);
+    grantedDomains = next;
+  }
+
+  function requiredCapabilitiesApproved(review: NappletReview): boolean {
+    return review.capabilities.every(
+      (capability) => !capability.required || grantedDomains.has(capability.domain),
+    );
+  }
+
+  async function installReviewedNapplet() {
+    const review = nappletReview;
+    if (
+      !review
+      || !review.canInstall
+      || !requiredCapabilitiesApproved(review)
+      || catalogBusy
+      || loaded
+    ) return;
+    catalogBusy = true;
+    catalogInstalling = true;
+    catalogMessage = 'Installing frozen bytes and applying exact-build permissions…';
+    let launch: SurfaceLaunch | null = null;
+    try {
+      launch = await invoke<SurfaceLaunch>('confirm_napplet', {
+        token: review.token,
+        expectedAuthor: review.manifestAuthor,
+        expectedDTag: review.dTag,
+        expectedAggregateHash: review.aggregateHash,
+        grantedDomains: [...grantedDomains].sort(),
+      });
+      loaded = launch;
+      await tick();
+      if (!mountSurface(launch, loadedSurface, acknowledgeLoadedSurface, rejectLoadedSurface)) {
+        throw new Error('trusted shell refused the loaded napplet');
+      }
+      nappletReview = null;
+      loaderOpen = false;
+      catalogMessage = '';
+      await refreshDiagnostics().catch(() => {});
+    } catch (error) {
+      if (launch) {
+        window.NMPTrustedShellHost.unmount(launch.surfaceToken);
+        if (loaded?.surfaceToken === launch.surfaceToken) loaded = null;
+        await invoke('stop_fixture', { surfaceToken: launch.surfaceToken }).catch(() => {});
+        nappletReview = null;
+      }
+      catalogMessage = `Install refused: ${String(error)}${launch ? ' Review the naddr again to retry.' : ''}`;
+      loaderOpen = true;
+    } finally {
+      catalogBusy = false;
+      catalogInstalling = false;
+    }
+  }
+
+  async function closeLoadedNapplet() {
+    const current = loaded;
+    if (!current) return;
+    window.NMPTrustedShellHost.unmount(current.surfaceToken);
+    loaded = null;
+    await invoke('stop_fixture', { surfaceToken: current.surfaceToken }).catch((error) => {
+      reportRuntimeFailure('Loaded napplet stop failed', error);
+    });
+    status = 'Two exact builds ready through NAP-SHELL';
+    await refreshDiagnostics().catch(() => {});
   }
 
   function beginShellHandshake() {
@@ -308,6 +498,10 @@
   }
 
   async function selectIdentity(publicIdentity: string) {
+    if (loaded) {
+      status = 'Close the open napplet before changing read identity';
+      return;
+    }
     identityBusy = true;
     try {
       const active = await invoke<string>('select_read_identity', { publicIdentity });
@@ -353,6 +547,7 @@
   }
 
   function openSettings() {
+    if (loaderOpen) void closeNappletLoader();
     draftBindings = { ...keybindings };
     draftShowEvidence = showEvidence;
     capturingAction = null;
@@ -445,7 +640,7 @@
       toggleEvidence();
       return;
     }
-    if (settingsOpen) return;
+    if (settingsOpen || loaderOpen) return;
     if (bindingMatches(event, keybindings.focusPrevious)) focusPane('follow');
     if (bindingMatches(event, keybindings.focusNext)) focusPane('profile');
     if (
@@ -549,6 +744,7 @@
       document.removeEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
       if (follow) window.NMPTrustedShellHost.unmount(follow.surfaceToken);
       if (profile) window.NMPTrustedShellHost.unmount(profile.surfaceToken);
+      if (loaded) window.NMPTrustedShellHost.unmount(loaded.surfaceToken);
       if (hostile) window.NMPTrustedShellHost.unmount(hostile.surfaceToken);
     };
   });
@@ -573,6 +769,7 @@
     <nav aria-label="View controls">
       <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')} title="Side by side">Side</button>
       <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')} title="Stacked panes">Stack</button>
+      <button type="button" class:active={loaderOpen} disabled={loaded !== null} onclick={openNappletLoader} title={loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
       <button type="button" class:active={showEvidence} onclick={toggleEvidence}>Proof</button>
       <button type="button" class:active={settingsOpen} onclick={openSettings}>Settings</button>
       <button type="button" class:active={drawerOpen} onclick={() => { developerMode = true; settingsOpen = false; drawerOpen = !drawerOpen; }}>Debug</button>
@@ -583,7 +780,7 @@
     <form onsubmit={submitIdentity}>
       <label for="read-identity">Public read identity</label>
       <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
-      <button type="submit" disabled={identityBusy || !shellReady}>{identityBusy ? 'Selecting…' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
+      <button type="submit" disabled={identityBusy || !shellReady || loaded !== null}>{identityBusy ? 'Selecting…' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
     </form>
     <div class="source-status">
       <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
@@ -596,6 +793,7 @@
     class:vertical={orientation === 'vertical'}
     class:fullscreen-follow={fullscreen === 'follow'}
     class:fullscreen-profile={fullscreen === 'profile'}
+    class:hidden-by-loaded={loaded !== null}
     class="workspace"
     style={`--first: ${split}fr; --second: ${100 - split}fr`}
     aria-label="Composed napplet workspace"
@@ -639,12 +837,67 @@
     </article>
   </section>
 
+  {#if loaded}
+    <section class="loaded-workspace" aria-label="Loaded napplet workspace">
+      <article class="pane loaded-pane">
+        <div class="pane-title">
+          <div><span>OPEN</span><strong>{loaded.title}</strong></div>
+          <button type="button" onclick={closeLoadedNapplet}>Close napplet</button>
+        </div>
+        <div bind:this={loadedSurface} class="surface"><p>Mounting verified napplet…</p></div>
+        {#if showEvidence}<footer><code>{loaded.aggregateHash.slice(0, 12)}…</code><span>{loaded.unavailableDomains.length ? `Unavailable: ${loaded.unavailableDomains.join(', ')}` : 'All requested capabilities ready'}</span></footer>{/if}
+      </article>
+    </section>
+  {/if}
+
   {#if showEvidence}<section class="proof-strip" aria-label="Runtime evidence">
     <div><span>NAP-SHELL</span><strong data-proof-shell={shellReady}>{readyCount}/2 {shellHandshakeFailed ? 'FAILED' : shellReady ? 'READY' : 'WAITING'}</strong></div>
     <div><span>Sessions</span><strong>{diagnostics?.activeSessions ?? 0} EXACT</strong></div>
     <div><span>NMP</span><strong>{diagnostics?.observingRelays ? `${diagnostics.relays} RELAYS` : 'CACHE-FIRST'}</strong></div>
     <div><span>Profile route</span><strong>NAP-INC</strong></div>
   </section>{/if}
+
+  {#if loaderOpen}
+    <section class="settings-page" aria-label="Open napplet">
+      <div class="settings-card catalog-card">
+        <div class="settings-heading">
+          <div><p class="eyebrow">Signed exact build</p><h2>Open napplet</h2></div>
+          <button type="button" disabled={catalogInstalling} onclick={closeNappletLoader}>Close</button>
+        </div>
+        <form class="catalog-form" onsubmit={reviewNapplet}>
+          <label for="napplet-coordinate">Napplet naddr</label>
+          <div><input id="napplet-coordinate" bind:value={nappletCoordinate} placeholder="naddr1… or nostr:naddr1…" spellcheck="false" autocomplete="off" /><button type="submit" disabled={catalogBusy || !nappletCoordinate.trim()}>{catalogBusy && !nappletReview ? 'Verifying…' : 'Review'}</button></div>
+          <small>NMP decodes the coordinate, resolves the signed kind 35129 manifest, verifies immutable bytes, and freezes this review. Relay hints do not become routing truth.</small>
+        </form>
+        {#if nappletReview}
+          <section class="catalog-review" aria-label="Verified napplet review">
+            <div class="catalog-title"><div><p class="eyebrow">Verified manifest</p><h3>{nappletReview.title}</h3></div><strong class:blocked={!nappletReview.canInstall}>{nappletReview.canInstall ? 'INSTALLABLE' : 'BLOCKED'}</strong></div>
+            {#if nappletReview.description}<p>{nappletReview.description}</p>{/if}
+            <dl>
+              <div><dt>Author</dt><dd><code>{nappletReview.manifestAuthor}</code></dd></div>
+              <div><dt>d tag</dt><dd><code>{nappletReview.dTag}</code></dd></div>
+              <div><dt>Aggregate</dt><dd><code>{nappletReview.aggregateHash}</code></dd></div>
+              <div><dt>Event</dt><dd><code>{nappletReview.eventId}</code></dd></div>
+            </dl>
+            <section class="capability-review">
+              <h3>Exact-build capabilities</h3>
+              {#each nappletReview.capabilities as capability}
+                <label class="toggle-row"><input type="checkbox" checked={grantedDomains.has(capability.domain)} onchange={(event) => toggleGrantedDomain(capability.domain, event.currentTarget.checked)} /><span><strong>{capability.domain}</strong><small>{capability.required ? 'Required by verified artifact' : 'Optional'}</small></span></label>
+              {:else}
+                <p>This artifact requests no capability domains.</p>
+              {/each}
+              {#if !requiredCapabilitiesGranted}<p class="network-warning">Approve every required capability or cancel this install.</p>{/if}
+            </section>
+            <details><summary>Resolution evidence</summary><p>{nappletReview.provenance.join(' · ') || 'No projected provenance rows.'}</p><p>Blob sources: {nappletReview.blobSources.join(', ') || 'none'}</p></details>
+          </section>
+        {/if}
+        <div class="settings-actions">
+          <span role="status">{catalogMessage}</span>
+          {#if nappletReview}<button type="button" class="primary" disabled={catalogBusy || !nappletReview.canInstall || !requiredCapabilitiesGranted} onclick={installReviewedNapplet}>{catalogBusy ? 'Installing…' : 'Install exact build'}</button>{/if}
+        </div>
+      </div>
+    </section>
+  {/if}
 
   {#if settingsOpen}
     <section class="settings-page" aria-label="Settings">
@@ -672,7 +925,7 @@
         </section>
         <section class="settings-section network-summary">
           <h3>Network ownership</h3>
-          <p>Uzel supplies operator indexers. NMP discovers each identity's NIP-65 relays, owns subscriptions, reconnects transports, and replays live demand.</p>
+          <p>Uzel supplies bounded operator relay lanes. NMP discovers each identity's NIP-65 relays, owns subscriptions, reconnects transports, and replays live demand.</p>
           <p><strong>{diagnostics?.relays ?? 0}</strong> relay sessions currently accounted · revision {diagnostics?.relayRevision ?? 0}</p>
           {#if diagnostics?.transportDegraded || diagnostics?.storeDegraded}
             <p class="network-warning">{diagnostics.transportDegraded ?? diagnostics.storeDegraded}</p>

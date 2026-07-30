@@ -18,7 +18,7 @@ pub const VERSION: u8 = 0;
 pub const MAX_FRAME_BYTES: usize = 128 * 1_024;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
-const IPC_TIMEOUT: Duration = Duration::from_secs(5);
+const IPC_TIMEOUT: Duration = Duration::from_secs(20);
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "operation", rename_all = "snake_case")]
@@ -32,6 +32,19 @@ pub enum Request {
     },
     StartHostileProbe {
         sentinel_url: String,
+    },
+    ReviewNapplet {
+        coordinate: String,
+    },
+    CancelNappletReview {
+        token: String,
+    },
+    ConfirmNapplet {
+        token: String,
+        expected_author: String,
+        expected_d_tag: String,
+        expected_aggregate_hash: String,
+        granted_domains: Vec<String>,
     },
     StopFixture {
         surface_token: String,
@@ -63,6 +76,31 @@ pub struct SurfaceMetadata {
     pub aggregate_hash: String,
     pub domains: Vec<String>,
     pub unavailable_domains: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CatalogCapability {
+    pub domain: String,
+    pub required: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct NappletReview {
+    pub token: String,
+    pub event_id: String,
+    pub coordinate: String,
+    pub manifest_author: String,
+    pub d_tag: String,
+    pub title: String,
+    pub description: Option<String>,
+    pub aggregate_hash: String,
+    pub capabilities: Vec<CatalogCapability>,
+    pub blob_sources: Vec<String>,
+    pub provenance: Vec<String>,
+    pub can_install: bool,
+    pub blocker: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -120,6 +158,10 @@ pub enum Response {
         transfer_id: String,
         total_bytes: u64,
     },
+    NappletReview {
+        review: NappletReview,
+    },
+    ReviewCancelled,
     AssetChunk {
         transfer_id: String,
         offset: u64,
@@ -234,6 +276,41 @@ impl UnixClient {
     pub fn start_hostile_probe(&self, sentinel_url: &str) -> Result<FetchedSurface, ClientError> {
         self.fetch_surface(&Request::StartHostileProbe {
             sentinel_url: sentinel_url.to_owned(),
+        })
+    }
+
+    pub fn review_napplet(&self, coordinate: &str) -> Result<NappletReview, ClientError> {
+        match self.request(&Request::ReviewNapplet {
+            coordinate: coordinate.to_owned(),
+        })? {
+            Response::NappletReview { review } => Ok(review),
+            _ => Err(ClientError::UnexpectedResponse),
+        }
+    }
+
+    pub fn cancel_napplet_review(&self, token: &str) -> Result<(), ClientError> {
+        match self.request(&Request::CancelNappletReview {
+            token: token.to_owned(),
+        })? {
+            Response::ReviewCancelled => Ok(()),
+            _ => Err(ClientError::UnexpectedResponse),
+        }
+    }
+
+    pub fn confirm_napplet(
+        &self,
+        token: &str,
+        expected_author: &str,
+        expected_d_tag: &str,
+        expected_aggregate_hash: &str,
+        granted_domains: Vec<String>,
+    ) -> Result<FetchedSurface, ClientError> {
+        self.fetch_surface(&Request::ConfirmNapplet {
+            token: token.to_owned(),
+            expected_author: expected_author.to_owned(),
+            expected_d_tag: expected_d_tag.to_owned(),
+            expected_aggregate_hash: expected_aggregate_hash.to_owned(),
+            granted_domains,
         })
     }
 

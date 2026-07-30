@@ -878,7 +878,7 @@ dependencies = [
  "libc",
  "option-ext",
  "redox_users",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -1049,7 +1049,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2437,11 +2437,16 @@ name = "napd"
 version = "0.0.0"
 dependencies = [
  "napd-protocol",
+ "nmp-native-nap-bridge",
+ "nmp-native-provider-resource",
+ "nmp-native-runtime-core",
  "nmp-native-runtime-ffi",
+ "reqwest 0.12.28",
  "serde",
  "serde_json",
  "tempfile",
  "thiserror 2.0.19",
+ "tokio",
  "url",
 ]
 
@@ -2557,7 +2562,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-artifact"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "hex",
  "nmp",
@@ -2573,7 +2578,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-catalog-resolver"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-artifact",
  "parking_lot",
@@ -2586,7 +2591,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-nap-bridge"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-runtime-core",
  "parking_lot",
@@ -2599,7 +2604,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-nmp-adapter"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp",
  "nmp-native-artifact",
@@ -2615,7 +2620,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-provider-identity"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-nap-bridge",
  "nmp-native-runtime-core",
@@ -2628,7 +2633,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-provider-inc"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "getrandom 0.3.4",
  "hex",
@@ -2642,7 +2647,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-provider-link"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-nap-bridge",
  "nmp-native-runtime-core",
@@ -2654,9 +2659,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "nmp-native-provider-resource"
+version = "0.1.0"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
+dependencies = [
+ "base64 0.22.1",
+ "hex",
+ "nmp-native-nap-bridge",
+ "nmp-native-runtime-core",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror 2.0.19",
+ "url",
+]
+
+[[package]]
 name = "nmp-native-providers"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-nap-bridge",
  "nmp-native-runtime-core",
@@ -2670,7 +2692,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-runtime-app"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "hex",
  "nmp-native-artifact",
@@ -2689,7 +2711,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-runtime-core"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "hex",
  "parking_lot",
@@ -2701,7 +2723,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-runtime-ffi"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "base64 0.22.1",
  "nmp",
@@ -2728,7 +2750,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-runtime-store"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-runtime-core",
  "parking_lot",
@@ -2741,7 +2763,7 @@ dependencies = [
 [[package]]
 name = "nmp-native-surface"
 version = "0.1.0"
-source = "git+https://github.com/jodobear/nampplets?rev=e539378ef735ce06651fd94b71e06f9ce757cb13#e539378ef735ce06651fd94b71e06f9ce757cb13"
+source = "git+https://github.com/jodobear/nampplets?rev=d533a63d519c14470f900323958509cdea1c6479#d533a63d519c14470f900323958509cdea1c6479"
 dependencies = [
  "nmp-native-runtime-core",
  "parking_lot",
@@ -3522,7 +3544,7 @@ dependencies = [
  "once_cell",
  "socket2",
  "tracing",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3846,7 +3868,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4850,7 +4872,7 @@ dependencies = [
  "getrandom 0.4.3",
  "once_cell",
  "rustix",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -5867,7 +5889,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

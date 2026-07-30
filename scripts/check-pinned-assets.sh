@@ -38,4 +38,4 @@ check_sha256 c6183534dc7d46b33c722f9d1771c62ed2a41fc92cfaae07030c6b04608b8bb3 \
 check_sha256 749d4742bde8d42a85f0719f12248203a86ebb9f7f0ace408951f08eb8e15285 \
   fixtures/hostile-egress/index.html
 
-echo 'PINNED_ASSETS_OK runtime=e539378ef735ce06651fd94b71e06f9ce757cb13 trusted_shell=fc68bce0a4793a8618445e234bcc91d69e8b96de'
+echo 'PINNED_ASSETS_OK runtime=d533a63d519c14470f900323958509cdea1c6479 trusted_shell=fc68bce0a4793a8618445e234bcc91d69e8b96de'

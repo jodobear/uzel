@@ -35,8 +35,8 @@ async function renderPicture(url, generation) {
   try {
     const blob = await resourceBytes(url);
     if (!profileRequests.isCurrent(generation)) return;
-    pictureObjectUrl = URL.createObjectURL(blob);
-    picture.src = pictureObjectUrl;
+    picture.src = URL.createObjectURL(blob);
+    pictureObjectUrl = picture.src;
     picture.hidden = false;
     pictureFallback.hidden = true;
   } catch (error) {

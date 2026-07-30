@@ -25,7 +25,7 @@ const GOOD_MORNING: FixtureDefinition = FixtureDefinition {
     artifact_base_url: "nmp-artifact://828a6df0-2afd-4678-a20f-805084acce65/",
     event: include_bytes!("../../../fixtures/good-morning/event.json"),
     index: include_bytes!("../../../fixtures/good-morning/index.html"),
-    domains: &["shell", "identity", "inc", "outbox"],
+    domains: &["shell", "identity", "inc", "outbox", "resource"],
 };
 
 const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
@@ -35,7 +35,7 @@ const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
     d_tag: "follow-list",
     aggregate_hash: "8ececfd3f912d1fa8fe6338d27448e3ff71637fca4adff21a49fbf607856afb6",
     index_digest: "df4d33d40561a33d3fab8ee19adc96497768e9a16227017b17b4d856a1a52e18",
-    artifact_base_url: "nmp-artifact://8ececfd3-f912-d1fa-8fe6-338d27448e3f/",
+    artifact_base_url: "nmp-artifact://8ececfd3-f912-4d1f-8fe6-338d27448e3f/",
     event: include_bytes!("../../../fixtures/follow-list/event.json"),
     index: include_bytes!("../../../fixtures/follow-list/index.html"),
     domains: &["shell", "identity", "inc"],
@@ -48,10 +48,10 @@ const PROFILE_CARD: FixtureDefinition = FixtureDefinition {
     d_tag: "profile-card",
     aggregate_hash: "7886ec2ed30524093d71d0171cfce548a7d0ed2dcfacf55e6b6395503d114f5d",
     index_digest: "1029872794287301b2b3ef23ecce68e25c994f3c391c4cb0ce250c8fdfce4e58",
-    artifact_base_url: "nmp-artifact://7886ec2e-d305-2409-3d71-d0171cfce548/",
+    artifact_base_url: "nmp-artifact://7886ec2e-d305-4409-bd71-d0171cfce548/",
     event: include_bytes!("../../../fixtures/profile-card/event.json"),
     index: include_bytes!("../../../fixtures/profile-card/index.html"),
-    domains: &["shell", "identity", "inc", "outbox"],
+    domains: &["shell", "identity", "inc", "outbox", "resource"],
 };
 
 const HOSTILE_EGRESS: FixtureDefinition = FixtureDefinition {
@@ -97,6 +97,43 @@ impl ArtifactSource for ExactFixtureSource {
             } else {
                 Vec::new()
             },
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn trusted_shell_artifact_url(value: &str) -> bool {
+        let Some(uuid) = value
+            .strip_prefix("nmp-artifact://")
+            .and_then(|value| value.strip_suffix('/'))
+        else {
+            return false;
+        };
+        let bytes = uuid.as_bytes();
+        bytes.len() == 36
+            && bytes[8] == b'-'
+            && bytes[13] == b'-'
+            && bytes[18] == b'-'
+            && bytes[23] == b'-'
+            && bytes[14] == b'4'
+            && matches!(bytes[19], b'8' | b'9' | b'a' | b'b')
+            && bytes
+                .iter()
+                .enumerate()
+                .all(|(index, byte)| matches!(index, 8 | 13 | 18 | 23) || byte.is_ascii_hexdigit())
+    }
+
+    #[test]
+    fn fixture_artifact_urls_match_the_trusted_shell_contract() {
+        for fixture in FIXTURES {
+            assert!(
+                trusted_shell_artifact_url(fixture.artifact_base_url),
+                "{} has an invalid artifact base URL",
+                fixture.name
+            );
         }
     }
 }

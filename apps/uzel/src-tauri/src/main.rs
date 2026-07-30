@@ -2,7 +2,9 @@
 
 use std::{env, path::PathBuf};
 
-use napd_protocol::{Diagnostics, FetchedSurface, Request, Response, RoutedEnvelope, UnixClient};
+use napd_protocol::{
+    Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope, UnixClient,
+};
 use serde::Serialize;
 use tauri::Manager;
 
@@ -90,6 +92,51 @@ fn start_fixture(
     println!(
         "UZEL_FIXTURE_VERIFIED fixture={} aggregate={}",
         fixture, fetched.surface.aggregate_hash
+    );
+    project_surface(fetched)
+}
+
+#[tauri::command]
+fn review_napplet(
+    client: tauri::State<'_, UnixClient>,
+    coordinate: String,
+) -> Result<NappletReview, String> {
+    client
+        .review_napplet(&coordinate)
+        .map_err(|error| error.to_string())
+}
+
+#[tauri::command]
+fn cancel_napplet_review(
+    client: tauri::State<'_, UnixClient>,
+    token: String,
+) -> Result<(), String> {
+    client
+        .cancel_napplet_review(&token)
+        .map_err(|error| error.to_string())
+}
+
+#[tauri::command]
+fn confirm_napplet(
+    client: tauri::State<'_, UnixClient>,
+    token: String,
+    expected_author: String,
+    expected_d_tag: String,
+    expected_aggregate_hash: String,
+    granted_domains: Vec<String>,
+) -> Result<SurfaceLaunch, String> {
+    let fetched = client
+        .confirm_napplet(
+            &token,
+            &expected_author,
+            &expected_d_tag,
+            &expected_aggregate_hash,
+            granted_domains,
+        )
+        .map_err(|error| error.to_string())?;
+    println!(
+        "UZEL_CATALOG_VERIFIED author={} d_tag={} aggregate={}",
+        fetched.surface.author, fetched.surface.d_tag, fetched.surface.aggregate_hash
     );
     project_surface(fetched)
 }
@@ -301,6 +348,9 @@ fn main() {
             select_read_identity,
             runtime_diagnostics,
             start_fixture,
+            review_napplet,
+            cancel_napplet_review,
+            confirm_napplet,
             stop_fixture,
             hostile_probe_enabled,
             start_hostile_probe,

@@ -86,6 +86,32 @@ impl DaemonState {
                 let result = self.runner.start_hostile_probe(&sentinel_url);
                 self.stage_surface(result)
             }
+            Request::ReviewNapplet { coordinate } => match self.runner.review_napplet(coordinate) {
+                Ok(review) => Response::NappletReview { review },
+                Err(error) => runner_error(error),
+            },
+            Request::CancelNappletReview { token } => {
+                match self.runner.cancel_napplet_review(&token) {
+                    Ok(()) => Response::ReviewCancelled,
+                    Err(error) => runner_error(error),
+                }
+            }
+            Request::ConfirmNapplet {
+                token,
+                expected_author,
+                expected_d_tag,
+                expected_aggregate_hash,
+                granted_domains,
+            } => {
+                let result = self.runner.confirm_napplet(
+                    token,
+                    expected_author,
+                    expected_d_tag,
+                    expected_aggregate_hash,
+                    granted_domains,
+                );
+                self.stage_surface(result)
+            }
             Request::StopFixture { surface_token } => {
                 match self.runner.stop_fixture(&surface_token) {
                     Ok(()) => {

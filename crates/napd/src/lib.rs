@@ -2,6 +2,7 @@
 #![doc = "Linux daemon composition boundary for the Uzel POC."]
 
 mod fixtures;
+mod resource;
 mod runner;
 mod server;
 

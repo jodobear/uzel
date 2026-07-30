@@ -1,8 +1,8 @@
-export const EVIDENCE_REFRESH_ATTEMPTS = 32;
-export const EVIDENCE_REFRESH_INTERVAL_MS = 250;
+const EVIDENCE_REFRESH_ATTEMPTS = 32;
+const EVIDENCE_REFRESH_INTERVAL_MS = 250;
 
 function delay(milliseconds) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(() => resolve(), milliseconds));
 }
 
 export async function waitForEvidence(
