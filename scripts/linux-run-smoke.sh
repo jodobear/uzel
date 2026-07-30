@@ -134,7 +134,6 @@ mkdir -m 700 "$XDG_DATA_HOME"
 export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1
-export UZEL_FIXTURE_RELAY_PORT=$((44000 + ($$ % 10000)))
 export UZEL_RUN_HOSTILE_PROBE=1
 
 hostile_markers_are_ordered() {
@@ -149,8 +148,8 @@ hostile_markers_are_ordered() {
 runtime_markers_ready() {
   rg -q '^UZEL_NAPD_READY role=runtime-authority$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=7886ec2ed30524093d71d0171cfce548a7d0ed2dcfacf55e6b6395503d114f5d$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=8ececfd3f912d1fa8fe6338d27448e3ff71637fca4adff21a49fbf607856afb6$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
@@ -178,8 +177,8 @@ report_marker() {
 report_marker_state() {
   report_marker napd_ready '^UZEL_NAPD_READY role=runtime-authority$'
   report_marker shell_ready '^UZEL_SHELL_READY$'
-  report_marker profile_fixture '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc$'
-  report_marker follow_fixture '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$'
+  report_marker profile_fixture '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=7886ec2ed30524093d71d0171cfce548a7d0ed2dcfacf55e6b6395503d114f5d$'
+  report_marker follow_fixture '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=8ececfd3f912d1fa8fe6338d27448e3ff71637fca4adff21a49fbf607856afb6$'
   report_marker profile_nap_shell '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$'
   report_marker follow_nap_shell '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$'
   report_marker profile_accepted '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$'
@@ -235,7 +234,7 @@ if startup_deadline_expired; then
   exit 1
 fi
 
-UZEL_USE_FIXTURE_RELAY=1 setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
+setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
 DEV_PID=$!
 
 RUNTIME_STARTED_AT=

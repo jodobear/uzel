@@ -55,9 +55,9 @@ the test-only `hostile-egress` fixture, verify through the pinned upstream
 runtime. The hostile fixture executes 13 browser-egress attempts in real
 Fedora WebKit against a control-proven loopback sentinel; the accepted run
 observes zero sentinel connections and zero native command executions. The
-explicit live smoke starts `nak serve`, proves NMP canonical
-kind-0 selection and direct-follow projection, then stops the relay and proves
-cache-first restart from the same NMP store. The shell mounts both verified
+explicit public-live acceptance probes prove NMP canonical kind-0 selection,
+direct-follow projection, HTTPS avatar delivery through NAP-RESOURCE, and then
+prove cache-first restart with every relay lane disabled. The shell mounts both verified
 builds through the unchanged upstream multi-surface trusted host; the daemon
 routes `napplet:profile/open` to the profile surface with a runtime-owned
 sender. The deterministic demo, hostile Fedora run, and complete locked Debian
@@ -65,8 +65,9 @@ build pass from a detached clean checkout. See
 `uzel-poc-validated-pack/reports/slice-06-preflight.md` for the exact boundary
 and toolchain limitation.
 
-Interactive development starts NMP with the two public operator indexers used
-by the upstream demo (`wss://purplepag.es` and `wss://relay.primal.net`). NMP
-then discovers each identity's NIP-65 outbox relays. The headless acceptance
-lane explicitly sets `UZEL_USE_FIXTURE_RELAY=1`; only that lane replaces the
-public indexers with the committed loopback fixture relay.
+Interactive development and headless acceptance use `wss://purplepag.es` as an
+operator indexer and `wss://purplepag.es` plus `wss://nos.lol` as bounded app
+relay lanes. NMP owns subscriptions, reconnects, canonical replacement, cache,
+and NIP-65 discovery. A plaintext loopback fallback relay is not used for
+identity content: under the pinned public-demand contract it receives discovery
+demand, while profile and contact content is routed through secure app lanes.

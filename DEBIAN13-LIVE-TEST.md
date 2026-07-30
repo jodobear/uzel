@@ -72,8 +72,9 @@ runs reuse the Nix and Cargo stores. The low-disk Cargo profile used by the
 workspace prebuild is exported into the dev runtime so Cargo does not discard
 that cache and rebuild every dependency with a different profile.
 
-The test starts headless Weston, the local signed Nostr fixture relay,
-`uzel-napd`, Tauri, and real WebKitGTK. Package-cache probes, dependency
+The test starts headless Weston, `uzel-napd`, Tauri, and real WebKitGTK. The
+daemon uses the same secure public indexer/app relay lanes as interactive mode;
+internet access is therefore required for live Nostr refresh. Package-cache probes, dependency
 installation, workspace prebuild, and runtime startup share one bounded
 ten-minute deadline. Each probe or prebuild command receives only the remaining
 budget. After `UZEL_SHELL_READY`, runtime acceptance has a separate two-minute
@@ -123,5 +124,5 @@ Manual checklist:
 
 The napplet artifacts remain committed signed fixtures, but the interactive
 lane uses the configured public NMP indexers. NMP discovers the selected
-identity's NIP-65 outbox relays. The `headless` lane alone opts into the local
-deterministic relay.
+identity's NIP-65 outbox relays. Headless and interactive modes use the same
+secure public indexer and app relay lanes.
