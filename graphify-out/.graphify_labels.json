@@ -88,6 +88,8 @@
   "86": "README.md",
   "87": "Verified facts",
   "88": "debian13-live-test.sh",
+  "89": "POC architecture",
   "90": "debian13-setup.sh",
-  "91": "Work 02 — Linux exact-build runner"
+  "91": "Work 02 — Linux exact-build runner",
+  "92": "Gate 0 preflight and Slice 01 decision"
 }
