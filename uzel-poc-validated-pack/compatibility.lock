@@ -478,6 +478,7 @@ pending_operation_retention_commit = "ac69aa71823f639b5ac499a4c2b168cbc584f859"
 no_blossom_product_config_commit = "33582d9b1d3b780e749bc7c61ba56f344e1a19f4"
 ambiguous_confirmation_commit = "07f49eacd8fbfdcf77f7a52f19524fcf0084b87f"
 recoverable_shell_states_commit = "d3fdd83b54e650e6c38972f2319b490525d9260e"
+confirmation_grant_freeze_commit = "8c6c233f50373f3446f054bad9c5c7fff48a86ea"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 maximum_routed_envelope_bytes = 104923136
@@ -493,6 +494,7 @@ blossom_product_config_result = "pass: live mode accepts no Blossom endpoint; th
 ambiguous_confirmation_result = "pass: two lost confirmation replies produce a typed UI lock; Retry Install sends byte-identical frozen inputs and operation ID, receives the original surface, and never cancels the consumed review"
 partial_base_recovery_result = "pass: injected second-pane launch failure stops the created first pane exactly once, exposes the compact locked recovery card, and Retry panes restores both exact panes"
 ambiguous_review_result = "pass: two lost review replies cross Tauri as typed state; Close, identity, and coordinate mutation stay locked until Retry review sends the identical coordinate without cancellation"
+confirmation_grant_freeze_result = "pass: optional grants are disabled while confirmation is in flight and while ambiguous; Retry install sends the byte-identical sorted grant vector and retained operation"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -516,6 +518,7 @@ codex_review_round_17 = "addressed: remove mandatory Blossom endpoint configurat
 codex_review_round_18 = "addressed: surface double-lost confirmation replies as a typed lock and reconcile with the identical retained operation before allowing close or mutation"
 codex_review_round_19 = "addressed: route partial base-pane initialization failures through exact cleanup and the existing visible retry flow"
 codex_review_round_20 = "addressed: preserve double-lost review replies as a typed lock and retry the identical retained operation before allowing close or coordinate mutation"
+codex_review_round_21 = "addressed: freeze capability grants during confirmation so an ambiguous retry reuses the identical retained operation"
 
 [gates]
 V_01 = "pass"
