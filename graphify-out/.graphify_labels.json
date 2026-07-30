@@ -83,7 +83,7 @@
   "81": "AcceptSettings",
   "82": "RelayDiagnosticsSink",
   "83": "FACT-011-daemon-nmp.md",
-  "84": "lib.rs",
+  "84": "resource.rs",
   "85": "FACT-012-composed-demo.md",
   "86": "README.md",
   "87": "Verified facts",
@@ -91,5 +91,9 @@
   "89": "POC architecture",
   "90": "debian13-setup.sh",
   "91": "Work 02 — Linux exact-build runner",
-  "92": "Gate 0 preflight and Slice 01 decision"
+  "92": "Gate 0 preflight and Slice 01 decision",
+  "93": "lib.rs",
+  "94": "main.rs",
+  "95": "Debian 13 live test",
+  "96": "FACT-014-live-identity-catalog.md"
 }

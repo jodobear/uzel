@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-30)
 
 ## Corpus Check
-- 110 files · ~60,404 words
+- 116 files · ~66,091 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 967 nodes · 1424 edges · 93 communities (66 shown, 27 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 10 edges (avg confidence: 0.8)
+- 1056 nodes · 1642 edges · 97 communities (69 shown, 28 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1db8aa46`
+- Built from commit: `0cce6436`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,7 +92,7 @@
 - AcceptSettings
 - RelayDiagnosticsSink
 - FACT-011-daemon-nmp.md
-- lib.rs
+- resource.rs
 - FACT-012-composed-demo.md
 - README.md
 - Verified facts
@@ -101,21 +101,27 @@
 - debian13-setup.sh
 - Work 02 — Linux exact-build runner
 - Gate 0 preflight and Slice 01 decision
+- lib.rs
+- main.rs
+- Debian 13 live test
+- FACT-014-live-identity-catalog.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `LinuxRunner` - 39 edges
-2. `RunnerError` - 23 edges
-3. `scripts` - 17 edges
-4. `UnixClient` - 16 edges
+1. `LinuxRunner` - 43 edges
+2. `RunnerError` - 27 edges
+3. `UnixClient` - 22 edges
+4. `scripts` - 17 edges
 5. `compilerOptions` - 15 edges
-6. `HostileProbeState` - 14 edges
-7. `Response` - 14 edges
+6. `Response` - 15 edges
+7. `HostileProbeState` - 14 edges
 8. `parse_options()` - 12 edges
 9. `LiveProbe` - 12 edges
-10. `write_frame()` - 11 edges
+10. `SurfaceLaunch` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `runtime_diagnostics()` --references--> `Diagnostics`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `review_napplet()` --references--> `NappletReview`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `project_surface()` --references--> `FetchedSurface`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
@@ -123,13 +129,11 @@
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `runtime_status()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `select_read_identity()` --references--> `UnixClient`  [EXTRACTED]
-  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 
 ## Import Cycles
 - None detected.
 
-## Communities (93 total, 27 thin omitted)
+## Communities (97 total, 28 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.18
@@ -140,8 +144,8 @@ Cohesion: 0.25
 Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), decodeResourceBlob(), exactFields(), isBoundedEnvelope(), isPlainObject(), isVerifiedArtifactBaseURL() (+10 more)
 
 ### Community 2 - "check-napplet-imports.mjs"
-Cohesion: 0.07
-Nodes (33): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+25 more)
+Cohesion: 0.06
+Nodes (36): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+28 more)
 
 ### Community 3 - "Provisional component design"
 Cohesion: 0.22
@@ -156,8 +160,8 @@ Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 6 - "POC architecture"
-Cohesion: 0.15
-Nodes (18): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+10 more)
+Cohesion: 0.16
+Nodes (17): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+9 more)
 
 ### Community 7 - "Observed facts"
 Cohesion: 0.22
@@ -168,23 +172,23 @@ Cohesion: 0.22
 Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
 
 ### Community 10 - "Work 00 — validate assumptions"
-Cohesion: 0.11
-Nodes (17): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+9 more)
+Cohesion: 0.20
+Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
 
 ### Community 11 - "Work 00 — validate assumptions"
 Cohesion: 0.11
-Nodes (31): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, existing_shared_socket_parent_is_not_chmodded() (+23 more)
+Nodes (32): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+24 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.25
 Nodes (7): Commands and results, Exact next step, NMP and persistence evidence, Outcome, Private protocol evidence, Remaining boundaries, Slice 04 preflight — daemon, NMP, and persistence
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
-Cohesion: 0.12
-Nodes (24): isCanonicalPubkey(), parseProfileOpen(), profileOpen(), PUBKEY, list, render(), start(), status (+16 more)
+Cohesion: 0.09
+Nodes (35): delay(), waitForEvidence(), isCanonicalPubkey(), parseProfileOpen(), profileOpen(), PUBKEY, list, loadFollows() (+27 more)
 
 ### Community 14 - ".fetch"
-Cohesion: 0.25
+Cohesion: 0.20
 Nodes (7): ArtifactFetchRequest, ArtifactFetchResponse, ArtifactSource, ExactFixtureSource, fixture_by_name(), FixtureDefinition, Option
 
 ### Community 15 - "Uzel single-repository POC"
@@ -193,7 +197,7 @@ Nodes (23): compilerOptions, allowJs, checkJs, esModuleInterop, forceConsistentC
 
 ### Community 16 - "POC status"
 Cohesion: 0.08
-Nodes (23): dependencies, svelte, @tauri-apps/api, devDependencies, svelte-check, @sveltejs/vite-plugin-svelte, typescript, vite (+15 more)
+Nodes (24): dependencies, svelte, @tauri-apps/api, devDependencies, svelte-check, @sveltejs/vite-plugin-svelte, typescript, vite (+16 more)
 
 ### Community 17 - "Work 05 — composed demo"
 Cohesion: 0.06
@@ -212,8 +216,8 @@ Cohesion: 0.25
 Nodes (7): description, identifier, permissions, $schema, windows, core:default, main
 
 ### Community 22 - "Gate 0 preflight and Slice 01 decision"
-Cohesion: 0.25
-Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+Cohesion: 0.40
+Nodes (8): ACTION_IDS, bindingFromEvent(), bindingMatches(), DEFAULT_KEYBINDINGS, defaultPreferences(), KEYBINDING_ACTIONS, parsePreferences(), validateKeybindings()
 
 ### Community 23 - "nampplets Linux reuse map"
 Cohesion: 0.25
@@ -240,12 +244,12 @@ Cohesion: 0.25
 Nodes (7): First hardening follow-ups, Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 41 - "lib.rs"
-Cohesion: 0.40
-Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
+Cohesion: 0.29
+Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
 
 ### Community 47 - "lib.rs"
 Cohesion: 0.06
-Nodes (53): Child, Condvar, bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), hostile_probe_commits_exact_session_config_before_returning(), identity_query() (+45 more)
+Nodes (54): Condvar, artifact_base_url(), bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), hostile_probe_commits_exact_session_config_before_returning(), identity_query() (+46 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.25
@@ -324,8 +328,8 @@ Cohesion: 0.33
 Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 
 ### Community 79 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.16
-Nodes (29): allowed_navigation(), default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe(), main(), navigation_policy(), project_surface() (+21 more)
+Cohesion: 0.40
+Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 80 - "Work 06 — hardening and demo acceptance"
 Cohesion: 0.40
@@ -339,9 +343,9 @@ Nodes (5): AcceptSettings, UnavailableSettings, NativeSettingsExecutor, NativeSe
 Cohesion: 0.50
 Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
 
-### Community 84 - "lib.rs"
-Cohesion: 0.12
-Nodes (30): ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), oversized_frame_is_rejected_before_body_read() (+22 more)
+### Community 84 - "resource.rs"
+Cohesion: 0.09
+Nodes (34): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+26 more)
 
 ### Community 87 - "Verified facts"
 Cohesion: 0.20
@@ -367,25 +371,37 @@ Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work
 Cohesion: 0.22
 Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
+### Community 93 - "lib.rs"
+Cohesion: 0.12
+Nodes (32): CatalogCapability, ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame() (+24 more)
+
+### Community 94 - "main.rs"
+Cohesion: 0.17
+Nodes (32): allowed_navigation(), cancel_napplet_review(), confirm_napplet(), default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe(), main() (+24 more)
+
+### Community 95 - "Debian 13 live test"
+Cohesion: 0.25
+Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+
 ## Knowledge Gaps
-- **396 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+391 more)
+- **404 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+399 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `Work 00 — validate assumptions`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `UnixClient` connect `Work 06 — hardening and demo acceptance` to `lib.rs`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `LinuxRunner` connect `lib.rs` to `Work 00 — validate assumptions`, `lib.rs`?**
+  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+- **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+- **Why does `NappletReview` connect `lib.rs` to `main.rs`, `lib.rs`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _396 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _404 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.06543385490753911 - nodes in this community are weakly interconnected._
-- **Should `POC architecture` be split into smaller, more focused modules?**
-  _Cohesion score 0.14761904761904762 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06219512195121951 - nodes in this community are weakly interconnected._
 - **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
-- **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.10853658536585366 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11097560975609756 - nodes in this community are weakly interconnected._
+- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
+  _Cohesion score 0.08888888888888889 - nodes in this community are weakly interconnected._
