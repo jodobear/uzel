@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785447116.8385189,
-    "ast_hash": "79a4a66aff0a55598c0d31d1abc56e6f",
+    "mtime": 1785447210.4727218,
+    "ast_hash": "f73a5c1a382c9025bfc1ed78ae589414",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785447116.8411582,
-    "ast_hash": "e7eb42bb7eefabd9ff2924d0e23d32c6",
+    "mtime": 1785447210.4744985,
+    "ast_hash": "063cf0381b1d5be5896422f8d304ba01",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785446134.0032897,
-    "ast_hash": "f1d714bcb107250cb9e2debb9919298a",
+    "mtime": 1785447180.815522,
+    "ast_hash": "02be6f5e3d9cf47b0efce50160a76983",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785446797.1813912,
-    "ast_hash": "5e156683bb599036c37d12a3a12002f1",
+    "mtime": 1785447918.413461,
+    "ast_hash": "04a965c9274b2048dc7403cb46779c9f",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785446134.1962917,
-    "ast_hash": "3ea2b314393231acd05eb6b7bc477caf",
+    "mtime": 1785447181.010524,
+    "ast_hash": "b112462b7fe776f79840320b4963be6f",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {
