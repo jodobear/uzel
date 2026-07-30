@@ -129,6 +129,15 @@ fi
 
 ACTIVE_CHILD_PID=
 ACTIVE_CHILD_GROUP=0
+STARTUP_STARTED_AT=$SECONDS
+
+record_prebuild() {
+  local message=$1
+  printf '%s\n' "$message"
+  if [[ -n "$PREBUILD_LOG" ]]; then
+    printf '%s\n' "$message" >> "$PREBUILD_LOG"
+  fi
+}
 
 # Invoked through signal traps.
 # shellcheck disable=SC2329
@@ -151,9 +160,17 @@ trap 'forward_signal INT 130' INT
 trap 'forward_signal TERM 143' TERM
 
 run_cache_probe() {
+  local elapsed=$((SECONDS - STARTUP_STARTED_AT))
+  local remaining=$((STARTUP_TIMEOUT_SECONDS - elapsed))
+  local probe_limit=30
   local probe_status
+
+  (( remaining > 0 )) || return 125
+  (( remaining < probe_limit )) && probe_limit=$remaining
+
   ACTIVE_CHILD_GROUP=1
-  setsid timeout --signal=TERM --kill-after=5s 30s "$@" >/dev/null 2>&1 &
+  setsid timeout --signal=TERM --kill-after=5s "${probe_limit}s" "$@" \
+    >/dev/null 2>&1 &
   ACTIVE_CHILD_PID=$!
   set +e
   wait "$ACTIVE_CHILD_PID"
@@ -161,6 +178,9 @@ run_cache_probe() {
   set -e
   ACTIVE_CHILD_PID=
   ACTIVE_CHILD_GROUP=0
+  if [[ $probe_status -eq 124 && $probe_limit -eq $remaining ]]; then
+    return 125
+  fi
   return "$probe_status"
 }
 
@@ -168,6 +188,11 @@ MISSING_PACKAGE_CACHES=()
 if run_cache_probe env CI=1 pnpm install --offline --frozen-lockfile --ignore-scripts; then
   PNPM_CACHE_READY=1
 else
+  PROBE_STATUS=$?
+  if [[ $PROBE_STATUS -eq 125 ]]; then
+    record_prebuild "DEBIAN13_STARTUP_TIMEOUT step=pnpm-cache-probe limit_seconds=$STARTUP_TIMEOUT_SECONDS"
+    exit 124
+  fi
   PNPM_CACHE_READY=0
   MISSING_PACKAGE_CACHES+=(pnpm)
 fi
@@ -175,6 +200,11 @@ if run_cache_probe env CARGO_NET_OFFLINE=true cargo fetch --locked \
   --target x86_64-unknown-linux-gnu; then
   CARGO_CACHE_READY=1
 else
+  PROBE_STATUS=$?
+  if [[ $PROBE_STATUS -eq 125 ]]; then
+    record_prebuild "DEBIAN13_STARTUP_TIMEOUT step=cargo-cache-probe limit_seconds=$STARTUP_TIMEOUT_SECONDS"
+    exit 124
+  fi
   CARGO_CACHE_READY=0
   MISSING_PACKAGE_CACHES+=(cargo)
 fi
@@ -203,16 +233,6 @@ fi
 if (( CARGO_CACHE_READY == 1 )); then
   CARGO_COMMAND=(env CARGO_NET_OFFLINE=true cargo)
 fi
-
-record_prebuild() {
-  local message=$1
-  printf '%s\n' "$message"
-  if [[ -n "$PREBUILD_LOG" ]]; then
-    printf '%s\n' "$message" >> "$PREBUILD_LOG"
-  fi
-}
-
-STARTUP_STARTED_AT=$SECONDS
 
 run_startup_step() {
   local step=$1

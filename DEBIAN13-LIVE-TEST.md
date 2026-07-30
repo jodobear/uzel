@@ -73,12 +73,13 @@ workspace prebuild is exported into the dev runtime so Cargo does not discard
 that cache and rebuild every dependency with a different profile.
 
 The test starts headless Weston, the local signed Nostr fixture relay,
-`uzel-napd`, Tauri, and real WebKitGTK. Dependency installation, workspace
-prebuild, and runtime startup share one bounded ten-minute deadline. Each
-prebuild command receives only the remaining budget. After `UZEL_SHELL_READY`,
-runtime acceptance has a separate two-minute deadline. A timeout reports every
-required runtime marker as present or missing before preserving logs. The test
-verifies three exact builds, both product napplets, NAP-SHELL/NAP-INC routing,
+`uzel-napd`, Tauri, and real WebKitGTK. Package-cache probes, dependency
+installation, workspace prebuild, and runtime startup share one bounded
+ten-minute deadline. Each probe or prebuild command receives only the remaining
+budget. After `UZEL_SHELL_READY`, runtime acceptance has a separate two-minute
+deadline. A timeout reports every required runtime marker as present or missing
+before preserving logs. The test verifies three exact builds, both product
+napplets, NAP-SHELL/NAP-INC routing,
 all 13 hostile browser-egress denials, zero sentinel accepts, zero native calls,
 source binding, and clean user mode.
 
