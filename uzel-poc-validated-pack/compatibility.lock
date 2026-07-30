@@ -475,6 +475,8 @@ review_reconciliation_commit = "577c598968b5c24adf7347cb5cb786faa3d1e2c8"
 routed_envelope_chunk_commit = "eda1f41dcfb5251c561ee4ac650760543c8b9ef0"
 runtime_response_retention_commit = "bc105ff92b1ac0e82d21ba2c881d4180a4daafc6"
 pending_operation_retention_commit = "ac69aa71823f639b5ac499a4c2b168cbc584f859"
+no_blossom_product_config_commit = "33582d9b1d3b780e749bc7c61ba56f344e1a19f4"
+ambiguous_confirmation_commit = "07f49eacd8fbfdcf77f7a52f19524fcf0084b87f"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 maximum_routed_envelope_bytes = 104923136
@@ -485,6 +487,9 @@ frame_escaping_result = "pass: maximum envelope with sixfold JSON control-charac
 routed_envelope_result = "pass: responses above 65536 bytes stream in ordered same-surface chunks within the unchanged frame ceiling; client validates offsets, total, completion, UTF-8, and the trusted-shell aggregate bound"
 runtime_response_retention_result = "pass: matched responses are consumed once; duplicate response debug text is dropped; count and aggregate-byte eviction are tested"
 pending_operation_retention_result = "pass: ambiguous replay IDs are capped at 64; deterministic frame, connect, and timeout-setup failures discard their entries"
+blossom_product_configured = false
+blossom_product_config_result = "pass: live mode accepts no Blossom endpoint; the upstream constructor receives only the reserved non-routable blossom.invalid placeholder; ordinary HTTPS remains governed by NAP-RESOURCE"
+ambiguous_confirmation_result = "pass: two lost confirmation replies produce a typed UI lock; Retry Install sends byte-identical frozen inputs and operation ID, receives the original surface, and never cancels the consumed review"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -504,6 +509,8 @@ codex_review_round_13 = "addressed: expose and cancel bounded pending reviews du
 codex_review_round_14 = "addressed: chunk large NAP-RESOURCE routed responses on the original socket connection without raising the 524288-byte control-frame ceiling"
 codex_review_round_15 = "addressed: consume matched runtime responses and enforce aggregate-byte eviction instead of retaining large resource envelopes by event count alone"
 codex_review_round_16 = "addressed: cap ambiguous client operations and discard deterministic pre-send failures instead of retaining them for shell lifetime"
+codex_review_round_17 = "addressed: remove mandatory Blossom endpoint configuration from the Linux product and keep the upstream-required slot non-routable"
+codex_review_round_18 = "addressed: surface double-lost confirmation replies as a typed lock and reconcile with the identical retained operation before allowing close or mutation"
 
 [gates]
 V_01 = "pass"
