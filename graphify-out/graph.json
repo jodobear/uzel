@@ -6945,7 +6945,7 @@
       "label": "3. Run visible desktop demo",
       "file_type": "document",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L101",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "debian13_live_test_3_run_visible_desktop_demo",
       "community": 22,
@@ -21932,7 +21932,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DEBIAN13-LIVE-TEST.md",
-      "source_location": "L101",
+      "source_location": "L102",
       "weight": 1.0,
       "source": "debian13_live_test_debian_13_live_test",
       "target": "debian13_live_test_3_run_visible_desktop_demo",
@@ -24770,5 +24770,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e83577743f5f63ec820c0e8977c46d3f432ab292"
+  "built_at_commit": "198db4c6b8696ea0218db5fcfb3246fa08e58e2b"
 }
