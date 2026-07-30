@@ -37,7 +37,7 @@ preserve_failure() {
   echo "Linux runtime smoke failed; logs preserved in $FAILED_DIR" >&2
 }
 
-# Invoked through the EXIT/INT/TERM trap.
+# Invoked through the EXIT trap.
 # shellcheck disable=SC2329
 cleanup() {
   local status=$?
@@ -58,7 +58,21 @@ cleanup() {
   rm -rf "$SMOKE_TMP"
   exit "$status"
 }
-trap cleanup EXIT INT TERM
+
+# Invoked through signal traps; exit status is then captured by cleanup's EXIT trap.
+# shellcheck disable=SC2329
+handle_interrupt() {
+  exit 130
+}
+
+# shellcheck disable=SC2329
+handle_terminate() {
+  exit 143
+}
+
+trap cleanup EXIT
+trap handle_interrupt INT
+trap handle_terminate TERM
 
 export XDG_RUNTIME_DIR="$SMOKE_TMP/runtime"
 mkdir -m 700 "$XDG_RUNTIME_DIR"
