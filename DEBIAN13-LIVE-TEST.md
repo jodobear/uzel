@@ -64,11 +64,18 @@ approval before fetching locked flake inputs or realizing the closure. Use
 `--yes` only for an explicitly approved unattended run.
 
 First run downloads the locked Nix closure and builds Rust dependencies. Later
-runs reuse the Nix and Cargo stores. The test starts headless Weston, the local
-signed Nostr fixture relay, `uzel-napd`, Tauri, and real WebKitGTK. It verifies
-three exact builds, both product napplets, NAP-SHELL/NAP-INC routing, all 13
-hostile browser-egress denials, zero sentinel accepts, zero native calls,
-source binding, and clean user mode.
+runs reuse the Nix and Cargo stores. The low-disk Cargo profile used by the
+workspace prebuild is exported into the dev runtime so Cargo does not discard
+that cache and rebuild every dependency with a different profile.
+
+The test starts headless Weston, the local signed Nostr fixture relay,
+`uzel-napd`, Tauri, and real WebKitGTK. Build and startup have a bounded
+ten-minute deadline. After `UZEL_SHELL_READY`, runtime acceptance has a separate
+two-minute deadline. A timeout reports every required marker as present or
+missing before preserving logs. The test verifies three exact builds, both
+product napplets, NAP-SHELL/NAP-INC routing, all 13 hostile browser-egress
+denials, zero sentinel accepts, zero native calls, source binding, and clean
+user mode.
 
 Pass ends with:
 

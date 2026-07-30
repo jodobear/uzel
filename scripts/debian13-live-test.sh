@@ -106,7 +106,9 @@ pnpm install --frozen-lockfile
 bash scripts/check-pinned-assets.sh
 echo 'DEBIAN13_BUILD_BEGIN workspace=locked'
 pnpm --filter @uzel/shell build
-CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 cargo build --workspace --locked
+export CARGO_INCREMENTAL=0
+export CARGO_PROFILE_DEV_DEBUG=0
+cargo build --workspace --locked
 echo 'DEBIAN13_BUILD_OK workspace=locked'
 
 if [[ "$MODE" == interactive ]]; then
