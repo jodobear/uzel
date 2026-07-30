@@ -1,11 +1,11 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785437956.9467971,
+    "mtime": 1785439240.0738409,
     "ast_hash": "76739574e6e960de47b9e35a6ffa99a6",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785437956.9519002,
+    "mtime": 1785439240.0801647,
     "ast_hash": "6ef85cc3c0d1031d0be9b23dc930e9fa",
     "semantic_hash": ""
   },
@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "crates/napd-protocol/src/lib.rs": {
-    "mtime": 1785434838.1494584,
-    "ast_hash": "6da52bde7735854c9f1593a154e81205",
+    "mtime": 1785439176.0999854,
+    "ast_hash": "b5c3f2a5d87ad57c1510eb49e025dbc0",
     "semantic_hash": ""
   },
   "crates/napd/src/lib.rs": {
@@ -545,8 +545,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/server.rs": {
-    "mtime": 1785422833.6615446,
-    "ast_hash": "91720036d84653e82b95a2887cbe8194",
+    "mtime": 1785439176.0939853,
+    "ast_hash": "7bc45ae6e750963993d7e995be010d52",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-011-daemon-nmp.md": {

@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-31)
 
 ## Corpus Check
-- 116 files · ~80,426 words
+- 116 files · ~81,366 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1077 nodes · 1701 edges · 95 communities (68 shown, 27 thin omitted)
+- 1098 nodes · 1774 edges · 96 communities (69 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c1c74b77`
+- Built from commit: `618dd7d6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,6 +26,7 @@
 - POC documentation audit
 - Work 01 — scaffold
 - Work 00 — validate assumptions
+- hostile_probe.rs
 - Slice 04 preflight — daemon, NMP, and persistence
 - Work 04 — daemon, NMP, and persistence
 - .fetch
@@ -106,14 +107,14 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 43 edges
-2. `RunnerError` - 29 edges
-3. `UnixClient` - 24 edges
-4. `scripts` - 17 edges
-5. `ClientError` - 16 edges
-6. `compilerOptions` - 15 edges
-7. `Response` - 15 edges
-8. `HostileProbeState` - 14 edges
-9. `write_frame()` - 13 edges
+2. `UnixClient` - 33 edges
+3. `RunnerError` - 29 edges
+4. `Response` - 20 edges
+5. `ClientError` - 18 edges
+6. `scripts` - 17 edges
+7. `compilerOptions` - 15 edges
+8. `write_frame()` - 15 edges
+9. `HostileProbeState` - 14 edges
 10. `parse_options()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -131,7 +132,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (95 total, 27 thin omitted)
+## Communities (96 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.17
@@ -176,6 +177,10 @@ Nodes (9): Commands and observed results, Exact dependency and asset record, Nex
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
+
+### Community 11 - "hostile_probe.rs"
+Cohesion: 0.12
+Nodes (23): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+15 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.25
@@ -246,7 +251,7 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
 
 ### Community 47 - "lib.rs"
-Cohesion: 0.05
+Cohesion: 0.06
 Nodes (62): BTreeSet, Condvar, absent_surface_cleanup_is_idempotent(), artifact_base_url(), bounded_diagnostic(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), EventBuffer (+54 more)
 
 ### Community 48 - "POC documentation audit"
@@ -282,8 +287,8 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.07
-Nodes (59): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+51 more)
+Cohesion: 0.12
+Nodes (39): allowed_navigation(), cancel_napplet_review(), confirm_napplet(), ConfirmNappletError, default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe() (+31 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.25
@@ -366,12 +371,12 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
 ### Community 93 - "lib.rs"
-Cohesion: 0.13
-Nodes (30): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+22 more)
+Cohesion: 0.09
+Nodes (41): Request, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState (+33 more)
 
 ### Community 94 - "main.rs"
 Cohesion: 0.10
-Nodes (37): CatalogCapability, ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), FetchedSurface, frames_round_trip_with_big_endian_length() (+29 more)
+Nodes (38): CatalogCapability, ClientError, confirm_response_loss_replays_surface_without_a_second_operation(), decode_asset_chunk(), Diagnostics, encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), FetchedSurface (+30 more)
 
 ### Community 95 - "Debian 13 live test"
 Cohesion: 0.25
@@ -386,10 +391,10 @@ Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit accep
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`, `main.rs`?**
-  _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
 - **Why does `NappletReview` connect `main.rs` to `Slice 02 preflight`, `lib.rs`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _405 weakly-connected nodes found - possible documentation gaps or missing edges._
@@ -397,5 +402,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `POC documentation audit` be split into smaller, more focused modules?**
   _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
-- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.08888888888888889 - nodes in this community are weakly interconnected._
+- **Should `hostile_probe.rs` be split into smaller, more focused modules?**
+  _Cohesion score 0.12121212121212122 - nodes in this community are weakly interconnected._
