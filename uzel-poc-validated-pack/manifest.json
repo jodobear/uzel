@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "a5137014980dd14fbb961ba2fafc85237fee99ca33b4c13e03fce1ce40ba089f"
+      "sha256": "414456a0524b20d16df131076cad929ded426b10a9f6a4ec36e696a7c56a10b0"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 27990,
-      "sha256": "86321f84f7b2c75cbd504e957ecd79efa166a11976f4575ae0887dfff0c69797"
+      "bytes": 29983,
+      "sha256": "2bf7a2d8c234395c1e51a95455ceb702e5f5d1e545cfb3d8cd166b95b1ddd217"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 5153,
-      "sha256": "7ab40ba48e7f3349c32af004d444c8db40621ffffe880df449546903831bd05b"
+      "bytes": 7095,
+      "sha256": "372e067c2c2ffadee22a9b224009e5b2e47e74a041298a330ae049e6e33ac801"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -127,28 +127,33 @@
     },
     {
       "path": "docs/facts/FACT-009-linux-runner.md",
-      "bytes": 2085,
-      "sha256": "780a9510a028d025814b75f4d465404a183269dba42ec5437b62267062a1fbe4"
+      "bytes": 2033,
+      "sha256": "6805da155b2d3dbdd7a3aa017ce6df0c56f3fa5f3c71ca3228f783b20d027e72"
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 2445,
-      "sha256": "20db9a8a094a5700787bd97b9d01bd692341a2f5a9f6251d6dc78562fc8923d4"
+      "bytes": 2453,
+      "sha256": "fce772022ff1b0c579bacc20e3c04f00a2af580cebf27df3b8c57081f2e2aa3f"
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3650,
-      "sha256": "ba08e3dd199503e1838edb52af22b74af17ae5f61b1a9b8820456750a940ce44"
+      "bytes": 2886,
+      "sha256": "c15c479dad63c6071969406708982e46f1161efa682bdf367f9cbd37f85d370a"
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
-      "bytes": 4114,
-      "sha256": "8053e13345fc4e359ad42a856db6c2dc6022d09bbc24412ef35fb4d351bdf941"
+      "bytes": 4579,
+      "sha256": "3bb9a821954a4e787ffaafb658161d30a07503552b28dd3451c62b9d17d193d0"
     },
     {
       "path": "docs/facts/FACT-013-hostile-linux-boundary.md",
-      "bytes": 3080,
-      "sha256": "f6082120d922e372d0e54e1b6baf379a548ea224a0489cac14ed6245c86795ae"
+      "bytes": 3106,
+      "sha256": "737c39ee6294c3973dfc8df23838e65cee0b345f932b206a95b346f2965a80e3"
+    },
+    {
+      "path": "docs/facts/FACT-014-live-identity-catalog.md",
+      "bytes": 3336,
+      "sha256": "22ff69b4222ea9e45b69cdfc78bcb8640875f91dc80f25b852be625f3c06f1bb"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -164,6 +169,16 @@
       "path": "reports/preflight.md",
       "bytes": 10035,
       "sha256": "ff878693000e82c108a22af29c33e66056ad6313948a1cbfe481b176188930ed"
+    },
+    {
+      "path": "reports/probes/linux-failed/uzel.log",
+      "bytes": 4003,
+      "sha256": "d57ca173bc5ec47afe207a80c605bd19f15318bd5a339789386f2f4d3b9e4de3"
+    },
+    {
+      "path": "reports/probes/linux-failed/weston.log",
+      "bytes": 3561,
+      "sha256": "180644c3998d00935ecc18c5c0fa3ba12dfedf7536252a9234950de7657edf79"
     },
     {
       "path": "reports/probes/slice-01-fedora-failed/weston.txt",
