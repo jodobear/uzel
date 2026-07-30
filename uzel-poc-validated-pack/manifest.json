@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 3390,
-      "sha256": "af9ced637147bcd279d08869d1af7a700f1f3ed6dde6f128e50edcf98b9a805e"
+      "bytes": 3635,
+      "sha256": "bc81eeee1344496a2b09c0a765b592f3f44a6d1ee47bb049d940da44a4993163"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "6205ce76b79747f19aa3ec6270f6d8782c7227e607ac6e4d5cf5f438977025de"
+      "sha256": "a3efe4165d7f039aaf592e80cdb261230037368d51add9443495ae5ae9e76208"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 29983,
-      "sha256": "e5fb16a305f58ceae7652718aba217bbf9a17230f726f75384839bbbe818ab74"
+      "bytes": 30063,
+      "sha256": "ea93a2e2a9ae78f4f3c66be4da04a2bef782b1e0f7085627eff50c791bfe3f2a"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 7393,
-      "sha256": "73b957eaf79708a8c14b3689341e2dd9336c448fb9b7886bc2257ac2ae511f00"
+      "bytes": 7525,
+      "sha256": "de39d508d41ee57c804f0f9ccca600dfd8f4cd4ebb8476b75652ea4d72bc5719"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
