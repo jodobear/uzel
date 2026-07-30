@@ -152,6 +152,11 @@ startup_deadline_expired() {
   (( SECONDS - SMOKE_STARTED_AT >= STARTUP_TIMEOUT_SECONDS ))
 }
 
+runtime_deadline_expired() {
+  [[ -n "$RUNTIME_STARTED_AT" ]] \
+    && (( SECONDS - RUNTIME_STARTED_AT >= RUNTIME_TIMEOUT_SECONDS ))
+}
+
 weston \
   --backend=headless \
   --renderer=gl \
@@ -189,6 +194,12 @@ while true; do
     exit 1
   fi
 
+  if runtime_deadline_expired; then
+    echo "Linux smoke timed out after UZEL_SHELL_READY after ${RUNTIME_TIMEOUT_SECONDS}s" >&2
+    report_marker_state
+    exit 1
+  fi
+
   if [[ -z "$RUNTIME_STARTED_AT" ]] && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log"; then
     RUNTIME_STARTED_AT=$SECONDS
     echo "LINUX_SMOKE_PHASE phase=runtime timeout_seconds=$RUNTIME_TIMEOUT_SECONDS"
@@ -196,6 +207,11 @@ while true; do
 
   if runtime_markers_ready; then
     sleep 2
+    if runtime_deadline_expired; then
+      echo "Linux smoke timed out after UZEL_SHELL_READY after ${RUNTIME_TIMEOUT_SECONDS}s" >&2
+      report_marker_state
+      exit 1
+    fi
     if ! kill -0 "$DEV_PID" 2>/dev/null; then
       echo 'Linux runtime exited after readiness markers' >&2
       report_marker_state
@@ -207,13 +223,6 @@ while true; do
 
   if ! kill -0 "$DEV_PID" 2>/dev/null; then
     echo 'Linux runtime exited before readiness markers' >&2
-    report_marker_state
-    exit 1
-  fi
-
-  if [[ -n "$RUNTIME_STARTED_AT" ]] \
-    && (( SECONDS - RUNTIME_STARTED_AT >= RUNTIME_TIMEOUT_SECONDS )); then
-    echo "Linux smoke timed out after UZEL_SHELL_READY after ${RUNTIME_TIMEOUT_SECONDS}s" >&2
     report_marker_state
     exit 1
   fi
