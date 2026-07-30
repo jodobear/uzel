@@ -481,6 +481,7 @@ recoverable_shell_states_commit = "d3fdd83b54e650e6c38972f2319b490525d9260e"
 confirmation_grant_freeze_commit = "8c6c233f50373f3446f054bad9c5c7fff48a86ea"
 fresh_identity_evidence_commit = "4fafa6a76f1f94b5ec45103a8b53a081b74695fc"
 reconciled_replay_retirement_commit = "6b0ff72fa85d27d143c9b72de674dd3827a84cb3"
+initialization_retry_commit = "605874d8658c4d4f599d144ef1c860b96a2b51ae"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 maximum_routed_envelope_bytes = 104923136
@@ -499,6 +500,7 @@ ambiguous_review_result = "pass: two lost review replies cross Tauri as typed st
 confirmation_grant_freeze_result = "pass: optional grants are disabled while confirmation is in flight and while ambiguous; Retry install sends the byte-identical sorted grant vector and retained operation"
 fresh_identity_evidence_result = "pass: initial cache evidence remains fast; later refresh rejects unchanged accepted cache hits until rendered evidence changes or the 32-attempt 250-ms bounded window completes"
 reconciled_replay_retirement_result = "pass: an authoritative empty post-cleanup snapshot clears retained client catalog operations; the same input then receives a new operation ID instead of a stale cached response"
+initialization_retry_result = "pass: an injected first reconciliation failure exposes a locked Retry initialization action; the clicked retry reconciles again, mounts both base panes, reaches NAP-SHELL 2/2, and reports zero browser-console warnings or errors"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -525,6 +527,7 @@ codex_review_round_20 = "addressed: preserve double-lost review replies as a typ
 codex_review_round_21 = "addressed: freeze capability grants during confirmation so an ambiguous retry reuses the identical retained operation"
 codex_review_round_22 = "addressed: require changed rendered identity evidence or the complete bounded refresh window instead of accepting the first nonempty cache hit"
 codex_review_round_23 = "addressed: retire retained client catalog operations after authoritative renderer-startup cleanup reaches an empty second snapshot"
+codex_review_round_24 = "addressed: preserve a visible retry action when runtime initialization fails before either base surface exists"
 
 [gates]
 V_01 = "pass"
