@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 3108,
-      "sha256": "5d636f419b1c98d87b54832339066fc74d9e3773a6ba6b9b37aa6916f710e72f"
+      "bytes": 3171,
+      "sha256": "c24ddec55c6b0317a31bba640716cd2c4cad5c88d025e83faaeced31692bef70"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "c61c2a0f9eb43499f39a94272d352be9268ee0a0a78f6cf81eb0bd7eafada6b6"
+      "sha256": "d05ee64f82e013af12e99357757dfc6a3e293f07d4f81dee7cfb850402db9a59"
     },
     {
       "path": "compatibility.lock",
       "bytes": 29983,
-      "sha256": "2bf7a2d8c234395c1e51a95455ceb702e5f5d1e545cfb3d8cd166b95b1ddd217"
+      "sha256": "e5fb16a305f58ceae7652718aba217bbf9a17230f726f75384839bbbe818ab74"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 7249,
-      "sha256": "83602c8d20a375db40df548fdcfae5db97cc84d74dfdf796f7ef4a999baf995d"
+      "bytes": 7393,
+      "sha256": "73b957eaf79708a8c14b3689341e2dd9336c448fb9b7886bc2257ac2ae511f00"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 3770,
-      "sha256": "91ba6a308038cc82a47fd35c36f5576b9393ef2571b11a7c876e0546bbd6e077"
+      "bytes": 4081,
+      "sha256": "4833316f7eb8491688e6c44dc8d149658a8eb451b6b9880544dbca9e1968e22c"
     },
     {
       "path": "reports/nampplets-linux-map.md",
