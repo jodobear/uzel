@@ -64,4 +64,8 @@ Gate 0 was completed and revalidated on 2026-07-28 with a **Linux-scoped go for 
 
 ## Scope rule
 
-Anything not required by the acceptance criteria is deferred. Do not add FIPS, extensions, wallets, media focus, catalogs, native napplets, Android, Plasma widgets, Lua, or host-WM integration to this POC.
+Anything not required by the acceptance criteria is deferred. The bounded,
+user-approved signed-naddr path in `docs/00-scope.md` is included; catalog
+browsing, discovery, unattended installation, and updates are not. Do not add
+FIPS, extensions, wallets, media focus, native napplets, Android, Plasma
+widgets, Lua, or host-WM integration to this POC.

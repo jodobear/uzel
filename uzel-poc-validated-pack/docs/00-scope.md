@@ -15,6 +15,8 @@ Prove that a native Linux shell can run unchanged, self-contained web napplets a
 5. Selecting one emits `napplet:profile/open` over NAP-INC.
 6. `profile-card` independently queries and displays that pubkey's latest-known kind `0`.
 7. Restart Uzel and retain the selected identity, layout, napplet KV, and NMP cache.
+8. Paste one signed kind `35129` naddr, review its exact publisher/build and
+   requested capabilities, then explicitly approve or deny installation and launch.
 
 The public key is a **read context**, not login or authentication. No secret key is accepted.
 
@@ -47,6 +49,15 @@ The POC is ready to build upon when, in addition:
 
 A Bubblewrap networkless-shell proof is valuable but does not block the fast demo. If it is not completed, it remains an explicit production-hardening item rather than being faked.
 
+### Accepted post-foundation extension
+
+The accepted POC may load one caller-supplied signed naddr through a bounded
+review/confirm flow. Nampplets/NMP resolve the coordinate, verify the signed
+manifest and exact artifact bytes, and own installation/session lifecycle;
+Uzel owns only user consent and presentation. This proves portable exact-build
+loading. It is not catalog browsing, discovery, unattended installation, or an
+update system.
+
 ## Required napplets
 
 | Napplet | Owns | Does not own |
@@ -72,7 +83,7 @@ No god napplet and no hidden direct coupling.
 
 - FIPS, ContextVM, Relatr, Open Ranking, wallets, signers, payments;
 - Blossom, files, mounts, clipboard, media focus;
-- app catalog, decentralized installation, updates;
+- browsable app catalogs, discovery, unattended installation, updates;
 - extension/plugin protocol;
 - native/WASI napplets or Android;
 - Plasma widgets, tray, notifications, MPRIS;

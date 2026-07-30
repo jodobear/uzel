@@ -26,12 +26,12 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 ## Latest integrated evidence
 
 ```text
-slice: 06 hardening and clean demo acceptance
-commits: recorded in repository history
-commands: reports/slice-06-preflight.md
-observable result: a signed exact-build hostile child ran 13 browser egress probes in real Fedora WebKit; a separately control-proven loopback sentinel accepted zero hostile connections; forged raw Tauri transport reached WebKit but executed zero commands; result attribution stayed bound to the exact child source; user mode hid diagnostics and unsafe controls; deterministic smoke passed from a detached clean checkout; pinned Debian Bookworm built the complete locked workspace
-known limitation: CSP plus the tested WebKit sandbox is a malicious-JavaScript boundary, not a browser-engine exploit boundary. Bubblewrap 0.11.0 cannot isolate only the hostile WebKit child without a separately designed subprocess policy; whole-process network unsharing would also break trusted loopback/NMP traffic. The Fedora Nix environment's mixed workspace test link can combine Nix WebKitGTK with the host linker and request GLIBC_2.42; isolated app tests and the Debian workspace build pass.
-next action: merge Slice 06 after exact-head review; then treat the POC as accepted and begin only the extraction choices in docs/06-extraction.md
+slice: accepted live-identity and signed-naddr extension
+commits: 98a5c35 through 39dee68 on feat/live-identity-ui
+commands: pnpm check; pnpm lint; pnpm test; pnpm fallow; pnpm docs:check; exact ignored live identity and naddr tests; Playwright click/fault-injection tests; pnpm smoke:linux
+observable result: the supplied npub returns its canonical profile, at least 100 direct follows, and raster picture through NMP/native NAP-RESOURCE; cache-only restart retains the profile; a signed kind 35129 naddr freezes exact review evidence, enforces required capability consent, installs, launches, and cleans up a distinct exact-build session; cleanup failure keeps the session tracked and blocks identity/catalog changes until retry succeeds; real Weston/WebKit reports all runtime, source-binding, hostile-egress, and user-mode markers green
+known limitation: the Linux resource provider returns a typed refusal for SVG. CSP plus the tested WebKit sandbox is a malicious-JavaScript boundary, not a browser-engine exploit boundary. The current Uzel pin remains d533a63d while reviewed nampplets PR #4 successor b5a036e awaits fresh review and integrated repin validation.
+next action: merge Uzel PR #8 only after exact-head Codex review is clean; repin nampplets PR #4 only after its fresh review and the exact live Linux probes pass again
 ```
 
 ## Accepted provisional risks
