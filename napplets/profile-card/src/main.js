@@ -4,7 +4,6 @@ import { incOn } from '@napplet/nap/inc/sdk';
 import { outboxQuery } from '@napplet/nap/outbox/sdk';
 import { resourceBytes } from '@napplet/nap/resource/sdk';
 
-import { waitForEvidence } from '../../../contracts/evidence-refresh.js';
 import { PROFILE_OPEN_TOPIC, parseProfileOpen } from '../../../contracts/profile-open.js';
 import {
   canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, PROFILE_RESULT_LIMIT,
@@ -20,7 +19,6 @@ const evidence = document.querySelector('#evidence');
 const refresh = document.querySelector('#refresh');
 const profileRequests = createLatestRequestGate();
 let pictureObjectUrl = null;
-let activeProfileEvidenceKey;
 
 function clearPicture() {
   if (pictureObjectUrl !== null) URL.revokeObjectURL(pictureObjectUrl);
@@ -66,37 +64,20 @@ async function loadActiveProfile() {
   const requestGeneration = profileRequests.begin();
   refresh.disabled = true;
   clearProfileDetails();
-  status.textContent = 'Refreshing active identity through NMP…';
+  status.textContent = 'Reading latest-known active profile through NMP…';
   try {
     const active = await identityGetPublicKey();
     pubkey.textContent = active;
-    const previousEvidenceKey = activeProfileEvidenceKey;
-    const projected = await waitForEvidence(
-      identityGetProfile,
-      (candidate) => candidate !== null,
-      {
-        isFresh: (candidate) => {
-          const profile = canonicalIdentityProfile(candidate, active);
-          const evidenceKey = profile === null ? null : JSON.stringify(profile);
-          return previousEvidenceKey === undefined || evidenceKey !== previousEvidenceKey;
-        },
-        onAttempt: (attempt, attempts) => {
-          if (profileRequests.isCurrent(requestGeneration)) {
-            status.textContent = `Refreshing NMP profile… ${attempt}/${attempts}`;
-          }
-        },
-      },
-    );
+    const projected = await identityGetProfile();
     if (!profileRequests.isCurrent(requestGeneration)) return;
     const profile = canonicalIdentityProfile(projected, active);
-    activeProfileEvidenceKey = profile === null ? null : JSON.stringify(profile);
     if (profile === null) {
       name.textContent = 'Profile not found';
-      status.textContent = 'No kind 0 in current NMP evidence. Refresh to retry.';
+      status.textContent = 'No kind 0 in the latest-known NMP view. Reload to retry.';
       return;
     }
     renderProfile(profile, 'active identity', requestGeneration);
-    status.textContent = 'Active identity profile.';
+    status.textContent = 'Latest-known active identity profile.';
   } catch (error) {
     if (profileRequests.isCurrent(requestGeneration)) {
       status.textContent = `Profile unavailable: ${error instanceof Error ? error.message : String(error)}`;
