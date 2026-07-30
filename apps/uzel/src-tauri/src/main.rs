@@ -40,6 +40,28 @@ struct ConfirmNappletError {
     detail: String,
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ReviewNappletError {
+    kind: &'static str,
+    detail: String,
+}
+
+impl From<ClientError> for ReviewNappletError {
+    fn from(error: ClientError) -> Self {
+        match error {
+            ClientError::AmbiguousOperation(error) => Self {
+                kind: "reviewAmbiguous",
+                detail: error.to_string(),
+            },
+            error => Self {
+                kind: "refused",
+                detail: error.to_string(),
+            },
+        }
+    }
+}
+
 impl From<ClientError> for ConfirmNappletError {
     fn from(error: ClientError) -> Self {
         match error {
@@ -237,10 +259,10 @@ fn start_fixture(
 fn review_napplet(
     client: tauri::State<'_, UnixClient>,
     coordinate: String,
-) -> Result<NappletReview, String> {
+) -> Result<NappletReview, ReviewNappletError> {
     client
         .review_napplet(&coordinate)
-        .map_err(|error| error.to_string())
+        .map_err(ReviewNappletError::from)
 }
 
 #[tauri::command]
@@ -557,6 +579,16 @@ mod tests {
         let value = serde_json::to_value(error).unwrap();
         assert_eq!(value["kind"], "confirmationAmbiguous");
         assert!(value.get("surfaceToken").is_none());
+        assert!(value["detail"].as_str().unwrap().contains("peer closed"));
+    }
+
+    #[test]
+    fn ambiguous_review_crosses_as_a_typed_retry_state() {
+        let error = ReviewNappletError::from(ClientError::AmbiguousOperation(Box::new(
+            ClientError::Protocol(napd_protocol::ProtocolError::Truncated),
+        )));
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "reviewAmbiguous");
         assert!(value["detail"].as_str().unwrap().contains("peer closed"));
     }
 

@@ -86,6 +86,7 @@
 
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
   type CleanupRequired = { surfaceToken: string; detail: string };
+  type ReviewAmbiguous = { coordinate: string; detail: string };
   type BaseCleanupEntry = { pane: Pane; launch: SurfaceLaunch };
   type BaseRecoveryRequired = {
     entries: BaseCleanupEntry[];
@@ -165,6 +166,7 @@
   let grantedDomains = new Set<string>();
   let catalogBusy = false;
   let catalogInstalling = false;
+  let reviewAmbiguous: ReviewAmbiguous | null = null;
   let confirmationAmbiguous: string | null = null;
   let catalogMessage = '';
   let catalogRequestRevision = 0;
@@ -186,6 +188,7 @@
     || cleanupRequired !== null
     || orphanCleanupRequired.length > 0
     || baseRecoveryRequired !== null
+    || reviewAmbiguous !== null
     || confirmationAmbiguous !== null;
   $: requiredCapabilitiesGranted = nappletReview
     ? nappletReview.capabilities.every(
@@ -371,6 +374,14 @@
       : null;
   }
 
+  function ambiguousReview(error: unknown): string | null {
+    if (!error || typeof error !== 'object') return null;
+    const candidate = error as { kind?: unknown; detail?: unknown };
+    return candidate.kind === 'reviewAmbiguous' && typeof candidate.detail === 'string'
+      ? candidate.detail
+      : null;
+  }
+
   async function retryRequiredCleanup() {
     const current = cleanupRequired;
     if (!current || loadedCleanupBusy) return;
@@ -427,7 +438,11 @@
         if (!mountHostileSurface(hostile)) throw new Error('hostile surface refused');
       }
     } catch (error) {
-      failShellHandshake('Composition failed', error);
+      if (profile || follow) {
+        await retainBaseRecovery(['profile', 'follow'], error);
+      } else {
+        failShellHandshake('Composition failed', error);
+      }
     } finally {
       runtimeInitializationBusy = false;
     }
@@ -451,6 +466,8 @@
           ? 'Retry previous-shell cleanup before loading another exact build'
           : cleanupRequired
           ? 'Retry unresolved napplet cleanup before loading another exact build'
+          : reviewAmbiguous
+          ? 'Retry the ambiguous review before loading another exact build'
           : confirmationAmbiguous
           ? 'Retry the ambiguous confirmation before loading another exact build'
           : 'Close the open napplet before loading another exact build';
@@ -459,6 +476,7 @@
     settingsOpen = false;
     drawerOpen = false;
     loaderOpen = true;
+    reviewAmbiguous = null;
     confirmationAmbiguous = null;
     catalogMessage = '';
   }
@@ -476,8 +494,10 @@
   }
 
   async function closeNappletLoader() {
-    if (confirmationAmbiguous) {
-      catalogMessage = 'Confirmation outcome is unknown. Retry Install to reconcile it before closing.';
+    if (reviewAmbiguous || confirmationAmbiguous) {
+      catalogMessage = reviewAmbiguous
+        ? 'Review outcome is unknown. Retry Review to reconcile it before closing.'
+        : 'Confirmation outcome is unknown. Retry Install to reconcile it before closing.';
       return;
     }
     if (catalogBusy) {
@@ -500,7 +520,7 @@
 
   async function reviewNapplet(event: SubmitEvent) {
     event.preventDefault();
-    const coordinate = nappletCoordinate.trim();
+    const coordinate = reviewAmbiguous?.coordinate ?? nappletCoordinate.trim();
     if (!coordinate || catalogBusy || confirmationAmbiguous) return;
     const requestRevision = ++catalogRequestRevision;
     catalogBusy = true;
@@ -521,6 +541,7 @@
         return;
       }
       nappletReview = review;
+      reviewAmbiguous = null;
       grantedDomains = new Set(
         review.capabilities
           .filter((capability) => capability.required)
@@ -531,7 +552,15 @@
         : (review.blocker ?? 'This exact build cannot be installed.');
     } catch (error) {
       if (requestRevision === catalogRequestRevision) {
-        catalogMessage = `Review refused: ${String(error)}`;
+        const ambiguous = ambiguousReview(error);
+        if (ambiguous) {
+          reviewAmbiguous = { coordinate, detail: ambiguous };
+          loaderOpen = true;
+          catalogMessage = `Review outcome is unknown: ${ambiguous}. Retry Review before closing or changing identity.`;
+        } else {
+          reviewAmbiguous = null;
+          catalogMessage = `Review refused: ${String(error)}`;
+        }
       }
     } finally {
       catalogBusy = false;
@@ -778,6 +807,8 @@
           ? 'Retry previous-shell cleanup before changing read identity'
           : cleanupRequired
           ? 'Retry unresolved napplet cleanup before changing read identity'
+          : reviewAmbiguous
+          ? 'Retry the ambiguous review before changing read identity'
           : confirmationAmbiguous
           ? 'Retry the ambiguous confirmation before changing read identity'
           : 'Close the open napplet before changing read identity';
@@ -1043,7 +1074,7 @@
     <nav aria-label="View controls">
       <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')} title="Side by side">Side</button>
       <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')} title="Stacked panes">Stack</button>
-      <button type="button" class:active={loaderOpen} disabled={!shellReady || runtimeLocked} onclick={openNappletLoader} title={!shellReady ? 'Wait for both base panes' : baseRecoveryRequired ? 'Retry unresolved pane cleanup first' : orphanCleanupRequired.length > 0 ? 'Retry previous-shell cleanup first' : cleanupRequired ? 'Retry unresolved napplet cleanup first' : confirmationAmbiguous ? 'Retry the ambiguous confirmation first' : loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
+      <button type="button" class:active={loaderOpen} disabled={!shellReady || runtimeLocked} onclick={openNappletLoader} title={!shellReady ? 'Wait for both base panes' : baseRecoveryRequired ? 'Retry unresolved pane cleanup first' : orphanCleanupRequired.length > 0 ? 'Retry previous-shell cleanup first' : cleanupRequired ? 'Retry unresolved napplet cleanup first' : reviewAmbiguous ? 'Retry the ambiguous review first' : confirmationAmbiguous ? 'Retry the ambiguous confirmation first' : loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
       <button type="button" class:active={showEvidence} onclick={toggleEvidence}>Proof</button>
       <button type="button" class:active={settingsOpen} onclick={openSettings}>Settings</button>
       <button type="button" class:active={drawerOpen} onclick={() => { developerMode = true; settingsOpen = false; drawerOpen = !drawerOpen; }}>Debug</button>
@@ -1054,7 +1085,7 @@
     <form onsubmit={submitIdentity}>
       <label for="read-identity">Public read identity</label>
       <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
-      <button type="submit" disabled={identityBusy || !shellReady || runtimeLocked}>{identityBusy ? 'Selecting…' : baseRecoveryRequired ? 'Retry pane cleanup first' : orphanCleanupRequired.length > 0 ? 'Retry previous-shell cleanup first' : cleanupRequired ? 'Retry cleanup first' : confirmationAmbiguous ? 'Retry install first' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
+      <button type="submit" disabled={identityBusy || !shellReady || runtimeLocked}>{identityBusy ? 'Selecting…' : baseRecoveryRequired ? 'Retry pane cleanup first' : orphanCleanupRequired.length > 0 ? 'Retry previous-shell cleanup first' : cleanupRequired ? 'Retry cleanup first' : reviewAmbiguous ? 'Retry review first' : confirmationAmbiguous ? 'Retry install first' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
     </form>
     <div class="source-status">
       <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
@@ -1186,11 +1217,11 @@
       <div class="settings-card catalog-card">
         <div class="settings-heading">
           <div><p class="eyebrow">Signed exact build</p><h2>Open napplet</h2></div>
-          <button type="button" disabled={catalogInstalling || confirmationAmbiguous !== null} onclick={closeNappletLoader}>Close</button>
+          <button type="button" disabled={catalogInstalling || reviewAmbiguous !== null || confirmationAmbiguous !== null} onclick={closeNappletLoader}>Close</button>
         </div>
         <form class="catalog-form" onsubmit={reviewNapplet}>
           <label for="napplet-coordinate">Napplet naddr</label>
-          <div><input id="napplet-coordinate" bind:value={nappletCoordinate} disabled={confirmationAmbiguous !== null} placeholder="naddr1… or nostr:naddr1…" spellcheck="false" autocomplete="off" /><button type="submit" disabled={catalogBusy || confirmationAmbiguous !== null || !nappletCoordinate.trim()}>{catalogBusy && !nappletReview ? 'Verifying…' : 'Review'}</button></div>
+          <div><input id="napplet-coordinate" bind:value={nappletCoordinate} disabled={reviewAmbiguous !== null || confirmationAmbiguous !== null} placeholder="naddr1… or nostr:naddr1…" spellcheck="false" autocomplete="off" /><button type="submit" disabled={catalogBusy || confirmationAmbiguous !== null || !nappletCoordinate.trim()}>{catalogBusy && !nappletReview ? (reviewAmbiguous ? 'Reconciling…' : 'Verifying…') : reviewAmbiguous ? 'Retry review' : 'Review'}</button></div>
           <small>NMP decodes the coordinate, resolves the signed kind 35129 manifest, verifies immutable bytes, and freezes this review. Relay hints do not become routing truth.</small>
         </form>
         {#if nappletReview}
