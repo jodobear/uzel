@@ -105,6 +105,7 @@ async function openProfile(payload) {
     return;
   }
   const requestGeneration = profileRequests.begin();
+  refresh.disabled = true;
   pubkey.textContent = request.pubkey;
   clearProfileDetails();
   status.textContent = 'Reading latest-known kind 0…';
@@ -127,6 +128,8 @@ async function openProfile(payload) {
   } catch (error) {
     if (!profileRequests.isCurrent(requestGeneration)) return;
     status.textContent = `Profile unavailable: ${error instanceof Error ? error.message : String(error)}`;
+  } finally {
+    if (profileRequests.isCurrent(requestGeneration)) refresh.disabled = false;
   }
 }
 

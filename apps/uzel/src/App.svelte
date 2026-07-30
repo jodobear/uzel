@@ -117,6 +117,7 @@
   let follow: SurfaceLaunch | null = null;
   let profile: SurfaceLaunch | null = null;
   let loaded: SurfaceLaunch | null = null;
+  let loadedCleanupBusy = false;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
   let loadedSurface: HTMLElement;
@@ -289,16 +290,34 @@
     });
   }
 
+  async function stopLoadedSession(
+    current: SurfaceLaunch,
+    successStatus: string | null,
+    failurePrefix: string,
+  ): Promise<boolean> {
+    if (loadedCleanupBusy || loaded?.surfaceToken !== current.surfaceToken) return false;
+    loadedCleanupBusy = true;
+    window.NMPTrustedShellHost.unmount(current.surfaceToken);
+    try {
+      await invoke('stop_fixture', { surfaceToken: current.surfaceToken });
+      if (loaded?.surfaceToken === current.surfaceToken) loaded = null;
+      if (successStatus !== null) status = successStatus;
+      return true;
+    } catch (error) {
+      status = `${failurePrefix}: ${String(error)}. Retry cleanup before changing identity or opening another napplet.`;
+      return false;
+    } finally {
+      loadedCleanupBusy = false;
+      await refreshDiagnostics().catch(() => {});
+    }
+  }
+
   function rejectLoadedSurface(surfaceToken: string, detail: string) {
     const current = loaded;
     if (!current || current.surfaceToken !== surfaceToken) return;
-    window.NMPTrustedShellHost.unmount(surfaceToken);
-    loaded = null;
     const rejected = `Loaded shell rejected for ${surfaceToken}: ${detail}`;
     status = rejected;
-    void invoke('stop_fixture', { surfaceToken }).catch((error) => {
-      status = `${rejected}; cleanup failed: ${String(error)}`;
-    }).finally(() => refreshDiagnostics().catch(() => {}));
+    void stopLoadedSession(current, `${rejected}; session stopped`, `${rejected}; cleanup failed`);
   }
 
   function openNappletLoader() {
@@ -408,13 +427,20 @@
       await refreshDiagnostics().catch(() => {});
     } catch (error) {
       if (launch) {
-        window.NMPTrustedShellHost.unmount(launch.surfaceToken);
-        if (loaded?.surfaceToken === launch.surfaceToken) loaded = null;
-        await invoke('stop_fixture', { surfaceToken: launch.surfaceToken }).catch(() => {});
+        const cleaned = await stopLoadedSession(
+          launch,
+          null,
+          'Loaded napplet cleanup failed after install refusal',
+        );
         nappletReview = null;
+        loaderOpen = cleaned;
+        catalogMessage = cleaned
+          ? `Install refused: ${String(error)} Review the naddr again to retry.`
+          : `Install refused: ${String(error)} Cleanup must succeed before retry.`;
+      } else {
+        catalogMessage = `Install refused: ${String(error)}`;
+        loaderOpen = true;
       }
-      catalogMessage = `Install refused: ${String(error)}${launch ? ' Review the naddr again to retry.' : ''}`;
-      loaderOpen = true;
     } finally {
       catalogBusy = false;
       catalogInstalling = false;
@@ -423,14 +449,12 @@
 
   async function closeLoadedNapplet() {
     const current = loaded;
-    if (!current) return;
-    window.NMPTrustedShellHost.unmount(current.surfaceToken);
-    loaded = null;
-    await invoke('stop_fixture', { surfaceToken: current.surfaceToken }).catch((error) => {
-      reportRuntimeFailure('Loaded napplet stop failed', error);
-    });
-    status = 'Two exact builds ready through NAP-SHELL';
-    await refreshDiagnostics().catch(() => {});
+    if (!current || loadedCleanupBusy) return;
+    await stopLoadedSession(
+      current,
+      'Two exact builds ready through NAP-SHELL',
+      'Loaded napplet stop failed',
+    );
   }
 
   function beginShellHandshake() {
@@ -842,7 +866,7 @@
       <article class="pane loaded-pane">
         <div class="pane-title">
           <div><span>OPEN</span><strong>{loaded.title}</strong></div>
-          <button type="button" onclick={closeLoadedNapplet}>Close napplet</button>
+          <button type="button" disabled={loadedCleanupBusy} onclick={closeLoadedNapplet}>{loadedCleanupBusy ? 'Stopping…' : 'Close napplet'}</button>
         </div>
         <div bind:this={loadedSurface} class="surface"><p>Mounting verified napplet…</p></div>
         {#if showEvidence}<footer><code>{loaded.aggregateHash.slice(0, 12)}…</code><span>{loaded.unavailableDomains.length ? `Unavailable: ${loaded.unavailableDomains.join(', ')}` : 'All requested capabilities ready'}</span></footer>{/if}
