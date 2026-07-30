@@ -15,8 +15,6 @@ NAPD_RELAY_ARGS=(
   --indexer-relay wss://purplepag.es
   --app-relay wss://purplepag.es
   --app-relay wss://nos.lol
-  --resource-blossom-server https://cdn.hzrd149.com/
-  --resource-blossom-server https://blossom.ditto.pub/
 )
 
 cargo run -p uzel-napd -- \

@@ -212,12 +212,11 @@ impl SvgRasterizer for UnsupportedSvgRasterizer {
     }
 }
 
-pub(crate) fn linux_resource_provider(
-    blossom_servers: Vec<String>,
-) -> Result<Arc<dyn Provider>, String> {
-    // These are only bounded fallback servers for content-addressed
-    // `blossom:` URLs. Ordinary public HTTPS resources remain governed by
-    // NAP-RESOURCE's DNS pinning, redirect, MIME, and size policy.
+pub(crate) fn linux_resource_provider() -> Result<Arc<dyn Provider>, String> {
+    // The upstream constructor currently requires one syntactically valid
+    // fallback URL. Uzel excludes Blossom, so keep the slot non-routable while
+    // ordinary public HTTPS remains governed by NAP-RESOURCE policy.
+    let disabled_blossom_fallback = vec!["https://blossom.invalid/".to_owned()];
     let clock = Arc::new(MonotonicResourceClock::new());
     let network = Arc::new(
         LinuxResourceNetwork::new(Arc::clone(&clock))
@@ -235,7 +234,7 @@ pub(crate) fn linux_resource_provider(
         clock,
         Arc::new(NoopResourceActivity),
         limits,
-        blossom_servers,
+        disabled_blossom_fallback,
     )
     .map_err(|error| format!("Linux resource provider could not open: {error}"))?;
     Ok(Arc::new(provider))

@@ -19,7 +19,6 @@ struct Options {
     app_relays: Vec<String>,
     fallback_relays: Vec<String>,
     allowed_local_relay_hosts: Vec<String>,
-    blossom_servers: Vec<String>,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -37,7 +36,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             options.app_relays,
             options.fallback_relays,
             options.allowed_local_relay_hosts,
-            options.blossom_servers,
         )?
     } else {
         LinuxRunner::open(&options.runtime_root)?
@@ -63,7 +61,6 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
     let mut app_relays = Vec::new();
     let mut fallback_relays = Vec::new();
     let mut allowed_local_relay_hosts = Vec::new();
-    let mut blossom_servers = Vec::new();
     let mut arguments = arguments.into_iter();
     while let Some(argument) = arguments.next() {
         match argument.as_str() {
@@ -80,9 +77,6 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
             }
             "--allow-local-relay-host" => allowed_local_relay_hosts
                 .push(next_value(&mut arguments, "--allow-local-relay-host")?),
-            "--resource-blossom-server" => {
-                blossom_servers.push(next_value(&mut arguments, "--resource-blossom-server")?)
-            }
             _ => return Err(format!("unknown argument: {argument}")),
         }
     }
@@ -90,13 +84,9 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
         && (!indexer_relays.is_empty()
             || !app_relays.is_empty()
             || !fallback_relays.is_empty()
-            || !allowed_local_relay_hosts.is_empty()
-            || !blossom_servers.is_empty())
+            || !allowed_local_relay_hosts.is_empty())
     {
         return Err("live daemon configuration requires --live".to_owned());
-    }
-    if live && blossom_servers.is_empty() {
-        return Err("--live requires at least one --resource-blossom-server".to_owned());
     }
     Ok(Options {
         check,
@@ -115,7 +105,6 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
         app_relays,
         fallback_relays,
         allowed_local_relay_hosts,
-        blossom_servers,
     })
 }
 
@@ -168,13 +157,18 @@ mod tests {
             "--live".to_owned(),
             "--app-relay".to_owned(),
             "wss://relay.example".to_owned(),
-            "--resource-blossom-server".to_owned(),
-            "https://blossom.example".to_owned(),
         ])
         .unwrap();
         assert!(parsed.live);
         assert_eq!(parsed.app_relays, ["wss://relay.example"]);
-        assert_eq!(parsed.blossom_servers, ["https://blossom.example"]);
-        assert!(parse_options(["--live".to_owned()]).is_err());
+        assert!(parse_options(["--live".to_owned()]).is_ok());
+        assert!(
+            parse_options([
+                "--live".to_owned(),
+                "--resource-blossom-server".to_owned(),
+                "https://blossom.example".to_owned(),
+            ])
+            .is_err()
+        );
     }
 }

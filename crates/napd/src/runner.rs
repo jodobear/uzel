@@ -348,7 +348,6 @@ impl LinuxRunner {
             Vec::new(),
             Vec::new(),
             Vec::new(),
-            vec!["https://blossom.invalid/".to_owned()],
         )
     }
 
@@ -358,7 +357,6 @@ impl LinuxRunner {
         app_relays: Vec<String>,
         fallback_relays: Vec<String>,
         allowed_local_relay_hosts: Vec<String>,
-        blossom_servers: Vec<String>,
     ) -> Result<Self, RunnerError> {
         Self::open_configured(
             runtime_root,
@@ -367,7 +365,6 @@ impl LinuxRunner {
             app_relays,
             fallback_relays,
             allowed_local_relay_hosts,
-            blossom_servers,
         )
     }
 
@@ -378,12 +375,10 @@ impl LinuxRunner {
         app_relays: Vec<String>,
         fallback_relays: Vec<String>,
         allowed_local_relay_hosts: Vec<String>,
-        blossom_servers: Vec<String>,
     ) -> Result<Self, RunnerError> {
         let runtime_root = runtime_root.as_ref();
         fs::create_dir_all(runtime_root).map_err(RunnerError::RuntimeDirectory)?;
-        let resource_provider =
-            linux_resource_provider(blossom_servers).map_err(RunnerError::RuntimeOpen)?;
+        let resource_provider = linux_resource_provider().map_err(RunnerError::RuntimeOpen)?;
         let controller = RuntimeController::open_with_settings_and_rust_providers(
             RuntimeConfig {
                 runtime_store_path: runtime_root.join("runtime.sqlite3").display().to_string(),
@@ -1484,7 +1479,6 @@ mod tests {
             vec!["wss://purplepag.es".to_owned(), "wss://nos.lol".to_owned()],
             Vec::new(),
             Vec::new(),
-            vec!["https://blossom.ditto.pub/".to_owned()],
         )
         .unwrap();
         let review = runner
@@ -1546,7 +1540,6 @@ mod tests {
                 vec!["wss://purplepag.es".to_owned(), "wss://nos.lol".to_owned()],
                 Vec::new(),
                 Vec::new(),
-                vec!["https://blossom.ditto.pub/".to_owned()],
             )
             .unwrap();
             let public_key = runner
@@ -1605,15 +1598,9 @@ mod tests {
             picture.to_owned()
         };
 
-        let mut restarted = LinuxRunner::open_live(
-            root.path(),
-            Vec::new(),
-            Vec::new(),
-            Vec::new(),
-            Vec::new(),
-            vec!["https://blossom.ditto.pub/".to_owned()],
-        )
-        .unwrap();
+        let mut restarted =
+            LinuxRunner::open_live(root.path(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
+                .unwrap();
         assert_eq!(
             restarted.get_read_identity().unwrap().as_deref(),
             Some("d60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7")
@@ -1899,10 +1886,7 @@ mod tests {
                 },
                 Box::new(ExactFixtureSource),
                 Box::new(AcceptSettings),
-                vec![
-                    linux_resource_provider(vec!["https://blossom.invalid/".to_owned()])
-                        .expect("Linux resource provider opens"),
-                ],
+                vec![linux_resource_provider().expect("Linux resource provider opens")],
             )
             .unwrap();
             let events = Arc::new(EventBuffer::default());
