@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 4683,
-      "sha256": "0e0fcccc8a778b483822019baf87354f3da2e8dbe255f5635d3b997f6c5b47f8"
+      "bytes": 4935,
+      "sha256": "c224df826d75ba26d6109e5e2a7223e979d8cbd3cfdcbe8d95d884e6121b08b4"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "056db73ebadad9e571d80e0d27665f4240be42de131781a225d8511a3aa93caf"
+      "sha256": "e216776639df0938d4062533bc1a4eb17eaafdd9a669b529563b26e4cfea8070"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 33902,
-      "sha256": "17f5d6ff1b48fbb34d33bbad5523b36fd951e25503f9c5048dc7226cc7cb5107"
+      "bytes": 34797,
+      "sha256": "eb98a46c17765bb30a9c8b759c7c6c5ce2b44da9dc1af0b88e05174de2b2a0e1"
     },
     {
       "path": "config/fallow.jsonc",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 3344,
-      "sha256": "c371952b93d0a92ac56b5691b5d72edeaef8d325492f977fc3df96ddff6e0eb1"
+      "bytes": 3538,
+      "sha256": "1398e4d77558554fee59ac7d4406a6f0e459b01823214120186962b343f718a7"
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 8605,
-      "sha256": "37fdbc529d8d9c67868e599df836fc423653c961057cacd5d4bd54f03b276faf"
+      "bytes": 9058,
+      "sha256": "b4e68bfa7ae2c28d70328986f96202fc856717e0a6ebefd4f1dd24db0c15f813"
     },
     {
       "path": "reports/nampplets-linux-map.md",

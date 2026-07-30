@@ -473,12 +473,18 @@ product_resource_config_commit = "6a2e0291a614e910c0579fb744d7a7684964f7b9"
 shell_reconciliation_commit = "8e16b4361aac171245c7b9f09b2645fba5ffa250"
 review_reconciliation_commit = "577c598968b5c24adf7347cb5cb786faa3d1e2c8"
 routed_envelope_chunk_commit = "eda1f41dcfb5251c561ee4ac650760543c8b9ef0"
+runtime_response_retention_commit = "bc105ff92b1ac0e82d21ba2c881d4180a4daafc6"
+pending_operation_retention_commit = "ac69aa71823f639b5ac499a4c2b168cbc584f859"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 maximum_routed_envelope_bytes = 104923136
 envelope_chunk_bytes = 262144
+maximum_buffered_event_bytes = 104988672
+maximum_pending_operations = 64
 frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
 routed_envelope_result = "pass: responses above 65536 bytes stream in ordered same-surface chunks within the unchanged frame ceiling; client validates offsets, total, completion, UTF-8, and the trusted-shell aggregate bound"
+runtime_response_retention_result = "pass: matched responses are consumed once; duplicate response debug text is dropped; count and aggregate-byte eviction are tested"
+pending_operation_retention_result = "pass: ambiguous replay IDs are capped at 64; deterministic frame, connect, and timeout-setup failures discard their entries"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -496,6 +502,8 @@ codex_review_round_11 = "addressed: move Blossom fallback-server selection out o
 codex_review_round_12 = "addressed: reconcile every pre-existing daemon surface before a fresh shell launches panes and retain an exact fail-closed retry list"
 codex_review_round_13 = "addressed: expose and cancel bounded pending reviews during fresh-shell reconciliation and retain typed retry entries after the second authoritative snapshot"
 codex_review_round_14 = "addressed: chunk large NAP-RESOURCE routed responses on the original socket connection without raising the 524288-byte control-frame ceiling"
+codex_review_round_15 = "addressed: consume matched runtime responses and enforce aggregate-byte eviction instead of retaining large resource envelopes by event count alone"
+codex_review_round_16 = "addressed: cap ambiguous client operations and discard deterministic pre-send failures instead of retaining them for shell lifetime"
 
 [gates]
 V_01 = "pass"
