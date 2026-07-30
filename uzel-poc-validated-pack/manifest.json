@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 3942,
-      "sha256": "c23b1b1bd00e36586b62d902dad544e64d2be653fcf97654417e9d99afe38d0b"
+      "bytes": 4242,
+      "sha256": "ec122bab68c3b6e31e77f83d12f0631c2f93b6bba4641a0d5931da10b308f19a"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "3674669a32c5a8bf4c194099e3ef1b119357c9b48c3b4da4945f985048e9ced3"
+      "sha256": "161080a2b2204615f0bb3b77c580e4528c8a28e15244761dfad5a0118abcfd8f"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 32403,
-      "sha256": "9bc48041875caa8869da2e879dd1688e1563e797b2b91c4f8603ee82df48700b"
+      "bytes": 32865,
+      "sha256": "0f260532a9d5071a63e70b39e28746227bff3cf28c9e22d033f838def3b0b017"
     },
     {
       "path": "config/fallow.jsonc",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 5961,
-      "sha256": "f0f4c81d4022d78435a66a27c6007f969c25d5f79b04266a63a504fb700f5147"
+      "bytes": 6922,
+      "sha256": "af82e844740b5b25c94d0a53dec58704945da19f8a031a5628f35f8f225fdf62"
     },
     {
       "path": "reports/nampplets-linux-map.md",

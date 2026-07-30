@@ -468,6 +468,8 @@ implementation_commit = "f85452be2b9c4817a8172ac615b35c0755738f50"
 cleanup_bridge_commit = "9650c01aa027de891abffbe83a563e46e7c68aa5"
 lifecycle_cleanup_commit = "c1c74b775ba877ffe4448ae32b69c63c3e4dcedb"
 catalog_replay_commit = "618dd7d6678318b0232fe1564745b528df7fdc9d"
+live_smoke_commit = "d3176ad7adaa37231dd329ab23467135a915621b"
+product_resource_config_commit = "6a2e0291a614e910c0579fb744d7a7684964f7b9"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
@@ -483,6 +485,8 @@ codex_review_round_6 = "addressed: stop every new catalog session on post-launch
 codex_review_round_7 = "addressed: retain failed base-pane stop tokens across identity changes and expose idempotent retry before reopening identity or catalog work"
 codex_review_round_8 = "addressed: retain one client operation ID across ambiguous review transport failures and replay the exact bounded daemon response"
 codex_review_round_9 = "addressed: retain one client operation ID across ambiguous confirmation transport failures so the launched surface is reconciled instead of duplicated"
+codex_review_round_10 = "addressed: use the exact current ignored live-identity test and reject a zero-test cargo success"
+codex_review_round_11 = "addressed: move Blossom fallback-server selection out of reusable napd and into product configuration; ordinary public HTTPS remains governed by upstream NAP-RESOURCE policy"
 
 [gates]
 V_01 = "pass"
