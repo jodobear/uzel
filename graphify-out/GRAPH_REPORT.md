@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-31)
 
 ## Corpus Check
-- 116 files · ~82,301 words
+- 116 files · ~83,253 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1108 nodes · 1813 edges · 100 communities (73 shown, 27 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
+- 1115 nodes · 1838 edges · 93 communities (66 shown, 27 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8e16b436`
+- Built from commit: `eda1f41d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,7 +22,6 @@
 - Tests, quality gates, and demo
 - Uzel POC agent instructions
 - POC architecture
-- Observed facts
 - POC documentation audit
 - Work 01 — scaffold
 - Work 00 — validate assumptions
@@ -79,7 +78,6 @@
 - 04-execution.md
 - Work 02 — Linux exact-build runner
 - lib.rs
-- POC architecture
 - Execution slices
 - Uzel single-repository POC
 - Work 03 — portable napplets
@@ -97,28 +95,23 @@
 - README.md
 - Verified facts
 - debian13-live-test.sh
-- Gate 0 preflight and Slice 01 decision
 - debian13-setup.sh
 - Work 02 — Linux exact-build runner
 - UnixClient
 - lib.rs
-- main.rs
-- Debian 13 live test
 - FACT-014-live-identity-catalog.md
-- Request
-- Response
 - Upstream contribution ledger
 
 ## God Nodes (most connected - your core abstractions)
-1. `LinuxRunner` - 43 edges
-2. `UnixClient` - 35 edges
+1. `LinuxRunner` - 44 edges
+2. `UnixClient` - 36 edges
 3. `RunnerError` - 29 edges
-4. `Response` - 20 edges
-5. `ClientError` - 18 edges
-6. `scripts` - 17 edges
-7. `HostileProbeState` - 15 edges
-8. `compilerOptions` - 15 edges
-9. `write_frame()` - 15 edges
+4. `Response` - 21 edges
+5. `ClientError` - 19 edges
+6. `write_frame()` - 17 edges
+7. `scripts` - 17 edges
+8. `HostileProbeState` - 15 edges
+9. `compilerOptions` - 15 edges
 10. `parse_options()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -136,7 +129,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (100 total, 27 thin omitted)
+## Communities (93 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.17
@@ -151,7 +144,7 @@ Cohesion: 0.06
 Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+29 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
@@ -166,13 +159,9 @@ Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository 
 Cohesion: 0.16
 Nodes (17): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE, preserve_failure(), preserve_logs(), report_marker(), report_marker_state() (+9 more)
 
-### Community 7 - "Observed facts"
-Cohesion: 0.22
-Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
-
 ### Community 8 - "POC documentation audit"
-Cohesion: 0.18
-Nodes (4): Uzel agent instructions, Development, Uzel, FACT-XXX — title
+Cohesion: 0.25
+Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
 
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.22
@@ -255,8 +244,8 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
 
 ### Community 47 - "lib.rs"
-Cohesion: 0.06
-Nodes (62): BTreeSet, Condvar, absent_surface_cleanup_is_idempotent(), artifact_base_url(), bounded_diagnostic(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), EventBuffer (+54 more)
+Cohesion: 0.05
+Nodes (63): BTreeSet, Condvar, absent_surface_cleanup_is_idempotent(), artifact_base_url(), bounded_diagnostic(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), EventBuffer (+55 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.25
@@ -291,8 +280,8 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.12
-Nodes (44): allowed_navigation(), cancel_napplet_review(), confirm_napplet(), ConfirmNappletError, default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe() (+36 more)
+Cohesion: 0.11
+Nodes (45): allowed_navigation(), cancel_napplet_review(), clean_token_snapshot(), confirm_napplet(), ConfirmNappletError, default_socket_path(), finish_hostile_probe(), forward_surface_envelope() (+37 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.25
@@ -303,24 +292,20 @@ Cohesion: 0.13
 Nodes (12): denied(), results, target, attemptRawWebKitInvoke(), boundedAttempt(), nativeSurface(), PROBE_NAMES, sentinelTargets() (+4 more)
 
 ### Community 66 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.22
+Cohesion: 0.25
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 67 - "lib.rs"
 Cohesion: 0.25
 Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
 
-### Community 68 - "POC architecture"
-Cohesion: 0.22
-Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
-
 ### Community 69 - "Execution slices"
 Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
 ### Community 70 - "Uzel single-repository POC"
-Cohesion: 0.33
-Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
+Cohesion: 0.18
+Nodes (7): Uzel agent instructions, Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 71 - "Work 03 — portable napplets"
 Cohesion: 0.33
@@ -335,7 +320,7 @@ Cohesion: 0.33
 Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 
 ### Community 79 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.40
+Cohesion: 0.33
 Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 80 - "Work 06 — hardening and demo acceptance"
@@ -355,16 +340,12 @@ Cohesion: 0.09
 Nodes (34): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+26 more)
 
 ### Community 87 - "Verified facts"
-Cohesion: 0.20
-Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
+Cohesion: 0.05
+Nodes (37): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+29 more)
 
 ### Community 88 - "debian13-live-test.sh"
 Cohesion: 0.20
 Nodes (13): CARGO_INCREMENTAL, CARGO_PROFILE_DEV_DEBUG, fail(), record_prebuild(), reexec_with_nix_group(), run_cache_probe(), run_startup_step(), debian13-live-test.sh script (+5 more)
-
-### Community 89 - "Gate 0 preflight and Slice 01 decision"
-Cohesion: 0.22
-Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
 ### Community 90 - "debian13-setup.sh"
 Cohesion: 0.46
@@ -375,28 +356,12 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
 ### Community 92 - "UnixClient"
-Cohesion: 0.24
-Nodes (11): ClientError, decode_asset_chunk(), FetchedSurface, PendingOperation, Arc, Box, BTreeMap, Mutex (+3 more)
+Cohesion: 0.08
+Nodes (51): CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_response_loss_replays_surface_without_a_second_operation(), decode_asset_chunk(), Diagnostics, encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface() (+43 more)
 
 ### Community 93 - "lib.rs"
-Cohesion: 0.13
-Nodes (26): active_daemon_socket_is_not_unlinked(), bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, exchange(), existing_shared_socket_parent_is_not_chmodded(), handle_stream() (+18 more)
-
-### Community 94 - "main.rs"
-Cohesion: 0.18
-Nodes (19): confirm_response_loss_replays_surface_without_a_second_operation(), encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), maximum_envelope_with_worst_case_json_escaping_fits_control_frame(), oversized_frame_is_rejected_before_body_read(), ProtocolError (+11 more)
-
-### Community 95 - "Debian 13 live test"
-Cohesion: 0.50
-Nodes (4): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test
-
-### Community 97 - "Request"
-Cohesion: 0.17
-Nodes (15): Request, AssetTransfer, DaemonState, InvalidOperationId, replay_cache_binds_operation_id_to_the_exact_confirm_request(), replay_cache_is_bounded_and_operation_ids_are_validated(), replay_key(), ReplayCache (+7 more)
-
-### Community 98 - "Response"
-Cohesion: 0.26
-Nodes (13): CatalogCapability, Diagnostics, NappletReview, next_operation_id(), RelayDiagnostic, Response, RoutedEnvelope, Option (+5 more)
+Cohesion: 0.11
+Nodes (37): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+29 more)
 
 ### Community 99 - "Upstream contribution ledger"
 Cohesion: 0.29
@@ -410,12 +375,12 @@ Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `Request`, `Response`, `lib.rs`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Why does `NappletReview` connect `Response` to `main.rs`, `UnixClient`, `Slice 02 preflight`, `lib.rs`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+- **Why does `LinuxRunner` connect `lib.rs` to `UnixClient`, `lib.rs`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Why does `NappletReview` connect `UnixClient` to `Slice 02 preflight`, `lib.rs`?**
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _405 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
