@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785448077.9601738,
-    "ast_hash": "a03816e2b2ead2caf2d5dbc0fa55c953",
+    "mtime": 1785449185.476096,
+    "ast_hash": "17b9e67c3b7e460f07bc70f0d771667f",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "contracts/evidence-refresh.test.mjs": {
-    "mtime": 1785449057.5977101,
-    "ast_hash": "c3eda6d996417cb849f01bebf3692d9c",
+    "mtime": 1785449302.2883618,
+    "ast_hash": "62e74d7d6c5e92c62e3cdbeb557b1625",
     "semantic_hash": ""
   },
   "apps/uzel/src/preferences.js": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785448078.1551762,
-    "ast_hash": "510daa870fc8094c598ed5deb5fe1a22",
+    "mtime": 1785449185.6750982,
+    "ast_hash": "71a0f7d5b2b9fed7bff2892d6a68eacc",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {
