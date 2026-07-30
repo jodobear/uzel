@@ -27,9 +27,9 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 
 ```text
 slice: accepted live-identity and signed-naddr extension
-commits: 98a5c35 through 5a0d9ae on feat/live-identity-ui
+commits: 98a5c35 through dc46326 on feat/live-identity-ui
 commands: pnpm check; pnpm lint; pnpm test; pnpm fallow; pnpm docs:check; exact ignored live identity and naddr tests; Playwright click/fault-injection tests; pnpm smoke:linux
-observable result: the supplied npub returns its canonical profile, at least 100 direct follows, and raster picture through NMP/native NAP-RESOURCE; cache-only restart retains the profile; a signed kind 35129 naddr freezes exact review evidence, enforces required capability consent, installs, launches, and cleans up a distinct exact-build session; cleanup failure keeps the session tracked and blocks identity/catalog changes until retry succeeds; real Weston/WebKit reports all runtime, source-binding, hostile-egress, and user-mode markers green
+observable result: the supplied npub returns its canonical profile, at least 100 direct follows, and raster picture through NMP/native NAP-RESOURCE; cache-only restart retains the profile; a signed kind 35129 naddr freezes exact review evidence, enforces required capability consent, installs, launches, and cleans up a distinct exact-build session; failed asset transfer attempts immediate surface cleanup and exposes the surface token if cleanup also fails; failed review cancellation retains retryable local state while stale runtime tokens close idempotently; cleanup failure keeps a loaded session tracked and blocks identity/catalog changes until retry succeeds; real Weston/WebKit reports all runtime, source-binding, hostile-egress, and user-mode markers green
 known limitation: the Linux resource provider returns a typed refusal for SVG. CSP plus the tested WebKit sandbox is a malicious-JavaScript boundary, not a browser-engine exploit boundary. The current Uzel pin remains d533a63d while nampplets PR #4 successor dc5e974 awaits fresh review and integrated repin validation; its cancellation wake path is finite, lifecycle-owned, and thread-free.
 next action: merge Uzel PR #8 only after exact-head Codex review is clean; repin nampplets PR #4 only after its fresh review and the exact live Linux probes pass again
 ```
