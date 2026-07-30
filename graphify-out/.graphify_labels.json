@@ -6,6 +6,7 @@
   "4": "Tests, quality gates, and demo",
   "5": "Uzel POC agent instructions",
   "6": "POC architecture",
+  "7": "Assumption validation and decision gates",
   "8": "POC documentation audit",
   "9": "Work 01 — scaffold",
   "10": "Work 00 — validate assumptions",
@@ -66,6 +67,7 @@
   "65": "04-execution.md",
   "66": "Work 02 — Linux exact-build runner",
   "67": "lib.rs",
+  "68": "POC architecture",
   "69": "Execution slices",
   "70": "Uzel single-repository POC",
   "71": "Work 03 — portable napplets",
@@ -86,10 +88,12 @@
   "86": "README.md",
   "87": "Verified facts",
   "88": "debian13-live-test.sh",
+  "89": "Gate 0 preflight and Slice 01 decision",
   "90": "debian13-setup.sh",
   "91": "Work 02 — Linux exact-build runner",
   "92": "UnixClient",
   "93": "lib.rs",
+  "94": "Debian 13 live test",
   "96": "FACT-014-live-identity-catalog.md",
   "99": "Upstream contribution ledger"
 }
