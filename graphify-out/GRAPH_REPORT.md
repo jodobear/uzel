@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-30)
 
 ## Corpus Check
-- 116 files · ~66,091 words
+- 116 files · ~66,370 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1056 nodes · 1642 edges · 97 communities (69 shown, 28 thin omitted)
+- 1058 nodes · 1644 edges · 96 communities (68 shown, 28 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0cce6436`
+- Built from commit: `b1856f77`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,7 +25,6 @@
 - Observed facts
 - POC documentation audit
 - Work 01 — scaffold
-- Work 00 — validate assumptions
 - Work 00 — validate assumptions
 - Slice 04 preflight — daemon, NMP, and persistence
 - Work 04 — daemon, NMP, and persistence
@@ -133,11 +132,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (97 total, 28 thin omitted)
+## Communities (96 total, 28 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
-Cohesion: 0.18
-Nodes (10): Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets, Stop rule (+2 more)
+Cohesion: 0.17
+Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -174,10 +173,6 @@ Nodes (9): Commands and observed results, Exact dependency and asset record, Nex
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.20
 Nodes (10): API and ownership evidence, Automated review corrections, Commands and observed results, Exact pins and fixtures, Hostile fixture scope, Manifest correction, Next step, Slice 03 preflight (+2 more)
-
-### Community 11 - "Work 00 — validate assumptions"
-Cohesion: 0.11
-Nodes (32): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+24 more)
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.25
@@ -240,7 +235,7 @@ Cohesion: 0.27
 Nodes (17): default_runtime_root(), default_socket_path(), live_relays_require_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
 
 ### Community 40 - "Post-POC extraction"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): First hardening follow-ups, Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 41 - "lib.rs"
@@ -296,7 +291,7 @@ Cohesion: 0.13
 Nodes (12): denied(), results, target, attemptRawWebKitInvoke(), boundedAttempt(), nativeSurface(), PROBE_NAMES, sentinelTargets() (+4 more)
 
 ### Community 66 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 67 - "lib.rs"
@@ -372,8 +367,8 @@ Cohesion: 0.22
 Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
 ### Community 93 - "lib.rs"
-Cohesion: 0.12
-Nodes (32): CatalogCapability, ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame() (+24 more)
+Cohesion: 0.06
+Nodes (64): CatalogCapability, ClientError, decode_asset_chunk(), Diagnostics, encode_asset_chunk(), FetchedSurface, frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame() (+56 more)
 
 ### Community 94 - "main.rs"
 Cohesion: 0.17
@@ -384,24 +379,24 @@ Cohesion: 0.25
 Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
 
 ## Knowledge Gaps
-- **404 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+399 more)
+- **405 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+400 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `Work 00 — validate assumptions`, `lib.rs`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`?**
   _High betweenness centrality (0.038) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `NappletReview` connect `lib.rs` to `main.rs`, `lib.rs`?**
   _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _404 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _405 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06219512195121951 - nodes in this community are weakly interconnected._
-- **Should `Work 00 — validate assumptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.11097560975609756 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.08888888888888889 - nodes in this community are weakly interconnected._
+- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
+  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._

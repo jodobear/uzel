@@ -1654,6 +1654,16 @@
       "norm_label": "app.svelte"
     },
     {
+      "label": "if()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L376",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_if",
+      "community": 38,
+      "norm_label": "if()"
+    },
+    {
       "label": "@tauri-apps/api/core",
       "file_type": "code",
       "source_file": "@tauri-apps/api/core",
@@ -2940,7 +2950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_src_lib",
-      "community": 47,
+      "community": 93,
       "norm_label": "lib.rs"
     },
     {
@@ -4450,7 +4460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_src_server",
-      "community": 11,
+      "community": 93,
       "norm_label": "server.rs"
     },
     {
@@ -4460,7 +4470,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "crates_napd_src_server_servererror",
-      "community": 11,
+      "community": 93,
       "norm_label": "servererror"
     },
     {
@@ -4470,7 +4480,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_error",
-      "community": 11,
+      "community": 93,
       "norm_label": "error"
     },
     {
@@ -4480,7 +4490,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_pathbuf",
-      "community": 11,
+      "community": 93,
       "norm_label": "pathbuf"
     },
     {
@@ -4490,7 +4500,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "crates_napd_src_server_assettransfer",
-      "community": 11,
+      "community": 93,
       "norm_label": "assettransfer"
     },
     {
@@ -4500,7 +4510,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_string",
-      "community": 11,
+      "community": 93,
       "norm_label": "string"
     },
     {
@@ -4510,7 +4520,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vec",
-      "community": 11,
+      "community": 93,
       "norm_label": "vec"
     },
     {
@@ -4520,7 +4530,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate",
-      "community": 11,
+      "community": 93,
       "norm_label": "daemonstate"
     },
     {
@@ -4530,7 +4540,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_btreemap",
-      "community": 11,
+      "community": 93,
       "norm_label": "btreemap"
     },
     {
@@ -4540,7 +4550,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_new",
-      "community": 11,
+      "community": 93,
       "norm_label": ".new()"
     },
     {
@@ -4550,7 +4560,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_self",
-      "community": 11,
+      "community": 93,
       "norm_label": "self"
     },
     {
@@ -4560,7 +4570,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_handle",
-      "community": 11,
+      "community": 93,
       "norm_label": ".handle()"
     },
     {
@@ -4570,7 +4580,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 11,
+      "community": 93,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -4580,7 +4590,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_stage_surface",
-      "community": 11,
+      "community": 93,
       "norm_label": ".stage_surface()"
     },
     {
@@ -4590,7 +4600,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_result",
-      "community": 11,
+      "community": 93,
       "norm_label": "result"
     },
     {
@@ -4600,7 +4610,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 11,
+      "community": 93,
       "norm_label": "surfacelaunch"
     },
     {
@@ -4610,7 +4620,7 @@
       "source_location": "L224",
       "_origin": "ast",
       "id": "crates_napd_src_server_runner_error",
-      "community": 11,
+      "community": 93,
       "norm_label": "runner_error()"
     },
     {
@@ -4620,7 +4630,7 @@
       "source_location": "L228",
       "_origin": "ast",
       "id": "crates_napd_src_server_bounded_detail",
-      "community": 11,
+      "community": 93,
       "norm_label": "bounded_detail()"
     },
     {
@@ -4630,7 +4640,7 @@
       "source_location": "L241",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonserver",
-      "community": 11,
+      "community": 93,
       "norm_label": "daemonserver"
     },
     {
@@ -4640,7 +4650,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unixlistener",
-      "community": 11,
+      "community": 93,
       "norm_label": "unixlistener"
     },
     {
@@ -4650,7 +4660,7 @@
       "source_location": "L249",
       "_origin": "ast",
       "id": "crates_napd_src_server_socketidentity",
-      "community": 11,
+      "community": 93,
       "norm_label": "socketidentity"
     },
     {
@@ -4660,7 +4670,7 @@
       "source_location": "L255",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonserver_bind",
-      "community": 11,
+      "community": 93,
       "norm_label": ".bind()"
     },
     {
@@ -4670,7 +4680,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_asref",
-      "community": 11,
+      "community": 93,
       "norm_label": "asref"
     },
     {
@@ -4680,7 +4690,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_path",
-      "community": 11,
+      "community": 93,
       "norm_label": "path"
     },
     {
@@ -4690,7 +4700,7 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonserver_serve",
-      "community": 11,
+      "community": 93,
       "norm_label": ".serve()"
     },
     {
@@ -4700,7 +4710,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_drop",
-      "community": 11,
+      "community": 93,
       "norm_label": "drop"
     },
     {
@@ -4710,7 +4720,7 @@
       "source_location": "L292",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonserver_drop",
-      "community": 11,
+      "community": 93,
       "norm_label": ".drop()"
     },
     {
@@ -4720,7 +4730,7 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "crates_napd_src_server_handle_stream",
-      "community": 11,
+      "community": 93,
       "norm_label": "handle_stream()"
     },
     {
@@ -4730,7 +4740,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unixstream",
-      "community": 11,
+      "community": 93,
       "norm_label": "unixstream"
     },
     {
@@ -4740,7 +4750,7 @@
       "source_location": "L323",
       "_origin": "ast",
       "id": "crates_napd_src_server_write_response",
-      "community": 11,
+      "community": 93,
       "norm_label": "write_response()"
     },
     {
@@ -4750,7 +4760,7 @@
       "source_location": "L342",
       "_origin": "ast",
       "id": "crates_napd_src_server_prepare_socket_parent",
-      "community": 11,
+      "community": 93,
       "norm_label": "prepare_socket_parent()"
     },
     {
@@ -4760,7 +4770,7 @@
       "source_location": "L367",
       "_origin": "ast",
       "id": "crates_napd_src_server_remove_owned_stale_socket",
-      "community": 11,
+      "community": 93,
       "norm_label": "remove_owned_stale_socket()"
     },
     {
@@ -4770,7 +4780,7 @@
       "source_location": "L410",
       "_origin": "ast",
       "id": "crates_napd_src_server_exchange",
-      "community": 11,
+      "community": 93,
       "norm_label": "exchange()"
     },
     {
@@ -4780,7 +4790,7 @@
       "source_location": "L417",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemon_serves_ordered_verified_asset_and_shuts_down",
-      "community": 11,
+      "community": 93,
       "norm_label": "daemon_serves_ordered_verified_asset_and_shuts_down()"
     },
     {
@@ -4790,7 +4800,7 @@
       "source_location": "L460",
       "_origin": "ast",
       "id": "crates_napd_src_server_server_drop_does_not_remove_a_replacement_socket",
-      "community": 11,
+      "community": 93,
       "norm_label": "server_drop_does_not_remove_a_replacement_socket()"
     },
     {
@@ -4800,7 +4810,7 @@
       "source_location": "L474",
       "_origin": "ast",
       "id": "crates_napd_src_server_socket_parent_symlink_is_refused",
-      "community": 11,
+      "community": 93,
       "norm_label": "socket_parent_symlink_is_refused()"
     },
     {
@@ -4810,7 +4820,7 @@
       "source_location": "L488",
       "_origin": "ast",
       "id": "crates_napd_src_server_active_daemon_socket_is_not_unlinked",
-      "community": 11,
+      "community": 93,
       "norm_label": "active_daemon_socket_is_not_unlinked()"
     },
     {
@@ -4820,7 +4830,7 @@
       "source_location": "L503",
       "_origin": "ast",
       "id": "crates_napd_src_server_existing_shared_socket_parent_is_not_chmodded",
-      "community": 11,
+      "community": 93,
       "norm_label": "existing_shared_socket_parent_is_not_chmodded()"
     },
     {
@@ -4830,7 +4840,7 @@
       "source_location": "L519",
       "_origin": "ast",
       "id": "crates_napd_src_server_incomplete_client_times_out_without_blocking_the_next_request",
-      "community": 11,
+      "community": 93,
       "norm_label": "incomplete_client_times_out_without_blocking_the_next_request()"
     },
     {
@@ -4840,7 +4850,7 @@
       "source_location": "L542",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemon_routes_inc_delivery_to_the_other_exact_surface",
-      "community": 11,
+      "community": 93,
       "norm_label": "daemon_routes_inc_delivery_to_the_other_exact_surface()"
     },
     {
@@ -4850,7 +4860,7 @@
       "source_location": "L598",
       "_origin": "ast",
       "id": "crates_napd_src_server_oversized_runtime_response_becomes_a_typed_error_frame",
-      "community": 11,
+      "community": 93,
       "norm_label": "oversized_runtime_response_becomes_a_typed_error_frame()"
     },
     {
@@ -8295,7 +8305,7 @@
       "label": "Two acceptance levels",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_two_acceptance_levels",
       "community": 0,
@@ -8305,7 +8315,7 @@
       "label": "Demo-complete",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L23",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_demo_complete",
       "community": 0,
@@ -8315,17 +8325,27 @@
       "label": "Foundation-complete",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L36",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_foundation_complete",
       "community": 0,
       "norm_label": "foundation-complete"
     },
     {
+      "label": "Accepted post-foundation extension",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_docs_00_scope_accepted_post_foundation_extension",
+      "community": 0,
+      "norm_label": "accepted post-foundation extension"
+    },
+    {
       "label": "Required napplets",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L50",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_required_napplets",
       "community": 0,
@@ -8335,7 +8355,7 @@
       "label": "Architectural invariants",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L60",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_architectural_invariants",
       "community": 0,
@@ -8345,7 +8365,7 @@
       "label": "Non-goals",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L71",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_non_goals",
       "community": 0,
@@ -8355,7 +8375,7 @@
       "label": "Stop rule",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L84",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_00_scope_stop_rule",
       "community": 0,
@@ -8838,7 +8858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_06_extraction",
-      "community": 40,
+      "community": 8,
       "norm_label": "06-extraction.md"
     },
     {
@@ -10098,7 +10118,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_06_preflight",
-      "community": 8,
+      "community": 66,
       "norm_label": "slice-06-preflight.md"
     },
     {
@@ -14203,6 +14223,16 @@
       "weight": 1.0,
       "source": "apps_uzel_src_tauri_tauri_conf_bundle",
       "target": "apps_uzel_src_tauri_tauri_conf_bundle_active",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L376",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app",
+      "target": "apps_uzel_src_app_if",
       "confidence_score": 1.0
     },
     {
@@ -23201,7 +23231,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L125",
+      "source_location": "L126",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main_openprofile",
       "target": "napplets_profile_card_src_main_renderprofile",
@@ -23223,7 +23253,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L109",
+      "source_location": "L110",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main_openprofile",
       "target": "napplets_profile_card_src_main_clearprofiledetails",
@@ -23245,7 +23275,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/profile-card/src/main.js",
-      "source_location": "L117",
+      "source_location": "L118",
       "weight": 1.0,
       "source": "napplets_profile_card_src_main_openprofile",
       "target": "napplets_profile_card_src_model_canonicalprofile",
@@ -25691,7 +25721,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L60",
+      "source_location": "L71",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_poc_scope_and_acceptance",
       "target": "uzel_poc_validated_pack_docs_00_scope_architectural_invariants",
@@ -25701,7 +25731,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L71",
+      "source_location": "L82",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_poc_scope_and_acceptance",
       "target": "uzel_poc_validated_pack_docs_00_scope_non_goals",
@@ -25721,7 +25751,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L50",
+      "source_location": "L61",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_poc_scope_and_acceptance",
       "target": "uzel_poc_validated_pack_docs_00_scope_required_napplets",
@@ -25731,7 +25761,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L84",
+      "source_location": "L95",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_poc_scope_and_acceptance",
       "target": "uzel_poc_validated_pack_docs_00_scope_stop_rule",
@@ -25741,7 +25771,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_poc_scope_and_acceptance",
       "target": "uzel_poc_validated_pack_docs_00_scope_two_acceptance_levels",
@@ -25761,7 +25791,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L23",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_docs_00_scope_two_acceptance_levels",
+      "target": "uzel_poc_validated_pack_docs_00_scope_accepted_post_foundation_extension",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
+      "source_location": "L25",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_two_acceptance_levels",
       "target": "uzel_poc_validated_pack_docs_00_scope_demo_complete",
@@ -25771,7 +25811,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/docs/00-scope.md",
-      "source_location": "L36",
+      "source_location": "L38",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_docs_00_scope_two_acceptance_levels",
       "target": "uzel_poc_validated_pack_docs_00_scope_foundation_complete",
@@ -28029,5 +28069,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0cce64369f8ff02b83d36098b63c1d86d6644ef8"
+  "built_at_commit": "b1856f775e1c923dc765f8f4efe81779ff8e0207"
 }
