@@ -60,7 +60,11 @@ bash scripts/debian13-live-test.sh headless
 This command also runs the setup inventory. If system dependencies are missing,
 it shows and asks approval for the exact change plan. After Nix is ready, it
 uses a non-mutating Nix dry run to show missing locked closure paths and asks
-approval before fetching locked flake inputs or realizing the closure. Use
+approval before fetching locked flake inputs or realizing the closure. Inside
+the locked shell, network-denied pnpm and Cargo probes separately verify their
+package caches. Missing package cache entries produce a second exact plan and
+approval prompt before either package manager may use the network. When both
+caches are complete, the actual install and build remain forced offline. Use
 `--yes` only for an explicitly approved unattended run.
 
 First run downloads the locked Nix closure and builds Rust dependencies. Later

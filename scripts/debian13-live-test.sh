@@ -150,6 +150,60 @@ forward_signal() {
 trap 'forward_signal INT 130' INT
 trap 'forward_signal TERM 143' TERM
 
+run_cache_probe() {
+  local probe_status
+  ACTIVE_CHILD_GROUP=1
+  setsid timeout --signal=TERM --kill-after=5s 30s "$@" >/dev/null 2>&1 &
+  ACTIVE_CHILD_PID=$!
+  set +e
+  wait "$ACTIVE_CHILD_PID"
+  probe_status=$?
+  set -e
+  ACTIVE_CHILD_PID=
+  ACTIVE_CHILD_GROUP=0
+  return "$probe_status"
+}
+
+MISSING_PACKAGE_CACHES=()
+if run_cache_probe env CI=1 pnpm install --offline --frozen-lockfile --ignore-scripts; then
+  PNPM_CACHE_READY=1
+else
+  PNPM_CACHE_READY=0
+  MISSING_PACKAGE_CACHES+=(pnpm)
+fi
+if run_cache_probe env CARGO_NET_OFFLINE=true cargo fetch --locked \
+  --target x86_64-unknown-linux-gnu; then
+  CARGO_CACHE_READY=1
+else
+  CARGO_CACHE_READY=0
+  MISSING_PACKAGE_CACHES+=(cargo)
+fi
+
+if (( ${#MISSING_PACKAGE_CACHES[@]} == 0 )); then
+  echo 'DEBIAN13_DEPENDENCY type=package-caches status=cached managers=pnpm,cargo'
+else
+  MISSING_CACHE_LIST=$(IFS=,; echo "${MISSING_PACKAGE_CACHES[*]}")
+  echo "DEBIAN13_DEPENDENCY type=package-caches status=missing managers=$MISSING_CACHE_LIST approval=required-by-live-test"
+  if (( ASSUME_YES == 0 )); then
+    [[ -t 0 ]] \
+      || fail 'package dependency approval requires interactive terminal; rerun with --yes for unattended fetch'
+    read -r -p "Fetch missing locked package dependencies ($MISSING_CACHE_LIST)? [y/N] " approval
+    case "$approval" in
+      y|Y|yes|YES) ;;
+      *) echo 'DEBIAN13_LIVE_CANCELLED no_package_dependencies_fetched'; exit 3 ;;
+    esac
+  fi
+fi
+
+PNPM_NETWORK_ARGS=()
+CARGO_COMMAND=(cargo)
+if (( PNPM_CACHE_READY == 1 )); then
+  PNPM_NETWORK_ARGS+=(--offline)
+fi
+if (( CARGO_CACHE_READY == 1 )); then
+  CARGO_COMMAND=(env CARGO_NET_OFFLINE=true cargo)
+fi
+
 record_prebuild() {
   local message=$1
   printf '%s\n' "$message"
@@ -200,13 +254,13 @@ run_startup_step() {
 }
 
 echo "DEBIAN13_TOOLCHAIN node=$(node --version) pnpm=$(pnpm --version) rustc=$(rustc --version | tr ' ' '-') tauri=$(cargo tauri --version | tr ' ' '-') weston=$(weston --version | tr ' ' '-')"
-run_startup_step pnpm-install pnpm install --frozen-lockfile
+run_startup_step pnpm-install env CI=1 pnpm install --frozen-lockfile "${PNPM_NETWORK_ARGS[@]}"
 run_startup_step pinned-assets bash scripts/check-pinned-assets.sh
 echo 'DEBIAN13_BUILD_BEGIN workspace=locked'
 export CARGO_INCREMENTAL=0
 export CARGO_PROFILE_DEV_DEBUG=0
 run_startup_step shell-build pnpm --filter @uzel/shell build
-run_startup_step workspace-build cargo build --workspace --locked
+run_startup_step workspace-build "${CARGO_COMMAND[@]}" build --workspace --locked
 echo 'DEBIAN13_BUILD_OK workspace=locked'
 
 if [[ "$MODE" == interactive ]]; then
