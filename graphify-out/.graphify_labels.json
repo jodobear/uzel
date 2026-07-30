@@ -83,12 +83,10 @@
   "81": "AcceptSettings",
   "82": "RelayDiagnosticsSink",
   "83": "FACT-011-daemon-nmp.md",
-  "84": "POC architecture",
   "85": "FACT-012-composed-demo.md",
   "86": "README.md",
   "87": "Verified facts",
   "88": "debian13-live-test.sh",
-  "89": "Gate 0 preflight and Slice 01 decision",
   "90": "debian13-setup.sh",
   "91": "Work 02 — Linux exact-build runner"
 }
