@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785431467.2136264,
-    "ast_hash": "c7e9314a8259b05c55f8f05968da7e26",
+    "mtime": 1785432565.1046722,
+    "ast_hash": "386c8de6ce7b36704be56affbc0549b5",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785431467.215435,
-    "ast_hash": "2360f781c1750f14c46f30b53a48c14b",
+    "mtime": 1785432565.1088347,
+    "ast_hash": "da8db8d257fcc84be7c4ac5cfd00a123",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785431458.9791844,
-    "ast_hash": "cdf69e2e3191e5ff39b67fc20aa09db6",
+    "mtime": 1785432552.853932,
+    "ast_hash": "0c7a246296f1c5b1088ec0dcbb18e666",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/08-upstream-contributions.md": {
-    "mtime": 1785431459.0701854,
-    "ast_hash": "2f7562d0117f7f5506b1aa5b1afd7564",
+    "mtime": 1785432468.1550229,
+    "ast_hash": "560822f27462218d32a10b1a36510342",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/probes/slice-01-fedora-failed/weston.txt": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/runner.rs": {
-    "mtime": 1785429710.8384004,
-    "ast_hash": "b67595bef10bf58e4baba16181eaefc6",
+    "mtime": 1785432365.6949232,
+    "ast_hash": "e7b69990f9c22414624a5a6994e0a280",
     "semantic_hash": ""
   },
   "fixtures/good-morning/event.json": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "scripts/check-napplet-imports.mjs": {
-    "mtime": 1785427646.8792126,
-    "ast_hash": "0b7ee4da587ad5b24a53665186521030",
+    "mtime": 1785432542.41682,
+    "ast_hash": "8914559d15a011f67ff656b58504e037",
     "semantic_hash": ""
   },
   "crates/napd/src/server.rs": {
@@ -640,8 +640,18 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785431459.1631863,
-    "ast_hash": "b9364f5132b879355d27da5e53800fbb",
+    "mtime": 1785432468.254024,
+    "ast_hash": "257ed21970024f0b8d1122c80d8f8309",
+    "semantic_hash": ""
+  },
+  "Screenshot_20260730_150325.png": {
+    "mtime": 1785420227.4639885,
+    "ast_hash": "4a8013fb11cd5a738497d739744a7371",
+    "semantic_hash": ""
+  },
+  "Screenshot_20260730_152029.png": {
+    "mtime": 1785421243.5159824,
+    "ast_hash": "d8ce2c20893b0607940082ed4bbbaa1e",
     "semantic_hash": ""
   }
 }

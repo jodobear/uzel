@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-30)
 
 ## Corpus Check
-- 116 files · ~66,370 words
+- 116 files · ~78,469 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1058 nodes · 1644 edges · 96 communities (68 shown, 28 thin omitted)
+- 1060 nodes · 1653 edges · 95 communities (68 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1856f77`
+- Built from commit: `7c626ede`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -78,7 +78,6 @@
 - 04-execution.md
 - Work 02 — Linux exact-build runner
 - lib.rs
-- Upstream contribution ledger
 - Execution slices
 - Uzel single-repository POC
 - Work 03 — portable napplets
@@ -107,7 +106,7 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 43 edges
-2. `RunnerError` - 27 edges
+2. `RunnerError` - 28 edges
 3. `UnixClient` - 22 edges
 4. `scripts` - 17 edges
 5. `compilerOptions` - 15 edges
@@ -132,7 +131,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (96 total, 28 thin omitted)
+## Communities (95 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.17
@@ -144,10 +143,10 @@ Nodes (18): boundedJSON(), compatibilityPreludeSource(), decodedBase64Length(), 
 
 ### Community 2 - "check-napplet-imports.mjs"
 Cohesion: 0.06
-Nodes (36): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+28 more)
+Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+29 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
@@ -165,6 +164,10 @@ Nodes (17): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE,
 ### Community 7 - "Observed facts"
 Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
+
+### Community 8 - "POC documentation audit"
+Cohesion: 0.14
+Nodes (9): Uzel agent instructions, Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger (+1 more)
 
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.22
@@ -235,7 +238,7 @@ Cohesion: 0.27
 Nodes (17): default_runtime_root(), default_socket_path(), live_relays_require_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
 
 ### Community 40 - "Post-POC extraction"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): First hardening follow-ups, Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 41 - "lib.rs"
@@ -244,7 +247,7 @@ Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work
 
 ### Community 47 - "lib.rs"
 Cohesion: 0.06
-Nodes (54): Condvar, artifact_base_url(), bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), hostile_probe_commits_exact_session_config_before_returning(), identity_query() (+46 more)
+Nodes (55): Condvar, artifact_base_url(), bounded_diagnostic(), EventBuffer, EventSink, eventually_identity_query(), hostile_probe_commits_exact_session_config_before_returning(), identity_query() (+47 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.25
@@ -280,7 +283,7 @@ Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact n
 
 ### Community 62 - "Slice 02 preflight"
 Cohesion: 0.12
-Nodes (23): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+15 more)
+Nodes (24): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately(), LiveProbe (+16 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.25
@@ -297,10 +300,6 @@ Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Fa
 ### Community 67 - "lib.rs"
 Cohesion: 0.25
 Nodes (8): Boundary result, Commands and observed results, Debian probe correction, Fedora probe correction, Locked workspace, Next step, Slice 01 preflight, Verdict
-
-### Community 68 - "Upstream contribution ledger"
-Cohesion: 0.29
-Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
 
 ### Community 69 - "Execution slices"
 Cohesion: 0.33
@@ -340,10 +339,10 @@ Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDi
 
 ### Community 84 - "resource.rs"
 Cohesion: 0.09
-Nodes (34): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+26 more)
+Nodes (33): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+25 more)
 
 ### Community 87 - "Verified facts"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 88 - "debian13-live-test.sh"
@@ -381,22 +380,22 @@ Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit accep
 ## Knowledge Gaps
 - **405 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+400 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `NappletReview` connect `lib.rs` to `main.rs`, `lib.rs`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _405 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.06219512195121951 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
+- **Should `POC documentation audit` be split into smaller, more focused modules?**
+  _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
 - **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
   _Cohesion score 0.08888888888888889 - nodes in this community are weakly interconnected._
-- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
