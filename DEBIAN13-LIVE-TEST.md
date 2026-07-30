@@ -115,7 +115,7 @@ Manual checklist:
 1. Uzel window opens and reaches `NAP-SHELL 2/2 READY`.
 2. Both exact-build hashes appear beneath the two panes.
 3. Enter an `npub` or 64-character hex public key and click `Use identity`.
-4. Follow pane refreshes from NMP and shows the identity's direct follows.
+4. Follow pane loads the latest-known NMP-backed direct follows.
 5. Select a follow; profile pane updates through `napplet:profile/open`.
 6. Toggle side-by-side/stacked, pane focus, resize, and fullscreen controls.
 7. Open `Developer`; confirm one NMP runtime, exact sessions, relay evidence,

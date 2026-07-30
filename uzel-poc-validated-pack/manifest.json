@@ -142,8 +142,8 @@
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
-      "bytes": 4579,
-      "sha256": "3bb9a821954a4e787ffaafb658161d30a07503552b28dd3451c62b9d17d193d0"
+      "bytes": 4685,
+      "sha256": "bc9e8d3a052ac5b5d52ec33cf7fa889558a89ceb55a5a779936a804ad08a246e"
     },
     {
       "path": "docs/facts/FACT-013-hostile-linux-boundary.md",
