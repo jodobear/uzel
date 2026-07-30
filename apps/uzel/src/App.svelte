@@ -568,7 +568,7 @@
   }
 
   function toggleGrantedDomain(domain: string, checked: boolean) {
-    if (confirmationAmbiguous) return;
+    if (catalogBusy || confirmationAmbiguous) return;
     const next = new Set(grantedDomains);
     checked ? next.add(domain) : next.delete(domain);
     grantedDomains = next;
@@ -1237,7 +1237,7 @@
             <section class="capability-review">
               <h3>Exact-build capabilities</h3>
               {#each nappletReview.capabilities as capability}
-                <label class="toggle-row"><input type="checkbox" disabled={confirmationAmbiguous !== null} checked={grantedDomains.has(capability.domain)} onchange={(event) => toggleGrantedDomain(capability.domain, event.currentTarget.checked)} /><span><strong>{capability.domain}</strong><small>{capability.required ? 'Required by verified artifact' : 'Optional'}</small></span></label>
+                <label class="toggle-row"><input type="checkbox" disabled={catalogBusy || confirmationAmbiguous !== null} checked={grantedDomains.has(capability.domain)} onchange={(event) => toggleGrantedDomain(capability.domain, event.currentTarget.checked)} /><span><strong>{capability.domain}</strong><small>{capability.required ? 'Required by verified artifact' : 'Optional'}</small></span></label>
               {:else}
                 <p>This artifact requests no capability domains.</p>
               {/each}
