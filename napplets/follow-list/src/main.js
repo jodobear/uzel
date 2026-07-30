@@ -7,8 +7,11 @@ import { directFollows, shortPubkey } from './model.js';
 
 const status = document.querySelector('#status');
 const list = document.querySelector('#follows');
+const refresh = document.querySelector('#refresh');
+let refreshGeneration = 0;
 
-function render(pubkeys) {
+function render(values) {
+  const pubkeys = directFollows(values);
   list.replaceChildren();
   for (const pubkey of pubkeys) {
     const item = document.createElement('li');
@@ -21,15 +24,28 @@ function render(pubkeys) {
     item.append(button);
     list.append(item);
   }
-  status.textContent = pubkeys.length === 0 ? 'No direct follows in current evidence.' : `${pubkeys.length} direct follows`;
+  status.textContent = pubkeys.length === 0
+    ? 'No direct follows in the latest-known NMP view.'
+    : `${pubkeys.length} latest-known direct follows`;
 }
 
-async function start() {
+async function loadFollows() {
+  const generation = ++refreshGeneration;
+  refresh.disabled = true;
+  status.textContent = 'Reading latest-known follows through NMP…';
   try {
-    render(directFollows(await identityGetFollows()));
+    const values = await identityGetFollows();
+    if (generation === refreshGeneration) {
+      render(values);
+    }
   } catch (error) {
-    status.textContent = `Identity unavailable: ${error instanceof Error ? error.message : String(error)}`;
+    if (generation === refreshGeneration) {
+      status.textContent = `Identity unavailable: ${error instanceof Error ? error.message : String(error)}`;
+    }
+  } finally {
+    if (generation === refreshGeneration) refresh.disabled = false;
   }
 }
 
-void start();
+refresh.addEventListener('click', () => void loadFollows());
+void loadFollows();

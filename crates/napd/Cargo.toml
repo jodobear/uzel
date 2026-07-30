@@ -7,10 +7,15 @@ license.workspace = true
 
 [dependencies]
 napd-protocol.workspace = true
+nmp-native-nap-bridge.workspace = true
+nmp-native-provider-resource.workspace = true
+nmp-native-runtime-core.workspace = true
 nmp-native-runtime-ffi.workspace = true
+reqwest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
+tokio.workspace = true
 url.workspace = true
 
 [dev-dependencies]

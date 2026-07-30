@@ -25,17 +25,17 @@ const GOOD_MORNING: FixtureDefinition = FixtureDefinition {
     artifact_base_url: "nmp-artifact://828a6df0-2afd-4678-a20f-805084acce65/",
     event: include_bytes!("../../../fixtures/good-morning/event.json"),
     index: include_bytes!("../../../fixtures/good-morning/index.html"),
-    domains: &["shell", "identity", "inc", "outbox"],
+    domains: &["shell", "identity", "inc", "outbox", "resource"],
 };
 
 const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
     name: "follow-list",
     title: "Direct follows",
-    author: "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+    author: "8dd2fc14f5d41e5b87d3de9baf3129398602a3d257a3d0c415f0841f0550a155",
     d_tag: "follow-list",
-    aggregate_hash: "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a",
-    index_digest: "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4",
-    artifact_base_url: "nmp-artifact://eaf4e565-642e-4cd0-95c8-f69bea832d39/",
+    aggregate_hash: "522e97dccfbf47d24074625e8ed0be83833d2f797a56ec8215d08ff9294cbb4d",
+    index_digest: "ecf5118afcb9d1dd218288445397ae596cf85d2d6ad7de57bb7097c8faf217ce",
+    artifact_base_url: "nmp-artifact://522e97dc-cfbf-47d2-8074-625e8ed0be83/",
     event: include_bytes!("../../../fixtures/follow-list/event.json"),
     index: include_bytes!("../../../fixtures/follow-list/index.html"),
     domains: &["shell", "identity", "inc"],
@@ -44,14 +44,14 @@ const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
 const PROFILE_CARD: FixtureDefinition = FixtureDefinition {
     name: "profile-card",
     title: "Profile card",
-    author: "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+    author: "8dd2fc14f5d41e5b87d3de9baf3129398602a3d257a3d0c415f0841f0550a155",
     d_tag: "profile-card",
-    aggregate_hash: "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
-    index_digest: "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63",
-    artifact_base_url: "nmp-artifact://9ee2d7bf-ebcd-4c56-9c8c-0e4641402e2d/",
+    aggregate_hash: "fa03cba781c3c61ccb0fce6c7ac69eaf4c903b1fadddb7ed44464393197cd873",
+    index_digest: "868a771fc87eeba3a501c356d7c170d54a1df3e89268919b6d72add239e28526",
+    artifact_base_url: "nmp-artifact://fa03cba7-81c3-461c-8b0f-ce6c7ac69eaf/",
     event: include_bytes!("../../../fixtures/profile-card/event.json"),
     index: include_bytes!("../../../fixtures/profile-card/index.html"),
-    domains: &["shell", "inc", "outbox"],
+    domains: &["shell", "identity", "inc", "outbox", "resource"],
 };
 
 const HOSTILE_EGRESS: FixtureDefinition = FixtureDefinition {
@@ -97,6 +97,43 @@ impl ArtifactSource for ExactFixtureSource {
             } else {
                 Vec::new()
             },
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn trusted_shell_artifact_url(value: &str) -> bool {
+        let Some(uuid) = value
+            .strip_prefix("nmp-artifact://")
+            .and_then(|value| value.strip_suffix('/'))
+        else {
+            return false;
+        };
+        let bytes = uuid.as_bytes();
+        bytes.len() == 36
+            && bytes[8] == b'-'
+            && bytes[13] == b'-'
+            && bytes[18] == b'-'
+            && bytes[23] == b'-'
+            && bytes[14] == b'4'
+            && matches!(bytes[19], b'8' | b'9' | b'a' | b'b')
+            && bytes
+                .iter()
+                .enumerate()
+                .all(|(index, byte)| matches!(index, 8 | 13 | 18 | 23) || byte.is_ascii_hexdigit())
+    }
+
+    #[test]
+    fn fixture_artifact_urls_match_the_trusted_shell_contract() {
+        for fixture in FIXTURES {
+            assert!(
+                trusted_shell_artifact_url(fixture.artifact_base_url),
+                "{} has an invalid artifact base URL",
+                fixture.name
+            );
         }
     }
 }

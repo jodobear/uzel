@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, VecDeque},
+    collections::{BTreeMap, BTreeSet, VecDeque},
     fs,
     io::Write,
     os::unix::fs::OpenOptionsExt,
@@ -8,23 +8,34 @@ use std::{
     time::{Duration, Instant},
 };
 
-use napd_protocol::{Diagnostics, RoutedEnvelope, SurfaceMetadata};
+use napd_protocol::{
+    CatalogCapability, Diagnostics, MAXIMUM_ENVELOPE_BYTES, MAXIMUM_ROUTED_ENVELOPE_BYTES,
+    NappletReview, RelayDiagnostic, RoutedEnvelope, SurfaceMetadata,
+};
 use nmp_native_runtime_ffi::{
-    ArtifactCoordinate, NativeConfigCommit, NativeSettingsExecutor, NativeSettingsOpenResult,
-    NativeSettingsRequest, RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent,
-    RuntimeExecutionProfile, RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame,
-    RuntimeObserver, RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
-    RuntimeRelayDiagnosticsSnapshot, RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
+    ArtifactCoordinate, ArtifactExecutionMode, NativeConfigCommit, NativeSettingsExecutor,
+    NativeSettingsOpenResult, NativeSettingsRequest, RuntimeAccountHandle, RuntimeConfig,
+    RuntimeController, RuntimeEvent, RuntimeExactBuildCoordinate, RuntimeExecutionProfile,
+    RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame, RuntimeObserver,
+    RuntimePermissionDecisionController, RuntimePermissionPlatformAvailability,
+    RuntimePermissionRequirement, RuntimePermissionSensitivity, RuntimeRelayAccess,
+    RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
+    RuntimeRelayDiagnosticsSnapshot, RuntimeRelayLane, RuntimeSensitivity, RuntimeSessionSnapshot,
+    RuntimeSnapshot, RuntimeSnapshotProjection, VerifiedRead,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::fixtures::{ExactFixtureSource, MAXIMUM_ACTIVE_FIXTURES, fixture_by_name};
+use crate::{
+    fixtures::{ExactFixtureSource, MAXIMUM_ACTIVE_FIXTURES, fixture_by_name},
+    resource::linux_resource_provider,
+};
 
-const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
-const RESPONSE_TIMEOUT: Duration = Duration::from_secs(2);
+const MAXIMUM_BUFFERED_EVENT_BYTES: usize = MAXIMUM_ROUTED_ENVELOPE_BYTES + MAXIMUM_ENVELOPE_BYTES;
+const MAXIMUM_PENDING_REVIEWS: usize = 4;
+const RESPONSE_TIMEOUT: Duration = Duration::from_secs(15);
 const PRODUCT_STATE_VERSION: u8 = 0;
 const MAXIMUM_PRODUCT_STATE_BYTES: u64 = 4_096;
 
@@ -97,6 +108,22 @@ impl RuntimeMode {
     }
 }
 
+fn relay_lane_name(lane: RuntimeRelayLane) -> &'static str {
+    match lane {
+        RuntimeRelayLane::Nip65Write => "nip65-write",
+        RuntimeRelayLane::Nip65Read => "nip65-read",
+        RuntimeRelayLane::Hint => "hint",
+        RuntimeRelayLane::Provenance => "provenance",
+        RuntimeRelayLane::UserConfigured => "user-configured",
+        RuntimeRelayLane::IndexerDiscovery => "indexer-discovery",
+        RuntimeRelayLane::GroupHost => "group-host",
+        RuntimeRelayLane::DmInbox => "dm-inbox",
+        RuntimeRelayLane::AppRelay => "app-relay",
+        RuntimeRelayLane::Fallback => "fallback",
+        RuntimeRelayLane::ExplicitPinned => "explicit-pinned",
+    }
+}
+
 #[derive(Debug, thiserror::Error)]
 pub enum RunnerError {
     #[error("runtime directory could not be created: {0}")]
@@ -119,6 +146,16 @@ pub enum RunnerError {
     UnknownFixture,
     #[error("active fixture capacity is {MAXIMUM_ACTIVE_FIXTURES}")]
     SurfaceCapacity,
+    #[error("pending napplet review capacity is {MAXIMUM_PENDING_REVIEWS}")]
+    ReviewCapacity,
+    #[error("catalog operation was refused: {0}")]
+    Catalog(String),
+    #[error("catalog confirmation did not match its frozen review")]
+    ReviewMismatch,
+    #[error("permission selection was refused: {0}")]
+    Permission(String),
+    #[error("catalog launch currently requires a verified single-file artifact")]
+    ExternalAssetsUnsupported,
     #[error("envelope exceeds the {MAXIMUM_ENVELOPE_BYTES}-byte host limit")]
     EnvelopeTooLarge,
     #[error("runtime produced no response before the bounded deadline")]
@@ -142,8 +179,42 @@ pub enum RunnerError {
 }
 
 #[derive(Debug, Default)]
+struct BufferedEvents {
+    events: VecDeque<RuntimeEvent>,
+    retained_bytes: usize,
+}
+
+impl BufferedEvents {
+    fn push(&mut self, mut event: RuntimeEvent, maximum_bytes: usize) {
+        if event.response_json.is_some() {
+            // Upstream diagnostic text includes the response debug rendering.
+            // The structured response is authoritative; do not retain a second
+            // copy of a potentially large NAP-RESOURCE payload.
+            event.detail = String::new();
+        }
+        self.retained_bytes = self.retained_bytes.saturating_add(event_bytes(&event));
+        self.events.push_back(event);
+        while self.events.len() > MAXIMUM_BUFFERED_EVENTS || self.retained_bytes > maximum_bytes {
+            let Some(expired) = self.events.pop_front() else {
+                self.retained_bytes = 0;
+                break;
+            };
+            self.retained_bytes = self.retained_bytes.saturating_sub(event_bytes(&expired));
+        }
+    }
+}
+
+fn event_bytes(event: &RuntimeEvent) -> usize {
+    event
+        .kind
+        .len()
+        .saturating_add(event.detail.len())
+        .saturating_add(event.response_json.as_ref().map_or(0, String::len))
+}
+
+#[derive(Debug, Default)]
 struct EventBuffer {
-    events: Mutex<VecDeque<RuntimeEvent>>,
+    events: Mutex<BufferedEvents>,
     changed: Condvar,
 }
 
@@ -152,6 +223,7 @@ impl EventBuffer {
         self.events
             .lock()
             .expect("event buffer poisoned")
+            .events
             .back()
             .map_or(0, |event| event.sequence)
     }
@@ -181,25 +253,22 @@ impl EventBuffer {
         let deadline = Instant::now() + RESPONSE_TIMEOUT;
         let mut events = self.events.lock().expect("event buffer poisoned");
         loop {
-            if let Some(response) = events.iter().find_map(|event| {
-                (event.sequence > cursor
+            if let Some(index) = events.events.iter().position(|event| {
+                event.sequence > cursor
                     && event
                         .session_id
-                        .is_some_and(|session_id| session_ids.contains(&session_id)))
-                .then(|| {
-                    event
-                        .response_json
-                        .as_deref()
-                        .filter(|response| matches(response))
-                })
-                .flatten()
-                .and_then(|response| {
-                    event
-                        .session_id
-                        .map(|session_id| (session_id, response.to_owned()))
-                })
+                        .is_some_and(|session_id| session_ids.contains(&session_id))
+                    && event.response_json.as_deref().is_some_and(&matches)
             }) {
-                return Some(response);
+                let event = events
+                    .events
+                    .remove(index)
+                    .expect("matched buffered event exists");
+                events.retained_bytes = events.retained_bytes.saturating_sub(event_bytes(&event));
+                if let (Some(session_id), Some(response)) = (event.session_id, event.response_json)
+                {
+                    return Some((session_id, response));
+                }
             }
             let now = Instant::now();
             if now >= deadline {
@@ -227,10 +296,7 @@ impl RuntimeObserver for EventSink {
         }
         let mut events = self.0.events.lock().expect("event buffer poisoned");
         for event in frame.events {
-            if events.len() == MAXIMUM_BUFFERED_EVENTS {
-                events.pop_front();
-            }
-            events.push_back(event);
+            events.push(event, MAXIMUM_BUFFERED_EVENT_BYTES);
         }
         self.0.changed.notify_all();
     }
@@ -258,6 +324,7 @@ pub struct LinuxRunner {
     relay_observation: Arc<RuntimeRelayDiagnosticsObservation>,
     events: Arc<EventBuffer>,
     surfaces: BTreeMap<String, (u64, SurfaceLaunch)>,
+    pending_reviews: BTreeMap<String, NappletReview>,
     mode: RuntimeMode,
     state_path: std::path::PathBuf,
     next_surface_generation: u64,
@@ -311,7 +378,8 @@ impl LinuxRunner {
     ) -> Result<Self, RunnerError> {
         let runtime_root = runtime_root.as_ref();
         fs::create_dir_all(runtime_root).map_err(RunnerError::RuntimeDirectory)?;
-        let controller = RuntimeController::open_with_settings(
+        let resource_provider = linux_resource_provider().map_err(RunnerError::RuntimeOpen)?;
+        let controller = RuntimeController::open_with_settings_and_rust_providers(
             RuntimeConfig {
                 runtime_store_path: runtime_root.join("runtime.sqlite3").display().to_string(),
                 nmp_store_path: Some(runtime_root.join("nmp.redb").display().to_string()),
@@ -324,6 +392,7 @@ impl LinuxRunner {
             },
             Box::new(ExactFixtureSource),
             Box::new(UnavailableSettings),
+            vec![resource_provider],
         )
         .map_err(|error| RunnerError::RuntimeOpen(error.to_string()))?;
         let events = Arc::new(EventBuffer::default());
@@ -349,6 +418,7 @@ impl LinuxRunner {
             relay_observation,
             events,
             surfaces: BTreeMap::new(),
+            pending_reviews: BTreeMap::new(),
             mode,
             state_path: runtime_root.join("uzel-state.json"),
             next_surface_generation: 0,
@@ -366,6 +436,10 @@ impl LinuxRunner {
 
     pub fn active_surfaces(&self) -> Vec<String> {
         self.surfaces.keys().cloned().collect()
+    }
+
+    pub fn pending_review_tokens(&self) -> Vec<String> {
+        self.pending_reviews.keys().cloned().collect()
     }
 
     pub fn get_read_identity(&self) -> Result<Option<String>, RunnerError> {
@@ -557,9 +631,328 @@ impl LinuxRunner {
             observing_relays: relay.observing,
             relays: relay.relays.len() as u64,
             omitted_relays: relay.omitted_relays,
+            uncovered_authors: relay.uncovered_author_count,
+            rejected_private_relays: relay.discovered_private_relays_rejected,
+            sessions_rejected_over_cap: relay.sessions_rejected_over_cap,
+            relay_details: relay
+                .relays
+                .into_iter()
+                .map(|relay| RelayDiagnostic {
+                    relay: relay.relay,
+                    access: match relay.access {
+                        RuntimeRelayAccess::Public => "public".to_owned(),
+                        RuntimeRelayAccess::Nip42 { public_key } => {
+                            format!("nip42:{}…", &public_key[..public_key.len().min(12)])
+                        }
+                    },
+                    wire_subscriptions: relay.wire_subscription_count,
+                    authors_served: relay.authors_served,
+                    lanes: relay
+                        .lanes
+                        .into_iter()
+                        .map(|lane| {
+                            format!("{}:{}", relay_lane_name(lane.lane), lane.wire_subscriptions)
+                        })
+                        .collect(),
+                    events_by_kind: relay
+                        .events_by_kind
+                        .into_iter()
+                        .map(|kind| format!("{}:{}", kind.kind, kind.events))
+                        .collect(),
+                    nip11_freshness: relay.nip11_freshness,
+                    nip11_last_error: relay.nip11_last_error,
+                })
+                .collect(),
             store_degraded: bounded_diagnostic(relay.store_degraded),
             transport_degraded: bounded_diagnostic(relay.transport_degraded),
         })
+    }
+
+    pub fn review_napplet(&mut self, coordinate: String) -> Result<NappletReview, RunnerError> {
+        if self.pending_reviews.len() == MAXIMUM_PENDING_REVIEWS {
+            return Err(RunnerError::ReviewCapacity);
+        }
+        let result = self.controller.catalog_review_manual(coordinate);
+        let review = result.review.ok_or_else(|| {
+            RunnerError::Catalog(result.failure.map_or_else(
+                || "catalog returned no review or refusal".to_owned(),
+                |failure| format!("{}: {}", failure.code, failure.detail),
+            ))
+        })?;
+        let d_tag = review
+            .d_tag
+            .ok_or_else(|| RunnerError::Catalog("named napplet review has no d-tag".to_owned()))?;
+        let blocker = review
+            .install_eligibility
+            .blocker
+            .map(|failure| format!("{}: {}", failure.code, failure.detail));
+        let projected = NappletReview {
+            token: review.token,
+            event_id: review.event_id,
+            coordinate: review.coordinate,
+            manifest_author: review.manifest_author,
+            d_tag,
+            title: review
+                .title
+                .unwrap_or_else(|| "Untitled napplet".to_owned()),
+            description: review.description,
+            aggregate_hash: review.aggregate_hash,
+            capabilities: review
+                .capabilities
+                .into_iter()
+                .map(|capability| CatalogCapability {
+                    domain: capability.domain,
+                    required: matches!(
+                        capability.requirement,
+                        RuntimePermissionRequirement::Required
+                    ),
+                })
+                .collect(),
+            blob_sources: review.blob_sources,
+            provenance: review
+                .provenance
+                .into_iter()
+                .map(|fact| format!("{} · {:?}", fact.source, fact.state))
+                .collect(),
+            can_install: review.install_eligibility.can_install,
+            blocker,
+        };
+        self.pending_reviews
+            .insert(projected.token.clone(), projected.clone());
+        Ok(projected)
+    }
+
+    pub fn cancel_napplet_review(&mut self, token: &str) -> Result<(), RunnerError> {
+        if !self.pending_reviews.contains_key(token) {
+            return Ok(());
+        }
+        let result = self.controller.catalog_cancel_review(token.to_owned());
+        let terminal = catalog_cancellation_is_terminal(
+            result.cancelled,
+            result.failure.as_ref().map(|failure| failure.code.as_str()),
+        );
+        if terminal {
+            self.pending_reviews.remove(token);
+            Ok(())
+        } else {
+            Err(RunnerError::Catalog(result.failure.map_or_else(
+                || "catalog did not cancel the review".to_owned(),
+                |failure| format!("{}: {}", failure.code, failure.detail),
+            )))
+        }
+    }
+
+    pub fn confirm_napplet(
+        &mut self,
+        token: String,
+        expected_author: String,
+        expected_d_tag: String,
+        expected_aggregate_hash: String,
+        granted_domains: Vec<String>,
+    ) -> Result<SurfaceLaunch, RunnerError> {
+        if self.surfaces.len() == MAXIMUM_ACTIVE_FIXTURES {
+            return Err(RunnerError::SurfaceCapacity);
+        }
+        let review = self
+            .pending_reviews
+            .get(&token)
+            .cloned()
+            .ok_or_else(|| RunnerError::Catalog("review token is not pending".to_owned()))?;
+        if !review.can_install {
+            return Err(RunnerError::Catalog(review.blocker.unwrap_or_else(|| {
+                "runtime marked this review ineligible".to_owned()
+            })));
+        }
+        if review.manifest_author != expected_author
+            || review.d_tag != expected_d_tag
+            || review.aggregate_hash != expected_aggregate_hash
+        {
+            return Err(RunnerError::ReviewMismatch);
+        }
+        let granted = granted_domains.iter().cloned().collect::<BTreeSet<_>>();
+        if granted.len() != granted_domains.len()
+            || granted.iter().any(|domain| {
+                !review
+                    .capabilities
+                    .iter()
+                    .any(|capability| capability.domain == *domain)
+            })
+        {
+            return Err(RunnerError::Permission(
+                "selection contains duplicate or unrequested domains".to_owned(),
+            ));
+        }
+        let missing_required = review
+            .capabilities
+            .iter()
+            .filter(|capability| capability.required && !granted.contains(&capability.domain))
+            .map(|capability| capability.domain.clone())
+            .collect::<Vec<_>>();
+        if !missing_required.is_empty() {
+            return Err(RunnerError::Permission(format!(
+                "required capabilities were not approved: {}",
+                missing_required.join(", ")
+            )));
+        }
+
+        let result = self.controller.catalog_confirm_install(
+            token.clone(),
+            expected_author.clone(),
+            expected_d_tag.clone(),
+            expected_aggregate_hash.clone(),
+        );
+        self.pending_reviews.remove(&token);
+        let artifact = result.artifact.ok_or_else(|| {
+            RunnerError::Catalog(result.failure.map_or_else(
+                || "catalog returned no verified artifact or refusal".to_owned(),
+                |failure| format!("{}: {}", failure.code, failure.detail),
+            ))
+        })?;
+        let confirmation = result.confirmation.ok_or_else(|| {
+            RunnerError::Catalog("catalog returned no frozen confirmation".to_owned())
+        })?;
+        if confirmation.manifest_author != expected_author
+            || confirmation.d_tag.as_deref() != Some(expected_d_tag.as_str())
+            || confirmation.aggregate_hash != expected_aggregate_hash
+            || artifact.author() != expected_author
+            || artifact.d_tag().as_deref() != Some(expected_d_tag.as_str())
+            || artifact.aggregate_hash() != expected_aggregate_hash
+        {
+            return Err(RunnerError::ReviewMismatch);
+        }
+        if !matches!(artifact.mode(), ArtifactExecutionMode::SingleFile) {
+            return Err(RunnerError::ExternalAssetsUnsupported);
+        }
+
+        let exact = RuntimeExactBuildCoordinate {
+            manifest_author: expected_author.clone(),
+            d_tag: expected_d_tag.clone(),
+            aggregate_hash: expected_aggregate_hash.clone(),
+        };
+        let permission = self.controller.permission_review(exact.clone());
+        let permission = permission.review.ok_or_else(|| {
+            RunnerError::Permission(permission.refusal.map_or_else(
+                || "runtime returned no permission review".to_owned(),
+                |refusal| refusal.detail,
+            ))
+        })?;
+        for capability in permission.capabilities {
+            if !matches!(
+                capability.controller,
+                RuntimePermissionDecisionController::User
+            ) || !matches!(
+                capability.platform_availability,
+                RuntimePermissionPlatformAvailability::Available
+            ) {
+                continue;
+            }
+            if !granted.contains(&capability.domain) {
+                self.controller
+                    .revoke(Arc::clone(&artifact), capability.domain);
+                continue;
+            }
+            let sensitivity = match capability.sensitivity {
+                RuntimePermissionSensitivity::Ordinary => RuntimeSensitivity::Ordinary,
+                RuntimePermissionSensitivity::Sensitive => RuntimeSensitivity::Sensitive,
+                RuntimePermissionSensitivity::Unknown => {
+                    return Err(RunnerError::Permission(format!(
+                        "runtime did not classify capability sensitivity: {}",
+                        capability.domain
+                    )));
+                }
+            };
+            let decision = capability.recommended_decision.ok_or_else(|| {
+                RunnerError::Permission(format!(
+                    "runtime offered no affirmative decision for {}",
+                    capability.domain
+                ))
+            })?;
+            if !matches!(
+                decision,
+                RuntimeGrantDecision::AllowSession | RuntimeGrantDecision::AllowExactBuild
+            ) {
+                return Err(RunnerError::Permission(format!(
+                    "runtime refused an affirmative decision for {}",
+                    capability.domain
+                )));
+            }
+            self.controller.set_grant(
+                Arc::clone(&artifact),
+                capability.domain,
+                sensitivity,
+                decision,
+            );
+        }
+        let admitted = self.controller.permission_review(exact);
+        let admitted = admitted.review.ok_or_else(|| {
+            RunnerError::Permission(admitted.refusal.map_or_else(
+                || "runtime returned no post-decision permission review".to_owned(),
+                |refusal| refusal.detail,
+            ))
+        })?;
+        if !admitted.launch_permitted {
+            return Err(RunnerError::Permission(
+                "runtime permission review did not permit launch".to_owned(),
+            ));
+        }
+
+        self.next_surface_generation = self
+            .next_surface_generation
+            .checked_add(1)
+            .ok_or(RunnerError::SurfaceGenerationExhausted)?;
+        self.persist_product_state()
+            .map_err(StatePersistFailure::into_runner)?;
+        let existing_session_ids = match self.controller.snapshot() {
+            RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
+                .sessions
+                .into_iter()
+                .map(|session| session.id)
+                .collect::<BTreeSet<_>>(),
+            RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                return Err(RunnerError::Verification(refusal.detail));
+            }
+        };
+        let artifact_base_url = artifact_base_url(self.next_surface_generation)?;
+        self.controller
+            .launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
+        let snapshot = match self.controller.snapshot() {
+            RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
+            RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                self.controller.close();
+                self.surfaces.clear();
+                return Err(RunnerError::Verification(format!(
+                    "post-launch snapshot was refused, so the runtime was closed to stop the unidentifiable session: {}",
+                    refusal.detail
+                )));
+            }
+        };
+        let session = reconcile_launched_session(
+            &self.controller,
+            snapshot,
+            &existing_session_ids,
+            &expected_author,
+            &expected_d_tag,
+            &expected_aggregate_hash,
+        )?;
+        let artifact_html = read_launched_document(
+            &self.controller,
+            session.id,
+            MAXIMUM_VERIFIED_DOCUMENT_BYTES,
+        )?;
+        let launch = SurfaceLaunch {
+            surface_token: format!("uzel-catalog-generation-{}", self.next_surface_generation),
+            artifact_base_url,
+            artifact_html,
+            title: review.title,
+            author: expected_author,
+            d_tag: expected_d_tag,
+            aggregate_hash: expected_aggregate_hash,
+            domains: session.domains,
+            unavailable_domains: session.unavailable_domains,
+        };
+        self.surfaces
+            .insert(launch.surface_token.clone(), (session.id, launch.clone()));
+        Ok(launch)
     }
 
     pub fn start_fixture(&mut self) -> Result<SurfaceLaunch, RunnerError> {
@@ -605,12 +998,52 @@ impl LinuxRunner {
             return Err(RunnerError::IdentityMismatch);
         }
         self.controller.install(Arc::clone(&artifact));
-        for domain in fixture.domains {
+        let exact = RuntimeExactBuildCoordinate {
+            manifest_author: fixture.author.to_owned(),
+            d_tag: fixture.d_tag.to_owned(),
+            aggregate_hash: fixture.aggregate_hash.to_owned(),
+        };
+        let permission = self.controller.permission_review(exact);
+        let permission = permission.review.ok_or_else(|| {
+            RunnerError::Permission(permission.refusal.map_or_else(
+                || "runtime returned no fixture permission review".to_owned(),
+                |refusal| refusal.detail,
+            ))
+        })?;
+        for capability in permission.capabilities {
+            if !fixture.domains.contains(&capability.domain.as_str())
+                || !matches!(
+                    capability.controller,
+                    RuntimePermissionDecisionController::User
+                )
+                || !matches!(
+                    capability.platform_availability,
+                    RuntimePermissionPlatformAvailability::Available
+                )
+            {
+                continue;
+            }
+            let sensitivity = match capability.sensitivity {
+                RuntimePermissionSensitivity::Ordinary => RuntimeSensitivity::Ordinary,
+                RuntimePermissionSensitivity::Sensitive => RuntimeSensitivity::Sensitive,
+                RuntimePermissionSensitivity::Unknown => {
+                    return Err(RunnerError::Permission(format!(
+                        "runtime did not classify fixture capability sensitivity: {}",
+                        capability.domain
+                    )));
+                }
+            };
+            let decision = capability.recommended_decision.ok_or_else(|| {
+                RunnerError::Permission(format!(
+                    "runtime offered no affirmative fixture decision for {}",
+                    capability.domain
+                ))
+            })?;
             self.controller.set_grant(
                 Arc::clone(&artifact),
-                (*domain).to_owned(),
-                RuntimeSensitivity::Ordinary,
-                RuntimeGrantDecision::AllowExactBuild,
+                capability.domain,
+                sensitivity,
+                decision,
             );
         }
         self.controller
@@ -631,18 +1064,11 @@ impl LinuxRunner {
                     && session.state.starts_with("running")
             })
             .ok_or(RunnerError::SessionMissing)?;
-        let artifact_html = match self.controller.read_verified(
+        let artifact_html = read_launched_document(
+            &self.controller,
             session.id,
-            "/index.html".to_owned(),
             MAXIMUM_VERIFIED_DOCUMENT_BYTES,
-        ) {
-            VerifiedRead::Bytes { bytes, .. } => {
-                String::from_utf8(bytes).map_err(RunnerError::DocumentEncoding)?
-            }
-            VerifiedRead::Refused { refusal } => {
-                return Err(RunnerError::VerifiedRead(refusal.detail));
-            }
-        };
+        )?;
         let surface_name = if fixture.name == "good-morning" {
             "surface-1"
         } else {
@@ -738,13 +1164,70 @@ impl LinuxRunner {
     }
 
     pub fn stop_fixture(&mut self, surface_token: &str) -> Result<(), RunnerError> {
-        let (session_id, _) = self
-            .surfaces
-            .remove(surface_token)
-            .ok_or(RunnerError::UnknownSurface)?;
+        let Some((session_id, _)) = self.surfaces.remove(surface_token) else {
+            return Ok(());
+        };
         self.controller.stop(session_id);
         Ok(())
     }
+}
+
+fn reconcile_launched_session(
+    controller: &RuntimeController,
+    snapshot: RuntimeSnapshot,
+    existing_session_ids: &BTreeSet<u64>,
+    expected_author: &str,
+    expected_d_tag: &str,
+    expected_aggregate_hash: &str,
+) -> Result<RuntimeSessionSnapshot, RunnerError> {
+    let mut created = snapshot
+        .sessions
+        .into_iter()
+        .filter(|session| !existing_session_ids.contains(&session.id))
+        .collect::<Vec<_>>();
+    let exact = created.len() == 1
+        && created[0].author == expected_author
+        && created[0].d_tag == expected_d_tag
+        && created[0].aggregate_hash == expected_aggregate_hash
+        && created[0].state.starts_with("running");
+    if exact {
+        return Ok(created.remove(0));
+    }
+    for session in created {
+        controller.stop(session.id);
+    }
+    Err(RunnerError::SessionMissing)
+}
+
+fn catalog_cancellation_is_terminal(cancelled: bool, failure_code: Option<&str>) -> bool {
+    cancelled || failure_code == Some("stale-review")
+}
+
+fn read_launched_document(
+    controller: &RuntimeController,
+    session_id: u64,
+    maximum_bytes: u64,
+) -> Result<String, RunnerError> {
+    let result = match controller.read_verified(session_id, "/index.html".to_owned(), maximum_bytes)
+    {
+        VerifiedRead::Bytes { bytes, .. } => {
+            String::from_utf8(bytes).map_err(RunnerError::DocumentEncoding)
+        }
+        VerifiedRead::Refused { refusal } => Err(RunnerError::VerifiedRead(refusal.detail)),
+    };
+    if result.is_err() {
+        controller.stop(session_id);
+    }
+    result
+}
+
+fn artifact_base_url(generation: u64) -> Result<String, RunnerError> {
+    if generation > 0xffff_ffff_ffff {
+        return Err(RunnerError::SurfaceGenerationExhausted);
+    }
+    Ok(format!(
+        "nmp-artifact://00000000-0000-4000-8000-{generation:012x}/"
+    ))
 }
 
 fn validate_sentinel_url(value: &str) -> Result<(), RunnerError> {
@@ -842,12 +1325,7 @@ impl Drop for LinuxRunner {
 
 #[cfg(test)]
 mod tests {
-    use std::{
-        net::{TcpListener, TcpStream},
-        os::unix::fs::symlink,
-        process::{Child, Command, Stdio},
-        thread,
-    };
+    use std::{os::unix::fs::symlink, thread};
 
     use nmp_native_runtime_ffi::{
         NativeConfigCommit, NativeSettingsExecutor, NativeSettingsOpenResult, NativeSettingsRequest,
@@ -860,53 +1338,285 @@ mod tests {
     const GOOD_MORNING_AUTHOR: &str =
         "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5";
     const LIVE_IDENTITY: &str = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798";
+    const PUBLIC_TEST_IDENTITY: &str =
+        "npub16c9a45p5dr6l3jzmrvgdh9m7xy994tatxd6sm7kmxaygkq4lertsfnacfm";
+    const LIVE_GOOD_MORNING_NADDR: &str = "naddr1qqxxwmm0vskk6mmjde5kuecpzemhxue69uhhyetvv9ujuurjd9kkzmpwdejhgq3qye5ptcxfyyxl5vjvdjar2ua3f0hynkjzpx552mu5snj3qmx5pzjsxpqqqzynjsul3vr";
+
+    fn response_event(sequence: u64, response: &str) -> RuntimeEvent {
+        RuntimeEvent {
+            sequence,
+            kind: "envelope-handled".to_owned(),
+            detail: format!("duplicated response: {response}"),
+            session_id: Some(7),
+            response_json: Some(response.to_owned()),
+        }
+    }
+
+    #[test]
+    fn buffered_responses_are_byte_bounded_and_consumed_once() {
+        let mut bounded = BufferedEvents::default();
+        bounded.push(response_event(1, "12345678"), 40);
+        bounded.push(response_event(2, "abcdefgh"), 40);
+        assert_eq!(bounded.events.len(), 1);
+        assert_eq!(bounded.events.front().unwrap().sequence, 2);
+        assert_eq!(bounded.events.front().unwrap().detail, "");
+        assert!(bounded.retained_bytes <= 40);
+
+        let buffer = EventBuffer::default();
+        buffer
+            .events
+            .lock()
+            .unwrap()
+            .push(response_event(3, r#"{"id":"resource"}"#), 1_024);
+        assert_eq!(
+            buffer.response_after(2, 7).as_deref(),
+            Some(r#"{"id":"resource"}"#)
+        );
+        let retained = buffer.events.lock().unwrap();
+        assert!(retained.events.is_empty());
+        assert_eq!(retained.retained_bytes, 0);
+    }
+
+    #[test]
+    fn catalog_surface_base_is_a_bounded_trusted_shell_uuid() {
+        assert_eq!(
+            artifact_base_url(42).unwrap(),
+            "nmp-artifact://00000000-0000-4000-8000-00000000002a/"
+        );
+        assert!(artifact_base_url(0x1_0000_0000_0000).is_err());
+    }
+
+    #[test]
+    fn catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens() {
+        assert!(!catalog_cancellation_is_terminal(false, Some("busy")));
+        assert!(!catalog_cancellation_is_terminal(false, None));
+        assert!(catalog_cancellation_is_terminal(true, None));
+        assert!(catalog_cancellation_is_terminal(
+            false,
+            Some("stale-review")
+        ));
+
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        let token = "locally-pending-runtime-stale".to_owned();
+        runner.pending_reviews.insert(
+            token.clone(),
+            NappletReview {
+                token: token.clone(),
+                event_id: "event".to_owned(),
+                coordinate: "naddr".to_owned(),
+                manifest_author: "a".repeat(64),
+                d_tag: "test".to_owned(),
+                title: "Test".to_owned(),
+                description: None,
+                aggregate_hash: "b".repeat(64),
+                capabilities: Vec::new(),
+                blob_sources: Vec::new(),
+                provenance: Vec::new(),
+                can_install: false,
+                blocker: Some("test-only stale review".to_owned()),
+            },
+        );
+        runner.cancel_napplet_review(&token).unwrap();
+        assert!(!runner.pending_reviews.contains_key(&token));
+        runner.cancel_napplet_review(&token).unwrap();
+    }
+
+    #[test]
+    fn pending_review_tokens_are_sorted_bounded_and_reconcilable() {
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        for token in ["review-d", "review-b", "review-c", "review-a"] {
+            runner.pending_reviews.insert(
+                token.to_owned(),
+                NappletReview {
+                    token: token.to_owned(),
+                    event_id: "event".to_owned(),
+                    coordinate: "naddr".to_owned(),
+                    manifest_author: "a".repeat(64),
+                    d_tag: "test".to_owned(),
+                    title: "Test".to_owned(),
+                    description: None,
+                    aggregate_hash: "b".repeat(64),
+                    capabilities: Vec::new(),
+                    blob_sources: Vec::new(),
+                    provenance: Vec::new(),
+                    can_install: false,
+                    blocker: Some("test-only review".to_owned()),
+                },
+            );
+        }
+        assert_eq!(
+            runner.pending_review_tokens(),
+            ["review-a", "review-b", "review-c", "review-d"]
+        );
+        assert!(matches!(
+            runner.review_napplet("naddr-over-cap".to_owned()),
+            Err(RunnerError::ReviewCapacity)
+        ));
+        runner.cancel_napplet_review("review-b").unwrap();
+        assert_eq!(
+            runner.pending_review_tokens(),
+            ["review-a", "review-c", "review-d"]
+        );
+    }
+
+    #[test]
+    fn absent_surface_cleanup_is_idempotent() {
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        runner.stop_fixture("already-stopped").unwrap();
+        runner.stop_fixture("already-stopped").unwrap();
+    }
+
+    #[test]
+    #[ignore = "requires public relay and HTTPS artifact access"]
+    fn public_naddr_reviews_confirms_and_launches_exact_single_file() {
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open_live(
+            root.path(),
+            Vec::new(),
+            vec!["wss://purplepag.es".to_owned(), "wss://nos.lol".to_owned()],
+            Vec::new(),
+            Vec::new(),
+        )
+        .unwrap();
+        let review = runner
+            .review_napplet(LIVE_GOOD_MORNING_NADDR.to_owned())
+            .unwrap();
+        assert_eq!(review.manifest_author, GOOD_MORNING_AUTHOR);
+        assert_eq!(review.d_tag, "good-morning");
+        assert_eq!(
+            review.aggregate_hash,
+            "828a6df02afd56782ea20f805084acce65c53f7c37554948c1e0a64aa5a2b0a8"
+        );
+        assert!(review.can_install);
+        let granted_domains = review
+            .capabilities
+            .iter()
+            .map(|capability| capability.domain.clone())
+            .collect();
+        let launch = runner
+            .confirm_napplet(
+                review.token,
+                review.manifest_author,
+                review.d_tag,
+                review.aggregate_hash,
+                granted_domains,
+            )
+            .unwrap();
+        assert_eq!(launch.title, "Good Morning Protocol");
+        assert!(launch.artifact_html.contains("Good Morning"));
+        assert!(!launch.domains.is_empty());
+
+        let first_session = runner.surfaces[&launch.surface_token].0;
+        let second_review = runner
+            .review_napplet(LIVE_GOOD_MORNING_NADDR.to_owned())
+            .unwrap();
+        let second = runner
+            .confirm_napplet(
+                second_review.token,
+                second_review.manifest_author,
+                second_review.d_tag,
+                second_review.aggregate_hash,
+                second_review
+                    .capabilities
+                    .into_iter()
+                    .map(|capability| capability.domain)
+                    .collect(),
+            )
+            .unwrap();
+        assert_ne!(runner.surfaces[&second.surface_token].0, first_session);
+    }
+
+    #[test]
+    #[ignore = "requires public relay and HTTPS profile-image access"]
+    fn public_identity_profile_follows_and_picture_cross_only_native_providers() {
+        let root = TempDir::new().unwrap();
+        let cached_picture = {
+            let mut runner = LinuxRunner::open_live(
+                root.path(),
+                vec!["wss://purplepag.es".to_owned()],
+                vec!["wss://purplepag.es".to_owned(), "wss://nos.lol".to_owned()],
+                Vec::new(),
+                Vec::new(),
+            )
+            .unwrap();
+            let public_key = runner
+                .set_read_identity(PUBLIC_TEST_IDENTITY.to_owned())
+                .unwrap();
+            assert_eq!(
+                public_key,
+                "d60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7"
+            );
+            let launch = runner.start_named_fixture("profile-card").unwrap();
+            assert!(launch.domains.iter().any(|domain| domain == "resource"));
+            assert!(launch.unavailable_domains.is_empty());
+            let shell = runner
+                .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
+                .unwrap();
+            assert_eq!(
+                serde_json::from_str::<Value>(&shell.envelope).unwrap()["type"],
+                "shell.init"
+            );
+
+            let profile = eventually_identity_query(&runner, &launch, "getProfile", |response| {
+                response["profile"]["picture"]
+                    .as_str()
+                    .is_some_and(|picture| picture.starts_with("https://"))
+            });
+            let picture = profile["profile"]["picture"].as_str().unwrap();
+            assert!(profile["profile"]["name"].is_string());
+
+            let follows = eventually_identity_query(&runner, &launch, "getFollows", |response| {
+                response["pubkeys"]
+                    .as_array()
+                    .is_some_and(|pubkeys| pubkeys.len() >= 100)
+            });
+            assert!(follows["pubkeys"].as_array().unwrap().len() >= 100);
+
+            let request = serde_json::json!({
+                "type": "resource.bytes",
+                "id": "public-profile-picture",
+                "url": picture,
+            });
+            let response = runner
+                .forward_from_surface(&launch.surface_token, request.to_string().as_bytes())
+                .unwrap();
+            let resource = serde_json::from_str::<Value>(&response.envelope).unwrap();
+            assert_eq!(resource["type"], "resource.bytes.result");
+            assert!(
+                resource["mime"]
+                    .as_str()
+                    .is_some_and(|mime| mime.starts_with("image/"))
+            );
+            assert!(
+                resource["blob"]
+                    .as_str()
+                    .is_some_and(|blob| blob.len() > 1_024)
+            );
+            picture.to_owned()
+        };
+
+        let mut restarted =
+            LinuxRunner::open_live(root.path(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
+                .unwrap();
+        assert_eq!(
+            restarted.get_read_identity().unwrap().as_deref(),
+            Some("d60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7")
+        );
+        let launch = launch_identity_surface(&mut restarted);
+        let cached = identity_query(&restarted, &launch, "getProfile", "cached-profile");
+        assert_eq!(cached["profile"]["picture"], cached_picture);
+    }
 
     #[derive(Debug)]
     struct AcceptSettings;
-
-    struct RelayProcess(Child);
-
-    impl Drop for RelayProcess {
-        fn drop(&mut self) {
-            let _ = self.0.kill();
-            let _ = self.0.wait();
-        }
-    }
 
     impl NativeSettingsExecutor for AcceptSettings {
         fn try_open(&self, _request: NativeSettingsRequest) -> NativeSettingsOpenResult {
             NativeSettingsOpenResult::Accepted
         }
-    }
-
-    fn start_fixture_relay() -> (RelayProcess, String) {
-        let reservation = TcpListener::bind("127.0.0.1:0").unwrap();
-        let port = reservation.local_addr().unwrap().port();
-        drop(reservation);
-        let events =
-            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../fixtures/nostr/live-events.jsonl");
-        let port_string = port.to_string();
-        let events_string = events.display().to_string();
-        let child = Command::new("nak")
-            .args([
-                "serve",
-                "--hostname",
-                "127.0.0.1",
-                "--port",
-                &port_string,
-                "--events",
-                &events_string,
-            ])
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn()
-            .expect("nak is installed for the explicit live NMP probe");
-        let deadline = Instant::now() + Duration::from_secs(3);
-        while TcpStream::connect(("127.0.0.1", port)).is_err() {
-            assert!(Instant::now() < deadline, "nak fixture relay did not bind");
-            thread::sleep(Duration::from_millis(20));
-        }
-        (RelayProcess(child), format!("ws://127.0.0.1:{port}"))
     }
 
     fn launch_identity_surface(runner: &mut LinuxRunner) -> SurfaceLaunch {
@@ -940,7 +1650,7 @@ mod tests {
         action: &str,
         accepts: impl Fn(&Value) -> bool,
     ) -> Value {
-        let deadline = Instant::now() + Duration::from_secs(3);
+        let deadline = Instant::now() + Duration::from_secs(15);
         let mut attempt = 0_u64;
         loop {
             let response =
@@ -950,7 +1660,8 @@ mod tests {
             }
             assert!(
                 Instant::now() < deadline,
-                "NMP live refresh did not satisfy identity.{action}: {response}"
+                "NMP live refresh did not satisfy identity.{action}: {response}; diagnostics={:?}",
+                runner.diagnostics()
             );
             attempt += 1;
             thread::sleep(Duration::from_millis(50));
@@ -980,8 +1691,11 @@ mod tests {
             launch.aggregate_hash,
             fixture_by_name("good-morning").unwrap().aggregate_hash
         );
-        assert_eq!(launch.domains, ["identity", "inc", "outbox", "shell"]);
-        assert_eq!(launch.unavailable_domains, ["link", "resource", "theme"]);
+        assert_eq!(
+            launch.domains,
+            ["identity", "inc", "outbox", "resource", "shell"]
+        );
+        assert_eq!(launch.unavailable_domains, ["link", "theme"]);
 
         let response = runner
             .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
@@ -993,7 +1707,7 @@ mod tests {
                 .as_array()
                 .unwrap()
                 .len(),
-            4
+            5
         );
     }
 
@@ -1142,66 +1856,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "requires the installed nak executable and loopback sockets"]
-    fn live_nmp_refreshes_then_restarts_cache_first_without_a_second_cache() {
-        let temp = TempDir::new().unwrap();
-        let (relay, relay_url) = start_fixture_relay();
-        {
-            let mut runner = LinuxRunner::open_live(
-                temp.path(),
-                Vec::new(),
-                Vec::new(),
-                vec![relay_url.clone()],
-                vec!["127.0.0.1".to_owned()],
-            )
-            .unwrap();
-            assert_eq!(
-                runner.set_read_identity(LIVE_IDENTITY.to_owned()).unwrap(),
-                LIVE_IDENTITY
-            );
-            let launch = launch_identity_surface(&mut runner);
-            let profile = eventually_identity_query(&runner, &launch, "getProfile", |response| {
-                response["profile"]["name"] == "Alice"
-            });
-            assert_eq!(profile["type"], "identity.getProfile.result");
-            assert_eq!(profile["profile"]["name"], "Alice");
-            assert_eq!(profile["profile"]["displayName"], "Alice A.");
-            assert_eq!(profile["profile"]["about"], "canonical");
-            let follows = eventually_identity_query(&runner, &launch, "getFollows", |response| {
-                response["pubkeys"]
-                    .as_array()
-                    .is_some_and(|items| items.len() == 2)
-            });
-            assert_eq!(follows["type"], "identity.getFollows.result");
-            assert_eq!(
-                follows["pubkeys"],
-                serde_json::json!([
-                    "04c915daefee38317fa734444acee390a8269fe5810b2241e5e6dd343dfbecc9",
-                    "5d14b37435f05775bad136df0c51ccdcdc6f96482f0fea8404eeaf29ca5a8846"
-                ])
-            );
-        }
-        drop(relay);
-
-        let mut runner = LinuxRunner::open_live(
-            temp.path(),
-            Vec::new(),
-            Vec::new(),
-            vec![relay_url],
-            vec!["127.0.0.1".to_owned()],
-        )
-        .unwrap();
-        assert_eq!(
-            runner.get_read_identity().unwrap().as_deref(),
-            Some(LIVE_IDENTITY)
-        );
-        let launch = launch_identity_surface(&mut runner);
-        let cached = identity_query(&runner, &launch, "getProfile", "cached-profile");
-        assert_eq!(cached["profile"]["name"], "Alice");
-        assert_eq!(cached["profile"]["about"], "canonical");
-    }
-
-    #[test]
     fn payload_identity_cannot_select_surface_or_session() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
@@ -1223,7 +1877,7 @@ mod tests {
         for name in ["follow-list", "profile-card", "hostile-egress"] {
             let fixture = fixture_by_name(name).unwrap();
             let temp = TempDir::new().unwrap();
-            let controller = RuntimeController::open_with_settings(
+            let controller = RuntimeController::open_with_settings_and_rust_providers(
                 RuntimeConfig {
                     runtime_store_path: temp.path().join("runtime.sqlite3").display().to_string(),
                     nmp_store_path: None,
@@ -1232,6 +1886,7 @@ mod tests {
                 },
                 Box::new(ExactFixtureSource),
                 Box::new(AcceptSettings),
+                vec![linux_resource_provider().expect("Linux resource provider opens")],
             )
             .unwrap();
             let events = Arc::new(EventBuffer::default());
@@ -1265,7 +1920,7 @@ mod tests {
                     RuntimeGrantDecision::AllowExactBuild,
                 );
             }
-            controller.launch(artifact, RuntimeExecutionProfile::Legacy);
+            controller.launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
             let session = match controller.snapshot() {
                 RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
                     .sessions
@@ -1320,6 +1975,65 @@ mod tests {
                 VerifiedRead::Bytes { bytes, .. } => assert_eq!(bytes, fixture.index),
                 VerifiedRead::Refused { refusal } => panic!("verified read refused: {refusal:?}"),
             }
+            assert!(matches!(
+                read_launched_document(&controller, session.id, 1),
+                Err(RunnerError::VerifiedRead(_))
+            ));
+            let still_running = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => {
+                    snapshot.sessions.iter().any(|candidate| {
+                        candidate.id == session.id && candidate.state.starts_with("running")
+                    })
+                }
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("post-cleanup snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(!still_running, "failed document read must stop its session");
+
+            let existing_session_ids = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
+                    .sessions
+                    .into_iter()
+                    .map(|session| session.id)
+                    .collect::<BTreeSet<_>>(),
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("pre-regression snapshot refused: {}", refusal.detail)
+                }
+            };
+            controller.launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
+            let snapshot = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("regression snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(matches!(
+                reconcile_launched_session(
+                    &controller,
+                    snapshot,
+                    &existing_session_ids,
+                    "wrong-author",
+                    fixture.d_tag,
+                    fixture.aggregate_hash,
+                ),
+                Err(RunnerError::SessionMissing)
+            ));
+            let leaked = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => {
+                    snapshot.sessions.iter().any(|candidate| {
+                        !existing_session_ids.contains(&candidate.id)
+                            && candidate.state.starts_with("running")
+                    })
+                }
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("post-reconciliation snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(
+                !leaked,
+                "failed session refinement must stop every new session"
+            );
             controller.close();
         }
     }

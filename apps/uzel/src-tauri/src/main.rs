@@ -1,8 +1,15 @@
 #![forbid(unsafe_code)]
 
-use std::{env, path::PathBuf};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    env,
+    path::PathBuf,
+};
 
-use napd_protocol::{Diagnostics, FetchedSurface, Request, Response, RoutedEnvelope, UnixClient};
+use napd_protocol::{
+    ClientError, Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope,
+    UnixClient,
+};
 use serde::Serialize;
 use tauri::Manager;
 
@@ -24,16 +31,90 @@ struct SurfaceLaunch {
     unavailable_domains: Vec<String>,
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ConfirmNappletError {
+    kind: &'static str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    surface_token: Option<String>,
+    detail: String,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ReviewNappletError {
+    kind: &'static str,
+    detail: String,
+}
+
+impl From<ClientError> for ReviewNappletError {
+    fn from(error: ClientError) -> Self {
+        match error {
+            ClientError::AmbiguousOperation(error) => Self {
+                kind: "reviewAmbiguous",
+                detail: error.to_string(),
+            },
+            error => Self {
+                kind: "refused",
+                detail: error.to_string(),
+            },
+        }
+    }
+}
+
+impl From<ClientError> for ConfirmNappletError {
+    fn from(error: ClientError) -> Self {
+        match error {
+            ClientError::TransferCleanupFailed {
+                surface_token,
+                transfer_error,
+                cleanup_error,
+            } => Self {
+                kind: "cleanupRequired",
+                surface_token: Some(surface_token),
+                detail: format!(
+                    "asset transfer failed ({transfer_error}); cleanup also failed ({cleanup_error})"
+                ),
+            },
+            ClientError::AmbiguousOperation(error) => Self {
+                kind: "confirmationAmbiguous",
+                surface_token: None,
+                detail: error.to_string(),
+            },
+            error => Self {
+                kind: "refused",
+                surface_token: None,
+                detail: error.to_string(),
+            },
+        }
+    }
+}
+
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct RuntimeStatus {
     mode: String,
     active_surfaces: Vec<String>,
+    pending_reviews: Vec<String>,
     active_identity: Option<String>,
 }
 
-#[tauri::command]
-fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus, String> {
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeCleanupFailure {
+    kind: &'static str,
+    token: String,
+    detail: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeReconciliation {
+    runtime: RuntimeStatus,
+    cleanup_failures: Vec<RuntimeCleanupFailure>,
+}
+
+fn read_runtime_status(client: &UnixClient) -> Result<RuntimeStatus, String> {
     match client
         .request(&Request::Status)
         .map_err(|error| error.to_string())?
@@ -41,15 +122,101 @@ fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus,
         Response::Status {
             mode,
             active_surfaces,
+            pending_reviews,
             active_identity,
             ..
         } => Ok(RuntimeStatus {
             mode,
             active_surfaces,
+            pending_reviews,
             active_identity,
         }),
         _ => Err("daemon returned an unexpected status response".to_owned()),
     }
+}
+
+#[tauri::command]
+fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus, String> {
+    read_runtime_status(&client)
+}
+
+fn clean_token_snapshot(
+    tokens: &[String],
+    mut clean: impl FnMut(&str) -> Result<(), String>,
+) -> BTreeMap<String, String> {
+    let mut failures = BTreeMap::new();
+    for token in tokens.iter().collect::<BTreeSet<_>>() {
+        if let Err(error) = clean(token) {
+            failures.insert(token.clone(), error);
+        }
+    }
+    failures
+}
+
+fn remaining_cleanup_failures(
+    kind: &'static str,
+    tokens: &[String],
+    attempted_failures: &BTreeMap<String, String>,
+    default_detail: &'static str,
+) -> Vec<RuntimeCleanupFailure> {
+    tokens
+        .iter()
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .map(|token| RuntimeCleanupFailure {
+            kind,
+            token: token.clone(),
+            detail: attempted_failures
+                .get(token)
+                .cloned()
+                .unwrap_or_else(|| default_detail.to_owned()),
+        })
+        .collect()
+}
+
+#[tauri::command]
+fn reconcile_runtime(
+    client: tauri::State<'_, UnixClient>,
+    hostile_state: tauri::State<'_, HostileProbeState>,
+) -> Result<RuntimeReconciliation, String> {
+    // A fresh renderer owns none of the daemon's existing surfaces or reviews.
+    // Clean each exact initial snapshot, then use a second status read as the
+    // authoritative result for ambiguous replies.
+    hostile_state.cancel();
+    let before = read_runtime_status(&client)?;
+    let surface_failures = clean_token_snapshot(&before.active_surfaces, |surface_token| {
+        client
+            .stop_fixture(surface_token)
+            .map_err(|error| error.to_string())
+    });
+    let review_failures = clean_token_snapshot(&before.pending_reviews, |token| {
+        client
+            .cancel_napplet_review(token)
+            .map_err(|error| error.to_string())
+    });
+    let runtime = read_runtime_status(&client)?;
+    let mut cleanup_failures = remaining_cleanup_failures(
+        "surface",
+        &runtime.active_surfaces,
+        &surface_failures,
+        "daemon still reports the surface after cleanup",
+    );
+    cleanup_failures.extend(remaining_cleanup_failures(
+        "review",
+        &runtime.pending_reviews,
+        &review_failures,
+        "daemon still reports the review after cancellation",
+    ));
+    if runtime.active_surfaces.is_empty()
+        && runtime.pending_reviews.is_empty()
+        && cleanup_failures.is_empty()
+    {
+        client.retire_catalog_operations();
+    }
+    Ok(RuntimeReconciliation {
+        runtime,
+        cleanup_failures,
+    })
 }
 
 #[tauri::command]
@@ -94,6 +261,55 @@ fn start_fixture(
     project_surface(fetched)
 }
 
+#[tauri::command]
+fn review_napplet(
+    client: tauri::State<'_, UnixClient>,
+    coordinate: String,
+) -> Result<NappletReview, ReviewNappletError> {
+    client
+        .review_napplet(&coordinate)
+        .map_err(ReviewNappletError::from)
+}
+
+#[tauri::command]
+fn cancel_napplet_review(
+    client: tauri::State<'_, UnixClient>,
+    token: String,
+) -> Result<(), String> {
+    client
+        .cancel_napplet_review(&token)
+        .map_err(|error| error.to_string())
+}
+
+#[tauri::command]
+fn confirm_napplet(
+    client: tauri::State<'_, UnixClient>,
+    token: String,
+    expected_author: String,
+    expected_d_tag: String,
+    expected_aggregate_hash: String,
+    granted_domains: Vec<String>,
+) -> Result<SurfaceLaunch, ConfirmNappletError> {
+    let fetched = client
+        .confirm_napplet(
+            &token,
+            &expected_author,
+            &expected_d_tag,
+            &expected_aggregate_hash,
+            granted_domains,
+        )
+        .map_err(ConfirmNappletError::from)?;
+    println!(
+        "UZEL_CATALOG_VERIFIED author={} d_tag={} aggregate={}",
+        fetched.surface.author, fetched.surface.d_tag, fetched.surface.aggregate_hash
+    );
+    project_surface(fetched).map_err(|detail| ConfirmNappletError {
+        kind: "refused",
+        surface_token: None,
+        detail,
+    })
+}
+
 fn project_surface(fetched: FetchedSurface) -> Result<SurfaceLaunch, String> {
     let artifact_html = String::from_utf8(fetched.artifact_bytes)
         .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
@@ -130,9 +346,7 @@ fn start_hostile_probe(
     };
     if let Err(error) = state.attach(&sentinel_url, &fetched.surface.surface_token) {
         state.cancel();
-        let _ = client.request(&Request::StopFixture {
-            surface_token: fetched.surface.surface_token,
-        });
+        let _ = client.stop_fixture(&fetched.surface.surface_token);
         return Err(error);
     }
     println!(
@@ -147,14 +361,15 @@ fn start_hostile_probe(
 }
 
 #[tauri::command]
-fn stop_fixture(client: tauri::State<'_, UnixClient>, surface_token: String) -> Result<(), String> {
-    match client
-        .request(&Request::StopFixture { surface_token })
-        .map_err(|error| error.to_string())?
-    {
-        Response::Stopped => Ok(()),
-        _ => Err("daemon returned an unexpected stop response".to_owned()),
-    }
+fn stop_fixture(
+    client: tauri::State<'_, UnixClient>,
+    hostile_state: tauri::State<'_, HostileProbeState>,
+    surface_token: String,
+) -> Result<(), String> {
+    hostile_state.cancel_surface(&surface_token)?;
+    client
+        .stop_fixture(&surface_token)
+        .map_err(|error| error.to_string())
 }
 
 #[tauri::command]
@@ -298,9 +513,13 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             runtime_status,
+            reconcile_runtime,
             select_read_identity,
             runtime_diagnostics,
             start_fixture,
+            review_napplet,
+            cancel_napplet_review,
+            confirm_napplet,
             stop_fixture,
             hostile_probe_enabled,
             start_hostile_probe,
@@ -343,5 +562,107 @@ mod tests {
         assert!(!allowed_navigation(
             &tauri::Url::parse("http://127.0.0.1:43129/probe").unwrap()
         ));
+    }
+
+    #[test]
+    fn transfer_cleanup_error_keeps_a_structured_surface_token() {
+        let error = ConfirmNappletError::from(ClientError::TransferCleanupFailed {
+            surface_token: "surface-needing-retry".to_owned(),
+            transfer_error: Box::new(ClientError::InvalidChunk),
+            cleanup_error: Box::new(ClientError::UnexpectedResponse),
+        });
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "cleanupRequired");
+        assert_eq!(value["surfaceToken"], "surface-needing-retry");
+        assert!(
+            value["detail"]
+                .as_str()
+                .unwrap()
+                .contains("cleanup also failed")
+        );
+    }
+
+    #[test]
+    fn ambiguous_confirmation_crosses_as_a_typed_retry_state() {
+        let error = ConfirmNappletError::from(ClientError::AmbiguousOperation(Box::new(
+            ClientError::Protocol(napd_protocol::ProtocolError::Truncated),
+        )));
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "confirmationAmbiguous");
+        assert!(value.get("surfaceToken").is_none());
+        assert!(value["detail"].as_str().unwrap().contains("peer closed"));
+    }
+
+    #[test]
+    fn ambiguous_review_crosses_as_a_typed_retry_state() {
+        let error = ReviewNappletError::from(ClientError::AmbiguousOperation(Box::new(
+            ClientError::Protocol(napd_protocol::ProtocolError::Truncated),
+        )));
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "reviewAmbiguous");
+        assert!(value["detail"].as_str().unwrap().contains("peer closed"));
+    }
+
+    #[test]
+    fn reconciliation_stops_each_snapshot_surface_once() {
+        let active = vec![
+            "surface-b".to_owned(),
+            "surface-a".to_owned(),
+            "surface-b".to_owned(),
+        ];
+        let mut stopped = Vec::new();
+        let failures = clean_token_snapshot(&active, |surface_token| {
+            stopped.push(surface_token.to_owned());
+            Ok(())
+        });
+        assert_eq!(stopped, ["surface-a", "surface-b"]);
+        assert!(failures.is_empty());
+    }
+
+    #[test]
+    fn post_status_reconciles_lost_stop_replies_and_retains_real_failures() {
+        let attempted_failures = BTreeMap::from([
+            ("already-stopped".to_owned(), "response lost".to_owned()),
+            ("still-live".to_owned(), "daemon unavailable".to_owned()),
+        ]);
+        let remaining = remaining_cleanup_failures(
+            "surface",
+            &["newly-observed".to_owned(), "still-live".to_owned()],
+            &attempted_failures,
+            "daemon still reports the surface after cleanup",
+        );
+        let values = serde_json::to_value(remaining).unwrap();
+        assert_eq!(values[0]["kind"], "surface");
+        assert_eq!(values[0]["token"], "newly-observed");
+        assert_eq!(
+            values[0]["detail"],
+            "daemon still reports the surface after cleanup"
+        );
+        assert_eq!(values[1]["token"], "still-live");
+        assert_eq!(values[1]["detail"], "daemon unavailable");
+        assert!(
+            values
+                .as_array()
+                .unwrap()
+                .iter()
+                .all(|entry| entry["token"] != "already-stopped")
+        );
+    }
+
+    #[test]
+    fn review_cleanup_uses_the_same_authoritative_second_snapshot() {
+        let remaining = remaining_cleanup_failures(
+            "review",
+            &["review-still-live".to_owned()],
+            &BTreeMap::new(),
+            "daemon still reports the review after cancellation",
+        );
+        let value = serde_json::to_value(remaining).unwrap();
+        assert_eq!(value[0]["kind"], "review");
+        assert_eq!(value[0]["token"], "review-still-live");
+        assert_eq!(
+            value[0]["detail"],
+            "daemon still reports the review after cancellation"
+        );
     }
 }

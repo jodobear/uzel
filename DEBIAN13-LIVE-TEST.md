@@ -72,8 +72,9 @@ runs reuse the Nix and Cargo stores. The low-disk Cargo profile used by the
 workspace prebuild is exported into the dev runtime so Cargo does not discard
 that cache and rebuild every dependency with a different profile.
 
-The test starts headless Weston, the local signed Nostr fixture relay,
-`uzel-napd`, Tauri, and real WebKitGTK. Package-cache probes, dependency
+The test starts headless Weston, `uzel-napd`, Tauri, and real WebKitGTK. The
+daemon uses the same secure public indexer/app relay lanes as interactive mode;
+internet access is therefore required for live Nostr refresh. Package-cache probes, dependency
 installation, workspace prebuild, and runtime startup share one bounded
 ten-minute deadline. Each probe or prebuild command receives only the remaining
 budget. After `UZEL_SHELL_READY`, runtime acceptance has a separate two-minute
@@ -113,13 +114,15 @@ Manual checklist:
 
 1. Uzel window opens and reaches `NAP-SHELL 2/2 READY`.
 2. Both exact-build hashes appear beneath the two panes.
-3. Click `Use identity` with the prefilled public fixture key.
-4. Follow pane shows two direct follows.
+3. Enter an `npub` or 64-character hex public key and click `Use identity`.
+4. Follow pane loads the latest-known NMP-backed direct follows.
 5. Select a follow; profile pane updates through `napplet:profile/open`.
 6. Toggle side-by-side/stacked, pane focus, resize, and fullscreen controls.
 7. Open `Developer`; confirm one NMP runtime, exact sessions, relay evidence,
    and bounded envelope diagnostics.
-8. Close the Uzel window. Script stops private daemon and fixture relay.
+8. Close the Uzel window. Script stops the private daemon.
 
-This interactive lane uses only committed signed fixtures and a loopback relay;
-it does not require or contact a public Nostr relay.
+The napplet artifacts remain committed signed fixtures, but the interactive
+lane uses the configured public NMP indexers. NMP discovers the selected
+identity's NIP-65 outbox relays. Headless and interactive modes use the same
+secure public indexer and app relay lanes.

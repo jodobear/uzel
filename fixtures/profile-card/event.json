@@ -1,6 +1,6 @@
 {
   "kind": 35129,
-  "created_at": 1785281827,
+  "created_at": 1785453325,
   "tags": [
     [
       "d",
@@ -9,11 +9,11 @@
     [
       "path",
       "/index.html",
-      "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63"
+      "868a771fc87eeba3a501c356d7c170d54a1df3e89268919b6d72add239e28526"
     ],
     [
       "x",
-      "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
+      "fa03cba781c3c61ccb0fce6c7ac69eaf4c903b1fadddb7ed44464393197cd873",
       "aggregate"
     ],
     [
@@ -30,15 +30,23 @@
     ],
     [
       "requires",
+      "identity"
+    ],
+    [
+      "requires",
       "inc"
     ],
     [
       "requires",
       "outbox"
+    ],
+    [
+      "requires",
+      "resource"
     ]
   ],
   "content": "",
-  "id": "dd3a9f4f03a789de99c0933f09f777c2a0db81028d5c516021e9753e1c44c6ca",
-  "pubkey": "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
-  "sig": "6ff63feab14d87dea32c697c4bd576846dd9aacb1799b98be4ba02d1de534393978d41dd8554c752a306b7886ad9bf09d832ae9dd956f2690b3a165f917c70cd"
+  "id": "c933c173ac4413e4bf9248333bdbe512d6389e5833e7cfdbdb3e6b9e78b130f6",
+  "pubkey": "8dd2fc14f5d41e5b87d3de9baf3129398602a3d257a3d0c415f0841f0550a155",
+  "sig": "74924847f50417f3c54d5a3618500c47484a43246982ac4a533257e1e9cfb4cdae3a4ab48a09abecee98b4f46c4c72ed7b2bac2f8a08a6f705e082504ec30244"
 }

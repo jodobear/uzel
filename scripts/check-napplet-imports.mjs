@@ -61,6 +61,7 @@ const reflectiveCodeProperties = new Set([
 ]);
 const guardedBrowserGlobals = new Set([
   'Object',
+  'URL',
   'document',
   'frames',
   'globalThis',
@@ -76,6 +77,8 @@ const guardedBrowserGlobals = new Set([
 const allowedGuardedGlobalAccesses = new Set([
   'Object.freeze',
   'Object.keys',
+  'URL.createObjectURL',
+  'URL.revokeObjectURL',
   'document.createElement',
   'document.querySelector',
 ]);
@@ -367,6 +370,32 @@ function isDirectCallTarget(node) {
   return ts.isCallExpression(node.parent) && node.parent.expression === node;
 }
 
+function isFunctionCallback(node) {
+  return ts.isArrowFunction(node) || ts.isFunctionExpression(node);
+}
+
+function isSafeTimerCall(node) {
+  return isDirectCallTarget(node) && isFunctionCallback(node.parent.arguments[0]);
+}
+
+function isLocalObjectUrl(node) {
+  return ts.isCallExpression(node) &&
+    ts.isPropertyAccessExpression(node.expression) &&
+    ts.isIdentifier(node.expression.expression) &&
+    node.expression.expression.text === 'URL' &&
+    node.expression.name.text === 'createObjectURL' &&
+    node.arguments.length === 1;
+}
+
+function isNativeObjectUrlMember(node) {
+  return (
+    (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === 'URL' &&
+    ['createObjectURL', 'revokeObjectURL'].includes(propertyName(node))
+  );
+}
+
 function programmaticNetworkViolations(path, source) {
   const parsed = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true);
   const found = new Set();
@@ -380,7 +409,11 @@ function programmaticNetworkViolations(path, source) {
     if (ts.isIdentifier(node) && directNetworkIdentifiers.has(node.text)) {
       add(node, `browser network API ${node.text}`);
     }
-    if (ts.isIdentifier(node) && dynamicCodeIdentifiers.has(node.text)) {
+    if (
+      ts.isIdentifier(node) &&
+      dynamicCodeIdentifiers.has(node.text) &&
+      !(['setInterval', 'setTimeout'].includes(node.text) && isSafeTimerCall(node))
+    ) {
       add(node, `dynamic code execution ${node.text}`);
     }
     if (
@@ -432,10 +465,13 @@ function programmaticNetworkViolations(path, source) {
       node.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
       node.operatorToken.kind <= ts.SyntaxKind.LastAssignment
     ) {
+      if (isNativeObjectUrlMember(node.left)) {
+        add(node, 'native URL object-URL method reassignment');
+      }
       const resource = propertyChain(node.left).find((name) =>
         resourceAssignmentProperties.has(name)
       );
-      if (resource) {
+      if (resource && !isLocalObjectUrl(node.right)) {
         add(node, `DOM resource assignment ${resource}`);
       }
     }
@@ -617,6 +653,9 @@ function runSelfTest() {
     'new RTCPeerConnection({ iceServers: [{ urls: remote }] })',
     `new DOMParser().parseFromString('<img src="https://example.test/x">', 'text/html')`,
     "const sheet = new CSSStyleSheet(); sheet.replace('body{background:url(http://127.0.0.1:43129/leak)}'); document.adoptedStyleSheets = [sheet]",
+    "const URL = { createObjectURL: () => remote }; image.src = URL.createObjectURL(blob)",
+    "function render(URL) { image.src = URL.createObjectURL(blob) }",
+    "URL.createObjectURL = () => remote; image.src = URL.createObjectURL(blob)",
     'const image = new Image(); image.src = remote;',
     "document.createElement('img')",
     "document.createElementNS('http://www.w3.org/2000/svg', 'image')",
@@ -638,6 +677,8 @@ function runSelfTest() {
   for (const source of [
     "document.querySelector('#target')",
     "document.createElement('button')",
+    'setTimeout(() => resolve(), milliseconds)',
+    'image.src = URL.createObjectURL(blob)',
   ]) {
     if (programmaticNetworkViolations('<boundary-self-test>', source).length > 0) {
       throw new Error(`boundary self-test rejected allowed browser API: ${source}`);

@@ -86,7 +86,7 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
             || !fallback_relays.is_empty()
             || !allowed_local_relay_hosts.is_empty())
     {
-        return Err("relay configuration requires --live".to_owned());
+        return Err("live daemon configuration requires --live".to_owned());
     }
     Ok(Options {
         check,
@@ -149,7 +149,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn live_relays_require_explicit_live_mode() {
+    fn live_configuration_requires_explicit_live_mode() {
         assert!(
             parse_options(["--app-relay".to_owned(), "wss://relay.example".to_owned()]).is_err()
         );
@@ -161,5 +161,14 @@ mod tests {
         .unwrap();
         assert!(parsed.live);
         assert_eq!(parsed.app_relays, ["wss://relay.example"]);
+        assert!(parse_options(["--live".to_owned()]).is_ok());
+        assert!(
+            parse_options([
+                "--live".to_owned(),
+                "--resource-blossom-server".to_owned(),
+                "https://blossom.example".to_owned(),
+            ])
+            .is_err()
+        );
     }
 }

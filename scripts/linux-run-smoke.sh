@@ -6,6 +6,8 @@ SUCCESS_MARKER=${UZEL_SMOKE_SUCCESS_MARKER:-LINUX_RUN_SMOKE_OK}
 STARTUP_TIMEOUT_SECONDS=${UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS:-600}
 RUNTIME_TIMEOUT_SECONDS=${UZEL_SMOKE_RUNTIME_TIMEOUT_SECONDS:-120}
 SHUTDOWN_GRACE_SECONDS=${UZEL_SMOKE_SHUTDOWN_GRACE_SECONDS:-5}
+PROFILE_AGGREGATE=fa03cba781c3c61ccb0fce6c7ac69eaf4c903b1fadddb7ed44464393197cd873
+FOLLOW_AGGREGATE=522e97dccfbf47d24074625e8ed0be83833d2f797a56ec8215d08ff9294cbb4d
 
 [[ "$STARTUP_TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] \
   || { echo 'UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS must be a positive integer' >&2; exit 2; }
@@ -134,7 +136,6 @@ mkdir -m 700 "$XDG_DATA_HOME"
 export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1
-export UZEL_FIXTURE_RELAY_PORT=$((44000 + ($$ % 10000)))
 export UZEL_RUN_HOSTILE_PROBE=1
 
 hostile_markers_are_ordered() {
@@ -149,8 +150,8 @@ hostile_markers_are_ordered() {
 runtime_markers_ready() {
   rg -q '^UZEL_NAPD_READY role=runtime-authority$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc$' "$SMOKE_TMP/uzel.log" \
-    && rg -q '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$' "$SMOKE_TMP/uzel.log" \
+    && rg -q "^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=${PROFILE_AGGREGATE}$" "$SMOKE_TMP/uzel.log" \
+    && rg -q "^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=${FOLLOW_AGGREGATE}$" "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$' "$SMOKE_TMP/uzel.log" \
@@ -178,8 +179,8 @@ report_marker() {
 report_marker_state() {
   report_marker napd_ready '^UZEL_NAPD_READY role=runtime-authority$'
   report_marker shell_ready '^UZEL_SHELL_READY$'
-  report_marker profile_fixture '^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc$'
-  report_marker follow_fixture '^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a$'
+  report_marker profile_fixture "^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=${PROFILE_AGGREGATE}$"
+  report_marker follow_fixture "^UZEL_FIXTURE_VERIFIED fixture=follow-list aggregate=${FOLLOW_AGGREGATE}$"
   report_marker profile_nap_shell '^UZEL_NAP_SHELL_OK surface=uzel-profile-card-generation-1$'
   report_marker follow_nap_shell '^UZEL_NAP_SHELL_OK surface=uzel-follow-list-generation-2$'
   report_marker profile_accepted '^UZEL_SHELL_ACCEPTED surface=uzel-profile-card-generation-1$'

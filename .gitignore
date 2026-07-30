@@ -7,3 +7,5 @@ apps/uzel/src-tauri/gen/
 **/node_modules/
 *.log
 graphify-out/20??-??-??/
+/.playwright-cli/
+/output/playwright/

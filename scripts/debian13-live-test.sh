@@ -286,7 +286,7 @@ echo 'DEBIAN13_BUILD_OK workspace=locked'
 if [[ "$MODE" == interactive ]]; then
   [[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ]] \
     || fail 'interactive mode requires graphical desktop session; use headless mode over SSH'
-  echo 'DEBIAN13_INTERACTIVE_READY close Uzel window or press Ctrl-C to stop daemon and fixture relay'
+  echo 'DEBIAN13_INTERACTIVE_READY close Uzel window or press Ctrl-C to stop the daemon'
   exec pnpm dev
 fi
 

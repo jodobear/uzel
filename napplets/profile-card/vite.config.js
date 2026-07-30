@@ -9,7 +9,7 @@ export default defineConfig({
       nappletType: 'profile-card',
       title: 'Profile card',
       description: 'Latest-known profile using runtime-mediated outbox data.',
-      requires: { explicit: ['inc', 'outbox'], infer: true, mode: 'error' },
+      requires: { explicit: ['identity', 'inc', 'outbox', 'resource'], infer: true, mode: 'error' },
       artifactMode: 'single-file',
     }),
   ],

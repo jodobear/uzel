@@ -1,10 +1,10 @@
 # FACT-004 — NMP facade and ownership
 
-- **Claim:** The pinned NMP/nampplets public APIs cover Uzel's profile, direct-follow, freshness, evidence, cancellation, diagnostics, and shutdown needs.
+- **Claim:** The pinned NMP/nampplets public APIs cover Uzel's profile, direct-follow, cancellation, diagnostics, and shutdown needs; NMP owns scoped freshness evidence, but released NAP identity 0.29.0 does not expose it to napplet JavaScript.
 - **Classification:** verified fact
 - **Exact source/pin:** `pablof7z/nmp@005dc2a5f12aa414961b313d05ebb021934e385c`, unchanged in the reachable nampplets 0.29 candidate `08ddb87a975dcc44c8826e4c9c7fa7cfe7f701bf`.
 - **Probe/command:** Compile the public `nmp::Engine` and `NmpDataPlane` path with signed Nostr fixture events; observe cache-only kind 0/direct follows; inspect evidence; cancel twice; close the adapter and engine.
 - **Observed result:** The probe returned two cache-only rows, the expected profile, one explicit follow, evidence with an explicit `no_planned_source` shortfall, idempotent observation cancellation, and clean shutdown. The facade exposes `Engine::new`, `observe`, diagnostics/account operations, and `shutdown`; nampplets adds read-only identity and provider projections. It does not expose a global synced/complete flag.
-- **Decision:** NMP owns events, replaceable selection, follows, relay evidence, freshness, and diagnostics. Uzel uses `NmpDataPlane`/`RuntimeController`; it must not create profile/follow caches or translate NAP relay messages independently.
+- **Decision:** NMP owns events, replaceable selection, follows, relay evidence, freshness, and diagnostics. Uzel uses `NmpDataPlane`/`RuntimeController`; it must not create profile/follow caches, compare rendered values as freshness evidence, or translate NAP relay messages independently. Until an upstream seam exposes scoped evidence, napplets request and label one latest-known snapshot.
 - **Affected documents/code:** `reports/nmp-api-map.md`, `docs/02-architecture.md`, `docs/03-provisional-design.md`, `work/04-daemon-nmp.md`.
 - **Revalidate when:** The nampplets NMP pin, `Engine`, `NmpDataPlane`, NAP providers, or evidence model changes.

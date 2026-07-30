@@ -60,10 +60,11 @@ Before extraction, remove Uzel defaults, colors, demo IDs, and product compositi
 2. Terminate the deterministic local NMP relay with trusted local TLS before
    advancing from the validated `e539378...` nampplets runtime pin to a successor
    that correctly refuses plaintext operator relays.
-3. Separate Nix WebKitGTK libraries and host-linked Cargo targets in the Fedora
-   developer command so `pnpm test` cannot request `GLIBC_2.42` from a host
-   linker. Keep the complete pinned Debian workspace build as the portable
-   linker gate until that composition is corrected.
+3. Keep default-feature Tauri compilation in `pnpm check`, run Tauri unit tests
+   with the same `--no-default-features` profile as the Linux development
+   runtime, and keep the pinned Debian build as the portable packaged-link gate.
+   The root `pnpm test` command now enforces this split instead of attempting an
+   irrelevant mixed Nix WebKitGTK/default-feature test link on Fedora.
 4. Extract only after a second consumer exists. Preserve the exact hostile
    fixture and sentinel harness as regression evidence across extraction.
 

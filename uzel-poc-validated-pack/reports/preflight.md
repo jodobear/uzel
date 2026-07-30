@@ -28,7 +28,7 @@ No product implementation was started.
 - A coherent nampplets 0.29 candidate can be generated and exercised on Linux without duplicating NMP, runtime, provider, storage, or cryptographic functionality.
 - nampplets runtime semantics are Linux-neutral; only the WebKit/native-host binding is platform-specific.
 - Exact-build identity, grants, sessions, source-bound envelopes, providers, storage, and NMP integration already have reusable owners.
-- Pinned NMP covers the POC's profile/follow/freshness/evidence/cancellation/diagnostics needs without a second cache.
+- Pinned NMP covers profile/follow selection and owns freshness/evidence/cancellation/diagnostics without a second cache. Released NAP identity 0.29.0 does not expose scoped evidence to napplet JavaScript, so the POC labels those reads latest-known.
 - Tauri/Wry initializes authenticated IPC in the top frame on Linux. A sandboxed opaque-origin child cannot read it.
 - A strict self-contained child CSP can deny tested loopback egress while allowing script execution and source-bound `postMessage`.
 - A small same-user AF_UNIX protocol is sufficient for the shell/daemon boundary.
@@ -54,7 +54,7 @@ No product implementation was started.
 2. Treat NAP and NIP-5D revisions as exact provisional pins. Do not claim NIP-5A or spec ratification.
 3. Preserve one trusted Tauri WebView with source-bound sandboxed frames, but document that WebKit's raw message handler is visible and protected by Tauri's top-frame-only invoke key.
 4. Adopt the tested child CSP verbatim and require conformance-clean self-contained artifacts. Do not add broad network permission to accommodate Vite output.
-5. Use four-byte big-endian, maximum-4,096-byte, version-0 JSON frames over a 0600 AF_UNIX socket in a 0700 runtime directory for the POC.
+5. Use four-byte big-endian, bounded version-0 JSON frames over a 0600 AF_UNIX socket in a 0700 runtime directory. Gate 0 proved a 4,096-byte feasibility bound; Slice 04 later established the current 524288-byte per-frame product bound with explicit 65536-byte inbound-envelope escaping headroom. The live-identity extension retained that ceiling and added same-connection chunking for larger NAP-RESOURCE routed responses.
 6. Pin a real flake/devShell; use `nix develop`, lock Tauri CLI and crate separately, expose pnpm via Corepack on `PATH`, and use Fallow's released schema.
 
 ## Accepted provisional risks

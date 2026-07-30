@@ -7,6 +7,22 @@ function optionalText(value) {
   return typeof value === 'string' && value.length > 0 ? value : undefined;
 }
 
+export function canonicalIdentityProfile(profile, pubkey) {
+  if (
+    !isCanonicalPubkey(pubkey)
+    || profile === null
+    || typeof profile !== 'object'
+    || Array.isArray(profile)
+  ) return null;
+  return {
+    pubkey,
+    name: optionalText(profile.displayName) ?? optionalText(profile.name) ?? 'Unnamed profile',
+    about: optionalText(profile.about) ?? '',
+    picture: optionalText(profile.picture),
+    nip05: optionalText(profile.nip05),
+  };
+}
+
 export function createLatestRequestGate() {
   let generation = 0;
   return Object.freeze({
@@ -41,6 +57,8 @@ export function canonicalProfile(results, pubkey) {
       observedAt,
       name: optionalText(content.display_name) ?? optionalText(content.name) ?? 'Unnamed profile',
       about: optionalText(content.about) ?? '',
+      picture: optionalText(content.picture),
+      nip05: optionalText(content.nip05),
     };
   } catch {
     return null;

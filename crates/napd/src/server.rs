@@ -1,5 +1,5 @@
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, VecDeque},
     fs,
     io::{self, Write},
     os::unix::{
@@ -11,13 +11,16 @@ use std::{
 };
 
 use napd_protocol::{
-    ASSET_CHUNK_BYTES, MAX_ASSET_BYTES, ProtocolError, Request, Response, VERSION,
-    encode_asset_chunk, read_frame, write_frame,
+    ASSET_CHUNK_BYTES, ENVELOPE_CHUNK_BYTES, MAX_ASSET_BYTES, MAXIMUM_ENVELOPE_BYTES,
+    MAXIMUM_ROUTED_ENVELOPE_BYTES, ProtocolError, Request, Response, VERSION, encode_asset_chunk,
+    read_frame, write_frame,
 };
 
 use crate::{LinuxRunner, RunnerError, SurfaceLaunch};
 
 const STREAM_TIMEOUT: Duration = Duration::from_secs(2);
+const MAXIMUM_REPLAY_OPERATIONS: usize = 64;
+const MAXIMUM_OPERATION_ID_BYTES: usize = 128;
 
 #[derive(Debug, thiserror::Error)]
 pub enum ServerError {
@@ -49,9 +52,53 @@ struct AssetTransfer {
 }
 
 #[derive(Debug)]
+struct ReplayEntry {
+    request: Request,
+    response: Response,
+}
+
+#[derive(Debug)]
+struct InvalidOperationId;
+
+#[derive(Debug, Default)]
+struct ReplayCache {
+    entries: BTreeMap<String, ReplayEntry>,
+    order: VecDeque<String>,
+}
+
+impl ReplayCache {
+    fn lookup(&self, key: &str, request: &Request) -> Option<Response> {
+        self.entries.get(key).map(|entry| {
+            if entry.request == *request {
+                entry.response.clone()
+            } else {
+                Response::error(
+                    "operation_id_reused",
+                    "operation id is already bound to a different request",
+                )
+            }
+        })
+    }
+
+    fn remember(&mut self, key: String, request: Request, response: Response) {
+        if self.entries.contains_key(&key) {
+            return;
+        }
+        while self.order.len() >= MAXIMUM_REPLAY_OPERATIONS {
+            if let Some(expired) = self.order.pop_front() {
+                self.entries.remove(&expired);
+            }
+        }
+        self.order.push_back(key.clone());
+        self.entries.insert(key, ReplayEntry { request, response });
+    }
+}
+
+#[derive(Debug)]
 pub struct DaemonState {
     runner: LinuxRunner,
     transfers: BTreeMap<String, AssetTransfer>,
+    replay: ReplayCache,
 }
 
 impl DaemonState {
@@ -59,10 +106,29 @@ impl DaemonState {
         Self {
             runner,
             transfers: BTreeMap::new(),
+            replay: ReplayCache::default(),
         }
     }
 
     pub fn handle(&mut self, request: Request) -> (Response, bool) {
+        let replay_key = match replay_key(&request) {
+            Ok(replay_key) => replay_key,
+            Err(InvalidOperationId) => {
+                return (
+                    Response::error(
+                        "invalid_operation_id",
+                        "operation id must be 1-128 ASCII letters, digits, dots, underscores, or hyphens",
+                    ),
+                    false,
+                );
+            }
+        };
+        if let Some(key) = replay_key.as_deref()
+            && let Some(response) = self.replay.lookup(key, &request)
+        {
+            return (response, false);
+        }
+        let replay_request = replay_key.as_ref().map(|_| request.clone());
         let response = match request {
             Request::Hello { version } if version == VERSION => Response::Hello { version },
             Request::Hello { version } => Response::error(
@@ -74,6 +140,7 @@ impl DaemonState {
                     version: VERSION,
                     mode: self.runner.mode().as_str().to_owned(),
                     active_surfaces: self.runner.active_surfaces(),
+                    pending_reviews: self.runner.pending_review_tokens(),
                     active_identity,
                 },
                 Err(error) => runner_error(error),
@@ -84,6 +151,36 @@ impl DaemonState {
             }
             Request::StartHostileProbe { sentinel_url } => {
                 let result = self.runner.start_hostile_probe(&sentinel_url);
+                self.stage_surface(result)
+            }
+            Request::ReviewNapplet {
+                operation_id: _,
+                coordinate,
+            } => match self.runner.review_napplet(coordinate) {
+                Ok(review) => Response::NappletReview { review },
+                Err(error) => runner_error(error),
+            },
+            Request::CancelNappletReview { token } => {
+                match self.runner.cancel_napplet_review(&token) {
+                    Ok(()) => Response::ReviewCancelled,
+                    Err(error) => runner_error(error),
+                }
+            }
+            Request::ConfirmNapplet {
+                operation_id: _,
+                token,
+                expected_author,
+                expected_d_tag,
+                expected_aggregate_hash,
+                granted_domains,
+            } => {
+                let result = self.runner.confirm_napplet(
+                    token,
+                    expected_author,
+                    expected_d_tag,
+                    expected_aggregate_hash,
+                    granted_domains,
+                );
                 self.stage_surface(result)
             }
             Request::StopFixture { surface_token } => {
@@ -131,6 +228,9 @@ impl DaemonState {
             },
             Request::Shutdown => Response::Shutdown,
         };
+        if let (Some(key), Some(request)) = (replay_key, replay_request) {
+            self.replay.remember(key, request, response.clone());
+        }
         let shutdown = matches!(response, Response::Shutdown);
         (response, shutdown)
     }
@@ -193,6 +293,23 @@ impl DaemonState {
             Err(error) => runner_error(error),
         }
     }
+}
+
+fn replay_key(request: &Request) -> Result<Option<String>, InvalidOperationId> {
+    let (kind, operation_id) = match request {
+        Request::ReviewNapplet { operation_id, .. } => ("review", operation_id),
+        Request::ConfirmNapplet { operation_id, .. } => ("confirm", operation_id),
+        _ => return Ok(None),
+    };
+    if operation_id.is_empty()
+        || operation_id.len() > MAXIMUM_OPERATION_ID_BYTES
+        || !operation_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+    {
+        return Err(InvalidOperationId);
+    }
+    Ok(Some(format!("{kind}:{operation_id}")))
 }
 
 fn runner_error(error: RunnerError) -> Response {
@@ -295,22 +412,68 @@ fn handle_stream(state: &mut DaemonState, stream: &mut UnixStream) -> bool {
 }
 
 fn write_response(stream: &mut UnixStream, response: &Response) -> bool {
+    if let Response::Envelope {
+        surface_token,
+        envelope,
+    } = response
+        && envelope.len() > MAXIMUM_ENVELOPE_BYTES
+    {
+        return write_chunked_envelope(stream, surface_token, envelope);
+    }
     let mut frame = Vec::new();
     match write_frame(&mut frame, response) {
         Ok(()) => stream
             .write_all(&frame)
             .and_then(|()| stream.flush())
             .is_ok(),
-        Err(ProtocolError::FrameTooLarge { .. }) => write_frame(
-            stream,
-            &Response::error(
-                "response_too_large",
-                "runtime response exceeds the private control-frame limit",
-            ),
-        )
-        .is_ok(),
+        Err(ProtocolError::FrameTooLarge { .. }) => match response {
+            Response::Envelope {
+                surface_token,
+                envelope,
+            } => write_chunked_envelope(stream, surface_token, envelope),
+            _ => write_frame(
+                stream,
+                &Response::error(
+                    "response_too_large",
+                    "runtime response exceeds the private control-frame limit",
+                ),
+            )
+            .is_ok(),
+        },
         Err(_) => false,
     }
+}
+
+fn write_chunked_envelope(stream: &mut UnixStream, surface_token: &str, envelope: &str) -> bool {
+    let bytes = envelope.as_bytes();
+    if bytes.len() > MAXIMUM_ROUTED_ENVELOPE_BYTES {
+        return write_frame(
+            stream,
+            &Response::error(
+                "envelope_too_large",
+                format!("routed envelope exceeds {MAXIMUM_ROUTED_ENVELOPE_BYTES} bytes"),
+            ),
+        )
+        .is_ok();
+    }
+    let total_bytes = bytes.len() as u64;
+    let mut offset = 0_usize;
+    while offset < bytes.len() {
+        let end = offset.saturating_add(ENVELOPE_CHUNK_BYTES).min(bytes.len());
+        let response = Response::EnvelopeChunk {
+            surface_token: surface_token.to_owned(),
+            offset: offset as u64,
+            next_offset: end as u64,
+            total_bytes,
+            bytes_base64: encode_asset_chunk(&bytes[offset..end]),
+            done: end == bytes.len(),
+        };
+        if write_frame(stream, &response).is_err() {
+            return false;
+        }
+        offset = end;
+    }
+    true
 }
 
 fn prepare_socket_parent(socket_path: &Path) -> Result<(), ServerError> {
@@ -569,21 +732,117 @@ mod tests {
     }
 
     #[test]
-    fn oversized_runtime_response_becomes_a_typed_error_frame() {
-        let (mut server, mut client) = UnixStream::pair().unwrap();
-        assert!(write_response(
-            &mut server,
-            &Response::Envelope {
-                surface_token: "oversized".to_owned(),
-                envelope: "x".repeat(napd_protocol::MAX_FRAME_BYTES),
-            }
-        ));
+    fn oversized_routed_envelope_is_chunked_without_raising_the_frame_limit() {
+        let temp = TempDir::new().unwrap();
+        let socket = temp.path().join("chunked-envelope.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let expected = "x".repeat(napd_protocol::MAX_FRAME_BYTES);
+        let writer_expected = expected.clone();
+        let writer = std::thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            assert_eq!(
+                read_frame::<Request>(&mut stream).unwrap(),
+                Request::Hello { version: VERSION }
+            );
+            assert!(write_response(
+                &mut stream,
+                &Response::Envelope {
+                    surface_token: "chunked-resource".to_owned(),
+                    envelope: writer_expected,
+                },
+            ));
+        });
         assert_eq!(
-            read_frame::<Response>(&mut client).unwrap(),
-            Response::error(
-                "response_too_large",
-                "runtime response exceeds the private control-frame limit"
-            )
+            UnixClient::new(&socket)
+                .request(&Request::Hello { version: VERSION })
+                .unwrap(),
+            Response::Envelope {
+                surface_token: "chunked-resource".to_owned(),
+                envelope: expected,
+            }
         );
+        writer.join().unwrap();
+    }
+
+    #[test]
+    fn replay_cache_binds_operation_id_to_the_exact_confirm_request() {
+        let temp = TempDir::new().unwrap();
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let mut state = DaemonState::new(runner);
+        let request = Request::ConfirmNapplet {
+            operation_id: "confirm-1".to_owned(),
+            token: "missing-review".to_owned(),
+            expected_author: "a".repeat(64),
+            expected_d_tag: "test".to_owned(),
+            expected_aggregate_hash: "b".repeat(64),
+            granted_domains: Vec::new(),
+        };
+        let first = state.handle(request.clone()).0;
+        assert!(matches!(
+            first,
+            Response::Error { ref code, .. } if code == "runtime_refused"
+        ));
+        assert_eq!(state.handle(request.clone()).0, first);
+
+        let Request::ConfirmNapplet {
+            operation_id,
+            expected_author,
+            expected_d_tag,
+            expected_aggregate_hash,
+            granted_domains,
+            ..
+        } = request
+        else {
+            unreachable!()
+        };
+        assert!(matches!(
+            state
+                .handle(Request::ConfirmNapplet {
+                    operation_id,
+                    token: "different-review".to_owned(),
+                    expected_author,
+                    expected_d_tag,
+                    expected_aggregate_hash,
+                    granted_domains,
+                })
+                .0,
+            Response::Error { ref code, .. } if code == "operation_id_reused"
+        ));
+    }
+
+    #[test]
+    fn replay_cache_is_bounded_and_operation_ids_are_validated() {
+        let mut cache = ReplayCache::default();
+        for index in 0..=MAXIMUM_REPLAY_OPERATIONS {
+            let request = Request::ReviewNapplet {
+                operation_id: format!("review-{index}"),
+                coordinate: format!("coordinate-{index}"),
+            };
+            cache.remember(
+                format!("review:review-{index}"),
+                request,
+                Response::error("test", "cached"),
+            );
+        }
+        assert_eq!(cache.entries.len(), MAXIMUM_REPLAY_OPERATIONS);
+        assert!(!cache.entries.contains_key("review:review-0"));
+        assert!(
+            cache
+                .entries
+                .contains_key(&format!("review:review-{MAXIMUM_REPLAY_OPERATIONS}"))
+        );
+
+        let temp = TempDir::new().unwrap();
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let mut state = DaemonState::new(runner);
+        assert!(matches!(
+            state
+                .handle(Request::ReviewNapplet {
+                    operation_id: "bad id".to_owned(),
+                    coordinate: "unused".to_owned(),
+                })
+                .0,
+            Response::Error { ref code, .. } if code == "invalid_operation_id"
+        ));
     }
 }

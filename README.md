@@ -43,8 +43,9 @@ and interactive paths in [`DEBIAN13-LIVE-TEST.md`](DEBIAN13-LIVE-TEST.md).
 Slices 03 through 06 add independent `follow-list` and `profile-card` napplets,
 the Linux daemon boundary, and the composed two-pane shell. Tauri is a thin private-socket client; one
 daemon-owned upstream `RuntimeController` owns one NMP engine and redb store.
-The 96,172-byte verified fixture crosses the 4,096-byte control seam as bounded,
-ordered chunks and no artifact path reaches WebKit. The daemon persists only
+The 96,172-byte verified fixture crosses the 524,288-byte control seam as bounded,
+ordered chunks; the same ceiling includes JSON-escaping headroom for a 65,536-byte
+runtime envelope. No artifact path reaches WebKit. The daemon persists only
 the selected public read key and mode outside upstream-owned stores, restoring
 the key through NMP's parser after restart.
 
@@ -55,12 +56,19 @@ the test-only `hostile-egress` fixture, verify through the pinned upstream
 runtime. The hostile fixture executes 13 browser-egress attempts in real
 Fedora WebKit against a control-proven loopback sentinel; the accepted run
 observes zero sentinel connections and zero native command executions. The
-explicit live smoke starts `nak serve`, proves NMP canonical
-kind-0 selection and direct-follow projection, then stops the relay and proves
-cache-first restart from the same NMP store. The shell mounts both verified
+explicit public-live acceptance probes prove NMP canonical kind-0 selection,
+direct-follow projection, HTTPS avatar delivery through NAP-RESOURCE, and then
+prove cache-first restart with every relay lane disabled. The shell mounts both verified
 builds through the unchanged upstream multi-surface trusted host; the daemon
 routes `napplet:profile/open` to the profile surface with a runtime-owned
 sender. The deterministic demo, hostile Fedora run, and complete locked Debian
 build pass from a detached clean checkout. See
 `uzel-poc-validated-pack/reports/slice-06-preflight.md` for the exact boundary
 and toolchain limitation.
+
+Interactive development and headless acceptance use `wss://purplepag.es` as an
+operator indexer and `wss://purplepag.es` plus `wss://nos.lol` as bounded app
+relay lanes. NMP owns subscriptions, reconnects, canonical replacement, cache,
+and NIP-65 discovery. A plaintext loopback fallback relay is not used for
+identity content: under the pinned public-demand contract it receives discovery
+demand, while profile and contact content is routed through secure app lanes.

@@ -204,6 +204,21 @@ impl HostileProbeState {
         }
     }
 
+    pub fn cancel_surface(&self, surface_token: &str) -> Result<bool, String> {
+        let mut active = self
+            .active
+            .lock()
+            .map_err(|_| "hostile probe state is poisoned".to_owned())?;
+        let matches = active
+            .as_ref()
+            .and_then(|probe| probe.surface_token.as_deref())
+            == Some(surface_token);
+        if matches {
+            active.take();
+        }
+        Ok(matches)
+    }
+
     pub fn record_native_call(&self) {
         self.native_calls.fetch_add(1, Ordering::AcqRel);
     }
@@ -419,5 +434,17 @@ mod tests {
             .finish("hostile-surface", accepted_report())
             .unwrap_err();
         assert!(error.contains("accept loop failed: injected accept failure"));
+    }
+
+    #[test]
+    fn exact_surface_cancellation_retires_the_attached_probe() {
+        let state = HostileProbeState::default();
+        let url = state.begin().unwrap();
+        state.attach(&url, "hostile-surface").unwrap();
+
+        assert!(!state.cancel_surface("another-surface").unwrap());
+        assert!(state.active.lock().unwrap().is_some());
+        assert!(state.cancel_surface("hostile-surface").unwrap());
+        assert!(state.active.lock().unwrap().is_none());
     }
 }

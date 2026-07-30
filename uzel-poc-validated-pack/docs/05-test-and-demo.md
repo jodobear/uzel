@@ -81,7 +81,7 @@ The immutable-digest Bookworm check is `bash scripts/debian-build-smoke.sh`.
 
 1. Configure a small relay bootstrap set.
 2. Enter a public user key.
-3. Show cache-first direct follows and lazy profile refresh.
+3. Show latest-known direct follows and profile reload through NMP-backed NAP providers.
 4. Select an author and observe kind `0` updates.
 5. Disconnect networking; cached data remains with a degraded status.
 
