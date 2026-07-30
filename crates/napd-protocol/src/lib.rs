@@ -32,6 +32,7 @@ pub const MAXIMUM_ROUTED_ENVELOPE_BYTES: usize = (100 * 1_024 * 1_024) + (64 * 1
 pub const ENVELOPE_CHUNK_BYTES: usize = 256 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(20);
 const REPLAYABLE_REQUEST_ATTEMPTS: usize = 2;
+const MAXIMUM_PENDING_OPERATIONS: usize = 64;
 
 static NEXT_OPERATION_ID: AtomicU64 = AtomicU64::new(0);
 
@@ -269,6 +270,8 @@ pub enum ClientError {
         transfer_error: Box<ClientError>,
         cleanup_error: Box<ClientError>,
     },
+    #[error("ambiguous catalog operation capacity is {MAXIMUM_PENDING_OPERATIONS}")]
+    PendingOperationCapacity,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -283,6 +286,20 @@ enum PendingOperation {
         expected_aggregate_hash: String,
         granted_domains: Vec<String>,
     },
+}
+
+#[derive(Debug)]
+enum DeliveryError {
+    BeforeSend(ClientError),
+    MaybeSent(ClientError),
+}
+
+impl DeliveryError {
+    fn into_client(self) -> ClientError {
+        match self {
+            Self::BeforeSend(error) | Self::MaybeSent(error) => error,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -300,19 +317,41 @@ impl UnixClient {
     }
 
     pub fn request(&self, request: &Request) -> Result<Response, ClientError> {
-        let mut stream = UnixStream::connect(&self.socket_path).map_err(ProtocolError::Io)?;
-        stream
-            .set_read_timeout(Some(IPC_TIMEOUT))
-            .map_err(ProtocolError::Io)?;
-        stream
-            .set_write_timeout(Some(IPC_TIMEOUT))
-            .map_err(ProtocolError::Io)?;
-        write_frame(&mut stream, request)?;
-        let response = Self::read_response(&mut stream)?;
+        let response = self
+            .request_attempt(request)
+            .map_err(DeliveryError::into_client)?;
         if let Response::Error { code, detail } = response {
             return Err(ClientError::Refused { code, detail });
         }
         Ok(response)
+    }
+
+    fn request_attempt(&self, request: &Request) -> Result<Response, DeliveryError> {
+        let mut frame = Vec::new();
+        write_frame(&mut frame, request)
+            .map_err(ClientError::from)
+            .map_err(DeliveryError::BeforeSend)?;
+        let mut stream = UnixStream::connect(&self.socket_path)
+            .map_err(ProtocolError::Io)
+            .map_err(ClientError::from)
+            .map_err(DeliveryError::BeforeSend)?;
+        stream
+            .set_read_timeout(Some(IPC_TIMEOUT))
+            .map_err(ProtocolError::Io)
+            .map_err(ClientError::from)
+            .map_err(DeliveryError::BeforeSend)?;
+        stream
+            .set_write_timeout(Some(IPC_TIMEOUT))
+            .map_err(ProtocolError::Io)
+            .map_err(ClientError::from)
+            .map_err(DeliveryError::BeforeSend)?;
+        stream
+            .write_all(&frame)
+            .and_then(|()| stream.flush())
+            .map_err(ProtocolError::Io)
+            .map_err(ClientError::from)
+            .map_err(DeliveryError::MaybeSent)?;
+        Self::read_response(&mut stream).map_err(DeliveryError::MaybeSent)
     }
 
     fn read_response(stream: &mut UnixStream) -> Result<Response, ClientError> {
@@ -424,7 +463,7 @@ impl UnixClient {
         let operation = PendingOperation::Review {
             coordinate: coordinate.to_owned(),
         };
-        let operation_id = self.operation_id_for(&operation);
+        let operation_id = self.operation_id_for(&operation)?;
         match self.request_replayable(
             &operation,
             &Request::ReviewNapplet {
@@ -470,7 +509,7 @@ impl UnixClient {
             expected_aggregate_hash: expected_aggregate_hash.to_owned(),
             granted_domains: granted_domains.clone(),
         };
-        let operation_id = self.operation_id_for(&operation);
+        let operation_id = self.operation_id_for(&operation)?;
         let response = self.request_replayable(
             &operation,
             &Request::ConfirmNapplet {
@@ -518,15 +557,20 @@ impl UnixClient {
         })
     }
 
-    fn operation_id_for(&self, operation: &PendingOperation) -> String {
+    fn operation_id_for(&self, operation: &PendingOperation) -> Result<String, ClientError> {
         let mut pending = self
             .pending_operations
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        pending
-            .entry(operation.clone())
-            .or_insert_with(next_operation_id)
-            .clone()
+        if let Some(operation_id) = pending.get(operation) {
+            return Ok(operation_id.clone());
+        }
+        if pending.len() >= MAXIMUM_PENDING_OPERATIONS {
+            return Err(ClientError::PendingOperationCapacity);
+        }
+        let operation_id = next_operation_id();
+        pending.insert(operation.clone(), operation_id.clone());
+        Ok(operation_id)
     }
 
     fn request_replayable(
@@ -535,19 +579,25 @@ impl UnixClient {
         request: &Request,
     ) -> Result<Response, ClientError> {
         for attempt in 0..REPLAYABLE_REQUEST_ATTEMPTS {
-            match self.request(request) {
+            match self.request_attempt(request) {
+                Ok(Response::Error { code, detail }) => {
+                    self.forget_operation(operation);
+                    return Err(ClientError::Refused { code, detail });
+                }
                 Ok(response) => {
                     self.forget_operation(operation);
                     return Ok(response);
                 }
-                Err(ClientError::Protocol(error)) if attempt + 1 == REPLAYABLE_REQUEST_ATTEMPTS => {
-                    return Err(ClientError::Protocol(error));
-                }
-                Err(ClientError::Protocol(_)) => {}
-                Err(error) => {
+                Err(DeliveryError::BeforeSend(error)) => {
                     self.forget_operation(operation);
                     return Err(error);
                 }
+                Err(DeliveryError::MaybeSent(error))
+                    if attempt + 1 == REPLAYABLE_REQUEST_ATTEMPTS =>
+                {
+                    return Err(error);
+                }
+                Err(DeliveryError::MaybeSent(_)) => {}
             }
         }
         unreachable!("replayable request attempt bound is nonzero")
@@ -696,6 +746,51 @@ mod tests {
             MAXIMUM_ROUTED_ENVELOPE_BYTES,
             (100 * 1_024 * 1_024) + (64 * 1_024)
         );
+    }
+
+    #[test]
+    fn pending_catalog_operations_are_bounded() {
+        let client = UnixClient::new("/unused/uzel-test.sock");
+        for index in 0..MAXIMUM_PENDING_OPERATIONS {
+            let operation = PendingOperation::Review {
+                coordinate: format!("naddr-{index}"),
+            };
+            client.operation_id_for(&operation).unwrap();
+        }
+        assert!(matches!(
+            client.operation_id_for(&PendingOperation::Review {
+                coordinate: "naddr-over-capacity".to_owned(),
+            }),
+            Err(ClientError::PendingOperationCapacity)
+        ));
+        assert_eq!(
+            client.pending_operations.lock().unwrap().len(),
+            MAXIMUM_PENDING_OPERATIONS
+        );
+    }
+
+    #[test]
+    fn deterministic_presend_failures_do_not_retain_catalog_operations() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-presend-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let client = UnixClient::new(root.join("missing.sock"));
+
+        assert!(matches!(
+            client.review_napplet("naddr-daemon-unreachable"),
+            Err(ClientError::Protocol(ProtocolError::Io(_)))
+        ));
+        assert!(client.pending_operations.lock().unwrap().is_empty());
+
+        assert!(matches!(
+            client.review_napplet(&"x".repeat(MAX_FRAME_BYTES)),
+            Err(ClientError::Protocol(ProtocolError::FrameTooLarge { .. }))
+        ));
+        assert!(client.pending_operations.lock().unwrap().is_empty());
+        fs::remove_dir(&root).unwrap();
     }
 
     #[test]
