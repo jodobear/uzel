@@ -18,7 +18,7 @@
     {
       "path": "STATUS.md",
       "bytes": 6131,
-      "sha256": "d80bf61daf402675affd55569bc5354bfde54fb8fd66f9feca4084697e712a5e"
+      "sha256": "d78cd7f9fff16fd5bfbb292eaf959619a848ebdbba90aaf2cc46bbeb8295a5ef"
     },
     {
       "path": "TREE.txt",
@@ -32,8 +32,8 @@
     },
     {
       "path": "compatibility.lock",
-      "bytes": 40024,
-      "sha256": "0344331579176a5d8bc906aa8bc7c0513be339bef826e7a1a7822c0231cb516a"
+      "bytes": 40130,
+      "sha256": "1f53493f1b723c68c6d093f4a91f7a0b0d8fa6c8bc0867ce3added44ba8e104b"
     },
     {
       "path": "config/fallow.jsonc",
