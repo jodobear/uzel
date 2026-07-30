@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785439398.3397653,
-    "ast_hash": "75a46459e8d74af3974d9722235ce3e7",
+    "mtime": 1785440488.5879128,
+    "ast_hash": "3649c6af647bd65f4c9a58bf7f8d3310",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785439398.341747,
-    "ast_hash": "ad2b98d98d4ec3de30d033bdab330ed2",
+    "mtime": 1785440488.5919638,
+    "ast_hash": "54792c16b00f4e21e6ff0e41e1b2f5fd",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785439384.599218,
-    "ast_hash": "d5e8fa2d3a9c9c4da867572c0d53a1a5",
+    "mtime": 1785440479.1059263,
+    "ast_hash": "3b6fa8217d6c7bac18d1f0b14f5a3bae",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/main.rs": {
-    "mtime": 1785436166.8727167,
-    "ast_hash": "85585eaf37b4c10dab52dcaa6c1068f0",
+    "mtime": 1785441322.6289222,
+    "ast_hash": "0285c8a91c554f34d6d63252c87fb757",
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/tauri.conf.json": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785437316.183048,
-    "ast_hash": "7d75a09134c5e78337b6b1d19fb9f4be",
+    "mtime": 1785441311.3988025,
+    "ast_hash": "b60a0e6a4f9eaeb28f64f353307f4c28",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785439384.689219,
-    "ast_hash": "602f56f08d96acca924d4505579f5528",
+    "mtime": 1785440479.2209275,
+    "ast_hash": "96ceba42633e3a58e57bf62c62192c19",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {

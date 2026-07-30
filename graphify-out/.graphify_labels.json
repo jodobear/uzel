@@ -91,8 +91,12 @@
   "89": "Gate 0 preflight and Slice 01 decision",
   "90": "debian13-setup.sh",
   "91": "Work 02 — Linux exact-build runner",
+  "92": "UnixClient",
   "93": "lib.rs",
   "94": "main.rs",
   "95": "Debian 13 live test",
-  "96": "FACT-014-live-identity-catalog.md"
+  "96": "FACT-014-live-identity-catalog.md",
+  "97": "Request",
+  "98": "Response",
+  "99": "Upstream contribution ledger"
 }

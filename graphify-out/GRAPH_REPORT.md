@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-31)
 
 ## Corpus Check
-- 116 files · ~81,589 words
+- 116 files · ~82,301 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1098 nodes · 1775 edges · 96 communities (69 shown, 27 thin omitted)
+- 1108 nodes · 1813 edges · 100 communities (73 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6a2e0291`
+- Built from commit: `8e16b436`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -100,39 +100,43 @@
 - Gate 0 preflight and Slice 01 decision
 - debian13-setup.sh
 - Work 02 — Linux exact-build runner
+- UnixClient
 - lib.rs
 - main.rs
 - Debian 13 live test
 - FACT-014-live-identity-catalog.md
+- Request
+- Response
+- Upstream contribution ledger
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 43 edges
-2. `UnixClient` - 33 edges
+2. `UnixClient` - 35 edges
 3. `RunnerError` - 29 edges
 4. `Response` - 20 edges
 5. `ClientError` - 18 edges
 6. `scripts` - 17 edges
-7. `compilerOptions` - 15 edges
-8. `write_frame()` - 15 edges
-9. `HostileProbeState` - 14 edges
+7. `HostileProbeState` - 15 edges
+8. `compilerOptions` - 15 edges
+9. `write_frame()` - 15 edges
 10. `parse_options()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `runtime_diagnostics()` --references--> `Diagnostics`  [EXTRACTED]
+- `read_runtime_status()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `review_napplet()` --references--> `NappletReview`  [EXTRACTED]
+- `runtime_status()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `project_surface()` --references--> `FetchedSurface`  [EXTRACTED]
+- `reconcile_runtime()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
-- `forward_surface_envelope()` --references--> `RoutedEnvelope`  [EXTRACTED]
+- `select_read_identity()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 
 ## Import Cycles
 - None detected.
 
-## Communities (96 total, 27 thin omitted)
+## Communities (100 total, 27 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.17
@@ -167,8 +171,8 @@ Cohesion: 0.22
 Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
 ### Community 8 - "POC documentation audit"
-Cohesion: 0.14
-Nodes (9): Uzel agent instructions, Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger (+1 more)
+Cohesion: 0.18
+Nodes (4): Uzel agent instructions, Development, Uzel, FACT-XXX — title
 
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.22
@@ -288,7 +292,7 @@ Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact n
 
 ### Community 62 - "Slice 02 preflight"
 Cohesion: 0.12
-Nodes (39): allowed_navigation(), cancel_napplet_review(), confirm_napplet(), ConfirmNappletError, default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe() (+31 more)
+Nodes (44): allowed_navigation(), cancel_napplet_review(), confirm_napplet(), ConfirmNappletError, default_socket_path(), finish_hostile_probe(), forward_surface_envelope(), hostile_native_probe() (+36 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.25
@@ -351,7 +355,7 @@ Cohesion: 0.09
 Nodes (34): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+26 more)
 
 ### Community 87 - "Verified facts"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 88 - "debian13-live-test.sh"
@@ -370,17 +374,33 @@ Nodes (7): fail(), print_nix_builder_state(), print_nix_daemon_state(), refresh_
 Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
 
+### Community 92 - "UnixClient"
+Cohesion: 0.24
+Nodes (11): ClientError, decode_asset_chunk(), FetchedSurface, PendingOperation, Arc, Box, BTreeMap, Mutex (+3 more)
+
 ### Community 93 - "lib.rs"
-Cohesion: 0.09
-Nodes (41): Request, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState (+33 more)
+Cohesion: 0.13
+Nodes (26): active_daemon_socket_is_not_unlinked(), bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, exchange(), existing_shared_socket_parent_is_not_chmodded(), handle_stream() (+18 more)
 
 ### Community 94 - "main.rs"
-Cohesion: 0.10
-Nodes (38): CatalogCapability, ClientError, confirm_response_loss_replays_surface_without_a_second_operation(), decode_asset_chunk(), Diagnostics, encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), FetchedSurface (+30 more)
+Cohesion: 0.18
+Nodes (19): confirm_response_loss_replays_surface_without_a_second_operation(), encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame(), maximum_envelope_with_worst_case_json_escaping_fits_control_frame(), oversized_frame_is_rejected_before_body_read(), ProtocolError (+11 more)
 
 ### Community 95 - "Debian 13 live test"
-Cohesion: 0.25
-Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+Cohesion: 0.50
+Nodes (4): 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test
+
+### Community 97 - "Request"
+Cohesion: 0.17
+Nodes (15): Request, AssetTransfer, DaemonState, InvalidOperationId, replay_cache_binds_operation_id_to_the_exact_confirm_request(), replay_cache_is_bounded_and_operation_ids_are_validated(), replay_key(), ReplayCache (+7 more)
+
+### Community 98 - "Response"
+Cohesion: 0.26
+Nodes (13): CatalogCapability, Diagnostics, NappletReview, next_operation_id(), RelayDiagnostic, Response, RoutedEnvelope, Option (+5 more)
+
+### Community 99 - "Upstream contribution ledger"
+Cohesion: 0.29
+Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
 
 ## Knowledge Gaps
 - **405 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+400 more)
@@ -390,17 +410,17 @@ Nodes (6): 1. Clone and install the launcher, 2. Run automated real-WebKit accep
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `lib.rs`, `main.rs`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **Why does `NappletReview` connect `main.rs` to `Slice 02 preflight`, `lib.rs`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `LinuxRunner` connect `lib.rs` to `Request`, `Response`, `lib.rs`?**
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+- **Why does `NappletReview` connect `Response` to `main.rs`, `UnixClient`, `Slice 02 preflight`, `lib.rs`?**
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _405 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
-- **Should `POC documentation audit` be split into smaller, more focused modules?**
-  _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
 - **Should `hostile_probe.rs` be split into smaller, more focused modules?**
   _Cohesion score 0.12121212121212122 - nodes in this community are weakly interconnected._
+- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
+  _Cohesion score 0.08888888888888889 - nodes in this community are weakly interconnected._
