@@ -164,6 +164,7 @@ pub enum Response {
         version: u8,
         mode: String,
         active_surfaces: Vec<String>,
+        pending_reviews: Vec<String>,
         active_identity: Option<String>,
     },
     Surface {

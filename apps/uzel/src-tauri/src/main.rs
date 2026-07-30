@@ -68,13 +68,15 @@ impl From<ClientError> for ConfirmNappletError {
 struct RuntimeStatus {
     mode: String,
     active_surfaces: Vec<String>,
+    pending_reviews: Vec<String>,
     active_identity: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct RuntimeCleanupFailure {
-    surface_token: String,
+    kind: &'static str,
+    token: String,
     detail: String,
 }
 
@@ -93,11 +95,13 @@ fn read_runtime_status(client: &UnixClient) -> Result<RuntimeStatus, String> {
         Response::Status {
             mode,
             active_surfaces,
+            pending_reviews,
             active_identity,
             ..
         } => Ok(RuntimeStatus {
             mode,
             active_surfaces,
+            pending_reviews,
             active_identity,
         }),
         _ => Err("daemon returned an unexpected status response".to_owned()),
@@ -109,33 +113,36 @@ fn runtime_status(client: tauri::State<'_, UnixClient>) -> Result<RuntimeStatus,
     read_runtime_status(&client)
 }
 
-fn stop_surface_snapshot(
-    active_surfaces: &[String],
-    mut stop: impl FnMut(&str) -> Result<(), String>,
+fn clean_token_snapshot(
+    tokens: &[String],
+    mut clean: impl FnMut(&str) -> Result<(), String>,
 ) -> BTreeMap<String, String> {
     let mut failures = BTreeMap::new();
-    for surface_token in active_surfaces.iter().collect::<BTreeSet<_>>() {
-        if let Err(error) = stop(surface_token) {
-            failures.insert(surface_token.clone(), error);
+    for token in tokens.iter().collect::<BTreeSet<_>>() {
+        if let Err(error) = clean(token) {
+            failures.insert(token.clone(), error);
         }
     }
     failures
 }
 
 fn remaining_cleanup_failures(
-    active_surfaces: &[String],
+    kind: &'static str,
+    tokens: &[String],
     attempted_failures: &BTreeMap<String, String>,
+    default_detail: &'static str,
 ) -> Vec<RuntimeCleanupFailure> {
-    active_surfaces
+    tokens
         .iter()
         .collect::<BTreeSet<_>>()
         .into_iter()
-        .map(|surface_token| RuntimeCleanupFailure {
-            surface_token: surface_token.clone(),
+        .map(|token| RuntimeCleanupFailure {
+            kind,
+            token: token.clone(),
             detail: attempted_failures
-                .get(surface_token)
+                .get(token)
                 .cloned()
-                .unwrap_or_else(|| "daemon still reports the surface after cleanup".to_owned()),
+                .unwrap_or_else(|| default_detail.to_owned()),
         })
         .collect()
 }
@@ -145,19 +152,34 @@ fn reconcile_runtime(
     client: tauri::State<'_, UnixClient>,
     hostile_state: tauri::State<'_, HostileProbeState>,
 ) -> Result<RuntimeReconciliation, String> {
-    // A fresh renderer owns none of the daemon's existing surfaces. Cancel any
-    // renderer-owned hostile sentinel, stop the exact initial snapshot, then use
-    // a second status read as the authoritative result for ambiguous replies.
+    // A fresh renderer owns none of the daemon's existing surfaces or reviews.
+    // Clean each exact initial snapshot, then use a second status read as the
+    // authoritative result for ambiguous replies.
     hostile_state.cancel();
     let before = read_runtime_status(&client)?;
-    let attempted_failures = stop_surface_snapshot(&before.active_surfaces, |surface_token| {
+    let surface_failures = clean_token_snapshot(&before.active_surfaces, |surface_token| {
         client
             .stop_fixture(surface_token)
             .map_err(|error| error.to_string())
     });
+    let review_failures = clean_token_snapshot(&before.pending_reviews, |token| {
+        client
+            .cancel_napplet_review(token)
+            .map_err(|error| error.to_string())
+    });
     let runtime = read_runtime_status(&client)?;
-    let cleanup_failures =
-        remaining_cleanup_failures(&runtime.active_surfaces, &attempted_failures);
+    let mut cleanup_failures = remaining_cleanup_failures(
+        "surface",
+        &runtime.active_surfaces,
+        &surface_failures,
+        "daemon still reports the surface after cleanup",
+    );
+    cleanup_failures.extend(remaining_cleanup_failures(
+        "review",
+        &runtime.pending_reviews,
+        &review_failures,
+        "daemon still reports the review after cancellation",
+    ));
     Ok(RuntimeReconciliation {
         runtime,
         cleanup_failures,
@@ -530,7 +552,7 @@ mod tests {
             "surface-b".to_owned(),
         ];
         let mut stopped = Vec::new();
-        let failures = stop_surface_snapshot(&active, |surface_token| {
+        let failures = clean_token_snapshot(&active, |surface_token| {
             stopped.push(surface_token.to_owned());
             Ok(())
         });
@@ -545,23 +567,43 @@ mod tests {
             ("still-live".to_owned(), "daemon unavailable".to_owned()),
         ]);
         let remaining = remaining_cleanup_failures(
+            "surface",
             &["newly-observed".to_owned(), "still-live".to_owned()],
             &attempted_failures,
+            "daemon still reports the surface after cleanup",
         );
         let values = serde_json::to_value(remaining).unwrap();
-        assert_eq!(values[0]["surfaceToken"], "newly-observed");
+        assert_eq!(values[0]["kind"], "surface");
+        assert_eq!(values[0]["token"], "newly-observed");
         assert_eq!(
             values[0]["detail"],
             "daemon still reports the surface after cleanup"
         );
-        assert_eq!(values[1]["surfaceToken"], "still-live");
+        assert_eq!(values[1]["token"], "still-live");
         assert_eq!(values[1]["detail"], "daemon unavailable");
         assert!(
             values
                 .as_array()
                 .unwrap()
                 .iter()
-                .all(|entry| entry["surfaceToken"] != "already-stopped")
+                .all(|entry| entry["token"] != "already-stopped")
+        );
+    }
+
+    #[test]
+    fn review_cleanup_uses_the_same_authoritative_second_snapshot() {
+        let remaining = remaining_cleanup_failures(
+            "review",
+            &["review-still-live".to_owned()],
+            &BTreeMap::new(),
+            "daemon still reports the review after cancellation",
+        );
+        let value = serde_json::to_value(remaining).unwrap();
+        assert_eq!(value[0]["kind"], "review");
+        assert_eq!(value[0]["token"], "review-still-live");
+        assert_eq!(
+            value[0]["detail"],
+            "daemon still reports the review after cancellation"
         );
     }
 }

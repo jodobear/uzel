@@ -33,6 +33,7 @@ use crate::{
 
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
+const MAXIMUM_PENDING_REVIEWS: usize = 4;
 const RESPONSE_TIMEOUT: Duration = Duration::from_secs(15);
 const PRODUCT_STATE_VERSION: u8 = 0;
 const MAXIMUM_PRODUCT_STATE_BYTES: u64 = 4_096;
@@ -144,6 +145,8 @@ pub enum RunnerError {
     UnknownFixture,
     #[error("active fixture capacity is {MAXIMUM_ACTIVE_FIXTURES}")]
     SurfaceCapacity,
+    #[error("pending napplet review capacity is {MAXIMUM_PENDING_REVIEWS}")]
+    ReviewCapacity,
     #[error("catalog operation was refused: {0}")]
     Catalog(String),
     #[error("catalog confirmation did not match its frozen review")]
@@ -410,6 +413,10 @@ impl LinuxRunner {
         self.surfaces.keys().cloned().collect()
     }
 
+    pub fn pending_review_tokens(&self) -> Vec<String> {
+        self.pending_reviews.keys().cloned().collect()
+    }
+
     pub fn get_read_identity(&self) -> Result<Option<String>, RunnerError> {
         let update = self.controller.account_snapshot();
         if !update.accepted {
@@ -637,6 +644,9 @@ impl LinuxRunner {
     }
 
     pub fn review_napplet(&mut self, coordinate: String) -> Result<NappletReview, RunnerError> {
+        if self.pending_reviews.len() == MAXIMUM_PENDING_REVIEWS {
+            return Err(RunnerError::ReviewCapacity);
+        }
         let result = self.controller.catalog_review_manual(coordinate);
         let review = result.review.ok_or_else(|| {
             RunnerError::Catalog(result.failure.map_or_else(
@@ -1350,6 +1360,45 @@ mod tests {
         runner.cancel_napplet_review(&token).unwrap();
         assert!(!runner.pending_reviews.contains_key(&token));
         runner.cancel_napplet_review(&token).unwrap();
+    }
+
+    #[test]
+    fn pending_review_tokens_are_sorted_bounded_and_reconcilable() {
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        for token in ["review-d", "review-b", "review-c", "review-a"] {
+            runner.pending_reviews.insert(
+                token.to_owned(),
+                NappletReview {
+                    token: token.to_owned(),
+                    event_id: "event".to_owned(),
+                    coordinate: "naddr".to_owned(),
+                    manifest_author: "a".repeat(64),
+                    d_tag: "test".to_owned(),
+                    title: "Test".to_owned(),
+                    description: None,
+                    aggregate_hash: "b".repeat(64),
+                    capabilities: Vec::new(),
+                    blob_sources: Vec::new(),
+                    provenance: Vec::new(),
+                    can_install: false,
+                    blocker: Some("test-only review".to_owned()),
+                },
+            );
+        }
+        assert_eq!(
+            runner.pending_review_tokens(),
+            ["review-a", "review-b", "review-c", "review-d"]
+        );
+        assert!(matches!(
+            runner.review_napplet("naddr-over-cap".to_owned()),
+            Err(RunnerError::ReviewCapacity)
+        ));
+        runner.cancel_napplet_review("review-b").unwrap();
+        assert_eq!(
+            runner.pending_review_tokens(),
+            ["review-a", "review-c", "review-d"]
+        );
     }
 
     #[test]

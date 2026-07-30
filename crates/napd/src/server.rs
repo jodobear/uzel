@@ -139,6 +139,7 @@ impl DaemonState {
                     version: VERSION,
                     mode: self.runner.mode().as_str().to_owned(),
                     active_surfaces: self.runner.active_surfaces(),
+                    pending_reviews: self.runner.pending_review_tokens(),
                     active_identity,
                 },
                 Err(error) => runner_error(error),

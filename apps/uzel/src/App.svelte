@@ -44,11 +44,17 @@
   type RuntimeStatus = {
     mode: string;
     activeSurfaces: string[];
+    pendingReviews: string[];
     activeIdentity: string | null;
+  };
+  type StartupCleanupRequired = {
+    kind: 'surface' | 'review';
+    token: string;
+    detail: string;
   };
   type RuntimeReconciliation = {
     runtime: RuntimeStatus;
-    cleanupFailures: CleanupRequired[];
+    cleanupFailures: StartupCleanupRequired[];
   };
 
   type Diagnostics = {
@@ -129,7 +135,7 @@
   let profile: SurfaceLaunch | null = null;
   let loaded: SurfaceLaunch | null = null;
   let cleanupRequired: CleanupRequired | null = null;
-  let orphanCleanupRequired: CleanupRequired[] = [];
+  let orphanCleanupRequired: StartupCleanupRequired[] = [];
   let baseRecoveryRequired: BaseRecoveryRequired | null = null;
   let runtimeLocked = false;
   let loadedCleanupBusy = false;
@@ -384,7 +390,7 @@
       if (orphanCleanupRequired.length > 0) {
         failShellHandshake(
           'Runtime cleanup required',
-          orphanCleanupRequired.map((entry) => `${entry.surfaceToken}: ${entry.detail}`).join('; '),
+          orphanCleanupRequired.map((entry) => `${entry.kind} ${entry.token}: ${entry.detail}`).join('; '),
         );
         return;
       }
@@ -964,7 +970,9 @@
         }
       }
       if (cleanupRequired) surfaceTokens.add(cleanupRequired.surfaceToken);
-      for (const entry of orphanCleanupRequired) surfaceTokens.add(entry.surfaceToken);
+      for (const entry of orphanCleanupRequired) {
+        if (entry.kind === 'surface') surfaceTokens.add(entry.token);
+      }
       for (const entry of baseRecoveryRequired?.entries ?? []) {
         surfaceTokens.add(entry.launch.surfaceToken);
       }
@@ -973,6 +981,11 @@
       }
       if (nappletReview) {
         void invoke('cancel_napplet_review', { token: nappletReview.token }).catch(() => {});
+      }
+      for (const entry of orphanCleanupRequired) {
+        if (entry.kind === 'review') {
+          void invoke('cancel_napplet_review', { token: entry.token }).catch(() => {});
+        }
       }
     };
   });
@@ -1098,9 +1111,9 @@
           <button type="button" disabled={runtimeInitializationBusy} onclick={retryOrphanCleanup}>{runtimeInitializationBusy ? 'Retrying…' : 'Retry cleanup'}</button>
         </div>
         <div class="surface cleanup-surface">
-          <p>Uzel will not open panes or napplets until every previous surface is stopped.</p>
+          <p>Uzel will not open panes or napplets until every previous surface and review is cleaned up.</p>
           {#each orphanCleanupRequired as entry}
-            <code>{entry.surfaceToken}: {entry.detail}</code>
+            <code>{entry.kind} {entry.token}: {entry.detail}</code>
           {/each}
         </div>
       </article>
