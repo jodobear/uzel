@@ -11,7 +11,7 @@ Integrate the daemon, Linux runner, and two napplets into the user-visible POC.
 - Verify and start both exact builds.
 - Render two panes with focus, resize, orientation, and fullscreen.
 - Bind `napplet:profile/open` to the running profile-card handler.
-- Show cache/refresh/degraded status without protocol noise.
+- Show latest-known/degraded status without inventing freshness that the released NAP wire does not expose.
 - Add a compact developer drawer for sessions, envelopes, NMP demand/evidence, and errors.
 - Prove restart behavior.
 

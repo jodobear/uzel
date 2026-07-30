@@ -28,7 +28,7 @@ No product implementation was started.
 - A coherent nampplets 0.29 candidate can be generated and exercised on Linux without duplicating NMP, runtime, provider, storage, or cryptographic functionality.
 - nampplets runtime semantics are Linux-neutral; only the WebKit/native-host binding is platform-specific.
 - Exact-build identity, grants, sessions, source-bound envelopes, providers, storage, and NMP integration already have reusable owners.
-- Pinned NMP covers the POC's profile/follow/freshness/evidence/cancellation/diagnostics needs without a second cache.
+- Pinned NMP covers profile/follow selection and owns freshness/evidence/cancellation/diagnostics without a second cache. Released NAP identity 0.29.0 does not expose scoped evidence to napplet JavaScript, so the POC labels those reads latest-known.
 - Tauri/Wry initializes authenticated IPC in the top frame on Linux. A sandboxed opaque-origin child cannot read it.
 - A strict self-contained child CSP can deny tested loopback egress while allowing script execution and source-bound `postMessage`.
 - A small same-user AF_UNIX protocol is sufficient for the shell/daemon boundary.

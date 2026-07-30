@@ -63,7 +63,7 @@ update system.
 | Napplet | Owns | Does not own |
 |---|---|---|
 | `follow-list` | direct-follow list, visible-row profile hints, selected-pubkey emission | full profile view, ranking, follow mutation |
-| `profile-card` | one selected profile and freshness/provenance display | follow list, profile editing, remote asset fetching |
+| `profile-card` | one selected latest-known profile and available provenance | follow list, profile editing, direct remote asset fetching, napplet-owned freshness claims |
 | `hostile-egress` | test-only probes | product UI |
 
 No god napplet and no hidden direct coupling.

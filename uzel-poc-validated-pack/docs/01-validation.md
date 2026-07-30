@@ -46,7 +46,7 @@ See [`07-source-baseline.md`](07-source-baseline.md), [`../compatibility.lock`](
 | V-01 | #204 merged and compatible packages exist | merge commit, package lock, conformance output | stop product work; update pins/plan |
 | V-02 | reusable `nampplets` crates compile on Linux | source map and Linux Cargo build | contribute the smallest generic seam upstream; do not clone runtime logic |
 | V-03 | exact-build/session APIs can be driven by a daemon | minimal Rust probe | revise daemon adapter; if impossible, document the specific upstream boundary |
-| V-04 | NMP exposes required read/freshness/diagnostic APIs | compiling probe with signed fixtures | adapt only through public NMP facade or contribute missing seam |
+| V-04 | NMP exposes required read/diagnostic APIs and owns freshness | compiling probe with signed fixtures; verify what released NAP identity wire actually exposes | render latest-known values unless an upstream NAP/nampplets seam exposes scoped evidence |
 | V-05 | nested frame cannot access Tauri and source binding is reliable | Linux Tauri/WebKit hostile probe | change host projection before feature work |
 | V-06 | self-contained fixture executes with strict CSP and no direct egress | hostile browser suite | correct bundle/host policy; never add broad network permission |
 | V-07 | separate shell/daemon IPC is simple enough | one hello/status round trip under `$XDG_RUNTIME_DIR` | reuse an existing local seam if available; avoid public protocol design |

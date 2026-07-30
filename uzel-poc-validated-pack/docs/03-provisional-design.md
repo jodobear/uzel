@@ -108,7 +108,7 @@ Required behavior:
 - direct follows from canonical kind `3`/NIP-02 state;
 - visible list limited to a measured small window;
 - visible/cached profile hints fetched lazily;
-- selected profile observed live or refreshed with bounded freshness;
+- selected profile reloaded as latest-known through NMP, without a napplet-owned freshness claim;
 - cache-first rendering;
 - no claim of global completeness;
 - all observers cancelled when identity/session closes.

@@ -54,7 +54,7 @@ The read-only account parser accepts lower-case hex or `npub`. It does not accep
 | signed events and provenance | NMP | display bounded projections only |
 | replaceable kind 0 selection | NMP | request through runtime provider |
 | direct kind 3 follows | NMP + nampplets projection | render returned public keys |
-| freshness and source shortfalls | NMP evidence | show cache/refresh/degraded state honestly |
+| freshness and source shortfalls | NMP frame evidence, retained internally by nampplets | do not classify freshness in a napplet until released NAP identity APIs expose that evidence |
 | relay routing/fan-out | NMP | configuration only |
 | accounts/read identity | nampplets `NmpDataPlane` | set one public read context |
 | NAP relay/identity envelopes | nampplets providers | source-bind and forward bytes |

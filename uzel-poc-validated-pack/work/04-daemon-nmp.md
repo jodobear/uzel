@@ -29,7 +29,7 @@ Provide one runtime authority and one canonical Nostr data plane behind the shel
 ## Acceptance
 
 - fixture events deduplicate and select canonical profiles through NMP;
-- live mode returns cache-first data and bounded refresh;
+- live mode returns latest-known data through NMP; the product adds no independent refresh/freshness cache;
 - restart preserves required state;
 - no second event/profile/follow cache exists.
 

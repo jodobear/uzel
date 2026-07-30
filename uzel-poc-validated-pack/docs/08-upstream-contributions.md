@@ -34,6 +34,14 @@ exposing any session identifier, it closes the controller fail-closed. Base
 pane token retention and retry are shell-owned product state. Therefore no
 additional fork branch or unpublished dependency was created for this round.
 
+PR #8 review later proved one remaining seam mismatch: NMP frames already carry
+scoped acquisition evidence and nampplets retains it internally, but released
+`@napplet/nap` 0.29.0 identity result envelopes do not expose it to napplet
+JavaScript. Uzel issue #12 owns the authority decision and any future upstream
+branch. Commit `d907e8a` removes the product-side rendered-value freshness
+workaround, so Uzel does not currently depend on an unpublished fix and no
+speculative fork branch was created.
+
 ## Slice 02 upstream result
 
 Uzel consumed the public `RuntimeController` facade and portable trusted-shell
