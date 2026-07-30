@@ -8,20 +8,28 @@
       :root { color-scheme: dark; font: 14px/1.5 ui-monospace, monospace; background: #12100e; color: #f4eee7; }
       * { box-sizing: border-box; }
       body { margin: 0; padding: 16px; }
-      article { border: 1px solid #554b41; border-radius: 7px; padding: 14px; background: #1b1713; }
+      article { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; border: 1px solid #554b41; border-radius: 7px; padding: 14px; background: #1b1713; }
+      .picture { display: grid; width: 72px; height: 72px; overflow: hidden; border: 1px solid #554b41; border-radius: 50%; place-items: center; background: #12100e; color: #aaa096; }
+      .picture img { width: 100%; height: 100%; object-fit: cover; }
+      .content { min-width: 0; }
+      header { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
       h1 { margin: 0 0 4px; font-size: 20px; }
       p { margin: 6px 0; overflow-wrap: anywhere; }
       #pubkey, #evidence { color: #aaa096; font-size: 12px; }
       #status { color: #d8bd7c; }
+      button { padding: 5px 8px; border: 1px solid #554b41; border-radius: 5px; background: #241e19; color: inherit; font: inherit; font-size: 12px; cursor: pointer; }
     </style>
   </head>
   <body>
     <article aria-live="polite">
-      <h1 id="name">Profile card</h1>
-      <p id="pubkey">Select one direct follow.</p>
-      <p id="about"></p>
-      <p id="status" role="status">Waiting for profile/open…</p>
-      <p id="evidence"></p>
+      <div class="picture"><img id="picture" alt="" hidden /><span id="picture-fallback" aria-hidden="true">PP</span></div>
+      <div class="content">
+        <header><h1 id="name">Profile card</h1><button id="refresh" type="button">Refresh</button></header>
+        <p id="pubkey">Loading active identity…</p>
+        <p id="about"></p>
+        <p id="status" role="status">Waiting for runtime…</p>
+        <p id="evidence"></p>
+      </div>
     </article>
     <script type="module" src="/src/main.js"></script>
   </body>

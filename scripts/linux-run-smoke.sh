@@ -235,7 +235,7 @@ if startup_deadline_expired; then
   exit 1
 fi
 
-setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
+UZEL_USE_FIXTURE_RELAY=1 setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
 DEV_PID=$!
 
 RUNTIME_STARTED_AT=

@@ -43,7 +43,7 @@ and interactive paths in [`DEBIAN13-LIVE-TEST.md`](DEBIAN13-LIVE-TEST.md).
 Slices 03 through 06 add independent `follow-list` and `profile-card` napplets,
 the Linux daemon boundary, and the composed two-pane shell. Tauri is a thin private-socket client; one
 daemon-owned upstream `RuntimeController` owns one NMP engine and redb store.
-The 96,172-byte verified fixture crosses the 4,096-byte control seam as bounded,
+The 96,172-byte verified fixture crosses the 131,072-byte control seam as bounded,
 ordered chunks and no artifact path reaches WebKit. The daemon persists only
 the selected public read key and mode outside upstream-owned stores, restoring
 the key through NMP's parser after restart.
@@ -64,3 +64,9 @@ sender. The deterministic demo, hostile Fedora run, and complete locked Debian
 build pass from a detached clean checkout. See
 `uzel-poc-validated-pack/reports/slice-06-preflight.md` for the exact boundary
 and toolchain limitation.
+
+Interactive development starts NMP with the two public operator indexers used
+by the upstream demo (`wss://purplepag.es` and `wss://relay.primal.net`). NMP
+then discovers each identity's NIP-65 outbox relays. The headless acceptance
+lane explicitly sets `UZEL_USE_FIXTURE_RELAY=1`; only that lane replaces the
+public indexers with the committed loopback fixture relay.

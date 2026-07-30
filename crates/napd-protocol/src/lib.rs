@@ -12,7 +12,10 @@ use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
 pub const VERSION: u8 = 0;
-pub const MAX_FRAME_BYTES: usize = 4_096;
+/// Private IPC must carry one bounded NAP envelope plus its JSON wrapper.
+/// Identity projections for ordinary follow lists exceed the old 4 KiB proof
+/// value, while the runtime itself already caps envelopes at 64 KiB.
+pub const MAX_FRAME_BYTES: usize = 128 * 1_024;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(5);
@@ -340,7 +343,7 @@ mod tests {
     #[test]
     fn gate_zero_bounds_remain_exact() {
         assert_eq!(VERSION, 0);
-        assert_eq!(MAX_FRAME_BYTES, 4_096);
+        assert_eq!(MAX_FRAME_BYTES, 128 * 1_024);
     }
 
     #[test]

@@ -1,6 +1,8 @@
 import { isCanonicalPubkey } from '../../../contracts/profile-open.js';
 
-export function directFollows(values, limit = 40) {
+export const MAXIMUM_RENDERED_FOLLOWS = 1_024;
+
+export function directFollows(values, limit = MAXIMUM_RENDERED_FOLLOWS) {
   if (!Array.isArray(values)) return [];
   const unique = new Set();
   for (const value of values) {

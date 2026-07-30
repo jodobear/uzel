@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
-  canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS, PROFILE_RESULT_LIMIT,
+  canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS,
+  PROFILE_RESULT_LIMIT,
 } from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
@@ -24,8 +25,23 @@ test('projects the single canonical kind 0 returned by NMP', () => {
       observedAt: '1970-01-01T00:00:30.000Z',
       name: 'New',
       about: 'Evidence-backed.',
+      picture: undefined,
+      nip05: undefined,
     },
   );
+});
+
+test('projects the active NAP-IDENTITY profile without inventing event evidence', () => {
+  assert.deepEqual(canonicalIdentityProfile({
+    name: 'yo', displayName: 'Yo', about: 'hello', picture: 'https://example.test/p.jpg',
+  }, PUBKEY), {
+    pubkey: PUBKEY,
+    name: 'Yo',
+    about: 'hello',
+    picture: 'https://example.test/p.jpg',
+    nip05: undefined,
+  });
+  assert.equal(canonicalIdentityProfile(null, PUBKEY), null);
 });
 
 test('rejects timestamps outside the JavaScript Date range before projection', () => {

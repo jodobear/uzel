@@ -31,11 +31,11 @@ const GOOD_MORNING: FixtureDefinition = FixtureDefinition {
 const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
     name: "follow-list",
     title: "Direct follows",
-    author: "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+    author: "15f62736d401612416ab68e57f2a188d8bea19c6bcd314d75dc31b17cdba320d",
     d_tag: "follow-list",
-    aggregate_hash: "eaf4e565642e5cd055c8f69bea832d39701d04d3a820f5a5753f39bb3651ea9a",
-    index_digest: "3ae0e253b192fff4aa36a86c0ddc48f20e86551058490b2893b52fa8d3d0edf4",
-    artifact_base_url: "nmp-artifact://eaf4e565-642e-4cd0-95c8-f69bea832d39/",
+    aggregate_hash: "8ececfd3f912d1fa8fe6338d27448e3ff71637fca4adff21a49fbf607856afb6",
+    index_digest: "df4d33d40561a33d3fab8ee19adc96497768e9a16227017b17b4d856a1a52e18",
+    artifact_base_url: "nmp-artifact://8ececfd3-f912-d1fa-8fe6-338d27448e3f/",
     event: include_bytes!("../../../fixtures/follow-list/event.json"),
     index: include_bytes!("../../../fixtures/follow-list/index.html"),
     domains: &["shell", "identity", "inc"],
@@ -44,14 +44,14 @@ const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
 const PROFILE_CARD: FixtureDefinition = FixtureDefinition {
     name: "profile-card",
     title: "Profile card",
-    author: "5ffaf74a636594d5995750526f67a0db34b1c49db9433844ecfb981af7ba69b2",
+    author: "15f62736d401612416ab68e57f2a188d8bea19c6bcd314d75dc31b17cdba320d",
     d_tag: "profile-card",
-    aggregate_hash: "9ee2d7bfebcd1c56f9c8c0e4641402e2d9ab7bed8c97c5d480cc77c04d5690cc",
-    index_digest: "eeb037774dcc43faf6e0e13a9cf67aae8684b34c9c52921bcbd511739c46fa63",
-    artifact_base_url: "nmp-artifact://9ee2d7bf-ebcd-4c56-9c8c-0e4641402e2d/",
+    aggregate_hash: "7886ec2ed30524093d71d0171cfce548a7d0ed2dcfacf55e6b6395503d114f5d",
+    index_digest: "1029872794287301b2b3ef23ecce68e25c994f3c391c4cb0ce250c8fdfce4e58",
+    artifact_base_url: "nmp-artifact://7886ec2e-d305-2409-3d71-d0171cfce548/",
     event: include_bytes!("../../../fixtures/profile-card/event.json"),
     index: include_bytes!("../../../fixtures/profile-card/index.html"),
-    domains: &["shell", "inc", "outbox"],
+    domains: &["shell", "identity", "inc", "outbox"],
 };
 
 const HOSTILE_EGRESS: FixtureDefinition = FixtureDefinition {

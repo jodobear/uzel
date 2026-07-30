@@ -113,13 +113,15 @@ Manual checklist:
 
 1. Uzel window opens and reaches `NAP-SHELL 2/2 READY`.
 2. Both exact-build hashes appear beneath the two panes.
-3. Click `Use identity` with the prefilled public fixture key.
-4. Follow pane shows two direct follows.
+3. Enter an `npub` or 64-character hex public key and click `Use identity`.
+4. Follow pane refreshes from NMP and shows the identity's direct follows.
 5. Select a follow; profile pane updates through `napplet:profile/open`.
 6. Toggle side-by-side/stacked, pane focus, resize, and fullscreen controls.
 7. Open `Developer`; confirm one NMP runtime, exact sessions, relay evidence,
    and bounded envelope diagnostics.
-8. Close the Uzel window. Script stops private daemon and fixture relay.
+8. Close the Uzel window. Script stops the private daemon.
 
-This interactive lane uses only committed signed fixtures and a loopback relay;
-it does not require or contact a public Nostr relay.
+The napplet artifacts remain committed signed fixtures, but the interactive
+lane uses the configured public NMP indexers. NMP discovers the selected
+identity's NIP-65 outbox relays. The `headless` lane alone opts into the local
+deterministic relay.
