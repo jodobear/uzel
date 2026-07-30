@@ -470,6 +470,7 @@ lifecycle_cleanup_commit = "c1c74b775ba877ffe4448ae32b69c63c3e4dcedb"
 catalog_replay_commit = "618dd7d6678318b0232fe1564745b528df7fdc9d"
 live_smoke_commit = "d3176ad7adaa37231dd329ab23467135a915621b"
 product_resource_config_commit = "6a2e0291a614e910c0579fb744d7a7684964f7b9"
+shell_reconciliation_commit = "8e16b4361aac171245c7b9f09b2645fba5ffa250"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
 frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
@@ -487,6 +488,7 @@ codex_review_round_8 = "addressed: retain one client operation ID across ambiguo
 codex_review_round_9 = "addressed: retain one client operation ID across ambiguous confirmation transport failures so the launched surface is reconciled instead of duplicated"
 codex_review_round_10 = "addressed: use the exact current ignored live-identity test and reject a zero-test cargo success"
 codex_review_round_11 = "addressed: move Blossom fallback-server selection out of reusable napd and into product configuration; ordinary public HTTPS remains governed by upstream NAP-RESOURCE policy"
+codex_review_round_12 = "addressed: reconcile every pre-existing daemon surface before a fresh shell launches panes and retain an exact fail-closed retry list"
 
 [gates]
 V_01 = "pass"
