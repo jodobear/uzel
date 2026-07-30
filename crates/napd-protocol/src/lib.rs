@@ -74,6 +74,19 @@ pub struct RoutedEnvelope {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct RelayDiagnostic {
+    pub relay: String,
+    pub access: String,
+    pub wire_subscriptions: u64,
+    pub authors_served: u64,
+    pub lanes: Vec<String>,
+    pub events_by_kind: Vec<String>,
+    pub nip11_freshness: Option<String>,
+    pub nip11_last_error: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Diagnostics {
     pub snapshot_revision: u64,
     pub active_sessions: u64,
@@ -82,6 +95,10 @@ pub struct Diagnostics {
     pub observing_relays: bool,
     pub relays: u64,
     pub omitted_relays: u64,
+    pub uncovered_authors: u64,
+    pub rejected_private_relays: u64,
+    pub sessions_rejected_over_cap: u64,
+    pub relay_details: Vec<RelayDiagnostic>,
     pub store_degraded: Option<String>,
     pub transport_degraded: Option<String>,
 }

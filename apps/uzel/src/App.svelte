@@ -1,6 +1,16 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/core';
   import { onMount, tick } from 'svelte';
+  import {
+    bindingFromEvent,
+    bindingMatches,
+    defaultPreferences,
+    DEFAULT_KEYBINDINGS,
+    KEYBINDING_ACTIONS,
+    parsePreferences,
+    PREFERENCES_STORAGE_KEY,
+    validateKeybindings,
+  } from './preferences.js';
 
   type SurfaceLaunch = {
     surfaceToken: string;
@@ -28,8 +38,23 @@
     observingRelays: boolean;
     relays: number;
     omittedRelays: number;
+    uncoveredAuthors: number;
+    rejectedPrivateRelays: number;
+    sessionsRejectedOverCap: number;
+    relayDetails: RelayDiagnostic[];
     storeDegraded: string | null;
     transportDegraded: string | null;
+  };
+
+  type RelayDiagnostic = {
+    relay: string;
+    access: string;
+    wireSubscriptions: number;
+    authorsServed: number;
+    lanes: string[];
+    eventsByKind: string[];
+    nip11Freshness: string | null;
+    nip11LastError: string | null;
   };
 
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
@@ -63,6 +88,8 @@
   type Pane = 'follow' | 'profile';
   type Orientation = 'horizontal' | 'vertical';
   type LogEntry = { direction: string; surface: string; type: string };
+  type KeybindingAction = keyof typeof DEFAULT_KEYBINDINGS;
+  type Keybindings = Record<KeybindingAction, string>;
 
   const FIXTURE_IDENTITY = '79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798';
   const MAX_LOG_ENTRIES = 40;
@@ -89,6 +116,13 @@
   let fullscreen: Pane | null = null;
   let developerMode = false;
   let drawerOpen = false;
+  let settingsOpen = false;
+  let showEvidence = false;
+  let keybindings: Keybindings = { ...DEFAULT_KEYBINDINGS };
+  let draftBindings: Keybindings = { ...DEFAULT_KEYBINDINGS };
+  let draftShowEvidence = false;
+  let capturingAction: KeybindingAction | null = null;
+  let settingsMessage = '';
   let envelopeLog: LogEntry[] = [];
   let shellReady = false;
   let hostileProbeEnabled = false;
@@ -310,6 +344,51 @@
     localStorage.setItem('uzel.split', String(split));
   }
 
+  function persistShellPreferences() {
+    localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify({
+      version: 1,
+      showEvidence,
+      keybindings,
+    }));
+  }
+
+  function openSettings() {
+    draftBindings = { ...keybindings };
+    draftShowEvidence = showEvidence;
+    capturingAction = null;
+    settingsMessage = '';
+    drawerOpen = false;
+    settingsOpen = true;
+  }
+
+  function closeSettings() {
+    capturingAction = null;
+    settingsOpen = false;
+  }
+
+  function saveSettings() {
+    if (!validateKeybindings(draftBindings)) {
+      settingsMessage = 'Every action needs one unique keybinding.';
+      return;
+    }
+    keybindings = { ...draftBindings };
+    showEvidence = draftShowEvidence;
+    persistShellPreferences();
+    settingsMessage = 'Saved.';
+  }
+
+  function resetSettings() {
+    const defaults = defaultPreferences();
+    draftBindings = { ...defaults.keybindings } as Keybindings;
+    draftShowEvidence = defaults.showEvidence;
+    settingsMessage = 'Defaults restored. Save to apply.';
+  }
+
+  function toggleEvidence() {
+    showEvidence = !showEvidence;
+    persistShellPreferences();
+  }
+
   function beginResize(event: PointerEvent) {
     event.preventDefault();
     const move = (next: PointerEvent) => {
@@ -328,13 +407,49 @@
   }
 
   function handlePaneKeys(event: KeyboardEvent) {
-    if (event.defaultPrevented || event.target instanceof HTMLInputElement) return;
-    const previous = orientation === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
-    const next = orientation === 'horizontal' ? 'ArrowRight' : 'ArrowDown';
-    if (event.key === previous) focusPane('follow');
-    if (event.key === next) focusPane('profile');
+    if (capturingAction !== null) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.key === 'Escape') {
+        capturingAction = null;
+        settingsMessage = 'Key change cancelled.';
+        return;
+      }
+      const binding = bindingFromEvent(event);
+      if (binding !== null) {
+        draftBindings = { ...draftBindings, [capturingAction]: binding };
+        capturingAction = null;
+        settingsMessage = 'New key captured. Save to apply.';
+      }
+      return;
+    }
+    if (event.defaultPrevented) return;
+    const editable = event.target instanceof HTMLInputElement
+      || event.target instanceof HTMLTextAreaElement
+      || event.target instanceof HTMLSelectElement;
+    if (editable) return;
+    if (bindingMatches(event, keybindings.toggleSettings)) {
+      event.preventDefault();
+      settingsOpen ? closeSettings() : openSettings();
+      return;
+    }
+    if (bindingMatches(event, keybindings.toggleDeveloper)) {
+      event.preventDefault();
+      developerMode = true;
+      settingsOpen = false;
+      drawerOpen = !drawerOpen;
+      return;
+    }
+    if (bindingMatches(event, keybindings.toggleEvidence)) {
+      event.preventDefault();
+      toggleEvidence();
+      return;
+    }
+    if (settingsOpen) return;
+    if (bindingMatches(event, keybindings.focusPrevious)) focusPane('follow');
+    if (bindingMatches(event, keybindings.focusNext)) focusPane('profile');
     if (
-      event.key === 'Enter'
+      bindingMatches(event, keybindings.enterPane)
       && (event.target === followPane || event.target === profilePane)
     ) {
       event.preventDefault();
@@ -354,6 +469,9 @@
   }
 
   onMount(() => {
+    const preferences = parsePreferences(localStorage.getItem(PREFERENCES_STORAGE_KEY));
+    showEvidence = preferences.showEvidence;
+    keybindings = { ...preferences.keybindings } as Keybindings;
     const savedOrientation = localStorage.getItem('uzel.orientation');
     if (savedOrientation === 'horizontal' || savedOrientation === 'vertical') {
       orientation = savedOrientation;
@@ -393,6 +511,9 @@
     };
 
     document.addEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
+    const diagnosticsTimer = window.setInterval(() => {
+      void refreshDiagnostics().catch(() => {});
+    }, 2_000);
     void (async () => {
       try {
         runtime = await invoke<RuntimeStatus>('runtime_status');
@@ -424,6 +545,7 @@
     })();
 
     return () => {
+      window.clearInterval(diagnosticsTimer);
       document.removeEventListener('nmp-native-envelope', receiveRuntimeEnvelope);
       if (follow) window.NMPTrustedShellHost.unmount(follow.surfaceToken);
       if (profile) window.NMPTrustedShellHost.unmount(profile.surfaceToken);
@@ -438,7 +560,7 @@
 
 <svelte:window onkeydown={handlePaneKeys} />
 
-<main>
+<main class:show-evidence={showEvidence}>
   <header>
     <div class="brand">
       <p class="eyebrow">Linux exact-build runtime</p>
@@ -449,11 +571,11 @@
       {status}
     </div>
     <nav aria-label="View controls">
-      <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')}>Side by side</button>
-      <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')}>Stacked</button>
-      <button type="button" class:active={focused === 'follow'} onclick={() => focusPane('follow')}>Follow</button>
-      <button type="button" class:active={focused === 'profile'} onclick={() => focusPane('profile')}>Profile</button>
-      <button type="button" class:active={developerMode} onclick={() => { developerMode = !developerMode; drawerOpen = developerMode; }}>Developer</button>
+      <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')} title="Side by side">Side</button>
+      <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')} title="Stacked panes">Stack</button>
+      <button type="button" class:active={showEvidence} onclick={toggleEvidence}>Proof</button>
+      <button type="button" class:active={settingsOpen} onclick={openSettings}>Settings</button>
+      <button type="button" class:active={drawerOpen} onclick={() => { developerMode = true; settingsOpen = false; drawerOpen = !drawerOpen; }}>Debug</button>
     </nav>
   </header>
 
@@ -490,7 +612,7 @@
         <button type="button" onclick={() => fullscreen = fullscreen === 'follow' ? null : 'follow'}>{fullscreen === 'follow' ? 'Restore' : 'Fullscreen'}</button>
       </div>
       <div bind:this={followSurface} class="surface"><p>Verifying follow-list…</p></div>
-      <footer><code>{follow?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{follow?.unavailableDomains.join(', ') || 'exact domains available'}</span></footer>
+      {#if showEvidence}<footer><code>{follow?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{follow?.unavailableDomains.length ? `Unavailable: ${follow.unavailableDomains.join(', ')}` : 'All requested capabilities ready'}</span></footer>{/if}
     </article>
 
     <button
@@ -513,16 +635,57 @@
         <button type="button" onclick={() => fullscreen = fullscreen === 'profile' ? null : 'profile'}>{fullscreen === 'profile' ? 'Restore' : 'Fullscreen'}</button>
       </div>
       <div bind:this={profileSurface} class="surface"><p>Verifying profile-card…</p></div>
-      <footer><code>{profile?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{profile?.unavailableDomains.join(', ') || 'exact domains available'}</span></footer>
+      {#if showEvidence}<footer><code>{profile?.aggregateHash.slice(0, 12) ?? 'verifying'}…</code><span>{profile?.unavailableDomains.length ? `Unavailable: ${profile.unavailableDomains.join(', ')}` : 'All requested capabilities ready'}</span></footer>{/if}
     </article>
   </section>
 
-  <section class="proof-strip" aria-label="Runtime evidence">
+  {#if showEvidence}<section class="proof-strip" aria-label="Runtime evidence">
     <div><span>NAP-SHELL</span><strong data-proof-shell={shellReady}>{readyCount}/2 {shellHandshakeFailed ? 'FAILED' : shellReady ? 'READY' : 'WAITING'}</strong></div>
     <div><span>Sessions</span><strong>{diagnostics?.activeSessions ?? 0} EXACT</strong></div>
     <div><span>NMP</span><strong>{diagnostics?.observingRelays ? `${diagnostics.relays} RELAYS` : 'CACHE-FIRST'}</strong></div>
     <div><span>Profile route</span><strong>NAP-INC</strong></div>
-  </section>
+  </section>{/if}
+
+  {#if settingsOpen}
+    <section class="settings-page" aria-label="Settings">
+      <div class="settings-card">
+        <div class="settings-heading">
+          <div><p class="eyebrow">Shell preferences</p><h2>Settings</h2></div>
+          <button type="button" onclick={closeSettings}>Close</button>
+        </div>
+        <section class="settings-section">
+          <h3>Appearance</h3>
+          <label class="toggle-row"><input type="checkbox" bind:checked={draftShowEvidence} /><span><strong>Runtime proof chrome</strong><small>Show exact-build hashes, capability status, and the proof strip.</small></span></label>
+        </section>
+        <section class="settings-section">
+          <h3>Keybindings</h3>
+          <p class="settings-help">Select Change, then press the new key combination. Escape cancels.</p>
+          <div class="keybinding-list">
+            {#each KEYBINDING_ACTIONS as action}
+              <div class="keybinding-row">
+                <span>{action.label}</span>
+                <kbd>{draftBindings[action.id as KeybindingAction]}</kbd>
+                <button type="button" class:recording={capturingAction === action.id} onclick={() => { capturingAction = action.id as KeybindingAction; settingsMessage = 'Press a key combination…'; }}>{capturingAction === action.id ? 'Listening…' : 'Change'}</button>
+              </div>
+            {/each}
+          </div>
+        </section>
+        <section class="settings-section network-summary">
+          <h3>Network ownership</h3>
+          <p>Uzel supplies operator indexers. NMP discovers each identity's NIP-65 relays, owns subscriptions, reconnects transports, and replays live demand.</p>
+          <p><strong>{diagnostics?.relays ?? 0}</strong> relay sessions currently accounted · revision {diagnostics?.relayRevision ?? 0}</p>
+          {#if diagnostics?.transportDegraded || diagnostics?.storeDegraded}
+            <p class="network-warning">{diagnostics.transportDegraded ?? diagnostics.storeDegraded}</p>
+          {/if}
+        </section>
+        <div class="settings-actions">
+          <span role="status">{settingsMessage}</span>
+          <button type="button" onclick={resetSettings}>Reset defaults</button>
+          <button type="button" class="primary" onclick={saveSettings}>Save settings</button>
+        </div>
+      </div>
+    </section>
+  {/if}
 
   {#if developerMode && drawerOpen}
     <aside class="developer-drawer" aria-label="Developer diagnostics">
@@ -532,7 +695,24 @@
         <div><dt>Relay revision</dt><dd>{diagnostics?.relayRevision ?? 0}</dd></div>
         <div><dt>Active identity</dt><dd>{diagnostics?.activeIdentity ?? 'none'}</dd></div>
         <div><dt>Omitted relays</dt><dd>{diagnostics?.omittedRelays ?? 0}</dd></div>
+        <div><dt>Uncovered authors</dt><dd>{diagnostics?.uncoveredAuthors ?? 0}</dd></div>
+        <div><dt>Private relays rejected</dt><dd>{diagnostics?.rejectedPrivateRelays ?? 0}</dd></div>
+        <div><dt>Sessions over cap</dt><dd>{diagnostics?.sessionsRejectedOverCap ?? 0}</dd></div>
       </dl>
+      <section class="relay-list" aria-label="NMP relay sessions">
+        <h3>Relay sessions</h3>
+        {#each diagnostics?.relayDetails ?? [] as relay}
+          <article>
+            <strong>{relay.relay}</strong>
+            <small>{relay.access} · {relay.wireSubscriptions} wire subs · {relay.authorsServed} authors</small>
+            <code>{relay.lanes.join(' · ') || 'no active lanes'}</code>
+            <code>events {relay.eventsByKind.join(' · ') || 'none observed'}</code>
+            {#if relay.nip11LastError}<em>{relay.nip11LastError}</em>{/if}
+          </article>
+        {:else}
+          <p>No relay session is currently accounted.</p>
+        {/each}
+      </section>
       <div class="envelope-log">
         {#each envelopeLog as entry}
           <div><span>{entry.direction}</span><code>{entry.type}</code><small>{entry.surface}</small></div>

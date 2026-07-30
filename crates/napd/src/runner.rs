@@ -8,13 +8,14 @@ use std::{
     time::{Duration, Instant},
 };
 
-use napd_protocol::{Diagnostics, RoutedEnvelope, SurfaceMetadata};
+use napd_protocol::{Diagnostics, RelayDiagnostic, RoutedEnvelope, SurfaceMetadata};
 use nmp_native_runtime_ffi::{
     ArtifactCoordinate, NativeConfigCommit, NativeSettingsExecutor, NativeSettingsOpenResult,
     NativeSettingsRequest, RuntimeAccountHandle, RuntimeConfig, RuntimeController, RuntimeEvent,
     RuntimeExecutionProfile, RuntimeGrantDecision, RuntimeObservation, RuntimeObservationFrame,
-    RuntimeObserver, RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
-    RuntimeRelayDiagnosticsSnapshot, RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
+    RuntimeObserver, RuntimeRelayAccess, RuntimeRelayDiagnosticsObservation,
+    RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot, RuntimeRelayLane,
+    RuntimeSensitivity, RuntimeSnapshotProjection, VerifiedRead,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -94,6 +95,22 @@ impl RuntimeMode {
             Self::Fixture => "fixture",
             Self::Live => "live",
         }
+    }
+}
+
+fn relay_lane_name(lane: RuntimeRelayLane) -> &'static str {
+    match lane {
+        RuntimeRelayLane::Nip65Write => "nip65-write",
+        RuntimeRelayLane::Nip65Read => "nip65-read",
+        RuntimeRelayLane::Hint => "hint",
+        RuntimeRelayLane::Provenance => "provenance",
+        RuntimeRelayLane::UserConfigured => "user-configured",
+        RuntimeRelayLane::IndexerDiscovery => "indexer-discovery",
+        RuntimeRelayLane::GroupHost => "group-host",
+        RuntimeRelayLane::DmInbox => "dm-inbox",
+        RuntimeRelayLane::AppRelay => "app-relay",
+        RuntimeRelayLane::Fallback => "fallback",
+        RuntimeRelayLane::ExplicitPinned => "explicit-pinned",
     }
 }
 
@@ -557,6 +574,38 @@ impl LinuxRunner {
             observing_relays: relay.observing,
             relays: relay.relays.len() as u64,
             omitted_relays: relay.omitted_relays,
+            uncovered_authors: relay.uncovered_author_count,
+            rejected_private_relays: relay.discovered_private_relays_rejected,
+            sessions_rejected_over_cap: relay.sessions_rejected_over_cap,
+            relay_details: relay
+                .relays
+                .into_iter()
+                .map(|relay| RelayDiagnostic {
+                    relay: relay.relay,
+                    access: match relay.access {
+                        RuntimeRelayAccess::Public => "public".to_owned(),
+                        RuntimeRelayAccess::Nip42 { public_key } => {
+                            format!("nip42:{}…", &public_key[..public_key.len().min(12)])
+                        }
+                    },
+                    wire_subscriptions: relay.wire_subscription_count,
+                    authors_served: relay.authors_served,
+                    lanes: relay
+                        .lanes
+                        .into_iter()
+                        .map(|lane| {
+                            format!("{}:{}", relay_lane_name(lane.lane), lane.wire_subscriptions)
+                        })
+                        .collect(),
+                    events_by_kind: relay
+                        .events_by_kind
+                        .into_iter()
+                        .map(|kind| format!("{}:{}", kind.kind, kind.events))
+                        .collect(),
+                    nip11_freshness: relay.nip11_freshness,
+                    nip11_last_error: relay.nip11_last_error,
+                })
+                .collect(),
             store_degraded: bounded_diagnostic(relay.store_degraded),
             transport_degraded: bounded_diagnostic(relay.transport_degraded),
         })
