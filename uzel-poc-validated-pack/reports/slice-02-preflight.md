@@ -106,7 +106,9 @@ Work 04 must add a bounded chunked verified-asset transfer, or an equivalently
 bounded private custom-scheme stream, with size/order rejection before moving
 runtime authority into `uzel-napd`. Slice 04 later supplied that evidence and
 raised the bounded version-0 frame ceiling to 524288 bytes so worst-case JSON
-escaping of a 65536-byte envelope still fits.
+escaping of a 65536-byte inbound envelope still fits. The live-identity
+extension retained that ceiling and chunked larger NAP-RESOURCE routed
+responses on the original connection.
 
 ## Upstream result
 

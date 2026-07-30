@@ -54,7 +54,7 @@ No product implementation was started.
 2. Treat NAP and NIP-5D revisions as exact provisional pins. Do not claim NIP-5A or spec ratification.
 3. Preserve one trusted Tauri WebView with source-bound sandboxed frames, but document that WebKit's raw message handler is visible and protected by Tauri's top-frame-only invoke key.
 4. Adopt the tested child CSP verbatim and require conformance-clean self-contained artifacts. Do not add broad network permission to accommodate Vite output.
-5. Use four-byte big-endian, bounded version-0 JSON frames over a 0600 AF_UNIX socket in a 0700 runtime directory. Gate 0 proved a 4,096-byte feasibility bound; Slice 04 later established the current 524288-byte product bound with explicit 65536-byte envelope escaping headroom.
+5. Use four-byte big-endian, bounded version-0 JSON frames over a 0600 AF_UNIX socket in a 0700 runtime directory. Gate 0 proved a 4,096-byte feasibility bound; Slice 04 later established the current 524288-byte per-frame product bound with explicit 65536-byte inbound-envelope escaping headroom. The live-identity extension retained that ceiling and added same-connection chunking for larger NAP-RESOURCE routed responses.
 6. Pin a real flake/devShell; use `nix develop`, lock Tauri CLI and crate separately, expose pnpm via Corepack on `PATH`, and use Fallow's released schema.
 
 ## Accepted provisional risks

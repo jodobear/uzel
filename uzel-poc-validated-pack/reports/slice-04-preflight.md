@@ -23,9 +23,11 @@ No Uzel event, profile, or follow table/cache exists.
 
 - Protocol version remains `0`.
 - Every control frame retains the four-byte big-endian length prefix and
-  524288-byte maximum; this covers a 65536-byte envelope after worst-case JSON
-  escaping and wrapper fields. An oversized declaration is rejected before
-  body read or allocation.
+  524288-byte maximum; this covers a 65536-byte inbound envelope after
+  worst-case JSON escaping and wrapper fields. An oversized declaration is
+  rejected before body read or allocation. The later live-identity extension
+  streams larger NAP-RESOURCE routed responses in ordered 262144-byte chunks
+  on the original connection under the trusted shell's aggregate bound.
 - `$XDG_RUNTIME_DIR/uzel` is mode 0700 and `napd.sock` is mode 0600.
 - A stale path is removed only when it is a Unix socket owned by the same UID
   as its private parent directory, a connection probe proves no daemon is
@@ -42,10 +44,10 @@ No Uzel event, profile, or follow table/cache exists.
   read/write deadlines, so an incomplete client cannot block later requests
   indefinitely.
 - Invalid protocol JSON, changed versions, unknown surfaces/transfers,
-  out-of-order chunks, oversized runtime responses, and runtime refusals are
-  typed bounded errors. The daemon serializes each response into a bounded
-  buffer before writing, so it returns `response_too_large` instead of closing
-  the connection on an oversized upstream envelope.
+  out-of-order chunks, oversized aggregates, and runtime refusals are typed
+  bounded errors. Non-envelope responses still serialize into one bounded
+  buffer. Routed envelopes that exceed one control frame use the validated
+  same-connection chunk stream instead of closing the connection.
 - Each fixture restart advances the shell-owned surface and transfer generation,
   so stale IDs cannot authorize a replacement session.
 - Shutdown exits the accept loop; runtime and relay observations stop
@@ -170,8 +172,10 @@ an active daemon socket must not be unlinked, accepted streams need deadlines,
 existing shared socket parents must not be chmodded, and the historical exact
 Fedora readiness line must remain stable. It also found that failed identity
 persistence must restore the prior active NMP installation and surface
-generations must survive daemon restart. Finally, oversized runtime envelopes
-must become typed bounded errors, and atomic state replacement must fsync the
+generations must survive daemon restart. At that slice, oversized runtime
+envelopes became typed bounded errors; the later NAP-RESOURCE extension
+replaced that single-frame assumption with bounded same-connection response
+chunks. Atomic state replacement must fsync the
 parent directory before its reservation is called durable. All eight were
 corrected and covered by the 15-test daemon suite plus the final Fedora run.
 The Fedora harness now also uses a disposable `XDG_DATA_HOME`, keeping its

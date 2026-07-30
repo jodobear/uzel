@@ -44,15 +44,18 @@ shutdown in developer/test mode
 The Rust daemon and Tauri backend share `napd-protocol` Rust types. Do not generate a TypeScript copy of daemon IPC; Svelte receives a narrower product-facing model from the trusted Tauri backend.
 
 The Work 05 private start request names one member of a closed four-fixture
-catalog. Runtime status returns only bounded active surface tokens. Forwarding
+catalog. Runtime status returns bounded active-surface and pending-review
+tokens so a fresh renderer can reconcile both lifecycle classes. Forwarding
 returns an explicit trusted target surface: ordinary provider responses target
 their source surface, while only runtime-authorized `inc.emit` may target the
 other installed handler. Unknown fixtures and a fifth active fixture fail
 closed. This remains a private protocol, not an app-discovery API.
 
 The 524288-byte frame remains a bounded control-message limit. It reserves
-enough space for a 65536-byte runtime envelope after worst-case JSON string
-escaping and wrapper fields. Slice 04 transfers the pinned 96172-byte verified
+enough space for a 65536-byte inbound runtime envelope after worst-case JSON
+string escaping and wrapper fields. Larger routed responses produced by
+NAP-RESOURCE stream on the same connection as ordered 262144-byte chunks under
+the trusted shell's 104923136-byte aggregate bound. Slice 04 transfers the pinned 96172-byte verified
 `/index.html` as ordered 2048-byte chunks with a 512-KiB aggregate ceiling.
 Start returns bounded metadata, transfer ID, and total length; each subsequent
 request must name the same transfer and exact next offset. Tauri rejects

@@ -310,7 +310,7 @@ runtime_result = "pass: exact signed fixture verified, installed, launched, comp
 hostile_result = "pass: unmapped surface rejected; forged session/principal ignored; sandboxed child has no Tauri globals, Wry ipc function, or readable parent"
 fedora_run_result = "pass: real Tauri/WebKitGTK exact-build, NAP-SHELL, authored artifact response, and child-native-denial markers observed"
 debian_build_result = "pass: locked frontend and complete Cargo/Tauri/nampplets/NMP workspace built on Bookworm"
-daemon_transfer_result = "pass: 524288-byte bounded control frame covers a 65536-byte envelope after worst-case JSON escaping; 96172-byte verified document transfers in ordered 2048-byte chunks"
+daemon_transfer_result = "pass: 524288-byte bounded control frame covers a 65536-byte inbound envelope after worst-case JSON escaping; 96172-byte verified document transfers in ordered 2048-byte chunks"
 upstream_change_required = false
 
 [slice_03]
@@ -471,9 +471,14 @@ catalog_replay_commit = "618dd7d6678318b0232fe1564745b528df7fdc9d"
 live_smoke_commit = "d3176ad7adaa37231dd329ab23467135a915621b"
 product_resource_config_commit = "6a2e0291a614e910c0579fb744d7a7684964f7b9"
 shell_reconciliation_commit = "8e16b4361aac171245c7b9f09b2645fba5ffa250"
+review_reconciliation_commit = "577c598968b5c24adf7347cb5cb786faa3d1e2c8"
+routed_envelope_chunk_commit = "eda1f41dcfb5251c561ee4ac650760543c8b9ef0"
 maximum_envelope_bytes = 65536
 maximum_frame_bytes = 524288
+maximum_routed_envelope_bytes = 104923136
+envelope_chunk_bytes = 262144
 frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
+routed_envelope_result = "pass: responses above 65536 bytes stream in ordered same-surface chunks within the unchanged frame ceiling; client validates offsets, total, completion, UTF-8, and the trusted-shell aggregate bound"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
 browser_fault_injection_result = "pass: Playwright clicked loaded stop, cancellation, transfer cleanup, and identity-change base-pane stop failure/retry paths; exact tokens remained locked until retry; compact recovery screenshots inspected; browser console had zero errors"
@@ -489,6 +494,8 @@ codex_review_round_9 = "addressed: retain one client operation ID across ambiguo
 codex_review_round_10 = "addressed: use the exact current ignored live-identity test and reject a zero-test cargo success"
 codex_review_round_11 = "addressed: move Blossom fallback-server selection out of reusable napd and into product configuration; ordinary public HTTPS remains governed by upstream NAP-RESOURCE policy"
 codex_review_round_12 = "addressed: reconcile every pre-existing daemon surface before a fresh shell launches panes and retain an exact fail-closed retry list"
+codex_review_round_13 = "addressed: expose and cancel bounded pending reviews during fresh-shell reconciliation and retain typed retry entries after the second authoritative snapshot"
+codex_review_round_14 = "addressed: chunk large NAP-RESOURCE routed responses on the original socket connection without raising the 524288-byte control-frame ceiling"
 
 [gates]
 V_01 = "pass"
