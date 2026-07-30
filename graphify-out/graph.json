@@ -1857,11 +1857,31 @@
       "label": "if()",
       "file_type": "code",
       "source_file": "apps/uzel/src/App.svelte",
-      "source_location": "L441",
+      "source_location": "L445",
       "_origin": "ast",
       "id": "apps_uzel_src_app_if",
       "community": 38,
       "norm_label": "if()"
+    },
+    {
+      "label": "function()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L457",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_function",
+      "community": 38,
+      "norm_label": "function()"
+    },
+    {
+      "label": "openNappletLoader()",
+      "file_type": "code",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L469",
+      "_origin": "ast",
+      "id": "apps_uzel_src_app_opennappletloader",
+      "community": 38,
+      "norm_label": "opennappletloader()"
     },
     {
       "label": "@tauri-apps/api/core",
@@ -2580,7 +2600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib",
-      "community": 92,
+      "community": 41,
       "norm_label": "lib.rs"
     },
     {
@@ -2590,7 +2610,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_request",
-      "community": 92,
+      "community": 78,
       "norm_label": "request"
     },
     {
@@ -2600,7 +2620,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_string",
-      "community": 92,
+      "community": 79,
       "norm_label": "string"
     },
     {
@@ -2610,7 +2630,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_vec",
-      "community": 92,
+      "community": 79,
       "norm_label": "vec"
     },
     {
@@ -2620,7 +2640,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 92,
+      "community": 79,
       "norm_label": "surfacemetadata"
     },
     {
@@ -2630,7 +2650,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_catalogcapability",
-      "community": 92,
+      "community": 79,
       "norm_label": "catalogcapability"
     },
     {
@@ -2640,7 +2660,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_nappletreview",
-      "community": 92,
+      "community": 79,
       "norm_label": "nappletreview"
     },
     {
@@ -2650,7 +2670,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_option",
-      "community": 92,
+      "community": 79,
       "norm_label": "option"
     },
     {
@@ -2660,7 +2680,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_routedenvelope",
-      "community": 47,
+      "community": 41,
       "norm_label": "routedenvelope"
     },
     {
@@ -2670,7 +2690,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_relaydiagnostic",
-      "community": 92,
+      "community": 79,
       "norm_label": "relaydiagnostic"
     },
     {
@@ -2680,7 +2700,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_diagnostics",
-      "community": 92,
+      "community": 79,
       "norm_label": "diagnostics"
     },
     {
@@ -2690,7 +2710,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response",
-      "community": 92,
+      "community": 79,
       "norm_label": "response"
     },
     {
@@ -2700,7 +2720,7 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response_error",
-      "community": 92,
+      "community": 79,
       "norm_label": ".error()"
     },
     {
@@ -2710,7 +2730,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "into",
-      "community": 92,
+      "community": 79,
       "norm_label": "into"
     },
     {
@@ -2720,7 +2740,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_self",
-      "community": 92,
+      "community": 79,
       "norm_label": "self"
     },
     {
@@ -2730,7 +2750,7 @@
       "source_location": "L228",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_protocolerror",
-      "community": 92,
+      "community": 80,
       "norm_label": "protocolerror"
     },
     {
@@ -2740,7 +2760,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_error",
-      "community": 92,
+      "community": 80,
       "norm_label": "error"
     },
     {
@@ -2750,7 +2770,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodeerror",
-      "community": 92,
+      "community": 80,
       "norm_label": "decodeerror"
     },
     {
@@ -2870,7 +2890,7 @@
       "source_location": "L314",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_new",
-      "community": 92,
+      "community": 41,
       "norm_label": ".new()"
     },
     {
@@ -2880,7 +2900,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_asref",
-      "community": 92,
+      "community": 41,
       "norm_label": "asref"
     },
     {
@@ -2890,7 +2910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_path",
-      "community": 92,
+      "community": 41,
       "norm_label": "path"
     },
     {
@@ -3090,7 +3110,7 @@
       "source_location": "L681",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_next_operation_id",
-      "community": 92,
+      "community": 41,
       "norm_label": "next_operation_id()"
     },
     {
@@ -3100,7 +3120,7 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_write_frame",
-      "community": 92,
+      "community": 41,
       "norm_label": "write_frame()"
     },
     {
@@ -3110,7 +3130,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "write",
-      "community": 92,
+      "community": 41,
       "norm_label": "write"
     },
     {
@@ -3120,7 +3140,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_t",
-      "community": 92,
+      "community": 80,
       "norm_label": "t"
     },
     {
@@ -3130,7 +3150,7 @@
       "source_location": "L704",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_frame",
-      "community": 92,
+      "community": 80,
       "norm_label": "read_frame()"
     },
     {
@@ -3140,7 +3160,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "read",
-      "community": 92,
+      "community": 80,
       "norm_label": "read"
     },
     {
@@ -3150,7 +3170,7 @@
       "source_location": "L719",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_encode_asset_chunk",
-      "community": 92,
+      "community": 41,
       "norm_label": "encode_asset_chunk()"
     },
     {
@@ -3170,7 +3190,7 @@
       "source_location": "L727",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_exact_or_truncated",
-      "community": 92,
+      "community": 80,
       "norm_label": "read_exact_or_truncated()"
     },
     {
@@ -3180,7 +3200,7 @@
       "source_location": "L752",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_gate_zero_bounds_remain_exact",
-      "community": 92,
+      "community": 41,
       "norm_label": "gate_zero_bounds_remain_exact()"
     },
     {
@@ -3190,7 +3210,7 @@
       "source_location": "L764",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_pending_catalog_operations_are_bounded",
-      "community": 92,
+      "community": 41,
       "norm_label": "pending_catalog_operations_are_bounded()"
     },
     {
@@ -3200,7 +3220,7 @@
       "source_location": "L785",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_deterministic_presend_failures_do_not_retain_catalog_operations",
-      "community": 92,
+      "community": 41,
       "norm_label": "deterministic_presend_failures_do_not_retain_catalog_operations()"
     },
     {
@@ -3210,7 +3230,7 @@
       "source_location": "L809",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_frames_round_trip_with_big_endian_length",
-      "community": 92,
+      "community": 41,
       "norm_label": "frames_round_trip_with_big_endian_length()"
     },
     {
@@ -3220,7 +3240,7 @@
       "source_location": "L824",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_oversized_frame_is_rejected_before_body_read",
-      "community": 92,
+      "community": 41,
       "norm_label": "oversized_frame_is_rejected_before_body_read()"
     },
     {
@@ -3230,7 +3250,7 @@
       "source_location": "L833",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_asset_chunk_fits_control_frame",
-      "community": 92,
+      "community": 41,
       "norm_label": "maximum_asset_chunk_fits_control_frame()"
     },
     {
@@ -3240,7 +3260,7 @@
       "source_location": "L848",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_envelope_with_worst_case_json_escaping_fits_control_frame",
-      "community": 92,
+      "community": 41,
       "norm_label": "maximum_envelope_with_worst_case_json_escaping_fits_control_frame()"
     },
     {
@@ -3250,7 +3270,7 @@
       "source_location": "L875",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_chunked_routed_envelope_reassembles_on_one_connection",
-      "community": 92,
+      "community": 41,
       "norm_label": "chunked_routed_envelope_reassembles_on_one_connection()"
     },
     {
@@ -3260,7 +3280,7 @@
       "source_location": "L926",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_failed_asset_transfer_stops_the_launched_surface",
-      "community": 92,
+      "community": 41,
       "norm_label": "failed_asset_transfer_stops_the_launched_surface()"
     },
     {
@@ -3270,7 +3290,7 @@
       "source_location": "L974",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_review_retry_reuses_operation_after_responses_are_lost",
-      "community": 92,
+      "community": 41,
       "norm_label": "review_retry_reuses_operation_after_responses_are_lost()"
     },
     {
@@ -3280,7 +3300,7 @@
       "source_location": "L1043",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_authoritative_reconciliation_retires_ambiguous_operation_ids",
-      "community": 92,
+      "community": 41,
       "norm_label": "authoritative_reconciliation_retires_ambiguous_operation_ids()"
     },
     {
@@ -3290,7 +3310,7 @@
       "source_location": "L1056",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_confirm_responses_lost_replay_surface_without_a_second_operation",
-      "community": 92,
+      "community": 41,
       "norm_label": "confirm_responses_lost_replay_surface_without_a_second_operation()"
     },
     {
@@ -3950,7 +3970,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 92,
+      "community": 79,
       "norm_label": ".metadata()"
     },
     {
@@ -5110,7 +5130,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "crates_napd_src_server_assettransfer",
-      "community": 93,
+      "community": 78,
       "norm_label": "assettransfer"
     },
     {
@@ -5120,7 +5140,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_string",
-      "community": 93,
+      "community": 78,
       "norm_label": "string"
     },
     {
@@ -5130,7 +5150,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vec",
-      "community": 93,
+      "community": 78,
       "norm_label": "vec"
     },
     {
@@ -5140,7 +5160,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "crates_napd_src_server_replayentry",
-      "community": 92,
+      "community": 78,
       "norm_label": "replayentry"
     },
     {
@@ -5150,7 +5170,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "crates_napd_src_server_invalidoperationid",
-      "community": 93,
+      "community": 78,
       "norm_label": "invalidoperationid"
     },
     {
@@ -5160,7 +5180,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache",
-      "community": 93,
+      "community": 78,
       "norm_label": "replaycache"
     },
     {
@@ -5170,7 +5190,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_btreemap",
-      "community": 93,
+      "community": 78,
       "norm_label": "btreemap"
     },
     {
@@ -5180,7 +5200,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vecdeque",
-      "community": 93,
+      "community": 78,
       "norm_label": "vecdeque"
     },
     {
@@ -5190,7 +5210,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_lookup",
-      "community": 92,
+      "community": 78,
       "norm_label": ".lookup()"
     },
     {
@@ -5200,7 +5220,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_option",
-      "community": 93,
+      "community": 78,
       "norm_label": "option"
     },
     {
@@ -5210,7 +5230,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_remember",
-      "community": 93,
+      "community": 78,
       "norm_label": ".remember()"
     },
     {
@@ -5220,7 +5240,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate",
-      "community": 93,
+      "community": 78,
       "norm_label": "daemonstate"
     },
     {
@@ -5250,7 +5270,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_handle",
-      "community": 93,
+      "community": 78,
       "norm_label": ".handle()"
     },
     {
@@ -5260,7 +5280,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 93,
+      "community": 78,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -5270,7 +5290,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_stage_surface",
-      "community": 93,
+      "community": 78,
       "norm_label": ".stage_surface()"
     },
     {
@@ -5290,7 +5310,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 93,
+      "community": 78,
       "norm_label": "surfacelaunch"
     },
     {
@@ -5300,7 +5320,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "crates_napd_src_server_replay_key",
-      "community": 93,
+      "community": 78,
       "norm_label": "replay_key()"
     },
     {
@@ -5310,7 +5330,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "crates_napd_src_server_runner_error",
-      "community": 93,
+      "community": 78,
       "norm_label": "runner_error()"
     },
     {
@@ -5320,7 +5340,7 @@
       "source_location": "L319",
       "_origin": "ast",
       "id": "crates_napd_src_server_bounded_detail",
-      "community": 93,
+      "community": 78,
       "norm_label": "bounded_detail()"
     },
     {
@@ -5420,7 +5440,7 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "crates_napd_src_server_handle_stream",
-      "community": 93,
+      "community": 41,
       "norm_label": "handle_stream()"
     },
     {
@@ -5430,7 +5450,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_unixstream",
-      "community": 93,
+      "community": 41,
       "norm_label": "unixstream"
     },
     {
@@ -5440,7 +5460,7 @@
       "source_location": "L414",
       "_origin": "ast",
       "id": "crates_napd_src_server_write_response",
-      "community": 93,
+      "community": 41,
       "norm_label": "write_response()"
     },
     {
@@ -5450,7 +5470,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "crates_napd_src_server_write_chunked_envelope",
-      "community": 93,
+      "community": 41,
       "norm_label": "write_chunked_envelope()"
     },
     {
@@ -5480,7 +5500,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "crates_napd_src_server_exchange",
-      "community": 92,
+      "community": 93,
       "norm_label": "exchange()"
     },
     {
@@ -8528,7 +8548,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "debian13_live_test",
-      "community": 94,
+      "community": 8,
       "norm_label": "debian13-live-test.md"
     },
     {
@@ -8578,7 +8598,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 94,
+      "community": 8,
       "norm_label": "readme.md"
     },
     {
@@ -8588,7 +8608,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_uzel",
-      "community": 94,
+      "community": 8,
       "norm_label": "uzel"
     },
     {
@@ -8598,7 +8618,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "readme_development",
-      "community": 94,
+      "community": 8,
       "norm_label": "development"
     },
     {
@@ -8948,7 +8968,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_poc_status",
-      "community": 8,
+      "community": 98,
       "norm_label": "poc status"
     },
     {
@@ -8958,7 +8978,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_gate_0_validated_baseline",
-      "community": 8,
+      "community": 98,
       "norm_label": "gate 0 \u2014 validated baseline"
     },
     {
@@ -8968,7 +8988,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_implementation",
-      "community": 8,
+      "community": 98,
       "norm_label": "implementation"
     },
     {
@@ -8978,7 +8998,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_latest_integrated_evidence",
-      "community": 8,
+      "community": 98,
       "norm_label": "latest integrated evidence"
     },
     {
@@ -8988,7 +9008,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_status_accepted_provisional_risks",
-      "community": 8,
+      "community": 98,
       "norm_label": "accepted provisional risks"
     },
     {
@@ -9668,7 +9688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_docs_07_source_baseline",
-      "community": 8,
+      "community": 87,
       "norm_label": "07-source-baseline.md"
     },
     {
@@ -10568,7 +10588,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight",
-      "community": 10,
+      "community": 65,
       "norm_label": "slice-03-preflight.md"
     },
     {
@@ -11058,7 +11078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate",
-      "community": 65,
+      "community": 63,
       "norm_label": "00-validate.md"
     },
     {
@@ -11378,7 +11398,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp",
-      "community": 10,
+      "community": 65,
       "norm_label": "04-daemon-nmp.md"
     },
     {
@@ -11388,7 +11408,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 10,
+      "community": 95,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -11398,7 +11418,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 10,
+      "community": 95,
       "norm_label": "goal"
     },
     {
@@ -11408,7 +11428,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 10,
+      "community": 95,
       "norm_label": "entry status and pins"
     },
     {
@@ -11418,7 +11438,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 10,
+      "community": 95,
       "norm_label": "read"
     },
     {
@@ -11428,7 +11448,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 10,
+      "community": 95,
       "norm_label": "tasks"
     },
     {
@@ -11438,7 +11458,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 10,
+      "community": 95,
       "norm_label": "acceptance"
     },
     {
@@ -11448,7 +11468,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 10,
+      "community": 95,
       "norm_label": "non-goals"
     },
     {
@@ -11458,7 +11478,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate",
-      "community": 65,
+      "community": 97,
       "norm_label": "05-integrate.md"
     },
     {
@@ -11468,7 +11488,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_work_05_composed_demo",
-      "community": 65,
+      "community": 97,
       "norm_label": "work 05 \u2014 composed demo"
     },
     {
@@ -11478,7 +11498,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_goal",
-      "community": 65,
+      "community": 97,
       "norm_label": "goal"
     },
     {
@@ -11488,7 +11508,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_tasks",
-      "community": 65,
+      "community": 97,
       "norm_label": "tasks"
     },
     {
@@ -11498,7 +11518,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_acceptance",
-      "community": 65,
+      "community": 97,
       "norm_label": "acceptance"
     },
     {
@@ -11508,7 +11528,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_05_integrate_non_goals",
-      "community": 65,
+      "community": 97,
       "norm_label": "non-goals"
     },
     {
@@ -11518,7 +11538,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo",
-      "community": 65,
+      "community": 100,
       "norm_label": "06-hardening-demo.md"
     },
     {
@@ -11528,7 +11548,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_work_06_hardening_and_demo_acceptance",
-      "community": 65,
+      "community": 100,
       "norm_label": "work 06 \u2014 hardening and demo acceptance"
     },
     {
@@ -11538,7 +11558,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_goal",
-      "community": 65,
+      "community": 100,
       "norm_label": "goal"
     },
     {
@@ -11548,7 +11568,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_tasks",
-      "community": 65,
+      "community": 100,
       "norm_label": "tasks"
     },
     {
@@ -11558,7 +11578,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_06_hardening_demo_acceptance",
-      "community": 65,
+      "community": 100,
       "norm_label": "acceptance"
     }
   ],
@@ -15656,10 +15676,30 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "apps/uzel/src/App.svelte",
-      "source_location": "L1050",
+      "source_location": "L463",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app",
+      "target": "apps_uzel_src_app_function",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L1062",
       "weight": 1.0,
       "source": "apps_uzel_src_app",
       "target": "apps_uzel_src_app_if",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/src/App.svelte",
+      "source_location": "L469",
+      "weight": 1.0,
+      "source": "apps_uzel_src_app",
+      "target": "apps_uzel_src_app_opennappletloader",
       "confidence_score": 1.0
     },
     {
@@ -31411,5 +31451,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6b0ff72fa85d27d143c9b72de674dd3827a84cb3"
+  "built_at_commit": "db74ee49353a152ad40a2837000b345e0e3f41fb"
 }

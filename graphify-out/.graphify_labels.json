@@ -40,6 +40,7 @@
   "38": "App.svelte",
   "39": "build.rs",
   "40": "Post-POC extraction",
+  "41": "lib.rs",
   "42": "README.md",
   "43": "README.md",
   "44": "check-boundaries.sh",
@@ -76,6 +77,9 @@
   "75": "vite.config.js",
   "76": "vite.config.js",
   "77": "vite.config.js",
+  "78": "Request",
+  "79": "Response",
+  "80": "ProtocolError",
   "81": "AcceptSettings",
   "82": "RelayDiagnosticsSink",
   "83": "FACT-011-daemon-nmp.md",
@@ -90,6 +94,10 @@
   "92": "UnixClient",
   "93": "lib.rs",
   "94": "Debian 13 live test",
+  "95": "Work 04 — daemon, NMP, and persistence",
   "96": "FACT-014-live-identity-catalog.md",
-  "99": "Upstream contribution ledger"
+  "97": "Work 05 — composed demo",
+  "98": "POC status",
+  "99": "Upstream contribution ledger",
+  "100": "Work 06 — hardening and demo acceptance"
 }
