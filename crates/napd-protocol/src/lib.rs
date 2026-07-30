@@ -272,6 +272,8 @@ pub enum ClientError {
     },
     #[error("ambiguous catalog operation capacity is {MAXIMUM_PENDING_OPERATIONS}")]
     PendingOperationCapacity,
+    #[error("catalog operation outcome is ambiguous after delivery: {0}")]
+    AmbiguousOperation(Box<ClientError>),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -595,7 +597,7 @@ impl UnixClient {
                 Err(DeliveryError::MaybeSent(error))
                     if attempt + 1 == REPLAYABLE_REQUEST_ATTEMPTS =>
                 {
-                    return Err(error);
+                    return Err(ClientError::AmbiguousOperation(Box::new(error)));
                 }
                 Err(DeliveryError::MaybeSent(_)) => {}
             }
@@ -1016,7 +1018,7 @@ mod tests {
         let client = UnixClient::new(&socket);
         assert!(matches!(
             client.review_napplet("naddr-test"),
-            Err(ClientError::Protocol(_))
+            Err(ClientError::AmbiguousOperation(_))
         ));
         assert_eq!(
             client.review_napplet("naddr-test").unwrap().token,
@@ -1028,7 +1030,7 @@ mod tests {
     }
 
     #[test]
-    fn confirm_response_loss_replays_surface_without_a_second_operation() {
+    fn confirm_responses_lost_replay_surface_without_a_second_operation() {
         let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
         let root = std::env::temp_dir().join(format!(
             "uzel-napd-protocol-confirm-{}-{unique}",
@@ -1038,22 +1040,30 @@ mod tests {
         let socket = root.join("napd.sock");
         let listener = UnixListener::bind(&socket).unwrap();
         let server = thread::spawn(move || {
-            let (mut first_stream, _) = listener.accept().unwrap();
-            let first = read_frame::<Request>(&mut first_stream).unwrap();
-            let Request::ConfirmNapplet {
-                ref operation_id, ..
-            } = first
-            else {
-                panic!("unexpected request")
-            };
-            assert!(!operation_id.is_empty());
-            drop(first_stream);
-
-            let (mut replay_stream, _) = listener.accept().unwrap();
-            let replay = read_frame::<Request>(&mut replay_stream).unwrap();
-            assert_eq!(replay, first);
+            let mut first = None;
+            let mut final_stream = None;
+            for exchange in 0..3 {
+                let (mut stream, _) = listener.accept().unwrap();
+                let request = read_frame::<Request>(&mut stream).unwrap();
+                if let Some(first) = &first {
+                    assert_eq!(&request, first);
+                } else {
+                    let Request::ConfirmNapplet {
+                        ref operation_id, ..
+                    } = request
+                    else {
+                        panic!("unexpected request")
+                    };
+                    assert!(!operation_id.is_empty());
+                    first = Some(request.clone());
+                }
+                if exchange == 2 {
+                    final_stream = Some(stream);
+                }
+            }
+            let mut final_stream = final_stream.unwrap();
             write_frame(
-                &mut replay_stream,
+                &mut final_stream,
                 &Response::Surface {
                     surface: SurfaceMetadata {
                         surface_token: "confirmed-surface".to_owned(),
@@ -1094,7 +1104,18 @@ mod tests {
             .unwrap();
         });
 
-        let fetched = UnixClient::new(&socket)
+        let client = UnixClient::new(&socket);
+        assert!(matches!(
+            client.confirm_napplet(
+                "review-token",
+                &"a".repeat(64),
+                "test",
+                &"b".repeat(64),
+                Vec::new(),
+            ),
+            Err(ClientError::AmbiguousOperation(_))
+        ));
+        let fetched = client
             .confirm_napplet(
                 "review-token",
                 &"a".repeat(64),

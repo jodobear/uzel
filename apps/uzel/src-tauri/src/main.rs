@@ -54,6 +54,11 @@ impl From<ClientError> for ConfirmNappletError {
                     "asset transfer failed ({transfer_error}); cleanup also failed ({cleanup_error})"
                 ),
             },
+            ClientError::AmbiguousOperation(error) => Self {
+                kind: "confirmationAmbiguous",
+                surface_token: None,
+                detail: error.to_string(),
+            },
             error => Self {
                 kind: "refused",
                 surface_token: None,
@@ -542,6 +547,17 @@ mod tests {
                 .unwrap()
                 .contains("cleanup also failed")
         );
+    }
+
+    #[test]
+    fn ambiguous_confirmation_crosses_as_a_typed_retry_state() {
+        let error = ConfirmNappletError::from(ClientError::AmbiguousOperation(Box::new(
+            ClientError::Protocol(napd_protocol::ProtocolError::Truncated),
+        )));
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "confirmationAmbiguous");
+        assert!(value.get("surfaceToken").is_none());
+        assert!(value["detail"].as_str().unwrap().contains("peer closed"));
     }
 
     #[test]
