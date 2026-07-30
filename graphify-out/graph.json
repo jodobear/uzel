@@ -1240,7 +1240,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_runtime_diagnostics",
-      "community": 79,
+      "community": 11,
       "norm_label": "runtime_diagnostics()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L216",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_main_finish_hostile_probe",
-      "community": 79,
+      "community": 62,
       "norm_label": "finish_hostile_probe()"
     },
     {
@@ -2180,7 +2180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib",
-      "community": 7,
+      "community": 11,
       "norm_label": "lib.rs"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_request",
-      "community": 7,
+      "community": 11,
       "norm_label": "request"
     },
     {
@@ -2200,7 +2200,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_string",
-      "community": 7,
+      "community": 11,
       "norm_label": "string"
     },
     {
@@ -2210,7 +2210,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 7,
+      "community": 11,
       "norm_label": "surfacemetadata"
     },
     {
@@ -2220,7 +2220,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_vec",
-      "community": 7,
+      "community": 11,
       "norm_label": "vec"
     },
     {
@@ -2230,7 +2230,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_routedenvelope",
-      "community": 7,
+      "community": 79,
       "norm_label": "routedenvelope"
     },
     {
@@ -2240,7 +2240,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_diagnostics",
-      "community": 7,
+      "community": 11,
       "norm_label": "diagnostics"
     },
     {
@@ -2250,7 +2250,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_option",
-      "community": 7,
+      "community": 11,
       "norm_label": "option"
     },
     {
@@ -2260,7 +2260,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response",
-      "community": 7,
+      "community": 11,
       "norm_label": "response"
     },
     {
@@ -2270,7 +2270,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response_error",
-      "community": 7,
+      "community": 11,
       "norm_label": ".error()"
     },
     {
@@ -2280,7 +2280,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "into",
-      "community": 7,
+      "community": 11,
       "norm_label": "into"
     },
     {
@@ -2290,7 +2290,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_self",
-      "community": 7,
+      "community": 11,
       "norm_label": "self"
     },
     {
@@ -2300,7 +2300,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_protocolerror",
-      "community": 7,
+      "community": 11,
       "norm_label": "protocolerror"
     },
     {
@@ -2310,7 +2310,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_error",
-      "community": 7,
+      "community": 11,
       "norm_label": "error"
     },
     {
@@ -2320,7 +2320,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodeerror",
-      "community": 7,
+      "community": 11,
       "norm_label": "decodeerror"
     },
     {
@@ -2330,7 +2330,7 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_fetchedsurface",
-      "community": 7,
+      "community": 11,
       "norm_label": "fetchedsurface"
     },
     {
@@ -2340,7 +2340,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_clienterror",
-      "community": 7,
+      "community": 11,
       "norm_label": "clienterror"
     },
     {
@@ -2350,7 +2350,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient",
-      "community": 79,
+      "community": 11,
       "norm_label": "unixclient"
     },
     {
@@ -2360,7 +2360,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_pathbuf",
-      "community": 79,
+      "community": 11,
       "norm_label": "pathbuf"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "L182",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_new",
-      "community": 7,
+      "community": 11,
       "norm_label": ".new()"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_asref",
-      "community": 7,
+      "community": 11,
       "norm_label": "asref"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_path",
-      "community": 7,
+      "community": 11,
       "norm_label": "path"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_request",
-      "community": 7,
+      "community": 11,
       "norm_label": ".request()"
     },
     {
@@ -2410,7 +2410,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_result",
-      "community": 7,
+      "community": 11,
       "norm_label": "result"
     },
     {
@@ -2420,7 +2420,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_fixture",
-      "community": 7,
+      "community": 11,
       "norm_label": ".start_fixture()"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L208",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_named_fixture",
-      "community": 7,
+      "community": 11,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L214",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_start_hostile_probe",
-      "community": 7,
+      "community": 11,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_fetch_surface",
-      "community": 7,
+      "community": 11,
       "norm_label": ".fetch_surface()"
     },
     {
@@ -2460,7 +2460,7 @@
       "source_location": "L287",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_write_frame",
-      "community": 7,
+      "community": 11,
       "norm_label": "write_frame()"
     },
     {
@@ -2470,7 +2470,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "write",
-      "community": 7,
+      "community": 11,
       "norm_label": "write"
     },
     {
@@ -2480,7 +2480,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "t",
-      "community": 7,
+      "community": 11,
       "norm_label": "t"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L301",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_frame",
-      "community": 7,
+      "community": 11,
       "norm_label": "read_frame()"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "read",
-      "community": 7,
+      "community": 11,
       "norm_label": "read"
     },
     {
@@ -2510,7 +2510,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_encode_asset_chunk",
-      "community": 7,
+      "community": 11,
       "norm_label": "encode_asset_chunk()"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L320",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_decode_asset_chunk",
-      "community": 7,
+      "community": 11,
       "norm_label": "decode_asset_chunk()"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L324",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_exact_or_truncated",
-      "community": 7,
+      "community": 11,
       "norm_label": "read_exact_or_truncated()"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_gate_zero_bounds_remain_exact",
-      "community": 7,
+      "community": 11,
       "norm_label": "gate_zero_bounds_remain_exact()"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L347",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_frames_round_trip_with_big_endian_length",
-      "community": 7,
+      "community": 11,
       "norm_label": "frames_round_trip_with_big_endian_length()"
     },
     {
@@ -2560,7 +2560,7 @@
       "source_location": "L362",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_oversized_frame_is_rejected_before_body_read",
-      "community": 7,
+      "community": 11,
       "norm_label": "oversized_frame_is_rejected_before_body_read()"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "L371",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_asset_chunk_fits_control_frame",
-      "community": 7,
+      "community": 11,
       "norm_label": "maximum_asset_chunk_fits_control_frame()"
     },
     {
@@ -2760,7 +2760,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 7,
+      "community": 11,
       "norm_label": ".metadata()"
     },
     {
@@ -6766,6 +6766,20 @@
       "norm_label": "report_marker_state()"
     },
     {
+      "label": "startup_deadline_expired()",
+      "file_type": "code",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L151",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_linux_run_smoke_startup_deadline_expired",
+      "community": 6,
+      "norm_label": "startup_deadline_expired()"
+    },
+    {
       "label": "smoke.sh",
       "file_type": "code",
       "source_file": "scripts/smoke.sh",
@@ -8890,7 +8904,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_reports_slice_03_preflight",
-      "community": 10,
+      "community": 65,
       "norm_label": "slice-03-preflight.md"
     },
     {
@@ -9700,7 +9714,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp",
-      "community": 10,
+      "community": 65,
       "norm_label": "04-daemon-nmp.md"
     },
     {
@@ -9710,7 +9724,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_work_04_daemon_nmp_and_persistence",
-      "community": 10,
+      "community": 7,
       "norm_label": "work 04 \u2014 daemon, nmp, and persistence"
     },
     {
@@ -9720,7 +9734,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_goal",
-      "community": 10,
+      "community": 7,
       "norm_label": "goal"
     },
     {
@@ -9730,7 +9744,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_entry_status_and_pins",
-      "community": 10,
+      "community": 7,
       "norm_label": "entry status and pins"
     },
     {
@@ -9740,7 +9754,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_read",
-      "community": 10,
+      "community": 7,
       "norm_label": "read"
     },
     {
@@ -9750,7 +9764,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_tasks",
-      "community": 10,
+      "community": 7,
       "norm_label": "tasks"
     },
     {
@@ -9760,7 +9774,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_acceptance",
-      "community": 10,
+      "community": 7,
       "norm_label": "acceptance"
     },
     {
@@ -9770,7 +9784,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_04_daemon_nmp_non_goals",
-      "community": 10,
+      "community": 7,
       "norm_label": "non-goals"
     },
     {
@@ -21572,6 +21586,16 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "scripts_linux_run_smoke",
+      "target": "scripts_linux_run_smoke_startup_deadline_expired",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
       "source_location": "L84",
       "weight": 1.0,
       "source": "scripts_linux_run_smoke",
@@ -21622,7 +21646,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L182",
+      "source_location": "L188",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_sh__entry",
@@ -21633,11 +21657,22 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/linux-run-smoke.sh",
-      "source_location": "L178",
+      "source_location": "L197",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_linux_run_smoke_sh__entry",
       "target": "scripts_linux_run_smoke_runtime_markers_ready",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/linux-run-smoke.sh",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_linux_run_smoke_sh__entry",
+      "target": "scripts_linux_run_smoke_startup_deadline_expired",
       "confidence_score": 1.0
     },
     {
@@ -24700,5 +24735,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0fd0cbd4739cf53a3e3079823f24aab5ceb4c716"
+  "built_at_commit": "189e4c4e95ce4add52d94a6da2a60043a13337cd"
 }
