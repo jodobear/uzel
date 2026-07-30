@@ -496,6 +496,16 @@ impl UnixClient {
         }
     }
 
+    pub fn retire_catalog_operations(&self) -> usize {
+        let mut pending = self
+            .pending_operations
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        let retired = pending.len();
+        pending.clear();
+        retired
+    }
+
     pub fn confirm_napplet(
         &self,
         token: &str,
@@ -1027,6 +1037,19 @@ mod tests {
         server.join().unwrap();
         fs::remove_file(&socket).unwrap();
         fs::remove_dir(&root).unwrap();
+    }
+
+    #[test]
+    fn authoritative_reconciliation_retires_ambiguous_operation_ids() {
+        let client = UnixClient::new("/tmp/uzel-unused-retirement-test.sock");
+        let operation = PendingOperation::Review {
+            coordinate: "naddr-test".to_owned(),
+        };
+        let first = client.operation_id_for(&operation).unwrap();
+        assert_eq!(client.retire_catalog_operations(), 1);
+        assert_eq!(client.retire_catalog_operations(), 0);
+        let second = client.operation_id_for(&operation).unwrap();
+        assert_ne!(first, second);
     }
 
     #[test]

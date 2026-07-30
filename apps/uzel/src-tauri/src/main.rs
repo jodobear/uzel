@@ -207,6 +207,12 @@ fn reconcile_runtime(
         &review_failures,
         "daemon still reports the review after cancellation",
     ));
+    if runtime.active_surfaces.is_empty()
+        && runtime.pending_reviews.is_empty()
+        && cleanup_failures.is_empty()
+    {
+        client.retire_catalog_operations();
+    }
     Ok(RuntimeReconciliation {
         runtime,
         cleanup_failures,
