@@ -38,6 +38,7 @@ source /etc/os-release
 [[ $EUID -ne 0 ]] || fail 'run as normal desktop user, not root'
 command -v dpkg-query >/dev/null || fail 'dpkg-query missing on Debian host'
 command -v getent >/dev/null || fail 'getent missing on Debian host'
+command -v timeout >/dev/null || fail 'timeout missing on Debian host'
 
 APT_PACKAGES=(git login nix-setup-systemd)
 MISSING_APT=()
@@ -110,7 +111,8 @@ refresh_nix_daemon_state() {
     && "$NIX_DAEMON_ENABLED" == enabled ]]; then
     NIX_DAEMON_READY=1
     if (( GROUP_ACTIVE == 1 )) && command -v nix >/dev/null; then
-      if nix --extra-experimental-features nix-command \
+      if timeout --foreground --signal=TERM --kill-after=2s 10s \
+        nix --extra-experimental-features nix-command \
         store info --store daemon >/dev/null 2>&1; then
         NIX_DAEMON_CLIENT=ok
       else
