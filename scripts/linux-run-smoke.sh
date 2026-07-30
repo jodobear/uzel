@@ -145,6 +145,9 @@ report_marker_state() {
   fi
 }
 
+SMOKE_STARTED_AT=$SECONDS
+echo "LINUX_SMOKE_PHASE phase=startup timeout_seconds=$STARTUP_TIMEOUT_SECONDS"
+
 weston \
   --backend=headless \
   --renderer=gl \
@@ -164,9 +167,7 @@ done
 setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
 DEV_PID=$!
 
-SMOKE_STARTED_AT=$SECONDS
 RUNTIME_STARTED_AT=
-echo "LINUX_SMOKE_PHASE phase=startup timeout_seconds=$STARTUP_TIMEOUT_SECONDS"
 
 while true; do
   if [[ -z "$RUNTIME_STARTED_AT" ]] && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log"; then
