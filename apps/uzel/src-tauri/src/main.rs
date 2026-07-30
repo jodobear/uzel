@@ -361,7 +361,12 @@ fn start_hostile_probe(
 }
 
 #[tauri::command]
-fn stop_fixture(client: tauri::State<'_, UnixClient>, surface_token: String) -> Result<(), String> {
+fn stop_fixture(
+    client: tauri::State<'_, UnixClient>,
+    hostile_state: tauri::State<'_, HostileProbeState>,
+    surface_token: String,
+) -> Result<(), String> {
+    hostile_state.cancel_surface(&surface_token)?;
     client
         .stop_fixture(&surface_token)
         .map_err(|error| error.to_string())

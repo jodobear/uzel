@@ -87,10 +87,12 @@
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
   type CleanupRequired = { surfaceToken: string; detail: string };
   type ReviewAmbiguous = { coordinate: string; detail: string };
-  type BaseCleanupEntry = { pane: Pane; launch: SurfaceLaunch };
+  type BaseCleanupTarget = Pane | 'hostile';
+  type BaseCleanupEntry = { pane: BaseCleanupTarget; launch: SurfaceLaunch };
   type BaseRecoveryRequired = {
     entries: BaseCleanupEntry[];
     restartPanes: Pane[];
+    restartHostile: boolean;
     detail: string;
   };
   type HostileReport = {
@@ -254,6 +256,12 @@
         reportRuntimeFailure(`Hostile shell rejected for ${surfaceToken}`, detail);
       },
     });
+  }
+
+  async function launchHostileSurface() {
+    await tick();
+    hostile = await invoke<SurfaceLaunch>('start_hostile_probe');
+    if (!mountHostileSurface(hostile)) throw new Error('hostile surface refused');
   }
 
   function appendLog(direction: string, surface: string, type: string) {
@@ -436,15 +444,13 @@
       });
       hostileProbeEnabled = await invoke<boolean>('hostile_probe_enabled');
       if (hostileProbeEnabled) {
-        await tick();
-        hostile = await invoke<SurfaceLaunch>('start_hostile_probe');
-        if (!mountHostileSurface(hostile)) throw new Error('hostile surface refused');
+        await launchHostileSurface();
       }
       initializationRetryRequired = null;
     } catch (error) {
-      if (profile || follow) {
+      if (profile || follow || hostile) {
         initializationRetryRequired = null;
-        await retainBaseRecovery(['profile', 'follow'], error);
+        await retainBaseRecovery(['profile', 'follow'], error, hostileProbeEnabled);
       } else {
         initializationRetryRequired = String(error);
         failShellHandshake('Composition failed', error);
@@ -700,6 +706,9 @@
     if (entry.pane === 'follow' && follow?.surfaceToken === entry.launch.surfaceToken) {
       follow = null;
     }
+    if (entry.pane === 'hostile' && hostile?.surfaceToken === entry.launch.surfaceToken) {
+      hostile = null;
+    }
   }
 
   async function stopBaseSurfaces(entries: BaseCleanupEntry[]) {
@@ -717,7 +726,7 @@
     return { remaining, failures };
   }
 
-  async function launchBaseSurfaces(restartPanes: Pane[]) {
+  async function launchBaseSurfaces(restartPanes: Pane[], restartHostile = false) {
     if (restartPanes.includes('profile')) {
       profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
       if (!mountSurface(profile, profileSurface)) {
@@ -730,9 +739,16 @@
         throw new Error('follow surface refused after identity change');
       }
     }
+    if (restartHostile) {
+      await launchHostileSurface();
+    }
   }
 
-  async function retainBaseRecovery(restartPanes: Pane[], error: unknown) {
+  async function retainBaseRecovery(
+    restartPanes: Pane[],
+    error: unknown,
+    restartHostile = false,
+  ) {
     const entries: BaseCleanupEntry[] = [];
     if (restartPanes.includes('profile') && profile) {
       window.NMPTrustedShellHost.unmount(profile.surfaceToken);
@@ -742,27 +758,42 @@
       window.NMPTrustedShellHost.unmount(follow.surfaceToken);
       entries.push({ pane: 'follow', launch: follow });
     }
+    if (restartHostile && hostile) {
+      window.NMPTrustedShellHost.unmount(hostile.surfaceToken);
+      entries.push({ pane: 'hostile', launch: hostile });
+    }
     const stopped = await stopBaseSurfaces(entries);
     const detail = stopped.failures.length
       ? `${String(error)}; cleanup failed: ${stopped.failures.join('; ')}`
       : String(error);
-    baseRecoveryRequired = { entries: stopped.remaining, restartPanes, detail };
+    baseRecoveryRequired = { entries: stopped.remaining, restartPanes, restartHostile, detail };
     failShellHandshake('Shell restart failed', detail);
   }
 
   async function restartActiveSurfaces() {
     beginShellHandshake();
     const entries: BaseCleanupEntry[] = [];
-    if (profile) entries.push({ pane: 'profile', launch: profile });
-    if (follow) entries.push({ pane: 'follow', launch: follow });
-    const restartPanes = entries.map((entry) => entry.pane);
+    const restartPanes: Pane[] = [];
+    if (profile) {
+      entries.push({ pane: 'profile', launch: profile });
+      restartPanes.push('profile');
+    }
+    if (follow) {
+      entries.push({ pane: 'follow', launch: follow });
+      restartPanes.push('follow');
+    }
     for (const entry of entries) {
       window.NMPTrustedShellHost.unmount(entry.launch.surfaceToken);
     }
     const stopped = await stopBaseSurfaces(entries);
     if (stopped.remaining.length > 0) {
       const detail = stopped.failures.join('; ');
-      baseRecoveryRequired = { entries: stopped.remaining, restartPanes, detail };
+      baseRecoveryRequired = {
+        entries: stopped.remaining,
+        restartPanes,
+        restartHostile: false,
+        detail,
+      };
       const error = new Error(detail);
       failShellHandshake('Shell restart failed', error);
       throw error;
@@ -791,9 +822,9 @@
     baseRecoveryRequired = null;
     beginShellHandshake();
     try {
-      await launchBaseSurfaces(current.restartPanes);
+      await launchBaseSurfaces(current.restartPanes, current.restartHostile);
     } catch (error) {
-      await retainBaseRecovery(current.restartPanes, error);
+      await retainBaseRecovery(current.restartPanes, error, current.restartHostile);
     } finally {
       baseRecoveryBusy = false;
       await refreshDiagnostics().catch(() => {});
@@ -1212,11 +1243,11 @@
   {/if}
 
   {#if baseRecoveryRequired}
-    <section class="loaded-workspace cleanup-workspace" aria-label="Pending base pane cleanup">
+    <section class="loaded-workspace cleanup-workspace" aria-label="Pending runtime surface cleanup">
       <article class="pane loaded-pane cleanup-pane">
         <div class="pane-title">
-          <div><span>RECOVER</span><strong>Profile/follows restart paused</strong></div>
-          <button type="button" disabled={baseRecoveryBusy} onclick={retryBaseRecovery}>{baseRecoveryBusy ? 'Retrying…' : 'Retry panes'}</button>
+          <div><span>RECOVER</span><strong>Runtime surface restart paused</strong></div>
+          <button type="button" disabled={baseRecoveryBusy} onclick={retryBaseRecovery}>{baseRecoveryBusy ? 'Retrying…' : 'Retry surfaces'}</button>
         </div>
         <div class="surface cleanup-surface">
           <p>{baseRecoveryRequired.detail}</p>
@@ -1225,7 +1256,7 @@
               <code>{entry.pane}: {entry.launch.surfaceToken}</code>
             {/each}
           {:else}
-            <code>Cleanup complete · pane launch awaits retry</code>
+            <code>Cleanup complete · surface launch awaits retry</code>
           {/if}
         </div>
       </article>
