@@ -97,7 +97,9 @@ redacted WebKit/Uzel and Weston logs are stored beneath its `failure/`
 directory. Each run creates a unique directory and never overwrites earlier
 evidence. The smoke runner uses its own process group. Interrupting the outer
 live-test PID forwards the signal to the active prebuild or smoke child group,
-waits for cleanup, and exits nonzero.
+waits for cleanup, and exits nonzero. Runtime cleanup gives child processes five
+seconds to handle `SIGTERM`, then sends `SIGKILL` and verifies the process group
+is gone before returning.
 
 ## 3. Run visible desktop demo
 

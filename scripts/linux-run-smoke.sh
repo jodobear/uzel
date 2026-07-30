@@ -5,11 +5,14 @@ SMOKE_NAME=${UZEL_SMOKE_NAME:-linux}
 SUCCESS_MARKER=${UZEL_SMOKE_SUCCESS_MARKER:-LINUX_RUN_SMOKE_OK}
 STARTUP_TIMEOUT_SECONDS=${UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS:-600}
 RUNTIME_TIMEOUT_SECONDS=${UZEL_SMOKE_RUNTIME_TIMEOUT_SECONDS:-120}
+SHUTDOWN_GRACE_SECONDS=${UZEL_SMOKE_SHUTDOWN_GRACE_SECONDS:-5}
 
 [[ "$STARTUP_TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] \
   || { echo 'UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS must be a positive integer' >&2; exit 2; }
 [[ "$RUNTIME_TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] \
   || { echo 'UZEL_SMOKE_RUNTIME_TIMEOUT_SECONDS must be a positive integer' >&2; exit 2; }
+[[ "$SHUTDOWN_GRACE_SECONDS" =~ ^[1-9][0-9]*$ ]] \
+  || { echo 'UZEL_SMOKE_SHUTDOWN_GRACE_SECONDS must be a positive integer' >&2; exit 2; }
 
 SMOKE_TMP=$(mktemp -d)
 FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/${SMOKE_NAME}-failed}
@@ -34,21 +37,71 @@ preserve_logs() {
 # shellcheck disable=SC2329
 preserve_failure() {
   preserve_logs "$FAILED_DIR"
-  echo "Linux runtime smoke failed; logs preserved in $FAILED_DIR" >&2
+  echo "Linux runtime smoke failed; logs preserved in $FAILED_DIR" >&2 || true
+}
+
+# Invoked through cleanup.
+# shellcheck disable=SC2329
+stop_child() {
+  local pid=$1
+  local scope=$2
+  local signal_target=$pid
+  local watchdog_pid
+  local alive=0
+
+  if [[ "$scope" == group ]]; then
+    signal_target="-$pid"
+  fi
+
+  kill -TERM -- "$signal_target" 2>/dev/null || true
+  (
+    sleep "$SHUTDOWN_GRACE_SECONDS"
+    kill -KILL -- "$signal_target" 2>/dev/null || true
+  ) &
+  watchdog_pid=$!
+
+  wait "$pid" 2>/dev/null || true
+
+  if [[ "$scope" == group ]] && kill -0 -- "$signal_target" 2>/dev/null; then
+    wait "$watchdog_pid" 2>/dev/null || true
+  else
+    kill "$watchdog_pid" 2>/dev/null || true
+    wait "$watchdog_pid" 2>/dev/null || true
+  fi
+
+  for _ in $(seq 1 20); do
+    if ! kill -0 -- "$signal_target" 2>/dev/null; then
+      alive=0
+      break
+    fi
+    alive=1
+    sleep 0.1
+  done
+
+  if (( alive == 1 )); then
+    echo "Linux smoke cleanup could not stop $scope $pid" >&2 || true
+    return 1
+  fi
 }
 
 # Invoked through the EXIT trap.
 # shellcheck disable=SC2329
 cleanup() {
   local status=$?
+  local cleanup_failed=0
   trap - EXIT INT TERM
   if [[ -n "$DEV_PID" ]]; then
-    kill -- -"$DEV_PID" 2>/dev/null || true
-    wait "$DEV_PID" 2>/dev/null || true
+    if ! stop_child "$DEV_PID" group; then
+      cleanup_failed=1
+    fi
   fi
   if [[ -n "$WESTON_PID" ]]; then
-    kill "$WESTON_PID" 2>/dev/null || true
-    wait "$WESTON_PID" 2>/dev/null || true
+    if ! stop_child "$WESTON_PID" process; then
+      cleanup_failed=1
+    fi
+  fi
+  if [[ $status -eq 0 && $cleanup_failed -ne 0 ]]; then
+    status=1
   fi
   if [[ $status -ne 0 ]]; then
     preserve_failure
