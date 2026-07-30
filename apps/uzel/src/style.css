@@ -186,6 +186,34 @@ nav button.active,
   min-height: 0;
 }
 
+.cleanup-workspace {
+  padding: 1.25rem;
+  place-items: start center;
+}
+
+.cleanup-pane {
+  grid-template-rows: auto auto;
+  width: min(46rem, 100%);
+}
+
+.cleanup-surface {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.85rem;
+}
+
+.surface.cleanup-surface > p {
+  height: auto;
+  min-height: 0;
+  place-content: start;
+}
+
+.cleanup-surface code {
+  overflow-wrap: anywhere;
+  color: #9dbd72;
+  font-size: 0.66rem;
+}
+
 .pane {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;

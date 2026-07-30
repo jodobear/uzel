@@ -3,7 +3,8 @@
 use std::{env, path::PathBuf};
 
 use napd_protocol::{
-    Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope, UnixClient,
+    ClientError, Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope,
+    UnixClient,
 };
 use serde::Serialize;
 use tauri::Manager;
@@ -24,6 +25,38 @@ struct SurfaceLaunch {
     aggregate_hash: String,
     domains: Vec<String>,
     unavailable_domains: Vec<String>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ConfirmNappletError {
+    kind: &'static str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    surface_token: Option<String>,
+    detail: String,
+}
+
+impl From<ClientError> for ConfirmNappletError {
+    fn from(error: ClientError) -> Self {
+        match error {
+            ClientError::TransferCleanupFailed {
+                surface_token,
+                transfer_error,
+                cleanup_error,
+            } => Self {
+                kind: "cleanupRequired",
+                surface_token: Some(surface_token),
+                detail: format!(
+                    "asset transfer failed ({transfer_error}); cleanup also failed ({cleanup_error})"
+                ),
+            },
+            error => Self {
+                kind: "refused",
+                surface_token: None,
+                detail: error.to_string(),
+            },
+        }
+    }
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -124,7 +157,7 @@ fn confirm_napplet(
     expected_d_tag: String,
     expected_aggregate_hash: String,
     granted_domains: Vec<String>,
-) -> Result<SurfaceLaunch, String> {
+) -> Result<SurfaceLaunch, ConfirmNappletError> {
     let fetched = client
         .confirm_napplet(
             &token,
@@ -133,12 +166,16 @@ fn confirm_napplet(
             &expected_aggregate_hash,
             granted_domains,
         )
-        .map_err(|error| error.to_string())?;
+        .map_err(ConfirmNappletError::from)?;
     println!(
         "UZEL_CATALOG_VERIFIED author={} d_tag={} aggregate={}",
         fetched.surface.author, fetched.surface.d_tag, fetched.surface.aggregate_hash
     );
-    project_surface(fetched)
+    project_surface(fetched).map_err(|detail| ConfirmNappletError {
+        kind: "refused",
+        surface_token: None,
+        detail,
+    })
 }
 
 fn project_surface(fetched: FetchedSurface) -> Result<SurfaceLaunch, String> {
@@ -387,5 +424,23 @@ mod tests {
         assert!(!allowed_navigation(
             &tauri::Url::parse("http://127.0.0.1:43129/probe").unwrap()
         ));
+    }
+
+    #[test]
+    fn transfer_cleanup_error_keeps_a_structured_surface_token() {
+        let error = ConfirmNappletError::from(ClientError::TransferCleanupFailed {
+            surface_token: "surface-needing-retry".to_owned(),
+            transfer_error: Box::new(ClientError::InvalidChunk),
+            cleanup_error: Box::new(ClientError::UnexpectedResponse),
+        });
+        let value = serde_json::to_value(error).unwrap();
+        assert_eq!(value["kind"], "cleanupRequired");
+        assert_eq!(value["surfaceToken"], "surface-needing-retry");
+        assert!(
+            value["detail"]
+                .as_str()
+                .unwrap()
+                .contains("cleanup also failed")
+        );
     }
 }

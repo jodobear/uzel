@@ -75,6 +75,7 @@
   };
 
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
+  type CleanupRequired = { surfaceToken: string; detail: string };
   type HostileReport = {
     fetch: boolean;
     xhr: boolean;
@@ -117,6 +118,8 @@
   let follow: SurfaceLaunch | null = null;
   let profile: SurfaceLaunch | null = null;
   let loaded: SurfaceLaunch | null = null;
+  let cleanupRequired: CleanupRequired | null = null;
+  let runtimeLocked = false;
   let loadedCleanupBusy = false;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
@@ -158,6 +161,7 @@
   let hostile: SurfaceLaunch | null = null;
   let hostileProbePassed = false;
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
+  $: runtimeLocked = loaded !== null || cleanupRequired !== null;
   $: requiredCapabilitiesGranted = nappletReview
     ? nappletReview.capabilities.every(
         (capability) => !capability.required || grantedDomains.has(capability.domain),
@@ -320,9 +324,44 @@
     void stopLoadedSession(current, `${rejected}; session stopped`, `${rejected}; cleanup failed`);
   }
 
+  function recoverableCleanup(error: unknown): CleanupRequired | null {
+    if (!error || typeof error !== 'object') return null;
+    const candidate = error as { kind?: unknown; surfaceToken?: unknown; detail?: unknown };
+    if (
+      candidate.kind !== 'cleanupRequired'
+      || typeof candidate.surfaceToken !== 'string'
+      || candidate.surfaceToken.length === 0
+      || candidate.surfaceToken.length > 128
+      || [...candidate.surfaceToken].some((character) => /\p{Cc}/u.test(character))
+      || typeof candidate.detail !== 'string'
+    ) return null;
+    return { surfaceToken: candidate.surfaceToken, detail: candidate.detail };
+  }
+
+  async function retryRequiredCleanup() {
+    const current = cleanupRequired;
+    if (!current || loadedCleanupBusy) return;
+    loadedCleanupBusy = true;
+    try {
+      await invoke('stop_fixture', { surfaceToken: current.surfaceToken });
+      if (cleanupRequired?.surfaceToken === current.surfaceToken) cleanupRequired = null;
+      status = 'Unresolved napplet session stopped; exact-build loading is ready';
+    } catch (error) {
+      if (cleanupRequired?.surfaceToken === current.surfaceToken) {
+        cleanupRequired = { ...current, detail: String(error) };
+      }
+      status = `Unresolved napplet cleanup failed: ${String(error)}. Retry cleanup before changing identity or opening another napplet.`;
+    } finally {
+      loadedCleanupBusy = false;
+      await refreshDiagnostics().catch(() => {});
+    }
+  }
+
   function openNappletLoader() {
-    if (loaded) {
-      status = 'Close the open napplet before loading another exact build';
+    if (runtimeLocked) {
+      status = cleanupRequired
+        ? 'Retry unresolved napplet cleanup before loading another exact build'
+        : 'Close the open napplet before loading another exact build';
       return;
     }
     settingsOpen = false;
@@ -421,7 +460,7 @@
       || !review.canInstall
       || !requiredCapabilitiesApproved(review)
       || catalogBusy
-      || loaded
+      || runtimeLocked
     ) return;
     catalogBusy = true;
     catalogInstalling = true;
@@ -457,8 +496,18 @@
           ? `Install refused: ${String(error)} Review the naddr again to retry.`
           : `Install refused: ${String(error)} Cleanup must succeed before retry.`;
       } else {
-        catalogMessage = `Install refused: ${String(error)}`;
-        loaderOpen = true;
+        const recoverable = recoverableCleanup(error);
+        if (recoverable) {
+          cleanupRequired = recoverable;
+          nappletReview = null;
+          grantedDomains = new Set();
+          loaderOpen = false;
+          catalogMessage = '';
+          status = `Install transfer failed and cleanup is unresolved: ${recoverable.detail}`;
+        } else {
+          catalogMessage = `Install refused: ${String(error)}`;
+          loaderOpen = true;
+        }
       }
     } finally {
       catalogBusy = false;
@@ -541,8 +590,10 @@
   }
 
   async function selectIdentity(publicIdentity: string) {
-    if (loaded) {
-      status = 'Close the open napplet before changing read identity';
+    if (runtimeLocked) {
+      status = cleanupRequired
+        ? 'Retry unresolved napplet cleanup before changing read identity'
+        : 'Close the open napplet before changing read identity';
       return;
     }
     identityBusy = true;
@@ -805,14 +856,14 @@
       <p class="eyebrow">Linux exact-build runtime</p>
       <h1>Uzel</h1>
     </div>
-    <div class:ready={shellReady} class="runtime-status" data-shell-ready={shellReady}>
+    <div class:ready={shellReady && !cleanupRequired} class="runtime-status" data-shell-ready={shellReady}>
       <span aria-hidden="true"></span>
       {status}
     </div>
     <nav aria-label="View controls">
       <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')} title="Side by side">Side</button>
       <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')} title="Stacked panes">Stack</button>
-      <button type="button" class:active={loaderOpen} disabled={loaded !== null} onclick={openNappletLoader} title={loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
+      <button type="button" class:active={loaderOpen} disabled={runtimeLocked} onclick={openNappletLoader} title={cleanupRequired ? 'Retry unresolved cleanup first' : loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
       <button type="button" class:active={showEvidence} onclick={toggleEvidence}>Proof</button>
       <button type="button" class:active={settingsOpen} onclick={openSettings}>Settings</button>
       <button type="button" class:active={drawerOpen} onclick={() => { developerMode = true; settingsOpen = false; drawerOpen = !drawerOpen; }}>Debug</button>
@@ -823,7 +874,7 @@
     <form onsubmit={submitIdentity}>
       <label for="read-identity">Public read identity</label>
       <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
-      <button type="submit" disabled={identityBusy || !shellReady || loaded !== null}>{identityBusy ? 'Selecting…' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
+      <button type="submit" disabled={identityBusy || !shellReady || runtimeLocked}>{identityBusy ? 'Selecting…' : cleanupRequired ? 'Retry cleanup first' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
     </form>
     <div class="source-status">
       <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
@@ -836,7 +887,7 @@
     class:vertical={orientation === 'vertical'}
     class:fullscreen-follow={fullscreen === 'follow'}
     class:fullscreen-profile={fullscreen === 'profile'}
-    class:hidden-by-loaded={loaded !== null}
+    class:hidden-by-loaded={runtimeLocked}
     class="workspace"
     style={`--first: ${split}fr; --second: ${100 - split}fr`}
     aria-label="Composed napplet workspace"
@@ -889,6 +940,18 @@
         </div>
         <div bind:this={loadedSurface} class="surface"><p>Mounting verified napplet…</p></div>
         {#if showEvidence}<footer><code>{loaded.aggregateHash.slice(0, 12)}…</code><span>{loaded.unavailableDomains.length ? `Unavailable: ${loaded.unavailableDomains.join(', ')}` : 'All requested capabilities ready'}</span></footer>{/if}
+      </article>
+    </section>
+  {/if}
+
+  {#if cleanupRequired}
+    <section class="loaded-workspace cleanup-workspace" aria-label="Pending napplet cleanup">
+      <article class="pane loaded-pane cleanup-pane">
+        <div class="pane-title">
+          <div><span>CLEANUP</span><strong>Unresolved runtime session</strong></div>
+          <button type="button" disabled={loadedCleanupBusy} onclick={retryRequiredCleanup}>{loadedCleanupBusy ? 'Stopping…' : 'Retry cleanup'}</button>
+        </div>
+        <div class="surface cleanup-surface"><p>{cleanupRequired.detail}</p><code>{cleanupRequired.surfaceToken}</code></div>
       </article>
     </section>
   {/if}
