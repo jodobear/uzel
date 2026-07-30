@@ -1,5 +1,5 @@
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, VecDeque},
     fs,
     io::{self, Write},
     os::unix::{
@@ -18,6 +18,8 @@ use napd_protocol::{
 use crate::{LinuxRunner, RunnerError, SurfaceLaunch};
 
 const STREAM_TIMEOUT: Duration = Duration::from_secs(2);
+const MAXIMUM_REPLAY_OPERATIONS: usize = 64;
+const MAXIMUM_OPERATION_ID_BYTES: usize = 128;
 
 #[derive(Debug, thiserror::Error)]
 pub enum ServerError {
@@ -49,9 +51,53 @@ struct AssetTransfer {
 }
 
 #[derive(Debug)]
+struct ReplayEntry {
+    request: Request,
+    response: Response,
+}
+
+#[derive(Debug)]
+struct InvalidOperationId;
+
+#[derive(Debug, Default)]
+struct ReplayCache {
+    entries: BTreeMap<String, ReplayEntry>,
+    order: VecDeque<String>,
+}
+
+impl ReplayCache {
+    fn lookup(&self, key: &str, request: &Request) -> Option<Response> {
+        self.entries.get(key).map(|entry| {
+            if entry.request == *request {
+                entry.response.clone()
+            } else {
+                Response::error(
+                    "operation_id_reused",
+                    "operation id is already bound to a different request",
+                )
+            }
+        })
+    }
+
+    fn remember(&mut self, key: String, request: Request, response: Response) {
+        if self.entries.contains_key(&key) {
+            return;
+        }
+        while self.order.len() >= MAXIMUM_REPLAY_OPERATIONS {
+            if let Some(expired) = self.order.pop_front() {
+                self.entries.remove(&expired);
+            }
+        }
+        self.order.push_back(key.clone());
+        self.entries.insert(key, ReplayEntry { request, response });
+    }
+}
+
+#[derive(Debug)]
 pub struct DaemonState {
     runner: LinuxRunner,
     transfers: BTreeMap<String, AssetTransfer>,
+    replay: ReplayCache,
 }
 
 impl DaemonState {
@@ -59,10 +105,29 @@ impl DaemonState {
         Self {
             runner,
             transfers: BTreeMap::new(),
+            replay: ReplayCache::default(),
         }
     }
 
     pub fn handle(&mut self, request: Request) -> (Response, bool) {
+        let replay_key = match replay_key(&request) {
+            Ok(replay_key) => replay_key,
+            Err(InvalidOperationId) => {
+                return (
+                    Response::error(
+                        "invalid_operation_id",
+                        "operation id must be 1-128 ASCII letters, digits, dots, underscores, or hyphens",
+                    ),
+                    false,
+                );
+            }
+        };
+        if let Some(key) = replay_key.as_deref()
+            && let Some(response) = self.replay.lookup(key, &request)
+        {
+            return (response, false);
+        }
+        let replay_request = replay_key.as_ref().map(|_| request.clone());
         let response = match request {
             Request::Hello { version } if version == VERSION => Response::Hello { version },
             Request::Hello { version } => Response::error(
@@ -86,7 +151,10 @@ impl DaemonState {
                 let result = self.runner.start_hostile_probe(&sentinel_url);
                 self.stage_surface(result)
             }
-            Request::ReviewNapplet { coordinate } => match self.runner.review_napplet(coordinate) {
+            Request::ReviewNapplet {
+                operation_id: _,
+                coordinate,
+            } => match self.runner.review_napplet(coordinate) {
                 Ok(review) => Response::NappletReview { review },
                 Err(error) => runner_error(error),
             },
@@ -97,6 +165,7 @@ impl DaemonState {
                 }
             }
             Request::ConfirmNapplet {
+                operation_id: _,
                 token,
                 expected_author,
                 expected_d_tag,
@@ -157,6 +226,9 @@ impl DaemonState {
             },
             Request::Shutdown => Response::Shutdown,
         };
+        if let (Some(key), Some(request)) = (replay_key, replay_request) {
+            self.replay.remember(key, request, response.clone());
+        }
         let shutdown = matches!(response, Response::Shutdown);
         (response, shutdown)
     }
@@ -219,6 +291,23 @@ impl DaemonState {
             Err(error) => runner_error(error),
         }
     }
+}
+
+fn replay_key(request: &Request) -> Result<Option<String>, InvalidOperationId> {
+    let (kind, operation_id) = match request {
+        Request::ReviewNapplet { operation_id, .. } => ("review", operation_id),
+        Request::ConfirmNapplet { operation_id, .. } => ("confirm", operation_id),
+        _ => return Ok(None),
+    };
+    if operation_id.is_empty()
+        || operation_id.len() > MAXIMUM_OPERATION_ID_BYTES
+        || !operation_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+    {
+        return Err(InvalidOperationId);
+    }
+    Ok(Some(format!("{kind}:{operation_id}")))
 }
 
 fn runner_error(error: RunnerError) -> Response {
@@ -611,5 +700,87 @@ mod tests {
                 "runtime response exceeds the private control-frame limit"
             )
         );
+    }
+
+    #[test]
+    fn replay_cache_binds_operation_id_to_the_exact_confirm_request() {
+        let temp = TempDir::new().unwrap();
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let mut state = DaemonState::new(runner);
+        let request = Request::ConfirmNapplet {
+            operation_id: "confirm-1".to_owned(),
+            token: "missing-review".to_owned(),
+            expected_author: "a".repeat(64),
+            expected_d_tag: "test".to_owned(),
+            expected_aggregate_hash: "b".repeat(64),
+            granted_domains: Vec::new(),
+        };
+        let first = state.handle(request.clone()).0;
+        assert!(matches!(
+            first,
+            Response::Error { ref code, .. } if code == "runtime_refused"
+        ));
+        assert_eq!(state.handle(request.clone()).0, first);
+
+        let Request::ConfirmNapplet {
+            operation_id,
+            expected_author,
+            expected_d_tag,
+            expected_aggregate_hash,
+            granted_domains,
+            ..
+        } = request
+        else {
+            unreachable!()
+        };
+        assert!(matches!(
+            state
+                .handle(Request::ConfirmNapplet {
+                    operation_id,
+                    token: "different-review".to_owned(),
+                    expected_author,
+                    expected_d_tag,
+                    expected_aggregate_hash,
+                    granted_domains,
+                })
+                .0,
+            Response::Error { ref code, .. } if code == "operation_id_reused"
+        ));
+    }
+
+    #[test]
+    fn replay_cache_is_bounded_and_operation_ids_are_validated() {
+        let mut cache = ReplayCache::default();
+        for index in 0..=MAXIMUM_REPLAY_OPERATIONS {
+            let request = Request::ReviewNapplet {
+                operation_id: format!("review-{index}"),
+                coordinate: format!("coordinate-{index}"),
+            };
+            cache.remember(
+                format!("review:review-{index}"),
+                request,
+                Response::error("test", "cached"),
+            );
+        }
+        assert_eq!(cache.entries.len(), MAXIMUM_REPLAY_OPERATIONS);
+        assert!(!cache.entries.contains_key("review:review-0"));
+        assert!(
+            cache
+                .entries
+                .contains_key(&format!("review:review-{MAXIMUM_REPLAY_OPERATIONS}"))
+        );
+
+        let temp = TempDir::new().unwrap();
+        let runner = LinuxRunner::open(temp.path().join("state")).unwrap();
+        let mut state = DaemonState::new(runner);
+        assert!(matches!(
+            state
+                .handle(Request::ReviewNapplet {
+                    operation_id: "bad id".to_owned(),
+                    coordinate: "unused".to_owned(),
+                })
+                .0,
+            Response::Error { ref code, .. } if code == "invalid_operation_id"
+        ));
     }
 }

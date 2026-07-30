@@ -2,10 +2,15 @@
 #![doc = "Bounded version-0 private shell-to-daemon protocol."]
 
 use std::{
+    collections::BTreeMap,
     io::{Read, Write},
     os::unix::net::UnixStream,
     path::{Path, PathBuf},
-    time::Duration,
+    sync::{
+        Arc, Mutex,
+        atomic::{AtomicU64, Ordering},
+    },
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
@@ -22,6 +27,9 @@ pub const MAX_FRAME_BYTES: usize = 512 * 1_024;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(20);
+const REPLAYABLE_REQUEST_ATTEMPTS: usize = 2;
+
+static NEXT_OPERATION_ID: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "operation", rename_all = "snake_case")]
@@ -37,12 +45,14 @@ pub enum Request {
         sentinel_url: String,
     },
     ReviewNapplet {
+        operation_id: String,
         coordinate: String,
     },
     CancelNappletReview {
         token: String,
     },
     ConfirmNapplet {
+        operation_id: String,
         token: String,
         expected_author: String,
         expected_d_tag: String,
@@ -246,15 +256,31 @@ pub enum ClientError {
     },
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum PendingOperation {
+    Review {
+        coordinate: String,
+    },
+    Confirm {
+        token: String,
+        expected_author: String,
+        expected_d_tag: String,
+        expected_aggregate_hash: String,
+        granted_domains: Vec<String>,
+    },
+}
+
 #[derive(Clone, Debug)]
 pub struct UnixClient {
     socket_path: PathBuf,
+    pending_operations: Arc<Mutex<BTreeMap<PendingOperation, String>>>,
 }
 
 impl UnixClient {
     pub fn new(socket_path: impl AsRef<Path>) -> Self {
         Self {
             socket_path: socket_path.as_ref().to_path_buf(),
+            pending_operations: Arc::new(Mutex::new(BTreeMap::new())),
         }
     }
 
@@ -291,9 +317,17 @@ impl UnixClient {
     }
 
     pub fn review_napplet(&self, coordinate: &str) -> Result<NappletReview, ClientError> {
-        match self.request(&Request::ReviewNapplet {
+        let operation = PendingOperation::Review {
             coordinate: coordinate.to_owned(),
-        })? {
+        };
+        let operation_id = self.operation_id_for(&operation);
+        match self.request_replayable(
+            &operation,
+            &Request::ReviewNapplet {
+                operation_id,
+                coordinate: coordinate.to_owned(),
+            },
+        )? {
             Response::NappletReview { review } => Ok(review),
             _ => Err(ClientError::UnexpectedResponse),
         }
@@ -325,17 +359,35 @@ impl UnixClient {
         expected_aggregate_hash: &str,
         granted_domains: Vec<String>,
     ) -> Result<FetchedSurface, ClientError> {
-        self.fetch_surface(&Request::ConfirmNapplet {
+        let operation = PendingOperation::Confirm {
             token: token.to_owned(),
             expected_author: expected_author.to_owned(),
             expected_d_tag: expected_d_tag.to_owned(),
             expected_aggregate_hash: expected_aggregate_hash.to_owned(),
-            granted_domains,
-        })
+            granted_domains: granted_domains.clone(),
+        };
+        let operation_id = self.operation_id_for(&operation);
+        let response = self.request_replayable(
+            &operation,
+            &Request::ConfirmNapplet {
+                operation_id,
+                token: token.to_owned(),
+                expected_author: expected_author.to_owned(),
+                expected_d_tag: expected_d_tag.to_owned(),
+                expected_aggregate_hash: expected_aggregate_hash.to_owned(),
+                granted_domains,
+            },
+        )?;
+        self.fetch_surface_response(response)
     }
 
     fn fetch_surface(&self, request: &Request) -> Result<FetchedSurface, ClientError> {
-        let (surface, transfer_id, total_bytes) = match self.request(request)? {
+        let response = self.request(request)?;
+        self.fetch_surface_response(response)
+    }
+
+    fn fetch_surface_response(&self, response: Response) -> Result<FetchedSurface, ClientError> {
+        let (surface, transfer_id, total_bytes) = match response {
             Response::Surface {
                 surface,
                 transfer_id,
@@ -360,6 +412,48 @@ impl UnixClient {
             surface,
             artifact_bytes,
         })
+    }
+
+    fn operation_id_for(&self, operation: &PendingOperation) -> String {
+        let mut pending = self
+            .pending_operations
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        pending
+            .entry(operation.clone())
+            .or_insert_with(next_operation_id)
+            .clone()
+    }
+
+    fn request_replayable(
+        &self,
+        operation: &PendingOperation,
+        request: &Request,
+    ) -> Result<Response, ClientError> {
+        for attempt in 0..REPLAYABLE_REQUEST_ATTEMPTS {
+            match self.request(request) {
+                Ok(response) => {
+                    self.forget_operation(operation);
+                    return Ok(response);
+                }
+                Err(ClientError::Protocol(error)) if attempt + 1 == REPLAYABLE_REQUEST_ATTEMPTS => {
+                    return Err(ClientError::Protocol(error));
+                }
+                Err(ClientError::Protocol(_)) => {}
+                Err(error) => {
+                    self.forget_operation(operation);
+                    return Err(error);
+                }
+            }
+        }
+        unreachable!("replayable request attempt bound is nonzero")
+    }
+
+    fn forget_operation(&self, operation: &PendingOperation) {
+        self.pending_operations
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .remove(operation);
     }
 
     fn fetch_asset(&self, transfer_id: &str, total_bytes: u64) -> Result<Vec<u8>, ClientError> {
@@ -416,6 +510,15 @@ impl UnixClient {
         }
         Ok(artifact_bytes)
     }
+}
+
+fn next_operation_id() -> String {
+    let sequence = NEXT_OPERATION_ID.fetch_add(1, Ordering::Relaxed);
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    format!("{:x}-{timestamp:x}-{sequence:x}", std::process::id())
 }
 
 pub fn write_frame<T: Serialize>(writer: &mut impl Write, value: &T) -> Result<(), ProtocolError> {
@@ -595,6 +698,158 @@ mod tests {
 
         let error = UnixClient::new(&socket).start_fixture().unwrap_err();
         assert!(matches!(error, ClientError::UnexpectedResponse));
+        server.join().unwrap();
+        fs::remove_file(&socket).unwrap();
+        fs::remove_dir(&root).unwrap();
+    }
+
+    #[test]
+    fn review_retry_reuses_operation_after_responses_are_lost() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-review-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let socket = root.join("napd.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let server = thread::spawn(move || {
+            let mut first_request = None;
+            for exchange in 0..3 {
+                let (mut stream, _) = listener.accept().unwrap();
+                let request = read_frame::<Request>(&mut stream).unwrap();
+                match &first_request {
+                    Some(first) => assert_eq!(&request, first),
+                    None => first_request = Some(request.clone()),
+                }
+                let Request::ReviewNapplet {
+                    operation_id,
+                    coordinate,
+                } = request
+                else {
+                    panic!("unexpected request")
+                };
+                assert!(!operation_id.is_empty());
+                assert_eq!(coordinate, "naddr-test");
+                if exchange < 2 {
+                    continue;
+                }
+                write_frame(
+                    &mut stream,
+                    &Response::NappletReview {
+                        review: NappletReview {
+                            token: "review-token".to_owned(),
+                            event_id: "e".repeat(64),
+                            coordinate,
+                            manifest_author: "a".repeat(64),
+                            d_tag: "test".to_owned(),
+                            title: "Test".to_owned(),
+                            description: None,
+                            aggregate_hash: "b".repeat(64),
+                            capabilities: Vec::new(),
+                            blob_sources: Vec::new(),
+                            provenance: Vec::new(),
+                            can_install: true,
+                            blocker: None,
+                        },
+                    },
+                )
+                .unwrap();
+            }
+        });
+
+        let client = UnixClient::new(&socket);
+        assert!(matches!(
+            client.review_napplet("naddr-test"),
+            Err(ClientError::Protocol(_))
+        ));
+        assert_eq!(
+            client.review_napplet("naddr-test").unwrap().token,
+            "review-token"
+        );
+        server.join().unwrap();
+        fs::remove_file(&socket).unwrap();
+        fs::remove_dir(&root).unwrap();
+    }
+
+    #[test]
+    fn confirm_response_loss_replays_surface_without_a_second_operation() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-confirm-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let socket = root.join("napd.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let server = thread::spawn(move || {
+            let (mut first_stream, _) = listener.accept().unwrap();
+            let first = read_frame::<Request>(&mut first_stream).unwrap();
+            let Request::ConfirmNapplet {
+                ref operation_id, ..
+            } = first
+            else {
+                panic!("unexpected request")
+            };
+            assert!(!operation_id.is_empty());
+            drop(first_stream);
+
+            let (mut replay_stream, _) = listener.accept().unwrap();
+            let replay = read_frame::<Request>(&mut replay_stream).unwrap();
+            assert_eq!(replay, first);
+            write_frame(
+                &mut replay_stream,
+                &Response::Surface {
+                    surface: SurfaceMetadata {
+                        surface_token: "confirmed-surface".to_owned(),
+                        artifact_base_url: "nmp-artifact://00000000-0000-4000-8000-000000000001/"
+                            .to_owned(),
+                        title: "Test".to_owned(),
+                        author: "a".repeat(64),
+                        d_tag: "test".to_owned(),
+                        aggregate_hash: "b".repeat(64),
+                        domains: Vec::new(),
+                        unavailable_domains: Vec::new(),
+                    },
+                    transfer_id: "confirmed-transfer".to_owned(),
+                    total_bytes: 1,
+                },
+            )
+            .unwrap();
+
+            let (mut asset_stream, _) = listener.accept().unwrap();
+            assert_eq!(
+                read_frame::<Request>(&mut asset_stream).unwrap(),
+                Request::AssetChunk {
+                    transfer_id: "confirmed-transfer".to_owned(),
+                    offset: 0,
+                }
+            );
+            write_frame(
+                &mut asset_stream,
+                &Response::AssetChunk {
+                    transfer_id: "confirmed-transfer".to_owned(),
+                    offset: 0,
+                    next_offset: 1,
+                    total_bytes: 1,
+                    bytes_base64: encode_asset_chunk(b"x"),
+                    done: true,
+                },
+            )
+            .unwrap();
+        });
+
+        let fetched = UnixClient::new(&socket)
+            .confirm_napplet(
+                "review-token",
+                &"a".repeat(64),
+                "test",
+                &"b".repeat(64),
+                Vec::new(),
+            )
+            .unwrap();
+        assert_eq!(fetched.surface.surface_token, "confirmed-surface");
+        assert_eq!(fetched.artifact_bytes, b"x");
         server.join().unwrap();
         fs::remove_file(&socket).unwrap();
         fs::remove_dir(&root).unwrap();
