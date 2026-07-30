@@ -76,7 +76,7 @@ def main() -> int:
 
     policy_docs = [p for p in markdown if p.name != "AUDIT.md"]
     all_text = "\n".join(p.read_text(encoding="utf-8") for p in policy_docs)
-    for forbidden in ["GSD", "work/07", "work/08", "templates/fact-record"]:
+    for forbidden in ["GSD", "work/08", "templates/fact-record"]:
         if forbidden in all_text:
             errors.append(f"stale/forbidden reference present: {forbidden}")
 
@@ -124,6 +124,7 @@ def main() -> int:
         "work/04-daemon-nmp.md",
         "work/05-integrate.md",
         "work/06-hardening-demo.md",
+        "work/07-stabilize-product.md",
         "templates/fact.md",
         "templates/handoff.md",
         "config/fallow.jsonc",

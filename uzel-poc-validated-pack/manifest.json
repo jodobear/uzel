@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 6205,
-      "sha256": "88d90fd3033e52e9d24256b085fb3fd300b2793957e9e7f2a3905d311a7f5e39"
+      "bytes": 6270,
+      "sha256": "0948857664322a83897dc982bf3fa532e752c84c2a77fac070cb37b589887ec4"
     },
     {
       "path": "TREE.txt",
@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "d9524ba3e76b3cb01f575d0376ab05d4bc7fc82b4b7c023a8d93d91fca217a33"
+      "sha256": "9a2f1e5966d6efb490c4666575d385fd7acf26b72b03dffac0af222646af0ce4"
     },
     {
       "path": "compatibility.lock",
@@ -62,8 +62,8 @@
     },
     {
       "path": "docs/04-execution.md",
-      "bytes": 2428,
-      "sha256": "843b3cc7c965bcee99a34807e7ce71905911650b88b3205c1868e29199bd88ad"
+      "bytes": 2824,
+      "sha256": "145254cd92b47b497da1933feb33183d18dc73485ef3f51a8502c8bac6698569"
     },
     {
       "path": "docs/05-test-and-demo.md",
@@ -277,8 +277,8 @@
     },
     {
       "path": "scripts/audit_docs.py",
-      "bytes": 5191,
-      "sha256": "9dda9a8277c780d3a6f16fefac5f08522ebf863f2974267274e89620385ece5a"
+      "bytes": 5220,
+      "sha256": "e9b48b66806a365847009ae01c738fe63d6affafdd97bc9a950c00eba54557a9"
     },
     {
       "path": "templates/fact.md",
@@ -324,6 +324,11 @@
       "path": "work/06-hardening-demo.md",
       "bytes": 1948,
       "sha256": "e6c338f3ce41aced2b4d4ec585629aa801a093763f475bb9c263834634741636"
+    },
+    {
+      "path": "work/07-stabilize-product.md",
+      "bytes": 2917,
+      "sha256": "fd272c8a4d3b1689318f08918aabbd4df201e3be3f8ac099dc999e108c218649"
     }
   ]
 }

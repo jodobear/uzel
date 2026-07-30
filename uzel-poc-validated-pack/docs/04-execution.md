@@ -15,6 +15,7 @@ flowchart LR
     N --> I
     D --> I
     I --> H[06 Harden + demo]
+    H --> P[07 Stabilize product]
 ```
 
 ## Slices
@@ -28,6 +29,7 @@ flowchart LR
 | 04 | daemon, one NMP engine, read identity, minimal persistence | [`../work/04-daemon-nmp.md`](../work/04-daemon-nmp.md) |
 | 05 | composed two-pane fixture/live demo | [`../work/05-integrate.md`](../work/05-integrate.md) |
 | 06 | user/dev modes, hostile tests, clean demo and audit | [`../work/06-hardening-demo.md`](../work/06-hardening-demo.md) |
+| 07 | issue-driven product stabilization with isolated ownership | [`../work/07-stabilize-product.md`](../work/07-stabilize-product.md) |
 
 ## Parallel work
 
@@ -48,6 +50,10 @@ NMP adapter                    daemon/NMP lane
 ```
 
 An integration branch pins or merges completed commits. Agents do not invent local copies of another lane's contract.
+
+After the accepted POC, Work 07 uses GitHub issue #9 as the dependency tracker.
+Each child issue remains one isolated branch and PR; read-only source mapping may
+run in parallel with a non-overlapping implementation lane.
 
 ## Slice entry gate
 
