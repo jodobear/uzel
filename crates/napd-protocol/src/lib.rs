@@ -12,10 +12,13 @@ use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
 pub const VERSION: u8 = 0;
-/// Private IPC must carry one bounded NAP envelope plus its JSON wrapper.
-/// Identity projections for ordinary follow lists exceed the old 4 KiB proof
-/// value, while the runtime itself already caps envelopes at 64 KiB.
-pub const MAX_FRAME_BYTES: usize = 128 * 1_024;
+/// Uzel's host-side bound for one runtime envelope before IPC serialization.
+pub const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
+/// Private IPC must carry one bounded envelope after worst-case JSON string
+/// escaping plus its operation/surface wrapper. A 512 KiB ceiling covers the
+/// sixfold `serde_json` control-character expansion of a 64 KiB string while
+/// remaining equal to the verified-document bound.
+pub const MAX_FRAME_BYTES: usize = 512 * 1_024;
 pub const ASSET_CHUNK_BYTES: usize = 2_048;
 pub const MAX_ASSET_BYTES: usize = 512 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(20);
@@ -479,7 +482,8 @@ mod tests {
     #[test]
     fn gate_zero_bounds_remain_exact() {
         assert_eq!(VERSION, 0);
-        assert_eq!(MAX_FRAME_BYTES, 128 * 1_024);
+        assert_eq!(MAXIMUM_ENVELOPE_BYTES, 64 * 1_024);
+        assert_eq!(MAX_FRAME_BYTES, 512 * 1_024);
     }
 
     #[test]
@@ -519,6 +523,33 @@ mod tests {
         let mut wire = Vec::new();
         write_frame(&mut wire, &response).unwrap();
         assert!(wire.len() <= MAX_FRAME_BYTES + 4);
+    }
+
+    #[test]
+    fn maximum_envelope_with_worst_case_json_escaping_fits_control_frame() {
+        let envelope = "\0".repeat(MAXIMUM_ENVELOPE_BYTES);
+        let request = Request::ForwardEnvelope {
+            surface_token: "s".repeat(128),
+            envelope: envelope.clone(),
+        };
+        let response = Response::Envelope {
+            surface_token: "s".repeat(128),
+            envelope,
+        };
+        for frame_length in [
+            serde_json::to_vec(&request).unwrap().len(),
+            serde_json::to_vec(&response).unwrap().len(),
+        ] {
+            assert!(frame_length > 128 * 1_024);
+            assert!(frame_length <= MAX_FRAME_BYTES);
+        }
+        let mut request_wire = Vec::new();
+        write_frame(&mut request_wire, &request).unwrap();
+        let mut response_wire = Vec::new();
+        write_frame(&mut response_wire, &response).unwrap();
+        for wire in [request_wire, response_wire] {
+            assert!(wire.len() <= MAX_FRAME_BYTES + 4);
+        }
     }
 
     #[test]

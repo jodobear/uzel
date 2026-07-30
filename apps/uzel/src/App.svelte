@@ -331,17 +331,35 @@
     catalogMessage = '';
   }
 
+  async function cancelPendingReview(review: NappletReview, failurePrefix: string): Promise<boolean> {
+    try {
+      await invoke('cancel_napplet_review', { token: review.token });
+      return true;
+    } catch (error) {
+      nappletReview = review;
+      loaderOpen = true;
+      catalogMessage = `${failurePrefix}: ${String(error)}. Retry cancellation before leaving this loader.`;
+      return false;
+    }
+  }
+
   async function closeNappletLoader() {
-    const token = nappletReview?.token;
+    if (catalogBusy) {
+      catalogMessage = 'Wait for the current catalog operation to settle before closing.';
+      return;
+    }
+    const review = nappletReview;
     catalogRequestRevision += 1;
+    if (review) {
+      catalogBusy = true;
+      const cancelled = await cancelPendingReview(review, 'Review cancellation failed');
+      catalogBusy = false;
+      if (!cancelled) return;
+    }
     loaderOpen = false;
     nappletReview = null;
     grantedDomains = new Set();
-    catalogBusy = false;
     catalogMessage = '';
-    if (token) {
-      await invoke('cancel_napplet_review', { token }).catch(() => {});
-    }
   }
 
   async function reviewNapplet(event: SubmitEvent) {
@@ -351,16 +369,19 @@
     const requestRevision = ++catalogRequestRevision;
     catalogBusy = true;
     catalogMessage = 'Resolving and verifying the signed manifest…';
-    const previousToken = nappletReview?.token;
-    nappletReview = null;
-    grantedDomains = new Set();
+    const previousReview = nappletReview;
     try {
-      if (previousToken) {
-        await invoke('cancel_napplet_review', { token: previousToken }).catch(() => {});
+      if (
+        previousReview
+        && !await cancelPendingReview(previousReview, 'Previous review cancellation failed')
+      ) {
+        return;
       }
+      nappletReview = null;
+      grantedDomains = new Set();
       const review = await invoke<NappletReview>('review_napplet', { coordinate });
       if (requestRevision !== catalogRequestRevision || !loaderOpen) {
-        await invoke('cancel_napplet_review', { token: review.token }).catch(() => {});
+        await cancelPendingReview(review, 'Superseded review cancellation failed');
         return;
       }
       nappletReview = review;
@@ -377,9 +398,7 @@
         catalogMessage = `Review refused: ${String(error)}`;
       }
     } finally {
-      if (requestRevision === catalogRequestRevision) {
-        catalogBusy = false;
-      }
+      catalogBusy = false;
     }
   }
 

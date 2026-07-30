@@ -9,7 +9,8 @@ use std::{
 };
 
 use napd_protocol::{
-    CatalogCapability, Diagnostics, NappletReview, RelayDiagnostic, RoutedEnvelope, SurfaceMetadata,
+    CatalogCapability, Diagnostics, MAXIMUM_ENVELOPE_BYTES, NappletReview, RelayDiagnostic,
+    RoutedEnvelope, SurfaceMetadata,
 };
 use nmp_native_runtime_ffi::{
     ArtifactCoordinate, ArtifactExecutionMode, NativeConfigCommit, NativeSettingsExecutor,
@@ -30,7 +31,6 @@ use crate::{
     resource::linux_resource_provider,
 };
 
-const MAXIMUM_ENVELOPE_BYTES: usize = 64 * 1_024;
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
 const RESPONSE_TIMEOUT: Duration = Duration::from_secs(15);
@@ -684,9 +684,7 @@ impl LinuxRunner {
 
     pub fn cancel_napplet_review(&mut self, token: &str) -> Result<(), RunnerError> {
         if !self.pending_reviews.contains_key(token) {
-            return Err(RunnerError::Catalog(
-                "review token is not pending".to_owned(),
-            ));
+            return Ok(());
         }
         let result = self.controller.catalog_cancel_review(token.to_owned());
         let terminal = catalog_cancellation_is_terminal(
@@ -1124,10 +1122,9 @@ impl LinuxRunner {
     }
 
     pub fn stop_fixture(&mut self, surface_token: &str) -> Result<(), RunnerError> {
-        let (session_id, _) = self
-            .surfaces
-            .remove(surface_token)
-            .ok_or(RunnerError::UnknownSurface)?;
+        let Some((session_id, _)) = self.surfaces.remove(surface_token) else {
+            return Ok(());
+        };
         self.controller.stop(session_id);
         Ok(())
     }
@@ -1318,6 +1315,15 @@ mod tests {
         );
         runner.cancel_napplet_review(&token).unwrap();
         assert!(!runner.pending_reviews.contains_key(&token));
+        runner.cancel_napplet_review(&token).unwrap();
+    }
+
+    #[test]
+    fn absent_surface_cleanup_is_idempotent() {
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        runner.stop_fixture("already-stopped").unwrap();
+        runner.stop_fixture("already-stopped").unwrap();
     }
 
     #[test]
