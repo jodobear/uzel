@@ -9,8 +9,8 @@ use std::{
 };
 
 use napd_protocol::{
-    CatalogCapability, Diagnostics, MAXIMUM_ENVELOPE_BYTES, NappletReview, RelayDiagnostic,
-    RoutedEnvelope, SurfaceMetadata,
+    CatalogCapability, Diagnostics, MAXIMUM_ENVELOPE_BYTES, MAXIMUM_ROUTED_ENVELOPE_BYTES,
+    NappletReview, RelayDiagnostic, RoutedEnvelope, SurfaceMetadata,
 };
 use nmp_native_runtime_ffi::{
     ArtifactCoordinate, ArtifactExecutionMode, NativeConfigCommit, NativeSettingsExecutor,
@@ -33,6 +33,7 @@ use crate::{
 
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
+const MAXIMUM_BUFFERED_EVENT_BYTES: usize = MAXIMUM_ROUTED_ENVELOPE_BYTES + MAXIMUM_ENVELOPE_BYTES;
 const MAXIMUM_PENDING_REVIEWS: usize = 4;
 const RESPONSE_TIMEOUT: Duration = Duration::from_secs(15);
 const PRODUCT_STATE_VERSION: u8 = 0;
@@ -178,8 +179,42 @@ pub enum RunnerError {
 }
 
 #[derive(Debug, Default)]
+struct BufferedEvents {
+    events: VecDeque<RuntimeEvent>,
+    retained_bytes: usize,
+}
+
+impl BufferedEvents {
+    fn push(&mut self, mut event: RuntimeEvent, maximum_bytes: usize) {
+        if event.response_json.is_some() {
+            // Upstream diagnostic text includes the response debug rendering.
+            // The structured response is authoritative; do not retain a second
+            // copy of a potentially large NAP-RESOURCE payload.
+            event.detail = String::new();
+        }
+        self.retained_bytes = self.retained_bytes.saturating_add(event_bytes(&event));
+        self.events.push_back(event);
+        while self.events.len() > MAXIMUM_BUFFERED_EVENTS || self.retained_bytes > maximum_bytes {
+            let Some(expired) = self.events.pop_front() else {
+                self.retained_bytes = 0;
+                break;
+            };
+            self.retained_bytes = self.retained_bytes.saturating_sub(event_bytes(&expired));
+        }
+    }
+}
+
+fn event_bytes(event: &RuntimeEvent) -> usize {
+    event
+        .kind
+        .len()
+        .saturating_add(event.detail.len())
+        .saturating_add(event.response_json.as_ref().map_or(0, String::len))
+}
+
+#[derive(Debug, Default)]
 struct EventBuffer {
-    events: Mutex<VecDeque<RuntimeEvent>>,
+    events: Mutex<BufferedEvents>,
     changed: Condvar,
 }
 
@@ -188,6 +223,7 @@ impl EventBuffer {
         self.events
             .lock()
             .expect("event buffer poisoned")
+            .events
             .back()
             .map_or(0, |event| event.sequence)
     }
@@ -217,25 +253,22 @@ impl EventBuffer {
         let deadline = Instant::now() + RESPONSE_TIMEOUT;
         let mut events = self.events.lock().expect("event buffer poisoned");
         loop {
-            if let Some(response) = events.iter().find_map(|event| {
-                (event.sequence > cursor
+            if let Some(index) = events.events.iter().position(|event| {
+                event.sequence > cursor
                     && event
                         .session_id
-                        .is_some_and(|session_id| session_ids.contains(&session_id)))
-                .then(|| {
-                    event
-                        .response_json
-                        .as_deref()
-                        .filter(|response| matches(response))
-                })
-                .flatten()
-                .and_then(|response| {
-                    event
-                        .session_id
-                        .map(|session_id| (session_id, response.to_owned()))
-                })
+                        .is_some_and(|session_id| session_ids.contains(&session_id))
+                    && event.response_json.as_deref().is_some_and(&matches)
             }) {
-                return Some(response);
+                let event = events
+                    .events
+                    .remove(index)
+                    .expect("matched buffered event exists");
+                events.retained_bytes = events.retained_bytes.saturating_sub(event_bytes(&event));
+                if let (Some(session_id), Some(response)) = (event.session_id, event.response_json)
+                {
+                    return Some((session_id, response));
+                }
             }
             let now = Instant::now();
             if now >= deadline {
@@ -263,10 +296,7 @@ impl RuntimeObserver for EventSink {
         }
         let mut events = self.0.events.lock().expect("event buffer poisoned");
         for event in frame.events {
-            if events.len() == MAXIMUM_BUFFERED_EVENTS {
-                events.pop_front();
-            }
-            events.push_back(event);
+            events.push(event, MAXIMUM_BUFFERED_EVENT_BYTES);
         }
         self.0.changed.notify_all();
     }
@@ -1316,6 +1346,41 @@ mod tests {
     const PUBLIC_TEST_IDENTITY: &str =
         "npub16c9a45p5dr6l3jzmrvgdh9m7xy994tatxd6sm7kmxaygkq4lertsfnacfm";
     const LIVE_GOOD_MORNING_NADDR: &str = "naddr1qqxxwmm0vskk6mmjde5kuecpzemhxue69uhhyetvv9ujuurjd9kkzmpwdejhgq3qye5ptcxfyyxl5vjvdjar2ua3f0hynkjzpx552mu5snj3qmx5pzjsxpqqqzynjsul3vr";
+
+    fn response_event(sequence: u64, response: &str) -> RuntimeEvent {
+        RuntimeEvent {
+            sequence,
+            kind: "envelope-handled".to_owned(),
+            detail: format!("duplicated response: {response}"),
+            session_id: Some(7),
+            response_json: Some(response.to_owned()),
+        }
+    }
+
+    #[test]
+    fn buffered_responses_are_byte_bounded_and_consumed_once() {
+        let mut bounded = BufferedEvents::default();
+        bounded.push(response_event(1, "12345678"), 40);
+        bounded.push(response_event(2, "abcdefgh"), 40);
+        assert_eq!(bounded.events.len(), 1);
+        assert_eq!(bounded.events.front().unwrap().sequence, 2);
+        assert_eq!(bounded.events.front().unwrap().detail, "");
+        assert!(bounded.retained_bytes <= 40);
+
+        let buffer = EventBuffer::default();
+        buffer
+            .events
+            .lock()
+            .unwrap()
+            .push(response_event(3, r#"{"id":"resource"}"#), 1_024);
+        assert_eq!(
+            buffer.response_after(2, 7).as_deref(),
+            Some(r#"{"id":"resource"}"#)
+        );
+        let retained = buffer.events.lock().unwrap();
+        assert!(retained.events.is_empty());
+        assert_eq!(retained.retained_bytes, 0);
+    }
 
     #[test]
     fn catalog_surface_base_is_a_bounded_trusted_shell_uuid() {
