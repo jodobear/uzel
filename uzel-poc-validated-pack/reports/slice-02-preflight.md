@@ -98,13 +98,15 @@ run passed. This is a probe-command correction, not a product workaround.
 
 The Gate 0 AF_UNIX probe proved a 4096-byte bounded control protocol. It did not
 prove transport of a verified document, and the exact fixture document measures
-96172 bytes. Increasing the frame limit, exposing a cache path to WebKit, or
-claiming daemon ownership would preserve a false assumption.
+96172 bytes. Slice 02 therefore could not enlarge the limit without new
+executable evidence, expose a cache path to WebKit, or claim daemon ownership.
 
 Slice 02 therefore keeps `RuntimeController` in the trusted Tauri process.
 Work 04 must add a bounded chunked verified-asset transfer, or an equivalently
 bounded private custom-scheme stream, with size/order rejection before moving
-runtime authority into `uzel-napd`. Control messages retain the 4096-byte limit.
+runtime authority into `uzel-napd`. Slice 04 later supplied that evidence and
+raised the bounded version-0 frame ceiling to 524288 bytes so worst-case JSON
+escaping of a 65536-byte envelope still fits.
 
 ## Upstream result
 

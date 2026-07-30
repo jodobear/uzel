@@ -122,7 +122,9 @@ The controller composes `nmp-native-artifact`, runtime-core/app/store, NAP bridg
 
 Slice 04 moved the controller out of Tauri and into `uzel-napd`. The verified
 96172-byte document crosses the private socket in ordered 2048-byte base64
-chunks; each request and response retains the 4096-byte control-frame ceiling.
+chunks. The version-0 frame ceiling is now 524288 bytes: this remains bounded
+and covers a 65536-byte runtime envelope after worst-case JSON string escaping
+plus its operation and surface wrapper.
 The daemon rejects an unknown transfer, a changed transfer ID, an out-of-order
 offset, an oversized aggregate, and an invalid completion marker. Tauri
 reassembles only bounded bytes, and WebKit never receives an artifact cache

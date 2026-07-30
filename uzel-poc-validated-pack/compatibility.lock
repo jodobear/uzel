@@ -238,7 +238,7 @@ trust_probe_result = "pass"
 transport = "AF_UNIX under XDG_RUNTIME_DIR"
 probe_sha256 = "48a1d032a9b97677b823341591a121a7210e3a7eded5d55195a50673fd01052c"
 protocol_version = 0
-maximum_frame_bytes = 4096
+maximum_frame_bytes = 524288
 probe_result = "pass"
 
 [tools]
@@ -310,7 +310,7 @@ runtime_result = "pass: exact signed fixture verified, installed, launched, comp
 hostile_result = "pass: unmapped surface rejected; forged session/principal ignored; sandboxed child has no Tauri globals, Wry ipc function, or readable parent"
 fedora_run_result = "pass: real Tauri/WebKitGTK exact-build, NAP-SHELL, authored artifact response, and child-native-denial markers observed"
 debian_build_result = "pass: locked frontend and complete Cargo/Tauri/nampplets/NMP workspace built on Bookworm"
-daemon_transfer_result = "deferred design change: 4096-byte control frame cannot carry 96172-byte verified document; Work 04 must add bounded chunked transfer before daemon owns RuntimeController"
+daemon_transfer_result = "pass: 524288-byte bounded control frame covers a 65536-byte envelope after worst-case JSON escaping; 96172-byte verified document transfers in ordered 2048-byte chunks"
 upstream_change_required = false
 
 [slice_03]
@@ -461,6 +461,20 @@ codex_review_round_1 = "addressed: unmount the hostile frame while the live sent
 codex_review_round_2 = "addressed: synchronously dispatch invalid-key raw WebKit IPC before publishing the final report and require raw diagnostic, result receipt, and success markers in that order"
 codex_review_round_3 = "addressed: signal stop, drain the listener backlog through WouldBlock, join the accept thread, and only then sample the connection count"
 codex_review_round_4 = "addressed: retain any non-WouldBlock accept-loop failure and reject finalization instead of treating a dead sentinel as zero accepts"
+
+[live_identity_naddr]
+validated_at = "2026-07-30"
+implementation_commit = "f85452be2b9c4817a8172ac615b35c0755738f50"
+maximum_envelope_bytes = 65536
+maximum_frame_bytes = 524288
+frame_escaping_result = "pass: maximum envelope with sixfold JSON control-character escaping and maximum surface wrapper fits the bounded frame"
+stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
+cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"
+browser_fault_injection_result = "pass: Playwright clicked both failure/retry paths; retained-state screenshot inspected; browser console had zero errors"
+codex_review_round_1 = "addressed: loaded-session stop retry after a lost response"
+codex_review_round_2 = "addressed: retain review tokens after retryable UI cancellation failure"
+codex_review_round_3 = "addressed: reserve explicit JSON escaping and wrapper headroom in the private IPC frame"
+codex_review_round_4 = "addressed: synchronize architecture, design, fact, work, report, and compatibility records to the current frame ceiling"
 
 [gates]
 V_01 = "pass"

@@ -23,8 +23,9 @@ No Uzel event, profile, or follow table/cache exists.
 
 - Protocol version remains `0`.
 - Every control frame retains the four-byte big-endian length prefix and
-  4096-byte maximum; an oversized declaration is rejected before body read or
-  allocation.
+  524288-byte maximum; this covers a 65536-byte envelope after worst-case JSON
+  escaping and wrapper fields. An oversized declaration is rejected before
+  body read or allocation.
 - `$XDG_RUNTIME_DIR/uzel` is mode 0700 and `napd.sock` is mode 0600.
 - A stale path is removed only when it is a Unix socket owned by the same UID
   as its private parent directory, a connection probe proves no daemon is

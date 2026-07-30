@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 3635,
-      "sha256": "bc81eeee1344496a2b09c0a765b592f3f44a6d1ee47bb049d940da44a4993163"
+      "bytes": 3656,
+      "sha256": "f2951edffc11313b66732a532d75abe791c3737faa2cf2264d7ff106d667400f"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "a3efe4165d7f039aaf592e80cdb261230037368d51add9443495ae5ae9e76208"
+      "sha256": "57e64e14ad88d9d1ea6b1f9bce779f451e374fb5d5a366b95c76ad0a0a24898e"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 30063,
-      "sha256": "ea93a2e2a9ae78f4f3c66be4da04a2bef782b1e0f7085627eff50c791bfe3f2a"
+      "bytes": 31285,
+      "sha256": "90ee2840853ff1c82540c017d5c5211cbe75a9fe3acbc8a00aef550bb1f288c8"
     },
     {
       "path": "config/fallow.jsonc",
@@ -52,13 +52,13 @@
     },
     {
       "path": "docs/02-architecture.md",
-      "bytes": 7461,
-      "sha256": "92dfd31e1f28adf555cda79451a096dba78a9b6a81293364aae59a6ee9d41ca6"
+      "bytes": 7579,
+      "sha256": "aec760958b597528a3ed18379c07b71ff59d895034ab99e7df9968f8e359e381"
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 8148,
-      "sha256": "6efd0db15e8b8cbf009b1be8764b23c3cd503ec526d6452b5aea13589e0a0c3f"
+      "bytes": 8277,
+      "sha256": "d8bb001425b8026c8a9ab42ced2d3dd34507fe1f59ccd44a3aab749041c8a9e3"
     },
     {
       "path": "docs/04-execution.md",
@@ -117,8 +117,8 @@
     },
     {
       "path": "docs/facts/FACT-007-local-ipc.md",
-      "bytes": 1321,
-      "sha256": "a249f80e8d3bcb2bd51315f4acc3e9d996a8821da61813cd5f6b420b4ec0c1e1"
+      "bytes": 1492,
+      "sha256": "1b9f5d29afab144827c983d7dcc27f71196703c1a85539b9fda1a5cd974c0f35"
     },
     {
       "path": "docs/facts/FACT-008-toolchain.md",
@@ -127,8 +127,8 @@
     },
     {
       "path": "docs/facts/FACT-009-linux-runner.md",
-      "bytes": 2033,
-      "sha256": "6805da155b2d3dbdd7a3aa017ce6df0c56f3fa5f3c71ca3228f783b20d027e72"
+      "bytes": 2128,
+      "sha256": "b7bae8047238ebbdc3e33a3396b4b96b1716b8974300d2ed729e5b622744b209"
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
@@ -137,8 +137,8 @@
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
-      "bytes": 2886,
-      "sha256": "c15c479dad63c6071969406708982e46f1161efa682bdf367f9cbd37f85d370a"
+      "bytes": 3062,
+      "sha256": "b43ff0ba59bded95e4dd31eff371d4e12ad6604e24d7f333b2ad42c829de9f03"
     },
     {
       "path": "docs/facts/FACT-012-composed-demo.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 4437,
-      "sha256": "318b06fabc3f16e92d8c4e15902dcf5a6c87c42761c2e4dcb98de2fae708bbc1"
+      "bytes": 4414,
+      "sha256": "b8817e88248b910ce44698b20486f4e5cc62ef30360322f0c51e6c17e5c5125d"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -167,8 +167,8 @@
     },
     {
       "path": "reports/preflight.md",
-      "bytes": 10035,
-      "sha256": "ff878693000e82c108a22af29c33e66056ad6313948a1cbfe481b176188930ed"
+      "bytes": 10175,
+      "sha256": "0ff2b62cb63f0eea6a93fca968f03a34ca583490f315ba67228fa1898fc046ed"
     },
     {
       "path": "reports/probes/linux-failed/uzel.log",
@@ -242,18 +242,18 @@
     },
     {
       "path": "reports/slice-02-preflight.md",
-      "bytes": 5714,
-      "sha256": "0f6c347e5537fbfeb6ff83311c3e6c3bf1073c19f7bbcc244887fa82ced31a6c"
+      "bytes": 5848,
+      "sha256": "fb144490dbbc0a2baafc6e562fffe3909cec51c6b7e8e9e9d173dac25ffbd699"
     },
     {
       "path": "reports/slice-03-preflight.md",
-      "bytes": 17076,
-      "sha256": "8550c9d59d06a9c0a61ce5e0d42d14e352a97352c1dca55f28a590dd9904f562"
+      "bytes": 17068,
+      "sha256": "d44c4b6be5121efeb03446732bc121df358ac46e4e1e3cc4f52b9417443bdb53"
     },
     {
       "path": "reports/slice-04-preflight.md",
-      "bytes": 9367,
-      "sha256": "b46157d01675c02fb0ef95fc29627081c5aa1ed2ccfd29ce2438b0b2cddbb26b"
+      "bytes": 9456,
+      "sha256": "3a30fab07dc0fabc645159a7692723ceed3193d863be0e940609788d8d399271"
     },
     {
       "path": "reports/slice-05-preflight.md",
@@ -312,8 +312,8 @@
     },
     {
       "path": "work/04-daemon-nmp.md",
-      "bytes": 1835,
-      "sha256": "bf47b6e626deeb71beb5d220b134ebf88f947a5ea6e21baa31adfaff80b12688"
+      "bytes": 1884,
+      "sha256": "cdbdfd40adc26acadbe5502309c85b2bcb722a48c82052ed8c30fa8481befd2f"
     },
     {
       "path": "work/05-integrate.md",

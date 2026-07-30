@@ -23,7 +23,7 @@ Validated wire shape for version `0`:
 
 ```text
 4-byte unsigned big-endian payload length
-maximum payload length: 4096 bytes
+maximum payload length: 524288 bytes
 UTF-8 JSON operation/result/error object
 reject an oversized declaration before allocating or reading its body
 ```
@@ -50,13 +50,15 @@ their source surface, while only runtime-authorized `inc.emit` may target the
 other installed handler. Unknown fixtures and a fifth active fixture fail
 closed. This remains a private protocol, not an app-discovery API.
 
-The 4096-byte frame remains a control-message limit. Slice 04 transfers the
-pinned 96172-byte verified `/index.html` as ordered 2048-byte chunks with a
-512-KiB aggregate ceiling. Start returns bounded metadata, transfer ID, and
-total length; each subsequent request must name the same transfer and exact
-next offset. Tauri rejects changed totals, invalid base64, empty or oversized
-chunks, offset gaps, and inconsistent completion. `RuntimeController` now lives
-only in `uzel-napd`; WebKit receives reassembled bytes and never a cache path.
+The 524288-byte frame remains a bounded control-message limit. It reserves
+enough space for a 65536-byte runtime envelope after worst-case JSON string
+escaping and wrapper fields. Slice 04 transfers the pinned 96172-byte verified
+`/index.html` as ordered 2048-byte chunks with a 512-KiB aggregate ceiling.
+Start returns bounded metadata, transfer ID, and total length; each subsequent
+request must name the same transfer and exact next offset. Tauri rejects
+changed totals, invalid base64, empty or oversized chunks, offset gaps, and
+inconsistent completion. `RuntimeController` now lives only in `uzel-napd`;
+WebKit receives reassembled bytes and never a cache path.
 
 ## Runtime state
 

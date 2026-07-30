@@ -308,6 +308,6 @@ fork before Uzel depends on it.
 
 ## Next step
 
-Proceed only to [`../work/04-daemon-nmp.md`](../work/04-daemon-nmp.md). First
-prove bounded, ordered, exact verified-asset transfer. Do not enlarge the
-4096-byte daemon control frame or start integrated composed-demo work early.
+Proceed only to [`../work/04-daemon-nmp.md`](../work/04-daemon-nmp.md). Prove
+bounded, ordered asset transfer. Slice 04 later established the current
+524288-byte ceiling; do not start integrated composed-demo work early.
