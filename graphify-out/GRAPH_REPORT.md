@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-31)
 
 ## Corpus Check
-- 116 files · ~81,366 words
+- 116 files · ~81,589 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1098 nodes · 1774 edges · 96 communities (69 shown, 27 thin omitted)
+- 1098 nodes · 1775 edges · 96 communities (69 shown, 27 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `618dd7d6`
+- Built from commit: `6a2e0291`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -240,7 +240,7 @@ Nodes (3): fedora-run-smoke.sh script, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKE
 
 ### Community 37 - "main.rs"
 Cohesion: 0.27
-Nodes (17): default_runtime_root(), default_socket_path(), live_relays_require_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
+Nodes (17): default_runtime_root(), default_socket_path(), live_configuration_requires_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
 
 ### Community 40 - "Post-POC extraction"
 Cohesion: 0.25
