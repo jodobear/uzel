@@ -20,8 +20,8 @@ use nmp_native_runtime_ffi::{
     RuntimePermissionDecisionController, RuntimePermissionPlatformAvailability,
     RuntimePermissionRequirement, RuntimePermissionSensitivity, RuntimeRelayAccess,
     RuntimeRelayDiagnosticsObservation, RuntimeRelayDiagnosticsObserver,
-    RuntimeRelayDiagnosticsSnapshot, RuntimeRelayLane, RuntimeSensitivity,
-    RuntimeSnapshotProjection, VerifiedRead,
+    RuntimeRelayDiagnosticsSnapshot, RuntimeRelayLane, RuntimeSensitivity, RuntimeSessionSnapshot,
+    RuntimeSnapshot, RuntimeSnapshotProjection, VerifiedRead,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -878,20 +878,22 @@ impl LinuxRunner {
         let snapshot = match self.controller.snapshot() {
             RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
             RuntimeSnapshotProjection::Refused { refusal, .. } => {
-                return Err(RunnerError::Verification(refusal.detail));
+                self.controller.close();
+                self.surfaces.clear();
+                return Err(RunnerError::Verification(format!(
+                    "post-launch snapshot was refused, so the runtime was closed to stop the unidentifiable session: {}",
+                    refusal.detail
+                )));
             }
         };
-        let session = snapshot
-            .sessions
-            .into_iter()
-            .find(|session| {
-                !existing_session_ids.contains(&session.id)
-                    && session.author == expected_author
-                    && session.d_tag == expected_d_tag
-                    && session.aggregate_hash == expected_aggregate_hash
-                    && session.state.starts_with("running")
-            })
-            .ok_or(RunnerError::SessionMissing)?;
+        let session = reconcile_launched_session(
+            &self.controller,
+            snapshot,
+            &existing_session_ids,
+            &expected_author,
+            &expected_d_tag,
+            &expected_aggregate_hash,
+        )?;
         let artifact_html = read_launched_document(
             &self.controller,
             session.id,
@@ -1128,6 +1130,33 @@ impl LinuxRunner {
         self.controller.stop(session_id);
         Ok(())
     }
+}
+
+fn reconcile_launched_session(
+    controller: &RuntimeController,
+    snapshot: RuntimeSnapshot,
+    existing_session_ids: &BTreeSet<u64>,
+    expected_author: &str,
+    expected_d_tag: &str,
+    expected_aggregate_hash: &str,
+) -> Result<RuntimeSessionSnapshot, RunnerError> {
+    let mut created = snapshot
+        .sessions
+        .into_iter()
+        .filter(|session| !existing_session_ids.contains(&session.id))
+        .collect::<Vec<_>>();
+    let exact = created.len() == 1
+        && created[0].author == expected_author
+        && created[0].d_tag == expected_d_tag
+        && created[0].aggregate_hash == expected_aggregate_hash
+        && created[0].state.starts_with("running");
+    if exact {
+        return Ok(created.remove(0));
+    }
+    for session in created {
+        controller.stop(session.id);
+    }
+    Err(RunnerError::SessionMissing)
 }
 
 fn catalog_cancellation_is_terminal(cancelled: bool, failure_code: Option<&str>) -> bool {
@@ -1777,7 +1806,7 @@ mod tests {
                     RuntimeGrantDecision::AllowExactBuild,
                 );
             }
-            controller.launch(artifact, RuntimeExecutionProfile::Legacy);
+            controller.launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
             let session = match controller.snapshot() {
                 RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
                     .sessions
@@ -1847,6 +1876,50 @@ mod tests {
                 }
             };
             assert!(!still_running, "failed document read must stop its session");
+
+            let existing_session_ids = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot
+                    .sessions
+                    .into_iter()
+                    .map(|session| session.id)
+                    .collect::<BTreeSet<_>>(),
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("pre-regression snapshot refused: {}", refusal.detail)
+                }
+            };
+            controller.launch(Arc::clone(&artifact), RuntimeExecutionProfile::Legacy);
+            let snapshot = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("regression snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(matches!(
+                reconcile_launched_session(
+                    &controller,
+                    snapshot,
+                    &existing_session_ids,
+                    "wrong-author",
+                    fixture.d_tag,
+                    fixture.aggregate_hash,
+                ),
+                Err(RunnerError::SessionMissing)
+            ));
+            let leaked = match controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => {
+                    snapshot.sessions.iter().any(|candidate| {
+                        !existing_session_ids.contains(&candidate.id)
+                            && candidate.state.starts_with("running")
+                    })
+                }
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("post-reconciliation snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert!(
+                !leaked,
+                "failed session refinement must stop every new session"
+            );
             controller.close();
         }
     }

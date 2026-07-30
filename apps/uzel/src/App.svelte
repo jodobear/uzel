@@ -76,6 +76,12 @@
 
   type RoutedEnvelope = { surfaceToken: string; envelope: string };
   type CleanupRequired = { surfaceToken: string; detail: string };
+  type BaseCleanupEntry = { pane: Pane; launch: SurfaceLaunch };
+  type BaseRecoveryRequired = {
+    entries: BaseCleanupEntry[];
+    restartPanes: Pane[];
+    detail: string;
+  };
   type HostileReport = {
     fetch: boolean;
     xhr: boolean;
@@ -119,8 +125,10 @@
   let profile: SurfaceLaunch | null = null;
   let loaded: SurfaceLaunch | null = null;
   let cleanupRequired: CleanupRequired | null = null;
+  let baseRecoveryRequired: BaseRecoveryRequired | null = null;
   let runtimeLocked = false;
   let loadedCleanupBusy = false;
+  let baseRecoveryBusy = false;
   let followSurface: HTMLElement;
   let profileSurface: HTMLElement;
   let loadedSurface: HTMLElement;
@@ -161,7 +169,7 @@
   let hostile: SurfaceLaunch | null = null;
   let hostileProbePassed = false;
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
-  $: runtimeLocked = loaded !== null || cleanupRequired !== null;
+  $: runtimeLocked = loaded !== null || cleanupRequired !== null || baseRecoveryRequired !== null;
   $: requiredCapabilitiesGranted = nappletReview
     ? nappletReview.capabilities.every(
         (capability) => !capability.required || grantedDomains.has(capability.domain),
@@ -359,9 +367,11 @@
 
   function openNappletLoader() {
     if (runtimeLocked) {
-      status = cleanupRequired
-        ? 'Retry unresolved napplet cleanup before loading another exact build'
-        : 'Close the open napplet before loading another exact build';
+      status = baseRecoveryRequired
+        ? 'Retry unresolved pane cleanup before loading another exact build'
+        : cleanupRequired
+          ? 'Retry unresolved napplet cleanup before loading another exact build'
+          : 'Close the open napplet before loading another exact build';
       return;
     }
     settingsOpen = false;
@@ -541,40 +551,110 @@
     status = `${prefix}: ${String(error)}`;
   }
 
-  async function restartActiveSurfaces() {
-    beginShellHandshake();
-    const previousProfile = profile;
-    const previousFollow = follow;
-    try {
-      if (previousProfile) {
-        window.NMPTrustedShellHost.unmount(previousProfile.surfaceToken);
-      }
-      if (previousFollow) {
-        window.NMPTrustedShellHost.unmount(previousFollow.surfaceToken);
-      }
+  function clearStoppedBaseSurface(entry: BaseCleanupEntry) {
+    if (entry.pane === 'profile' && profile?.surfaceToken === entry.launch.surfaceToken) {
       profile = null;
+    }
+    if (entry.pane === 'follow' && follow?.surfaceToken === entry.launch.surfaceToken) {
       follow = null;
-      if (previousProfile) {
-        await invoke('stop_fixture', { surfaceToken: previousProfile.surfaceToken });
+    }
+  }
+
+  async function stopBaseSurfaces(entries: BaseCleanupEntry[]) {
+    const remaining: BaseCleanupEntry[] = [];
+    const failures: string[] = [];
+    for (const entry of entries) {
+      try {
+        await invoke('stop_fixture', { surfaceToken: entry.launch.surfaceToken });
+        clearStoppedBaseSurface(entry);
+      } catch (error) {
+        remaining.push(entry);
+        failures.push(`${entry.pane}: ${String(error)}`);
       }
-      if (previousFollow) {
-        await invoke('stop_fixture', { surfaceToken: previousFollow.surfaceToken });
-      }
-      if (previousProfile) {
-        profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
-      }
-      if (profile && !mountSurface(profile, profileSurface)) {
+    }
+    return { remaining, failures };
+  }
+
+  async function launchBaseSurfaces(restartPanes: Pane[]) {
+    if (restartPanes.includes('profile')) {
+      profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
+      if (!mountSurface(profile, profileSurface)) {
         throw new Error('profile surface refused after identity change');
       }
-      if (previousFollow) {
-        follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
-      }
-      if (follow && !mountSurface(follow, followSurface)) {
+    }
+    if (restartPanes.includes('follow')) {
+      follow = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'follow-list' });
+      if (!mountSurface(follow, followSurface)) {
         throw new Error('follow surface refused after identity change');
       }
-    } catch (error) {
+    }
+  }
+
+  async function retainBaseRecovery(restartPanes: Pane[], error: unknown) {
+    const entries: BaseCleanupEntry[] = [];
+    if (restartPanes.includes('profile') && profile) {
+      window.NMPTrustedShellHost.unmount(profile.surfaceToken);
+      entries.push({ pane: 'profile', launch: profile });
+    }
+    if (restartPanes.includes('follow') && follow) {
+      window.NMPTrustedShellHost.unmount(follow.surfaceToken);
+      entries.push({ pane: 'follow', launch: follow });
+    }
+    const stopped = await stopBaseSurfaces(entries);
+    const detail = stopped.failures.length
+      ? `${String(error)}; cleanup failed: ${stopped.failures.join('; ')}`
+      : String(error);
+    baseRecoveryRequired = { entries: stopped.remaining, restartPanes, detail };
+    failShellHandshake('Shell restart failed', detail);
+  }
+
+  async function restartActiveSurfaces() {
+    beginShellHandshake();
+    const entries: BaseCleanupEntry[] = [];
+    if (profile) entries.push({ pane: 'profile', launch: profile });
+    if (follow) entries.push({ pane: 'follow', launch: follow });
+    const restartPanes = entries.map((entry) => entry.pane);
+    for (const entry of entries) {
+      window.NMPTrustedShellHost.unmount(entry.launch.surfaceToken);
+    }
+    const stopped = await stopBaseSurfaces(entries);
+    if (stopped.remaining.length > 0) {
+      const detail = stopped.failures.join('; ');
+      baseRecoveryRequired = { entries: stopped.remaining, restartPanes, detail };
+      const error = new Error(detail);
       failShellHandshake('Shell restart failed', error);
       throw error;
+    }
+    try {
+      await launchBaseSurfaces(restartPanes);
+    } catch (error) {
+      await retainBaseRecovery(restartPanes, error);
+      throw error;
+    }
+  }
+
+  async function retryBaseRecovery() {
+    const current = baseRecoveryRequired;
+    if (!current || baseRecoveryBusy) return;
+    baseRecoveryBusy = true;
+    const stopped = await stopBaseSurfaces(current.entries);
+    if (stopped.remaining.length > 0) {
+      const detail = stopped.failures.join('; ');
+      baseRecoveryRequired = { ...current, entries: stopped.remaining, detail };
+      failShellHandshake('Pane cleanup retry failed', detail);
+      baseRecoveryBusy = false;
+      await refreshDiagnostics().catch(() => {});
+      return;
+    }
+    baseRecoveryRequired = null;
+    beginShellHandshake();
+    try {
+      await launchBaseSurfaces(current.restartPanes);
+    } catch (error) {
+      await retainBaseRecovery(current.restartPanes, error);
+    } finally {
+      baseRecoveryBusy = false;
+      await refreshDiagnostics().catch(() => {});
     }
   }
 
@@ -591,9 +671,11 @@
 
   async function selectIdentity(publicIdentity: string) {
     if (runtimeLocked) {
-      status = cleanupRequired
-        ? 'Retry unresolved napplet cleanup before changing read identity'
-        : 'Close the open napplet before changing read identity';
+      status = baseRecoveryRequired
+        ? 'Retry unresolved pane cleanup before changing read identity'
+        : cleanupRequired
+          ? 'Retry unresolved napplet cleanup before changing read identity'
+          : 'Close the open napplet before changing read identity';
       return;
     }
     identityBusy = true;
@@ -856,14 +938,14 @@
       <p class="eyebrow">Linux exact-build runtime</p>
       <h1>Uzel</h1>
     </div>
-    <div class:ready={shellReady && !cleanupRequired} class="runtime-status" data-shell-ready={shellReady}>
+    <div class:ready={shellReady && !cleanupRequired && !baseRecoveryRequired} class="runtime-status" data-shell-ready={shellReady}>
       <span aria-hidden="true"></span>
       {status}
     </div>
     <nav aria-label="View controls">
       <button type="button" class:active={orientation === 'horizontal'} onclick={() => setOrientation('horizontal')} title="Side by side">Side</button>
       <button type="button" class:active={orientation === 'vertical'} onclick={() => setOrientation('vertical')} title="Stacked panes">Stack</button>
-      <button type="button" class:active={loaderOpen} disabled={runtimeLocked} onclick={openNappletLoader} title={cleanupRequired ? 'Retry unresolved cleanup first' : loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
+      <button type="button" class:active={loaderOpen} disabled={runtimeLocked} onclick={openNappletLoader} title={baseRecoveryRequired ? 'Retry unresolved pane cleanup first' : cleanupRequired ? 'Retry unresolved napplet cleanup first' : loaded ? 'Close the open napplet first' : 'Open a signed napplet by naddr'}>Open napplet</button>
       <button type="button" class:active={showEvidence} onclick={toggleEvidence}>Proof</button>
       <button type="button" class:active={settingsOpen} onclick={openSettings}>Settings</button>
       <button type="button" class:active={drawerOpen} onclick={() => { developerMode = true; settingsOpen = false; drawerOpen = !drawerOpen; }}>Debug</button>
@@ -874,7 +956,7 @@
     <form onsubmit={submitIdentity}>
       <label for="read-identity">Public read identity</label>
       <input id="read-identity" bind:value={identityInput} spellcheck="false" autocomplete="off" />
-      <button type="submit" disabled={identityBusy || !shellReady || runtimeLocked}>{identityBusy ? 'Selecting…' : cleanupRequired ? 'Retry cleanup first' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
+      <button type="submit" disabled={identityBusy || !shellReady || runtimeLocked}>{identityBusy ? 'Selecting…' : baseRecoveryRequired ? 'Retry pane cleanup first' : cleanupRequired ? 'Retry cleanup first' : loaded ? 'Close napplet first' : shellReady ? 'Use identity' : 'Waiting for panes…'}</button>
     </form>
     <div class="source-status">
       <span>{runtime?.mode === 'live' ? 'Configured relays' : 'Fixture/cache lane'}</span>
@@ -952,6 +1034,27 @@
           <button type="button" disabled={loadedCleanupBusy} onclick={retryRequiredCleanup}>{loadedCleanupBusy ? 'Stopping…' : 'Retry cleanup'}</button>
         </div>
         <div class="surface cleanup-surface"><p>{cleanupRequired.detail}</p><code>{cleanupRequired.surfaceToken}</code></div>
+      </article>
+    </section>
+  {/if}
+
+  {#if baseRecoveryRequired}
+    <section class="loaded-workspace cleanup-workspace" aria-label="Pending base pane cleanup">
+      <article class="pane loaded-pane cleanup-pane">
+        <div class="pane-title">
+          <div><span>RECOVER</span><strong>Profile/follows restart paused</strong></div>
+          <button type="button" disabled={baseRecoveryBusy} onclick={retryBaseRecovery}>{baseRecoveryBusy ? 'Retrying…' : 'Retry panes'}</button>
+        </div>
+        <div class="surface cleanup-surface">
+          <p>{baseRecoveryRequired.detail}</p>
+          {#if baseRecoveryRequired.entries.length > 0}
+            {#each baseRecoveryRequired.entries as entry}
+              <code>{entry.pane}: {entry.launch.surfaceToken}</code>
+            {/each}
+          {:else}
+            <code>Cleanup complete · pane launch awaits retry</code>
+          {/if}
+        </div>
       </article>
     </section>
   {/if}
