@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785434794.0726962,
-    "ast_hash": "8051a14e03e1da69b9495cb756d81e6b",
+    "mtime": 1785436519.1858385,
+    "ast_hash": "92bcf11d50d25a1c0ab18c7a37fca0cc",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785434794.093054,
-    "ast_hash": "9c9603d28a35028c3c671d2fbae185d6",
+    "mtime": 1785436519.1924984,
+    "ast_hash": "3f3d6095bab90c795bcbdb6c67d8071b",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785433632.220517,
-    "ast_hash": "953fe176b2cf26337f111b225745e647",
+    "mtime": 1785434921.9253573,
+    "ast_hash": "9c891650efcc78b27eead8eb16c91386",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/src/main.rs": {
-    "mtime": 1785433219.482087,
-    "ast_hash": "25efa9d5b548cc821c2b3c85fb2e77e4",
+    "mtime": 1785436166.8727167,
+    "ast_hash": "85585eaf37b4c10dab52dcaa6c1068f0",
     "semantic_hash": ""
   },
   "apps/uzel/src-tauri/tauri.conf.json": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785434251.568164,
-    "ast_hash": "3ff1530da5ed77d995a09197fcde34bf",
+    "mtime": 1785436330.6204739,
+    "ast_hash": "f3d3c01d3220ad5d8d8df48d909d8f4f",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -280,8 +280,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1785428368.5359678,
-    "ast_hash": "90ca222ed5525cb400efe6fd79a33d4a",
+    "mtime": 1785435632.9769874,
+    "ast_hash": "54d21c21a370e54ea07c7ccc0ceb04a2",
     "semantic_hash": ""
   },
   "apps/uzel/index.html": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785433424.272285,
-    "ast_hash": "9eae1e72960f011adedf8cceb9910fbe",
+    "mtime": 1785434921.8213563,
+    "ast_hash": "649e837a1b1dfbdfc02feb287a1d1ff9",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {
