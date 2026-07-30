@@ -37,6 +37,9 @@ Run the immutable-digest Debian build smoke from the Fedora host:
 bash scripts/debian-build-smoke.sh
 ```
 
+Run the real desktop/WebKit acceptance on Debian 13 using the setup, headless,
+and interactive paths in [`DEBIAN13-LIVE-TEST.md`](DEBIAN13-LIVE-TEST.md).
+
 Slices 03 through 06 add independent `follow-list` and `profile-card` napplets,
 the Linux daemon boundary, and the composed two-pane shell. Tauri is a thin private-socket client; one
 daemon-owned upstream `RuntimeController` owns one NMP engine and redb store.
