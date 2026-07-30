@@ -683,13 +683,18 @@ impl LinuxRunner {
     }
 
     pub fn cancel_napplet_review(&mut self, token: &str) -> Result<(), RunnerError> {
-        if self.pending_reviews.remove(token).is_none() {
+        if !self.pending_reviews.contains_key(token) {
             return Err(RunnerError::Catalog(
                 "review token is not pending".to_owned(),
             ));
         }
         let result = self.controller.catalog_cancel_review(token.to_owned());
-        if result.cancelled {
+        let terminal = catalog_cancellation_is_terminal(
+            result.cancelled,
+            result.failure.as_ref().map(|failure| failure.code.as_str()),
+        );
+        if terminal {
+            self.pending_reviews.remove(token);
             Ok(())
         } else {
             Err(RunnerError::Catalog(result.failure.map_or_else(
@@ -1128,6 +1133,10 @@ impl LinuxRunner {
     }
 }
 
+fn catalog_cancellation_is_terminal(cancelled: bool, failure_code: Option<&str>) -> bool {
+    cancelled || failure_code == Some("stale-review")
+}
+
 fn read_launched_document(
     controller: &RuntimeController,
     session_id: u64,
@@ -1274,6 +1283,41 @@ mod tests {
             "nmp-artifact://00000000-0000-4000-8000-00000000002a/"
         );
         assert!(artifact_base_url(0x1_0000_0000_0000).is_err());
+    }
+
+    #[test]
+    fn catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens() {
+        assert!(!catalog_cancellation_is_terminal(false, Some("busy")));
+        assert!(!catalog_cancellation_is_terminal(false, None));
+        assert!(catalog_cancellation_is_terminal(true, None));
+        assert!(catalog_cancellation_is_terminal(
+            false,
+            Some("stale-review")
+        ));
+
+        let root = TempDir::new().unwrap();
+        let mut runner = LinuxRunner::open(root.path()).unwrap();
+        let token = "locally-pending-runtime-stale".to_owned();
+        runner.pending_reviews.insert(
+            token.clone(),
+            NappletReview {
+                token: token.clone(),
+                event_id: "event".to_owned(),
+                coordinate: "naddr".to_owned(),
+                manifest_author: "a".repeat(64),
+                d_tag: "test".to_owned(),
+                title: "Test".to_owned(),
+                description: None,
+                aggregate_hash: "b".repeat(64),
+                capabilities: Vec::new(),
+                blob_sources: Vec::new(),
+                provenance: Vec::new(),
+                can_install: false,
+                blocker: Some("test-only stale review".to_owned()),
+            },
+        );
+        runner.cancel_napplet_review(&token).unwrap();
+        assert!(!runner.pending_reviews.contains_key(&token));
     }
 
     #[test]

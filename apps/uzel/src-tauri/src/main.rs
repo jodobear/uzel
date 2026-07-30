@@ -177,9 +177,7 @@ fn start_hostile_probe(
     };
     if let Err(error) = state.attach(&sentinel_url, &fetched.surface.surface_token) {
         state.cancel();
-        let _ = client.request(&Request::StopFixture {
-            surface_token: fetched.surface.surface_token,
-        });
+        let _ = client.stop_fixture(&fetched.surface.surface_token);
         return Err(error);
     }
     println!(
@@ -195,13 +193,9 @@ fn start_hostile_probe(
 
 #[tauri::command]
 fn stop_fixture(client: tauri::State<'_, UnixClient>, surface_token: String) -> Result<(), String> {
-    match client
-        .request(&Request::StopFixture { surface_token })
-        .map_err(|error| error.to_string())?
-    {
-        Response::Stopped => Ok(()),
-        _ => Err("daemon returned an unexpected stop response".to_owned()),
-    }
+    client
+        .stop_fixture(&surface_token)
+        .map_err(|error| error.to_string())
 }
 
 #[tauri::command]

@@ -233,6 +233,14 @@ pub enum ClientError {
     TransferChanged,
     #[error("asset chunk length or completion marker is invalid")]
     InvalidChunk,
+    #[error(
+        "asset transfer for surface {surface_token} failed ({transfer_error}); cleanup also failed ({cleanup_error})"
+    )]
+    TransferCleanupFailed {
+        surface_token: String,
+        transfer_error: Box<ClientError>,
+        cleanup_error: Box<ClientError>,
+    },
 }
 
 #[derive(Clone, Debug)]
@@ -297,6 +305,15 @@ impl UnixClient {
         }
     }
 
+    pub fn stop_fixture(&self, surface_token: &str) -> Result<(), ClientError> {
+        match self.request(&Request::StopFixture {
+            surface_token: surface_token.to_owned(),
+        })? {
+            Response::Stopped => Ok(()),
+            _ => Err(ClientError::UnexpectedResponse),
+        }
+    }
+
     pub fn confirm_napplet(
         &self,
         token: &str,
@@ -323,6 +340,26 @@ impl UnixClient {
             } => (surface, transfer_id, total_bytes),
             _ => return Err(ClientError::UnexpectedResponse),
         };
+        let artifact_bytes = match self.fetch_asset(&transfer_id, total_bytes) {
+            Ok(bytes) => bytes,
+            Err(transfer_error) => {
+                return match self.stop_fixture(&surface.surface_token) {
+                    Ok(()) => Err(transfer_error),
+                    Err(cleanup_error) => Err(ClientError::TransferCleanupFailed {
+                        surface_token: surface.surface_token,
+                        transfer_error: Box::new(transfer_error),
+                        cleanup_error: Box::new(cleanup_error),
+                    }),
+                };
+            }
+        };
+        Ok(FetchedSurface {
+            surface,
+            artifact_bytes,
+        })
+    }
+
+    fn fetch_asset(&self, transfer_id: &str, total_bytes: u64) -> Result<Vec<u8>, ClientError> {
         let total = usize::try_from(total_bytes).map_err(|_| ProtocolError::AssetTooLarge)?;
         if total == 0 || total > MAX_ASSET_BYTES {
             return Err(ProtocolError::AssetTooLarge.into());
@@ -331,7 +368,7 @@ impl UnixClient {
         let mut offset = 0_u64;
         while offset < total_bytes {
             let response = self.request(&Request::AssetChunk {
-                transfer_id: transfer_id.clone(),
+                transfer_id: transfer_id.to_owned(),
                 offset,
             })?;
             let Response::AssetChunk {
@@ -374,10 +411,7 @@ impl UnixClient {
         if artifact_bytes.len() != total {
             return Err(ClientError::InvalidChunk);
         }
-        Ok(FetchedSurface {
-            surface,
-            artifact_bytes,
-        })
+        Ok(artifact_bytes)
     }
 }
 
@@ -430,9 +464,17 @@ fn read_exact_or_truncated(reader: &mut impl Read, bytes: &mut [u8]) -> Result<(
 
 #[cfg(test)]
 mod tests {
-    use std::io::Cursor;
+    use std::{
+        fs,
+        io::Cursor,
+        os::unix::net::UnixListener,
+        sync::atomic::{AtomicU64, Ordering},
+        thread,
+    };
 
     use super::*;
+
+    static NEXT_SOCKET: AtomicU64 = AtomicU64::new(0);
 
     #[test]
     fn gate_zero_bounds_remain_exact() {
@@ -477,5 +519,53 @@ mod tests {
         let mut wire = Vec::new();
         write_frame(&mut wire, &response).unwrap();
         assert!(wire.len() <= MAX_FRAME_BYTES + 4);
+    }
+
+    #[test]
+    fn failed_asset_transfer_stops_the_launched_surface() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let socket = root.join("napd.sock");
+        let listener = UnixListener::bind(&socket).unwrap();
+        let server = thread::spawn(move || {
+            for exchange in 0..3 {
+                let (mut stream, _) = listener.accept().unwrap();
+                let request = read_frame::<Request>(&mut stream).unwrap();
+                let response = match (exchange, request) {
+                    (0, Request::StartFixture { .. }) => Response::Surface {
+                        surface: SurfaceMetadata {
+                            surface_token: "surface-after-launch".to_owned(),
+                            artifact_base_url:
+                                "nmp-artifact://00000000-0000-4000-8000-000000000001/".to_owned(),
+                            title: "Test".to_owned(),
+                            author: "a".repeat(64),
+                            d_tag: "test".to_owned(),
+                            aggregate_hash: "b".repeat(64),
+                            domains: Vec::new(),
+                            unavailable_domains: Vec::new(),
+                        },
+                        transfer_id: "transfer-after-launch".to_owned(),
+                        total_bytes: 1,
+                    },
+                    (1, Request::AssetChunk { .. }) => Response::Stopped,
+                    (2, Request::StopFixture { surface_token }) => {
+                        assert_eq!(surface_token, "surface-after-launch");
+                        Response::Stopped
+                    }
+                    (_, request) => panic!("unexpected request: {request:?}"),
+                };
+                write_frame(&mut stream, &response).unwrap();
+            }
+        });
+
+        let error = UnixClient::new(&socket).start_fixture().unwrap_err();
+        assert!(matches!(error, ClientError::UnexpectedResponse));
+        server.join().unwrap();
+        fs::remove_file(&socket).unwrap();
+        fs::remove_dir(&root).unwrap();
     }
 }
