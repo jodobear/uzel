@@ -101,15 +101,31 @@ if [[ $node_status -eq 124 || $node_status -eq 137 ]]; then
   infrastructure_failure node-timeout "corpus structure verifier exceeded ${node_timeout_seconds}s"
 fi
 if [[ $node_status -eq 2 ]]; then
-  trust_marker_pattern='^EXTERNAL_NAPPLET_CORPUS_TRUST code=[a-z][a-z0-9-]* message=.+$'
-  if [[ ${#node_stderr_lines[@]} -eq 1 &&
-    ${node_stderr_lines[0]} != *$'\r'* &&
-    ${node_stderr_lines[0]} =~ $trust_marker_pattern ]]; then
-    printf '%s\n' "${node_stderr_lines[0]}" >&2
+  node_trust_status=1
+  if [[ ${#node_stderr_lines[@]} -eq 1 ]]; then
+    set +e
+    node_trust_result=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -c -e -s \
+      'select(
+        length == 1
+        and (.[0] | type) == "object"
+        and ((.[0] | keys) == ["category", "code", "format", "message"])
+        and .[0].format == "uzel.external-napplet-corpus-result.v1"
+        and .[0].category == "trust"
+        and (.[0].code | type == "string" and test("^[a-z][a-z0-9-]*$"))
+        and (.[0].message | type == "string" and length > 0)
+      ) | .[0]' <<< "${node_stderr_lines[0]}")
+    node_trust_status=$?
+    set -e
+  fi
+  if [[ $node_trust_status -eq 124 || $node_trust_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "Node trust-result validation exceeded ${jq_timeout_seconds}s"
+  fi
+  if [[ $node_trust_status -eq 0 ]]; then
+    printf 'EXTERNAL_NAPPLET_CORPUS_TRUST result=%s\n' "$node_trust_result" >&2
     exit 2
   fi
   infrastructure_failure node-invalid-trust-output \
-    "corpus structure verifier exited 2 without exactly one typed trust marker"
+    "corpus structure verifier exited 2 without exactly one typed trust result"
 fi
 if [[ $node_status -ne 0 ]]; then
   infrastructure_failure node-execution-failed "corpus structure verifier failed with status $node_status"

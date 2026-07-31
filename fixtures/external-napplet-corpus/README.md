@@ -43,6 +43,12 @@ requires the flake-pinned `nak 0.20.1`; another PATH version is an infrastructur
 failure, not accepted evidence. `nak` remains the owner of Nostr decoding and
 cryptographic verification; this code does not reimplement either.
 
+The lock and signed events are opened through protected no-follow,
+nonblocking descriptors. The verifier checks each opened descriptor's canonical
+contained path and regular-file type, then performs a fixed capped read: each
+evidence file must be at most 16,384 bytes, including if it grows after its
+initial descriptor stat.
+
 Artifact blobs are deliberately absent. Therefore offline verification proves
 the retained signed evidence and coordinate mapping, not current relay/CDN
 availability or a new source-to-binary build. Later live tests must fetch through
@@ -58,8 +64,9 @@ aggregate before launch.
   closed until an explicit refresh PR explains and accepts the new tuple.
 
 The verifier exits `2` for trust failures and `3` for missing, wrong-version,
-crashed, or malformed-output verifier infrastructure. It never turns either
-category into success.
+crashed, or malformed-output verifier infrastructure. Node trust diagnostics
+cross the shell boundary as a schema-checked JSON result so hostile control
+characters stay encoded. It never turns either category into success.
 
 ## Deliberate refresh
 

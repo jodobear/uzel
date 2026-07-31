@@ -7,15 +7,22 @@ temporary_corpus=$(mktemp -d)
 lossless_corpus=$(mktemp -d)
 null_entry_corpus=$(mktemp -d)
 snapshot_corpus=$(mktemp -d)
+diagnostic_corpus=$(mktemp -d)
 
 cleanup() {
-  rm -rf -- "$temporary_corpus" "$lossless_corpus" "$null_entry_corpus" "$snapshot_corpus"
+  rm -rf -- \
+    "$temporary_corpus" \
+    "$lossless_corpus" \
+    "$null_entry_corpus" \
+    "$snapshot_corpus" \
+    "$diagnostic_corpus"
 }
 trap cleanup EXIT
 
 cp -R "$root/fixtures/external-napplet-corpus/." "$temporary_corpus/"
 cp -R "$root/fixtures/external-napplet-corpus/." "$null_entry_corpus/"
 cp -R "$root/fixtures/external-napplet-corpus/." "$snapshot_corpus/"
+cp -R "$root/fixtures/external-napplet-corpus/." "$diagnostic_corpus/"
 
 basename_output=$(
   cd "$root/fixtures/external-napplet-corpus"
@@ -99,9 +106,27 @@ set +e
 null_entry_output=$(bash "$verifier" "$null_entry_lock" 2>&1)
 null_entry_status=$?
 set -e
-if [[ $null_entry_status -ne 2 || $null_entry_output != *"EXTERNAL_NAPPLET_CORPUS_TRUST code=invalid-lock"* ]]; then
+if [[ $null_entry_status -ne 2 ||
+  $null_entry_output != *'EXTERNAL_NAPPLET_CORPUS_TRUST result={"format":"uzel.external-napplet-corpus-result.v1","category":"trust","code":"invalid-lock"'* ]]; then
   echo "expected a null entry to be classified as trust failure" >&2
   echo "$null_entry_output" >&2
+  exit 1
+fi
+
+diagnostic_lock="$diagnostic_corpus/corpus.lock.json"
+diagnostic_lock_next="$diagnostic_corpus/corpus.lock.next.json"
+jq '.entries[0].name = "hostile\nname\r"' "$diagnostic_lock" > "$diagnostic_lock_next"
+mv "$diagnostic_lock_next" "$diagnostic_lock"
+set +e
+diagnostic_output=$(bash "$verifier" "$diagnostic_lock" 2>&1)
+diagnostic_status=$?
+set -e
+if [[ $diagnostic_status -ne 2 ||
+  $diagnostic_output == *$'\n'* ||
+  $diagnostic_output == *$'\r'* ||
+  $diagnostic_output != *'"message":"hostile\nname\r: name is not in the audited automation allowlist"'* ]]; then
+  echo "expected hostile diagnostic controls to remain one encoded trust result" >&2
+  echo "$diagnostic_output" >&2
   exit 1
 fi
 
@@ -140,6 +165,27 @@ if [[ $untyped_exit_two_status -ne 3 ||
   $untyped_exit_two_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-invalid-trust-output"* ]]; then
   echo "expected an untyped Node exit 2 to fail as infrastructure" >&2
   echo "$untyped_exit_two_output" >&2
+  exit 1
+fi
+
+multiple_results_node="$temporary_corpus/multiple-results-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'result='\''{"format":"uzel.external-napplet-corpus-result.v1","category":"trust","code":"invalid-lock","message":"hostile"}'\''' \
+  'printf '\''%s %s\n'\'' "$result" "$result" >&2' \
+  'exit 2' > "$multiple_results_node"
+chmod +x "$multiple_results_node"
+set +e
+multiple_results_output=$(
+  UZEL_NODE_BIN="$multiple_results_node" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+multiple_results_status=$?
+set -e
+if [[ $multiple_results_status -ne 3 ||
+  $multiple_results_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-invalid-trust-output"* ]]; then
+  echo "expected multiple same-line Node results to fail exact-schema validation" >&2
+  echo "$multiple_results_output" >&2
   exit 1
 fi
 

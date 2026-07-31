@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { constants } from 'node:fs';
-import { open, readFile, realpath } from 'node:fs/promises';
+import { open, realpath } from 'node:fs/promises';
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,6 +13,8 @@ export const DEFAULT_CORPUS_LOCK = resolve(
 
 const HEX_64 = /^[0-9a-f]{64}$/;
 const HEX_128 = /^[0-9a-f]{128}$/;
+const CORPUS_LOCK_MAX_BYTES = 16 * 1024;
+const SIGNED_EVENT_MAX_BYTES = 16 * 1024;
 const EXPECTED_FORMAT = 'uzel.external-napplet-corpus.v1';
 const EXPECTED_NAK_VERSION = '0.20.1';
 const EXPECTED_SOURCE_COMMIT = 'aa4dc7a0799d95e3066b50055b29685d6e376045';
@@ -23,6 +25,7 @@ const EXPECTED_SOURCE_LICENSE_URL =
 const EXPECTED_AUDITED_ON = '2026-07-31';
 const EXPECTED_PUBLISHED_AT = '2026-07-26T11:52:04Z';
 const VERIFIED_SNAPSHOT_FORMAT = 'uzel.verified-external-napplet-corpus.v1';
+const VERIFICATION_RESULT_FORMAT = 'uzel.external-napplet-corpus-result.v1';
 const EXPECTED_FAILURE_POLICY = Object.freeze({
   infrastructure: ['artifact-server-unavailable', 'relay-unavailable'],
   trust: [
@@ -341,10 +344,26 @@ export function verifySignedEvent(entry, event) {
   );
 }
 
-function readFailure(error, description) {
-  if (error?.code === 'ENOENT') {
-    trust('missing-corpus-data', `${description}: ${error.message}`);
+export function classifyEvidenceReadError(errorCode) {
+  if (errorCode === 'ENOENT') {
+    return { category: 'trust', code: 'missing-corpus-data' };
   }
+  if (['EISDIR', 'ENOTDIR', 'ELOOP', 'ENXIO'].includes(errorCode)) {
+    return { category: 'trust', code: 'invalid-lock' };
+  }
+  return { category: 'infrastructure', code: 'corpus-read-failed' };
+}
+
+function readFailure(error, description) {
+  const classification = classifyEvidenceReadError(error?.code);
+  const message = `${description}: ${error.message}`;
+  if (classification.category === 'trust') {
+    trust(classification.code, message);
+  }
+  infrastructure(classification.code, message);
+}
+
+function descriptorFailure(error, description) {
   infrastructure('corpus-read-failed', `${description}: ${error.message}`);
 }
 
@@ -356,14 +375,53 @@ function parseJson(text, description) {
   }
 }
 
-async function readJson(path, description) {
-  let text;
+export async function readBoundedEvidence(handle, description, maxBytes) {
+  let stats;
   try {
-    text = await readFile(path, 'utf8');
+    stats = await handle.stat();
   } catch (error) {
-    readFailure(error, description);
+    descriptorFailure(error, description);
   }
-  return parseJson(text, description);
+  requireCondition(stats.isFile(), 'invalid-lock', `${description}: evidence must be a regular file`);
+  requireCondition(
+    Number.isSafeInteger(stats.size) && stats.size >= 0,
+    'invalid-lock',
+    `${description}: evidence byte length is invalid`,
+  );
+  requireCondition(
+    stats.size <= maxBytes,
+    'invalid-lock',
+    `${description}: evidence exceeds ${maxBytes}-byte limit`,
+  );
+
+  const bytes = Buffer.alloc(maxBytes + 1);
+  let totalBytes = 0;
+  while (totalBytes < bytes.length) {
+    let bytesRead;
+    try {
+      ({ bytesRead } = await handle.read(
+        bytes,
+        totalBytes,
+        bytes.length - totalBytes,
+        null,
+      ));
+    } catch (error) {
+      descriptorFailure(error, description);
+    }
+    if (!Number.isSafeInteger(bytesRead) || bytesRead < 0 || bytesRead > bytes.length - totalBytes) {
+      infrastructure('corpus-read-failed', `${description}: descriptor returned an invalid byte count`);
+    }
+    if (bytesRead === 0) {
+      break;
+    }
+    totalBytes += bytesRead;
+  }
+  requireCondition(
+    totalBytes <= maxBytes,
+    'invalid-lock',
+    `${description}: evidence exceeds ${maxBytes}-byte limit`,
+  );
+  return bytes.subarray(0, totalBytes).toString('utf8');
 }
 
 function isContainedPath(pathFromRoot) {
@@ -383,13 +441,22 @@ async function canonicalDirectory(path, description) {
   }
 }
 
-async function readEventJson(path, description, canonicalCorpusDirectory, expectedCanonicalPath) {
+async function readProtectedJson(
+  path,
+  description,
+  canonicalCorpusDirectory,
+  expectedCanonicalPath,
+  maxBytes,
+) {
   let handle;
   try {
-    handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+    handle = await open(
+      path,
+      constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+    );
   } catch (error) {
     if (error?.code === 'ELOOP') {
-      trust('invalid-lock', `${description}: symlinked event evidence is not allowed`);
+      trust('invalid-lock', `${description}: symlinked evidence is not allowed`);
     }
     readFailure(error, description);
   }
@@ -404,33 +471,46 @@ async function readEventJson(path, description, canonicalCorpusDirectory, expect
     requireCondition(
       isContainedPath(relative(canonicalCorpusDirectory, canonicalPath)),
       'invalid-lock',
-      `${description}: event file escapes corpus directory`,
+      `${description}: evidence escapes corpus directory`,
     );
     requireCondition(
       canonicalPath === expectedCanonicalPath,
       'invalid-lock',
-      `${description}: symlinked event evidence is not allowed`,
+      `${description}: symlinked evidence is not allowed`,
     );
 
-    let text;
-    try {
-      text = await handle.readFile('utf8');
-    } catch (error) {
-      infrastructure('corpus-read-failed', `${description}: ${error.message}`);
-    }
+    const text = await readBoundedEvidence(handle, description, maxBytes);
     return {
-      event: parseJson(text, description),
+      value: parseJson(text, description),
       text,
     };
   } finally {
-    await handle.close();
+    try {
+      await handle.close();
+    } catch (error) {
+      infrastructure('corpus-read-failed', `${description}: ${error.message}`);
+    }
   }
 }
 
 async function readVerifiedCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   const resolvedLockPath = resolve(lockPath);
   const corpusDirectory = dirname(resolvedLockPath);
-  const lock = await readJson(resolvedLockPath, 'corpus lock');
+  const canonicalCorpusDirectory = await canonicalDirectory(corpusDirectory, 'corpus directory');
+  const lockPathFromCorpus = relative(corpusDirectory, resolvedLockPath);
+  requireCondition(
+    isContainedPath(lockPathFromCorpus),
+    'invalid-lock',
+    'corpus lock escapes corpus directory',
+  );
+  const verifiedLock = await readProtectedJson(
+    resolvedLockPath,
+    'corpus lock',
+    canonicalCorpusDirectory,
+    resolve(canonicalCorpusDirectory, lockPathFromCorpus),
+    CORPUS_LOCK_MAX_BYTES,
+  );
+  const lock = verifiedLock.value;
   requireCondition(
     lock !== null && typeof lock === 'object' && !Array.isArray(lock),
     'invalid-lock',
@@ -478,8 +558,6 @@ async function readVerifiedCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
     `entries must contain exactly ${EXPECTED_SAFE_AUTOMATION.size} audited napplets`,
   );
 
-  const canonicalCorpusDirectory = await canonicalDirectory(corpusDirectory, 'corpus directory');
-
   const names = new Set();
   const coordinates = new Set();
   const eventIds = new Set();
@@ -500,13 +578,14 @@ async function readVerifiedCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
       'invalid-lock',
       `${entry.name}: event file escapes corpus directory`,
     );
-    const verifiedEvent = await readEventJson(
+    const verifiedEvent = await readProtectedJson(
       eventPath,
       `${entry.name} event`,
       canonicalCorpusDirectory,
       resolve(canonicalCorpusDirectory, eventPathFromCorpus),
+      SIGNED_EVENT_MAX_BYTES,
     );
-    verifySignedEvent(entry, verifiedEvent.event);
+    verifySignedEvent(entry, verifiedEvent.value);
     verifiedEntries.push({
       entry,
       eventText: verifiedEvent.text,
@@ -540,8 +619,13 @@ async function main() {
     );
   } catch (error) {
     if (error instanceof CorpusVerificationError) {
-      console.error(
-        `EXTERNAL_NAPPLET_CORPUS_${error.category.toUpperCase()} code=${error.code} message=${error.message}`,
+      process.stderr.write(
+        `${JSON.stringify({
+          format: VERIFICATION_RESULT_FORMAT,
+          category: error.category,
+          code: error.code,
+          message: error.message,
+        })}\n`,
       );
       process.exitCode = error.category === 'trust' ? 2 : 3;
       return;

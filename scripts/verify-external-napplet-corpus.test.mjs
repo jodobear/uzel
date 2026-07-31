@@ -7,8 +7,10 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 import {
+  classifyEvidenceReadError,
   CorpusVerificationError,
   DEFAULT_CORPUS_LOCK,
+  readBoundedEvidence,
   verifyCorpus,
   verifySignedEvent,
 } from './verify-external-napplet-corpus.mjs';
@@ -125,7 +127,7 @@ test('caller-supplied relative lock path verifies against the same corpus', asyn
   assert.equal(lock.entries.length, 4);
 });
 
-test('missing corpus data is trust failure but operational reads are infrastructure exit 3', async () => {
+test('missing and non-regular lock evidence are typed trust failures', async () => {
   const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-read-'));
   try {
     await assert.rejects(
@@ -139,16 +141,32 @@ test('missing corpus data is trust failure but operational reads are infrastruct
       verifyCorpus(temporaryDirectory),
       (error) =>
         error instanceof CorpusVerificationError &&
-        error.category === 'infrastructure' &&
-        error.code === 'corpus-read-failed',
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('evidence must be a regular file'),
     );
 
     const cli = spawnSync(process.execPath, [VERIFIER_SCRIPT, temporaryDirectory], {
       encoding: 'utf8',
     });
-    assert.equal(cli.status, 3);
+    assert.equal(cli.status, 2);
   } finally {
     await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('read-error classification rejects malformed evidence but preserves operational failures', () => {
+  for (const errorCode of ['EISDIR', 'ENOTDIR', 'ELOOP', 'ENXIO']) {
+    assert.deepEqual(classifyEvidenceReadError(errorCode), {
+      category: 'trust',
+      code: 'invalid-lock',
+    });
+  }
+  for (const errorCode of ['EACCES', 'EIO']) {
+    assert.deepEqual(classifyEvidenceReadError(errorCode), {
+      category: 'infrastructure',
+      code: 'corpus-read-failed',
+    });
   }
 });
 
@@ -377,10 +395,170 @@ test('symlinked event files are rejected even when their target remains inside t
         error instanceof CorpusVerificationError &&
         error.category === 'trust' &&
         error.code === 'invalid-lock' &&
-        error.message.includes('symlinked event evidence'),
+        error.message.includes('symlinked evidence'),
     );
   } finally {
     await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('event directories and non-directory path components are invalid evidence trust failures', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-event-types-'));
+  const corpusDirectory = join(temporaryDirectory, 'corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, corpusDirectory, { recursive: true });
+    const lockPath = join(corpusDirectory, 'corpus.lock.json');
+
+    const directoryLock = JSON.parse(await readFile(lockPath, 'utf8'));
+    directoryLock.entries[0].eventFile = 'events';
+    await writeFile(lockPath, JSON.stringify(directoryLock), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('evidence must be a regular file'),
+    );
+
+    const nonDirectoryLock = JSON.parse(await readFile(DEFAULT_CORPUS_LOCK, 'utf8'));
+    nonDirectoryLock.entries[0].eventFile = 'events/good-morning.json/child';
+    await writeFile(lockPath, JSON.stringify(nonDirectoryLock), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('ENOTDIR'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('corpus lock rejects symlinks and FIFOs without following or blocking', { timeout: 2000 }, async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-lock-types-'));
+  const symlinkCorpus = join(temporaryDirectory, 'symlink-corpus');
+  const fifoCorpus = join(temporaryDirectory, 'fifo-corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, symlinkCorpus, { recursive: true });
+    const symlinkLock = join(symlinkCorpus, 'corpus.lock.json');
+    const backingLock = join(symlinkCorpus, 'corpus.lock.backing.json');
+    await rename(symlinkLock, backingLock);
+    await symlink('corpus.lock.backing.json', symlinkLock);
+    await assert.rejects(
+      verifyCorpus(symlinkLock),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('symlinked evidence'),
+    );
+
+    await cp(DEFAULT_CORPUS_DIRECTORY, fifoCorpus, { recursive: true });
+    const fifoLock = join(fifoCorpus, 'corpus.lock.json');
+    await rm(fifoLock);
+    const mkfifo = spawnSync('mkfifo', [fifoLock], { encoding: 'utf8', timeout: 1000 });
+    assert.equal(mkfifo.status, 0, mkfifo.stderr);
+    await assert.rejects(
+      verifyCorpus(fifoLock),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('evidence must be a regular file'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('lock and event evidence enforce fixed byte caps before parsing', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-caps-'));
+  const lockCorpus = join(temporaryDirectory, 'lock-corpus');
+  const eventCorpus = join(temporaryDirectory, 'event-corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, lockCorpus, { recursive: true });
+    const oversizedLockPath = join(lockCorpus, 'corpus.lock.json');
+    const lockText = await readFile(oversizedLockPath, 'utf8');
+    await writeFile(oversizedLockPath, `${lockText}${' '.repeat(16 * 1024)}`, 'utf8');
+    await assert.rejects(
+      verifyCorpus(oversizedLockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('evidence exceeds 16384-byte limit'),
+    );
+
+    await cp(DEFAULT_CORPUS_DIRECTORY, eventCorpus, { recursive: true });
+    const eventLockPath = join(eventCorpus, 'corpus.lock.json');
+    const eventLock = JSON.parse(await readFile(eventLockPath, 'utf8'));
+    const oversizedEventPath = join(eventCorpus, eventLock.entries[0].eventFile);
+    const eventText = await readFile(oversizedEventPath, 'utf8');
+    await writeFile(oversizedEventPath, `${eventText}${' '.repeat(16 * 1024)}`, 'utf8');
+    await assert.rejects(
+      verifyCorpus(eventLockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('evidence exceeds 16384-byte limit'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('bounded descriptor reads consume at most limit plus one after grow-after-stat', async () => {
+  let largestRead = 0;
+  const growingHandle = {
+    async stat() {
+      return { isFile: () => true, size: 1 };
+    },
+    async read(buffer, offset, length) {
+      largestRead = Math.max(largestRead, length);
+      buffer.fill(0x20, offset, offset + length);
+      return { bytesRead: length };
+    },
+  };
+
+  await assert.rejects(
+    readBoundedEvidence(growingHandle, 'growing event', 8),
+    (error) =>
+      error instanceof CorpusVerificationError &&
+      error.category === 'trust' &&
+      error.code === 'invalid-lock' &&
+      error.message.includes('evidence exceeds 8-byte limit'),
+  );
+  assert.equal(largestRead, 9);
+});
+
+test('descriptor metadata and read failures remain infrastructure failures', async () => {
+  for (const [operation, code] of [
+    ['stat', 'EIO'],
+    ['read', 'EACCES'],
+  ]) {
+    const operationalError = Object.assign(new Error(`${operation} failed`), { code });
+    const handle = {
+      async stat() {
+        if (operation === 'stat') {
+          throw operationalError;
+        }
+        return { isFile: () => true, size: 1 };
+      },
+      async read() {
+        throw operationalError;
+      },
+    };
+    await assert.rejects(
+      readBoundedEvidence(handle, 'operational event', 8),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'infrastructure' &&
+        error.code === 'corpus-read-failed',
+    );
   }
 });
 
