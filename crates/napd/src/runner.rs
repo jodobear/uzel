@@ -34,6 +34,7 @@ use crate::{
 const MAXIMUM_VERIFIED_DOCUMENT_BYTES: u64 = 512 * 1_024;
 const MAXIMUM_BUFFERED_EVENTS: usize = 256;
 const MAXIMUM_BUFFERED_EVENT_BYTES: usize = MAXIMUM_ROUTED_ENVELOPE_BYTES + MAXIMUM_ENVELOPE_BYTES;
+const MAXIMUM_PROVIDER_PUSH_BYTES: u64 = MAXIMUM_ROUTED_ENVELOPE_BYTES as u64;
 const MAXIMUM_PENDING_REVIEWS: usize = 4;
 const RESPONSE_TIMEOUT: Duration = Duration::from_secs(15);
 const PRODUCT_STATE_VERSION: u8 = 0;
@@ -388,6 +389,8 @@ impl LinuxRunner {
                 app_relays,
                 fallback_relays,
                 allowed_local_relay_hosts,
+                maximum_provider_push_envelope_bytes: MAXIMUM_PROVIDER_PUSH_BYTES,
+                maximum_provider_push_pending_bytes: MAXIMUM_PROVIDER_PUSH_BYTES,
                 ..RuntimeConfig::default()
             },
             Box::new(ExactFixtureSource),
