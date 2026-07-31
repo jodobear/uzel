@@ -14,6 +14,11 @@ export const HARNESS_MODE = 'mocked-native-real-artifact-renderer';
 
 export const SCENARIOS = Object.freeze([
   'ready',
+  'projection-overflow',
+  'avatar-active-cancel',
+  'avatar-failure-retry',
+  'profile-error-evidence',
+  'follow-reload-failure',
   'profile-delay',
   'initialization-failure',
   'initialization-empty-identity',

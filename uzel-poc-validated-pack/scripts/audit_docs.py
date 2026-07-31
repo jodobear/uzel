@@ -4,15 +4,44 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPOSITORY_ROOT = ROOT.parent
+
+
+def manifest_paths() -> list[Path]:
+    relative_root = ROOT.relative_to(REPOSITORY_ROOT).as_posix()
+    listed = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(REPOSITORY_ROOT),
+            "ls-files",
+            "--cached",
+            "--others",
+            "--exclude-standard",
+            "-z",
+            "--",
+            relative_root,
+        ],
+        check=False,
+        capture_output=True,
+    )
+    if listed.returncode == 0:
+        return sorted(
+            REPOSITORY_ROOT / Path(raw.decode("utf-8"))
+            for raw in listed.stdout.split(b"\0")
+            if raw
+        )
+    return sorted(path for path in ROOT.rglob("*") if path.is_file())
 
 
 def write_manifest() -> None:
     files = []
-    for path in sorted(ROOT.rglob("*")):
+    for path in manifest_paths():
         if not path.is_file() or path.name == "manifest.json":
             continue
         if "__pycache__" in path.parts or path.suffix == ".pyc":

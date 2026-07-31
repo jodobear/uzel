@@ -5,6 +5,7 @@
   const fixtureIdentity = '79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798';
   const requestedIdentity = 'd60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7';
   const routedProfile = 'f'.repeat(64);
+  const secondaryProfile = 'e'.repeat(64);
   const routedProfileEventId = '5ba938bd88e383de7d687ea310e7a1c805b9c0ba9a2b6139b36efea17a326638';
   const delayedProfileResponseMs = 4_250;
   const fixtureRecords = global.__UZEL_UI_FIXTURES__;
@@ -27,6 +28,11 @@
   let reviewAttempts = 0;
   let confirmationAttempts = 0;
   let loadedCleanupFailures = scenario === 'cleanup-failure' ? 1 : 0;
+  let followBatchFailures = scenario === 'ready' ? 1 : 0;
+  let followProjectionOverflows = scenario === 'projection-overflow' ? 1 : 0;
+  let delayedAvatarRequests = scenario === 'avatar-active-cancel' ? 1 : 0;
+  let failedAvatarRequests = scenario === 'avatar-failure-retry' ? 1 : 0;
+  let followIdentityRequests = 0;
 
   if (!fixtureRecords || typeof fixtureRecords !== 'object') {
     throw new Error('renderer acceptance fixture records were not injected');
@@ -116,17 +122,38 @@
     };
   }
 
-  function routedProfileEvent(pubkey) {
+  function profileEvent(pubkey) {
+    const routed = pubkey === routedProfile;
+    const secondary = pubkey === secondaryProfile;
+    const requested = pubkey === requestedIdentity;
     return {
       event: {
-        id: routedProfileEventId,
+        id: routed
+          ? routedProfileEventId
+          : (secondary ? 'c'.repeat(64) : (requested ? 'a'.repeat(64) : 'b'.repeat(64))),
         pubkey,
         kind: 0,
         created_at: 1_800_000_000,
         content: JSON.stringify({
-          display_name: 'Routed follow profile',
-          about: 'Profile loaded through NAP-INC then NAP-OUTBOX.',
-          nip05: 'routed@ui-acceptance.invalid',
+          name: routed
+            ? 'Routed raw name'
+            : (secondary ? 'Secondary raw name' : (requested ? 'Requested raw name' : 'Fixture raw name')),
+          display_name: routed
+            ? 'Routed follow profile'
+            : (secondary
+              ? 'Secondary follow profile'
+              : (requested ? 'Requested npub profile' : 'Fixture identity profile')),
+          about: routed
+            ? 'Profile loaded through NAP-INC then NAP-OUTBOX.'
+            : `Deterministic latest-known profile for ${pubkey.slice(0, 12)}.`,
+          picture: routed ? 'https://avatar.ui-acceptance.invalid/routed.png' : undefined,
+          banner: routed ? 'https://banner.ui-acceptance.invalid/routed.png' : undefined,
+          website: 'https://profile.ui-acceptance.invalid',
+          lud16: 'routed@payments.ui-acceptance.invalid',
+          nip05: routed ? 'routed@ui-acceptance.invalid' : 'fixture@ui-acceptance.invalid',
+          bot: false,
+          custom: { nested: ['complete', 0, true, null] },
+          hostile_text: '<img src=x onerror="window.__escapedKind0=true">',
         }),
         tags: [],
         sig: '0'.repeat(128),
@@ -135,10 +162,17 @@
   }
 
   function isRoutedProfileQuery(envelope) {
-    const filter = envelope.filters?.[0];
-    return envelope.type === 'outbox.query'
-      && filter?.kinds?.includes(0)
-      && filter?.authors?.[0] === routedProfile;
+    return envelope.type === 'outbox.query' && envelope.filters?.some((filter) => (
+      filter?.kinds?.includes(0) && filter?.authors?.includes(routedProfile)
+    ));
+  }
+
+  function profileEventsForQuery(envelope) {
+    const known = new Set([fixtureIdentity, requestedIdentity, routedProfile, secondaryProfile]);
+    const authors = new Set((envelope.filters ?? []).flatMap((filter) => (
+      filter?.kinds?.includes(0) && Array.isArray(filter.authors) ? filter.authors : []
+    )));
+    return [...authors].filter((author) => known.has(author)).map(profileEvent);
   }
 
   function nativeEnvelope(surfaceToken, envelope) {
@@ -159,7 +193,25 @@
       case 'identity.getProfile':
         return { surfaceToken, envelope: { type: 'identity.getProfile.result', id: envelope.id, profile: profileFor(activeIdentity) } };
       case 'identity.getFollows':
-        return { surfaceToken, envelope: { type: 'identity.getFollows.result', id: envelope.id, pubkeys: [routedProfile] } };
+        followIdentityRequests += 1;
+        if (scenario === 'follow-reload-failure' && followIdentityRequests === 2) {
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'identity.getFollows.result',
+              id: envelope.id,
+              error: 'mocked follows reload failure',
+            },
+          };
+        }
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'identity.getFollows.result',
+            id: envelope.id,
+            pubkeys: [routedProfile, secondaryProfile],
+          },
+        };
       case 'identity.getRelays':
         return { surfaceToken, envelope: { type: 'identity.getRelays.result', id: envelope.id, relays: [] } };
       case 'inc.subscribe':
@@ -178,18 +230,88 @@
         };
       }
       case 'outbox.query': {
-        const filter = envelope.filters?.[0];
-        const pubkey = filter?.authors?.[0];
+        if (
+          launch.dTag === 'follow-list'
+          && envelope.options?.authors?.length > 1
+          && followProjectionOverflows > 0
+        ) {
+          followProjectionOverflows -= 1;
+          const oversized = profileEvent(routedProfile);
+          oversized.event.content = JSON.stringify({
+            display_name: 'Oversized profile batch',
+            about: 'x'.repeat(70_000),
+          });
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'outbox.query.result',
+              id: envelope.id,
+              events: [oversized],
+              incomplete: false,
+            },
+          };
+        }
+        if (
+          launch.dTag === 'follow-list'
+          && envelope.options?.authors?.length > 1
+          && followBatchFailures > 0
+        ) {
+          followBatchFailures -= 1;
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'outbox.query.result',
+              id: envelope.id,
+              events: [profileEvent(routedProfile)],
+              incomplete: true,
+            },
+          };
+        }
         return {
           surfaceToken,
           envelope: {
             type: 'outbox.query.result',
             id: envelope.id,
-            events: isRoutedProfileQuery(envelope) ? [routedProfileEvent(pubkey)] : [],
+            events: profileEventsForQuery(envelope),
             incomplete: false,
+            error: scenario === 'profile-error-evidence' && launch.dTag === 'profile-card'
+              ? 'mocked partial profile evidence'
+              : undefined,
           },
         };
       }
+      case 'resource.bytes':
+        if (launch.dTag === 'follow-list' && failedAvatarRequests > 0) {
+          failedAvatarRequests -= 1;
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'resource.bytes.error',
+              id: envelope.id,
+              error: 'unavailable',
+              message: 'mocked unavailable avatar',
+            },
+          };
+        }
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'resource.bytes.result',
+            id: envelope.id,
+            blob: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+            mime: 'image/png',
+          },
+        };
+      case 'resource.cancel':
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'resource.bytes.error',
+            id: envelope.id,
+            error: 'cancelled',
+            message: 'mocked resource request cancelled',
+          },
+        };
       case 'outbox.subscribe':
         return { surfaceToken, envelope: { type: 'outbox.subscribed', subId: envelope.subId } };
       case 'outbox.close':
@@ -302,9 +424,21 @@
       }
       case 'forward_surface_envelope': {
         const envelope = JSON.parse(args.envelope);
-        envelopes.push({ surfaceToken: args.surfaceToken, envelope: structuredClone(envelope) });
+        envelopes.push({
+          surfaceToken: args.surfaceToken,
+          dTag: activeSurfaces.get(args.surfaceToken)?.dTag,
+          envelope: structuredClone(envelope),
+        });
         if (scenario === 'profile-delay' && isRoutedProfileQuery(envelope)) {
           await new Promise((resolve) => global.setTimeout(resolve, delayedProfileResponseMs));
+        }
+        if (
+          scenario === 'avatar-active-cancel'
+          && envelope.type === 'resource.bytes'
+          && delayedAvatarRequests > 0
+        ) {
+          delayedAvatarRequests -= 1;
+          await new Promise((resolve) => global.setTimeout(resolve, 3_000));
         }
         const delivery = nativeEnvelope(args.surfaceToken, envelope);
         return { surfaceToken: delivery.surfaceToken, envelope: JSON.stringify(delivery.envelope) };
@@ -336,6 +470,7 @@
     fixtureIdentity,
     requestedIdentity,
     routedProfile,
+    secondaryProfile,
     delayedProfileResponseMs,
     calls,
     envelopes,

@@ -1,13 +1,11 @@
 import '@napplet/shim';
-import { identityGetProfile, identityGetPublicKey } from '@napplet/nap/identity/sdk';
+import { identityGetPublicKey } from '@napplet/nap/identity/sdk';
 import { incOn } from '@napplet/nap/inc/sdk';
 import { outboxQuery } from '@napplet/nap/outbox/sdk';
 import { resourceBytes } from '@napplet/nap/resource/sdk';
 
 import { PROFILE_OPEN_TOPIC, parseProfileOpen } from '../../../contracts/profile-open.js';
-import {
-  canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, profileQueryRequest,
-} from './model.js';
+import { canonicalProfile, createLatestRequestGate, profileQueryRequest } from './model.js';
 
 const picture = document.querySelector('#picture');
 const pictureFallback = document.querySelector('#picture-fallback');
@@ -16,6 +14,8 @@ const pubkey = document.querySelector('#pubkey');
 const about = document.querySelector('#about');
 const status = document.querySelector('#status');
 const evidence = document.querySelector('#evidence');
+const metadata = document.querySelector('#metadata');
+const profileContent = document.querySelector('#kind0');
 const refresh = document.querySelector('#refresh');
 const profileRequests = createLatestRequestGate();
 let pictureObjectUrl = null;
@@ -50,6 +50,9 @@ function renderProfile(profile, source, generation) {
   name.textContent = profile.name;
   about.textContent = profile.about;
   evidence.textContent = [profile.nip05, source].filter(Boolean).join(' · ');
+  profileContent.textContent = profile.contentText;
+  metadata.hidden = false;
+  metadata.setAttribute('open', '');
   void renderPicture(profile.picture, generation);
 }
 
@@ -57,7 +60,27 @@ function clearProfileDetails() {
   name.textContent = '';
   about.textContent = '';
   evidence.textContent = '';
+  profileContent.textContent = '';
+  metadata.hidden = true;
   clearPicture();
+}
+
+async function queryProfile(targetPubkey, requestGeneration) {
+  const query = profileQueryRequest(targetPubkey);
+  const result = await outboxQuery(query.filters, query.options);
+  if (!profileRequests.isCurrent(requestGeneration)) return;
+  const resultError = typeof result.error === 'string' ? result.error : '';
+  const degraded = Boolean(result.incomplete || resultError);
+  const profile = canonicalProfile(result.events, targetPubkey);
+  if (profile === null) {
+    name.textContent = 'Profile not found';
+    status.textContent = degraded ? 'Partial evidence; no valid kind 0 found.' : 'No valid kind 0 found.';
+    evidence.textContent = resultError;
+    return;
+  }
+  renderProfile(profile, `event ${profile.eventId} · ${profile.createdAtIso}`, requestGeneration);
+  if (resultError) evidence.textContent = `${evidence.textContent} · NMP: ${resultError}`;
+  status.textContent = degraded ? 'Latest-known profile; evidence incomplete.' : 'Latest-known profile.';
 }
 
 async function loadActiveProfile() {
@@ -67,17 +90,9 @@ async function loadActiveProfile() {
   status.textContent = 'Reading latest-known active profile through NMP…';
   try {
     const active = await identityGetPublicKey();
-    pubkey.textContent = active;
-    const projected = await identityGetProfile();
     if (!profileRequests.isCurrent(requestGeneration)) return;
-    const profile = canonicalIdentityProfile(projected, active);
-    if (profile === null) {
-      name.textContent = 'Profile not found';
-      status.textContent = 'No kind 0 in the latest-known NMP view. Reload to retry.';
-      return;
-    }
-    renderProfile(profile, 'active identity', requestGeneration);
-    status.textContent = 'Latest-known active identity profile.';
+    pubkey.textContent = active;
+    await queryProfile(active, requestGeneration);
   } catch (error) {
     if (profileRequests.isCurrent(requestGeneration)) {
       status.textContent = `Profile unavailable: ${error instanceof Error ? error.message : String(error)}`;
@@ -99,19 +114,7 @@ async function openProfile(payload) {
   clearProfileDetails();
   status.textContent = 'Reading latest-known kind 0…';
   try {
-    const query = profileQueryRequest(request.pubkey);
-    const result = await outboxQuery(query.filters, query.options);
-    if (!profileRequests.isCurrent(requestGeneration)) return;
-    const profile = canonicalProfile(result.events, request.pubkey);
-    if (profile === null) {
-      name.textContent = 'Profile not found';
-      about.textContent = '';
-      status.textContent = result.incomplete ? 'Partial evidence; no valid kind 0 found.' : 'No valid kind 0 found.';
-      evidence.textContent = result.error ?? '';
-      return;
-    }
-    renderProfile(profile, `event ${profile.eventId} · ${profile.observedAt}`, requestGeneration);
-    status.textContent = result.incomplete ? 'Latest-known profile; evidence incomplete.' : 'Latest-known profile.';
+    await queryProfile(request.pubkey, requestGeneration);
   } catch (error) {
     if (!profileRequests.isCurrent(requestGeneration)) return;
     status.textContent = `Profile unavailable: ${error instanceof Error ? error.message : String(error)}`;

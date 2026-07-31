@@ -106,9 +106,12 @@ The shell selects one lower-case hex key or `npub`. Register it through `Runtime
 Required behavior:
 
 - direct follows from canonical kind `3`/NIP-02 state;
-- visible list limited to a measured small window;
-- visible/cached profile hints fetched lazily;
-- selected profile reloaded as latest-known through NMP, without a napplet-owned freshness claim;
+- rendered follow list bounded at 1,024 canonical pubkeys;
+- follow names requested through NAP-OUTBOX in initial batches of at most eight author-bound kind-0 filters; errored or incomplete partial results keep valid rows and retry only unresolved authors, with at most 32 adaptive retry queries per refresh; a correlated response rejected by the 64-KiB trust projection becomes a bounded incomplete result so the batch can split, while an actual transport failure opens the refresh circuit and rejects queued work instead of recursively amplifying a global outage;
+- follow pictures requested only for visible rows through at most four concurrent individual NAP-RESOURCE calls; viewport exit cancels matching queued work and aborts an active per-row request, a failed visible request remains quiescent until a later viewport exit/re-entry transition, pending object URLs are capped at 32 and revoked after image decode, while decoded image sources are removed on exit and reloaded only on re-entry;
+- resolved follow buttons expose the friendly profile name plus canonical pubkey to assistive technology; a failed identity reload removes stale rows after their observer and enrichment work are stopped;
+- active and selected profiles reloaded as one complete latest-known canonical kind `0` through NMP, preserving the exact authored JSON text without a napplet-owned freshness claim;
+- profile results with either `incomplete` or `error` evidence visibly retain the degraded qualifier and error diagnostic even when one valid canonical kind `0` is rendered;
 - cache-first rendering;
 - no claim of global completeness;
 - all observers cancelled when identity/session closes.
@@ -137,8 +140,10 @@ Payload:
 Use the exact queryless convention and runtime-attested sender behavior from the pinned packages/#204. Do not build a private event bus.
 
 This direct NAP-INC convention does not require an archetype tag or
-NAP-INTENT. `profile-card` intentionally declares only `inc` and `outbox`; the
-POC continues to treat `intent.deliver` as unsupported.
+NAP-INTENT. `follow-list` declares `identity`, `inc`, `outbox`, and `resource`;
+`profile-card` declares the same four domains. NAP-OUTBOX carries canonical
+kind-0 rows and NAP-RESOURCE carries recognized picture bytes. The POC
+continues to treat `intent.deliver` as unsupported.
 
 ## Web trust boundary
 

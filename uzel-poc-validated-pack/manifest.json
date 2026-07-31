@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 4055,
-      "sha256": "829c71a6f9f039c5486708e67c5c637cdcd9156fb6bac7cf001733e2e266c265"
+      "bytes": 5040,
+      "sha256": "987c6770704ed32c0c5e429852c5a064e15f65942133bbabb60287c745c642f0"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "c963e28d04f232211e7d66e6fb68534b0589b6d8e0e958ffdc0b0364e5a18efe"
+      "sha256": "7de2b0521de6ab1e1301930ee1428596af827193debc891f5cdca97264d97d3c"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 43029,
-      "sha256": "a87ddad1a653db9949b538e7ab986be856d6a707f99f4feab5034569d6d0a6a4"
+      "bytes": 46735,
+      "sha256": "e1ed29ab44f404663680e23eb45482a7094e96ddd207e9c6a8ee6a8da19d816d"
     },
     {
       "path": "config/fallow.jsonc",
@@ -42,8 +42,8 @@
     },
     {
       "path": "docs/00-scope.md",
-      "bytes": 4478,
-      "sha256": "d41dc302e8f7aadee0b87cb87258978f988b8a3c8f29991c9205ade007581e89"
+      "bytes": 4582,
+      "sha256": "97e7fdd96a799ac7c4f9a3a2264211993b40497086d092ad34ecc234d1536519"
     },
     {
       "path": "docs/01-validation.md",
@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 8551,
-      "sha256": "6aa5d0ad4deef7f232ca5064f6dfdb1f3fc32ff595ac07dd322ac08e92272338"
+      "bytes": 10059,
+      "sha256": "899a0f577cadb44b0cf4df81649ecc96ca62f9a0ce01809ce5ac50c4e328ac8a"
     },
     {
       "path": "docs/04-execution.md",
@@ -132,8 +132,8 @@
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 2453,
-      "sha256": "fce772022ff1b0c579bacc20e3c04f00a2af580cebf27df3b8c57081f2e2aa3f"
+      "bytes": 3832,
+      "sha256": "465b81bf77b0071d25706d8ca8080aa410222197c2d663dee20622a0fc363079"
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 14234,
-      "sha256": "455c6415794c6b3f95b12d8c577b32f3435f1a3ed5de20ec5ee28346eef9e991"
+      "bytes": 15519,
+      "sha256": "49ab18a91935c93fad7f864633e3530da292ddf816a088d6c4c1b6f32e4019c1"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -227,8 +227,8 @@
     },
     {
       "path": "scripts/audit_docs.py",
-      "bytes": 5220,
-      "sha256": "e9b48b66806a365847009ae01c738fe63d6affafdd97bc9a950c00eba54557a9"
+      "bytes": 5969,
+      "sha256": "fdf1023e06d59ba932522cf9c2caaaa2eda364295b0053bef7b6d9e84e4e2f7b"
     },
     {
       "path": "templates/fact.md",
