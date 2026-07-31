@@ -38,9 +38,10 @@ bash scripts/verify-external-napplet-corpus.test.sh
 ```
 
 The verifier makes no network calls. It checks the immutable lock, signed event
-tuples, exact NIP-19 coordinates, event hashes, and Schnorr signatures. `nak`
-remains the owner of Nostr decoding and cryptographic verification; this code
-does not reimplement either.
+tuples, exact NIP-19 coordinates, event hashes, and Schnorr signatures. It
+requires the flake-pinned `nak 0.20.1`; another PATH version is an infrastructure
+failure, not accepted evidence. `nak` remains the owner of Nostr decoding and
+cryptographic verification; this code does not reimplement either.
 
 Artifact blobs are deliberately absent. Therefore offline verification proves
 the retained signed evidence and coordinate mapping, not current relay/CDN
@@ -56,8 +57,9 @@ aggregate before launch.
   or audited capability change is a **trust** result. Fail closed until an
   explicit refresh PR explains and accepts the new tuple.
 
-The verifier exits `2` for trust failures and `3` for missing verifier
-infrastructure. It never turns either category into success.
+The verifier exits `2` for trust failures and `3` for missing, wrong-version,
+crashed, or malformed-output verifier infrastructure. It never turns either
+category into success.
 
 ## Deliberate refresh
 

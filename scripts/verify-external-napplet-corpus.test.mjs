@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
 
 import {
@@ -22,6 +24,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
   const lock = await verifyCorpus();
 
   assert.equal(lock.source.commit, 'aa4dc7a0799d95e3066b50055b29685d6e376045');
+  assert.equal(lock.toolchain.nakVersion, '0.20.1');
   assert.deepEqual(
     lock.entries.map((entry) => entry.name),
     ['good-morning', 'rubik-cube', 'nap-feed', 'wifi-map'],
@@ -29,6 +32,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
   assert.deepEqual(
     lock.entries.map((entry) => ({
       name: entry.name,
+      safeAutomation: entry.safeAutomation,
       naddr: entry.naddr,
       eventId: entry.eventId,
       author: entry.author,
@@ -39,6 +43,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
     [
       {
         name: 'good-morning',
+        safeAutomation: 'control',
         naddr:
           'naddr1qqxxwmm0vskk6mmjde5kuecpzemhxue69uhhyetvv9ujuurjd9kkzmpwdejhgq3qye5ptcxfyyxl5vjvdjar2ua3f0hynkjzpx552mu5snj3qmx5pzjsxpqqqzynjsul3vr',
         eventId: 'caef62ea8feb506d621f7f4c514fcb4322280cf3041d9e4801354b5d615f9d3b',
@@ -55,6 +60,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
       },
       {
         name: 'rubik-cube',
+        safeAutomation: 'zero-capability-render-input',
         naddr:
           'naddr1qq98yatzd94j6cm4vfjsz9nhwden5te0wfjkccte9ec8y6tdv9kzumn9wspzqfngzhsvjggdlgeycm96x4emzjlwf8dyyzdfg4hefp89zpkdgz99qvzqqqyf8y9pvhkw',
         eventId: '312bbf17fef533107d24c5682a9d58a62b7582252e912f90fb41d8d283038706',
@@ -71,6 +77,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
       },
       {
         name: 'nap-feed',
+        safeAutomation: 'read-only-config-outbox',
         naddr:
           'naddr1qqyxucts94nx2etyqyt8wumn8ghj7un9d3shjtnswf5k6ctv9ehx2aqzyqnxs90qeyssm73jf3kt5dtnk997ujw6ggy6j3t0jjzw2yrv6sy22qcyqqqgjwglxcuwy',
         eventId: 'e4445830b411d920e1f5fa4f74f58144f085a43e370ed39703e60207be9c7c9d',
@@ -87,6 +94,7 @@ test('external corpus verifies offline with exact audited tuples', async () => {
       },
       {
         name: 'wifi-map',
+        safeAutomation: 'read-only-storage-outbox-no-link-click',
         naddr:
           'naddr1qqy8w6txdykk6ctsqyt8wumn8ghj7un9d3shjtnswf5k6ctv9ehx2aqzyqnxs90qeyssm73jf3kt5dtnk997ujw6ggy6j3t0jjzw2yrv6sy22qcyqqqgjwggda37g',
         eventId: '49e111745256e32af6a5b3dd02e54b731cd8848a2951e0cf6de0888ab52e1b99',
@@ -103,6 +111,31 @@ test('external corpus verifies offline with exact audited tuples', async () => {
       },
     ],
   );
+});
+
+test('caller-supplied relative lock path verifies against the same corpus', async () => {
+  const lock = await verifyCorpus('fixtures/external-napplet-corpus/corpus.lock.json');
+  assert.equal(lock.entries.length, 4);
+});
+
+test('automation scope drift fails closed before later harnesses can consume it', async () => {
+  const lock = await loadLock();
+  lock.entries[0].safeAutomation = 'upload-and-publish';
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-lock-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('automation scope'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
 });
 
 test('tuple drift is a trust failure before launch', async () => {

@@ -13,6 +13,13 @@ export const DEFAULT_CORPUS_LOCK = resolve(
 const HEX_64 = /^[0-9a-f]{64}$/;
 const HEX_128 = /^[0-9a-f]{128}$/;
 const EXPECTED_FORMAT = 'uzel.external-napplet-corpus.v1';
+const EXPECTED_NAK_VERSION = '0.20.1';
+const EXPECTED_SAFE_AUTOMATION = new Map([
+  ['good-morning', 'control'],
+  ['rubik-cube', 'zero-capability-render-input'],
+  ['nap-feed', 'read-only-config-outbox'],
+  ['wifi-map', 'read-only-storage-outbox-no-link-click'],
+]);
 
 export class CorpusVerificationError extends Error {
   constructor(category, code, message) {
@@ -99,7 +106,11 @@ function verifyFailurePolicy(policy) {
 function verifyLockEntry(entry, publisher) {
   requireString(entry.name, 'entry.name');
   requireString(entry.title, `${entry.name}.title`);
-  requireString(entry.safeAutomation, `${entry.name}.safeAutomation`);
+  requireCondition(
+    entry.safeAutomation === EXPECTED_SAFE_AUTOMATION.get(entry.name),
+    'invalid-lock',
+    `${entry.name}: automation scope is not the audited fail-closed value`,
+  );
   requireString(entry.naddr, `${entry.name}.naddr`);
   requireString(entry.eventFile, `${entry.name}.eventFile`);
   requireHex(entry.eventId, HEX_64, `${entry.name}.eventId`);
@@ -220,7 +231,9 @@ async function readJson(path, description) {
 }
 
 export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
-  const lock = await readJson(lockPath, 'corpus lock');
+  const resolvedLockPath = resolve(lockPath);
+  const corpusDirectory = dirname(resolvedLockPath);
+  const lock = await readJson(resolvedLockPath, 'corpus lock');
   requireCondition(lock.format === EXPECTED_FORMAT, 'invalid-lock', 'unknown corpus lock format');
   requireCondition(lock.source && typeof lock.source === 'object', 'invalid-lock', 'source provenance is required');
   requireCondition(lock.source.repository === 'https://github.com/hzrd149/napplelets', 'invalid-lock', 'unexpected source repository');
@@ -229,6 +242,11 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   requireString(lock.source.licenseUrl, 'source.licenseUrl');
   requireString(lock.source.auditedOn, 'source.auditedOn');
   requireString(lock.source.publishedAt, 'source.publishedAt');
+  requireCondition(
+    lock.toolchain?.nakVersion === EXPECTED_NAK_VERSION,
+    'invalid-lock',
+    `toolchain.nakVersion must be ${EXPECTED_NAK_VERSION}`,
+  );
   requireHex(lock.publisher, HEX_64, 'publisher');
   verifyFailurePolicy(lock.failurePolicy);
   requireCondition(Array.isArray(lock.entries) && lock.entries.length > 0, 'invalid-lock', 'entries must not be empty');
@@ -245,9 +263,9 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
     coordinates.add(entry.naddr);
     eventIds.add(entry.eventId);
 
-    const eventPath = resolve(dirname(lockPath), entry.eventFile);
+    const eventPath = resolve(corpusDirectory, entry.eventFile);
     requireCondition(
-      eventPath.startsWith(`${dirname(lockPath)}/`),
+      eventPath.startsWith(`${corpusDirectory}/`),
       'invalid-lock',
       `${entry.name}: event file escapes corpus directory`,
     );

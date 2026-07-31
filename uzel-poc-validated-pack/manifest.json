@@ -27,8 +27,8 @@
     },
     {
       "path": "audit-results.json",
-      "bytes": 217,
-      "sha256": "6bc48b013a1830e502c59b8f6e274978d6bbe392c31a100e5645b10fd286646a"
+      "bytes": 192,
+      "sha256": "c999a6322416ddbbffe47bd123ae9c7a29efa01060cec7f625397933cfcede20"
     },
     {
       "path": "compatibility.lock",

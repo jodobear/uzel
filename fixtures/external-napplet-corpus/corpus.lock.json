@@ -9,6 +9,9 @@
     "auditedOn": "2026-07-31",
     "publishedAt": "2026-07-26T11:52:04Z"
   },
+  "toolchain": {
+    "nakVersion": "0.20.1"
+  },
   "publisher": "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
   "failurePolicy": {
     "infrastructure": [
