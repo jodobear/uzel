@@ -19,7 +19,7 @@ test('binds profile queries to the selected author and leaves the deadline host-
     filters: [{ kinds: [0], authors: [PUBKEY], limit: 1 }],
     options: { authors: [PUBKEY] },
   });
-  assert.equal(Object.hasOwn(request.options, 'timeoutMs'), false);
+  assert.equal('timeoutMs' in request.options, false);
 });
 
 test('projects the single canonical kind 0 returned by NMP', () => {

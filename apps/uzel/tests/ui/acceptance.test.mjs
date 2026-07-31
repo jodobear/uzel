@@ -745,7 +745,7 @@ if (FAULT_CHILD) {
         .map((entry) => entry.envelope)
         .findLast((envelope) => envelope.type === 'outbox.query'));
       assert.deepEqual(query.options, { authors: [delayConfiguration.routedProfile] });
-      assert.equal(Object.hasOwn(query.options, 'timeoutMs'), false);
+      assert.equal('timeoutMs' in query.options, false);
     });
   });
 
