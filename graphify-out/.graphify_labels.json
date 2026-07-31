@@ -1,4 +1,5 @@
 {
+  "0": "hostile_probe.rs",
   "1": "Assumption validation and decision gates",
   "2": "check-napplet-imports.mjs",
   "3": "Provisional component design",
@@ -39,7 +40,6 @@
   "38": "App.svelte",
   "39": "build.rs",
   "40": "Post-POC extraction",
-  "41": "lib.rs",
   "42": "README.md",
   "43": "README.md",
   "44": "check-boundaries.sh",
@@ -173,7 +173,5 @@
   "172": "Result",
   "173": "Self",
   "174": "String",
-  "175": "server.rs",
-  "176": "Tests, quality gates, and demo",
-  "177": ".fmt"
+  "175": "server.rs"
 }

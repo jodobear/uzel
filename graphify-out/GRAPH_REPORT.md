@@ -1,20 +1,21 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~87,068 words
+- 129 files · ~88,368 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1248 nodes · 1774 edges · 177 communities (79 shown, 98 thin omitted)
+- 1252 nodes · 1783 edges · 175 communities (78 shown, 97 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `97a02328`
+- Built from commit: `040fdb6b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
+- hostile_probe.rs
 - Assumption validation and decision gates
 - check-napplet-imports.mjs
 - Provisional component design
@@ -55,7 +56,6 @@
 - App.svelte
 - build.rs
 - Post-POC extraction
-- lib.rs
 - README.md
 - README.md
 - check-boundaries.sh
@@ -182,8 +182,6 @@
 - Self
 - String
 - server.rs
-- Tests, quality gates, and demo
-- .fmt
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 38 edges
@@ -195,7 +193,7 @@
 7. `HostileProbeState` - 15 edges
 8. `compilerOptions` - 15 edges
 9. `write_frame()` - 15 edges
-10. `readVerifiedCorpus()` - 12 edges
+10. `requireCondition()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
@@ -212,7 +210,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (177 total, 98 thin omitted)
+## Communities (175 total, 97 thin omitted)
+
+### Community 0 - "hostile_probe.rs"
+Cohesion: 0.16
+Nodes (15): AtomicBool, AtomicUsize, JoinHandle, accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport (+7 more)
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -227,8 +229,8 @@ Cohesion: 0.13
 Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
-Cohesion: 0.13
-Nodes (29): canonicalDirectory(), CorpusVerificationError, DEFAULT_CORPUS_LOCK, exactTag(), EXPECTED_DOMAINS, EXPECTED_EVENT_IDS, EXPECTED_FAILURE_POLICY, EXPECTED_SAFE_AUTOMATION (+21 more)
+Cohesion: 0.12
+Nodes (31): canonicalDirectory(), classifyEvidenceReadError(), CorpusVerificationError, DEFAULT_CORPUS_LOCK, descriptorFailure(), exactTag(), EXPECTED_DOMAINS, EXPECTED_EVENT_IDS (+23 more)
 
 ### Community 5 - "Uzel POC agent instructions"
 Cohesion: 0.18
@@ -283,8 +285,8 @@ Cohesion: 0.06
 Nodes (35): fallow, @napplet/cli, devDependencies, fallow, @napplet/cli, engines, node, name (+27 more)
 
 ### Community 18 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.17
-Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
+Cohesion: 0.09
+Nodes (20): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+12 more)
 
 ### Community 19 - "audit_docs.py"
 Cohesion: 0.20
@@ -366,10 +368,6 @@ Nodes (7): Accepted child CSP, Boundary of proof, Executable probe, Low-level ha
 Cohesion: 0.25
 Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — validate assumptions
 
-### Community 41 - "lib.rs"
-Cohesion: 0.10
-Nodes (34): DecodeError, Into, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation() (+26 more)
-
 ### Community 42 - "README.md"
 Cohesion: 0.25
 Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
@@ -387,8 +385,8 @@ Cohesion: 0.29
 Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and ownership map, Ownership boundary, Public facade
 
 ### Community 47 - "lib.rs"
-Cohesion: 0.14
-Nodes (12): Debug, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic(), LinuxRunner (+4 more)
+Cohesion: 0.13
+Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic() (+5 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.29
@@ -439,8 +437,8 @@ Cohesion: 0.33
 Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.05
-Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
+Cohesion: 0.07
+Nodes (47): AtomicU64, FnMut, From, State, TauriPlugin, Url, HostileProbeState, allowed_navigation() (+39 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.33
@@ -491,22 +489,18 @@ Cohesion: 0.22
 Nodes (8): Active parallel issue — #21 data-only corpus, Completed issue — #10, Completed issue — #19, Entry evidence, Exit rule, Goal, Work 07 — issue-driven stabilization, Work graph
 
 ### Community 175 - "server.rs"
-Cohesion: 0.12
-Nodes (30): SurfaceLaunch, UnixListener, Request, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down() (+22 more)
-
-### Community 176 - "Tests, quality gates, and demo"
-Cohesion: 0.20
-Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
+Cohesion: 0.07
+Nodes (58): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+50 more)
 
 ## Knowledge Gaps
 - **434 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+429 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **98 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **97 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `04-execution.md`, `Provisional component design`, `POC architecture`, `POC documentation audit`, `server.rs`, `.fmt`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `04-execution.md`, `Provisional component design`, `POC architecture`, `POC documentation audit`, `server.rs`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
@@ -517,6 +511,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Provisional component design` be split into smaller, more focused modules?**
   _Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected._
 - **Should `Tests, quality gates, and demo` be split into smaller, more focused modules?**
-  _Cohesion score 0.13277310924369748 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11875843454790823 - nodes in this community are weakly interconnected._
 - **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
