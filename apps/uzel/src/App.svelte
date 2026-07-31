@@ -846,7 +846,6 @@
     const active = await invoke<string>('select_read_identity', { publicIdentity });
     identityInput = active;
     runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
-    await refreshDiagnostics();
   }
 
   async function selectIdentity(publicIdentity: string) {
@@ -872,6 +871,7 @@
       } else {
         status = 'Read identity selected through NMP';
       }
+      await refreshDiagnostics();
     } finally {
       identityBusy = false;
     }

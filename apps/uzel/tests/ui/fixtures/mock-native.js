@@ -21,6 +21,7 @@
     'initialization-identity-failure',
   ].includes(scenario) ? 1 : 0;
   let identitySelectionFailures = scenario === 'initialization-identity-failure' ? 1 : 0;
+  let identitySelectionPending = false;
   let reviewGeneration = 0;
   let reviewAttempts = 0;
   let confirmationAttempts = 0;
@@ -231,11 +232,17 @@
           identitySelectionFailures -= 1;
           throw new Error('mocked identity selection unavailable');
         }
+        identitySelectionPending = true;
+        await new Promise((resolve) => global.setTimeout(resolve, 25));
         activeIdentity = args.publicIdentity;
+        identitySelectionPending = false;
         return activeIdentity;
       case 'start_fixture':
         if (args.fixture !== 'profile-card' && args.fixture !== 'follow-list') {
           throw new Error(`mock refused unknown fixture ${String(args.fixture)}`);
+        }
+        if (identitySelectionPending || activeIdentity === null) {
+          throw new Error('mock refused surface launch before identity selection completed');
         }
         return surfaceLaunch(args.fixture);
       case 'runtime_diagnostics':

@@ -815,6 +815,34 @@ if (FAULT_CHILD) {
         await page.getByRole('button', { name: 'Open napplet', exact: true }).isDisabled(),
         true,
       );
+      await recovery.getByRole('button', { name: 'Retry initialization', exact: true }).click();
+      await waitForReady(page);
+      await screenshot(
+        page,
+        viewport,
+        'initialization-identity-failure',
+        'initialization-identity-failure',
+        'recovered-after-identity-failure',
+      );
+      assert.equal(await recovery.count(), 0, 'second retry must clear identity-selection recovery');
+      const recovered = await page.evaluate(() => ({
+        snapshot: window.__UZEL_UI_HARNESS__.snapshot(),
+        calls: window.__UZEL_UI_HARNESS__.calls,
+        fixtureIdentity: window.__UZEL_UI_HARNESS__.fixtureIdentity,
+      }));
+      const identityCalls = recovered.calls
+        .map((call, index) => ({ ...call, index }))
+        .filter((call) => call.command === 'select_read_identity');
+      const surfaceCalls = recovered.calls
+        .map((call, index) => ({ ...call, index }))
+        .filter((call) => call.command === 'start_fixture');
+      assert.equal(identityCalls.length, 2, 'recovery must preserve one failed and one successful identity attempt');
+      assert.equal(surfaceCalls.length, 2, 'successful second retry must launch both base surfaces');
+      assert.ok(
+        surfaceCalls.every((call) => identityCalls[1].index < call.index),
+        'successful identity selection must precede every recovered surface launch',
+      );
+      assert.equal(recovered.snapshot.activeIdentity, recovered.fixtureIdentity);
       assert.deepEqual(guarded.externalRequests, []);
     });
   });
@@ -891,6 +919,15 @@ if (FAULT_CHILD) {
       await page.getByLabel('Public read identity').fill(fixtureIdentity);
       await page.getByRole('button', { name: 'Use identity', exact: true }).click();
       await waitForReady(page);
+      await page.frameLocator('iframe[aria-label="Profile card"]')
+        .getByText('Fixture identity profile', { exact: true }).waitFor();
+      await screenshot(
+        page,
+        viewport,
+        'restart-reconciliation',
+        'identity-restart-reconciliation',
+        'identity-switched',
+      );
       const state = await page.evaluate(() => ({
         snapshot: window.__UZEL_UI_HARNESS__.snapshot(),
         calls: window.__UZEL_UI_HARNESS__.calls,
