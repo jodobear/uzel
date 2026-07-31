@@ -1,16 +1,16 @@
 # Graph Report - uzel  (2026-07-31)
 
 ## Corpus Check
-- 122 files · ~94,568 words
+- 122 files · ~94,802 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1234 nodes · 1973 edges · 114 communities (73 shown, 41 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.78)
+- 1237 nodes · 1985 edges · 114 communities (72 shown, 42 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `31c570fb`
+- Built from commit: `b204acbc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -150,11 +150,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (114 total, 41 thin omitted)
+## Communities (114 total, 42 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
-Cohesion: 0.10
-Nodes (38): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, existing_shared_socket_parent_is_not_chmodded() (+30 more)
+Cohesion: 0.09
+Nodes (42): active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState, exchange() (+34 more)
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -165,16 +165,12 @@ Cohesion: 0.06
 Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+29 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.13
-Nodes (12): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, bounded_diagnostic(), LinuxRunner (+4 more)
-
-### Community 4 - "Tests, quality gates, and demo"
-Cohesion: 0.12
-Nodes (24): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately() (+16 more)
+Cohesion: 0.14
+Nodes (12): Debug, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic(), LinuxRunner (+4 more)
 
 ### Community 5 - "Uzel POC agent instructions"
-Cohesion: 0.13
-Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
+Cohesion: 0.12
+Nodes (12): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), payload_identity_cannot_select_surface_or_session(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState (+4 more)
 
 ### Community 6 - "POC architecture"
 Cohesion: 0.16
@@ -185,8 +181,8 @@ Cohesion: 0.18
 Nodes (12): Condvar, Fn, RuntimeEvent, RuntimeObservationFrame, RuntimeObserver, buffered_responses_are_byte_bounded_and_consumed_once(), BufferedEvents, event_bytes() (+4 more)
 
 ### Community 8 - "POC documentation audit"
-Cohesion: 0.20
-Nodes (11): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation (+3 more)
+Cohesion: 0.23
+Nodes (10): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation, SurfaceLaunch (+2 more)
 
 ### Community 9 - "Work 01 — scaffold"
 Cohesion: 0.12
@@ -206,7 +202,7 @@ Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository 
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.06
-Nodes (61): canonicalProfile(), canonicalProfiles(), optionalText(), profileQueryBatches(), profileQueryRequest(), splitProfileQueryRequest(), A, B (+53 more)
+Nodes (64): canonicalProfile(), canonicalProfiles(), optionalText(), profileQueryBatches(), profileQueryRequest(), retryProfileQueryRequests(), splitProfileQueryRequest(), A (+56 more)
 
 ### Community 14 - ".fetch"
 Cohesion: 0.20
@@ -245,8 +241,8 @@ Cohesion: 0.07
 Nodes (40): ACTION_IDS, bindingFromEvent(), bindingMatches(), DEFAULT_KEYBINDINGS, defaultPreferences(), KEYBINDING_ACTIONS, parsePreferences(), validateKeybindings() (+32 more)
 
 ### Community 23 - "nampplets Linux reuse map"
-Cohesion: 0.07
-Nodes (54): authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk(), DeliveryError, deterministic_presend_failures_do_not_retain_catalog_operations() (+46 more)
+Cohesion: 0.08
+Nodes (50): authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk(), DeliveryError, deterministic_presend_failures_do_not_retain_catalog_operations() (+42 more)
 
 ### Community 24 - "WebKit/Tauri trust spike"
 Cohesion: 0.40
@@ -353,8 +349,8 @@ Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 04 — daemon, NMP, and persistence
 
 ### Community 54 - "README.md"
-Cohesion: 0.29
-Nodes (7): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, artifact_base_url(), read_launched_document(), reconcile_launched_session()
+Cohesion: 0.33
+Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
 
 ### Community 58 - "package.json"
 Cohesion: 0.10
@@ -373,8 +369,8 @@ Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.11
-Nodes (48): allowed_navigation(), ambiguous_confirmation_crosses_as_a_typed_retry_state(), ambiguous_review_crosses_as_a_typed_retry_state(), cancel_napplet_review(), clean_token_snapshot(), confirm_napplet(), ConfirmNappletError, default_socket_path() (+40 more)
+Cohesion: 0.06
+Nodes (72): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately() (+64 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.33
@@ -413,28 +409,28 @@ Cohesion: 0.09
 Nodes (34): Cancellation, Client, cancellation_signal(), cancelled_resolution_returns_without_network_work(), linux_resource_provider(), LinuxResourceNetwork, map_reqwest_error(), MonotonicResourceClock (+26 more)
 
 ### Community 92 - "mock-native.js"
-Cohesion: 0.23
+Cohesion: 0.24
 Nodes (9): diagnostics(), invoke(), isRoutedProfileQuery(), nativeEnvelope(), profileEvent(), profileEventsForQuery(), profileFor(), review() (+1 more)
 
 ## Knowledge Gaps
 - **433 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+428 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **41 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `Provisional component design` to `POC scope and acceptance`, `Uzel POC agent instructions`, `POC architecture`, `POC documentation audit`, `README.md`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
-- **Why does `RunnerError` connect `Provisional component design` to `POC documentation audit`, `Uzel POC agent instructions`, `README.md`, `nampplets Linux reuse map`?**
+- **Why does `LinuxRunner` connect `Provisional component design` to `POC scope and acceptance`, `Tests, quality gates, and demo`, `Uzel POC agent instructions`, `POC architecture`, `POC documentation audit`, `README.md`?**
+  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `RunnerError` connect `Provisional component design` to `POC scope and acceptance`, `POC documentation audit`, `Uzel POC agent instructions`, `README.md`?**
   _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Why does `Response` connect `nampplets Linux reuse map` to `POC scope and acceptance`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `linux_resource_provider()` connect `resource.rs` to `Provisional component design`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _433 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `POC scope and acceptance` be split into smaller, more focused modules?**
-  _Cohesion score 0.10253699788583509 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08925979680696662 - nodes in this community are weakly interconnected._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `Provisional component design` be split into smaller, more focused modules?**
-  _Cohesion score 0.12903225806451613 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13978494623655913 - nodes in this community are weakly interconnected._

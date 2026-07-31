@@ -840,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe",
-      "community": 4,
+      "community": 62,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 4,
+      "community": 62,
       "norm_label": "hostileprobestate"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 4,
+      "community": 62,
       "norm_label": "atomicu64"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 4,
+      "community": 62,
       "norm_label": "atomicusize"
     },
     {
@@ -880,7 +880,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_mutex",
-      "community": 4,
+      "community": 62,
       "norm_label": "mutex"
     },
     {
@@ -890,7 +890,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_option",
-      "community": 4,
+      "community": 62,
       "norm_label": "option"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 4,
+      "community": 62,
       "norm_label": "liveprobe"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_string",
-      "community": 4,
+      "community": 62,
       "norm_label": "string"
     },
     {
@@ -920,7 +920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_arc",
-      "community": 4,
+      "community": 62,
       "norm_label": "arc"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 4,
+      "community": 62,
       "norm_label": "atomicbool"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 4,
+      "community": 62,
       "norm_label": "joinhandle"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_drop",
-      "community": 4,
+      "community": 62,
       "norm_label": "drop"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 4,
+      "community": 62,
       "norm_label": ".drop()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 4,
+      "community": 62,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_result",
-      "community": 4,
+      "community": 62,
       "norm_label": "result"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 4,
+      "community": 62,
       "norm_label": "hostileprobereport"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 4,
+      "community": 62,
       "norm_label": "beaconattempt"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 4,
+      "community": 62,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 4,
+      "community": 62,
       "norm_label": ".begin()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 4,
+      "community": 62,
       "norm_label": ".attach()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 4,
+      "community": 62,
       "norm_label": ".cancel()"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 4,
+      "community": 62,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 4,
+      "community": 62,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 4,
+      "community": 62,
       "norm_label": ".finish()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 4,
+      "community": 62,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_vec",
-      "community": 4,
+      "community": 62,
       "norm_label": "vec"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 4,
+      "community": 62,
       "norm_label": ".network_denials()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 4,
+      "community": 62,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 4,
+      "community": 62,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 4,
+      "community": 62,
       "norm_label": "port()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 4,
+      "community": 62,
       "norm_label": "accepted_report()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 4,
+      "community": 62,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 4,
+      "community": 62,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 4,
+      "community": 62,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 4,
+      "community": 62,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 4,
+      "community": 62,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -2954,10 +2954,20 @@
       "norm_label": "splitprofilequeryrequest()"
     },
     {
-      "label": "optionalText()",
+      "label": "retryProfileQueryRequests()",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.js",
       "source_location": "L46",
+      "_origin": "ast",
+      "id": "contracts_kind0_profile_retryprofilequeryrequests",
+      "community": 13,
+      "norm_label": "retryprofilequeryrequests()"
+    },
+    {
+      "label": "optionalText()",
+      "file_type": "code",
+      "source_file": "contracts/kind0-profile.js",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "contracts_kind0_profile_optionaltext",
       "community": 13,
@@ -2967,7 +2977,7 @@
       "label": "canonicalProfile()",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L50",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "contracts_kind0_profile_canonicalprofile",
       "community": 13,
@@ -2977,7 +2987,7 @@
       "label": "canonicalProfiles()",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L82",
+      "source_location": "L94",
       "_origin": "ast",
       "id": "contracts_kind0_profile_canonicalprofiles",
       "community": 13,
@@ -2997,7 +3007,7 @@
       "label": "A",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "contracts_kind0_profile_test_a",
       "community": 13,
@@ -3007,7 +3017,7 @@
       "label": "B",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "contracts_kind0_profile_test_b",
       "community": 13,
@@ -3017,7 +3027,7 @@
       "label": "row()",
       "file_type": "code",
       "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "contracts_kind0_profile_test_row",
       "community": 13,
@@ -4650,7 +4660,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 8,
+      "community": 23,
       "norm_label": ".metadata()"
     },
     {
@@ -5070,7 +5080,7 @@
       "source_location": "L335",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_linuxrunner_fmt",
-      "community": 3,
+      "community": 4,
       "norm_label": ".fmt()"
     },
     {
@@ -5080,7 +5090,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "formatter",
-      "community": 3,
+      "community": 4,
       "norm_label": "formatter"
     },
     {
@@ -5300,7 +5310,7 @@
       "source_location": "L748",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_linuxrunner_confirm_napplet",
-      "community": 54,
+      "community": 3,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -5420,7 +5430,7 @@
       "source_location": "L1227",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_artifact_base_url",
-      "community": 54,
+      "community": 3,
       "norm_label": "artifact_base_url()"
     },
     {
@@ -5740,7 +5750,7 @@
       "source_location": "L1862",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
-      "community": 8,
+      "community": 5,
       "norm_label": "payload_identity_cannot_select_surface_or_session()"
     },
     {
@@ -5840,7 +5850,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "crates_napd_src_server_replayentry",
-      "community": 23,
+      "community": 0,
       "norm_label": "replayentry"
     },
     {
@@ -5890,7 +5900,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_lookup",
-      "community": 23,
+      "community": 0,
       "norm_label": ".lookup()"
     },
     {
@@ -5910,7 +5920,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_remember",
-      "community": 23,
+      "community": 0,
       "norm_label": ".remember()"
     },
     {
@@ -5950,7 +5960,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_handle",
-      "community": 23,
+      "community": 0,
       "norm_label": ".handle()"
     },
     {
@@ -5960,7 +5970,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 23,
+      "community": 0,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -5970,7 +5980,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_stage_surface",
-      "community": 23,
+      "community": 0,
       "norm_label": ".stage_surface()"
     },
     {
@@ -5990,7 +6000,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 23,
+      "community": 0,
       "norm_label": "surfacelaunch"
     },
     {
@@ -6010,7 +6020,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "crates_napd_src_server_runner_error",
-      "community": 23,
+      "community": 0,
       "norm_label": "runner_error()"
     },
     {
@@ -6180,7 +6190,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "crates_napd_src_server_exchange",
-      "community": 23,
+      "community": 0,
       "norm_label": "exchange()"
     },
     {
@@ -6694,10 +6704,30 @@
       "norm_label": "render()"
     },
     {
-      "label": "enrichQuery()",
+      "label": "retryUnresolvedProfiles()",
       "file_type": "code",
       "source_file": "napplets/follow-list/src/main.js",
       "source_location": "L165",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_retryunresolvedprofiles",
+      "community": 13,
+      "norm_label": "retryunresolvedprofiles()"
+    },
+    {
+      "label": "renderProfiles()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L181",
+      "_origin": "ast",
+      "id": "napplets_follow_list_src_main_renderprofiles",
+      "community": 13,
+      "norm_label": "renderprofiles()"
+    },
+    {
+      "label": "enrichQuery()",
+      "file_type": "code",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L195",
       "_origin": "ast",
       "id": "napplets_follow_list_src_main_enrichquery",
       "community": 13,
@@ -6707,7 +6737,7 @@
       "label": "enrichRows()",
       "file_type": "code",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L196",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "napplets_follow_list_src_main_enrichrows",
       "community": 13,
@@ -6717,7 +6747,7 @@
       "label": "loadFollows()",
       "file_type": "code",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L202",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "napplets_follow_list_src_main_loadfollows",
       "community": 13,
@@ -17908,6 +17938,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "apps/uzel/tests/ui/fixtures/mock-native.js",
+      "source_location": "L229",
+      "weight": 1.0,
+      "source": "apps_uzel_tests_ui_fixtures_mock_native_nativeenvelope",
+      "target": "apps_uzel_tests_ui_fixtures_mock_native_profileevent",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "indirect_call",
       "context": "argument",
       "confidence": "INFERRED",
@@ -18222,7 +18263,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L50",
+      "source_location": "L62",
       "weight": 1.0,
       "source": "contracts_kind0_profile",
       "target": "contracts_kind0_profile_canonicalprofile",
@@ -18232,7 +18273,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L82",
+      "source_location": "L94",
       "weight": 1.0,
       "source": "contracts_kind0_profile",
       "target": "contracts_kind0_profile_canonicalprofiles",
@@ -18242,7 +18283,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L46",
+      "source_location": "L58",
       "weight": 1.0,
       "source": "contracts_kind0_profile",
       "target": "contracts_kind0_profile_optionaltext",
@@ -18266,6 +18307,16 @@
       "weight": 1.0,
       "source": "contracts_kind0_profile",
       "target": "contracts_kind0_profile_profilequeryrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile",
+      "target": "contracts_kind0_profile_retryprofilequeryrequests",
       "confidence_score": 1.0
     },
     {
@@ -18400,6 +18451,17 @@
       "target": "contracts_profile_open_iscanonicalpubkey"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.js",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_retryprofilequeryrequests",
+      "target": "contracts_kind0_profile_profilequerybatches",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -18426,43 +18488,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L197",
+      "source_location": "L217",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_enrichrows",
       "target": "contracts_kind0_profile_profilequerybatches",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "contracts_kind0_profile_test",
-      "target": "contracts_kind0_profile_splitprofilequeryrequest",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L7",
-      "weight": 1.0,
-      "source": "napplets_follow_list_src_main",
-      "target": "contracts_kind0_profile_splitprofilequeryrequest",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L172",
-      "weight": 1.0,
-      "source": "napplets_follow_list_src_main_enrichquery",
-      "target": "contracts_kind0_profile_splitprofilequeryrequest",
       "confidence_score": 1.0
     },
     {
@@ -18470,7 +18499,73 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L70",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_retryprofilequeryrequests",
+      "target": "contracts_kind0_profile_splitprofilequeryrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_test",
+      "target": "contracts_kind0_profile_splitprofilequeryrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "contracts/kind0-profile.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_retryprofilequeryrequests",
+      "target": "contracts_profile_open_iscanonicalpubkey"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.test.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_test",
+      "target": "contracts_kind0_profile_retryprofilequeryrequests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "contracts_kind0_profile_retryprofilequeryrequests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_retryunresolvedprofiles",
+      "target": "contracts_kind0_profile_retryprofilequeryrequests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.js",
+      "source_location": "L82",
       "weight": 1.0,
       "source": "contracts_kind0_profile_canonicalprofile",
       "target": "contracts_kind0_profile_optionaltext",
@@ -18482,7 +18577,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L51",
+      "source_location": "L63",
       "weight": 1.0,
       "source": "contracts_kind0_profile_canonicalprofile",
       "target": "contracts_profile_open_iscanonicalpubkey"
@@ -18492,7 +18587,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L93",
+      "source_location": "L105",
       "weight": 1.0,
       "source": "contracts_kind0_profile_canonicalprofiles",
       "target": "contracts_kind0_profile_canonicalprofile",
@@ -18559,7 +18654,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L88",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "contracts_kind0_profile_canonicalprofiles",
       "target": "contracts_kind0_profile_test_row"
@@ -18570,7 +18665,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "contracts/kind0-profile.js",
-      "source_location": "L84",
+      "source_location": "L96",
       "weight": 1.0,
       "source": "contracts_kind0_profile_canonicalprofiles",
       "target": "contracts_profile_open_iscanonicalpubkey"
@@ -18602,20 +18697,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L185",
+      "source_location": "L183",
       "weight": 1.0,
-      "source": "napplets_follow_list_src_main_enrichquery",
+      "source": "napplets_follow_list_src_main_renderprofiles",
       "target": "contracts_kind0_profile_canonicalprofiles",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "contracts_kind0_profile_test",
-      "target": "contracts_kind0_profile_test_a",
       "confidence_score": 1.0
     },
     {
@@ -18625,6 +18710,16 @@
       "source_location": "L16",
       "weight": 1.0,
       "source": "contracts_kind0_profile_test",
+      "target": "contracts_kind0_profile_test_a",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "contracts/kind0-profile.test.mjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "contracts_kind0_profile_test",
       "target": "contracts_kind0_profile_test_b",
       "confidence_score": 1.0
     },
@@ -18632,7 +18727,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "contracts/kind0-profile.test.mjs",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "contracts_kind0_profile_test",
       "target": "contracts_kind0_profile_test_row",
@@ -26859,7 +26954,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L165",
+      "source_location": "L195",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main",
       "target": "napplets_follow_list_src_main_enrichquery",
@@ -26869,7 +26964,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L196",
+      "source_location": "L216",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main",
       "target": "napplets_follow_list_src_main_enrichrows",
@@ -26909,7 +27004,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L202",
+      "source_location": "L222",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main",
       "target": "napplets_follow_list_src_main_loadfollows",
@@ -26989,10 +27084,30 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_renderprofiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
       "source_location": "L32",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main",
       "target": "napplets_follow_list_src_main_resetenrichment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main",
+      "target": "napplets_follow_list_src_main_retryunresolvedprofiles",
       "confidence_score": 1.0
     },
     {
@@ -27095,7 +27210,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L171",
+      "source_location": "L200",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_enrichquery",
       "target": "napplets_follow_list_src_main_current",
@@ -27117,7 +27232,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L209",
+      "source_location": "L229",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_loadfollows",
       "target": "napplets_follow_list_src_main_current",
@@ -27128,7 +27243,29 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L204",
+      "source_location": "L182",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_renderprofiles",
+      "target": "napplets_follow_list_src_main_current",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_retryunresolvedprofiles",
+      "target": "napplets_follow_list_src_main_current",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L224",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_loadfollows",
       "target": "napplets_follow_list_src_main_resetenrichment",
@@ -27172,9 +27309,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L191",
+      "source_location": "L65",
       "weight": 1.0,
-      "source": "napplets_follow_list_src_main_enrichquery",
+      "source": "napplets_follow_list_src_main_releaseobjecturl",
       "target": "napplets_follow_list_src_main_setavatarfallback",
       "confidence_score": 1.0
     },
@@ -27183,9 +27320,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L65",
+      "source_location": "L189",
       "weight": 1.0,
-      "source": "napplets_follow_list_src_main_releaseobjecturl",
+      "source": "napplets_follow_list_src_main_renderprofiles",
       "target": "napplets_follow_list_src_main_setavatarfallback",
       "confidence_score": 1.0
     },
@@ -27249,9 +27386,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L192",
+      "source_location": "L190",
       "weight": 1.0,
-      "source": "napplets_follow_list_src_main_enrichquery",
+      "source": "napplets_follow_list_src_main_renderprofiles",
       "target": "napplets_follow_list_src_main_observeavatar",
       "confidence_score": 1.0
     },
@@ -27271,7 +27408,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L210",
+      "source_location": "L230",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_loadfollows",
       "target": "napplets_follow_list_src_main_render",
@@ -27315,9 +27452,31 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L190",
+      "source_location": "L201",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_enrichquery",
+      "target": "napplets_follow_list_src_main_retryunresolvedprofiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L204",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_enrichquery",
+      "target": "napplets_follow_list_src_main_renderprofiles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "napplets/follow-list/src/main.js",
+      "source_location": "L188",
+      "weight": 1.0,
+      "source": "napplets_follow_list_src_main_renderprofiles",
       "target": "napplets_follow_list_src_model_shortpubkey",
       "confidence_score": 1.0
     },
@@ -27326,7 +27485,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "napplets/follow-list/src/main.js",
-      "source_location": "L198",
+      "source_location": "L218",
       "weight": 1.0,
       "source": "napplets_follow_list_src_main_enrichrows",
       "target": "napplets_follow_list_src_main_enrichquery",
@@ -33297,5 +33456,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "31c570fb2fe250d222af1d0bf5c12be484c02229"
+  "built_at_commit": "b204acbc2458991ed3dd81a7ad29a0a6bb8069a0"
 }
