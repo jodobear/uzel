@@ -28,7 +28,7 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "e583b4b4933cda336d0663bc60cb241a0a6f94415e7287a468617bbbcaeb5aa7"
+      "sha256": "6b16f4b4d9725c18b1bd7798f499ad6cd2fa2cdcd8f5a02ef4e3d6fa6c911050"
     },
     {
       "path": "compatibility.lock",
@@ -327,8 +327,8 @@
     },
     {
       "path": "work/07-stabilize-product.md",
-      "bytes": 3438,
-      "sha256": "147b9a41de31092c81e628877467b0aabc5e08ded7661ebd4b960280fa0acc50"
+      "bytes": 4857,
+      "sha256": "afbd52e1cce17d448f7cae3829ad2d92b177511c5162182061778db0acd4c31a"
     }
   ]
 }

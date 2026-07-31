@@ -840,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe",
-      "community": 11,
+      "community": 62,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 11,
+      "community": 62,
       "norm_label": "hostileprobestate"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 11,
+      "community": 62,
       "norm_label": "atomicu64"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 11,
+      "community": 62,
       "norm_label": "atomicusize"
     },
     {
@@ -880,7 +880,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_mutex",
-      "community": 11,
+      "community": 62,
       "norm_label": "mutex"
     },
     {
@@ -890,7 +890,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_option",
-      "community": 11,
+      "community": 62,
       "norm_label": "option"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 11,
+      "community": 62,
       "norm_label": "liveprobe"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_string",
-      "community": 11,
+      "community": 62,
       "norm_label": "string"
     },
     {
@@ -920,7 +920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_arc",
-      "community": 11,
+      "community": 62,
       "norm_label": "arc"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 11,
+      "community": 62,
       "norm_label": "atomicbool"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 11,
+      "community": 62,
       "norm_label": "joinhandle"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_drop",
-      "community": 11,
+      "community": 62,
       "norm_label": "drop"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 11,
+      "community": 62,
       "norm_label": ".drop()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 11,
+      "community": 62,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_result",
-      "community": 11,
+      "community": 62,
       "norm_label": "result"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 11,
+      "community": 62,
       "norm_label": "hostileprobereport"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 11,
+      "community": 62,
       "norm_label": "beaconattempt"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 11,
+      "community": 62,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 11,
+      "community": 62,
       "norm_label": ".begin()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 11,
+      "community": 62,
       "norm_label": ".attach()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 11,
+      "community": 62,
       "norm_label": ".cancel()"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 11,
+      "community": 62,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 11,
+      "community": 62,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 11,
+      "community": 62,
       "norm_label": ".finish()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 11,
+      "community": 62,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_vec",
-      "community": 11,
+      "community": 62,
       "norm_label": "vec"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 11,
+      "community": 62,
       "norm_label": ".network_denials()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 11,
+      "community": 62,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 11,
+      "community": 62,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 11,
+      "community": 62,
       "norm_label": "port()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 11,
+      "community": 62,
       "norm_label": "accepted_report()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 11,
+      "community": 62,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 11,
+      "community": 62,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 11,
+      "community": 62,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 11,
+      "community": 62,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 11,
+      "community": 62,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -3190,7 +3190,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_routedenvelope",
-      "community": 47,
+      "community": 41,
       "norm_label": "routedenvelope"
     },
     {
@@ -4480,7 +4480,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 47,
+      "community": 41,
       "norm_label": ".metadata()"
     },
     {
@@ -5640,7 +5640,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "crates_napd_src_server_assettransfer",
-      "community": 93,
+      "community": 41,
       "norm_label": "assettransfer"
     },
     {
@@ -5650,7 +5650,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_string",
-      "community": 93,
+      "community": 41,
       "norm_label": "string"
     },
     {
@@ -5660,7 +5660,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vec",
-      "community": 93,
+      "community": 41,
       "norm_label": "vec"
     },
     {
@@ -5670,7 +5670,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "crates_napd_src_server_replayentry",
-      "community": 93,
+      "community": 41,
       "norm_label": "replayentry"
     },
     {
@@ -5690,7 +5690,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache",
-      "community": 93,
+      "community": 41,
       "norm_label": "replaycache"
     },
     {
@@ -5700,7 +5700,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_btreemap",
-      "community": 93,
+      "community": 41,
       "norm_label": "btreemap"
     },
     {
@@ -5710,7 +5710,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vecdeque",
-      "community": 93,
+      "community": 41,
       "norm_label": "vecdeque"
     },
     {
@@ -5720,7 +5720,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_lookup",
-      "community": 93,
+      "community": 41,
       "norm_label": ".lookup()"
     },
     {
@@ -5730,7 +5730,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_option",
-      "community": 93,
+      "community": 41,
       "norm_label": "option"
     },
     {
@@ -5740,7 +5740,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_remember",
-      "community": 93,
+      "community": 41,
       "norm_label": ".remember()"
     },
     {
@@ -5750,7 +5750,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate",
-      "community": 93,
+      "community": 41,
       "norm_label": "daemonstate"
     },
     {
@@ -5780,7 +5780,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_handle",
-      "community": 93,
+      "community": 41,
       "norm_label": ".handle()"
     },
     {
@@ -5790,7 +5790,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 93,
+      "community": 41,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -5800,7 +5800,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_stage_surface",
-      "community": 93,
+      "community": 41,
       "norm_label": ".stage_surface()"
     },
     {
@@ -5820,7 +5820,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 93,
+      "community": 41,
       "norm_label": "surfacelaunch"
     },
     {
@@ -5830,7 +5830,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "crates_napd_src_server_replay_key",
-      "community": 93,
+      "community": 41,
       "norm_label": "replay_key()"
     },
     {
@@ -5840,7 +5840,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "crates_napd_src_server_runner_error",
-      "community": 93,
+      "community": 41,
       "norm_label": "runner_error()"
     },
     {
@@ -6010,7 +6010,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "crates_napd_src_server_exchange",
-      "community": 93,
+      "community": 41,
       "norm_label": "exchange()"
     },
     {
@@ -11628,7 +11628,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_00_validate",
-      "community": 63,
+      "community": 65,
       "norm_label": "00-validate.md"
     },
     {
@@ -12138,7 +12138,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_07_stabilize_product",
-      "community": 102,
+      "community": 65,
       "norm_label": "07-stabilize-product.md"
     },
     {
@@ -12182,20 +12182,30 @@
       "norm_label": "work graph"
     },
     {
-      "label": "Active issue \u2014 #10",
+      "label": "Completed issue \u2014 #10",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
       "source_location": "L41",
       "_origin": "ast",
-      "id": "uzel_poc_validated_pack_work_07_stabilize_product_active_issue_10",
+      "id": "uzel_poc_validated_pack_work_07_stabilize_product_completed_issue_10",
       "community": 102,
-      "norm_label": "active issue \u2014 #10"
+      "norm_label": "completed issue \u2014 #10"
+    },
+    {
+      "label": "Active issue \u2014 #19",
+      "file_type": "document",
+      "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "uzel_poc_validated_pack_work_07_stabilize_product_active_issue_19",
+      "community": 102,
+      "norm_label": "active issue \u2014 #19"
     },
     {
       "label": "Exit rule",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
-      "source_location": "L65",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_07_stabilize_product_exit_rule",
       "community": 102,
@@ -32953,10 +32963,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "uzel_poc_validated_pack_work_07_stabilize_product_work_07_issue_driven_stabilization",
+      "target": "uzel_poc_validated_pack_work_07_stabilize_product_active_issue_19",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
       "source_location": "L41",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_07_stabilize_product_work_07_issue_driven_stabilization",
-      "target": "uzel_poc_validated_pack_work_07_stabilize_product_active_issue_10",
+      "target": "uzel_poc_validated_pack_work_07_stabilize_product_completed_issue_10",
       "confidence_score": 1.0
     },
     {
@@ -32973,7 +32993,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
-      "source_location": "L65",
+      "source_location": "L90",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_07_stabilize_product_work_07_issue_driven_stabilization",
       "target": "uzel_poc_validated_pack_work_07_stabilize_product_exit_rule",
@@ -33001,5 +33021,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ab55861d86679ed38571b908f0b8a65b4951b6c7"
+  "built_at_commit": "8782260cb5d685eb0cce698682d77248ea7fc94f"
 }
