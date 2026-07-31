@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785454745.001946,
-    "ast_hash": "868b0f21e38161194330c02b1ad19845",
+    "mtime": 1785460714.6389656,
+    "ast_hash": "afe8dd762466c9876078eaa241dc176c",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -645,8 +645,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/acceptance.test.mjs": {
-    "mtime": 1785458426.4054146,
-    "ast_hash": "69280daed85d9c3d2383179640068ec5",
+    "mtime": 1785460714.7399666,
+    "ast_hash": "d66a0c32525c35c9143932b26bbcccc2",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/fixtures/mock-native.js": {

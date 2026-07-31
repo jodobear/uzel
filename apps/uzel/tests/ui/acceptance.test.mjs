@@ -376,10 +376,10 @@ async function exerciseAllSettings(page, viewport) {
   await settings.waitFor();
   await screenshot(page, viewport, 'ready', 'complete-renderer-flow', 'settings');
   for (const [index, action] of KEYBINDING_ACTIONS.entries()) {
-    const row = settings.locator('.keybinding-row').filter({ hasText: action.label });
+    const row = settings.getByRole('group', { name: action.label, exact: true });
     await row.getByRole('button', { name: 'Change', exact: true }).click();
     await page.keyboard.press(replacementBindings[index]);
-    await row.locator('kbd').getByText(replacementBindings[index], { exact: true }).waitFor();
+    await row.getByText(replacementBindings[index], { exact: true }).waitFor();
   }
   await settings.getByRole('button', { name: 'Save settings', exact: true }).click();
   await settings.getByText('Saved.', { exact: true }).waitFor();
@@ -387,14 +387,14 @@ async function exerciseAllSettings(page, viewport) {
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   settings = page.getByRole('region', { name: 'Settings' });
   for (const [index, action] of KEYBINDING_ACTIONS.entries()) {
-    const row = settings.locator('.keybinding-row').filter({ hasText: action.label });
-    await row.locator('kbd').getByText(replacementBindings[index], { exact: true }).waitFor();
+    const row = settings.getByRole('group', { name: action.label, exact: true });
+    await row.getByText(replacementBindings[index], { exact: true }).waitFor();
   }
   await settings.getByRole('button', { name: 'Reset defaults', exact: true }).click();
   await settings.getByText('Defaults restored. Save to apply.', { exact: true }).waitFor();
   for (const action of KEYBINDING_ACTIONS) {
-    const row = settings.locator('.keybinding-row').filter({ hasText: action.label });
-    await row.locator('kbd').getByText(DEFAULT_KEYBINDINGS[action.id], { exact: true }).waitFor();
+    const row = settings.getByRole('group', { name: action.label, exact: true });
+    await row.getByText(DEFAULT_KEYBINDINGS[action.id], { exact: true }).waitFor();
   }
   await settings.getByRole('button', { name: 'Save settings', exact: true }).click();
   await settings.getByText('Saved.', { exact: true }).waitFor();

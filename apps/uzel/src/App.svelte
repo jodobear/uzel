@@ -1328,7 +1328,7 @@
           <p class="settings-help">Select Change, then press the new key combination. Escape cancels.</p>
           <div class="keybinding-list">
             {#each KEYBINDING_ACTIONS as action}
-              <div class="keybinding-row">
+              <div class="keybinding-row" role="group" aria-label={action.label}>
                 <span>{action.label}</span>
                 <kbd>{draftBindings[action.id as KeybindingAction]}</kbd>
                 <button type="button" class:recording={capturingAction === action.id} onclick={() => { capturingAction = action.id as KeybindingAction; settingsMessage = 'Press a key combination…'; }}>{capturingAction === action.id ? 'Listening…' : 'Change'}</button>
