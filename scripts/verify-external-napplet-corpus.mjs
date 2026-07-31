@@ -24,6 +24,15 @@ const EXPECTED_SOURCE_LICENSE_URL =
   `https://github.com/hzrd149/napplelets/blob/${EXPECTED_SOURCE_COMMIT}/LICENSE`;
 const EXPECTED_AUDITED_ON = '2026-07-31';
 const EXPECTED_PUBLISHED_AT = '2026-07-26T11:52:04Z';
+const EXPECTED_EVENT_KEYS = Object.freeze([
+  'content',
+  'created_at',
+  'id',
+  'kind',
+  'pubkey',
+  'sig',
+  'tags',
+]);
 const VERIFIED_SNAPSHOT_FORMAT = 'uzel.verified-external-napplet-corpus.v1';
 const VERIFICATION_RESULT_FORMAT = 'uzel.external-napplet-corpus-result.v1';
 const EXPECTED_FAILURE_POLICY = Object.freeze({
@@ -287,6 +296,11 @@ function verifyLockEntry(entry, publisher) {
 
 export function verifySignedEvent(entry, event) {
   requireCondition(event && typeof event === 'object', 'invalid-event', `${entry.name}: event must be an object`);
+  requireCondition(
+    JSON.stringify(Object.keys(event).sort()) === JSON.stringify(EXPECTED_EVENT_KEYS),
+    'invalid-event',
+    `${entry.name}: event must contain exactly content, created_at, id, kind, pubkey, sig, tags`,
+  );
   requireCondition(Array.isArray(event.tags), 'invalid-event', `${entry.name}: event tags must be an array`);
   requireHex(event.id, HEX_64, `${entry.name}.event.id`);
   requireHex(event.pubkey, HEX_64, `${entry.name}.event.pubkey`);

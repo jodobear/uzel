@@ -661,6 +661,22 @@ test('tuple drift is a trust failure before launch', async () => {
   );
 });
 
+test('unsigned top-level event members are rejected before launch', async () => {
+  const lock = await loadLock();
+  const entry = lock.entries[0];
+  const event = await loadEvent(entry);
+  event.unsignedInjected = true;
+
+  assert.throws(
+    () => verifySignedEvent(entry, event),
+    (error) =>
+      error instanceof CorpusVerificationError &&
+      error.category === 'trust' &&
+      error.code === 'invalid-event' &&
+      error.message.includes('event must contain exactly'),
+  );
+});
+
 test('lock title drift fails closed against the signed title', async () => {
   const lock = await loadLock();
   const entry = lock.entries[0];

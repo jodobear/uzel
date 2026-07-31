@@ -454,6 +454,34 @@ if [[ $jq_timeout_status -ne 3 || $jq_timeout_output != *"EXTERNAL_NAPPLET_CORPU
   exit 1
 fi
 
+continuous_metadata_jq="$temporary_corpus/continuous-metadata-jq"
+# These lines are emitted into the fake jq script.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'for argument in "$@"; do' \
+  '  if [[ $argument == *".format, .lock.toolchain.nakVersion"* ]]; then' \
+  '    while :; do printf '\''%064d\n'\'' 0; done' \
+  '  fi' \
+  'done' \
+  'exec "$UZEL_REAL_JQ" "$@"' > "$continuous_metadata_jq"
+chmod +x "$continuous_metadata_jq"
+set +e
+metadata_limit_output=$(
+  UZEL_JQ_BIN="$continuous_metadata_jq" \
+    UZEL_REAL_JQ="$real_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+metadata_limit_status=$?
+set -e
+if [[ $metadata_limit_status -ne 3 ||
+  $metadata_limit_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=jq-output-limit"* ||
+  $metadata_limit_output == *"EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK"* ]]; then
+  echo "expected continuous snapshot-metadata jq stdout to hit the streaming output bound" >&2
+  echo "$metadata_limit_output" >&2
+  exit 1
+fi
+
 set +e
 invalid_jq_timeout_output=$(
   UZEL_JQ_TIMEOUT_SECONDS=0 \

@@ -23,6 +23,7 @@ rm_timeout_seconds=${UZEL_RM_TIMEOUT_SECONDS:-10}
 nak_output_limit_bytes=65536
 canonical_lock_output_limit_bytes=65536
 event_binding_output_limit_bytes=1024
+snapshot_metadata_output_limit_bytes=1024
 sha256sum_output_limit_bytes=1024
 expected_lock_sha256=1994fc5940e51d0fd9a9567a1a82a0f836bd93ab496022cf43933eb69653c632
 # Four 16,384-byte event texts can each double when embedded as JSON strings.
@@ -247,8 +248,9 @@ if [[ -s $subprocess_stderr_file ]]; then
     "successful corpus structure verifier wrote unexpected stderr"
 fi
 
-set +e
-snapshot_metadata=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r \
+run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+  "$jq_timeout_seconds" "$snapshot_metadata_output_limit_bytes" \
+  "$jq_bin" -r \
   '
     def exact_object($fields): type == "object" and keys == $fields;
     def string_array: type == "array" and all(.[]; type == "string");
@@ -301,9 +303,12 @@ snapshot_metadata=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin
       and [.entries[].entry] == .lock.entries
     )
     | .format, .lock.toolchain.nakVersion, .lock.source.commit, (.entries | length)
-  ' "$verified_snapshot_file")
-jq_status=$?
-set -e
+  ' "$verified_snapshot_file"
+jq_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure jq-output-limit \
+    "verified snapshot metadata exceeded ${snapshot_metadata_output_limit_bytes} bytes on stdout or stderr"
+fi
 if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
   infrastructure_failure jq-timeout "reading verified snapshot metadata exceeded ${jq_timeout_seconds}s"
 fi
@@ -315,6 +320,10 @@ if [[ $jq_status -ne 0 ]]; then
   infrastructure_failure jq-execution-failed \
     "validating the successful corpus snapshot failed with status $jq_status"
 fi
+if [[ -s $subprocess_stderr_file ]]; then
+  infrastructure_failure jq-invalid-output "verified snapshot metadata wrote unexpected stderr"
+fi
+snapshot_metadata=$(< "$subprocess_stdout_file")
 mapfile -t metadata_lines <<< "$snapshot_metadata"
 if [[ ${#metadata_lines[@]} -ne 4 || ${metadata_lines[0]} != "uzel.verified-external-napplet-corpus.v1" ]]; then
   infrastructure_failure node-invalid-snapshot "verified snapshot metadata was incomplete"
