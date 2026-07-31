@@ -718,6 +718,37 @@ if (FAULT_CHILD) {
     });
   }, VIEWPORTS);
 
+  scenarioTest('profile-delay', 'profile query survives the removed napplet deadline', async (viewport) => {
+    await runCase('delayed-profile-response', viewport, 'profile-delay', async (page) => {
+      await waitForReady(page);
+      const delayConfiguration = await page.evaluate(() => ({
+        delayMs: window.__UZEL_UI_HARNESS__.delayedProfileResponseMs,
+        routedProfile: window.__UZEL_UI_HARNESS__.routedProfile,
+      }));
+      assert.ok(delayConfiguration.delayMs > 4_000, 'mocked response must exceed the old deadline');
+
+      const startedAt = Date.now();
+      await page.frameLocator('iframe[aria-label="Direct follows"]')
+        .getByRole('button', {
+          name: `Open profile ${delayConfiguration.routedProfile}`,
+          exact: true,
+        }).click();
+      const profileFrame = page.frameLocator('iframe[aria-label="Profile card"]');
+      await profileFrame.getByText('Routed follow profile', { exact: true }).waitFor();
+      assert.ok(
+        Date.now() - startedAt >= delayConfiguration.delayMs,
+        'profile rendered before the mocked delayed response arrived',
+      );
+      await profileFrame.getByText('Latest-known profile.', { exact: true }).waitFor();
+
+      const query = await page.evaluate(() => window.__UZEL_UI_HARNESS__.envelopes
+        .map((entry) => entry.envelope)
+        .findLast((envelope) => envelope.type === 'outbox.query'));
+      assert.deepEqual(query.options, { authors: [delayConfiguration.routedProfile] });
+      assert.equal('timeoutMs' in query.options, false);
+    });
+  });
+
   scenarioTest('initialization-failure', 'accessible initialization retry', async (viewport) => {
     await runCase('initialization-retry', viewport, 'initialization-failure', async (page, guarded) => {
       const recovery = page.getByRole('region', { name: 'Runtime initialization recovery' });

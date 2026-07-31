@@ -6,7 +6,7 @@ import { resourceBytes } from '@napplet/nap/resource/sdk';
 
 import { PROFILE_OPEN_TOPIC, parseProfileOpen } from '../../../contracts/profile-open.js';
 import {
-  canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, PROFILE_RESULT_LIMIT,
+  canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, profileQueryRequest,
 } from './model.js';
 
 const picture = document.querySelector('#picture');
@@ -99,10 +99,8 @@ async function openProfile(payload) {
   clearProfileDetails();
   status.textContent = 'Reading latest-known kind 0…';
   try {
-    const result = await outboxQuery(
-      [{ kinds: [0], authors: [request.pubkey], limit: PROFILE_RESULT_LIMIT }],
-      { authors: [request.pubkey], timeoutMs: 3_000 },
-    );
+    const query = profileQueryRequest(request.pubkey);
+    const result = await outboxQuery(query.filters, query.options);
     if (!profileRequests.isCurrent(requestGeneration)) return;
     const profile = canonicalProfile(result.events, request.pubkey);
     if (profile === null) {

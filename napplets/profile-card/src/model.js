@@ -3,6 +3,13 @@ import { isCanonicalPubkey } from '../../../contracts/profile-open.js';
 export const PROFILE_RESULT_LIMIT = 1;
 export const MAXIMUM_DATE_SECONDS = 8_640_000_000_000;
 
+export function profileQueryRequest(pubkey) {
+  return {
+    filters: [{ kinds: [0], authors: [pubkey], limit: PROFILE_RESULT_LIMIT }],
+    options: { authors: [pubkey] },
+  };
+}
+
 function optionalText(value) {
   return typeof value === 'string' && value.length > 0 ? value : undefined;
 }

@@ -6,6 +6,7 @@
   const requestedIdentity = 'd60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7';
   const routedProfile = 'f'.repeat(64);
   const routedProfileEventId = '5ba938bd88e383de7d687ea310e7a1c805b9c0ba9a2b6139b36efea17a326638';
+  const delayedProfileResponseMs = 4_250;
   const fixtureRecords = global.__UZEL_UI_FIXTURES__;
   const realSurfaceHost = global.NMPTrustedShellHost;
   const calls = [];
@@ -133,6 +134,13 @@
     };
   }
 
+  function isRoutedProfileQuery(envelope) {
+    const filter = envelope.filters?.[0];
+    return envelope.type === 'outbox.query'
+      && filter?.kinds?.includes(0)
+      && filter?.authors?.[0] === routedProfile;
+  }
+
   function nativeEnvelope(surfaceToken, envelope) {
     const launch = activeSurfaces.get(surfaceToken);
     if (!launch) throw new Error(`mock received an envelope for inactive surface ${surfaceToken}`);
@@ -172,13 +180,12 @@
       case 'outbox.query': {
         const filter = envelope.filters?.[0];
         const pubkey = filter?.authors?.[0];
-        const isRoutedProfileQuery = filter?.kinds?.includes(0) && pubkey === routedProfile;
         return {
           surfaceToken,
           envelope: {
             type: 'outbox.query.result',
             id: envelope.id,
-            events: isRoutedProfileQuery ? [routedProfileEvent(pubkey)] : [],
+            events: isRoutedProfileQuery(envelope) ? [routedProfileEvent(pubkey)] : [],
             incomplete: false,
           },
         };
@@ -296,6 +303,9 @@
       case 'forward_surface_envelope': {
         const envelope = JSON.parse(args.envelope);
         envelopes.push({ surfaceToken: args.surfaceToken, envelope: structuredClone(envelope) });
+        if (scenario === 'profile-delay' && isRoutedProfileQuery(envelope)) {
+          await new Promise((resolve) => global.setTimeout(resolve, delayedProfileResponseMs));
+        }
         const delivery = nativeEnvelope(args.surfaceToken, envelope);
         return { surfaceToken: delivery.surfaceToken, envelope: JSON.stringify(delivery.envelope) };
       }
@@ -326,6 +336,7 @@
     fixtureIdentity,
     requestedIdentity,
     routedProfile,
+    delayedProfileResponseMs,
     calls,
     envelopes,
     scenario,

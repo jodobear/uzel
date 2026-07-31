@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import {
   canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS,
-  PROFILE_RESULT_LIMIT,
+  profileQueryRequest, PROFILE_RESULT_LIMIT,
 } from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
@@ -11,6 +11,16 @@ const PUBKEY = 'c'.repeat(64);
 function result(id, createdAt, content, author = PUBKEY) {
   return { event: { id, pubkey: author, kind: 0, created_at: createdAt, tags: [], sig: '', content } };
 }
+
+test('binds profile queries to the selected author and leaves the deadline host-owned', () => {
+  const request = profileQueryRequest(PUBKEY);
+
+  assert.deepEqual(request, {
+    filters: [{ kinds: [0], authors: [PUBKEY], limit: 1 }],
+    options: { authors: [PUBKEY] },
+  });
+  assert.equal('timeoutMs' in request.options, false);
+});
 
 test('projects the single canonical kind 0 returned by NMP', () => {
   assert.equal(PROFILE_RESULT_LIMIT, 1);
