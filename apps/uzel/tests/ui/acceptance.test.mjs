@@ -261,6 +261,15 @@ async function quiescePage(page) {
   await page.waitForTimeout(100);
 }
 
+async function waitForLocatorAttribute(locator, name, predicate, message, attempts = 100) {
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const value = await locator.getAttribute(name);
+    if (predicate(value)) return value;
+    await delay(25);
+  }
+  assert.fail(message);
+}
+
 function assertGuardedCase(guarded) {
   assert.deepEqual(guarded.browserProblems, [], 'browser console/page errors must stay empty');
   assert.deepEqual(guarded.externalWebSockets, [], 'external WebSockets are forbidden');
@@ -687,6 +696,25 @@ if (FAULT_CHILD) {
       const routedAvatar = routedFollowButton.locator('img');
       await routedAvatar.waitFor({ state: 'visible' });
       assert.match(await routedAvatar.getAttribute('src'), /^blob:/u);
+      const followsList = followFrameAfterIdentity.locator('#follows');
+      await followsList.evaluate((element) => {
+        element.style.transform = 'translateY(2000px)';
+      });
+      await waitForLocatorAttribute(
+        routedAvatar,
+        'src',
+        (value) => value === null,
+        'off-screen follow avatar retained its decoded image source',
+      );
+      await followsList.evaluate((element) => {
+        element.style.transform = '';
+      });
+      await waitForLocatorAttribute(
+        routedAvatar,
+        'src',
+        (value) => /^blob:/u.test(value ?? ''),
+        'visible follow avatar was not reloaded through NAP-RESOURCE',
+      );
       await routedFollowButton.click();
       const routedProfileFrame = page.frameLocator('iframe[aria-label="Profile card"]');
       await routedProfileFrame

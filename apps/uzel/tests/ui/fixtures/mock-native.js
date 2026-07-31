@@ -228,7 +228,6 @@
               id: envelope.id,
               events: [profileEvent(routedProfile)],
               incomplete: true,
-              error: 'mocked oversized profile batch',
             },
           };
         }

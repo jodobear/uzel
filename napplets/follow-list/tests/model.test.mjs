@@ -4,10 +4,12 @@ import test from 'node:test';
 import {
   createAvatarObjectUrlStore,
   createBoundedTaskQueue,
+  createProfileRetryBudget,
   directFollows,
   MAXIMUM_AVATAR_OBJECT_URLS,
   MAXIMUM_AVATAR_REQUESTS,
   MAXIMUM_PROFILE_REQUESTS,
+  MAXIMUM_PROFILE_RETRY_REQUESTS,
   MAXIMUM_RENDERED_FOLLOWS,
   shortPubkey,
 } from '../src/model.js';
@@ -40,6 +42,16 @@ test('avatar object URLs evict the oldest retained blob at the aggregate bound',
   ]);
   assert.equal(store.size, 0);
   assert.equal(MAXIMUM_AVATAR_OBJECT_URLS, 32);
+});
+
+test('profile retries consume one finite per-refresh budget', () => {
+  const budget = createProfileRetryBudget(2);
+  assert.equal(budget.take(), true);
+  assert.equal(budget.take(), true);
+  assert.equal(budget.take(), false);
+  assert.equal(budget.remaining, 0);
+  assert.equal(MAXIMUM_PROFILE_RETRY_REQUESTS, 32);
+  assert.throws(() => createProfileRetryBudget(-1), RangeError);
 });
 
 test('avatar work never exceeds four active tasks', async () => {

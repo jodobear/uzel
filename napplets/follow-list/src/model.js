@@ -4,6 +4,7 @@ export const MAXIMUM_RENDERED_FOLLOWS = 1_024;
 export const MAXIMUM_AVATAR_REQUESTS = 4;
 export const MAXIMUM_AVATAR_OBJECT_URLS = 32;
 export const MAXIMUM_PROFILE_REQUESTS = 2;
+export const MAXIMUM_PROFILE_RETRY_REQUESTS = 32;
 
 export function directFollows(values, limit = MAXIMUM_RENDERED_FOLLOWS) {
   if (!Array.isArray(values)) return [];
@@ -46,6 +47,23 @@ export function createAvatarObjectUrlStore(limit = MAXIMUM_AVATAR_OBJECT_URLS) {
     },
     get size() {
       return entries.size;
+    },
+  });
+}
+
+export function createProfileRetryBudget(limit = MAXIMUM_PROFILE_RETRY_REQUESTS) {
+  if (!Number.isSafeInteger(limit) || limit < 0) {
+    throw new RangeError('profile retry limit must be a non-negative safe integer');
+  }
+  let remaining = limit;
+  return Object.freeze({
+    take() {
+      if (remaining === 0) return false;
+      remaining -= 1;
+      return true;
+    },
+    get remaining() {
+      return remaining;
     },
   });
 }

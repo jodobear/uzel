@@ -9,8 +9,8 @@ import {
 } from '../../../contracts/kind0-profile.js';
 import { PROFILE_OPEN_TOPIC, profileOpen } from '../../../contracts/profile-open.js';
 import {
-  createAvatarObjectUrlStore, createBoundedTaskQueue, directFollows, MAXIMUM_AVATAR_REQUESTS,
-  MAXIMUM_PROFILE_REQUESTS, shortPubkey,
+  createAvatarObjectUrlStore, createBoundedTaskQueue, createProfileRetryBudget, directFollows,
+  MAXIMUM_AVATAR_REQUESTS, MAXIMUM_PROFILE_REQUESTS, shortPubkey,
 } from './model.js';
 
 const status = document.querySelector('#status');
@@ -82,7 +82,12 @@ function clearObjectUrls() {
 async function loadAvatar(row, picture, generation, signal) {
   try {
     const blob = await resourceBytes(picture, { signal });
-    if (!current(generation) || signal.aborted || !row.image.isConnected) return;
+    if (
+      !current(generation)
+      || signal.aborted
+      || !row.image.isConnected
+      || !row.avatarVisible
+    ) return;
 
     let objectUrl = '';
     row.image.onload = () => {
@@ -94,6 +99,7 @@ async function loadAvatar(row, picture, generation, signal) {
     };
     row.image.onerror = () => {
       releaseObjectUrl(objectUrl, row, true);
+      row.avatarRequest = row.avatarSource;
     };
     row.image.src = URL.createObjectURL(blob);
     objectUrl = row.image.src;
@@ -101,26 +107,54 @@ async function loadAvatar(row, picture, generation, signal) {
   } catch (error) {
     if (current(generation) && !signal.aborted) {
       row.fallback.title = `Picture unavailable through NAP-RESOURCE: ${error instanceof Error ? error.message : String(error)}`;
+      row.avatarRequest = row.avatarSource;
     }
   }
 }
 
 function observeAvatar(row, picture, generation, signal) {
-  row.avatarRequest = { generation, picture, signal };
+  row.avatarSource = { generation, picture, signal };
+  row.avatarRequest = row.avatarSource;
   avatarObserver?.observe(row.avatar);
 }
 
+function unloadAvatar(row) {
+  if (row.objectUrl) {
+    releaseObjectUrl(row.objectUrl, row, true);
+  } else if (row.image.hasAttribute('src')) {
+    row.image.removeAttribute('src');
+    setAvatarFallback(row, row.name.textContent);
+  }
+  if (!row.avatarLoading) row.avatarRequest = row.avatarSource;
+}
+
+function scheduleAvatar(row) {
+  if (!row.avatarVisible || row.avatarLoading || !row.avatarRequest) return;
+  const { generation, picture, signal } = row.avatarRequest;
+  row.avatarRequest = null;
+  row.avatarLoading = true;
+  void avatarQueue.run(() => loadAvatar(row, picture, generation, signal))
+    .catch(() => {})
+    .finally(() => {
+      row.avatarLoading = false;
+      if (
+        !row.avatarVisible
+        && row.avatarSource
+        && current(row.avatarSource.generation)
+        && !row.avatarSource.signal.aborted
+      ) row.avatarRequest = row.avatarSource;
+    });
+}
+
 function createAvatarObserver() {
-  return new IntersectionObserver((entries, observer) => {
+  return new IntersectionObserver((entries) => {
     for (const entry of entries) {
       const { isIntersecting, target } = entry;
-      if (!isIntersecting) continue;
       const row = rows.get(target.dataset.pubkey);
-      observer.unobserve(target);
-      if (!row?.avatarRequest) continue;
-      const { generation, picture, signal } = row.avatarRequest;
-      row.avatarRequest = null;
-      void avatarQueue.run(() => loadAvatar(row, picture, generation, signal)).catch(() => {});
+      if (!row) continue;
+      row.avatarVisible = isIntersecting;
+      if (isIntersecting) scheduleAvatar(row);
+      else unloadAvatar(row);
     }
   });
 }
@@ -147,7 +181,10 @@ function render(values, generation, signal) {
     list.append(item);
     rows.set(pubkey, {
       avatar,
+      avatarLoading: false,
       avatarRequest: null,
+      avatarSource: null,
+      avatarVisible: false,
       fallback,
       image,
       key,
@@ -162,19 +199,37 @@ function render(values, generation, signal) {
   void enrichRows(pubkeys, generation, signal);
 }
 
-async function retryUnresolvedProfiles(query, resolved, error, generation, signal) {
-  if (!current(generation) || signal.aborted) return;
-  const retries = retryProfileQueryRequests(query, [...resolved]);
-  if (retries.length > 0) {
-    await Promise.allSettled(retries.map((retry) => enrichQuery(retry, generation, signal)));
-    return;
-  }
-  for (const pubkey of query.options.authors) {
+function markProfilesUnavailable(authors, resolved, error) {
+  for (const pubkey of authors) {
     if (resolved.has(pubkey)) continue;
     const row = rows.get(pubkey);
     if (row) {
       row.name.title = `Profile unavailable through NAP-OUTBOX: ${error instanceof Error ? error.message : String(error)}`;
     }
+  }
+}
+
+async function retryUnresolvedProfiles(
+  query,
+  resolved,
+  error,
+  generation,
+  signal,
+  retryState,
+) {
+  if (!current(generation) || signal.aborted) return;
+  const retries = retryProfileQueryRequests(query, [...resolved]);
+  const accepted = [];
+  for (const retry of retries) {
+    if (retryState.budget.take()) accepted.push(retry);
+    else markProfilesUnavailable(retry.options.authors, resolved, 'profile retry budget exhausted');
+  }
+  if (accepted.length > 0) {
+    await Promise.allSettled(accepted.map((retry) => (
+      enrichQuery(retry, generation, signal, retryState)
+    )));
+  } else if (retries.length === 0) {
+    markProfilesUnavailable(query.options.authors, resolved, error);
   }
 }
 
@@ -192,30 +247,45 @@ function renderProfiles(result, query, generation, signal) {
   return profiles;
 }
 
-async function enrichQuery(query, generation, signal) {
+async function enrichQuery(query, generation, signal, retryState) {
   let result;
   try {
     result = await profileQueue.run(() => outboxQuery(query.filters, query.options));
   } catch (error) {
     if (!current(generation) || signal.aborted) return;
-    await retryUnresolvedProfiles(query, new Set(), error, generation, signal);
+    if (!retryState.transportFailed) {
+      retryState.transportFailed = true;
+      profileQueue.clear(new Error('NAP-OUTBOX transport unavailable for this refresh'));
+    }
+    markProfilesUnavailable(query.options.authors, new Set(), error);
     return;
   }
   const profiles = renderProfiles(result, query, generation, signal);
-  if (result.error) {
+  if ((result.error || result.incomplete) && !retryState.transportFailed) {
     await retryUnresolvedProfiles(
       query,
       new Set(profiles.keys()),
-      new Error(result.error),
+      new Error(result.error ?? 'incomplete profile evidence'),
       generation,
       signal,
+      retryState,
+    );
+  } else if ((result.error || result.incomplete) && retryState.transportFailed) {
+    markProfilesUnavailable(
+      query.options.authors,
+      new Set(profiles.keys()),
+      'profile retry circuit open',
     );
   }
 }
 
 async function enrichRows(pubkeys, generation, signal) {
+  const retryState = {
+    budget: createProfileRetryBudget(),
+    transportFailed: false,
+  };
   const requests = profileQueryBatches(pubkeys)
-    .map((query) => enrichQuery(query, generation, signal));
+    .map((query) => enrichQuery(query, generation, signal, retryState));
   await Promise.allSettled(requests);
 }
 
