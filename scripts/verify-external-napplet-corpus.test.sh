@@ -4,9 +4,10 @@ set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 verifier="$root/scripts/verify-external-napplet-corpus.sh"
 temporary_corpus=$(mktemp -d)
+lossless_corpus=$(mktemp -d)
 
 cleanup() {
-  rm -rf -- "$temporary_corpus"
+  rm -rf -- "$temporary_corpus" "$lossless_corpus"
 }
 trap cleanup EXIT
 
@@ -95,6 +96,69 @@ if [[ $enumeration_status -ne 3 || $enumeration_output != *"EXTERNAL_NAPPLET_COR
   exit 1
 fi
 
+broken_comparison_jq="$temporary_corpus/broken-comparison-jq"
+# This line is emitted into the fake jq script.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'for argument in "$@"; do' \
+  '  if [[ $argument == *".pubkey =="* ]]; then' \
+  '    exit 45' \
+  '  fi' \
+  'done' \
+  "exec $real_jq \"\$@\"" > "$broken_comparison_jq"
+chmod +x "$broken_comparison_jq"
+set +e
+comparison_output=$(
+  UZEL_JQ_BIN="$broken_comparison_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+comparison_status=$?
+set -e
+if [[ $comparison_status -ne 3 || $comparison_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=jq-execution-failed"* ]]; then
+  echo "expected broken jq coordinate comparison to be classified as infrastructure failure" >&2
+  echo "$comparison_output" >&2
+  exit 1
+fi
+
+cp -R "$root/fixtures/external-napplet-corpus/." "$lossless_corpus/"
+lossless_lock="$lossless_corpus/corpus.lock.json"
+lossless_lock_next="$lossless_corpus/corpus.lock.next.json"
+jq \
+  '.entries[0].relayHints = []
+    | .entries[1].relayHints = ["wss://relay.example/path,segment"]' \
+  "$lossless_lock" > "$lossless_lock_next"
+mv "$lossless_lock_next" "$lossless_lock"
+
+real_nak=$(command -v nak)
+lossless_nak="$lossless_corpus/lossless-nak"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  "real_nak=$real_nak" \
+  "real_jq=$real_jq" \
+  'if [[ ${1:-} != "decode" ]]; then' \
+  '  exec "$real_nak" "$@"' \
+  'fi' \
+  'decoded=$("$real_nak" "$@") || exit $?' \
+  'identifier=$("$real_jq" -r .identifier <<< "$decoded") || exit $?' \
+  'case "$identifier" in' \
+  '  good-morning) relays="[]" ;;' \
+  '  rubik-cube) relays="[\"wss://relay.example/path,segment\"]" ;;' \
+  '  *) exec "$real_jq" . <<< "$decoded" ;;' \
+  'esac' \
+  '"$real_jq" --argjson relays "$relays" '\''.relays = $relays'\'' <<< "$decoded"' \
+  > "$lossless_nak"
+chmod +x "$lossless_nak"
+lossless_output=$(
+  UZEL_NAK_BIN="$lossless_nak" \
+    bash "$verifier" "$lossless_lock"
+)
+if [[ $lossless_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
+  echo "expected empty and comma-bearing relay arrays to survive entry transport" >&2
+  echo "$lossless_output" >&2
+  exit 1
+fi
+
 broken_nak="$temporary_corpus/broken-nak"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
@@ -167,4 +231,4 @@ if [[ $output_status -ne 3 || $output_status_text != *"EXTERNAL_NAPPLET_CORPUS_I
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned execution=bounded'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned execution=bounded transport=lossless'

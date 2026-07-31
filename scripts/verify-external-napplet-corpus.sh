@@ -59,8 +59,16 @@ fi
 set +e
 "$jq_bin" -r \
   '.entries[]
-    | [.name, .naddr, .author, (.kind | tostring), .dTag, (.relayHints | join(",")), .eventFile]
-    | @tsv' \
+    | {
+        name,
+        naddr,
+        author,
+        kind,
+        dTag,
+        relayHints,
+        eventFile
+      }
+    | @json' \
   "$lock" > "$entries_file"
 jq_status=$?
 set -e
@@ -69,8 +77,19 @@ if [[ $jq_status -ne 0 ]]; then
 fi
 
 entry_count=0
-while IFS=$'\t' read -r name naddr author kind d_tag relay_hints event_file; do
+while IFS= read -r entry_json; do
   ((entry_count += 1))
+  set +e
+  name=$("$jq_bin" -r '.name' <<< "$entry_json")
+  name_status=$?
+  naddr=$("$jq_bin" -r '.naddr' <<< "$entry_json")
+  naddr_status=$?
+  event_file=$("$jq_bin" -r '.eventFile' <<< "$entry_json")
+  event_file_status=$?
+  set -e
+  if [[ $name_status -ne 0 || $naddr_status -ne 0 || $event_file_status -ne 0 ]]; then
+    infrastructure_failure jq-execution-failed "entry decoding failed"
+  fi
   event_path="$corpus_dir/$event_file"
   set +e
   "$nak_bin" verify < "$event_path" >/dev/null 2>&1
@@ -98,17 +117,21 @@ while IFS=$'\t' read -r name naddr author kind d_tag relay_hints event_file; do
   fi
   # jq expands these variables, not Bash.
   # shellcheck disable=SC2016
-  if ! "$jq_bin" -e \
-    --arg author "$author" \
-    --argjson kind "$kind" \
-    --arg d_tag "$d_tag" \
-    --arg relay_hints "$relay_hints" \
-    '.pubkey == $author
-      and .kind == $kind
-      and .identifier == $d_tag
-      and (.relays == ($relay_hints | split(",")))' \
-    <<< "$decoded" >/dev/null; then
+  set +e
+  "$jq_bin" -e \
+    --argjson locked "$entry_json" \
+    '.pubkey == $locked.author
+      and .kind == $locked.kind
+      and .identifier == $locked.dTag
+      and .relays == $locked.relayHints' \
+    <<< "$decoded" >/dev/null
+  coordinate_status=$?
+  set -e
+  if [[ $coordinate_status -eq 1 ]]; then
     trust_failure coordinate-drift "$name naddr does not encode locked coordinate"
+  fi
+  if [[ $coordinate_status -ne 0 ]]; then
+    infrastructure_failure jq-execution-failed "$name coordinate comparison failed with status $coordinate_status"
   fi
 done < "$entries_file"
 
