@@ -54,6 +54,7 @@
   "52": "check-pinned-assets.sh",
   "53": "Work 04 — daemon, NMP, and persistence",
   "54": "README.md",
+  "55": "ClientError",
   "56": "trusted-shell-prelude-domains.js",
   "57": "svelte",
   "58": "package.json",
@@ -77,6 +78,7 @@
   "76": "vite.config.js",
   "77": "vite.config.js",
   "78": "ClientError",
+  "79": "Request",
   "80": "build-signed-napplet-fixtures.sh",
   "81": "AcceptSettings",
   "82": "RelayDiagnosticsSink",
@@ -115,5 +117,8 @@
   "115": "Vec",
   "116": "BTreeMap",
   "117": "Option",
-  "118": "manifest.json"
+  "118": "manifest.json",
+  "119": "Response",
+  "120": "ProtocolError",
+  "121": "handle_stream"
 }
