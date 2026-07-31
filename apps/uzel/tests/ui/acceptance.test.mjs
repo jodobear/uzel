@@ -729,6 +729,96 @@ if (FAULT_CHILD) {
     });
   }, VIEWPORTS);
 
+  scenarioTest('initialization-empty-identity', 'initialization retry activates identity before surfaces', async (viewport) => {
+    await runCase('initialization-empty-identity', viewport, 'initialization-empty-identity', async (page, guarded) => {
+      const recovery = page.getByRole('region', { name: 'Runtime initialization recovery' });
+      await recovery.getByText('mocked private runtime unavailable', { exact: false }).waitFor();
+      await screenshot(
+        page,
+        viewport,
+        'initialization-empty-identity',
+        'initialization-empty-identity',
+        'before-retry',
+      );
+      assert.equal(
+        await page.getByRole('button', { name: 'Open napplet', exact: true }).isDisabled(),
+        true,
+        'catalog controls must stay locked during initialization recovery',
+      );
+      assert.equal(
+        await page.getByRole('button', { name: 'Waiting for panes…', exact: true }).isDisabled(),
+        true,
+        'identity controls must stay locked during initialization recovery',
+      );
+      await recovery.getByRole('button', { name: 'Retry initialization', exact: true }).click();
+      await waitForReady(page);
+      await screenshot(
+        page,
+        viewport,
+        'initialization-empty-identity',
+        'initialization-empty-identity',
+        'after-retry',
+      );
+      assert.equal(await recovery.count(), 0, 'successful initialization must clear recovery state');
+      const state = await page.evaluate(() => ({
+        snapshot: window.__UZEL_UI_HARNESS__.snapshot(),
+        calls: window.__UZEL_UI_HARNESS__.calls,
+        fixtureIdentity: window.__UZEL_UI_HARNESS__.fixtureIdentity,
+      }));
+      const identityCalls = state.calls
+        .map((call, index) => ({ ...call, index }))
+        .filter((call) => call.command === 'select_read_identity');
+      const surfaceCalls = state.calls
+        .map((call, index) => ({ ...call, index }))
+        .filter((call) => call.command === 'start_fixture');
+      assert.equal(identityCalls.length, 1, 'retry must select exactly one read identity');
+      assert.equal(surfaceCalls.length, 2, 'retry must launch exactly two base surfaces');
+      assert.equal(identityCalls[0].args.publicIdentity, state.fixtureIdentity);
+      assert.ok(
+        surfaceCalls.every((call) => identityCalls[0].index < call.index),
+        'identity selection must precede every surface launch',
+      );
+      assert.equal(state.snapshot.activeIdentity, state.fixtureIdentity);
+      assert.deepEqual(guarded.externalRequests, []);
+    });
+  }, VIEWPORTS);
+
+  scenarioTest('initialization-identity-failure', 'failed initialization identity stays recoverable', async (viewport) => {
+    await runCase('initialization-identity-failure', viewport, 'initialization-identity-failure', async (page, guarded) => {
+      const recovery = page.getByRole('region', { name: 'Runtime initialization recovery' });
+      await recovery.getByText('mocked private runtime unavailable', { exact: false }).waitFor();
+      await recovery.getByRole('button', { name: 'Retry initialization', exact: true }).click();
+      await recovery.getByText('mocked identity selection unavailable', { exact: false }).waitFor();
+      await screenshot(
+        page,
+        viewport,
+        'initialization-identity-failure',
+        'initialization-identity-failure',
+        'identity-selection-failure',
+      );
+      const state = await page.evaluate(() => ({
+        snapshot: window.__UZEL_UI_HARNESS__.snapshot(),
+        calls: window.__UZEL_UI_HARNESS__.calls,
+      }));
+      assert.equal(
+        state.calls.filter((call) => call.command === 'select_read_identity').length,
+        1,
+      );
+      assert.equal(
+        state.calls.filter((call) => call.command === 'start_fixture').length,
+        0,
+        'failed identity selection must launch no surface',
+      );
+      assert.equal(state.snapshot.activeIdentity, null);
+      assert.deepEqual(state.snapshot.activeSurfaces, []);
+      assert.equal(
+        await page.getByRole('button', { name: 'Open napplet', exact: true }).isDisabled(),
+        true,
+      );
+      assert.deepEqual(guarded.externalRequests, []);
+    });
+  });
+
   scenarioTest('naddr-denied', 'blocked naddr remains non-installable', async (viewport) => {
     await runCase('naddr-denial', viewport, 'naddr-denied', async (page) => {
       await waitForReady(page);

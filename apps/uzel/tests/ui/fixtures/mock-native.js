@@ -15,7 +15,12 @@
   const pendingReviews = new Set();
   let activeIdentity = scenario === 'restart-reconciliation' ? requestedIdentity : null;
   let fixtureGeneration = 0;
-  let initializationFailures = scenario === 'initialization-failure' ? 1 : 0;
+  let initializationFailures = [
+    'initialization-failure',
+    'initialization-empty-identity',
+    'initialization-identity-failure',
+  ].includes(scenario) ? 1 : 0;
+  let identitySelectionFailures = scenario === 'initialization-identity-failure' ? 1 : 0;
   let reviewGeneration = 0;
   let reviewAttempts = 0;
   let confirmationAttempts = 0;
@@ -206,7 +211,7 @@
       case 'reconcile_runtime':
         if (initializationFailures > 0) {
           initializationFailures -= 1;
-          activeIdentity = fixtureIdentity;
+          if (scenario === 'initialization-failure') activeIdentity = fixtureIdentity;
           throw new Error('mocked private runtime unavailable');
         }
         return {
@@ -221,6 +226,10 @@
       case 'select_read_identity':
         if (typeof args.publicIdentity !== 'string' || !/^[0-9a-f]{64}$/.test(args.publicIdentity)) {
           throw new Error('mock expected a 64-character lowercase hex public identity');
+        }
+        if (identitySelectionFailures > 0) {
+          identitySelectionFailures -= 1;
+          throw new Error('mocked identity selection unavailable');
         }
         activeIdentity = args.publicIdentity;
         return activeIdentity;
