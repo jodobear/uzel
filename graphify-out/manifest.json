@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "scripts/linux-run-smoke.sh": {
-    "mtime": 1785512087.5043404,
-    "ast_hash": "3d8aa1c67839a716cb08b461b3d13d1a",
+    "mtime": 1785512650.5473337,
+    "ast_hash": "ad9d5ad4c1c8f17ff5e4cd67399b4024",
     "semantic_hash": ""
   },
   "DEBIAN13-LIVE-TEST.md": {
@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "contracts/linux-smoke-script.test.mjs": {
-    "mtime": 1785512181.1543374,
-    "ast_hash": "96517019982258b3c9f53ae88deb4787",
+    "mtime": 1785512650.6293347,
+    "ast_hash": "d8b727d355776a0fd7f218acb958ceeb",
     "semantic_hash": ""
   },
   "Screenshot_20260730_150325.png": {
