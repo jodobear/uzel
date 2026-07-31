@@ -690,8 +690,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.mjs": {
-    "mtime": 1785466478.9908183,
-    "ast_hash": "7db60dc2d370fd558c5cf32e1a5ab995",
+    "mtime": 1785468863.1632333,
+    "ast_hash": "66297e281befd3d22d753c65328c8bea",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
@@ -700,8 +700,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
-    "mtime": 1785466479.1008193,
-    "ast_hash": "c0675eccef199d64d75efa157c1646bf",
+    "mtime": 1785468863.2513158,
+    "ast_hash": "43f340ec5081827799397a2761f632df",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {

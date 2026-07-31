@@ -1,7 +1,7 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~83,606 words
+- 129 files · ~83,681 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f24f5fcb`
+- Built from commit: `8df99169`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -264,7 +264,7 @@ Cohesion: 0.16
 Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
-Cohesion: 0.18
+Cohesion: 0.22
 Nodes (4): Uzel agent instructions, Decision, Source baseline, FACT-XXX — title
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
@@ -292,7 +292,7 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 19 - "audit_docs.py"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 21 - "README.md"
@@ -332,7 +332,7 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 30 - "FACT-005-webkit-tauri-trust.md"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 31 - "FACT-006-csp-egress.md"
