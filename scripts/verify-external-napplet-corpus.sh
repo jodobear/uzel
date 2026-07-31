@@ -3,7 +3,7 @@ set -euo pipefail
 
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 lock=${1:-"$root/fixtures/external-napplet-corpus/corpus.lock.json"}
-corpus_dir=${lock%/*}
+corpus_dir=$(dirname -- "$lock")
 nak_bin=${UZEL_NAK_BIN:-nak}
 
 infrastructure_failure() {

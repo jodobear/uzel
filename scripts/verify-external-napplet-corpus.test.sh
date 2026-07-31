@@ -12,6 +12,16 @@ trap cleanup EXIT
 
 cp -R "$root/fixtures/external-napplet-corpus/." "$temporary_corpus/"
 
+basename_output=$(
+  cd "$root/fixtures/external-napplet-corpus"
+  bash "$verifier" corpus.lock.json
+)
+if [[ $basename_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
+  echo "expected a basename lock argument to resolve event files from its directory" >&2
+  echo "$basename_output" >&2
+  exit 1
+fi
+
 bad_event="$temporary_corpus/events/good-morning.json"
 bad_event_next="$temporary_corpus/events/good-morning.next.json"
 jq '.sig = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"' \
