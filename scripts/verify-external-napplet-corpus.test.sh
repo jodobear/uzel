@@ -231,4 +231,32 @@ if [[ $output_status -ne 3 || $output_status_text != *"EXTERNAL_NAPPLET_CORPUS_I
   exit 1
 fi
 
+real_nak=$(command -v nak)
+multi_document_nak="$temporary_corpus/multi-document-nak"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  "real_nak=$real_nak" \
+  'if [[ ${1:-} == "--version" ]]; then' \
+  '  echo "nak version 0.20.1"' \
+  '  exit 0' \
+  'fi' \
+  'if [[ ${1:-} == "verify" ]]; then' \
+  '  exit 0' \
+  'fi' \
+  'echo "{}"' \
+  'exec "$real_nak" "$@"' > "$multi_document_nak"
+chmod +x "$multi_document_nak"
+set +e
+multi_document_output=$(
+  UZEL_NAK_BIN="$multi_document_nak" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+multi_document_status=$?
+set -e
+if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=nak-invalid-output"* ]]; then
+  echo "expected a multi-document nak decode stream to be classified as infrastructure failure" >&2
+  echo "$multi_document_output" >&2
+  exit 1
+fi
+
 echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned execution=bounded transport=lossless'

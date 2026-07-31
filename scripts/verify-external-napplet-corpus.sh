@@ -112,8 +112,10 @@ while IFS= read -r entry_json; do
     fi
     infrastructure_failure nak-execution-failed "$name nak decode failed with status $decode_status"
   fi
-  if ! "$jq_bin" -e 'type == "object"' <<< "$decoded" >/dev/null 2>&1; then
-    infrastructure_failure nak-invalid-output "$name nak decode returned non-JSON output"
+  if ! "$jq_bin" -e -s \
+    'length == 1 and (.[0] | type == "object")' \
+    <<< "$decoded" >/dev/null 2>&1; then
+    infrastructure_failure nak-invalid-output "$name nak decode returned anything other than one JSON object"
   fi
   # jq expands these variables, not Bash.
   # shellcheck disable=SC2016
