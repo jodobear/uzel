@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 4060,
-      "sha256": "e7d3351e21f34c25d53b0c0ea467a4b4a1669e24360dc534062e3574148b7e79"
+      "bytes": 4124,
+      "sha256": "d22eaa428d03fcb5859cc76c5f4ad4fed10daa2a1ce088489ee6c8d68c7ddc4c"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "feac1a9dc9245885c68f9ffd0bb3a4ef7300b8f4c2d67fcc36162db683450885"
+      "sha256": "bb5e9345ec440eb65bd1eefd544f035e8570b06563cd61f368ab7354cffde618"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 45269,
-      "sha256": "8df777360b07e16a1c60ffc3e48762a6186f2f83c58c2ed62dcbc0d9ffc4d7ff"
+      "bytes": 45435,
+      "sha256": "78a10a7ba927c4fc6300b9ba8dbabbaf9f53c58985c5415a1cbed4c00a9d2265"
     },
     {
       "path": "config/fallow.jsonc",
@@ -57,8 +57,8 @@
     },
     {
       "path": "docs/03-provisional-design.md",
-      "bytes": 9100,
-      "sha256": "4efe325ea1046d04f52e3781857a1146a848ac31ed290bbcd42ef7a477b0ca0b"
+      "bytes": 9192,
+      "sha256": "c2c13e2117cd50307fd3f3c4da4d8b50d6a3772f30c4dba0e5bdc78e010fbd0b"
     },
     {
       "path": "docs/04-execution.md",
@@ -132,8 +132,8 @@
     },
     {
       "path": "docs/facts/FACT-010-portable-napplets.md",
-      "bytes": 2932,
-      "sha256": "4d2d4b119d1fef147857010c4bdc9a50773e93fde66c116eb82276004bd73319"
+      "bytes": 3047,
+      "sha256": "7088bc9bc077d129c9f6575f97a7d427f4d5be7cc8d01b690a5eed7bed1f498a"
     },
     {
       "path": "docs/facts/FACT-011-daemon-nmp.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 15472,
-      "sha256": "1127f2650884a6e64edc23e1f6e796cc866134139dd4615408c96b31ee17ba4e"
+      "bytes": 15623,
+      "sha256": "ac37a6444ef48dc800b5e6bf6fada5331982449e5301186f682e5780d5e9e441"
     },
     {
       "path": "reports/nampplets-linux-map.md",
