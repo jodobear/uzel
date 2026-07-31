@@ -43,6 +43,18 @@ export function splitProfileQueryRequest(request) {
   }));
 }
 
+export function retryProfileQueryRequests(request, resolvedPubkeys = []) {
+  const authors = request?.options?.authors;
+  if (!Array.isArray(authors) || authors.length === 0) return [];
+  const resolved = new Set(
+    Array.isArray(resolvedPubkeys) ? resolvedPubkeys.filter(isCanonicalPubkey) : [],
+  );
+  const unresolved = authors.filter((author) => !resolved.has(author));
+  if (unresolved.length === 0) return [];
+  if (unresolved.length < authors.length) return profileQueryBatches(unresolved);
+  return splitProfileQueryRequest(request);
+}
+
 function optionalText(value) {
   return typeof value === 'string' && value.length > 0 ? value : undefined;
 }

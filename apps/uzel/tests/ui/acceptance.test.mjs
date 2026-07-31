@@ -673,9 +673,10 @@ if (FAULT_CHILD) {
           && authors.includes(routedProfile) && authors.includes(secondaryProfile)),
         'follow enrichment did not attempt the bounded multi-author batch',
       );
-      assert.ok(
+      assert.equal(
         followProfileQueries.some((authors) => authors.length === 1 && authors[0] === routedProfile),
-        'follow enrichment did not bisect the failed batch for the routed profile',
+        false,
+        'follow enrichment retried a profile already validated from partial evidence',
       );
       assert.ok(
         followProfileQueries.some((authors) => authors.length === 1 && authors[0] === secondaryProfile),

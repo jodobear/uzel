@@ -226,7 +226,7 @@
             envelope: {
               type: 'outbox.query.result',
               id: envelope.id,
-              events: [],
+              events: [profileEvent(routedProfile)],
               incomplete: true,
               error: 'mocked oversized profile batch',
             },

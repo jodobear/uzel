@@ -9,6 +9,7 @@ import {
   profileQueryRequest,
   PROFILE_QUERY_BATCH_SIZE,
   PROFILE_RESULT_LIMIT,
+  retryProfileQueryRequests,
   splitProfileQueryRequest,
 } from './kind0-profile.js';
 
@@ -48,6 +49,17 @@ test('bisects a failed batch until one oversized author can be isolated', () => 
   assert.deepEqual(right.options.authors, authors.slice(4));
   assert.deepEqual(splitProfileQueryRequest(left).map((request) => request.filters.length), [2, 2]);
   assert.deepEqual(splitProfileQueryRequest(profileQueryRequest(authors[0])), []);
+});
+
+test('preserves valid partial rows and retries only unresolved authors', () => {
+  const request = profileQueryBatches([A, B])[0];
+
+  assert.deepEqual(retryProfileQueryRequests(request, [A]), [profileQueryRequest(B)]);
+  assert.deepEqual(retryProfileQueryRequests(request, [A, B]), []);
+  assert.deepEqual(
+    retryProfileQueryRequests(request).map((retry) => retry.options.authors),
+    [[A], [B]],
+  );
 });
 
 test('retains the complete canonical kind 0 while projecting its friendly summary', () => {

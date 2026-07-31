@@ -5,7 +5,7 @@ import { outboxQuery } from '@napplet/nap/outbox/sdk';
 import { resourceBytes } from '@napplet/nap/resource/sdk';
 
 import {
-  canonicalProfiles, profileQueryBatches, splitProfileQueryRequest,
+  canonicalProfiles, profileQueryBatches, retryProfileQueryRequests,
 } from '../../../contracts/kind0-profile.js';
 import { PROFILE_OPEN_TOPIC, profileOpen } from '../../../contracts/profile-open.js';
 import {
@@ -162,26 +162,24 @@ function render(values, generation, signal) {
   void enrichRows(pubkeys, generation, signal);
 }
 
-async function enrichQuery(query, generation, signal) {
-  let result;
-  try {
-    result = await profileQueue.run(() => outboxQuery(query.filters, query.options));
-    if (result.error) throw new Error(result.error);
-  } catch (error) {
-    if (!current(generation) || signal.aborted) return;
-    const retries = splitProfileQueryRequest(query);
-    if (retries.length > 0) {
-      await Promise.allSettled(retries.map((retry) => enrichQuery(retry, generation, signal)));
-      return;
-    }
-    const row = rows.get(query.options.authors[0]);
+async function retryUnresolvedProfiles(query, resolved, error, generation, signal) {
+  if (!current(generation) || signal.aborted) return;
+  const retries = retryProfileQueryRequests(query, [...resolved]);
+  if (retries.length > 0) {
+    await Promise.allSettled(retries.map((retry) => enrichQuery(retry, generation, signal)));
+    return;
+  }
+  for (const pubkey of query.options.authors) {
+    if (resolved.has(pubkey)) continue;
+    const row = rows.get(pubkey);
     if (row) {
       row.name.title = `Profile unavailable through NAP-OUTBOX: ${error instanceof Error ? error.message : String(error)}`;
     }
-    return;
   }
-  if (!current(generation) || signal.aborted) return;
+}
 
+function renderProfiles(result, query, generation, signal) {
+  if (!current(generation) || signal.aborted) return new Map();
   const profiles = canonicalProfiles(result.events, query.options.authors);
   for (const [pubkey, profile] of profiles) {
     const row = rows.get(pubkey);
@@ -190,6 +188,28 @@ async function enrichQuery(query, generation, signal) {
     row.key.textContent = shortPubkey(pubkey);
     setAvatarFallback(row, profile.name);
     if (profile.picture) observeAvatar(row, profile.picture, generation, signal);
+  }
+  return profiles;
+}
+
+async function enrichQuery(query, generation, signal) {
+  let result;
+  try {
+    result = await profileQueue.run(() => outboxQuery(query.filters, query.options));
+  } catch (error) {
+    if (!current(generation) || signal.aborted) return;
+    await retryUnresolvedProfiles(query, new Set(), error, generation, signal);
+    return;
+  }
+  const profiles = renderProfiles(result, query, generation, signal);
+  if (result.error) {
+    await retryUnresolvedProfiles(
+      query,
+      new Set(profiles.keys()),
+      new Error(result.error),
+      generation,
+      signal,
+    );
   }
 }
 
