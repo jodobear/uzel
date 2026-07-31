@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785463872.0728726,
-    "ast_hash": "988cc359b7a5398d80e394d072cdb4e0",
+    "mtime": 1785465134.6749127,
+    "ast_hash": "064698d1238a428253b23e252a71923f",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785463881.903978,
-    "ast_hash": "b990c35c93c66308d9050f038092608e",
+    "mtime": 1785465134.6768556,
+    "ast_hash": "4254d08ac004ecd6eb809cffb24b58aa",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785463771.4077938,
-    "ast_hash": "c2ec121f44be26e6fc04345b91e24860",
+    "mtime": 1785465123.0812836,
+    "ast_hash": "50087e3da64943c75aeaeb8b09724521",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -660,13 +660,13 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/work/07-stabilize-product.md": {
-    "mtime": 1785463771.3117926,
-    "ast_hash": "378c7b29045f5bb07774cee69a40ed8d",
+    "mtime": 1785465123.1782846,
+    "ast_hash": "f7ef554462af7f688cf91a03420d4dc3",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/corpus.lock.json": {
-    "mtime": 1785463056.4251273,
-    "ast_hash": "3b76143f639133aaff5d4a200a51b332",
+    "mtime": 1785464667.9654045,
+    "ast_hash": "981c1c00da98638b8afd2cc5dada84a9",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/events/good-morning.json": {
@@ -690,28 +690,28 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.mjs": {
-    "mtime": 1785463372.1545138,
-    "ast_hash": "e5e43940ed5600b144283238786bb340",
+    "mtime": 1785464667.8764036,
+    "ast_hash": "91510b75b10e563b4607e14a27d845d6",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
-    "mtime": 1785463488.776764,
-    "ast_hash": "adb263ca8d65acb3c6321d5fc08758d3",
+    "mtime": 1785464964.381345,
+    "ast_hash": "2278f16bcea088a200baf2913a486112",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
-    "mtime": 1785463488.962766,
-    "ast_hash": "5685236d276b151f4e404806b4675729",
+    "mtime": 1785464683.0345662,
+    "ast_hash": "c268476e933d7d3b2d9c718d910c53f2",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {
-    "mtime": 1785463488.869765,
-    "ast_hash": "1ee165b057a208508a88a88ece2d2116",
+    "mtime": 1785464840.845258,
+    "ast_hash": "c2088725018f7efdf5960ce50be45a5b",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/README.md": {
-    "mtime": 1785463505.0699387,
-    "ast_hash": "e8224a89c496e4aaeacee7a3d525d4b1",
+    "mtime": 1785464738.1391568,
+    "ast_hash": "e34ce5b53352d01cb19f5dc955413335",
     "semantic_hash": ""
   }
 }

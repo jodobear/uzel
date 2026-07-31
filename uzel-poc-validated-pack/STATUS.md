@@ -28,10 +28,10 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 
 ```text
 branch: test/external-napplet-corpus
-commits: b0ba7f9 exact external corpus and provenance; 6580d9a offline verifier and failure-classification tests
-commands: bash scripts/verify-external-napplet-corpus.sh; node --test scripts/verify-external-napplet-corpus.test.mjs; bash scripts/verify-external-napplet-corpus.test.sh; pnpm check; pnpm lint; pnpm fallow; pnpm docs:check; pnpm format:check; partial pnpm test
-observable result: four hzrd149 coordinates retain exact signed events, author, kind, d tag, path digest and byte length, aggregate, audited domains, and server list; pinned nak verifies every event hash/signature and naddr offline; trust failures exit 2 and verifier-infrastructure failures exit 3; no artifact HTML, runtime registration, UI, pin, or dependency changed
-known limitation: the lock proves retained signed evidence, not current relay/CDN availability or reproducible source-to-artifact linkage; every candidate has one external publisher; full pnpm test passes the new corpus, JavaScript, and Rust library tests before unchanged Tauri test linking fails on this host because pinned Nix WebKitGTK references GLIBC_2.42
+commits: b0ba7f9 exact external corpus and provenance; 6580d9a offline verifier and failure-classification tests; 0c874d9917749a96fd1945ef205390256b989573 exact nak/tool-failure and automation-scope review fixes
+commands: bash scripts/verify-external-napplet-corpus.sh; node --test scripts/verify-external-napplet-corpus.test.mjs; bash scripts/verify-external-napplet-corpus.test.sh; shellcheck scripts/verify-external-napplet-corpus.sh scripts/verify-external-napplet-corpus.test.sh; host-PATH wrong-version probe; pnpm check; pnpm lint; pnpm test; pnpm fallow; pnpm docs:check; pnpm format:check
+observable result: four hzrd149 coordinates retain exact signed events, author, kind, d tag, path digest and byte length, aggregate, audited domains, and server list; exact flake nak 0.20.1 verifies every event hash/signature and naddr offline; bad signature exits trust 2; missing, wrong-version, crashed verify/decode, or malformed-output tooling exits infrastructure 3; automation scopes are exact fail-closed values; relative lock paths verify; no artifact HTML, runtime registration, UI, pin, or dependency changed
+known limitation: the lock proves retained signed evidence, not current relay/CDN availability or reproducible source-to-artifact linkage; every candidate has one external publisher; no artifact bytes or live launch are claimed in this data-only lane
 next action: exact-head review and PR for #21 data-only lane; signed launch integration waits for #13, rendered resource acceptance for #17, and any nampplets pin change for #11
 ```
 

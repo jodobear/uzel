@@ -1,16 +1,16 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~81,733 words
+- 129 files · ~82,409 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1230 nodes · 1736 edges · 178 communities (80 shown, 98 thin omitted)
+- 1231 nodes · 1738 edges · 176 communities (78 shown, 98 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f872a1c0`
+- Built from commit: `0c874d99`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -38,7 +38,6 @@
 - manifest.json
 - README.md
 - Gate 0 preflight and Slice 01 decision
-- nampplets Linux reuse map
 - WebKit/Tauri trust spike
 - NMP API and ownership map
 - FACT-001-kehto-package-line.md
@@ -101,7 +100,6 @@
 - debian13-setup.sh
 - Work 02 — Linux exact-build runner
 - mock-native.js
-- lib.rs
 - FACT-004 — NMP facade and ownership
 - Work 04 — daemon, NMP, and persistence
 - FACT-014-live-identity-catalog.md
@@ -213,7 +211,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (178 total, 98 thin omitted)
+## Communities (176 total, 98 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.13
@@ -228,8 +226,8 @@ Cohesion: 0.06
 Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+29 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.24
-Nodes (15): CorpusVerificationError, DEFAULT_CORPUS_LOCK, exactTag(), main(), readJson(), requireCondition(), requireHex(), requireString() (+7 more)
+Cohesion: 0.23
+Nodes (16): CorpusVerificationError, DEFAULT_CORPUS_LOCK, exactTag(), EXPECTED_SAFE_AUTOMATION, main(), readJson(), requireCondition(), requireHex() (+8 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
 Cohesion: 0.16
@@ -288,8 +286,8 @@ Cohesion: 0.06
 Nodes (35): fallow, @napplet/cli, devDependencies, fallow, @napplet/cli, engines, node, name (+27 more)
 
 ### Community 18 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.18
-Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+Cohesion: 0.09
+Nodes (17): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel (+9 more)
 
 ### Community 19 - "audit_docs.py"
 Cohesion: 0.20
@@ -302,10 +300,6 @@ Nodes (7): core:default, main, description, identifier, permissions, $schema, wi
 ### Community 22 - "Gate 0 preflight and Slice 01 decision"
 Cohesion: 0.07
 Nodes (40): ACTION_IDS, bindingFromEvent(), bindingMatches(), DEFAULT_KEYBINDINGS, defaultPreferences(), KEYBINDING_ACTIONS, parsePreferences(), validateKeybindings() (+32 more)
-
-### Community 23 - "nampplets Linux reuse map"
-Cohesion: 0.20
-Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
 
 ### Community 24 - "WebKit/Tauri trust spike"
 Cohesion: 0.20
@@ -372,8 +366,8 @@ Cohesion: 0.25
 Nodes (7): Accepted child CSP, Boundary of proof, Executable probe, Low-level handler nuance, Source verification, Verdict, WebKit/Tauri trust spike
 
 ### Community 41 - "lib.rs"
-Cohesion: 0.10
-Nodes (32): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk() (+24 more)
+Cohesion: 0.06
+Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+56 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.25
@@ -491,10 +485,6 @@ Nodes (27): Cancellation, Client, Duration, Future, Instant, IpAddr, Output, Pin
 Cohesion: 0.26
 Nodes (7): diagnostics(), invoke(), nativeEnvelope(), profileFor(), review(), routedProfileEvent(), surfaceLaunch()
 
-### Community 93 - "lib.rs"
-Cohesion: 0.12
-Nodes (32): Into, SurfaceLaunch, UnixListener, Request, Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail() (+24 more)
-
 ### Community 98 - "POC status"
 Cohesion: 0.29
 Nodes (6): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status, Work 07 parallel branch evidence — issue #21
@@ -511,7 +501,7 @@ Nodes (7): Active issue — #10, Entry evidence, Exit rule, Goal, Parallel issue
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `POC scope and acceptance`, `Uzel POC agent instructions`, `POC architecture`, `FACT-010-portable-napplets.md`, `README.md`, `lib.rs`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `POC scope and acceptance`, `Uzel POC agent instructions`, `POC architecture`, `lib.rs`, `FACT-010-portable-napplets.md`, `README.md`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **Why does `HostileProbeState` connect `hostile_probe.rs` to `Slice 02 preflight`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._

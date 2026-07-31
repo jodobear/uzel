@@ -79,12 +79,13 @@ preserved under ignored
   pins, and product UI.
 
 Exact branch evidence: corpus commit `b0ba7f9`; verifier commit `6580d9a`;
-offline verifier 4/4; classification self-test trust=`2`, infrastructure=`3`;
-`pnpm check`, lint/boundaries, Fallow, docs audit, and Rust formatting pass.
-`pnpm test` passes the new corpus tests, all JavaScript tests, and Rust library
-tests, then this non-Debian host cannot link the unchanged Tauri test binary
-because pinned Nix WebKitGTK needs `GLIBC_2.42`. No runtime integration is
-claimed; later live launch remains gated by #13 and rendered evidence by #17.
+review-fix commit `0c874d9917749a96fd1945ef205390256b989573`; offline
+verifier 4/4; five Node tests; classification self-test trust=`2`,
+infrastructure=`3`; exact flake `nak 0.20.1` accepted while the host PATH
+`nak 0.16.2` is refused; ShellCheck, `pnpm check`, lint/boundaries, full
+`pnpm test`, Fallow, docs audit, and Rust formatting pass. No runtime
+integration is claimed; later live launch remains gated by #13 and rendered
+evidence by #17.
 
 ## Exit rule
 
