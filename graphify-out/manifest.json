@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785519074.4135697,
-    "ast_hash": "d2c049721442ab7c69c7ec003657be22",
+    "mtime": 1785520531.112309,
+    "ast_hash": "cdfdd48ac5fe94bc7a512e4121ea3f37",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785519074.4193451,
-    "ast_hash": "6c75ae89d4fbe636610f09f812e75afa",
+    "mtime": 1785520531.1188517,
+    "ast_hash": "72f61863f4c333ba136a11daa346fdc8",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785519063.805653,
-    "ast_hash": "f84c6315fb64b96a83c87188b3f04a73",
+    "mtime": 1785520521.8372703,
+    "ast_hash": "de4c2179ef129bdfb2ce534295f80fd8",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -55,8 +55,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/03-provisional-design.md": {
-    "mtime": 1785518867.1245127,
-    "ast_hash": "2001b05650bc8acb784cc4b6f273bf59",
+    "mtime": 1785520435.4593716,
+    "ast_hash": "9b380e5fa499e654899c8e9dcc6e8ecd",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/04-execution.md": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785465208.825203,
-    "ast_hash": "21f5b46980e4634ee140e7a81f1f7732",
+    "mtime": 1785520130.2551727,
+    "ast_hash": "7f6f2fb79f0b8ce4b64b69623f286c4f",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -360,8 +360,8 @@
     "semantic_hash": ""
   },
   "scripts/check-pinned-assets.sh": {
-    "mtime": 1785518774.3635032,
-    "ast_hash": "1cd722c6d6452e7cf27141396c0b5a60",
+    "mtime": 1785520337.8583562,
+    "ast_hash": "265a6126f5fd61c1062362c1d6484441",
     "semantic_hash": ""
   },
   "apps/uzel/public/trusted-shell/README.md": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/event.json": {
-    "mtime": 1785518743.1311634,
-    "ast_hash": "5d657cc56118fb503c807cbcc85010f3",
+    "mtime": 1785520287.6338336,
+    "ast_hash": "7c61f98f7ec9605b9484054545390706",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/event.json": {
@@ -425,18 +425,18 @@
     "semantic_hash": ""
   },
   "napplets/follow-list/src/main.js": {
-    "mtime": 1785518722.2479362,
-    "ast_hash": "2d2d2edcfa28d3a199cfc10b24b8522b",
+    "mtime": 1785520139.4652722,
+    "ast_hash": "629879ef26502197803585c6e025df36",
     "semantic_hash": ""
   },
   "napplets/follow-list/src/model.js": {
-    "mtime": 1785518653.1721845,
-    "ast_hash": "83060309c9a2a2a7ff709a1b9ba5ceb4",
+    "mtime": 1785520130.3521738,
+    "ast_hash": "0184de94be4cf7b32d1eb7687ae3c1cf",
     "semantic_hash": ""
   },
   "napplets/follow-list/tests/model.test.mjs": {
-    "mtime": 1785518653.2691855,
-    "ast_hash": "a415832f6bfe020f21b106f630150270",
+    "mtime": 1785520130.545176,
+    "ast_hash": "b1e5136718ee9ea61d3e1a54a9b458ca",
     "semantic_hash": ""
   },
   "napplets/follow-list/vite.config.js": {
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "fixtures/follow-list/index.html": {
-    "mtime": 1785518743.1301699,
-    "ast_hash": "d2870aaab83a25736f2cd656f7014c6d",
+    "mtime": 1785520287.6313457,
+    "ast_hash": "d1aa14163f955fac18b50ee7017c4b08",
     "semantic_hash": ""
   },
   "fixtures/hostile-egress/index.html": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-010-portable-napplets.md": {
-    "mtime": 1785518867.2165139,
-    "ast_hash": "277a79d2eb32ab5818fe1a2503e528c0",
+    "mtime": 1785520435.5563726,
+    "ast_hash": "df7b65824e2c0718ffc6ceb63d453d97",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/reports/slice-03-preflight.md": {
@@ -565,8 +565,8 @@
     "semantic_hash": ""
   },
   "crates/napd/src/fixtures.rs": {
-    "mtime": 1785518774.1785014,
-    "ast_hash": "c6649e09c0cfd8d7daf7c8465df1cca2",
+    "mtime": 1785520496.5760074,
+    "ast_hash": "f07998bab5a7e71b5ff91fefedb7ca3b",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-012-composed-demo.md": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "scripts/linux-run-smoke.sh": {
-    "mtime": 1785518774.2745023,
-    "ast_hash": "6cfaa36ed804c721cebc8c0dde48570d",
+    "mtime": 1785520337.948357,
+    "ast_hash": "7f0ff655d214397b783c7946e4b90889",
     "semantic_hash": ""
   },
   "DEBIAN13-LIVE-TEST.md": {
@@ -630,23 +630,23 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/docs/facts/FACT-014-live-identity-catalog.md": {
-    "mtime": 1785518867.3085148,
-    "ast_hash": "d23c7c26e900481439b303e0d270eb93",
+    "mtime": 1785520435.6583736,
+    "ast_hash": "27452c12fc2e8fbd8af0eceaa6acbe20",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/acceptance.test.mjs": {
-    "mtime": 1785518722.3449373,
-    "ast_hash": "336c296242a102ba088260a03fa4e174",
+    "mtime": 1785520235.3082893,
+    "ast_hash": "5a87454e8a2b260a1c52d4699d1340ed",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/fixtures/mock-native.js": {
-    "mtime": 1785518653.4611876,
-    "ast_hash": "b6378ce33ffa98d12e7bcdfecc993346",
+    "mtime": 1785520235.2082882,
+    "ast_hash": "1e8abf8cb4d9bc0ec9a39c33625cbe39",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/playwright.config.mjs": {
-    "mtime": 1785503553.020858,
-    "ast_hash": "c21222e2656abe1c68a08a9116277a09",
+    "mtime": 1785520235.106287,
+    "ast_hash": "287811b1acb30abb7550d2f03bbe1ff1",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/README.md": {
@@ -687,6 +687,16 @@
   "contracts/kind0-profile.test.mjs": {
     "mtime": 1785517689.5726094,
     "ast_hash": "1c9b7181b36498e69a4d3fe527d55873",
+    "semantic_hash": ""
+  },
+  "apps/uzel/src/projection-failure.js": {
+    "mtime": 1785520159.2004852,
+    "ast_hash": "c24e99cb44927e8ee060981e5259d421",
+    "semantic_hash": ""
+  },
+  "apps/uzel/src/projection-failure.test.mjs": {
+    "mtime": 1785520130.158172,
+    "ast_hash": "c21330c7da00e1127af44a021d48dc3d",
     "semantic_hash": ""
   }
 }
