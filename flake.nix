@@ -12,6 +12,7 @@
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
           cargo-tauri
+          chromium
           corepack_22
           curl
           deno
@@ -42,6 +43,8 @@
         LIBGL_ALWAYS_SOFTWARE = "1";
         LIBGL_DRIVERS_PATH = "${pkgs.mesa}/lib/dri";
         __EGL_VENDOR_LIBRARY_FILENAMES = "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json";
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+        UZEL_PLAYWRIGHT_CHROMIUM = "${pkgs.chromium}/bin/chromium";
 
         shellHook = ''
           export UZEL_COREPACK_BIN="$PWD/.cache/corepack-bin"
