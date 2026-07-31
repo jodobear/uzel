@@ -23,6 +23,8 @@ cp -R "$root/fixtures/external-napplet-corpus/." "$temporary_corpus/"
 cp -R "$root/fixtures/external-napplet-corpus/." "$null_entry_corpus/"
 cp -R "$root/fixtures/external-napplet-corpus/." "$snapshot_corpus/"
 cp -R "$root/fixtures/external-napplet-corpus/." "$diagnostic_corpus/"
+real_node=$(command -v node)
+real_jq=$(command -v jq)
 
 basename_output=$(
   cd "$root/fixtures/external-napplet-corpus"
@@ -53,7 +55,7 @@ printf '%s\n' \
   ': > "$candidate"' \
   'printf '\''%s\n'\'' "$candidate"' > "$checked_mktemp"
 chmod +x "$checked_mktemp"
-for fail_on in 1 2; do
+for fail_on in 1 2 3 4 5; do
   mktemp_count_file="$temporary_corpus/mktemp-count-$fail_on"
   mktemp_file_prefix="$temporary_corpus/mktemp-file-$fail_on"
   set +e
@@ -189,6 +191,55 @@ if [[ $multiple_results_status -ne 3 ||
   exit 1
 fi
 
+zero_entry_node="$temporary_corpus/zero-entry-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  '"$UZEL_REAL_NODE" "$@" | "$UZEL_REAL_JQ" '\''.entries = [] | .lock.entries = []'\''' \
+  > "$zero_entry_node"
+chmod +x "$zero_entry_node"
+set +e
+zero_entry_output=$(
+  UZEL_NODE_BIN="$zero_entry_node" \
+    UZEL_REAL_NODE="$real_node" \
+    UZEL_REAL_JQ="$real_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+zero_entry_status=$?
+set -e
+if [[ $zero_entry_status -ne 3 ||
+  $zero_entry_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-invalid-snapshot"* ||
+  $zero_entry_output == *"EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK"* ]]; then
+  echo "expected a self-consistent zero-entry Node snapshot to fail before processing" >&2
+  echo "$zero_entry_output" >&2
+  exit 1
+fi
+
+continuous_node="$temporary_corpus/continuous-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'if [[ $UZEL_NOISE_STREAM == stderr ]]; then exec 1>&2; fi' \
+  'while :; do printf '\''%064d\n'\'' 0; done' \
+  > "$continuous_node"
+chmod +x "$continuous_node"
+for noise_stream in stdout stderr; do
+  set +e
+  continuous_node_output=$(
+    UZEL_NODE_BIN="$continuous_node" \
+      UZEL_NOISE_STREAM="$noise_stream" \
+      bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+  )
+  continuous_node_status=$?
+  set -e
+  if [[ $continuous_node_status -ne 3 ||
+    $continuous_node_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-output-limit"* ]]; then
+    echo "expected continuous Node $noise_stream to hit the streaming output bound" >&2
+    echo "$continuous_node_output" >&2
+    exit 1
+  fi
+done
+
 hanging_jq="$temporary_corpus/hanging-jq"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
@@ -221,8 +272,6 @@ if [[ $invalid_jq_timeout_status -ne 3 || $invalid_jq_timeout_output != *"EXTERN
   exit 1
 fi
 
-real_node=$(command -v node)
-real_jq=$(command -v jq)
 snapshot_lock="$snapshot_corpus/corpus.lock.json"
 snapshot_lock_next="$snapshot_corpus/corpus.lock.next.json"
 snapshot_event="$snapshot_corpus/events/good-morning.json"
@@ -345,6 +394,44 @@ for operation in version verify decode; do
   fi
 done
 
+continuous_nak="$temporary_corpus/continuous-nak"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'emit_forever() {' \
+  '  if [[ $UZEL_NOISE_STREAM == stderr ]]; then exec 1>&2; fi' \
+  '  while :; do printf '\''%064d\n'\'' 0; done' \
+  '}' \
+  'case "${UZEL_NOISE_OPERATION}:${1:-}" in' \
+  '  version:--version|decode:decode) emit_forever ;;' \
+  'esac' \
+  'case "${1:-}" in' \
+  '  --version) echo "nak version 0.20.1" ;;' \
+  '  verify) exit 0 ;;' \
+  '  decode) exit 42 ;;' \
+  '  *) exit 42 ;;' \
+  'esac' > "$continuous_nak"
+chmod +x "$continuous_nak"
+for noise_operation in version decode; do
+  for noise_stream in stdout stderr; do
+    set +e
+    continuous_nak_output=$(
+      UZEL_NAK_BIN="$continuous_nak" \
+        UZEL_NOISE_OPERATION="$noise_operation" \
+        UZEL_NOISE_STREAM="$noise_stream" \
+        bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+    )
+    continuous_nak_status=$?
+    set -e
+    if [[ $continuous_nak_status -ne 3 ||
+      $continuous_nak_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=nak-output-limit"* ]]; then
+      echo "expected continuous nak $noise_operation $noise_stream to hit the streaming output bound" >&2
+      echo "$continuous_nak_output" >&2
+      exit 1
+    fi
+  done
+done
+
 broken_enumeration_jq="$temporary_corpus/broken-enumeration-jq"
 # This line is emitted into the fake jq script.
 # shellcheck disable=SC2016
@@ -407,6 +494,8 @@ printf '%s\n' \
   '"$UZEL_REAL_JQ" '\''
     .entries[0].entry.relayHints = []
     | .entries[1].entry.relayHints = ["wss://relay.example/path,segment"]
+    | .lock.entries[0].relayHints = []
+    | .lock.entries[1].relayHints = ["wss://relay.example/path,segment"]
   '\'' <<< "$snapshot"' > "$lossless_node"
 chmod +x "$lossless_node"
 
@@ -541,4 +630,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless snapshot=exact-four subprocess=stream-bounded'

@@ -49,6 +49,12 @@ contained path and regular-file type, then performs a fixed capped read: each
 evidence file must be at most 16,384 bytes, including if it grows after its
 initial descriptor stat.
 
+The shell accepts a successful Node snapshot only when its exact interface
+schema contains the four audited entries in their fixed order and the copied
+lock entries match them exactly. Node verification, `nak --version`, and each
+`nak decode` stream stdout and stderr into kernel-limited files; either stream
+is rejected above 65,536 bytes before its content enters a shell variable.
+
 Artifact blobs are deliberately absent. Therefore offline verification proves
 the retained signed evidence and coordinate mapping, not current relay/CDN
 availability or a new source-to-binary build. Later live tests must fetch through
@@ -66,7 +72,8 @@ aggregate before launch.
 The verifier exits `2` for trust failures and `3` for missing, wrong-version,
 crashed, or malformed-output verifier infrastructure. Node trust diagnostics
 cross the shell boundary as a schema-checked JSON result so hostile control
-characters stay encoded. It never turns either category into success.
+characters stay encoded. Oversized subprocess output is also an infrastructure
+failure. It never turns either category into success.
 
 ## Deliberate refresh
 

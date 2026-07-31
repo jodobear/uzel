@@ -13,12 +13,24 @@ node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
 mktemp_bin=${UZEL_MKTEMP_BIN:-mktemp}
 rm_bin=${UZEL_RM_BIN:-rm}
+wc_bin=${UZEL_WC_BIN:-wc}
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
+subprocess_output_limit_bytes=65536
+# Bash measures `ulimit -f` in KiB. One guard block lets us detect and reject
+# output beyond the accepted byte cap while kernel-bounding each stream file.
+subprocess_file_limit_blocks=65
 entries_file=
 verified_event_file=
+verified_snapshot_file=
+subprocess_stdout_file=
+subprocess_stderr_file=
+bounded_status=
+bounded_stdout_bytes=
+bounded_stderr_bytes=
+bounded_output_exceeded=
 
 infrastructure_failure() {
   echo "EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=$1 message=$2" >&2
@@ -32,7 +44,12 @@ trust_failure() {
 
 cleanup() {
   local temporary_file
-  for temporary_file in "$entries_file" "$verified_event_file"; do
+  for temporary_file in \
+    "$entries_file" \
+    "$verified_event_file" \
+    "$verified_snapshot_file" \
+    "$subprocess_stdout_file" \
+    "$subprocess_stderr_file"; do
     if [[ -n $temporary_file ]]; then
       set +e
       "$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" \
@@ -40,6 +57,34 @@ cleanup() {
       set -e
     fi
   done
+}
+
+run_bounded_subprocess() {
+  local stdout_file=$1
+  local stderr_file=$2
+  local timeout_seconds=$3
+  shift 3
+
+  : > "$stdout_file"
+  : > "$stderr_file"
+  set +e
+  {
+    (
+      ulimit -c 0
+      ulimit -f "$subprocess_file_limit_blocks" || exit 125
+      exec "$timeout_bin" --kill-after=1 "$timeout_seconds" "$@"
+    ) > "$stdout_file" 2> "$stderr_file"
+  } 2>/dev/null
+  bounded_status=$?
+  set -e
+  bounded_stdout_bytes=$("$wc_bin" -c < "$stdout_file")
+  bounded_stderr_bytes=$("$wc_bin" -c < "$stderr_file")
+  bounded_output_exceeded=0
+  if [[ $bounded_status -eq 153 ||
+    $bounded_stdout_bytes -gt $subprocess_output_limit_bytes ||
+    $bounded_stderr_bytes -gt $subprocess_output_limit_bytes ]]; then
+    bounded_output_exceeded=1
+  fi
 }
 trap cleanup EXIT
 
@@ -70,6 +115,7 @@ create_temp_file() {
 command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
 command -v "$rm_bin" >/dev/null 2>&1 || infrastructure_failure rm-unavailable "rm is required"
 command -v "$mktemp_bin" >/dev/null 2>&1 || infrastructure_failure mktemp-unavailable "mktemp is required"
+command -v "$wc_bin" >/dev/null 2>&1 || infrastructure_failure wc-unavailable "wc is required"
 command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailable "node is required"
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
 command -v "$nak_bin" >/dev/null 2>&1 || infrastructure_failure nak-unavailable "pinned nak is required"
@@ -88,21 +134,23 @@ fi
 
 create_temp_file entries_file entries
 create_temp_file verified_event_file event
+create_temp_file verified_snapshot_file verified-snapshot
+create_temp_file subprocess_stdout_file subprocess-stdout
+create_temp_file subprocess_stderr_file subprocess-stderr
 
-set +e
-verified_snapshot=$("$timeout_bin" --kill-after=1 "$node_timeout_seconds" \
-  "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock" \
-  2> "$entries_file")
-node_status=$?
-set -e
-mapfile -t node_stderr_lines < "$entries_file"
-: > "$entries_file"
+run_bounded_subprocess "$verified_snapshot_file" "$subprocess_stderr_file" "$node_timeout_seconds" \
+  "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock"
+node_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure node-output-limit \
+    "corpus structure verifier exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+fi
 if [[ $node_status -eq 124 || $node_status -eq 137 ]]; then
   infrastructure_failure node-timeout "corpus structure verifier exceeded ${node_timeout_seconds}s"
 fi
 if [[ $node_status -eq 2 ]]; then
   node_trust_status=1
-  if [[ ${#node_stderr_lines[@]} -eq 1 ]]; then
+  if [[ $bounded_stdout_bytes -eq 0 ]]; then
     set +e
     node_trust_result=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -c -e -s \
       'select(
@@ -113,7 +161,7 @@ if [[ $node_status -eq 2 ]]; then
         and .[0].category == "trust"
         and (.[0].code | type == "string" and test("^[a-z][a-z0-9-]*$"))
         and (.[0].message | type == "string" and length > 0)
-      ) | .[0]' <<< "${node_stderr_lines[0]}")
+      ) | .[0]' "$subprocess_stderr_file")
     node_trust_status=$?
     set -e
   fi
@@ -130,38 +178,105 @@ fi
 if [[ $node_status -ne 0 ]]; then
   infrastructure_failure node-execution-failed "corpus structure verifier failed with status $node_status"
 fi
+if [[ $bounded_stderr_bytes -ne 0 ]]; then
+  infrastructure_failure node-invalid-snapshot \
+    "successful corpus structure verifier wrote unexpected stderr"
+fi
 
 set +e
 snapshot_metadata=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r \
-  '.format, .lock.toolchain.nakVersion, .lock.source.commit, (.entries | length)' \
-  <<< "$verified_snapshot")
+  '
+    def exact_object($fields): type == "object" and keys == $fields;
+    def string_array: type == "array" and all(.[]; type == "string");
+    def audited_entry:
+      exact_object([
+        "artifact", "author", "createdAt", "dTag", "domains", "domainsSource",
+        "eventFile", "eventId", "kind", "naddr", "name", "relayHints",
+        "safeAutomation", "servers", "title"
+      ])
+      and (.artifact | exact_object(["aggregateSha256", "logicalPath", "sha256", "sizeBytes"]))
+      and (.artifact.aggregateSha256 | type == "string")
+      and (.artifact.logicalPath | type == "string")
+      and (.artifact.sha256 | type == "string")
+      and (.artifact.sizeBytes | type == "number")
+      and (.author | type == "string")
+      and (.createdAt | type == "number")
+      and (.dTag | type == "string")
+      and (.domains | string_array)
+      and (.domainsSource | type == "string")
+      and (.eventFile | type == "string")
+      and (.eventId | type == "string")
+      and (.kind | type == "number")
+      and (.naddr | type == "string")
+      and (.name | type == "string")
+      and (.relayHints | string_array)
+      and (.safeAutomation | type == "string")
+      and (.servers | string_array)
+      and (.title | type == "string");
+    select(
+      exact_object(["entries", "format", "lock"])
+      and .format == "uzel.verified-external-napplet-corpus.v1"
+      and (.lock | exact_object(["entries", "failurePolicy", "format", "publisher", "source", "toolchain"]))
+      and .lock.format == "uzel.external-napplet-corpus.v1"
+      and (.lock.publisher | type == "string")
+      and (.lock.source | exact_object(["auditedOn", "commit", "commitUrl", "license", "licenseUrl", "publishedAt", "repository"]))
+      and all(.lock.source[]; type == "string")
+      and (.lock.toolchain | exact_object(["nakVersion"]))
+      and (.lock.toolchain.nakVersion | type == "string")
+      and (.lock.failurePolicy | exact_object(["infrastructure", "trust"]))
+      and (.lock.failurePolicy.infrastructure | string_array)
+      and (.lock.failurePolicy.trust | string_array)
+      and (.lock.entries | type == "array" and length == 4)
+      and (.entries | type == "array" and length == 4)
+      and all(.entries[];
+        exact_object(["entry", "eventText"])
+        and (.entry | audited_entry)
+        and (.eventText | type == "string" and length > 0)
+      )
+      and [.entries[].entry.name] == ["good-morning", "rubik-cube", "nap-feed", "wifi-map"]
+      and [.entries[].entry] == .lock.entries
+    )
+    | .format, .lock.toolchain.nakVersion, .lock.source.commit, (.entries | length)
+  ' "$verified_snapshot_file")
 jq_status=$?
 set -e
 if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
   infrastructure_failure jq-timeout "reading verified snapshot metadata exceeded ${jq_timeout_seconds}s"
 fi
+if [[ $jq_status -eq 1 || $jq_status -eq 4 ]]; then
+  infrastructure_failure node-invalid-snapshot \
+    "successful corpus structure verifier returned an invalid snapshot"
+fi
 if [[ $jq_status -ne 0 ]]; then
-  infrastructure_failure jq-execution-failed "reading verified snapshot metadata failed with status $jq_status"
+  infrastructure_failure jq-execution-failed \
+    "validating the successful corpus snapshot failed with status $jq_status"
 fi
 mapfile -t metadata_lines <<< "$snapshot_metadata"
 if [[ ${#metadata_lines[@]} -ne 4 || ${metadata_lines[0]} != "uzel.verified-external-napplet-corpus.v1" ]]; then
-  infrastructure_failure jq-invalid-output "verified snapshot metadata was incomplete"
+  infrastructure_failure node-invalid-snapshot "verified snapshot metadata was incomplete"
 fi
 expected_nak_version=${metadata_lines[1]}
 source_commit=${metadata_lines[2]}
 expected_entry_count=${metadata_lines[3]}
 echo "EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=$expected_entry_count commit=$source_commit mode=offline"
 
-set +e
-nak_version_output=$("$timeout_bin" --kill-after=1 "$nak_timeout_seconds" "$nak_bin" --version 2>/dev/null)
-nak_version_status=$?
-set -e
+run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+  "$nak_timeout_seconds" "$nak_bin" --version
+nak_version_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure nak-output-limit \
+    "nak --version exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+fi
 if [[ $nak_version_status -eq 124 || $nak_version_status -eq 137 ]]; then
   infrastructure_failure nak-timeout "nak --version exceeded ${nak_timeout_seconds}s"
 fi
 if [[ $nak_version_status -ne 0 ]]; then
   infrastructure_failure nak-execution-failed "nak --version failed with status $nak_version_status"
 fi
+if [[ $bounded_stderr_bytes -ne 0 ]]; then
+  infrastructure_failure nak-invalid-output "nak --version wrote unexpected stderr"
+fi
+nak_version_output=$(< "$subprocess_stdout_file")
 if [[ $nak_version_output != "nak version $expected_nak_version" ]]; then
   infrastructure_failure nak-version-mismatch "expected nak version $expected_nak_version"
 fi
@@ -179,7 +294,7 @@ set +e
         eventText
       }
     | @json' \
-  <<< "$verified_snapshot" > "$entries_file"
+  "$verified_snapshot_file" > "$entries_file"
 jq_status=$?
 set -e
 if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
@@ -229,10 +344,13 @@ while IFS= read -r entry_json; do
     infrastructure_failure nak-execution-failed "$name nak verify failed with status $verify_status"
   fi
 
-  set +e
-  decoded=$("$timeout_bin" --kill-after=1 "$nak_timeout_seconds" "$nak_bin" decode "$naddr" 2>&1)
-  decode_status=$?
-  set -e
+  run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+    "$nak_timeout_seconds" "$nak_bin" decode "$naddr"
+  decode_status=$bounded_status
+  if [[ $bounded_output_exceeded -eq 1 ]]; then
+    infrastructure_failure nak-output-limit \
+      "$name nak decode exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+  fi
   if [[ $decode_status -eq 124 || $decode_status -eq 137 ]]; then
     infrastructure_failure nak-timeout "$name nak decode exceeded ${nak_timeout_seconds}s"
   elif [[ $decode_status -ne 0 ]]; then
@@ -241,10 +359,13 @@ while IFS= read -r entry_json; do
     fi
     infrastructure_failure nak-execution-failed "$name nak decode failed with status $decode_status"
   fi
+  if [[ $bounded_stderr_bytes -ne 0 ]]; then
+    infrastructure_failure nak-invalid-output "$name nak decode wrote unexpected stderr"
+  fi
   set +e
   "$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -e -s \
     'length == 1 and (.[0] | type == "object")' \
-    <<< "$decoded" >/dev/null 2>&1
+    "$subprocess_stdout_file" >/dev/null 2>&1
   decoded_shape_status=$?
   set -e
   if [[ $decoded_shape_status -eq 124 || $decoded_shape_status -eq 137 ]]; then
@@ -262,7 +383,7 @@ while IFS= read -r entry_json; do
       and .kind == $locked.kind
       and .identifier == $locked.dTag
       and .relays == $locked.relayHints' \
-    <<< "$decoded" >/dev/null
+    "$subprocess_stdout_file" >/dev/null
   coordinate_status=$?
   set -e
   if [[ $coordinate_status -eq 124 || $coordinate_status -eq 137 ]]; then
