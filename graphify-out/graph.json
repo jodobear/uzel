@@ -840,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_rs",
-      "community": 62,
+      "community": 0,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 62,
+      "community": 0,
       "norm_label": "hostileprobestate"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 62,
+      "community": 0,
       "norm_label": "atomicu64"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 62,
+      "community": 0,
       "norm_label": "atomicusize"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 62,
+      "community": 0,
       "norm_label": "liveprobe"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 62,
+      "community": 0,
       "norm_label": "atomicbool"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 62,
+      "community": 0,
       "norm_label": "joinhandle"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 62,
+      "community": 0,
       "norm_label": ".drop()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 62,
+      "community": 0,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 62,
+      "community": 0,
       "norm_label": "hostileprobereport"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 62,
+      "community": 0,
       "norm_label": "beaconattempt"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 62,
+      "community": 0,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 62,
+      "community": 0,
       "norm_label": ".begin()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 62,
+      "community": 0,
       "norm_label": ".attach()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 62,
+      "community": 0,
       "norm_label": ".cancel()"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 62,
+      "community": 0,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 62,
+      "community": 0,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 62,
+      "community": 0,
       "norm_label": ".finish()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 62,
+      "community": 0,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 62,
+      "community": 0,
       "norm_label": ".network_denials()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 62,
+      "community": 0,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 62,
+      "community": 0,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 62,
+      "community": 0,
       "norm_label": "port()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 62,
+      "community": 0,
       "norm_label": "accepted_report()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 62,
+      "community": 0,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 62,
+      "community": 0,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 62,
+      "community": 0,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 62,
+      "community": 0,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 62,
+      "community": 0,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -1560,7 +1560,7 @@
       "source_location": "L431",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_finish_hostile_probe",
-      "community": 62,
+      "community": 0,
       "norm_label": "finish_hostile_probe()"
     },
     {
@@ -3150,7 +3150,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 8,
+      "community": 41,
       "norm_label": "surfacemetadata"
     },
     {
@@ -4480,7 +4480,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 8,
+      "community": 41,
       "norm_label": ".metadata()"
     },
     {
@@ -4500,7 +4500,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_runtimemode_as_str",
-      "community": 8,
+      "community": 47,
       "norm_label": ".as_str()"
     },
     {
@@ -4900,7 +4900,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_linuxrunner_fmt",
-      "community": 47,
+      "community": 177,
       "norm_label": ".fmt()"
     },
     {
@@ -4910,7 +4910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "formatter",
-      "community": 47,
+      "community": 177,
       "norm_label": "formatter"
     },
     {
@@ -5130,7 +5130,7 @@
       "source_location": "L745",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_linuxrunner_confirm_napplet",
-      "community": 65,
+      "community": 47,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -5250,7 +5250,7 @@
       "source_location": "L1224",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_artifact_base_url",
-      "community": 65,
+      "community": 47,
       "norm_label": "artifact_base_url()"
     },
     {
@@ -9015,17 +9015,37 @@
       "label": "EXPECTED_SAFE_AUTOMATION",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_expected_safe_automation",
       "community": 4,
       "norm_label": "expected_safe_automation"
     },
     {
-      "label": "CorpusVerificationError",
+      "label": "EXPECTED_EVENT_IDS",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
       "source_location": "L28",
+      "_origin": "ast",
+      "id": "scripts_verify_external_napplet_corpus_expected_event_ids",
+      "community": 4,
+      "norm_label": "expected_event_ids"
+    },
+    {
+      "label": "EXPECTED_DOMAINS",
+      "file_type": "code",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "scripts_verify_external_napplet_corpus_expected_domains",
+      "community": 4,
+      "norm_label": "expected_domains"
+    },
+    {
+      "label": "CorpusVerificationError",
+      "file_type": "code",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_corpusverificationerror",
       "community": 4,
@@ -9035,7 +9055,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L29",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_corpusverificationerror_constructor",
       "community": 4,
@@ -9045,7 +9065,7 @@
       "label": "trust()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L37",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_trust",
       "community": 4,
@@ -9055,7 +9075,7 @@
       "label": "infrastructure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L41",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_infrastructure",
       "community": 4,
@@ -9065,7 +9085,7 @@
       "label": "requireCondition()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L45",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_requirecondition",
       "community": 4,
@@ -9075,7 +9095,7 @@
       "label": "requireHex()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L51",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_requirehex",
       "community": 4,
@@ -9085,7 +9105,7 @@
       "label": "requireString()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L59",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_requirestring",
       "community": 4,
@@ -9095,7 +9115,7 @@
       "label": "requireUniqueStrings()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L67",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_requireuniquestrings",
       "community": 4,
@@ -9105,7 +9125,7 @@
       "label": "exactTag()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L86",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_exacttag",
       "community": 4,
@@ -9115,7 +9135,7 @@
       "label": "verifyFailurePolicy()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L98",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
       "community": 4,
@@ -9125,7 +9145,7 @@
       "label": "verifyLockEntry()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L114",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_verifylockentry",
       "community": 4,
@@ -9135,7 +9155,7 @@
       "label": "verifySignedEvent()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L180",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_verifysignedevent",
       "community": 4,
@@ -9145,7 +9165,7 @@
       "label": "readFailure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L239",
+      "source_location": "L267",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_readfailure",
       "community": 4,
@@ -9155,7 +9175,7 @@
       "label": "parseJson()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L246",
+      "source_location": "L274",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_parsejson",
       "community": 4,
@@ -9165,7 +9185,7 @@
       "label": "readJson()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L254",
+      "source_location": "L282",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_readjson",
       "community": 4,
@@ -9175,7 +9195,7 @@
       "label": "isContainedPath()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L264",
+      "source_location": "L292",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_iscontainedpath",
       "community": 4,
@@ -9185,7 +9205,7 @@
       "label": "canonicalDirectory()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L273",
+      "source_location": "L301",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_canonicaldirectory",
       "community": 4,
@@ -9195,17 +9215,27 @@
       "label": "readEventJson()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L281",
+      "source_location": "L309",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_readeventjson",
       "community": 4,
       "norm_label": "readeventjson()"
     },
     {
+      "label": "readVerifiedCorpus()",
+      "file_type": "code",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L353",
+      "_origin": "ast",
+      "id": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "community": 4,
+      "norm_label": "readverifiedcorpus()"
+    },
+    {
       "label": "verifyCorpus()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L322",
+      "source_location": "L434",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_verifycorpus",
       "community": 4,
@@ -9215,7 +9245,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L394",
+      "source_location": "L439",
       "_origin": "ast",
       "id": "scripts_verify_external_napplet_corpus_main",
       "community": 4,
@@ -9253,7 +9283,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L11",
+      "source_location": "L14",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9267,7 +9297,7 @@
       "label": "infrastructure_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L16",
+      "source_location": "L19",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9281,7 +9311,7 @@
       "label": "trust_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L21",
+      "source_location": "L24",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9373,7 +9403,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.test.sh",
-      "source_location": "L9",
+      "source_location": "L11",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -10630,7 +10660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_06_extraction_md",
-      "community": 33,
+      "community": 12,
       "norm_label": "06-extraction.md"
     },
     {
@@ -10710,7 +10740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_md",
-      "community": 12,
+      "community": 43,
       "norm_label": "07-source-baseline.md"
     },
     {
@@ -10720,7 +10750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_source_baseline",
-      "community": 12,
+      "community": 43,
       "norm_label": "source baseline"
     },
     {
@@ -10800,7 +10830,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_decision",
-      "community": 12,
+      "community": 43,
       "norm_label": "decision"
     },
     {
@@ -11890,7 +11920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_slice_06_preflight_md",
-      "community": 30,
+      "community": 12,
       "norm_label": "slice-06-preflight.md"
     },
     {
@@ -27096,7 +27126,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L273",
+      "source_location": "L301",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_canonicaldirectory",
@@ -27106,7 +27136,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L28",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_corpusverificationerror",
@@ -27126,7 +27156,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L86",
+      "source_location": "L99",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_exacttag",
@@ -27136,7 +27166,27 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L21",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
+      "target": "scripts_verify_external_napplet_corpus_expected_domains",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
+      "target": "scripts_verify_external_napplet_corpus_expected_event_ids",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_expected_safe_automation",
@@ -27146,7 +27196,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L41",
+      "source_location": "L54",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_infrastructure",
@@ -27156,7 +27206,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L264",
+      "source_location": "L292",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_iscontainedpath",
@@ -27166,7 +27216,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L394",
+      "source_location": "L439",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_main",
@@ -27176,7 +27226,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L246",
+      "source_location": "L274",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_parsejson",
@@ -27186,7 +27236,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L281",
+      "source_location": "L309",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_readeventjson",
@@ -27196,7 +27246,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L239",
+      "source_location": "L267",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_readfailure",
@@ -27206,7 +27256,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L254",
+      "source_location": "L282",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_readjson",
@@ -27216,7 +27266,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L45",
+      "source_location": "L353",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
+      "target": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L58",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27226,7 +27286,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L51",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_requirehex",
@@ -27236,7 +27296,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L59",
+      "source_location": "L72",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_requirestring",
@@ -27246,7 +27306,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L67",
+      "source_location": "L80",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_requireuniquestrings",
@@ -27266,7 +27326,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L37",
+      "source_location": "L50",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_trust",
@@ -27276,7 +27336,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L322",
+      "source_location": "L434",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_verifycorpus",
@@ -27286,7 +27346,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L98",
+      "source_location": "L111",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
@@ -27296,7 +27356,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L114",
+      "source_location": "L127",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_verifylockentry",
@@ -27306,7 +27366,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L180",
+      "source_location": "L208",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_mjs_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_verifysignedevent",
@@ -27329,16 +27389,38 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L118",
+      "source_location": "L136",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_verifylockentry",
       "target": "scripts_verify_external_napplet_corpus_expected_safe_automation"
     },
     {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
+      "target": "scripts_verify_external_napplet_corpus_expected_event_ids"
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
+      "target": "scripts_verify_external_napplet_corpus_expected_domains"
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L29",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_corpusverificationerror",
       "target": "scripts_verify_external_napplet_corpus_corpusverificationerror_constructor",
@@ -27360,7 +27442,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L250",
+      "source_location": "L278",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_parsejson",
       "target": "scripts_verify_external_napplet_corpus_trust",
@@ -27371,7 +27453,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L287",
+      "source_location": "L315",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readeventjson",
       "target": "scripts_verify_external_napplet_corpus_trust",
@@ -27382,7 +27464,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L241",
+      "source_location": "L269",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readfailure",
       "target": "scripts_verify_external_napplet_corpus_trust",
@@ -27393,7 +27475,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L47",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_requirecondition",
       "target": "scripts_verify_external_napplet_corpus_trust",
@@ -27404,7 +27486,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L297",
+      "source_location": "L325",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readeventjson",
       "target": "scripts_verify_external_napplet_corpus_infrastructure",
@@ -27415,7 +27497,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L243",
+      "source_location": "L271",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readfailure",
       "target": "scripts_verify_external_napplet_corpus_infrastructure",
@@ -27426,7 +27508,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L90",
+      "source_location": "L103",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_exacttag",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27437,7 +27519,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L299",
+      "source_location": "L327",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readeventjson",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27448,7 +27530,18 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L52",
+      "source_location": "L357",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "target": "scripts_verify_external_napplet_corpus_requirecondition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_requirehex",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27459,7 +27552,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L60",
+      "source_location": "L73",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_requirestring",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27470,7 +27563,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L68",
+      "source_location": "L81",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_requireuniquestrings",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
@@ -27481,9 +27574,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L326",
+      "source_location": "L112",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
       "confidence_score": 1.0
     },
@@ -27492,10 +27585,87 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L99",
+      "source_location": "L128",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
+      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
       "target": "scripts_verify_external_napplet_corpus_requirecondition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifysignedevent",
+      "target": "scripts_verify_external_napplet_corpus_requirecondition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L384",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "target": "scripts_verify_external_napplet_corpus_requirehex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L147",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
+      "target": "scripts_verify_external_napplet_corpus_requirehex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifysignedevent",
+      "target": "scripts_verify_external_napplet_corpus_requirehex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L376",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "target": "scripts_verify_external_napplet_corpus_requirestring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_requireuniquestrings",
+      "target": "scripts_verify_external_napplet_corpus_requirestring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
+      "target": "scripts_verify_external_napplet_corpus_requirestring",
       "confidence_score": 1.0
     },
     {
@@ -27505,94 +27675,6 @@
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
       "source_location": "L117",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
-      "target": "scripts_verify_external_napplet_corpus_requirecondition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L181",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifysignedevent",
-      "target": "scripts_verify_external_napplet_corpus_requirecondition",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L353",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
-      "target": "scripts_verify_external_napplet_corpus_requirehex",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L129",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
-      "target": "scripts_verify_external_napplet_corpus_requirehex",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L183",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifysignedevent",
-      "target": "scripts_verify_external_napplet_corpus_requirehex",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L70",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_requireuniquestrings",
-      "target": "scripts_verify_external_napplet_corpus_requirestring",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L345",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
-      "target": "scripts_verify_external_napplet_corpus_requirestring",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L115",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifylockentry",
-      "target": "scripts_verify_external_napplet_corpus_requirestring",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L104",
-      "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
       "target": "scripts_verify_external_napplet_corpus_requireuniquestrings",
       "confidence_score": 1.0
@@ -27602,7 +27684,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L143",
+      "source_location": "L166",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_verifylockentry",
       "target": "scripts_verify_external_napplet_corpus_requireuniquestrings",
@@ -27613,7 +27695,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L197",
+      "source_location": "L225",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_verifysignedevent",
       "target": "scripts_verify_external_napplet_corpus_exacttag",
@@ -27624,9 +27706,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L354",
+      "source_location": "L385",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_verifyfailurepolicy",
       "confidence_score": 1.0
     },
@@ -27635,10 +27717,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L367",
+      "source_location": "L399",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_verifylockentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L420",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "target": "scripts_verify_external_napplet_corpus_verifysignedevent",
       "confidence_score": 1.0
     },
     {
@@ -27657,18 +27750,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L388",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
-      "target": "scripts_verify_external_napplet_corpus_verifysignedevent",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L277",
+      "source_location": "L305",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_canonicaldirectory",
       "target": "scripts_verify_external_napplet_corpus_readfailure",
@@ -27679,41 +27761,41 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L317",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readeventjson",
+      "target": "scripts_verify_external_napplet_corpus_readfailure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L287",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readjson",
+      "target": "scripts_verify_external_napplet_corpus_readfailure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L345",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_readeventjson",
+      "target": "scripts_verify_external_napplet_corpus_parsejson",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
       "source_location": "L289",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_readeventjson",
-      "target": "scripts_verify_external_napplet_corpus_readfailure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L259",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_readjson",
-      "target": "scripts_verify_external_napplet_corpus_readfailure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L316",
-      "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_readeventjson",
-      "target": "scripts_verify_external_napplet_corpus_parsejson",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L261",
-      "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readjson",
       "target": "scripts_verify_external_napplet_corpus_parsejson",
       "confidence_score": 1.0
@@ -27723,9 +27805,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L325",
+      "source_location": "L356",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_readjson",
       "confidence_score": 1.0
     },
@@ -27734,7 +27816,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L300",
+      "source_location": "L328",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_readeventjson",
       "target": "scripts_verify_external_napplet_corpus_iscontainedpath",
@@ -27745,9 +27827,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L378",
+      "source_location": "L410",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_iscontainedpath",
       "confidence_score": 1.0
     },
@@ -27756,9 +27838,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L361",
+      "source_location": "L392",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_canonicaldirectory",
       "confidence_score": 1.0
     },
@@ -27767,9 +27849,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L382",
+      "source_location": "L414",
       "weight": 1.0,
-      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "source": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "target": "scripts_verify_external_napplet_corpus_readeventjson",
       "confidence_score": 1.0
     },
@@ -27778,10 +27860,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.mjs",
-      "source_location": "L397",
+      "source_location": "L444",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_main",
-      "target": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "target": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.mjs",
+      "source_location": "L435",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_verifycorpus",
+      "target": "scripts_verify_external_napplet_corpus_readverifiedcorpus",
       "confidence_score": 1.0
     },
     {
@@ -27799,7 +27892,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L11",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_cleanup",
@@ -27809,7 +27902,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L16",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_infrastructure_failure",
@@ -27829,7 +27922,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L21",
+      "source_location": "L24",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_trust_failure",
@@ -27839,7 +27932,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L26",
+      "source_location": "L29",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -27850,7 +27943,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L100",
+      "source_location": "L127",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -27901,7 +27994,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.test.sh",
-      "source_location": "L9",
+      "source_location": "L11",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_test_sh_scripts_verify_external_napplet_corpus_test",
       "target": "scripts_verify_external_napplet_corpus_test_cleanup",
@@ -31071,5 +31164,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8860a6ff777b413386efa28b4a409a28ad07b993"
+  "built_at_commit": "c37944828c41b5579a1b5a7573b36baf7d1690f9"
 }

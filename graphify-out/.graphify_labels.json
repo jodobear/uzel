@@ -1,4 +1,5 @@
 {
+  "0": "HostileProbeState",
   "1": "Assumption validation and decision gates",
   "2": "check-napplet-imports.mjs",
   "3": "Provisional component design",
@@ -174,5 +175,6 @@
   "173": "Self",
   "174": "String",
   "175": "server.rs",
-  "176": "Tests, quality gates, and demo"
+  "176": "Tests, quality gates, and demo",
+  "177": ".fmt"
 }
