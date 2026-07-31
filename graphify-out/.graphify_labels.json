@@ -86,7 +86,6 @@
   "84": "resource.rs",
   "85": "FACT-012-composed-demo.md",
   "86": "README.md",
-  "87": "Verified facts",
   "88": "debian13-live-test.sh",
   "89": "FACT-004 — NMP facade and ownership",
   "90": "debian13-setup.sh",
@@ -116,5 +115,6 @@
   "114": "String",
   "115": "Vec",
   "116": "BTreeMap",
-  "117": "Option"
+  "117": "Option",
+  "118": "manifest.json"
 }
