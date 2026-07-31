@@ -8,6 +8,7 @@ jq_bin=${UZEL_JQ_BIN:-jq}
 node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
+jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 entries_file=$(mktemp)
 verified_event_file=$(mktemp)
@@ -34,6 +35,9 @@ command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unav
 if [[ ! $node_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "node timeout must be a positive number of seconds"
 fi
+if [[ ! $jq_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
+  infrastructure_failure invalid-timeout "jq timeout must be a positive number of seconds"
+fi
 if [[ ! $nak_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "nak timeout must be a positive number of seconds"
 fi
@@ -54,11 +58,14 @@ if [[ $node_status -ne 0 ]]; then
 fi
 
 set +e
-snapshot_metadata=$("$jq_bin" -r \
+snapshot_metadata=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r \
   '.format, .lock.toolchain.nakVersion, .lock.source.commit, (.entries | length)' \
   <<< "$verified_snapshot")
 jq_status=$?
 set -e
+if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
+  infrastructure_failure jq-timeout "reading verified snapshot metadata exceeded ${jq_timeout_seconds}s"
+fi
 if [[ $jq_status -ne 0 ]]; then
   infrastructure_failure jq-execution-failed "reading verified snapshot metadata failed with status $jq_status"
 fi
@@ -86,7 +93,7 @@ if [[ $nak_version_output != "nak version $expected_nak_version" ]]; then
 fi
 
 set +e
-"$jq_bin" -r \
+"$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r \
   '.entries[]
     | {
         name: .entry.name,
@@ -101,6 +108,9 @@ set +e
   <<< "$verified_snapshot" > "$entries_file"
 jq_status=$?
 set -e
+if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
+  infrastructure_failure jq-timeout "entry enumeration exceeded ${jq_timeout_seconds}s"
+fi
 if [[ $jq_status -ne 0 ]]; then
   infrastructure_failure jq-execution-failed "entry enumeration failed with status $jq_status"
 fi
@@ -109,18 +119,26 @@ entry_count=0
 while IFS= read -r entry_json; do
   ((entry_count += 1))
   set +e
-  name=$("$jq_bin" -r '.name' <<< "$entry_json")
+  name=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r '.name' <<< "$entry_json")
   name_status=$?
-  naddr=$("$jq_bin" -r '.naddr' <<< "$entry_json")
+  naddr=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r '.naddr' <<< "$entry_json")
   naddr_status=$?
   set -e
+  if [[ $name_status -eq 124 || $name_status -eq 137 ||
+    $naddr_status -eq 124 || $naddr_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "entry decoding exceeded ${jq_timeout_seconds}s"
+  fi
   if [[ $name_status -ne 0 || $naddr_status -ne 0 ]]; then
     infrastructure_failure jq-execution-failed "entry decoding failed"
   fi
   set +e
-  "$jq_bin" -j '.eventText' <<< "$entry_json" > "$verified_event_file"
+  "$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -j '.eventText' \
+    <<< "$entry_json" > "$verified_event_file"
   event_status=$?
   set -e
+  if [[ $event_status -eq 124 || $event_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "$name verified event extraction exceeded ${jq_timeout_seconds}s"
+  fi
   if [[ $event_status -ne 0 ]]; then
     infrastructure_failure jq-execution-failed "$name verified event extraction failed with status $event_status"
   fi
@@ -149,15 +167,22 @@ while IFS= read -r entry_json; do
     fi
     infrastructure_failure nak-execution-failed "$name nak decode failed with status $decode_status"
   fi
-  if ! "$jq_bin" -e -s \
+  set +e
+  "$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -e -s \
     'length == 1 and (.[0] | type == "object")' \
-    <<< "$decoded" >/dev/null 2>&1; then
+    <<< "$decoded" >/dev/null 2>&1
+  decoded_shape_status=$?
+  set -e
+  if [[ $decoded_shape_status -eq 124 || $decoded_shape_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "$name nak output validation exceeded ${jq_timeout_seconds}s"
+  fi
+  if [[ $decoded_shape_status -ne 0 ]]; then
     infrastructure_failure nak-invalid-output "$name nak decode returned anything other than one JSON object"
   fi
   # jq expands these variables, not Bash.
   # shellcheck disable=SC2016
   set +e
-  "$jq_bin" -e \
+  "$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -e \
     --argjson locked "$entry_json" \
     '.pubkey == $locked.author
       and .kind == $locked.kind
@@ -166,6 +191,9 @@ while IFS= read -r entry_json; do
     <<< "$decoded" >/dev/null
   coordinate_status=$?
   set -e
+  if [[ $coordinate_status -eq 124 || $coordinate_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "$name coordinate comparison exceeded ${jq_timeout_seconds}s"
+  fi
   if [[ $coordinate_status -eq 1 ]]; then
     trust_failure coordinate-drift "$name naddr does not encode locked coordinate"
   fi

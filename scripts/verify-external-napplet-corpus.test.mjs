@@ -284,6 +284,52 @@ test('domains remain pinned to each audited napplet capability set', async () =>
   }
 });
 
+test('unsigned coordinate and byte-length facts remain pinned by audited name', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-unsigned-pins-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  const mutations = [
+    {
+      mutate(lock) {
+        lock.entries[0].naddr = lock.entries[1].naddr;
+      },
+      code: 'coordinate-drift',
+      message: 'naddr is not the exact audited value',
+    },
+    {
+      mutate(lock) {
+        lock.entries[0].relayHints = ['wss://relay.example'];
+      },
+      code: 'coordinate-drift',
+      message: 'relay hints are not the exact audited values',
+    },
+    {
+      mutate(lock) {
+        lock.entries[0].artifact.sizeBytes += 1;
+      },
+      code: 'artifact-size-drift',
+      message: 'artifact byte length is not the exact audited value',
+    },
+  ];
+
+  try {
+    for (const mutation of mutations) {
+      const lock = await loadLock();
+      mutation.mutate(lock);
+      await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+      await assert.rejects(
+        verifyCorpus(lockPath),
+        (error) =>
+          error instanceof CorpusVerificationError &&
+          error.category === 'trust' &&
+          error.code === mutation.code &&
+          error.message.includes(mutation.message),
+      );
+    }
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
 test('symlinked event files are rejected even when their target remains inside the corpus', async () => {
   const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-symlink-'));
   const corpusDirectory = join(temporaryDirectory, 'corpus');
@@ -432,7 +478,53 @@ test('failure policy keeps external availability separate from trust failures', 
     'relay-unavailable',
   ]);
   assert.equal([...infrastructure].some((code) => trust.has(code)), false);
-  assert.equal(trust.has('invalid-event-signature'), true);
-  assert.equal(trust.has('artifact-path-digest-mismatch'), true);
-  assert.equal(trust.has('capability-drift'), true);
+  assert.deepEqual([...trust].sort(), [
+    'aggregate-drift',
+    'artifact-path-digest-mismatch',
+    'artifact-size-drift',
+    'capability-drift',
+    'coordinate-drift',
+    'event-id-drift',
+    'invalid-event-signature',
+  ]);
+});
+
+test('failure policy rejects reclassification or omission of audited failure codes', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-policy-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  const mutations = [
+    (lock) => {
+      lock.failurePolicy.trust = lock.failurePolicy.trust.filter(
+        (code) => code !== 'invalid-event-signature',
+      );
+    },
+    (lock) => {
+      lock.failurePolicy.trust = lock.failurePolicy.trust.filter(
+        (code) => code !== 'invalid-event-signature',
+      );
+      lock.failurePolicy.infrastructure = [
+        'artifact-server-unavailable',
+        'invalid-event-signature',
+        'relay-unavailable',
+      ];
+    },
+  ];
+
+  try {
+    for (const mutate of mutations) {
+      const lock = await loadLock();
+      mutate(lock);
+      await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+      await assert.rejects(
+        verifyCorpus(lockPath),
+        (error) =>
+          error instanceof CorpusVerificationError &&
+          error.category === 'trust' &&
+          error.code === 'invalid-lock' &&
+          error.message.includes('exact audited classifications'),
+      );
+    }
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
 });

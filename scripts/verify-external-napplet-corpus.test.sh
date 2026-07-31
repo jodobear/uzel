@@ -60,6 +60,38 @@ if [[ $node_timeout_status -ne 3 || $node_timeout_output != *"EXTERNAL_NAPPLET_C
   exit 1
 fi
 
+hanging_jq="$temporary_corpus/hanging-jq"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exec sleep 10' > "$hanging_jq"
+chmod +x "$hanging_jq"
+set +e
+jq_timeout_output=$(
+  UZEL_JQ_BIN="$hanging_jq" \
+    UZEL_JQ_TIMEOUT_SECONDS=0.1 \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+jq_timeout_status=$?
+set -e
+if [[ $jq_timeout_status -ne 3 || $jq_timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=jq-timeout"* ]]; then
+  echo "expected a hanging jq verifier subprocess to time out as infrastructure failure" >&2
+  echo "$jq_timeout_output" >&2
+  exit 1
+fi
+
+set +e
+invalid_jq_timeout_output=$(
+  UZEL_JQ_TIMEOUT_SECONDS=0 \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+invalid_jq_timeout_status=$?
+set -e
+if [[ $invalid_jq_timeout_status -ne 3 || $invalid_jq_timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=invalid-timeout message=jq timeout"* ]]; then
+  echo "expected an invalid jq timeout to fail as infrastructure" >&2
+  echo "$invalid_jq_timeout_output" >&2
+  exit 1
+fi
+
 real_node=$(command -v node)
 real_jq=$(command -v jq)
 snapshot_lock="$snapshot_corpus/corpus.lock.json"
@@ -235,15 +267,20 @@ if [[ $comparison_status -ne 3 || $comparison_output != *"EXTERNAL_NAPPLET_CORPU
 fi
 
 cp -R "$root/fixtures/external-napplet-corpus/." "$lossless_corpus/"
-lossless_lock="$lossless_corpus/corpus.lock.json"
-lossless_lock_next="$lossless_corpus/corpus.lock.next.json"
-jq \
-  '.entries[0].relayHints = []
-    | .entries[1].relayHints = ["wss://relay.example/path,segment"]' \
-  "$lossless_lock" > "$lossless_lock_next"
-mv "$lossless_lock_next" "$lossless_lock"
-
 real_nak=$(command -v nak)
+lossless_node="$lossless_corpus/lossless-node"
+# These lines are emitted into the fake Node launcher.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'snapshot=$("$UZEL_REAL_NODE" "$@")' \
+  '"$UZEL_REAL_JQ" '\''
+    .entries[0].entry.relayHints = []
+    | .entries[1].entry.relayHints = ["wss://relay.example/path,segment"]
+  '\'' <<< "$snapshot"' > "$lossless_node"
+chmod +x "$lossless_node"
+
 lossless_nak="$lossless_corpus/lossless-nak"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
@@ -263,8 +300,11 @@ printf '%s\n' \
   > "$lossless_nak"
 chmod +x "$lossless_nak"
 lossless_output=$(
-  UZEL_NAK_BIN="$lossless_nak" \
-    bash "$verifier" "$lossless_lock"
+  UZEL_NODE_BIN="$lossless_node" \
+    UZEL_REAL_NODE="$real_node" \
+    UZEL_REAL_JQ="$real_jq" \
+    UZEL_NAK_BIN="$lossless_nak" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json"
 )
 if [[ $lossless_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
   echo "expected empty and comma-bearing relay arrays to survive entry transport" >&2
@@ -372,4 +412,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned node=bounded execution=bounded transport=lossless'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned node=bounded jq=bounded execution=bounded transport=lossless'

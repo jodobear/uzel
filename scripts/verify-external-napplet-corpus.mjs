@@ -19,6 +19,18 @@ const EXPECTED_SOURCE_COMMIT = 'aa4dc7a0799d95e3066b50055b29685d6e376045';
 const EXPECTED_SOURCE_COMMIT_URL =
   `https://github.com/hzrd149/napplelets/commit/${EXPECTED_SOURCE_COMMIT}`;
 const VERIFIED_SNAPSHOT_FORMAT = 'uzel.verified-external-napplet-corpus.v1';
+const EXPECTED_FAILURE_POLICY = Object.freeze({
+  infrastructure: ['artifact-server-unavailable', 'relay-unavailable'],
+  trust: [
+    'aggregate-drift',
+    'artifact-path-digest-mismatch',
+    'artifact-size-drift',
+    'capability-drift',
+    'coordinate-drift',
+    'event-id-drift',
+    'invalid-event-signature',
+  ],
+});
 const EXPECTED_SAFE_AUTOMATION = new Map([
   ['good-morning', 'control'],
   ['rubik-cube', 'zero-capability-render-input'],
@@ -36,6 +48,44 @@ const EXPECTED_DOMAINS = new Map([
   ['rubik-cube', []],
   ['nap-feed', ['config', 'identity', 'outbox', 'theme']],
   ['wifi-map', ['link', 'outbox', 'storage', 'theme']],
+]);
+const EXPECTED_UNSIGNED_AUDIT_FACTS = new Map([
+  [
+    'good-morning',
+    {
+      naddr:
+        'naddr1qqxxwmm0vskk6mmjde5kuecpzemhxue69uhhyetvv9ujuurjd9kkzmpwdejhgq3qye5ptcxfyyxl5vjvdjar2ua3f0hynkjzpx552mu5snj3qmx5pzjsxpqqqzynjsul3vr',
+      relayHints: ['wss://relay.primal.net'],
+      sizeBytes: 96172,
+    },
+  ],
+  [
+    'rubik-cube',
+    {
+      naddr:
+        'naddr1qq98yatzd94j6cm4vfjsz9nhwden5te0wfjkccte9ec8y6tdv9kzumn9wspzqfngzhsvjggdlgeycm96x4emzjlwf8dyyzdfg4hefp89zpkdgz99qvzqqqyf8y9pvhkw',
+      relayHints: ['wss://relay.primal.net'],
+      sizeBytes: 501383,
+    },
+  ],
+  [
+    'nap-feed',
+    {
+      naddr:
+        'naddr1qqyxucts94nx2etyqyt8wumn8ghj7un9d3shjtnswf5k6ctv9ehx2aqzyqnxs90qeyssm73jf3kt5dtnk997ujw6ggy6j3t0jjzw2yrv6sy22qcyqqqgjwglxcuwy',
+      relayHints: ['wss://relay.primal.net'],
+      sizeBytes: 24165,
+    },
+  ],
+  [
+    'wifi-map',
+    {
+      naddr:
+        'naddr1qqy8w6txdykk6ctsqyt8wumn8ghj7un9d3shjtnswf5k6ctv9ehx2aqzyqnxs90qeyssm73jf3kt5dtnk997ujw6ggy6j3t0jjzw2yrv6sy22qcyqqqgjwggda37g',
+      relayHints: ['wss://relay.primal.net'],
+      sizeBytes: 291344,
+    },
+  ],
 ]);
 
 export class CorpusVerificationError extends Error {
@@ -122,6 +172,13 @@ function verifyFailurePolicy(policy) {
     'invalid-lock',
     `failure classifications overlap: ${overlap.join(', ')}`,
   );
+  requireCondition(
+    JSON.stringify(policy.infrastructure) ===
+      JSON.stringify(EXPECTED_FAILURE_POLICY.infrastructure) &&
+      JSON.stringify(policy.trust) === JSON.stringify(EXPECTED_FAILURE_POLICY.trust),
+    'invalid-lock',
+    'failurePolicy must retain the exact audited classifications',
+  );
 }
 
 function verifyLockEntry(entry, publisher) {
@@ -142,7 +199,13 @@ function verifyLockEntry(entry, publisher) {
     'invalid-lock',
     `${entry.name}: automation scope is not the audited fail-closed value`,
   );
+  const expectedAuditFacts = EXPECTED_UNSIGNED_AUDIT_FACTS.get(entry.name);
   requireString(entry.naddr, `${entry.name}.naddr`);
+  requireCondition(
+    entry.naddr === expectedAuditFacts.naddr,
+    'coordinate-drift',
+    `${entry.name}: naddr is not the exact audited value`,
+  );
   requireString(entry.eventFile, `${entry.name}.eventFile`);
   requireHex(entry.eventId, HEX_64, `${entry.name}.eventId`);
   requireCondition(
@@ -169,6 +232,11 @@ function verifyLockEntry(entry, publisher) {
     'invalid-lock',
     `${entry.name}: relay hints must use wss`,
   );
+  requireCondition(
+    JSON.stringify(entry.relayHints) === JSON.stringify(expectedAuditFacts.relayHints),
+    'coordinate-drift',
+    `${entry.name}: relay hints are not the exact audited values`,
+  );
   requireCondition(entry.artifact && typeof entry.artifact === 'object', 'invalid-lock', `${entry.name}.artifact must be an object`);
   requireCondition(
     entry.artifact.logicalPath === '/index.html',
@@ -185,6 +253,11 @@ function verifyLockEntry(entry, publisher) {
     Number.isSafeInteger(entry.artifact.sizeBytes) && entry.artifact.sizeBytes > 0,
     'invalid-lock',
     `${entry.name}.artifact.sizeBytes must be a positive integer`,
+  );
+  requireCondition(
+    entry.artifact.sizeBytes === expectedAuditFacts.sizeBytes,
+    'artifact-size-drift',
+    `${entry.name}: artifact byte length is not the exact audited value`,
   );
   requireUniqueStrings(entry.domains, `${entry.name}.domains`, { sorted: true });
   requireCondition(

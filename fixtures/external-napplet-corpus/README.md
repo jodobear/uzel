@@ -53,9 +53,9 @@ aggregate before launch.
 
 - Relay or artifact server unavailable is an **infrastructure** result. Preserve
   it separately; do not call it trust drift.
-- Invalid signature, coordinate/event replacement, path or aggregate mismatch,
-  or audited capability change is a **trust** result. Fail closed until an
-  explicit refresh PR explains and accepts the new tuple.
+- Invalid signature, coordinate/event replacement, path, byte-length, or
+  aggregate mismatch, or audited capability change is a **trust** result. Fail
+  closed until an explicit refresh PR explains and accepts the new tuple.
 
 The verifier exits `2` for trust failures and `3` for missing, wrong-version,
 crashed, or malformed-output verifier infrastructure. It never turns either

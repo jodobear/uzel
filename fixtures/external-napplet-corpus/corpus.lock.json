@@ -21,6 +21,7 @@
     "trust": [
       "aggregate-drift",
       "artifact-path-digest-mismatch",
+      "artifact-size-drift",
       "capability-drift",
       "coordinate-drift",
       "event-id-drift",
