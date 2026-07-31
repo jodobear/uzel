@@ -657,12 +657,32 @@ if (FAULT_CHILD) {
       await waitForReady(page);
       await page.frameLocator('iframe[aria-label="Profile card"]')
         .getByText('Requested npub profile', { exact: true }).waitFor();
+      const requestedKind0 = page.frameLocator('iframe[aria-label="Profile card"]').locator('#kind0');
+      await requestedKind0.getByText('https://profile.ui-acceptance.invalid', { exact: false }).waitFor();
 
       const routedProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.routedProfile);
-      await page.frameLocator('iframe[aria-label="Direct follows"]')
-        .getByRole('button', { name: `Open profile ${routedProfile}`, exact: true }).click();
-      await page.frameLocator('iframe[aria-label="Profile card"]')
+      const followFrameAfterIdentity = page.frameLocator('iframe[aria-label="Direct follows"]');
+      await followFrameAfterIdentity.getByText('Routed follow profile', { exact: true }).waitFor();
+      const routedFollowButton = followFrameAfterIdentity
+        .getByRole('button', { name: `Open profile ${routedProfile}`, exact: true });
+      const routedAvatar = routedFollowButton.locator('img');
+      await routedAvatar.waitFor({ state: 'visible' });
+      assert.match(await routedAvatar.getAttribute('src'), /^blob:/u);
+      await routedFollowButton.click();
+      const routedProfileFrame = page.frameLocator('iframe[aria-label="Profile card"]');
+      await routedProfileFrame
         .getByText('Routed follow profile', { exact: true }).waitFor();
+      const fullKind0 = await routedProfileFrame.locator('#kind0').textContent();
+      assert.match(fullKind0, /"name": "Routed raw name"/u);
+      assert.match(fullKind0, /"website": "https:\/\/profile\.ui-acceptance\.invalid"/u);
+      assert.match(fullKind0, /"lud16": "routed@payments\.ui-acceptance\.invalid"/u);
+      assert.match(fullKind0, /"custom": \{/u);
+      assert.match(fullKind0, /<img src=x onerror=/u);
+      assert.equal(
+        await routedProfileFrame.locator('body').evaluate(() => window.__escapedKind0),
+        undefined,
+        'kind 0 text executed as markup',
+      );
       await screenshot(page, viewport, 'ready', 'complete-renderer-flow', 'routed-profile');
 
       await exerciseAllSettings(page, viewport);

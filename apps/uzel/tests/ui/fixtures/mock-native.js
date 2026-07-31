@@ -116,17 +116,31 @@
     };
   }
 
-  function routedProfileEvent(pubkey) {
+  function profileEvent(pubkey) {
+    const routed = pubkey === routedProfile;
+    const requested = pubkey === requestedIdentity;
     return {
       event: {
-        id: routedProfileEventId,
+        id: routed ? routedProfileEventId : (requested ? 'a'.repeat(64) : 'b'.repeat(64)),
         pubkey,
         kind: 0,
         created_at: 1_800_000_000,
         content: JSON.stringify({
-          display_name: 'Routed follow profile',
-          about: 'Profile loaded through NAP-INC then NAP-OUTBOX.',
-          nip05: 'routed@ui-acceptance.invalid',
+          name: routed ? 'Routed raw name' : (requested ? 'Requested raw name' : 'Fixture raw name'),
+          display_name: routed
+            ? 'Routed follow profile'
+            : (requested ? 'Requested npub profile' : 'Fixture identity profile'),
+          about: routed
+            ? 'Profile loaded through NAP-INC then NAP-OUTBOX.'
+            : `Deterministic latest-known profile for ${pubkey.slice(0, 12)}.`,
+          picture: routed ? 'https://avatar.ui-acceptance.invalid/routed.png' : undefined,
+          banner: routed ? 'https://banner.ui-acceptance.invalid/routed.png' : undefined,
+          website: 'https://profile.ui-acceptance.invalid',
+          lud16: 'routed@payments.ui-acceptance.invalid',
+          nip05: routed ? 'routed@ui-acceptance.invalid' : 'fixture@ui-acceptance.invalid',
+          bot: false,
+          custom: { nested: ['complete', 0, true, null] },
+          hostile_text: '<img src=x onerror="window.__escapedKind0=true">',
         }),
         tags: [],
         sig: '0'.repeat(128),
@@ -135,10 +149,17 @@
   }
 
   function isRoutedProfileQuery(envelope) {
-    const filter = envelope.filters?.[0];
-    return envelope.type === 'outbox.query'
-      && filter?.kinds?.includes(0)
-      && filter?.authors?.[0] === routedProfile;
+    return envelope.type === 'outbox.query' && envelope.filters?.some((filter) => (
+      filter?.kinds?.includes(0) && filter?.authors?.includes(routedProfile)
+    ));
+  }
+
+  function profileEventsForQuery(envelope) {
+    const known = new Set([fixtureIdentity, requestedIdentity, routedProfile]);
+    const authors = new Set((envelope.filters ?? []).flatMap((filter) => (
+      filter?.kinds?.includes(0) && Array.isArray(filter.authors) ? filter.authors : []
+    )));
+    return [...authors].filter((author) => known.has(author)).map(profileEvent);
   }
 
   function nativeEnvelope(surfaceToken, envelope) {
@@ -178,18 +199,26 @@
         };
       }
       case 'outbox.query': {
-        const filter = envelope.filters?.[0];
-        const pubkey = filter?.authors?.[0];
         return {
           surfaceToken,
           envelope: {
             type: 'outbox.query.result',
             id: envelope.id,
-            events: isRoutedProfileQuery(envelope) ? [routedProfileEvent(pubkey)] : [],
+            events: profileEventsForQuery(envelope),
             incomplete: false,
           },
         };
       }
+      case 'resource.bytes':
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'resource.bytes.result',
+            id: envelope.id,
+            blob: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+            mime: 'image/png',
+          },
+        };
       case 'outbox.subscribe':
         return { surfaceToken, envelope: { type: 'outbox.subscribed', subId: envelope.subId } };
       case 'outbox.close':
