@@ -1,16 +1,16 @@
 # Graph Report - uzel-issue12-timeout  (2026-07-31)
 
 ## Corpus Check
-- 119 files · ~79,536 words
+- 119 files · ~79,701 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1198 nodes · 1688 edges · 173 communities (75 shown, 98 thin omitted)
+- 1198 nodes · 1764 edges · 148 communities (66 shown, 82 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c9a1a3dd`
+- Built from commit: `bdade17d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -46,7 +46,6 @@
 - FACT-003-nampplets-linux-reuse.md
 - FACT-004-nmp-facade.md
 - FACT-005-webkit-tauri-trust.md
-- Gate 0 preflight and Slice 01 decision
 - FACT-007-local-ipc.md
 - FACT-008-toolchain.md
 - fedora-run-smoke.sh
@@ -58,32 +57,26 @@
 - Post-POC extraction
 - Post-POC extraction
 - README.md
-- README.md
 - check-boundaries.sh
 - smoke.sh
-- lib.rs
 - Work 04 — daemon, NMP, and persistence
 - ExactFixtureSource
 - trusted-shell-policy.js
 - Window
 - check-pinned-assets.sh
 - README.md
-- README.md
 - FACT-009-linux-runner.md
 - package.json
 - package.json
 - profile-open-v1.schema.json
-- POC status
 - Slice 02 preflight
 - Work 00 — validate assumptions
 - main.js
 - 04-execution.md
-- Work 02 — Linux exact-build runner
 - lib.rs
 - Verified facts
 - Execution slices
 - Uzel single-repository POC
-- .fmt
 - POC status
 - FACT-010-portable-napplets.md
 - ClientError
@@ -101,7 +94,6 @@
 - debian13-setup.sh
 - Work 02 — Linux exact-build runner
 - mock-native.js
-- lib.rs
 - FACT-007 — local daemon IPC
 - Work 04 — daemon, NMP, and persistence
 - FACT-014-live-identity-catalog.md
@@ -109,8 +101,6 @@
 - POC status
 - Upstream contribution ledger
 - FACT-013 — hostile Linux child boundary
-- FACT-014 — public identity, resource, and naddr catalog flow
-- files
 - Box
 - Error
 - PathBuf
@@ -153,20 +143,6 @@
 - String
 - T
 - Vec
-- Arc
-- AsRef
-- BTreeMap
-- Drop
-- Error
-- Mutex
-- Option
-- Path
-- PathBuf
-- Result
-- Self
-- String
-- Vec
-- VecDeque
 - AsRef
 - BTreeMap
 - Drop
@@ -182,16 +158,16 @@
 - VecDeque
 
 ## God Nodes (most connected - your core abstractions)
-1. `LinuxRunner` - 38 edges
+1. `LinuxRunner` - 44 edges
 2. `UnixClient` - 33 edges
-3. `RunnerError` - 24 edges
+3. `RunnerError` - 27 edges
 4. `ClientError` - 22 edges
 5. `Response` - 19 edges
 6. `scripts` - 18 edges
 7. `HostileProbeState` - 15 edges
 8. `compilerOptions` - 15 edges
 9. `write_frame()` - 15 edges
-10. `Request` - 11 edges
+10. `SurfaceLaunch` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
@@ -208,11 +184,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (173 total, 98 thin omitted)
+## Communities (148 total, 82 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
-Cohesion: 0.13
-Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
+Cohesion: 0.25
+Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -223,12 +199,12 @@ Cohesion: 0.06
 Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: compileSvelte, parse: parseSvelte }, contractsRoot, declarativeNetworkViolations(), dependencyGroups, dependencyViolations(), directNetworkIdentifiers (+29 more)
 
 ### Community 3 - "Provisional component design"
-Cohesion: 0.18
-Nodes (12): Condvar, Fn, RuntimeEvent, RuntimeObservationFrame, RuntimeObserver, buffered_responses_are_byte_bounded_and_consumed_once(), BufferedEvents, event_bytes() (+4 more)
+Cohesion: 0.05
+Nodes (67): BTreeSet, Condvar, absent_surface_cleanup_is_idempotent(), artifact_base_url(), bounded_diagnostic(), buffered_responses_are_byte_bounded_and_consumed_once(), BufferedEvents, catalog_cancellation_is_terminal() (+59 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
-Cohesion: 0.21
-Nodes (11): Value, eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers() (+3 more)
+Cohesion: 0.33
+Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
 
 ### Community 5 - "Uzel POC agent instructions"
 Cohesion: 0.12
@@ -249,6 +225,10 @@ Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-c
 ### Community 10 - "Work 00 — validate assumptions"
 Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+
+### Community 11 - "04-execution.md"
+Cohesion: 0.16
+Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
 Cohesion: 0.20
@@ -283,8 +263,8 @@ Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 20 - "manifest.json"
-Cohesion: 0.22
-Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
+Cohesion: 0.05
+Nodes (37): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+29 more)
 
 ### Community 21 - "README.md"
 Cohesion: 0.25
@@ -295,20 +275,12 @@ Cohesion: 0.07
 Nodes (40): ACTION_IDS, bindingFromEvent(), bindingMatches(), DEFAULT_KEYBINDINGS, defaultPreferences(), KEYBINDING_ACTIONS, parsePreferences(), validateKeybindings() (+32 more)
 
 ### Community 23 - "nampplets Linux reuse map"
-Cohesion: 0.09
-Nodes (33): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk() (+25 more)
+Cohesion: 0.06
+Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+56 more)
 
 ### Community 24 - "WebKit/Tauri trust spike"
 Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
-
-### Community 25 - "NMP API and ownership map"
-Cohesion: 0.22
-Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
-
-### Community 26 - "Verified facts"
-Cohesion: 0.22
-Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 27 - "FACT-002-spec-revisions.md"
 Cohesion: 0.22
@@ -323,12 +295,8 @@ Cohesion: 0.46
 Nodes (7): fail(), print_nix_builder_state(), print_nix_daemon_state(), refresh_nix_builder_state(), refresh_nix_daemon_state(), debian13-setup.sh script, wait_for_nix_daemon_socket()
 
 ### Community 30 - "FACT-005-webkit-tauri-trust.md"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict
-
-### Community 31 - "Gate 0 preflight and Slice 01 decision"
-Cohesion: 0.22
-Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
 ### Community 32 - "FACT-007-local-ipc.md"
 Cohesion: 0.25
@@ -343,7 +311,7 @@ Cohesion: 0.25
 Nodes (7): Commands and results, Exact next step, NMP and persistence evidence, Outcome, Private protocol evidence, Remaining boundaries, Slice 04 preflight — daemon, NMP, and persistence
 
 ### Community 35 - "debian-build-smoke.sh"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 36 - "dev.sh"
@@ -355,7 +323,7 @@ Cohesion: 0.33
 Nodes (11): IntoIterator, Item, Iterator, default_runtime_root(), default_socket_path(), live_configuration_requires_explicit_live_mode(), main(), next_path() (+3 more)
 
 ### Community 39 - "build.rs"
-Cohesion: 0.25
+Cohesion: 0.29
 Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — validate assumptions
 
 ### Community 40 - "Post-POC extraction"
@@ -370,10 +338,6 @@ Nodes (7): First hardening follow-ups, Likely `kehto/napd`, Moves to `jodobear/n
 Cohesion: 0.25
 Nodes (7): Active issue — #19, Completed issue — #10, Entry evidence, Exit rule, Goal, Work 07 — issue-driven stabilization, Work graph
 
-### Community 43 - "README.md"
-Cohesion: 0.29
-Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
-
 ### Community 44 - "check-boundaries.sh"
 Cohesion: 0.29
 Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and ownership map, Ownership boundary, Public facade
@@ -381,10 +345,6 @@ Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and o
 ### Community 45 - "smoke.sh"
 Cohesion: 0.29
 Nodes (7): Acceptance, Entry status and pins, Goal, Non-goals, Read, Tasks, Work 02 — Linux exact-build runner
-
-### Community 47 - "lib.rs"
-Cohesion: 0.14
-Nodes (12): Debug, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic(), LinuxRunner (+4 more)
 
 ### Community 48 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.29
@@ -401,10 +361,6 @@ Nodes (3): directive(), innerPolicyContent(), outerPolicyContent()
 ### Community 51 - "Window"
 Cohesion: 0.24
 Nodes (5): createSurfaceHost(), mount(), receive(), unmount(), Window
-
-### Community 53 - "README.md"
-Cohesion: 0.33
-Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
 
 ### Community 54 - "README.md"
 Cohesion: 0.33
@@ -426,12 +382,8 @@ Nodes (17): @napplet/nap, @napplet/shim, @napplet/vite-plugin, vite, dependencie
 Cohesion: 0.13
 Nodes (14): pubkey, version, additionalProperties, $id, properties, pubkey, version, pattern (+6 more)
 
-### Community 61 - "POC status"
-Cohesion: 0.33
-Nodes (5): Accepted provisional risks, Gate 0 — validated baseline, Implementation, Latest integrated evidence, POC status
-
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.06
+Cohesion: 0.05
 Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
@@ -446,10 +398,6 @@ Nodes (12): denied(), results, target, attemptRawWebKitInvoke(), boundedAttempt(
 Cohesion: 0.33
 Nodes (5): Acceptance, Goal, Non-goals, Tasks, Work 05 — composed demo
 
-### Community 66 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.40
-Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
-
 ### Community 67 - "lib.rs"
 Cohesion: 0.50
 Nodes (3): fedora-run-smoke.sh script, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
@@ -460,11 +408,11 @@ Nodes (3): main(), strip_code(), write_manifest()
 
 ### Community 81 - "AcceptSettings"
 Cohesion: 0.38
-Nodes (5): NativeSettingsExecutor, NativeSettingsOpenResult, NativeSettingsRequest, AcceptSettings, UnavailableSettings
+Nodes (5): AcceptSettings, UnavailableSettings, NativeSettingsExecutor, NativeSettingsOpenResult, NativeSettingsRequest
 
 ### Community 82 - "RelayDiagnosticsSink"
 Cohesion: 0.50
-Nodes (3): RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot, RelayDiagnosticsSink
+Nodes (3): RelayDiagnosticsSink, RuntimeRelayDiagnosticsObserver, RuntimeRelayDiagnosticsSnapshot
 
 ### Community 84 - "resource.rs"
 Cohesion: 0.09
@@ -474,29 +422,25 @@ Nodes (27): Cancellation, Client, Duration, Future, Instant, IpAddr, Output, Pin
 Cohesion: 0.26
 Nodes (8): diagnostics(), invoke(), isRoutedProfileQuery(), nativeEnvelope(), profileFor(), review(), routedProfileEvent(), surfaceLaunch()
 
-### Community 93 - "lib.rs"
-Cohesion: 0.12
-Nodes (31): Into, SurfaceLaunch, UnixListener, Request, Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail() (+23 more)
-
 ## Knowledge Gaps
-- **424 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+419 more)
+- **422 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+417 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **98 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **82 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `POC scope and acceptance`, `Provisional component design`, `Tests, quality gates, and demo`, `.fmt`, `README.md`, `lib.rs`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+- **Why does `LinuxRunner` connect `Provisional component design` to `nampplets Linux reuse map`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+- **Why does `NappletReview` connect `nampplets Linux reuse map` to `Provisional component design`?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `UnixClient` connect `nampplets Linux reuse map` to `Slice 02 preflight`?**
+  _High betweenness centrality (0.016) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _424 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `POC scope and acceptance` be split into smaller, more focused modules?**
-  _Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected._
+  _422 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
+- **Should `Provisional component design` be split into smaller, more focused modules?**
+  _Cohesion score 0.051138294257560314 - nodes in this community are weakly interconnected._
 - **Should `Uzel POC agent instructions` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
-- **Should `Work 04 — daemon, NMP, and persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.09413067552602436 - nodes in this community are weakly interconnected._
-- **Should `Uzel single-repository POC` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
