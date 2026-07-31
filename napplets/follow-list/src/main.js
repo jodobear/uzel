@@ -81,6 +81,12 @@ function clearObjectUrls() {
 
 async function loadAvatar(row, picture, generation, signal) {
   try {
+    if (
+      !current(generation)
+      || signal.aborted
+      || !row.image.isConnected
+      || !row.avatarVisible
+    ) return;
     const blob = await resourceBytes(picture, { signal });
     if (
       !current(generation)
@@ -88,6 +94,7 @@ async function loadAvatar(row, picture, generation, signal) {
       || !row.image.isConnected
       || !row.avatarVisible
     ) return;
+    row.avatarRequest = null;
 
     let objectUrl = '';
     row.image.onload = () => {
@@ -119,13 +126,14 @@ function observeAvatar(row, picture, generation, signal) {
 }
 
 function unloadAvatar(row) {
+  avatarQueue.cancel(row, new DOMException('Avatar left the viewport.', 'AbortError'));
   if (row.objectUrl) {
     releaseObjectUrl(row.objectUrl, row, true);
   } else if (row.image.hasAttribute('src')) {
     row.image.removeAttribute('src');
     setAvatarFallback(row, row.name.textContent);
   }
-  if (!row.avatarLoading) row.avatarRequest = row.avatarSource;
+  row.avatarRequest = row.avatarSource;
 }
 
 function scheduleAvatar(row) {
@@ -133,16 +141,18 @@ function scheduleAvatar(row) {
   const { generation, picture, signal } = row.avatarRequest;
   row.avatarRequest = null;
   row.avatarLoading = true;
-  void avatarQueue.run(() => loadAvatar(row, picture, generation, signal))
+  void avatarQueue.run(() => loadAvatar(row, picture, generation, signal), row)
     .catch(() => {})
     .finally(() => {
       row.avatarLoading = false;
       if (
-        !row.avatarVisible
-        && row.avatarSource
+        row.avatarSource
         && current(row.avatarSource.generation)
         && !row.avatarSource.signal.aborted
-      ) row.avatarRequest = row.avatarSource;
+      ) {
+        if (!row.avatarVisible) row.avatarRequest = row.avatarSource;
+        else if (row.avatarRequest) scheduleAvatar(row);
+      }
     });
 }
 

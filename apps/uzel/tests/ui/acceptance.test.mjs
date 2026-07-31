@@ -785,6 +785,33 @@ if (FAULT_CHILD) {
     });
   }, VIEWPORTS);
 
+  scenarioTest('projection-overflow', 'oversized profile batch is isolated before transport circuit', async (viewport) => {
+    await runCase('projection-overflow', viewport, 'projection-overflow', async (page, guarded) => {
+      await waitForReady(page);
+      const followFrame = page.frameLocator('iframe[aria-label="Direct follows"]');
+      await followFrame.getByText('Routed follow profile', { exact: true }).waitFor();
+      await followFrame.getByText('Secondary follow profile', { exact: true }).waitFor();
+      const queries = await page.evaluate(() => window.__UZEL_UI_HARNESS__.envelopes
+        .filter((entry) => entry.dTag === 'follow-list' && entry.envelope.type === 'outbox.query')
+        .map((entry) => entry.envelope.options?.authors));
+      const routedProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.routedProfile);
+      const secondaryProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.secondaryProfile);
+      assert.ok(
+        queries.some((authors) => authors.length === 2),
+        'projection overflow probe did not start with one bounded multi-author query',
+      );
+      assert.ok(
+        queries.some((authors) => authors.length === 1 && authors[0] === routedProfile),
+        'projection overflow did not isolate the routed profile',
+      );
+      assert.ok(
+        queries.some((authors) => authors.length === 1 && authors[0] === secondaryProfile),
+        'projection overflow did not preserve unrelated profile enrichment',
+      );
+      assert.deepEqual(guarded.externalRequests, []);
+    });
+  });
+
   scenarioTest('profile-delay', 'profile query survives the removed napplet deadline', async (viewport) => {
     await runCase('delayed-profile-response', viewport, 'profile-delay', async (page) => {
       await waitForReady(page);

@@ -29,6 +29,7 @@
   let confirmationAttempts = 0;
   let loadedCleanupFailures = scenario === 'cleanup-failure' ? 1 : 0;
   let followBatchFailures = scenario === 'ready' ? 1 : 0;
+  let followProjectionOverflows = scenario === 'projection-overflow' ? 1 : 0;
 
   if (!fixtureRecords || typeof fixtureRecords !== 'object') {
     throw new Error('renderer acceptance fixture records were not injected');
@@ -215,6 +216,27 @@
         };
       }
       case 'outbox.query': {
+        if (
+          launch.dTag === 'follow-list'
+          && envelope.options?.authors?.length > 1
+          && followProjectionOverflows > 0
+        ) {
+          followProjectionOverflows -= 1;
+          const oversized = profileEvent(routedProfile);
+          oversized.event.content = JSON.stringify({
+            display_name: 'Oversized profile batch',
+            about: 'x'.repeat(70_000),
+          });
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'outbox.query.result',
+              id: envelope.id,
+              events: [oversized],
+              incomplete: false,
+            },
+          };
+        }
         if (
           launch.dTag === 'follow-list'
           && envelope.options?.authors?.length > 1

@@ -116,3 +116,23 @@ test('clearing avatar work rejects tasks that have not started', async () => {
   release();
   await active;
 });
+
+test('viewport exit cancels only the matching queued avatar job', async () => {
+  const queue = createBoundedTaskQueue(1);
+  let release;
+  let cancelledRan = false;
+  let retainedRan = false;
+  const active = queue.run(() => new Promise((resolve) => { release = resolve; }), 'active');
+  const cancelled = queue.run(() => { cancelledRan = true; }, 'cancelled');
+  const retained = queue.run(() => { retainedRan = true; }, 'retained');
+  const reason = new DOMException('Avatar left the viewport.', 'AbortError');
+
+  assert.equal(queue.cancel('cancelled', reason), true);
+  assert.equal(queue.cancel('missing', reason), false);
+  await assert.rejects(cancelled, reason);
+  release();
+  await active;
+  await retained;
+  assert.equal(cancelledRan, false);
+  assert.equal(retainedRan, true);
+});

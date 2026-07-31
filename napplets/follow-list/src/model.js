@@ -91,11 +91,18 @@ export function createBoundedTaskQueue(limit = MAXIMUM_AVATAR_REQUESTS) {
   }
 
   return {
-    run(task) {
+    run(task, key = null) {
       if (typeof task !== 'function') return Promise.reject(new TypeError('task must be a function'));
-      const result = new Promise((resolve, reject) => pending.push({ task, resolve, reject }));
+      const result = new Promise((resolve, reject) => pending.push({ key, task, resolve, reject }));
       drain();
       return result;
+    },
+    cancel(key, reason = new Error('queued task cancelled')) {
+      const index = pending.findIndex((item) => item.key === key);
+      if (index < 0) return false;
+      const [item] = pending.splice(index, 1);
+      item.reject(reason);
+      return true;
     },
     clear(reason = new Error('task queue cleared')) {
       for (const item of pending.splice(0)) item.reject(reason);

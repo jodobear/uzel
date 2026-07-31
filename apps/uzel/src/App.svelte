@@ -11,6 +11,7 @@
     PREFERENCES_STORAGE_KEY,
     validateKeybindings,
   } from './preferences.js';
+  import { projectedOutboxQueryFailure } from './projection-failure.js';
 
   type SurfaceLaunch = {
     surfaceToken: string;
@@ -282,7 +283,10 @@
     const type = envelopeType(projected);
     appendLog('daemon → napplet', delivery.surfaceToken, type);
     if (!window.NMPTrustedShellHost.receive(delivery.surfaceToken, projected)) {
-      throw new Error('trusted shell refused the target surface');
+      const failure = projectedOutboxQueryFailure(envelope, projected);
+      if (!failure || !window.NMPTrustedShellHost.receive(delivery.surfaceToken, failure)) {
+        throw new Error('trusted shell refused the target surface');
+      }
     }
     await refreshDiagnostics();
   }
