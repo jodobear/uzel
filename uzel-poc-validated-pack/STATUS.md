@@ -24,6 +24,17 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 - [x] 06 user/dev modes, hostile tests, clean demo
 - [ ] 07 issue-driven product stabilization (active: #10 renderer acceptance harness)
 
+### Work 07 parallel branch evidence — issue #21
+
+```text
+branch: test/external-napplet-corpus
+commits: b0ba7f9 exact external corpus and provenance; 6580d9a offline verifier and failure-classification tests
+commands: bash scripts/verify-external-napplet-corpus.sh; node --test scripts/verify-external-napplet-corpus.test.mjs; bash scripts/verify-external-napplet-corpus.test.sh; pnpm check; pnpm lint; pnpm fallow; pnpm docs:check; pnpm format:check; partial pnpm test
+observable result: four hzrd149 coordinates retain exact signed events, author, kind, d tag, path digest and byte length, aggregate, audited domains, and server list; pinned nak verifies every event hash/signature and naddr offline; trust failures exit 2 and verifier-infrastructure failures exit 3; no artifact HTML, runtime registration, UI, pin, or dependency changed
+known limitation: the lock proves retained signed evidence, not current relay/CDN availability or reproducible source-to-artifact linkage; every candidate has one external publisher; full pnpm test passes the new corpus, JavaScript, and Rust library tests before unchanged Tauri test linking fails on this host because pinned Nix WebKitGTK references GLIBC_2.42
+next action: exact-head review and PR for #21 data-only lane; signed launch integration waits for #13, rendered resource acceptance for #17, and any nampplets pin change for #11
+```
+
 ## Latest integrated evidence
 
 ```text

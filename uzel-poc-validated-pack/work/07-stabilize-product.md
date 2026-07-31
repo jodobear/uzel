@@ -33,6 +33,7 @@ change, and one PR:
 | #17 rendered WebKit image proof | resource/runtime lane | #10 |
 | #18 daemon control responsiveness | daemon lane | independent benchmark and bounded fix |
 | #19 pre-pane retry identity lock | product/runtime lane | discovered by #10; fix after harness merge |
+| #21 external napplet corpus | product-test lane | data lock independent; launch #13; image #17; pin #11 |
 
 Parallel work is allowed only when file ownership and protocol ownership do not
 overlap. Read-only investigation may run ahead. No implementation branch may
@@ -61,6 +62,29 @@ errors; every captured Chromium process exited; the isolated deliberate-fault
 child exited nonzero without timeout and its process group exited. The run is
 preserved under ignored
 `.artifacts/ui-acceptance/2026-07-31T00-46-39-183Z.175943/`.
+
+## Parallel issue — #21 data-only corpus
+
+- [x] Freeze the exact source commit, license, publisher, naddr, signed event,
+  author, kind, `d`, artifact path digest/length, aggregate, domains, and servers
+  for Good Morning, Rubik Cube, Nap Feed, and WiFi Map.
+- [x] Keep signed event records but no downloaded artifact blobs.
+- [x] Verify lock structure, signed-event tuples, event hashes/signatures, and
+  NIP-19 coordinates entirely offline with pinned `nak`.
+- [x] Test that signature drift exits as trust failure while missing verifier
+  tooling exits as infrastructure failure.
+- [x] Record provenance, license limits, source/artifact limitation, and a
+  deliberate refresh procedure.
+- [x] Keep the corpus out of runtime registration, naddr launch, dependency
+  pins, and product UI.
+
+Exact branch evidence: corpus commit `b0ba7f9`; verifier commit `6580d9a`;
+offline verifier 4/4; classification self-test trust=`2`, infrastructure=`3`;
+`pnpm check`, lint/boundaries, Fallow, docs audit, and Rust formatting pass.
+`pnpm test` passes the new corpus tests, all JavaScript tests, and Rust library
+tests, then this non-Debian host cannot link the unchanged Tauri test binary
+because pinned Nix WebKitGTK needs `GLIBC_2.42`. No runtime integration is
+claimed; later live launch remains gated by #13 and rendered evidence by #17.
 
 ## Exit rule
 
