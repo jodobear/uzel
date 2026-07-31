@@ -429,7 +429,7 @@
       if (runtime.activeIdentity) {
         identityInput = runtime.activeIdentity;
       } else {
-        await selectIdentity(FIXTURE_IDENTITY);
+        await activateReadIdentity(FIXTURE_IDENTITY);
       }
       profile = await invoke<SurfaceLaunch>('start_fixture', { fixture: 'profile-card' });
       beginShellHandshake();
@@ -842,6 +842,12 @@
     surface?.querySelector<HTMLIFrameElement>('iframe')?.focus();
   }
 
+  async function activateReadIdentity(publicIdentity: string) {
+    const active = await invoke<string>('select_read_identity', { publicIdentity });
+    identityInput = active;
+    runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
+  }
+
   async function selectIdentity(publicIdentity: string) {
     if (runtimeLocked) {
       status = baseRecoveryRequired
@@ -859,9 +865,7 @@
     }
     identityBusy = true;
     try {
-      const active = await invoke<string>('select_read_identity', { publicIdentity });
-      identityInput = active;
-      runtime = runtime ? { ...runtime, activeIdentity: active } : runtime;
+      await activateReadIdentity(publicIdentity);
       if (follow || profile) {
         await restartActiveSurfaces();
       } else {
