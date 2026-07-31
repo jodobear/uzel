@@ -32,6 +32,7 @@ change, and one PR:
 | #16 relay maintenance and diagnostics | NMP/runtime lane | #12 |
 | #17 rendered WebKit image proof | resource/runtime lane | #10 |
 | #18 daemon control responsiveness | daemon lane | independent benchmark and bounded fix |
+| #19 pre-pane retry identity lock | product/runtime lane | discovered by #10; fix after harness merge |
 
 Parallel work is allowed only when file ownership and protocol ownership do not
 overlap. Read-only investigation may run ahead. No implementation branch may
@@ -39,19 +40,27 @@ silently redefine NAP, NIP-5D, NMP, or `nampplets` behavior.
 
 ## Active issue — #10
 
-- [ ] Commit a deterministic Playwright renderer harness with an explicitly fake
+- [x] Commit a deterministic Playwright renderer harness with an explicitly fake
   native boundary.
-- [ ] Exercise controls by accessible role/name, not CSS implementation details.
-- [ ] Fail on console errors, page errors, or unexpected external requests.
-- [ ] Cover base shell, Settings, Debug, signed-`naddr` review, and recovery
+- [x] Exercise controls by accessible role/name, not CSS implementation details.
+- [x] Fail on console errors, page errors, or unexpected external requests.
+- [x] Cover base shell, Settings, Debug, signed-`naddr` review, and recovery
   states at fixed desktop viewports.
-- [ ] Preserve useful failure screenshots/traces outside Git; do not commit
+- [x] Preserve useful failure screenshots/traces outside Git; do not commit
   generated acceptance images or the user's desktop screenshots.
-- [ ] Prove process cleanup leaves no harness-owned server or browser process.
-- [ ] Keep mocked renderer acceptance distinct from real Weston/WebKit smoke.
-- [ ] Run repository checks, documentation audit, and `graphify update .`.
+- [x] Prove process cleanup leaves no harness-owned server or browser process.
+- [x] Keep mocked renderer acceptance distinct from real Weston/WebKit smoke.
+- [x] Run repository checks, documentation audit, and `graphify update .`.
 - [ ] Open one PR referencing #10; merge only after exact-head checks and Codex
   review are clean.
+
+Exact pre-PR evidence: commit
+`1847a7a5cbcd26723c7167320fc313e0c9fd0794`; `pnpm test:ui` 17/17;
+Chromium `150.0.7871.186`; 10 accepted outcomes; 15 screenshots; zero cleanup
+errors; every captured Chromium process exited; the isolated deliberate-fault
+child exited nonzero without timeout and its process group exited. The run is
+preserved under ignored
+`.artifacts/ui-acceptance/2026-07-31T00-46-39-183Z.175943/`.
 
 ## Exit rule
 
