@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785478215.61229,
+    "mtime": 1785479993.9484396,
     "ast_hash": "0daf8ac1e991903c68b6968223a35ece",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785478215.6140764,
-    "ast_hash": "0be36f46cda98168290ba7490a53ca03",
+    "mtime": 1785479993.9524548,
+    "ast_hash": "b2bfc360fabd40209cbfc57a432bf34c",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785478126.539087,
-    "ast_hash": "c06a75966190e3af0cf3317811c2abe5",
+    "mtime": 1785479894.8198254,
+    "ast_hash": "bf5e9e8dea77ab0a413fc0699c7b048f",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -245,8 +245,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1785463489.049767,
-    "ast_hash": "4f0cd946664da3764060c18fa66662f3",
+    "mtime": 1785479812.965957,
+    "ast_hash": "320b89f774b62395cb35eee2cc78535d",
     "semantic_hash": ""
   },
   "scripts/check-boundaries.sh": {
@@ -695,8 +695,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
-    "mtime": 1785478126.256084,
-    "ast_hash": "2f750dc71c7f8cd08ba6a9ff118edfa2",
+    "mtime": 1785479965.075573,
+    "ast_hash": "ae0ba4460b0da3e51f5c2933b569c839",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
@@ -705,13 +705,18 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {
-    "mtime": 1785478126.351085,
-    "ast_hash": "a9f8503ef758e65564ae2114299b23f8",
+    "mtime": 1785479894.7278244,
+    "ast_hash": "19ef2b07acca81a8be6583d2347e55cc",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/README.md": {
-    "mtime": 1785478126.443086,
-    "ast_hash": "fe5f0c052cecae3502a182229f67bb4b",
+    "mtime": 1785479813.0549579,
+    "ast_hash": "3ecb3a65ee51f85f2b918be2fb4c3d64",
+    "semantic_hash": ""
+  },
+  "scripts/verify-external-napplet-corpus-lock.test.sh": {
+    "mtime": 1785480013.878092,
+    "ast_hash": "7fae601e11b22504931064d927e050fe",
     "semantic_hash": ""
   }
 }

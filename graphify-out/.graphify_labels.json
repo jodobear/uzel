@@ -174,5 +174,7 @@
   "172": "Result",
   "173": "Self",
   "174": "String",
-  "175": "server.rs"
+  "175": "server.rs",
+  "176": "HostileProbeState",
+  "177": "verify-external-napplet-corpus-lock.test.sh"
 }
