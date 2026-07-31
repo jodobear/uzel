@@ -107,8 +107,8 @@ Required behavior:
 
 - direct follows from canonical kind `3`/NIP-02 state;
 - rendered follow list bounded at 1,024 canonical pubkeys;
-- follow names requested through NAP-OUTBOX in initial batches of at most eight author-bound kind-0 filters; errored partial results keep valid rows and retry only unresolved authors, while a result with no valid rows is bisected until one oversized author is isolated;
-- follow pictures requested only for visible rows through at most four concurrent individual NAP-RESOURCE calls; pending object URLs are capped at 32 and revoked after image decode;
+- follow names requested through NAP-OUTBOX in initial batches of at most eight author-bound kind-0 filters; errored or incomplete partial results keep valid rows and retry only unresolved authors, with at most 32 adaptive retry queries per refresh; a transport failure opens the refresh circuit and rejects queued work instead of recursively amplifying a global outage;
+- follow pictures requested only for visible rows through at most four concurrent individual NAP-RESOURCE calls; pending object URLs are capped at 32 and revoked after image decode, while decoded image sources are removed on viewport exit and reloaded only on re-entry;
 - active and selected profiles reloaded as one complete latest-known canonical kind `0` through NMP, preserving the exact authored JSON text without a napplet-owned freshness claim;
 - cache-first rendering;
 - no claim of global completeness;
