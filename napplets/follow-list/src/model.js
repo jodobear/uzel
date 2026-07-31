@@ -68,6 +68,25 @@ export function createProfileRetryBudget(limit = MAXIMUM_PROFILE_RETRY_REQUESTS)
   });
 }
 
+export function createLinkedAbortController(parentSignal) {
+  if (
+    !parentSignal
+    || typeof parentSignal.aborted !== 'boolean'
+    || typeof parentSignal.addEventListener !== 'function'
+    || typeof parentSignal.removeEventListener !== 'function'
+  ) throw new TypeError('parent signal must be an AbortSignal');
+  const controller = new AbortController();
+  const abort = () => controller.abort(parentSignal.reason);
+  if (parentSignal.aborted) abort();
+  else parentSignal.addEventListener('abort', abort, { once: true });
+  return Object.freeze({
+    controller,
+    close() {
+      parentSignal.removeEventListener('abort', abort);
+    },
+  });
+}
+
 export function createBoundedTaskQueue(limit = MAXIMUM_AVATAR_REQUESTS) {
   if (!Number.isSafeInteger(limit) || limit < 1) {
     throw new RangeError('task queue limit must be a positive safe integer');

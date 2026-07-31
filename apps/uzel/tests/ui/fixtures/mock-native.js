@@ -30,6 +30,8 @@
   let loadedCleanupFailures = scenario === 'cleanup-failure' ? 1 : 0;
   let followBatchFailures = scenario === 'ready' ? 1 : 0;
   let followProjectionOverflows = scenario === 'projection-overflow' ? 1 : 0;
+  let delayedAvatarRequests = scenario === 'avatar-active-cancel' ? 1 : 0;
+  let followIdentityRequests = 0;
 
   if (!fixtureRecords || typeof fixtureRecords !== 'object') {
     throw new Error('renderer acceptance fixture records were not injected');
@@ -190,6 +192,17 @@
       case 'identity.getProfile':
         return { surfaceToken, envelope: { type: 'identity.getProfile.result', id: envelope.id, profile: profileFor(activeIdentity) } };
       case 'identity.getFollows':
+        followIdentityRequests += 1;
+        if (scenario === 'follow-reload-failure' && followIdentityRequests === 2) {
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'identity.getFollows.result',
+              id: envelope.id,
+              error: 'mocked follows reload failure',
+            },
+          };
+        }
         return {
           surfaceToken,
           envelope: {
@@ -271,6 +284,16 @@
             id: envelope.id,
             blob: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
             mime: 'image/png',
+          },
+        };
+      case 'resource.cancel':
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'resource.bytes.error',
+            id: envelope.id,
+            error: 'cancelled',
+            message: 'mocked resource request cancelled',
           },
         };
       case 'outbox.subscribe':
@@ -392,6 +415,14 @@
         });
         if (scenario === 'profile-delay' && isRoutedProfileQuery(envelope)) {
           await new Promise((resolve) => global.setTimeout(resolve, delayedProfileResponseMs));
+        }
+        if (
+          scenario === 'avatar-active-cancel'
+          && envelope.type === 'resource.bytes'
+          && delayedAvatarRequests > 0
+        ) {
+          delayedAvatarRequests -= 1;
+          await new Promise((resolve) => global.setTimeout(resolve, 3_000));
         }
         const delivery = nativeEnvelope(args.surfaceToken, envelope);
         return { surfaceToken: delivery.surfaceToken, envelope: JSON.stringify(delivery.envelope) };

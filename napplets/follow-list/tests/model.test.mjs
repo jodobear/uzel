@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   createAvatarObjectUrlStore,
   createBoundedTaskQueue,
+  createLinkedAbortController,
   createProfileRetryBudget,
   directFollows,
   MAXIMUM_AVATAR_OBJECT_URLS,
@@ -52,6 +53,23 @@ test('profile retries consume one finite per-refresh budget', () => {
   assert.equal(budget.remaining, 0);
   assert.equal(MAXIMUM_PROFILE_RETRY_REQUESTS, 32);
   assert.throws(() => createProfileRetryBudget(-1), RangeError);
+});
+
+test('linked avatar controller follows refresh abort and can detach', () => {
+  const refresh = new AbortController();
+  const linked = createLinkedAbortController(refresh.signal);
+  assert.equal(linked.controller.signal.aborted, false);
+  refresh.abort(new DOMException('Refresh replaced.', 'AbortError'));
+  assert.equal(linked.controller.signal.aborted, true);
+  assert.equal(linked.controller.signal.reason.name, 'AbortError');
+  linked.close();
+
+  const detachedRefresh = new AbortController();
+  const detached = createLinkedAbortController(detachedRefresh.signal);
+  detached.close();
+  detachedRefresh.abort();
+  assert.equal(detached.controller.signal.aborted, false);
+  assert.throws(() => createLinkedAbortController(null), TypeError);
 });
 
 test('avatar work never exceeds four active tasks', async () => {

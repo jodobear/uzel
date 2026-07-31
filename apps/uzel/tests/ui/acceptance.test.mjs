@@ -692,7 +692,10 @@ if (FAULT_CHILD) {
         'follow enrichment did not bisect the failed batch for the secondary profile',
       );
       const routedFollowButton = followFrameAfterIdentity
-        .getByRole('button', { name: `Open profile ${routedProfile}`, exact: true });
+        .getByRole('button', {
+          name: `Open profile Routed follow profile (${routedProfile})`,
+          exact: true,
+        });
       const routedAvatar = routedFollowButton.locator('img');
       await routedAvatar.waitFor({ state: 'visible' });
       assert.match(await routedAvatar.getAttribute('src'), /^blob:/u);
@@ -812,6 +815,54 @@ if (FAULT_CHILD) {
     });
   });
 
+  scenarioTest('avatar-active-cancel', 'active off-screen avatar request is cancelled', async (viewport) => {
+    await runCase('avatar-active-cancel', viewport, 'avatar-active-cancel', async (page, guarded) => {
+      await waitForReady(page);
+      const followFrame = page.frameLocator('iframe[aria-label="Direct follows"]');
+      await followFrame.getByText('Routed follow profile', { exact: true }).waitFor();
+      const request = await page.waitForFunction(() => window.__UZEL_UI_HARNESS__.envelopes
+        .find((entry) => entry.dTag === 'follow-list' && entry.envelope.type === 'resource.bytes'));
+      const requestId = await request.jsonValue().then((entry) => entry.envelope.id);
+      const followsList = followFrame.locator('#follows');
+      await followsList.evaluate((element) => {
+        element.style.transform = 'translateY(2000px)';
+      });
+      await page.waitForFunction((id) => window.__UZEL_UI_HARNESS__.envelopes.some((entry) => (
+        entry.dTag === 'follow-list'
+        && entry.envelope.type === 'resource.cancel'
+        && entry.envelope.id === id
+      )), requestId);
+      await followsList.evaluate((element) => {
+        element.style.transform = '';
+      });
+      const routedProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.routedProfile);
+      const avatar = followFrame.getByRole('button', {
+        name: `Open profile Routed follow profile (${routedProfile})`,
+        exact: true,
+      }).locator('img');
+      await avatar.waitFor({ state: 'visible' });
+      assert.match(await avatar.getAttribute('src'), /^blob:/u);
+      assert.deepEqual(guarded.externalRequests, []);
+    });
+  });
+
+  scenarioTest('follow-reload-failure', 'failed follows reload removes stale unobserved rows', async (viewport) => {
+    await runCase('follow-reload-failure', viewport, 'follow-reload-failure', async (page) => {
+      await waitForReady(page);
+      const followFrame = page.frameLocator('iframe[aria-label="Direct follows"]');
+      await followFrame.getByText('Routed follow profile', { exact: true }).waitFor();
+      await followFrame.getByRole('button', { name: 'Reload', exact: true }).click();
+      await followFrame.getByText('Identity unavailable: mocked follows reload failure', {
+        exact: true,
+      }).waitFor();
+      assert.equal(await followFrame.locator('#follows > li').count(), 0);
+      assert.equal(await followFrame.locator('#follows img').count(), 0);
+      await followFrame.getByRole('button', { name: 'Reload', exact: true }).click();
+      await followFrame.getByText('2 latest-known direct follows', { exact: true }).waitFor();
+      await followFrame.getByText('Routed follow profile', { exact: true }).waitFor();
+    });
+  });
+
   scenarioTest('profile-delay', 'profile query survives the removed napplet deadline', async (viewport) => {
     await runCase('delayed-profile-response', viewport, 'profile-delay', async (page) => {
       await waitForReady(page);
@@ -824,8 +875,9 @@ if (FAULT_CHILD) {
       const startedAt = Date.now();
       await page.frameLocator('iframe[aria-label="Direct follows"]')
         .getByRole('button', {
-          name: `Open profile ${delayConfiguration.routedProfile}`,
-          exact: true,
+          name: new RegExp(
+            `^Open profile (?:Routed follow profile \\()?${delayConfiguration.routedProfile}\\)?$`,
+          ),
         }).click();
       const profileFrame = page.frameLocator('iframe[aria-label="Profile card"]');
       await profileFrame.getByText('Routed follow profile', { exact: true }).waitFor();

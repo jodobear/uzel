@@ -9,8 +9,9 @@ import {
 } from '../../../contracts/kind0-profile.js';
 import { PROFILE_OPEN_TOPIC, profileOpen } from '../../../contracts/profile-open.js';
 import {
-  createAvatarObjectUrlStore, createBoundedTaskQueue, createProfileRetryBudget, directFollows,
-  MAXIMUM_AVATAR_REQUESTS, MAXIMUM_PROFILE_REQUESTS, shortPubkey,
+  createAvatarObjectUrlStore, createBoundedTaskQueue, createLinkedAbortController,
+  createProfileRetryBudget, directFollows, MAXIMUM_AVATAR_REQUESTS, MAXIMUM_PROFILE_REQUESTS,
+  shortPubkey,
 } from './model.js';
 
 const status = document.querySelector('#status');
@@ -126,6 +127,7 @@ function observeAvatar(row, picture, generation, signal) {
 }
 
 function unloadAvatar(row) {
+  row.avatarController?.abort(new DOMException('Avatar left the viewport.', 'AbortError'));
   avatarQueue.cancel(row, new DOMException('Avatar left the viewport.', 'AbortError'));
   if (row.objectUrl) {
     releaseObjectUrl(row.objectUrl, row, true);
@@ -139,11 +141,15 @@ function unloadAvatar(row) {
 function scheduleAvatar(row) {
   if (!row.avatarVisible || row.avatarLoading || !row.avatarRequest) return;
   const { generation, picture, signal } = row.avatarRequest;
+  const linked = createLinkedAbortController(signal);
   row.avatarRequest = null;
+  row.avatarController = linked.controller;
   row.avatarLoading = true;
-  void avatarQueue.run(() => loadAvatar(row, picture, generation, signal), row)
+  void avatarQueue.run(() => loadAvatar(row, picture, generation, linked.controller.signal), row)
     .catch(() => {})
     .finally(() => {
+      linked.close();
+      if (row.avatarController === linked.controller) row.avatarController = null;
       row.avatarLoading = false;
       if (
         row.avatarSource
@@ -191,10 +197,12 @@ function render(values, generation, signal) {
     list.append(item);
     rows.set(pubkey, {
       avatar,
+      avatarController: null,
       avatarLoading: false,
       avatarRequest: null,
       avatarSource: null,
       avatarVisible: false,
+      button,
       fallback,
       image,
       key,
@@ -250,6 +258,7 @@ function renderProfiles(result, query, generation, signal) {
     const row = rows.get(pubkey);
     if (!row) continue;
     row.name.textContent = profile.name;
+    row.button.setAttribute('aria-label', `Open profile ${profile.name} (${pubkey})`);
     row.key.textContent = shortPubkey(pubkey);
     setAvatarFallback(row, profile.name);
     if (profile.picture) observeAvatar(row, profile.picture, generation, signal);
@@ -311,6 +320,7 @@ async function loadFollows() {
     }
   } catch (error) {
     if (current(generation)) {
+      list.replaceChildren();
       status.textContent = `Identity unavailable: ${error instanceof Error ? error.message : String(error)}`;
     }
   } finally {
