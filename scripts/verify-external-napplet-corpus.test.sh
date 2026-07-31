@@ -102,6 +102,136 @@ if [[ $mktemp_timeout_status -ne 3 ||
   exit 1
 fi
 
+assert_cleanup_failure() {
+  local label=$1
+  local rm_helper=$2
+  local expected_code=$3
+  local count_file="$temporary_corpus/cleanup-$label-count"
+  local file_prefix="$temporary_corpus/cleanup-$label-file"
+  local output
+  local status
+
+  set +e
+  output=$(
+    UZEL_MKTEMP_BIN="$checked_mktemp" \
+      UZEL_MKTEMP_COUNT_FILE="$count_file" \
+      UZEL_MKTEMP_FAIL_ON=99 \
+      UZEL_MKTEMP_FILE_PREFIX="$file_prefix" \
+      UZEL_RM_BIN="$rm_helper" \
+      UZEL_RM_TIMEOUT_SECONDS=0.1 \
+      bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+  )
+  status=$?
+  set -e
+  if [[ $status -ne 3 ||
+    $output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=$expected_code"* ||
+    $output == *"EXTERNAL_NAPPLET_CORPUS_OK"* ]]; then
+    echo "expected $label cleanup to block success with typed infrastructure failure" >&2
+    echo "$output" >&2
+    exit 1
+  fi
+  for ((cleanup_index = 1; cleanup_index <= 5; cleanup_index += 1)); do
+    if [[ ! -f ${file_prefix}-${cleanup_index} ]]; then
+      echo "expected $label cleanup fixture ${cleanup_index} to remain observable" >&2
+      exit 1
+    fi
+  done
+  rm -f -- "$count_file" "${file_prefix}-1" "${file_prefix}-2" \
+    "${file_prefix}-3" "${file_prefix}-4" "${file_prefix}-5"
+}
+
+failing_rm="$temporary_corpus/failing-rm"
+printf '%s\n' '#!/usr/bin/env bash' 'exit 47' > "$failing_rm"
+chmod +x "$failing_rm"
+assert_cleanup_failure failing "$failing_rm" rm-execution-failed
+
+hanging_rm="$temporary_corpus/hanging-rm"
+printf '%s\n' '#!/usr/bin/env bash' 'exec sleep 10' > "$hanging_rm"
+chmod +x "$hanging_rm"
+assert_cleanup_failure hanging "$hanging_rm" rm-timeout
+
+noop_rm="$temporary_corpus/noop-rm"
+printf '%s\n' '#!/usr/bin/env bash' 'exit 0' > "$noop_rm"
+chmod +x "$noop_rm"
+assert_cleanup_failure incomplete "$noop_rm" rm-incomplete
+
+readonly_cleanup_directory="$temporary_corpus/readonly-cleanup"
+mkdir "$readonly_cleanup_directory"
+readonly_mktemp="$temporary_corpus/readonly-mktemp"
+# These lines are emitted into the fake mktemp executable.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'call_count=0' \
+  'if [[ -f $UZEL_MKTEMP_COUNT_FILE ]]; then' \
+  '  IFS= read -r call_count < "$UZEL_MKTEMP_COUNT_FILE"' \
+  'fi' \
+  '((call_count += 1))' \
+  'printf '\''%s\n'\'' "$call_count" > "$UZEL_MKTEMP_COUNT_FILE"' \
+  'candidate="$UZEL_MKTEMP_DIRECTORY/file-$call_count"' \
+  ': > "$candidate"' \
+  'if [[ $call_count -eq 5 ]]; then chmod 500 "$UZEL_MKTEMP_DIRECTORY"; fi' \
+  'printf '\''%s\n'\'' "$candidate"' > "$readonly_mktemp"
+chmod +x "$readonly_mktemp"
+readonly_count_file="$temporary_corpus/readonly-count"
+set +e
+readonly_cleanup_output=$(
+  UZEL_MKTEMP_BIN="$readonly_mktemp" \
+    UZEL_MKTEMP_COUNT_FILE="$readonly_count_file" \
+    UZEL_MKTEMP_DIRECTORY="$readonly_cleanup_directory" \
+    UZEL_RM_TIMEOUT_SECONDS=0.1 \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+readonly_cleanup_status=$?
+set -e
+chmod 700 "$readonly_cleanup_directory"
+if [[ $readonly_cleanup_status -ne 3 ||
+  $readonly_cleanup_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=rm-execution-failed"* ||
+  $readonly_cleanup_output == *"EXTERNAL_NAPPLET_CORPUS_OK"* ]]; then
+  echo "expected filesystem-rejected cleanup to block success" >&2
+  echo "$readonly_cleanup_output" >&2
+  exit 1
+fi
+for ((readonly_index = 1; readonly_index <= 5; readonly_index += 1)); do
+  if [[ ! -f $readonly_cleanup_directory/file-$readonly_index ]]; then
+    echo "expected filesystem-rejected cleanup fixture ${readonly_index} to remain" >&2
+    exit 1
+  fi
+done
+rm -rf -- "$readonly_cleanup_directory"
+
+preserved_failure_count="$temporary_corpus/preserved-failure-count"
+preserved_failure_prefix="$temporary_corpus/preserved-failure-file"
+typed_trust_node="$temporary_corpus/typed-trust-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'printf '\''%s\n'\'' '\''{"format":"uzel.external-napplet-corpus-result.v1","category":"trust","code":"invalid-lock","message":"fixture trust failure"}'\'' >&2' \
+  'exit 2' > "$typed_trust_node"
+chmod +x "$typed_trust_node"
+set +e
+preserved_failure_output=$(
+  UZEL_MKTEMP_BIN="$checked_mktemp" \
+    UZEL_MKTEMP_COUNT_FILE="$preserved_failure_count" \
+    UZEL_MKTEMP_FAIL_ON=99 \
+    UZEL_MKTEMP_FILE_PREFIX="$preserved_failure_prefix" \
+    UZEL_NODE_BIN="$typed_trust_node" \
+    UZEL_RM_BIN="$failing_rm" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+preserved_failure_status=$?
+set -e
+if [[ $preserved_failure_status -ne 2 ||
+  $preserved_failure_output != *"EXTERNAL_NAPPLET_CORPUS_TRUST result="* ||
+  $preserved_failure_output != *"EXTERNAL_NAPPLET_CORPUS_CLEANUP code=rm-execution-failed preserved_status=2"* ]]; then
+  echo "expected cleanup failure to preserve original trust exit status" >&2
+  echo "$preserved_failure_output" >&2
+  exit 1
+fi
+rm -f -- "$preserved_failure_count" "${preserved_failure_prefix}-1" \
+  "${preserved_failure_prefix}-2" "${preserved_failure_prefix}-3" \
+  "${preserved_failure_prefix}-4" "${preserved_failure_prefix}-5"
+
 null_entry_lock="$null_entry_corpus/corpus.lock.json"
 null_entry_lock_next="$null_entry_corpus/corpus.lock.next.json"
 jq '.entries[0] = null' "$null_entry_lock" > "$null_entry_lock_next"
@@ -548,6 +678,38 @@ if [[ $comparison_status -ne 3 || $comparison_output != *"EXTERNAL_NAPPLET_CORPU
 fi
 
 cp -R "$root/fixtures/external-napplet-corpus/." "$whitespace_corpus/"
+rotating_node="$whitespace_corpus/rotating-node"
+# These lines are emitted into the fake Node launcher.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  '"$UZEL_REAL_NODE" "$@" | "$UZEL_REAL_JQ" '\''
+    .entries[0].eventText as $first
+    | .entries[0].eventText = .entries[1].eventText
+    | .entries[1].eventText = .entries[2].eventText
+    | .entries[2].eventText = .entries[3].eventText
+    | .entries[3].eventText = $first
+  '\''' \
+  > "$rotating_node"
+chmod +x "$rotating_node"
+set +e
+rotating_output=$(
+  UZEL_NODE_BIN="$rotating_node" \
+    UZEL_REAL_NODE="$real_node" \
+    UZEL_REAL_JQ="$real_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+rotating_status=$?
+set -e
+if [[ $rotating_status -ne 2 ||
+  $rotating_output != *"EXTERNAL_NAPPLET_CORPUS_TRUST code=event-id-drift"* ||
+  $rotating_output == *"EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK"* ]]; then
+  echo "expected rotated valid signed events to fail audited event-id binding" >&2
+  echo "$rotating_output" >&2
+  exit 1
+fi
+
 whitespace_node="$whitespace_corpus/whitespace-node"
 # These lines are emitted into the fake Node launcher.
 # shellcheck disable=SC2016
@@ -669,4 +831,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded event-whitespace=allowed snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=complete'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded event-id=bound event-whitespace=allowed snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=bounded-observable'

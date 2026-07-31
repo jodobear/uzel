@@ -19,8 +19,10 @@ jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 sha256sum_timeout_seconds=${UZEL_SHA256SUM_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
+rm_timeout_seconds=${UZEL_RM_TIMEOUT_SECONDS:-10}
 nak_output_limit_bytes=65536
 canonical_lock_output_limit_bytes=65536
+event_binding_output_limit_bytes=1024
 sha256sum_output_limit_bytes=1024
 expected_lock_sha256=1994fc5940e51d0fd9a9567a1a82a0f836bd93ab496022cf43933eb69653c632
 # Four 16,384-byte event texts can each double when embedded as JSON strings.
@@ -34,6 +36,8 @@ subprocess_stdout_file=
 subprocess_stderr_file=
 bounded_status=
 bounded_output_exceeded=
+cleanup_code=
+cleanup_message=
 
 infrastructure_failure() {
   echo "EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=$1 message=$2" >&2
@@ -45,8 +49,11 @@ trust_failure() {
   exit 2
 }
 
-cleanup() {
+cleanup_files() {
+  local rm_status
   local temporary_file
+  local temporary_files=()
+
   for temporary_file in \
     "$entries_file" \
     "$verified_event_file" \
@@ -54,12 +61,60 @@ cleanup() {
     "$subprocess_stdout_file" \
     "$subprocess_stderr_file"; do
     if [[ -n $temporary_file ]]; then
-      set +e
-      "$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" \
-        "$rm_bin" -f -- "$temporary_file" >/dev/null 2>&1
-      set -e
+      temporary_files+=("$temporary_file")
     fi
   done
+
+  if [[ ${#temporary_files[@]} -eq 0 ]]; then
+    return 0
+  fi
+
+  cleanup_code=
+  cleanup_message=
+  if "$timeout_bin" --kill-after=1 "$rm_timeout_seconds" \
+    "$rm_bin" -f -- "${temporary_files[@]}" >/dev/null 2>&1; then
+    rm_status=0
+  else
+    rm_status=$?
+  fi
+
+  if [[ $rm_status -eq 124 || $rm_status -eq 137 ]]; then
+    cleanup_code=rm-timeout
+    cleanup_message="temporary-file cleanup exceeded ${rm_timeout_seconds}s"
+    return 1
+  fi
+  if [[ $rm_status -ne 0 ]]; then
+    cleanup_code=rm-execution-failed
+    cleanup_message="temporary-file cleanup failed with status $rm_status"
+    return 1
+  fi
+  for temporary_file in "${temporary_files[@]}"; do
+    if [[ -e $temporary_file || -L $temporary_file ]]; then
+      cleanup_code=rm-incomplete
+      cleanup_message="temporary-file cleanup left one or more files"
+      return 1
+    fi
+  done
+
+  entries_file=
+  verified_event_file=
+  verified_snapshot_file=
+  subprocess_stdout_file=
+  subprocess_stderr_file=
+  return 0
+}
+
+cleanup_on_exit() {
+  local original_status=$?
+  trap - EXIT
+  if ! cleanup_files; then
+    if [[ $original_status -eq 0 ]]; then
+      echo "EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=$cleanup_code message=$cleanup_message" >&2
+      exit 3
+    fi
+    echo "EXTERNAL_NAPPLET_CORPUS_CLEANUP code=$cleanup_code preserved_status=$original_status message=$cleanup_message" >&2
+  fi
+  exit "$original_status"
 }
 
 run_bounded_subprocess() {
@@ -88,7 +143,7 @@ run_bounded_subprocess() {
     bounded_output_exceeded=1
   fi
 }
-trap cleanup EXIT
+trap cleanup_on_exit EXIT
 
 create_temp_file() {
   local target_variable=$1
@@ -135,6 +190,9 @@ if [[ ! $nak_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)
 fi
 if [[ ! $mktemp_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "mktemp timeout must be a positive number of seconds"
+fi
+if [[ ! $rm_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
+  infrastructure_failure invalid-timeout "rm timeout must be a positive number of seconds"
 fi
 
 create_temp_file entries_file entries
@@ -310,6 +368,56 @@ fi
 if [[ $lock_digest != "$expected_lock_sha256" ]]; then
   trust_failure audited-lock-drift "canonical audited lock digest drifted"
 fi
+
+run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+  "$jq_timeout_seconds" "$event_binding_output_limit_bytes" \
+  "$jq_bin" -r \
+  '
+    [
+      .entries[]
+      | (.eventText | try fromjson catch null) as $event
+      | if ($event | type) != "object"
+        then "invalid-event-json"
+        elif ($event.id | type) != "string" or $event.id != .entry.eventId
+        then "event-id-drift"
+        else "ok"
+        end
+    ]
+    | if index("invalid-event-json")
+      then "invalid-event-json"
+      elif index("event-id-drift")
+      then "event-id-drift"
+      else "ok"
+      end
+  ' "$verified_snapshot_file"
+event_binding_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure jq-output-limit \
+    "event-id binding exceeded ${event_binding_output_limit_bytes} bytes on stdout or stderr"
+fi
+if [[ $event_binding_status -eq 124 || $event_binding_status -eq 137 ]]; then
+  infrastructure_failure jq-timeout "event-id binding exceeded ${jq_timeout_seconds}s"
+fi
+if [[ $event_binding_status -ne 0 ]]; then
+  infrastructure_failure jq-execution-failed \
+    "event-id binding failed with status $event_binding_status"
+fi
+event_binding_result=$(< "$subprocess_stdout_file")
+if [[ -s $subprocess_stderr_file ]]; then
+  infrastructure_failure jq-invalid-output "event-id binding wrote unexpected stderr"
+fi
+case "$event_binding_result" in
+  ok) ;;
+  invalid-event-json)
+    trust_failure invalid-event-json "retained signed event is not one JSON object"
+    ;;
+  event-id-drift)
+    trust_failure event-id-drift "retained signed event does not match audited event id"
+    ;;
+  *)
+    infrastructure_failure jq-invalid-output "event-id binding returned invalid output"
+    ;;
+esac
 echo "EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=$expected_entry_count commit=$source_commit mode=offline"
 
 run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
@@ -453,4 +561,9 @@ if [[ $entry_count -ne $expected_entry_count ]]; then
   infrastructure_failure jq-invalid-output "entry enumeration returned $entry_count rows, expected $expected_entry_count"
 fi
 
+if ! cleanup_files; then
+  trap - EXIT
+  infrastructure_failure "$cleanup_code" "$cleanup_message"
+fi
+trap - EXIT
 echo "EXTERNAL_NAPPLET_CORPUS_OK entries=$entry_count commit=$source_commit mode=offline"
