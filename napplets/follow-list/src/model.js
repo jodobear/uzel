@@ -2,6 +2,7 @@ import { isCanonicalPubkey } from '../../../contracts/profile-open.js';
 
 export const MAXIMUM_RENDERED_FOLLOWS = 1_024;
 export const MAXIMUM_AVATAR_REQUESTS = 4;
+export const MAXIMUM_AVATAR_OBJECT_URLS = 32;
 export const MAXIMUM_PROFILE_REQUESTS = 2;
 
 export function directFollows(values, limit = MAXIMUM_RENDERED_FOLLOWS) {
@@ -16,6 +17,37 @@ export function directFollows(values, limit = MAXIMUM_RENDERED_FOLLOWS) {
 
 export function shortPubkey(pubkey) {
   return `${pubkey.slice(0, 12)}…${pubkey.slice(-8)}`;
+}
+
+export function createAvatarObjectUrlStore(limit = MAXIMUM_AVATAR_OBJECT_URLS) {
+  if (!Number.isSafeInteger(limit) || limit < 1) {
+    throw new RangeError('avatar object URL limit must be a positive safe integer');
+  }
+  const entries = new Map();
+  return Object.freeze({
+    remember(objectUrl, row) {
+      entries.delete(objectUrl);
+      entries.set(objectUrl, row);
+      const evicted = [];
+      while (entries.size > limit) {
+        const oldest = entries.entries().next().value;
+        entries.delete(oldest[0]);
+        evicted.push(oldest);
+      }
+      return evicted;
+    },
+    remove(objectUrl) {
+      entries.delete(objectUrl);
+    },
+    drain() {
+      const retained = [...entries];
+      entries.clear();
+      return retained;
+    },
+    get size() {
+      return entries.size;
+    },
+  });
 }
 
 export function createBoundedTaskQueue(limit = MAXIMUM_AVATAR_REQUESTS) {

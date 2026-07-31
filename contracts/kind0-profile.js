@@ -1,7 +1,7 @@
 import { isCanonicalPubkey } from './profile-open.js';
 
 export const PROFILE_RESULT_LIMIT = 1;
-export const PROFILE_QUERY_BATCH_SIZE = 64;
+export const PROFILE_QUERY_BATCH_SIZE = 8;
 export const MAXIMUM_DATE_SECONDS = 8_640_000_000_000;
 
 export function profileQueryRequest(pubkey) {
@@ -27,6 +27,20 @@ export function profileQueryBatches(pubkeys) {
     });
   }
   return batches;
+}
+
+export function splitProfileQueryRequest(request) {
+  const authors = request?.options?.authors;
+  if (!Array.isArray(authors) || authors.length < 2) return [];
+  const middle = Math.ceil(authors.length / 2);
+  return [authors.slice(0, middle), authors.slice(middle)].map((part) => ({
+    filters: part.map((author) => ({
+      kinds: [0],
+      authors: [author],
+      limit: PROFILE_RESULT_LIMIT,
+    })),
+    options: { authors: part },
+  }));
 }
 
 function optionalText(value) {
@@ -58,7 +72,7 @@ export function canonicalProfile(results, pubkey) {
       picture: optionalText(metadata.picture),
       nip05: optionalText(metadata.nip05),
       content: event.content,
-      contentText: JSON.stringify(metadata, null, 2),
+      contentText: event.content,
     };
   } catch {
     return null;

@@ -19,12 +19,12 @@
       #status { color: #d8bd7c; }
       details { margin-top: 10px; }
       summary { cursor: pointer; color: #d8bd7c; }
-      pre { max-width: 100%; max-height: 16rem; margin: 8px 0 0; overflow: auto; border: 1px solid #554b41; border-radius: 5px; padding: 10px; background: #12100e; color: #f4eee7; }
+      pre { max-width: 100%; max-height: 16rem; margin: 8px 0 0; overflow: auto; overflow-wrap: anywhere; white-space: pre-wrap; border: 1px solid #554b41; border-radius: 5px; padding: 10px; background: #12100e; color: #f4eee7; }
       button { padding: 5px 8px; border: 1px solid #554b41; border-radius: 5px; background: #241e19; color: inherit; font: inherit; font-size: 12px; cursor: pointer; }
     </style>
   </head>
   <body>
-    <article aria-live="polite">
+    <article>
       <div class="picture"><img id="picture" alt="" hidden /><span id="picture-fallback" aria-hidden="true">PP</span></div>
       <div class="content">
         <header><h1 id="name">Profile card</h1><button id="refresh" type="button">Reload</button></header>

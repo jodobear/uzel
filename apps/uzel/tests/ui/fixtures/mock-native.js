@@ -5,6 +5,7 @@
   const fixtureIdentity = '79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798';
   const requestedIdentity = 'd60bdad03468f5f8c85b1b10db977e310a5aafab33750dfadb37488b02bfc8d7';
   const routedProfile = 'f'.repeat(64);
+  const secondaryProfile = 'e'.repeat(64);
   const routedProfileEventId = '5ba938bd88e383de7d687ea310e7a1c805b9c0ba9a2b6139b36efea17a326638';
   const delayedProfileResponseMs = 4_250;
   const fixtureRecords = global.__UZEL_UI_FIXTURES__;
@@ -27,6 +28,7 @@
   let reviewAttempts = 0;
   let confirmationAttempts = 0;
   let loadedCleanupFailures = scenario === 'cleanup-failure' ? 1 : 0;
+  let followBatchFailures = scenario === 'ready' ? 1 : 0;
 
   if (!fixtureRecords || typeof fixtureRecords !== 'object') {
     throw new Error('renderer acceptance fixture records were not injected');
@@ -118,18 +120,25 @@
 
   function profileEvent(pubkey) {
     const routed = pubkey === routedProfile;
+    const secondary = pubkey === secondaryProfile;
     const requested = pubkey === requestedIdentity;
     return {
       event: {
-        id: routed ? routedProfileEventId : (requested ? 'a'.repeat(64) : 'b'.repeat(64)),
+        id: routed
+          ? routedProfileEventId
+          : (secondary ? 'c'.repeat(64) : (requested ? 'a'.repeat(64) : 'b'.repeat(64))),
         pubkey,
         kind: 0,
         created_at: 1_800_000_000,
         content: JSON.stringify({
-          name: routed ? 'Routed raw name' : (requested ? 'Requested raw name' : 'Fixture raw name'),
+          name: routed
+            ? 'Routed raw name'
+            : (secondary ? 'Secondary raw name' : (requested ? 'Requested raw name' : 'Fixture raw name')),
           display_name: routed
             ? 'Routed follow profile'
-            : (requested ? 'Requested npub profile' : 'Fixture identity profile'),
+            : (secondary
+              ? 'Secondary follow profile'
+              : (requested ? 'Requested npub profile' : 'Fixture identity profile')),
           about: routed
             ? 'Profile loaded through NAP-INC then NAP-OUTBOX.'
             : `Deterministic latest-known profile for ${pubkey.slice(0, 12)}.`,
@@ -155,7 +164,7 @@
   }
 
   function profileEventsForQuery(envelope) {
-    const known = new Set([fixtureIdentity, requestedIdentity, routedProfile]);
+    const known = new Set([fixtureIdentity, requestedIdentity, routedProfile, secondaryProfile]);
     const authors = new Set((envelope.filters ?? []).flatMap((filter) => (
       filter?.kinds?.includes(0) && Array.isArray(filter.authors) ? filter.authors : []
     )));
@@ -180,7 +189,14 @@
       case 'identity.getProfile':
         return { surfaceToken, envelope: { type: 'identity.getProfile.result', id: envelope.id, profile: profileFor(activeIdentity) } };
       case 'identity.getFollows':
-        return { surfaceToken, envelope: { type: 'identity.getFollows.result', id: envelope.id, pubkeys: [routedProfile] } };
+        return {
+          surfaceToken,
+          envelope: {
+            type: 'identity.getFollows.result',
+            id: envelope.id,
+            pubkeys: [routedProfile, secondaryProfile],
+          },
+        };
       case 'identity.getRelays':
         return { surfaceToken, envelope: { type: 'identity.getRelays.result', id: envelope.id, relays: [] } };
       case 'inc.subscribe':
@@ -199,6 +215,23 @@
         };
       }
       case 'outbox.query': {
+        if (
+          launch.dTag === 'follow-list'
+          && envelope.options?.authors?.length > 1
+          && followBatchFailures > 0
+        ) {
+          followBatchFailures -= 1;
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'outbox.query.result',
+              id: envelope.id,
+              events: [],
+              incomplete: true,
+              error: 'mocked oversized profile batch',
+            },
+          };
+        }
         return {
           surfaceToken,
           envelope: {
@@ -331,7 +364,11 @@
       }
       case 'forward_surface_envelope': {
         const envelope = JSON.parse(args.envelope);
-        envelopes.push({ surfaceToken: args.surfaceToken, envelope: structuredClone(envelope) });
+        envelopes.push({
+          surfaceToken: args.surfaceToken,
+          dTag: activeSurfaces.get(args.surfaceToken)?.dTag,
+          envelope: structuredClone(envelope),
+        });
         if (scenario === 'profile-delay' && isRoutedProfileQuery(envelope)) {
           await new Promise((resolve) => global.setTimeout(resolve, delayedProfileResponseMs));
         }
@@ -365,6 +402,7 @@
     fixtureIdentity,
     requestedIdentity,
     routedProfile,
+    secondaryProfile,
     delayedProfileResponseMs,
     calls,
     envelopes,

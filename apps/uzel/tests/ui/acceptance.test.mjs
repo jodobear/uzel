@@ -661,8 +661,26 @@ if (FAULT_CHILD) {
       await requestedKind0.getByText('https://profile.ui-acceptance.invalid', { exact: false }).waitFor();
 
       const routedProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.routedProfile);
+      const secondaryProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.secondaryProfile);
       const followFrameAfterIdentity = page.frameLocator('iframe[aria-label="Direct follows"]');
       await followFrameAfterIdentity.getByText('Routed follow profile', { exact: true }).waitFor();
+      await followFrameAfterIdentity.getByText('Secondary follow profile', { exact: true }).waitFor();
+      const followProfileQueries = await page.evaluate(() => window.__UZEL_UI_HARNESS__.envelopes
+        .filter((entry) => entry.dTag === 'follow-list' && entry.envelope.type === 'outbox.query')
+        .map((entry) => entry.envelope.options?.authors));
+      assert.ok(
+        followProfileQueries.some((authors) => authors.length === 2
+          && authors.includes(routedProfile) && authors.includes(secondaryProfile)),
+        'follow enrichment did not attempt the bounded multi-author batch',
+      );
+      assert.ok(
+        followProfileQueries.some((authors) => authors.length === 1 && authors[0] === routedProfile),
+        'follow enrichment did not bisect the failed batch for the routed profile',
+      );
+      assert.ok(
+        followProfileQueries.some((authors) => authors.length === 1 && authors[0] === secondaryProfile),
+        'follow enrichment did not bisect the failed batch for the secondary profile',
+      );
       const routedFollowButton = followFrameAfterIdentity
         .getByRole('button', { name: `Open profile ${routedProfile}`, exact: true });
       const routedAvatar = routedFollowButton.locator('img');
@@ -673,10 +691,10 @@ if (FAULT_CHILD) {
       await routedProfileFrame
         .getByText('Routed follow profile', { exact: true }).waitFor();
       const fullKind0 = await routedProfileFrame.locator('#kind0').textContent();
-      assert.match(fullKind0, /"name": "Routed raw name"/u);
-      assert.match(fullKind0, /"website": "https:\/\/profile\.ui-acceptance\.invalid"/u);
-      assert.match(fullKind0, /"lud16": "routed@payments\.ui-acceptance\.invalid"/u);
-      assert.match(fullKind0, /"custom": \{/u);
+      assert.match(fullKind0, /"name":"Routed raw name"/u);
+      assert.match(fullKind0, /"website":"https:\/\/profile\.ui-acceptance\.invalid"/u);
+      assert.match(fullKind0, /"lud16":"routed@payments\.ui-acceptance\.invalid"/u);
+      assert.match(fullKind0, /"custom":\{/u);
       assert.match(fullKind0, /<img src=x onerror=/u);
       assert.equal(
         await routedProfileFrame.locator('body').evaluate(() => window.__escapedKind0),

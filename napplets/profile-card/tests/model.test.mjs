@@ -43,7 +43,7 @@ test('projects the single canonical kind 0 returned by NMP', () => {
       picture: undefined,
       nip05: undefined,
       content,
-      contentText: JSON.stringify(JSON.parse(content), null, 2),
+      contentText: content,
     },
   );
 });

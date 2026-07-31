@@ -2,8 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  createAvatarObjectUrlStore,
   createBoundedTaskQueue,
   directFollows,
+  MAXIMUM_AVATAR_OBJECT_URLS,
   MAXIMUM_AVATAR_REQUESTS,
   MAXIMUM_PROFILE_REQUESTS,
   MAXIMUM_RENDERED_FOLLOWS,
@@ -24,6 +26,20 @@ test('the default follow row bound remains 1,024', () => {
   ));
   assert.equal(directFollows(pubkeys).length, 1_024);
   assert.equal(directFollows(pubkeys).at(-1), pubkeys[1_023]);
+});
+
+test('avatar object URLs evict the oldest retained blob at the aggregate bound', () => {
+  const store = createAvatarObjectUrlStore(2);
+  assert.deepEqual(store.remember('blob:first', 'first-row'), []);
+  assert.deepEqual(store.remember('blob:second', 'second-row'), []);
+  assert.deepEqual(store.remember('blob:third', 'third-row'), [['blob:first', 'first-row']]);
+  assert.equal(store.size, 2);
+  assert.deepEqual(store.drain(), [
+    ['blob:second', 'second-row'],
+    ['blob:third', 'third-row'],
+  ]);
+  assert.equal(store.size, 0);
+  assert.equal(MAXIMUM_AVATAR_OBJECT_URLS, 32);
 });
 
 test('avatar work never exceeds four active tasks', async () => {

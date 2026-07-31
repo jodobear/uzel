@@ -9,6 +9,7 @@ import {
   profileQueryRequest,
   PROFILE_QUERY_BATCH_SIZE,
   PROFILE_RESULT_LIMIT,
+  splitProfileQueryRequest,
 } from './kind0-profile.js';
 
 const A = 'a'.repeat(64);
@@ -32,9 +33,21 @@ test('batches canonical authors within the NAP-OUTBOX filter ceiling', () => {
   ));
   const batches = profileQueryBatches([...authors, authors[0], 'bad']);
 
-  assert.deepEqual(batches.map((batch) => batch.filters.length), [64, 1]);
-  assert.deepEqual(batches[0].options.authors, authors.slice(0, 64));
+  assert.deepEqual(batches.map((batch) => batch.filters.length), [8, 1]);
+  assert.deepEqual(batches[0].options.authors, authors.slice(0, 8));
   assert.deepEqual(batches[0].filters[0], { kinds: [0], authors: [authors[0]], limit: 1 });
+});
+
+test('bisects a failed batch until one oversized author can be isolated', () => {
+  const authors = Array.from({ length: PROFILE_QUERY_BATCH_SIZE }, (_, index) => (
+    (index + 1).toString(16).padStart(64, '0')
+  ));
+  const [left, right] = splitProfileQueryRequest(profileQueryBatches(authors)[0]);
+
+  assert.deepEqual(left.options.authors, authors.slice(0, 4));
+  assert.deepEqual(right.options.authors, authors.slice(4));
+  assert.deepEqual(splitProfileQueryRequest(left).map((request) => request.filters.length), [2, 2]);
+  assert.deepEqual(splitProfileQueryRequest(profileQueryRequest(authors[0])), []);
 });
 
 test('retains the complete canonical kind 0 while projecting its friendly summary', () => {
@@ -49,8 +62,15 @@ test('retains the complete canonical kind 0 while projecting its friendly summar
 
   assert.equal(profile.name, 'Display name');
   assert.equal(profile.content, content);
-  assert.deepEqual(JSON.parse(profile.contentText), JSON.parse(content));
+  assert.equal(profile.contentText, content);
   assert.equal(profile.createdAtIso, '1970-01-01T00:00:30.000Z');
+});
+
+test('complete metadata text preserves unsafe integers and duplicate keys byte for byte', () => {
+  const content = '{"large":9007199254740993,"duplicate":1,"duplicate":2}';
+  const profile = canonicalProfile([row(A, content)], A);
+
+  assert.equal(profile.contentText, content);
 });
 
 test('maps only one valid provider-owned canonical row per expected author', () => {

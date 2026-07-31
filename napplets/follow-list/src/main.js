@@ -4,11 +4,13 @@ import { incEmit } from '@napplet/nap/inc/sdk';
 import { outboxQuery } from '@napplet/nap/outbox/sdk';
 import { resourceBytes } from '@napplet/nap/resource/sdk';
 
-import { canonicalProfiles, profileQueryBatches } from '../../../contracts/kind0-profile.js';
+import {
+  canonicalProfiles, profileQueryBatches, splitProfileQueryRequest,
+} from '../../../contracts/kind0-profile.js';
 import { PROFILE_OPEN_TOPIC, profileOpen } from '../../../contracts/profile-open.js';
 import {
-  createBoundedTaskQueue, directFollows, MAXIMUM_AVATAR_REQUESTS, MAXIMUM_PROFILE_REQUESTS,
-  shortPubkey,
+  createAvatarObjectUrlStore, createBoundedTaskQueue, directFollows, MAXIMUM_AVATAR_REQUESTS,
+  MAXIMUM_PROFILE_REQUESTS, shortPubkey,
 } from './model.js';
 
 const status = document.querySelector('#status');
@@ -18,18 +20,13 @@ const rowTemplate = document.querySelector('#follow-row');
 const avatarQueue = createBoundedTaskQueue(MAXIMUM_AVATAR_REQUESTS);
 const profileQueue = createBoundedTaskQueue(MAXIMUM_PROFILE_REQUESTS);
 const rows = new Map();
-const objectUrls = new Set();
+const objectUrls = createAvatarObjectUrlStore();
 let refreshGeneration = 0;
 let refreshController = null;
 let avatarObserver = null;
 
 function current(generation) {
   return generation === refreshGeneration;
-}
-
-function clearObjectUrls() {
-  for (const url of objectUrls) URL.revokeObjectURL(url);
-  objectUrls.clear();
 }
 
 function resetEnrichment() {
@@ -40,8 +37,8 @@ function resetEnrichment() {
   profileQueue.clear(reason);
   avatarObserver?.disconnect();
   avatarObserver = null;
-  rows.clear();
   clearObjectUrls();
+  rows.clear();
   return refreshController;
 }
 
@@ -56,6 +53,32 @@ function setAvatarFallback(row, name = '') {
   row.image.hidden = true;
 }
 
+function releaseObjectUrl(objectUrl, row, clearImage) {
+  objectUrls.remove(objectUrl);
+  URL.revokeObjectURL(objectUrl);
+  if (row.objectUrl !== objectUrl) return;
+  row.objectUrl = null;
+  row.image.onload = null;
+  row.image.onerror = null;
+  if (clearImage) {
+    row.image.removeAttribute('src');
+    setAvatarFallback(row, row.name.textContent);
+  }
+}
+
+function rememberObjectUrl(objectUrl, row) {
+  row.objectUrl = objectUrl;
+  for (const [oldestUrl, oldestRow] of objectUrls.remember(objectUrl, row)) {
+    releaseObjectUrl(oldestUrl, oldestRow, true);
+  }
+}
+
+function clearObjectUrls() {
+  for (const [objectUrl, row] of objectUrls.drain()) {
+    releaseObjectUrl(objectUrl, row, false);
+  }
+}
+
 async function loadAvatar(row, picture, generation, signal) {
   try {
     const blob = await resourceBytes(picture, { signal });
@@ -63,19 +86,18 @@ async function loadAvatar(row, picture, generation, signal) {
 
     let objectUrl = '';
     row.image.onload = () => {
-      if (!current(generation) || signal.aborted) return;
-      row.image.hidden = false;
-      row.fallback.hidden = true;
+      if (current(generation) && !signal.aborted) {
+        row.image.hidden = false;
+        row.fallback.hidden = true;
+      }
+      releaseObjectUrl(objectUrl, row, false);
     };
     row.image.onerror = () => {
-      URL.revokeObjectURL(objectUrl);
-      objectUrls.delete(objectUrl);
-      row.image.removeAttribute('src');
-      setAvatarFallback(row, row.name.textContent);
+      releaseObjectUrl(objectUrl, row, true);
     };
     row.image.src = URL.createObjectURL(blob);
     objectUrl = row.image.src;
-    objectUrls.add(objectUrl);
+    rememberObjectUrl(objectUrl, row);
   } catch (error) {
     if (current(generation) && !signal.aborted) {
       row.fallback.title = `Picture unavailable through NAP-RESOURCE: ${error instanceof Error ? error.message : String(error)}`;
@@ -84,8 +106,8 @@ async function loadAvatar(row, picture, generation, signal) {
 }
 
 function observeAvatar(row, picture, generation, signal) {
-  avatarObserver?.observe(row.avatar);
   row.avatarRequest = { generation, picture, signal };
+  avatarObserver?.observe(row.avatar);
 }
 
 function createAvatarObserver() {
@@ -123,7 +145,15 @@ function render(values, generation, signal) {
     fallback.textContent = fallbackText('');
     name.textContent = shortPubkey(pubkey);
     list.append(item);
-    rows.set(pubkey, { avatar, avatarRequest: null, fallback, image, key, name });
+    rows.set(pubkey, {
+      avatar,
+      avatarRequest: null,
+      fallback,
+      image,
+      key,
+      name,
+      objectUrl: null,
+    });
   }
   status.textContent = pubkeys.length === 0
     ? 'No direct follows in the latest-known NMP view.'
@@ -132,33 +162,40 @@ function render(values, generation, signal) {
   void enrichRows(pubkeys, generation, signal);
 }
 
-async function enrichRows(pubkeys, generation, signal) {
-  const requests = profileQueryBatches(pubkeys).map((query) => profileQueue.run(async () => {
-    try {
-      const result = await outboxQuery(query.filters, query.options);
-      if (!current(generation) || signal.aborted) return;
-
-      const profiles = canonicalProfiles(result.events, query.options.authors);
-      for (const [pubkey, profile] of profiles) {
-        const row = rows.get(pubkey);
-        if (!row) continue;
-        row.name.textContent = profile.name;
-        row.key.textContent = shortPubkey(pubkey);
-        setAvatarFallback(row, profile.name);
-        if (profile.picture) observeAvatar(row, profile.picture, generation, signal);
-      }
-    } catch (error) {
-      // The immediate pubkey row is the deterministic fallback for this batch.
-      if (current(generation) && !signal.aborted) {
-        for (const pubkey of query.options.authors) {
-          const row = rows.get(pubkey);
-          if (row) {
-            row.name.title = `Profile unavailable through NAP-OUTBOX: ${error instanceof Error ? error.message : String(error)}`;
-          }
-        }
-      }
+async function enrichQuery(query, generation, signal) {
+  let result;
+  try {
+    result = await profileQueue.run(() => outboxQuery(query.filters, query.options));
+    if (result.error) throw new Error(result.error);
+  } catch (error) {
+    if (!current(generation) || signal.aborted) return;
+    const retries = splitProfileQueryRequest(query);
+    if (retries.length > 0) {
+      await Promise.allSettled(retries.map((retry) => enrichQuery(retry, generation, signal)));
+      return;
     }
-  }));
+    const row = rows.get(query.options.authors[0]);
+    if (row) {
+      row.name.title = `Profile unavailable through NAP-OUTBOX: ${error instanceof Error ? error.message : String(error)}`;
+    }
+    return;
+  }
+  if (!current(generation) || signal.aborted) return;
+
+  const profiles = canonicalProfiles(result.events, query.options.authors);
+  for (const [pubkey, profile] of profiles) {
+    const row = rows.get(pubkey);
+    if (!row) continue;
+    row.name.textContent = profile.name;
+    row.key.textContent = shortPubkey(pubkey);
+    setAvatarFallback(row, profile.name);
+    if (profile.picture) observeAvatar(row, profile.picture, generation, signal);
+  }
+}
+
+async function enrichRows(pubkeys, generation, signal) {
+  const requests = profileQueryBatches(pubkeys)
+    .map((query) => enrichQuery(query, generation, signal));
   await Promise.allSettled(requests);
 }
 
