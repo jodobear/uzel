@@ -1,16 +1,16 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~86,275 words
+- 129 files · ~87,068 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1247 nodes · 1772 edges · 177 communities (79 shown, 98 thin omitted)
+- 1248 nodes · 1774 edges · 177 communities (79 shown, 98 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `624b235e`
+- Built from commit: `97a02328`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -195,7 +195,7 @@
 7. `HostileProbeState` - 15 edges
 8. `compilerOptions` - 15 edges
 9. `write_frame()` - 15 edges
-10. `readVerifiedCorpus()` - 13 edges
+10. `readVerifiedCorpus()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
@@ -368,7 +368,7 @@ Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — v
 
 ### Community 41 - "lib.rs"
 Cohesion: 0.10
-Nodes (32): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk() (+24 more)
+Nodes (34): DecodeError, Into, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation() (+26 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.25
@@ -456,7 +456,7 @@ Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot,
 
 ### Community 66 - "Work 02 — Linux exact-build runner"
 Cohesion: 0.60
-Nodes (3): infrastructure_failure(), verify-external-napplet-corpus.sh script, trust_failure()
+Nodes (4): create_temp_file(), infrastructure_failure(), verify-external-napplet-corpus.sh script, trust_failure()
 
 ### Community 67 - "lib.rs"
 Cohesion: 0.50
@@ -492,7 +492,7 @@ Nodes (8): Active parallel issue — #21 data-only corpus, Completed issue — #
 
 ### Community 175 - "server.rs"
 Cohesion: 0.12
-Nodes (32): Into, SurfaceLaunch, UnixListener, Request, Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail() (+24 more)
+Nodes (30): SurfaceLaunch, UnixListener, Request, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down() (+22 more)
 
 ### Community 176 - "Tests, quality gates, and demo"
 Cohesion: 0.20
@@ -517,6 +517,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Provisional component design` be split into smaller, more focused modules?**
   _Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected._
 - **Should `Tests, quality gates, and demo` be split into smaller, more focused modules?**
-  _Cohesion score 0.13445378151260504 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13277310924369748 - nodes in this community are weakly interconnected._
 - **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
