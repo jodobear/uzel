@@ -850,7 +850,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 176,
+      "community": 62,
       "norm_label": "hostileprobestate"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 176,
+      "community": 62,
       "norm_label": "atomicu64"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 176,
+      "community": 62,
       "norm_label": ".cancel()"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 176,
+      "community": 62,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 176,
+      "community": 62,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1560,7 +1560,7 @@
       "source_location": "L431",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_finish_hostile_probe",
-      "community": 176,
+      "community": 62,
       "norm_label": "finish_hostile_probe()"
     },
     {
@@ -3290,7 +3290,7 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_fetchedsurface",
-      "community": 175,
+      "community": 62,
       "norm_label": "fetchedsurface"
     },
     {
@@ -3300,7 +3300,7 @@
       "source_location": "L254",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_clienterror",
-      "community": 175,
+      "community": 62,
       "norm_label": "clienterror"
     },
     {
@@ -3330,7 +3330,7 @@
       "source_location": "L294",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror",
-      "community": 175,
+      "community": 62,
       "norm_label": "deliveryerror"
     },
     {
@@ -3340,7 +3340,7 @@
       "source_location": "L300",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror_into_client",
-      "community": 175,
+      "community": 62,
       "norm_label": ".into_client()"
     },
     {
@@ -3350,7 +3350,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient",
-      "community": 175,
+      "community": 62,
       "norm_label": "unixclient"
     },
     {
@@ -3430,7 +3430,7 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request",
-      "community": 175,
+      "community": 62,
       "norm_label": ".request()"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "L448",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_fixture",
-      "community": 175,
+      "community": 62,
       "norm_label": ".start_fixture()"
     },
     {
@@ -3490,7 +3490,7 @@
       "source_location": "L452",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_named_fixture",
-      "community": 175,
+      "community": 62,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -3500,7 +3500,7 @@
       "source_location": "L458",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_hostile_probe",
-      "community": 175,
+      "community": 62,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -3520,7 +3520,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_cancel_napplet_review",
-      "community": 175,
+      "community": 62,
       "norm_label": ".cancel_napplet_review()"
     },
     {
@@ -3530,7 +3530,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_stop_fixture",
-      "community": 175,
+      "community": 62,
       "norm_label": ".stop_fixture()"
     },
     {
@@ -3540,7 +3540,7 @@
       "source_location": "L499",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_retire_catalog_operations",
-      "community": 175,
+      "community": 62,
       "norm_label": ".retire_catalog_operations()"
     },
     {
@@ -3550,7 +3550,7 @@
       "source_location": "L509",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_confirm_napplet",
-      "community": 175,
+      "community": 62,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -3560,7 +3560,7 @@
       "source_location": "L539",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface",
-      "community": 175,
+      "community": 62,
       "norm_label": ".fetch_surface()"
     },
     {
@@ -3570,7 +3570,7 @@
       "source_location": "L544",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface_response",
-      "community": 175,
+      "community": 62,
       "norm_label": ".fetch_surface_response()"
     },
     {
@@ -3610,7 +3610,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_asset",
-      "community": 175,
+      "community": 62,
       "norm_label": ".fetch_asset()"
     },
     {
@@ -4480,7 +4480,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 8,
+      "community": 175,
       "norm_label": ".metadata()"
     },
     {
@@ -5150,7 +5150,7 @@
       "source_location": "L962",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_linuxrunner_start_named_fixture",
-      "community": 47,
+      "community": 8,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -5240,7 +5240,7 @@
       "source_location": "L1206",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_read_launched_document",
-      "community": 47,
+      "community": 65,
       "norm_label": "read_launched_document()"
     },
     {
@@ -5250,7 +5250,7 @@
       "source_location": "L1224",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_artifact_base_url",
-      "community": 3,
+      "community": 47,
       "norm_label": "artifact_base_url()"
     },
     {
@@ -5570,7 +5570,7 @@
       "source_location": "L1859",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
-      "community": 8,
+      "community": 3,
       "norm_label": "payload_identity_cannot_select_surface_or_session()"
     },
     {
@@ -5600,7 +5600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_rs",
-      "community": 41,
+      "community": 175,
       "norm_label": "server.rs"
     },
     {
@@ -5610,7 +5610,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_servererror",
-      "community": 41,
+      "community": 175,
       "norm_label": "servererror"
     },
     {
@@ -5640,7 +5640,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_assettransfer",
-      "community": 41,
+      "community": 175,
       "norm_label": "assettransfer"
     },
     {
@@ -5670,7 +5670,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replayentry",
-      "community": 41,
+      "community": 175,
       "norm_label": "replayentry"
     },
     {
@@ -5680,7 +5680,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_invalidoperationid",
-      "community": 41,
+      "community": 175,
       "norm_label": "invalidoperationid"
     },
     {
@@ -5690,7 +5690,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache",
-      "community": 41,
+      "community": 175,
       "norm_label": "replaycache"
     },
     {
@@ -5720,7 +5720,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache_lookup",
-      "community": 41,
+      "community": 175,
       "norm_label": ".lookup()"
     },
     {
@@ -5740,7 +5740,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache_remember",
-      "community": 41,
+      "community": 175,
       "norm_label": ".remember()"
     },
     {
@@ -5750,7 +5750,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate",
-      "community": 41,
+      "community": 175,
       "norm_label": "daemonstate"
     },
     {
@@ -5760,7 +5760,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_new",
-      "community": 41,
+      "community": 175,
       "norm_label": ".new()"
     },
     {
@@ -5780,7 +5780,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_handle",
-      "community": 41,
+      "community": 175,
       "norm_label": ".handle()"
     },
     {
@@ -5790,7 +5790,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 41,
+      "community": 175,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -5800,7 +5800,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_stage_surface",
-      "community": 41,
+      "community": 175,
       "norm_label": ".stage_surface()"
     },
     {
@@ -5820,7 +5820,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 41,
+      "community": 175,
       "norm_label": "surfacelaunch"
     },
     {
@@ -5830,7 +5830,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_key",
-      "community": 41,
+      "community": 175,
       "norm_label": "replay_key()"
     },
     {
@@ -5840,7 +5840,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_runner_error",
-      "community": 41,
+      "community": 175,
       "norm_label": "runner_error()"
     },
     {
@@ -5850,7 +5850,7 @@
       "source_location": "L319",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_bounded_detail",
-      "community": 41,
+      "community": 175,
       "norm_label": "bounded_detail()"
     },
     {
@@ -5860,7 +5860,7 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver",
-      "community": 41,
+      "community": 175,
       "norm_label": "daemonserver"
     },
     {
@@ -5870,7 +5870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unixlistener",
-      "community": 41,
+      "community": 175,
       "norm_label": "unixlistener"
     },
     {
@@ -5880,7 +5880,7 @@
       "source_location": "L340",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_socketidentity",
-      "community": 41,
+      "community": 175,
       "norm_label": "socketidentity"
     },
     {
@@ -5890,7 +5890,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_bind",
-      "community": 41,
+      "community": 175,
       "norm_label": ".bind()"
     },
     {
@@ -5920,7 +5920,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_serve",
-      "community": 41,
+      "community": 175,
       "norm_label": ".serve()"
     },
     {
@@ -5940,7 +5940,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_drop",
-      "community": 41,
+      "community": 175,
       "norm_label": ".drop()"
     },
     {
@@ -5950,7 +5950,7 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_handle_stream",
-      "community": 41,
+      "community": 175,
       "norm_label": "handle_stream()"
     },
     {
@@ -5970,7 +5970,7 @@
       "source_location": "L414",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_write_response",
-      "community": 41,
+      "community": 175,
       "norm_label": "write_response()"
     },
     {
@@ -5980,7 +5980,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_write_chunked_envelope",
-      "community": 41,
+      "community": 175,
       "norm_label": "write_chunked_envelope()"
     },
     {
@@ -5990,7 +5990,7 @@
       "source_location": "L479",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_prepare_socket_parent",
-      "community": 41,
+      "community": 175,
       "norm_label": "prepare_socket_parent()"
     },
     {
@@ -6000,7 +6000,7 @@
       "source_location": "L504",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_remove_owned_stale_socket",
-      "community": 41,
+      "community": 175,
       "norm_label": "remove_owned_stale_socket()"
     },
     {
@@ -6020,7 +6020,7 @@
       "source_location": "L554",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemon_serves_ordered_verified_asset_and_shuts_down",
-      "community": 41,
+      "community": 175,
       "norm_label": "daemon_serves_ordered_verified_asset_and_shuts_down()"
     },
     {
@@ -6030,7 +6030,7 @@
       "source_location": "L597",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_server_drop_does_not_remove_a_replacement_socket",
-      "community": 41,
+      "community": 175,
       "norm_label": "server_drop_does_not_remove_a_replacement_socket()"
     },
     {
@@ -6040,7 +6040,7 @@
       "source_location": "L611",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_socket_parent_symlink_is_refused",
-      "community": 41,
+      "community": 175,
       "norm_label": "socket_parent_symlink_is_refused()"
     },
     {
@@ -6050,7 +6050,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_active_daemon_socket_is_not_unlinked",
-      "community": 41,
+      "community": 175,
       "norm_label": "active_daemon_socket_is_not_unlinked()"
     },
     {
@@ -6060,7 +6060,7 @@
       "source_location": "L640",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_existing_shared_socket_parent_is_not_chmodded",
-      "community": 41,
+      "community": 175,
       "norm_label": "existing_shared_socket_parent_is_not_chmodded()"
     },
     {
@@ -6070,7 +6070,7 @@
       "source_location": "L656",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_incomplete_client_times_out_without_blocking_the_next_request",
-      "community": 41,
+      "community": 175,
       "norm_label": "incomplete_client_times_out_without_blocking_the_next_request()"
     },
     {
@@ -6080,7 +6080,7 @@
       "source_location": "L679",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemon_routes_inc_delivery_to_the_other_exact_surface",
-      "community": 41,
+      "community": 175,
       "norm_label": "daemon_routes_inc_delivery_to_the_other_exact_surface()"
     },
     {
@@ -6090,7 +6090,7 @@
       "source_location": "L735",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_oversized_routed_envelope_is_chunked_without_raising_the_frame_limit",
-      "community": 41,
+      "community": 175,
       "norm_label": "oversized_routed_envelope_is_chunked_without_raising_the_frame_limit()"
     },
     {
@@ -6100,7 +6100,7 @@
       "source_location": "L768",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_cache_binds_operation_id_to_the_exact_confirm_request",
-      "community": 41,
+      "community": 175,
       "norm_label": "replay_cache_binds_operation_id_to_the_exact_confirm_request()"
     },
     {
@@ -6110,7 +6110,7 @@
       "source_location": "L814",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_cache_is_bounded_and_operation_ids_are_validated",
-      "community": 41,
+      "community": 175,
       "norm_label": "replay_cache_is_bounded_and_operation_ids_are_validated()"
     },
     {
@@ -9393,7 +9393,7 @@
       "label": "infrastructure_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L38",
+      "source_location": "L42",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9407,7 +9407,7 @@
       "label": "trust_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L43",
+      "source_location": "L47",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9418,24 +9418,38 @@
       "norm_label": "trust_failure()"
     },
     {
-      "label": "cleanup()",
+      "label": "cleanup_files()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L48",
+      "source_location": "L52",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
       },
       "_origin": "ast",
-      "id": "scripts_verify_external_napplet_corpus_cleanup",
+      "id": "scripts_verify_external_napplet_corpus_cleanup_files",
       "community": 66,
-      "norm_label": "cleanup()"
+      "norm_label": "cleanup_files()"
+    },
+    {
+      "label": "cleanup_on_exit()",
+      "file_type": "code",
+      "source_file": "scripts/verify-external-napplet-corpus.sh",
+      "source_location": "L107",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_verify_external_napplet_corpus_cleanup_on_exit",
+      "community": 66,
+      "norm_label": "cleanup_on_exit()"
     },
     {
       "label": "run_bounded_subprocess()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L65",
+      "source_location": "L120",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9449,7 +9463,7 @@
       "label": "create_temp_file()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L93",
+      "source_location": "L148",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9580,6 +9594,20 @@
       "id": "scripts_verify_external_napplet_corpus_test_cleanup",
       "community": 69,
       "norm_label": "cleanup()"
+    },
+    {
+      "label": "assert_cleanup_failure()",
+      "file_type": "code",
+      "source_file": "scripts/verify-external-napplet-corpus.test.sh",
+      "source_location": "L105",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_verify_external_napplet_corpus_test_assert_cleanup_failure",
+      "community": 69,
+      "norm_label": "assert_cleanup_failure()"
     },
     {
       "label": "manifest.json",
@@ -28250,17 +28278,27 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L48",
+      "source_location": "L52",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
-      "target": "scripts_verify_external_napplet_corpus_cleanup",
+      "target": "scripts_verify_external_napplet_corpus_cleanup_files",
       "confidence_score": 1.0
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L93",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
+      "target": "scripts_verify_external_napplet_corpus_cleanup_on_exit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.sh",
+      "source_location": "L148",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_create_temp_file",
@@ -28270,7 +28308,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L38",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_infrastructure_failure",
@@ -28280,7 +28318,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L65",
+      "source_location": "L120",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_run_bounded_subprocess",
@@ -28300,7 +28338,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L43",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_trust_failure",
@@ -28310,7 +28348,18 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L140",
+      "source_location": "L564",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_verify_external_napplet_corpus_sh__entry",
+      "target": "scripts_verify_external_napplet_corpus_cleanup_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.sh",
+      "source_location": "L198",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -28321,7 +28370,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L117",
+      "source_location": "L172",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -28332,7 +28381,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L146",
+      "source_location": "L204",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -28343,7 +28392,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L311",
+      "source_location": "L369",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -28354,11 +28403,22 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L107",
+      "source_location": "L162",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_create_temp_file",
       "target": "scripts_verify_external_napplet_corpus_infrastructure_failure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.sh",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_verify_external_napplet_corpus_cleanup_on_exit",
+      "target": "scripts_verify_external_napplet_corpus_cleanup_files",
       "confidence_score": 1.0
     },
     {
@@ -28435,6 +28495,16 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.test.sh",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "scripts_verify_external_napplet_corpus_test_sh_scripts_verify_external_napplet_corpus_test",
+      "target": "scripts_verify_external_napplet_corpus_test_assert_cleanup_failure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.test.sh",
       "source_location": "L12",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_test_sh_scripts_verify_external_napplet_corpus_test",
@@ -28449,6 +28519,17 @@
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_test_sh_scripts_verify_external_napplet_corpus_test",
       "target": "scripts_verify_external_napplet_corpus_test_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-external-napplet-corpus.test.sh",
+      "source_location": "L146",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_verify_external_napplet_corpus_test_sh__entry",
+      "target": "scripts_verify_external_napplet_corpus_test_assert_cleanup_failure",
       "confidence_score": 1.0
     },
     {
@@ -31605,5 +31686,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b09ac7363ba5d72abec5e4179126622227d74041"
+  "built_at_commit": "a8b65a41e117c058b352417b4644669975e133c2"
 }
