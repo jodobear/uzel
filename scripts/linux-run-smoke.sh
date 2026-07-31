@@ -8,7 +8,7 @@ RUNTIME_TIMEOUT_SECONDS=${UZEL_SMOKE_RUNTIME_TIMEOUT_SECONDS:-120}
 SHUTDOWN_GRACE_SECONDS=${UZEL_SMOKE_SHUTDOWN_GRACE_SECONDS:-5}
 PROFILE_AGGREGATE=5014540ffd21538f011bcf7d1c4999d73e5a5691b681bc878921b5e857de9b94
 FOLLOW_AGGREGATE=522e97dccfbf47d24074625e8ed0be83833d2f797a56ec8215d08ff9294cbb4d
-NAPD_READY_PATTERN='UZEL_NAPD_READY role=runtime-authority'
+NAPD_READY_PATTERN='UZEL_NAPD_READY role=runtime-authority$'
 
 [[ "$STARTUP_TIMEOUT_SECONDS" =~ ^[1-9][0-9]*$ ]] \
   || { echo 'UZEL_SMOKE_STARTUP_TIMEOUT_SECONDS must be a positive integer' >&2; exit 2; }
@@ -149,8 +149,8 @@ hostile_markers_are_ordered() {
 }
 
 runtime_markers_ready() {
-  # napd and Tauri share this log. Concurrent Cargo progress can prefix or suffix
-  # the daemon's line, so require the exact marker token without line anchors.
+  # napd and Tauri share this log. Concurrent Cargo progress can prefix the
+  # daemon's line, so require the exact marker at line end without a start anchor.
   rg -q "$NAPD_READY_PATTERN" "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_SHELL_READY$' "$SMOKE_TMP/uzel.log" \
     && rg -q "^UZEL_FIXTURE_VERIFIED fixture=profile-card aggregate=${PROFILE_AGGREGATE}$" "$SMOKE_TMP/uzel.log" \

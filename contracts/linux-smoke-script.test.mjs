@@ -32,12 +32,16 @@ function matchesLog(contents) {
   }
 }
 
-test('napd readiness survives shared-log output at either marker boundary', () => {
+test('napd readiness survives shared-log output before the marker', () => {
   assert.equal(
     matchesLog(
-      '\u001b[1mconcurrent cargo outputUZEL_NAPD_READY role=runtime-authority\u001b[0m\n',
+      '\u001b[1mconcurrent cargo outputUZEL_NAPD_READY role=runtime-authority\n',
     ),
     true,
   );
   assert.equal(matchesLog('UZEL_NAPD_READY role=wrong-authority\n'), false);
+  assert.equal(
+    matchesLog('UZEL_NAPD_READY role=runtime-authority-extra\n'),
+    false,
+  );
 });
