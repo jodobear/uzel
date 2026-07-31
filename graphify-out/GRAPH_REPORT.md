@@ -1,7 +1,7 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 130 files · ~91,503 words
+- 130 files · ~91,700 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b6a4a296`
+- Built from commit: `ed1efb47`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
