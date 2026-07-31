@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+script_directory=${BASH_SOURCE[0]%/*}
+if [[ $script_directory == "${BASH_SOURCE[0]}" ]]; then
+  script_directory=.
+fi
+root=$(cd "$script_directory/.." && pwd)
 lock=${1:-"$root/fixtures/external-napplet-corpus/corpus.lock.json"}
 nak_bin=${UZEL_NAK_BIN:-nak}
 jq_bin=${UZEL_JQ_BIN:-jq}
 node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
+mktemp_bin=${UZEL_MKTEMP_BIN:-mktemp}
+rm_bin=${UZEL_RM_BIN:-rm}
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
-entries_file=$(mktemp)
-verified_event_file=$(mktemp)
-
-cleanup() {
-  rm -f -- "$entries_file" "$verified_event_file"
-}
-trap cleanup EXIT
+mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
+entries_file=
+verified_event_file=
 
 infrastructure_failure() {
   echo "EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=$1 message=$2" >&2
@@ -28,10 +30,49 @@ trust_failure() {
   exit 2
 }
 
+cleanup() {
+  local temporary_file
+  for temporary_file in "$entries_file" "$verified_event_file"; do
+    if [[ -n $temporary_file ]]; then
+      set +e
+      "$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" \
+        "$rm_bin" -f -- "$temporary_file" >/dev/null 2>&1
+      set -e
+    fi
+  done
+}
+trap cleanup EXIT
+
+create_temp_file() {
+  local target_variable=$1
+  local description=$2
+  local candidate
+  local mktemp_status
+
+  set +e
+  candidate=$("$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" "$mktemp_bin" 2>/dev/null)
+  mktemp_status=$?
+  set -e
+  if [[ -n $candidate && $candidate != *$'\n'* && -f $candidate && ! -L $candidate ]]; then
+    printf -v "$target_variable" '%s' "$candidate"
+  fi
+  if [[ $mktemp_status -eq 124 || $mktemp_status -eq 137 ]]; then
+    infrastructure_failure mktemp-timeout "$description temporary-file creation exceeded ${mktemp_timeout_seconds}s"
+  fi
+  if [[ $mktemp_status -ne 0 ]]; then
+    infrastructure_failure mktemp-execution-failed "$description temporary-file creation failed with status $mktemp_status"
+  fi
+  if [[ -z ${!target_variable} ]]; then
+    infrastructure_failure mktemp-invalid-output "$description temporary-file creation returned no regular file"
+  fi
+}
+
+command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
+command -v "$rm_bin" >/dev/null 2>&1 || infrastructure_failure rm-unavailable "rm is required"
+command -v "$mktemp_bin" >/dev/null 2>&1 || infrastructure_failure mktemp-unavailable "mktemp is required"
 command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailable "node is required"
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
 command -v "$nak_bin" >/dev/null 2>&1 || infrastructure_failure nak-unavailable "pinned nak is required"
-command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
 if [[ ! $node_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "node timeout must be a positive number of seconds"
 fi
@@ -41,17 +82,34 @@ fi
 if [[ ! $nak_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "nak timeout must be a positive number of seconds"
 fi
+if [[ ! $mktemp_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
+  infrastructure_failure invalid-timeout "mktemp timeout must be a positive number of seconds"
+fi
+
+create_temp_file entries_file entries
+create_temp_file verified_event_file event
 
 set +e
 verified_snapshot=$("$timeout_bin" --kill-after=1 "$node_timeout_seconds" \
-  "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock")
+  "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock" \
+  2> "$entries_file")
 node_status=$?
 set -e
+mapfile -t node_stderr_lines < "$entries_file"
+: > "$entries_file"
 if [[ $node_status -eq 124 || $node_status -eq 137 ]]; then
   infrastructure_failure node-timeout "corpus structure verifier exceeded ${node_timeout_seconds}s"
 fi
 if [[ $node_status -eq 2 ]]; then
-  exit 2
+  trust_marker_pattern='^EXTERNAL_NAPPLET_CORPUS_TRUST code=[a-z][a-z0-9-]* message=.+$'
+  if [[ ${#node_stderr_lines[@]} -eq 1 &&
+    ${node_stderr_lines[0]} != *$'\r'* &&
+    ${node_stderr_lines[0]} =~ $trust_marker_pattern ]]; then
+    printf '%s\n' "${node_stderr_lines[0]}" >&2
+    exit 2
+  fi
+  infrastructure_failure node-invalid-trust-output \
+    "corpus structure verifier exited 2 without exactly one typed trust marker"
 fi
 if [[ $node_status -ne 0 ]]; then
   infrastructure_failure node-execution-failed "corpus structure verifier failed with status $node_status"

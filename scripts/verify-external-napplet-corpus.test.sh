@@ -27,6 +27,70 @@ if [[ $basename_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
   exit 1
 fi
 
+checked_mktemp="$temporary_corpus/checked-mktemp"
+# These lines are emitted into the fake mktemp executable.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'call_count=0' \
+  'if [[ -f $UZEL_MKTEMP_COUNT_FILE ]]; then' \
+  '  IFS= read -r call_count < "$UZEL_MKTEMP_COUNT_FILE"' \
+  'fi' \
+  '((call_count += 1))' \
+  'printf '\''%s\n'\'' "$call_count" > "$UZEL_MKTEMP_COUNT_FILE"' \
+  'if [[ $call_count -eq $UZEL_MKTEMP_FAIL_ON ]]; then' \
+  '  exit 46' \
+  'fi' \
+  'candidate="${UZEL_MKTEMP_FILE_PREFIX}-${call_count}"' \
+  ': > "$candidate"' \
+  'printf '\''%s\n'\'' "$candidate"' > "$checked_mktemp"
+chmod +x "$checked_mktemp"
+for fail_on in 1 2; do
+  mktemp_count_file="$temporary_corpus/mktemp-count-$fail_on"
+  mktemp_file_prefix="$temporary_corpus/mktemp-file-$fail_on"
+  set +e
+  mktemp_failure_output=$(
+    UZEL_MKTEMP_BIN="$checked_mktemp" \
+      UZEL_MKTEMP_COUNT_FILE="$mktemp_count_file" \
+      UZEL_MKTEMP_FAIL_ON="$fail_on" \
+      UZEL_MKTEMP_FILE_PREFIX="$mktemp_file_prefix" \
+      bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+  )
+  mktemp_failure_status=$?
+  set -e
+  if [[ $mktemp_failure_status -ne 3 ||
+    $mktemp_failure_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=mktemp-execution-failed"* ]]; then
+    echo "expected mktemp failure $fail_on to be a typed infrastructure failure" >&2
+    echo "$mktemp_failure_output" >&2
+    exit 1
+  fi
+  if [[ -e ${mktemp_file_prefix}-1 ]]; then
+    echo "expected mktemp failure $fail_on cleanup to leave no first temporary file" >&2
+    exit 1
+  fi
+done
+
+hanging_mktemp="$temporary_corpus/hanging-mktemp"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exec sleep 10' > "$hanging_mktemp"
+chmod +x "$hanging_mktemp"
+set +e
+mktemp_timeout_output=$(
+  UZEL_MKTEMP_BIN="$hanging_mktemp" \
+    UZEL_MKTEMP_TIMEOUT_SECONDS=0.1 \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+mktemp_timeout_status=$?
+set -e
+if [[ $mktemp_timeout_status -ne 3 ||
+  $mktemp_timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=mktemp-timeout"* ]]; then
+  echo "expected a hanging mktemp subprocess to time out as infrastructure failure" >&2
+  echo "$mktemp_timeout_output" >&2
+  exit 1
+fi
+
 null_entry_lock="$null_entry_corpus/corpus.lock.json"
 null_entry_lock_next="$null_entry_corpus/corpus.lock.next.json"
 jq '.entries[0] = null' "$null_entry_lock" > "$null_entry_lock_next"
@@ -57,6 +121,25 @@ set -e
 if [[ $node_timeout_status -ne 3 || $node_timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-timeout"* ]]; then
   echo "expected a hanging Node structural verifier to time out as infrastructure failure" >&2
   echo "$node_timeout_output" >&2
+  exit 1
+fi
+
+untyped_exit_two_node="$temporary_corpus/untyped-exit-two-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exit 2' > "$untyped_exit_two_node"
+chmod +x "$untyped_exit_two_node"
+set +e
+untyped_exit_two_output=$(
+  UZEL_NODE_BIN="$untyped_exit_two_node" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+untyped_exit_two_status=$?
+set -e
+if [[ $untyped_exit_two_status -ne 3 ||
+  $untyped_exit_two_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-invalid-trust-output"* ]]; then
+  echo "expected an untyped Node exit 2 to fail as infrastructure" >&2
+  echo "$untyped_exit_two_output" >&2
   exit 1
 fi
 
@@ -412,4 +495,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned node=bounded jq=bounded execution=bounded transport=lossless'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless'

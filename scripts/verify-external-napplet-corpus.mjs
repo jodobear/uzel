@@ -18,6 +18,10 @@ const EXPECTED_NAK_VERSION = '0.20.1';
 const EXPECTED_SOURCE_COMMIT = 'aa4dc7a0799d95e3066b50055b29685d6e376045';
 const EXPECTED_SOURCE_COMMIT_URL =
   `https://github.com/hzrd149/napplelets/commit/${EXPECTED_SOURCE_COMMIT}`;
+const EXPECTED_SOURCE_LICENSE_URL =
+  `https://github.com/hzrd149/napplelets/blob/${EXPECTED_SOURCE_COMMIT}/LICENSE`;
+const EXPECTED_AUDITED_ON = '2026-07-31';
+const EXPECTED_PUBLISHED_AT = '2026-07-26T11:52:04Z';
 const VERIFIED_SNAPSHOT_FORMAT = 'uzel.verified-external-napplet-corpus.v1';
 const EXPECTED_FAILURE_POLICY = Object.freeze({
   infrastructure: ['artifact-server-unavailable', 'relay-unavailable'],
@@ -446,9 +450,21 @@ async function readVerifiedCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
     `source.commitUrl must remain ${EXPECTED_SOURCE_COMMIT_URL}`,
   );
   requireCondition(lock.source.license === 'MIT', 'invalid-lock', 'source license must remain explicit');
-  requireString(lock.source.licenseUrl, 'source.licenseUrl');
-  requireString(lock.source.auditedOn, 'source.auditedOn');
-  requireString(lock.source.publishedAt, 'source.publishedAt');
+  requireCondition(
+    lock.source.licenseUrl === EXPECTED_SOURCE_LICENSE_URL,
+    'invalid-lock',
+    `source.licenseUrl must remain ${EXPECTED_SOURCE_LICENSE_URL}`,
+  );
+  requireCondition(
+    lock.source.auditedOn === EXPECTED_AUDITED_ON,
+    'invalid-lock',
+    `source.auditedOn must remain ${EXPECTED_AUDITED_ON}`,
+  );
+  requireCondition(
+    lock.source.publishedAt === EXPECTED_PUBLISHED_AT,
+    'invalid-lock',
+    `source.publishedAt must remain ${EXPECTED_PUBLISHED_AT}`,
+  );
   requireCondition(
     lock.toolchain?.nakVersion === EXPECTED_NAK_VERSION,
     'invalid-lock',

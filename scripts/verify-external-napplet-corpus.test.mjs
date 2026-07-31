@@ -234,6 +234,37 @@ test('source commit and commit URL remain pinned to the audited source', async (
   }
 });
 
+test('license and audit timestamps remain pinned to the audited provenance', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-provenance-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  const mutations = [
+    {
+      field: 'licenseUrl',
+      value: 'https://github.com/hzrd149/napplelets/blob/main/LICENSE',
+    },
+    { field: 'auditedOn', value: '2026-08-01' },
+    { field: 'publishedAt', value: '2026-07-26T11:52:05Z' },
+  ];
+
+  try {
+    for (const mutation of mutations) {
+      const lock = await loadLock();
+      lock.source[mutation.field] = mutation.value;
+      await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+      await assert.rejects(
+        verifyCorpus(lockPath),
+        (error) =>
+          error instanceof CorpusVerificationError &&
+          error.category === 'trust' &&
+          error.code === 'invalid-lock' &&
+          error.message.includes(`source.${mutation.field} must remain`),
+      );
+    }
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
 test('event ids remain pinned by audited name instead of caller-lock self-consistency', async () => {
   const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-event-pin-'));
   const corpusDirectory = join(temporaryDirectory, 'corpus');
