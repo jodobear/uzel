@@ -111,13 +111,15 @@ review. No product behavior changed after the accepted gates.
   pins, and product UI.
 
 Exact branch evidence: corpus commit `b0ba7f9`; verifier commit `6580d9a`;
-review-fix commit `0c874d9917749a96fd1945ef205390256b989573`; offline
-verifier 4/4; five Node tests; classification self-test trust=`2`,
-infrastructure=`3`; exact flake `nak 0.20.1` accepted while the host PATH
-`nak 0.16.2` is refused; ShellCheck, `pnpm check`, lint/boundaries, full
-`pnpm test`, Fallow, docs audit, and Rust formatting pass. No runtime
-integration is claimed; later live launch remains gated by #13 and rendered
-evidence by #17.
+review-fix commits `0c874d9917749a96fd1945ef205390256b989573` and
+`4042c69036b8225b5d7aeb512d1b850ce08d365b`; all four corpus entries verify
+offline; the Node verifier suite rejects unknown/omitted allowlist entries; the
+shell classification suite rejects failed jq enumeration as infrastructure=`3`
+and invalid signatures as trust=`2`; exact flake `nak 0.20.1` is accepted while
+the host PATH `nak 0.16.2` is refused; ShellCheck, `pnpm check`,
+lint/boundaries, full `pnpm test`, Fallow, docs audit, and Rust formatting pass.
+No runtime integration is claimed; later live launch remains gated by #13 and
+rendered evidence by #17.
 
 ## Exit rule
 
