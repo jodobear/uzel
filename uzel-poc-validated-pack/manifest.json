@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 4393,
-      "sha256": "6c0d5cc5033cdb3e453b1155130a460c168e1faf380e8502bd33918bde72c217"
+      "bytes": 4055,
+      "sha256": "829c71a6f9f039c5486708e67c5c637cdcd9156fb6bac7cf001733e2e266c265"
     },
     {
       "path": "TREE.txt",
@@ -28,12 +28,12 @@
     {
       "path": "audit-results.json",
       "bytes": 217,
-      "sha256": "c225b349689729802428d7771697f3b1d96d3222b353a582f4064c6088c089a2"
+      "sha256": "c963e28d04f232211e7d66e6fb68534b0589b6d8e0e958ffdc0b0364e5a18efe"
     },
     {
       "path": "compatibility.lock",
-      "bytes": 40846,
-      "sha256": "ac9af21aa316e723592dc2a09a3a1a59f5993bf4f58c8fad7e5e2c9e8d21ac2a"
+      "bytes": 43029,
+      "sha256": "a87ddad1a653db9949b538e7ab986be856d6a707f99f4feab5034569d6d0a6a4"
     },
     {
       "path": "config/fallow.jsonc",
@@ -82,8 +82,8 @@
     },
     {
       "path": "docs/08-upstream-contributions.md",
-      "bytes": 8562,
-      "sha256": "6f758b0edc06a34f4f099dd6bb169045c6f7d3b31c380af947a0d7f04fdfa4f6"
+      "bytes": 9550,
+      "sha256": "3dbfa3b2c195c218ecc395a6d449e46bca1a97554d6c51504ea7a26d3f63c62f"
     },
     {
       "path": "docs/facts/FACT-001-kehto-package-line.md",
@@ -152,8 +152,8 @@
     },
     {
       "path": "docs/facts/FACT-014-live-identity-catalog.md",
-      "bytes": 12863,
-      "sha256": "e012eadb140d5b2b9d3f792479d865d7a0ba23ad0a5f39c31472c297e05fd86f"
+      "bytes": 14234,
+      "sha256": "455c6415794c6b3f95b12d8c577b32f3435f1a3ed5de20ec5ee28346eef9e991"
     },
     {
       "path": "reports/nampplets-linux-map.md",
@@ -171,16 +171,6 @@
       "sha256": "17f23a6c6d5ce619b27369e14cd3ec481b9ae8a78950a74544ad2d77babecec1"
     },
     {
-      "path": "reports/probes/linux-failed/uzel.log",
-      "bytes": 2246,
-      "sha256": "69e538069f09aed2200a3187ebdaab771b97fd55a89e571fd074e29ed5b8bb4c"
-    },
-    {
-      "path": "reports/probes/linux-failed/weston.log",
-      "bytes": 3498,
-      "sha256": "387147c1da79ad8f02a0e8cf3ed9fa0183d00166adf00ab966566b20e3131113"
-    },
-    {
       "path": "reports/probes/slice-01-fedora-failed/weston.txt",
       "bytes": 313,
       "sha256": "63b575feef632fb87e3942d37a9f22b62c6774b5684433d610bff5cb9d03f37f"
@@ -194,46 +184,6 @@
       "path": "reports/probes/slice-02-fedora-failed/weston.log",
       "bytes": 3497,
       "sha256": "d999ab0dfed284f01d0f5b770c49c67d1b5e3db1dc1ac5620065c66bf4f0c138"
-    },
-    {
-      "path": "reports/probes/slice-05-current-upstream-relay-policy-failed/uzel.log",
-      "bytes": 28715,
-      "sha256": "afccb5373191fc8ebc21101af23de2d88d85a69cb61f17d342c031ace4e32c86"
-    },
-    {
-      "path": "reports/probes/slice-05-current-upstream-relay-policy-failed/weston.log",
-      "bytes": 3497,
-      "sha256": "d999ab0dfed284f01d0f5b770c49c67d1b5e3db1dc1ac5620065c66bf4f0c138"
-    },
-    {
-      "path": "reports/probes/slice-05-fedora-cold-build-timeout-failed/uzel.log",
-      "bytes": 61337,
-      "sha256": "ea3dbc92a72a12fa88760d5f36e8bdf2fc33b9ea305c224377c9454808621831"
-    },
-    {
-      "path": "reports/probes/slice-05-fedora-cold-build-timeout-failed/weston.log",
-      "bytes": 3498,
-      "sha256": "79c36d31dd37e7577c87237b25aece990dc29e2e40a8b810cbba7b30068c8676"
-    },
-    {
-      "path": "reports/probes/slice-05-fedora-linker-contamination-failed/uzel.log",
-      "bytes": 14742,
-      "sha256": "f87a7f83a98a8747cbe84e2ca68640fceac080bfdc65e0eecc7d893933c55488"
-    },
-    {
-      "path": "reports/probes/slice-05-fedora-linker-contamination-failed/weston.log",
-      "bytes": 3498,
-      "sha256": "743484d7388ac369943e596f716c2e9870eb8518616bef7a0994070684ca7477"
-    },
-    {
-      "path": "reports/probes/slice-06-fedora-failed/uzel.log",
-      "bytes": 4101,
-      "sha256": "71cc8939b04298de3902cf6705412c1cdb942aa9da0092b9703a249b40e6474f"
-    },
-    {
-      "path": "reports/probes/slice-06-fedora-failed/weston.log",
-      "bytes": 3561,
-      "sha256": "bc1cfb3abfaf025f5c927bbe3116379821a721aa62831287445a67a81a32dae3"
     },
     {
       "path": "reports/slice-01-preflight.md",
