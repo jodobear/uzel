@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { cp, mkdtemp, readFile, rename, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { test } from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import {
   CorpusVerificationError,
@@ -10,6 +12,11 @@ import {
   verifyCorpus,
   verifySignedEvent,
 } from './verify-external-napplet-corpus.mjs';
+
+const DEFAULT_CORPUS_DIRECTORY = dirname(DEFAULT_CORPUS_LOCK);
+const VERIFIER_SCRIPT = fileURLToPath(
+  new URL('./verify-external-napplet-corpus.mjs', import.meta.url),
+);
 
 async function loadLock() {
   return JSON.parse(await readFile(DEFAULT_CORPUS_LOCK, 'utf8'));
@@ -116,6 +123,134 @@ test('external corpus verifies offline with exact audited tuples', async () => {
 test('caller-supplied relative lock path verifies against the same corpus', async () => {
   const lock = await verifyCorpus('fixtures/external-napplet-corpus/corpus.lock.json');
   assert.equal(lock.entries.length, 4);
+});
+
+test('missing corpus data is trust failure but operational reads are infrastructure exit 3', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-read-'));
+  try {
+    await assert.rejects(
+      verifyCorpus(join(temporaryDirectory, 'missing.json')),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'missing-corpus-data',
+    );
+    await assert.rejects(
+      verifyCorpus(temporaryDirectory),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'infrastructure' &&
+        error.code === 'corpus-read-failed',
+    );
+
+    const cli = spawnSync(process.execPath, [VERIFIER_SCRIPT, temporaryDirectory], {
+      encoding: 'utf8',
+    });
+    assert.equal(cli.status, 3);
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('null and non-object lock roots fail as invalid lock trust errors', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-root-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    for (const root of [null, [], 'not-an-object']) {
+      await writeFile(lockPath, JSON.stringify(root), 'utf8');
+      await assert.rejects(
+        verifyCorpus(lockPath),
+        (error) =>
+          error instanceof CorpusVerificationError &&
+          error.category === 'trust' &&
+          error.code === 'invalid-lock' &&
+          error.message.includes('root must be an object'),
+      );
+    }
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('source commit and commit URL remain pinned to the audited source', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-source-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    const replacementCommit = '0'.repeat(40);
+    const replacedSource = await loadLock();
+    replacedSource.source.commit = replacementCommit;
+    replacedSource.source.commitUrl =
+      `https://github.com/hzrd149/napplelets/commit/${replacementCommit}`;
+    await writeFile(lockPath, JSON.stringify(replacedSource), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('source.commit must remain'),
+    );
+
+    const replacedUrl = await loadLock();
+    replacedUrl.source.commitUrl = 'https://github.com/hzrd149/napplelets/commit/not-the-pin';
+    await writeFile(lockPath, JSON.stringify(replacedUrl), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('source.commitUrl must remain'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('symlinked event files are rejected even when their target remains inside the corpus', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-symlink-'));
+  const corpusDirectory = join(temporaryDirectory, 'corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, corpusDirectory, { recursive: true });
+    const eventPath = join(corpusDirectory, 'events/good-morning.json');
+    const backingPath = join(corpusDirectory, 'events/good-morning.backing.json');
+    await rename(eventPath, backingPath);
+    await symlink('good-morning.backing.json', eventPath);
+
+    await assert.rejects(
+      verifyCorpus(join(corpusDirectory, 'corpus.lock.json')),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('symlinked event evidence'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('canonical event containment rejects a symlinked parent that escapes the corpus', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-containment-'));
+  const corpusDirectory = join(temporaryDirectory, 'corpus');
+  const outsideEvents = join(temporaryDirectory, 'outside-events');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, corpusDirectory, { recursive: true });
+    await cp(join(corpusDirectory, 'events'), outsideEvents, { recursive: true });
+    await rm(join(corpusDirectory, 'events'), { recursive: true, force: true });
+    await symlink(outsideEvents, join(corpusDirectory, 'events'), 'dir');
+
+    await assert.rejects(
+      verifyCorpus(join(corpusDirectory, 'corpus.lock.json')),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('escapes corpus directory'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
 });
 
 test('automation scope drift fails closed before later harnesses can consume it', async () => {

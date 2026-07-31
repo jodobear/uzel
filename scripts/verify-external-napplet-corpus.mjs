@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { constants } from 'node:fs';
+import { open, readFile, realpath } from 'node:fs/promises';
+import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -14,6 +15,9 @@ const HEX_64 = /^[0-9a-f]{64}$/;
 const HEX_128 = /^[0-9a-f]{128}$/;
 const EXPECTED_FORMAT = 'uzel.external-napplet-corpus.v1';
 const EXPECTED_NAK_VERSION = '0.20.1';
+const EXPECTED_SOURCE_COMMIT = 'aa4dc7a0799d95e3066b50055b29685d6e376045';
+const EXPECTED_SOURCE_COMMIT_URL =
+  `https://github.com/hzrd149/napplelets/commit/${EXPECTED_SOURCE_COMMIT}`;
 const EXPECTED_SAFE_AUTOMATION = new Map([
   ['good-morning', 'control'],
   ['rubik-cube', 'zero-capability-render-input'],
@@ -32,6 +36,10 @@ export class CorpusVerificationError extends Error {
 
 function trust(code, message) {
   throw new CorpusVerificationError('trust', code, message);
+}
+
+function infrastructure(code, message) {
+  throw new CorpusVerificationError('infrastructure', code, message);
 }
 
 function requireCondition(condition, code, message) {
@@ -228,13 +236,14 @@ export function verifySignedEvent(entry, event) {
   );
 }
 
-async function readJson(path, description) {
-  let text;
-  try {
-    text = await readFile(path, 'utf8');
-  } catch (error) {
+function readFailure(error, description) {
+  if (error?.code === 'ENOENT') {
     trust('missing-corpus-data', `${description}: ${error.message}`);
   }
+  infrastructure('corpus-read-failed', `${description}: ${error.message}`);
+}
+
+function parseJson(text, description) {
   try {
     return JSON.parse(text);
   } catch (error) {
@@ -242,14 +251,96 @@ async function readJson(path, description) {
   }
 }
 
+async function readJson(path, description) {
+  let text;
+  try {
+    text = await readFile(path, 'utf8');
+  } catch (error) {
+    readFailure(error, description);
+  }
+  return parseJson(text, description);
+}
+
+function isContainedPath(pathFromRoot) {
+  return (
+    pathFromRoot.length > 0 &&
+    pathFromRoot !== '..' &&
+    !pathFromRoot.startsWith(`..${sep}`) &&
+    !isAbsolute(pathFromRoot)
+  );
+}
+
+async function canonicalDirectory(path, description) {
+  try {
+    return await realpath(path);
+  } catch (error) {
+    readFailure(error, description);
+  }
+}
+
+async function readEventJson(path, description, canonicalCorpusDirectory, expectedCanonicalPath) {
+  let handle;
+  try {
+    handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+  } catch (error) {
+    if (error?.code === 'ELOOP') {
+      trust('invalid-lock', `${description}: symlinked event evidence is not allowed`);
+    }
+    readFailure(error, description);
+  }
+
+  try {
+    let canonicalPath;
+    try {
+      canonicalPath = await realpath(`/proc/self/fd/${handle.fd}`);
+    } catch (error) {
+      infrastructure('corpus-read-failed', `${description}: ${error.message}`);
+    }
+    requireCondition(
+      isContainedPath(relative(canonicalCorpusDirectory, canonicalPath)),
+      'invalid-lock',
+      `${description}: event file escapes corpus directory`,
+    );
+    requireCondition(
+      canonicalPath === expectedCanonicalPath,
+      'invalid-lock',
+      `${description}: symlinked event evidence is not allowed`,
+    );
+
+    let text;
+    try {
+      text = await handle.readFile('utf8');
+    } catch (error) {
+      infrastructure('corpus-read-failed', `${description}: ${error.message}`);
+    }
+    return parseJson(text, description);
+  } finally {
+    await handle.close();
+  }
+}
+
 export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   const resolvedLockPath = resolve(lockPath);
   const corpusDirectory = dirname(resolvedLockPath);
   const lock = await readJson(resolvedLockPath, 'corpus lock');
+  requireCondition(
+    lock !== null && typeof lock === 'object' && !Array.isArray(lock),
+    'invalid-lock',
+    'corpus lock root must be an object',
+  );
   requireCondition(lock.format === EXPECTED_FORMAT, 'invalid-lock', 'unknown corpus lock format');
   requireCondition(lock.source && typeof lock.source === 'object', 'invalid-lock', 'source provenance is required');
   requireCondition(lock.source.repository === 'https://github.com/hzrd149/napplelets', 'invalid-lock', 'unexpected source repository');
-  requireHex(lock.source.commit, /^[0-9a-f]{40}$/, 'source.commit');
+  requireCondition(
+    lock.source.commit === EXPECTED_SOURCE_COMMIT,
+    'invalid-lock',
+    `source.commit must remain ${EXPECTED_SOURCE_COMMIT}`,
+  );
+  requireCondition(
+    lock.source.commitUrl === EXPECTED_SOURCE_COMMIT_URL,
+    'invalid-lock',
+    `source.commitUrl must remain ${EXPECTED_SOURCE_COMMIT_URL}`,
+  );
   requireCondition(lock.source.license === 'MIT', 'invalid-lock', 'source license must remain explicit');
   requireString(lock.source.licenseUrl, 'source.licenseUrl');
   requireString(lock.source.auditedOn, 'source.auditedOn');
@@ -267,6 +358,8 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
     `entries must contain exactly ${EXPECTED_SAFE_AUTOMATION.size} audited napplets`,
   );
 
+  const canonicalCorpusDirectory = await canonicalDirectory(corpusDirectory, 'corpus directory');
+
   const names = new Set();
   const coordinates = new Set();
   const eventIds = new Set();
@@ -280,12 +373,18 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
     eventIds.add(entry.eventId);
 
     const eventPath = resolve(corpusDirectory, entry.eventFile);
+    const eventPathFromCorpus = relative(corpusDirectory, eventPath);
     requireCondition(
-      eventPath.startsWith(`${corpusDirectory}/`),
+      isContainedPath(eventPathFromCorpus),
       'invalid-lock',
       `${entry.name}: event file escapes corpus directory`,
     );
-    const event = await readJson(eventPath, `${entry.name} event`);
+    const event = await readEventJson(
+      eventPath,
+      `${entry.name} event`,
+      canonicalCorpusDirectory,
+      resolve(canonicalCorpusDirectory, eventPathFromCorpus),
+    );
     verifySignedEvent(entry, event);
   }
 
