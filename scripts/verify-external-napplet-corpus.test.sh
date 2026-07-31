@@ -323,6 +323,41 @@ if [[ $multiple_results_status -ne 3 ||
   exit 1
 fi
 
+typed_exit_two_node="$temporary_corpus/typed-exit-two-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'printf '\''%s\n'\'' '\''{"format":"uzel.external-napplet-corpus-result.v1","category":"trust","code":"invalid-lock","message":"hostile"}'\'' >&2' \
+  'exit 2' > "$typed_exit_two_node"
+chmod +x "$typed_exit_two_node"
+continuous_trust_result_jq="$temporary_corpus/continuous-trust-result-jq"
+# These lines are emitted into the fake jq script.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'for argument in "$@"; do' \
+  '  if [[ $argument == *".[0].format == \"uzel.external-napplet-corpus-result.v1\""* ]]; then' \
+  '    while :; do printf '\''%064d\n'\'' 0; done' \
+  '  fi' \
+  'done' \
+  'exec "$UZEL_REAL_JQ" "$@"' > "$continuous_trust_result_jq"
+chmod +x "$continuous_trust_result_jq"
+set +e
+trust_result_limit_output=$(
+  UZEL_NODE_BIN="$typed_exit_two_node" \
+    UZEL_JQ_BIN="$continuous_trust_result_jq" \
+    UZEL_REAL_JQ="$real_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+trust_result_limit_status=$?
+set -e
+if [[ $trust_result_limit_status -ne 3 ||
+  $trust_result_limit_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=jq-output-limit"* ||
+  $trust_result_limit_output == *"EXTERNAL_NAPPLET_CORPUS_TRUST result="* ]]; then
+  echo "expected continuous trust-result jq stdout to hit the streaming output bound" >&2
+  echo "$trust_result_limit_output" >&2
+  exit 1
+fi
+
 zero_entry_node="$temporary_corpus/zero-entry-node"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
@@ -859,4 +894,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded event-id=bound event-whitespace=allowed snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=bounded-observable'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded trust-result=bounded jq=bounded nak=bounded event-id=bound event-whitespace=allowed snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=bounded-observable'

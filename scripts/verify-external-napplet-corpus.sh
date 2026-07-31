@@ -24,6 +24,7 @@ nak_output_limit_bytes=65536
 canonical_lock_output_limit_bytes=65536
 event_binding_output_limit_bytes=1024
 snapshot_metadata_output_limit_bytes=1024
+trust_result_output_limit_bytes=1024
 sha256sum_output_limit_bytes=1024
 expected_lock_sha256=1994fc5940e51d0fd9a9567a1a82a0f836bd93ab496022cf43933eb69653c632
 # Four 16,384-byte event texts can each double when embedded as JSON strings.
@@ -216,8 +217,9 @@ fi
 if [[ $node_status -eq 2 ]]; then
   node_trust_status=1
   if [[ ! -s $verified_snapshot_file ]]; then
-    set +e
-    node_trust_result=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -c -e -s \
+    run_bounded_subprocess "$verified_event_file" "$entries_file" \
+      "$jq_timeout_seconds" "$trust_result_output_limit_bytes" \
+      "$jq_bin" -c -e -s \
       'select(
         length == 1
         and (.[0] | type) == "object"
@@ -226,14 +228,18 @@ if [[ $node_status -eq 2 ]]; then
         and .[0].category == "trust"
         and (.[0].code | type == "string" and test("^[a-z][a-z0-9-]*$"))
         and (.[0].message | type == "string" and length > 0)
-      ) | .[0]' "$subprocess_stderr_file")
-    node_trust_status=$?
-    set -e
+      ) | .[0]' "$subprocess_stderr_file"
+    node_trust_status=$bounded_status
+    if [[ $bounded_output_exceeded -eq 1 ]]; then
+      infrastructure_failure jq-output-limit \
+        "Node trust-result validation exceeded ${trust_result_output_limit_bytes} bytes on stdout or stderr"
+    fi
   fi
   if [[ $node_trust_status -eq 124 || $node_trust_status -eq 137 ]]; then
     infrastructure_failure jq-timeout "Node trust-result validation exceeded ${jq_timeout_seconds}s"
   fi
-  if [[ $node_trust_status -eq 0 ]]; then
+  if [[ $node_trust_status -eq 0 && -s $verified_event_file && ! -s $entries_file ]]; then
+    IFS= read -r node_trust_result < "$verified_event_file"
     printf 'EXTERNAL_NAPPLET_CORPUS_TRUST result=%s\n' "$node_trust_result" >&2
     exit 2
   fi
