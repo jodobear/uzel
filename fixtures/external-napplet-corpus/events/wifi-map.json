@@ -1,0 +1,16 @@
+{
+  "kind": 35129,
+  "id": "49e111745256e32af6a5b3dd02e54b731cd8848a2951e0cf6de0888ab52e1b99",
+  "pubkey": "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
+  "created_at": 1785066724,
+  "tags": [
+    ["d", "wifi-map"],
+    ["path", "/index.html", "3961e34469c74b0e194d260f9ae06e39535bd30d3bd207d28062cbc0833992fb"],
+    ["x", "4b5a81c828423aaad3ee146e6a849cf39438f7f25ddf0a93d50362b21b41fbc9", "aggregate"],
+    ["server", "https://cdn.hzrd149.com"],
+    ["server", "https://blossom.ditto.pub"],
+    ["title", "WiFi Map"]
+  ],
+  "content": "",
+  "sig": "464cfdb84b6e8d8ee44120ff75014f2f8455a2321538397dc7369285ab8196095ceda60c63a43f6a692cbcba63c4c3b61554955e2d6ef580675734eeb518aeec"
+}
