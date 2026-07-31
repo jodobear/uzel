@@ -1,6 +1,6 @@
 {
   "kind": 35129,
-  "created_at": 1785453326,
+  "created_at": 1785515273,
   "tags": [
     [
       "d",
@@ -9,11 +9,11 @@
     [
       "path",
       "/index.html",
-      "ecf5118afcb9d1dd218288445397ae596cf85d2d6ad7de57bb7097c8faf217ce"
+      "3d8161932899d3ecbea5ce52d53ae657380f6e7782271ca5b1be8aeee08465c8"
     ],
     [
       "x",
-      "522e97dccfbf47d24074625e8ed0be83833d2f797a56ec8215d08ff9294cbb4d",
+      "7839409263dd38002c2b5489c64a82fa6b61bc1588b5a9c8890319f587b2fedc",
       "aggregate"
     ],
     [
@@ -26,7 +26,7 @@
     ],
     [
       "description",
-      "Small direct-follow selector using runtime-mediated identity data."
+      "Direct-follow selector enriched through runtime-mediated profile data."
     ],
     [
       "requires",
@@ -35,10 +35,18 @@
     [
       "requires",
       "inc"
+    ],
+    [
+      "requires",
+      "outbox"
+    ],
+    [
+      "requires",
+      "resource"
     ]
   ],
   "content": "",
-  "id": "8cc91bdb0c613e0c00c74377a191b110b711415680b086c4953a2a6fe1e8b5d5",
-  "pubkey": "8dd2fc14f5d41e5b87d3de9baf3129398602a3d257a3d0c415f0841f0550a155",
-  "sig": "b8a873a6c30e0d313610d898bb517b748ddad040f445778259ddf90ac745b76cc6c9a03b0748e8b0ad7e16a0c23ebff9464a5823647182d6677e26935a1a9b8e"
+  "id": "2e7b8f9e7a5a7c0c01fb526d441f385a999e71d2e3b194097d62858e7289b4a5",
+  "pubkey": "4ddb7c95ed370036006cff742769fb6d0c77e50be2e952906a9b06100e078833",
+  "sig": "1cc1c6bba97fc0cb2c78c997d5a2280b796a82d703081a7b61f25f2dc7c4c591d3d5a4fe47a48e6341c68a486c0f9f1012db7431395556bc2d271d83413cfc21"
 }

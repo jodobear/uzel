@@ -106,9 +106,10 @@ The shell selects one lower-case hex key or `npub`. Register it through `Runtime
 Required behavior:
 
 - direct follows from canonical kind `3`/NIP-02 state;
-- visible list limited to a measured small window;
-- visible/cached profile hints fetched lazily;
-- selected profile reloaded as latest-known through NMP, without a napplet-owned freshness claim;
+- rendered follow list bounded at 1,024 canonical pubkeys;
+- follow names requested through NAP-OUTBOX in at most 64 author-bound kind-0 filters per batch;
+- follow pictures requested only for visible rows through bounded individual NAP-RESOURCE calls;
+- active and selected profiles reloaded as one complete latest-known canonical kind `0` through NMP, without a napplet-owned freshness claim;
 - cache-first rendering;
 - no claim of global completeness;
 - all observers cancelled when identity/session closes.
@@ -137,8 +138,10 @@ Payload:
 Use the exact queryless convention and runtime-attested sender behavior from the pinned packages/#204. Do not build a private event bus.
 
 This direct NAP-INC convention does not require an archetype tag or
-NAP-INTENT. `profile-card` intentionally declares only `inc` and `outbox`; the
-POC continues to treat `intent.deliver` as unsupported.
+NAP-INTENT. `follow-list` declares `identity`, `inc`, `outbox`, and `resource`;
+`profile-card` declares the same four domains. NAP-OUTBOX carries canonical
+kind-0 rows and NAP-RESOURCE carries recognized picture bytes. The POC
+continues to treat `intent.deliver` as unsupported.
 
 ## Web trust boundary
 
