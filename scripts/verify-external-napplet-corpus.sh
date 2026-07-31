@@ -7,6 +7,7 @@ nak_bin=${UZEL_NAK_BIN:-nak}
 jq_bin=${UZEL_JQ_BIN:-jq}
 node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
+node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 entries_file=$(mktemp)
 verified_event_file=$(mktemp)
@@ -30,14 +31,21 @@ command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailabl
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
 command -v "$nak_bin" >/dev/null 2>&1 || infrastructure_failure nak-unavailable "pinned nak is required"
 command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
+if [[ ! $node_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
+  infrastructure_failure invalid-timeout "node timeout must be a positive number of seconds"
+fi
 if [[ ! $nak_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "nak timeout must be a positive number of seconds"
 fi
 
 set +e
-verified_snapshot=$("$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock")
+verified_snapshot=$("$timeout_bin" --kill-after=1 "$node_timeout_seconds" \
+  "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock")
 node_status=$?
 set -e
+if [[ $node_status -eq 124 || $node_status -eq 137 ]]; then
+  infrastructure_failure node-timeout "corpus structure verifier exceeded ${node_timeout_seconds}s"
+fi
 if [[ $node_status -eq 2 ]]; then
   exit 2
 fi

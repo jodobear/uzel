@@ -41,6 +41,25 @@ if [[ $null_entry_status -ne 2 || $null_entry_output != *"EXTERNAL_NAPPLET_CORPU
   exit 1
 fi
 
+hanging_node="$temporary_corpus/hanging-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exec sleep 10' > "$hanging_node"
+chmod +x "$hanging_node"
+set +e
+node_timeout_output=$(
+  UZEL_NODE_BIN="$hanging_node" \
+    UZEL_NODE_TIMEOUT_SECONDS=0.1 \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+node_timeout_status=$?
+set -e
+if [[ $node_timeout_status -ne 3 || $node_timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-timeout"* ]]; then
+  echo "expected a hanging Node structural verifier to time out as infrastructure failure" >&2
+  echo "$node_timeout_output" >&2
+  exit 1
+fi
+
 real_node=$(command -v node)
 real_jq=$(command -v jq)
 snapshot_lock="$snapshot_corpus/corpus.lock.json"
@@ -353,4 +372,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned execution=bounded transport=lossless'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned node=bounded execution=bounded transport=lossless'
