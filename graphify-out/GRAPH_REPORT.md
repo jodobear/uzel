@@ -1,21 +1,20 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~85,567 words
+- 129 files · ~86,275 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1244 nodes · 1768 edges · 178 communities (79 shown, 99 thin omitted)
+- 1247 nodes · 1772 edges · 177 communities (79 shown, 98 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5c45fa67`
+- Built from commit: `624b235e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- HostileProbeState
 - Assumption validation and decision gates
 - check-napplet-imports.mjs
 - Provisional component design
@@ -213,11 +212,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (178 total, 99 thin omitted)
-
-### Community 0 - "HostileProbeState"
-Cohesion: 0.13
-Nodes (18): AtomicBool, AtomicU64, AtomicUsize, JoinHandle, accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe() (+10 more)
+## Communities (177 total, 98 thin omitted)
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -232,8 +227,8 @@ Cohesion: 0.13
 Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
 
 ### Community 4 - "Tests, quality gates, and demo"
-Cohesion: 0.15
-Nodes (27): canonicalDirectory(), CorpusVerificationError, DEFAULT_CORPUS_LOCK, exactTag(), EXPECTED_DOMAINS, EXPECTED_EVENT_IDS, EXPECTED_SAFE_AUTOMATION, infrastructure() (+19 more)
+Cohesion: 0.13
+Nodes (29): canonicalDirectory(), CorpusVerificationError, DEFAULT_CORPUS_LOCK, exactTag(), EXPECTED_DOMAINS, EXPECTED_EVENT_IDS, EXPECTED_FAILURE_POLICY, EXPECTED_SAFE_AUTOMATION (+21 more)
 
 ### Community 5 - "Uzel POC agent instructions"
 Cohesion: 0.18
@@ -262,6 +257,10 @@ Nodes (13): CARGO_INCREMENTAL, CARGO_PROFILE_DEV_DEBUG, fail(), record_prebuild(
 ### Community 11 - "04-execution.md"
 Cohesion: 0.16
 Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
+
+### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
+Cohesion: 0.22
+Nodes (4): Uzel agent instructions, Decision, Source baseline, FACT-XXX — title
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.09
@@ -328,7 +327,7 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 30 - "FACT-005-webkit-tauri-trust.md"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 31 - "FACT-006-csp-egress.md"
@@ -340,7 +339,7 @@ Cohesion: 0.25
 Nodes (7): Confidence, Corrections, Diagram review, Gate 0 resolution, POC documentation audit, Problems found in the previous pack, Verdict
 
 ### Community 33 - "FACT-008-toolchain.md"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): First hardening follow-ups, Likely `kehto/napd`, Moves to `jodobear/napplets`, POC shortcuts that must not silently become platform contracts, Post-POC extraction, Remains in Uzel, Rewrite criteria
 
 ### Community 34 - "fedora-run-smoke.sh"
@@ -369,15 +368,15 @@ Nodes (7): Done when, Goal, Outputs, Read, Stop conditions, Tasks, Work 00 — v
 
 ### Community 41 - "lib.rs"
 Cohesion: 0.10
-Nodes (33): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk() (+25 more)
+Nodes (32): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk() (+24 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.25
 Nodes (8): Acceptance, Depends on, Entry status, Goal, Non-goals, Status, Tasks, Work 01 — scaffold
 
 ### Community 43 - "README.md"
-Cohesion: 0.20
-Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
+Cohesion: 0.29
+Nodes (7): Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Verified facts
 
 ### Community 44 - "check-boundaries.sh"
 Cohesion: 0.29
@@ -440,8 +439,8 @@ Cohesion: 0.33
 Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.09
-Nodes (38): FnMut, From, State, TauriPlugin, Url, allowed_navigation(), ambiguous_confirmation_crosses_as_a_typed_retry_state(), ambiguous_review_crosses_as_a_typed_retry_state() (+30 more)
+Cohesion: 0.05
+Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.33
@@ -493,16 +492,16 @@ Nodes (8): Active parallel issue — #21 data-only corpus, Completed issue — #
 
 ### Community 175 - "server.rs"
 Cohesion: 0.12
-Nodes (31): Into, SurfaceLaunch, UnixListener, Request, Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail() (+23 more)
+Nodes (32): Into, SurfaceLaunch, UnixListener, Request, Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail() (+24 more)
 
 ### Community 176 - "Tests, quality gates, and demo"
 Cohesion: 0.20
 Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
 
 ## Knowledge Gaps
-- **433 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+428 more)
+- **434 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+429 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **99 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **98 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -512,12 +511,12 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _433 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `HostileProbeState` be split into smaller, more focused modules?**
-  _Cohesion score 0.1310344827586207 - nodes in this community are weakly interconnected._
+  _434 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `Provisional component design` be split into smaller, more focused modules?**
   _Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected._
+- **Should `Tests, quality gates, and demo` be split into smaller, more focused modules?**
+  _Cohesion score 0.13445378151260504 - nodes in this community are weakly interconnected._
 - **Should `Work 01 — scaffold` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._

@@ -665,8 +665,8 @@
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/corpus.lock.json": {
-    "mtime": 1785464667.9654045,
-    "ast_hash": "981c1c00da98638b8afd2cc5dada84a9",
+    "mtime": 1785472577.4283023,
+    "ast_hash": "f7e876c42177f6f947458ed02de4cef6",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/events/good-morning.json": {
@@ -690,28 +690,28 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.mjs": {
-    "mtime": 1785470912.3935907,
-    "ast_hash": "2c3884335009bcd79acb4c15b444d7b6",
+    "mtime": 1785472612.9166791,
+    "ast_hash": "06983dd3a4fc44b07c601e4fd6d9c3cb",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
-    "mtime": 1785472044.8396454,
-    "ast_hash": "2b8f511f5f484365f2435176e290c127",
+    "mtime": 1785472737.1599824,
+    "ast_hash": "a41f6f1f283b386a16bafdaa83d548d0",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
-    "mtime": 1785471080.3233807,
-    "ast_hash": "c2dd1c9fc5cd96c060d7129aeeaca11b",
+    "mtime": 1785472658.9811683,
+    "ast_hash": "1428136fb7305ed2e09e5dca722047a0",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {
-    "mtime": 1785472044.9346466,
-    "ast_hash": "b2ced5b1118a87b4ca52f99944dcce9f",
+    "mtime": 1785472737.2579834,
+    "ast_hash": "8d55413ec3b3a811050e74cac0f4eecf",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/README.md": {
-    "mtime": 1785464738.1391568,
-    "ast_hash": "e34ce5b53352d01cb19f5dc955413335",
+    "mtime": 1785472749.906115,
+    "ast_hash": "fa7ceb93ed20a10ba04ace50d8af5b01",
     "semantic_hash": ""
   }
 }
