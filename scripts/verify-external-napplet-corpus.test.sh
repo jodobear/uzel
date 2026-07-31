@@ -69,6 +69,32 @@ if [[ $version_status -ne 3 || $version_output != *"EXTERNAL_NAPPLET_CORPUS_INFR
   exit 1
 fi
 
+real_jq=$(command -v jq)
+broken_enumeration_jq="$temporary_corpus/broken-enumeration-jq"
+# This line is emitted into the fake jq script.
+# shellcheck disable=SC2016
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'for argument in "$@"; do' \
+  '  if [[ $argument == *".entries[]"* ]]; then' \
+  '    exit 44' \
+  '  fi' \
+  'done' \
+  "exec $real_jq \"\$@\"" > "$broken_enumeration_jq"
+chmod +x "$broken_enumeration_jq"
+set +e
+enumeration_output=$(
+  UZEL_JQ_BIN="$broken_enumeration_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+)
+enumeration_status=$?
+set -e
+if [[ $enumeration_status -ne 3 || $enumeration_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=jq-execution-failed"* ]]; then
+  echo "expected broken jq entry enumeration to be classified as infrastructure failure" >&2
+  echo "$enumeration_output" >&2
+  exit 1
+fi
+
 broken_nak="$temporary_corpus/broken-nak"
 printf '%s\n' \
   '#!/usr/bin/env bash' \

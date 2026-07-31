@@ -107,6 +107,11 @@ function verifyLockEntry(entry, publisher) {
   requireString(entry.name, 'entry.name');
   requireString(entry.title, `${entry.name}.title`);
   requireCondition(
+    EXPECTED_SAFE_AUTOMATION.has(entry.name),
+    'invalid-lock',
+    `${entry.name}: name is not in the audited automation allowlist`,
+  );
+  requireCondition(
     entry.safeAutomation === EXPECTED_SAFE_AUTOMATION.get(entry.name),
     'invalid-lock',
     `${entry.name}: automation scope is not the audited fail-closed value`,
@@ -249,7 +254,11 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   );
   requireHex(lock.publisher, HEX_64, 'publisher');
   verifyFailurePolicy(lock.failurePolicy);
-  requireCondition(Array.isArray(lock.entries) && lock.entries.length > 0, 'invalid-lock', 'entries must not be empty');
+  requireCondition(
+    Array.isArray(lock.entries) && lock.entries.length === EXPECTED_SAFE_AUTOMATION.size,
+    'invalid-lock',
+    `entries must contain exactly ${EXPECTED_SAFE_AUTOMATION.size} audited napplets`,
+  );
 
   const names = new Set();
   const coordinates = new Set();

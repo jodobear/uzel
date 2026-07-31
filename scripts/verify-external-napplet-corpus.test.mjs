@@ -138,6 +138,47 @@ test('automation scope drift fails closed before later harnesses can consume it'
   }
 });
 
+test('an unknown name cannot omit its automation scope and pass as undefined', async () => {
+  const lock = await loadLock();
+  lock.entries[0].name = 'not-audited';
+  delete lock.entries[0].safeAutomation;
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-lock-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('audited automation allowlist'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('a caller-supplied lock cannot omit an audited corpus entry', async () => {
+  const lock = await loadLock();
+  lock.entries.pop();
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-lock-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'invalid-lock' &&
+        error.message.includes('exactly 4 audited napplets'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
 test('tuple drift is a trust failure before launch', async () => {
   const lock = await loadLock();
   const entry = lock.entries[0];
