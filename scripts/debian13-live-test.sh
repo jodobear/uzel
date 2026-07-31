@@ -59,7 +59,7 @@ if [[ "${UZEL_DEBIAN13_NIX_SHELL:-}" != 1 ]]; then
     *) exit "$SETUP_STATUS" ;;
   esac
 
-  echo 'DEBIAN13_NIX_PLAN source=flake.lock tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
+  echo 'DEBIAN13_NIX_PLAN source=flake.lock tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep,chromium'
   NIX_NEEDS_APPROVAL=1
   if nix --extra-experimental-features 'nix-command flakes' \
     flake metadata --offline --no-write-lock-file . >/dev/null 2>&1; then

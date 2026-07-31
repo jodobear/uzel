@@ -22,14 +22,22 @@ Run the repository checks, including the Slice 03 napplets:
 ```sh
 pnpm check
 pnpm test
+pnpm test:ui
 pnpm test:conformance
 pnpm lint
 pnpm format:check
 pnpm docs:check
 pnpm fallow
 pnpm smoke
+pnpm smoke:linux
 pnpm smoke:fedora
 ```
+
+`pnpm test:ui` drives the real Svelte renderer, checked-in napplet artifacts,
+and trusted surface host through a deterministic mocked native boundary. It
+does not claim daemon, NMP, relay, Tauri, or WebKit coverage. The exact scenario
+matrix, evidence layout, and trust limits are documented in
+[`apps/uzel/tests/ui/README.md`](apps/uzel/tests/ui/README.md).
 
 Run the immutable-digest Debian build smoke from the Fedora host:
 

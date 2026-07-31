@@ -58,7 +58,7 @@ GROUP_ACTIVE=0
 [[ " $CONFIGURED_GROUPS " == *" nix-users "* ]] && GROUP_CONFIGURED=1
 [[ " $ACTIVE_GROUPS " == *" nix-users "* ]] && GROUP_ACTIVE=1
 echo "DEBIAN13_DEPENDENCY type=group name=nix-users configured=$GROUP_CONFIGURED active=$GROUP_ACTIVE"
-echo 'DEBIAN13_DEPENDENCY type=nix-closure status=resolved-by-flake tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep'
+echo 'DEBIAN13_DEPENDENCY type=nix-closure status=resolved-by-flake tools=node,pnpm,rust,cargo,tauri,nak,weston,webkitgtk,mesa,ripgrep,chromium'
 
 refresh_nix_builder_state() {
   local builder_number builder_user

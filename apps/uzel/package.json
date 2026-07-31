@@ -8,6 +8,7 @@
     "build": "vite build",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "test": "node --test src/*.test.mjs",
+    "test:ui": "node --test --test-concurrency=1 tests/ui/acceptance.test.mjs",
     "tauri": "cargo tauri"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "playwright": "1.62.0",
     "svelte-check": "4.7.4",
     "typescript": "6.0.3",
     "vite": "8.1.5"
