@@ -14,6 +14,9 @@ node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
 mktemp_bin=${UZEL_MKTEMP_BIN:-mktemp}
 rm_bin=${UZEL_RM_BIN:-rm}
+head_bin='head'
+mkdir_bin='mkdir'
+rmdir_bin='rmdir'
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 sha256sum_timeout_seconds=${UZEL_SHA256SUM_TIMEOUT_SECONDS:-10}
@@ -22,6 +25,7 @@ mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
 rm_timeout_seconds=${UZEL_RM_TIMEOUT_SECONDS:-10}
 nak_output_limit_bytes=65536
 canonical_lock_output_limit_bytes=65536
+entry_scalar_output_limit_bytes=1024
 event_binding_output_limit_bytes=1024
 snapshot_metadata_output_limit_bytes=1024
 trust_result_output_limit_bytes=1024
@@ -31,6 +35,11 @@ expected_lock_sha256=1994fc5940e51d0fd9a9567a1a82a0f836bd93ab496022cf43933eb6965
 # Two more doubled evidence-file allowances cover the lock and duplicated entry
 # metadata, and 65,536 bytes cover the fixed snapshot envelope/schema overhead.
 node_output_limit_bytes=262144
+entry_enumeration_output_limit_bytes=$node_output_limit_bytes
+trust_diagnostic_output_limit_bytes=16384
+verified_event_output_limit_bytes=16384
+temporary_path_output_limit_chars=4096
+temporary_directory=
 entries_file=
 verified_event_file=
 verified_snapshot_file=
@@ -52,6 +61,7 @@ trust_failure() {
 }
 
 cleanup_files() {
+  local rmdir_status
   local rm_status
   local temporary_file
   local temporary_files=()
@@ -67,28 +77,30 @@ cleanup_files() {
     fi
   done
 
-  if [[ ${#temporary_files[@]} -eq 0 ]]; then
+  if [[ ${#temporary_files[@]} -eq 0 && -z $temporary_directory ]]; then
     return 0
   fi
 
   cleanup_code=
   cleanup_message=
-  if "$timeout_bin" --kill-after=1 "$rm_timeout_seconds" \
-    "$rm_bin" -f -- "${temporary_files[@]}" >/dev/null 2>&1; then
-    rm_status=0
-  else
-    rm_status=$?
-  fi
+  if [[ ${#temporary_files[@]} -gt 0 ]]; then
+    if "$timeout_bin" --kill-after=1 "$rm_timeout_seconds" \
+      "$rm_bin" -f -- "${temporary_files[@]}" >/dev/null 2>&1; then
+      rm_status=0
+    else
+      rm_status=$?
+    fi
 
-  if [[ $rm_status -eq 124 || $rm_status -eq 137 ]]; then
-    cleanup_code=rm-timeout
-    cleanup_message="temporary-file cleanup exceeded ${rm_timeout_seconds}s"
-    return 1
-  fi
-  if [[ $rm_status -ne 0 ]]; then
-    cleanup_code=rm-execution-failed
-    cleanup_message="temporary-file cleanup failed with status $rm_status"
-    return 1
+    if [[ $rm_status -eq 124 || $rm_status -eq 137 ]]; then
+      cleanup_code=rm-timeout
+      cleanup_message="temporary-file cleanup exceeded ${rm_timeout_seconds}s"
+      return 1
+    fi
+    if [[ $rm_status -ne 0 ]]; then
+      cleanup_code=rm-execution-failed
+      cleanup_message="temporary-file cleanup failed with status $rm_status"
+      return 1
+    fi
   fi
   for temporary_file in "${temporary_files[@]}"; do
     if [[ -e $temporary_file || -L $temporary_file ]]; then
@@ -97,7 +109,26 @@ cleanup_files() {
       return 1
     fi
   done
+  if [[ -n $temporary_directory ]]; then
+    if "$timeout_bin" --kill-after=1 "$rm_timeout_seconds" \
+      "$rmdir_bin" -- "$temporary_directory" >/dev/null 2>&1; then
+      rmdir_status=0
+    else
+      rmdir_status=$?
+    fi
+    if [[ $rmdir_status -eq 124 || $rmdir_status -eq 137 ]]; then
+      cleanup_code=rmdir-timeout
+      cleanup_message="temporary-directory cleanup exceeded ${rm_timeout_seconds}s"
+      return 1
+    fi
+    if [[ $rmdir_status -ne 0 || -e $temporary_directory || -L $temporary_directory ]]; then
+      cleanup_code=rmdir-execution-failed
+      cleanup_message="temporary-directory cleanup failed with status $rmdir_status"
+      return 1
+    fi
+  fi
 
+  temporary_directory=
   entries_file=
   verified_event_file=
   verified_snapshot_file=
@@ -145,35 +176,127 @@ run_bounded_subprocess() {
     bounded_output_exceeded=1
   fi
 }
-trap cleanup_on_exit EXIT
 
-create_temp_file() {
+extract_bounded_entry_scalar() {
   local target_variable=$1
   local description=$2
+  local filter=$3
+  local entry_json=$4
+  local scalar=
+  local scalar_read_status
+  local scalar_status
+
+  run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+    "$jq_timeout_seconds" "$entry_scalar_output_limit_bytes" \
+    "$jq_bin" -r -j -e "$filter | select(type == \"string\")" <<< "$entry_json"
+  scalar_status=$bounded_status
+  if [[ $bounded_output_exceeded -eq 1 ]]; then
+    infrastructure_failure jq-output-limit \
+      "$description exceeded ${entry_scalar_output_limit_bytes} bytes on stdout or stderr"
+  fi
+  if [[ $scalar_status -eq 124 || $scalar_status -eq 137 ]]; then
+    infrastructure_failure jq-timeout "$description exceeded ${jq_timeout_seconds}s"
+  fi
+  if [[ $scalar_status -ne 0 ]]; then
+    infrastructure_failure jq-execution-failed \
+      "$description failed with status $scalar_status"
+  fi
+  if [[ ! -s $subprocess_stdout_file || -s $subprocess_stderr_file ]]; then
+    infrastructure_failure jq-invalid-output \
+      "$description did not return exactly one clean scalar"
+  fi
+  set +e
+  IFS= read -r -d '' scalar < "$subprocess_stdout_file"
+  scalar_read_status=$?
+  set -e
+  if [[ $scalar_read_status -eq 0 || -z $scalar ||
+    $scalar == *$'\n'* || $scalar == *$'\r'* ]]; then
+    infrastructure_failure jq-invalid-output \
+      "$description did not return exactly one clean scalar"
+  fi
+  printf -v "$target_variable" '%s' "$scalar"
+}
+
+create_owned_temp_file() {
+  local target_variable=$1
+  local filename=$2
+  local candidate="$temporary_directory/$filename"
+
+  if ! (set -o noclobber; : > "$candidate") 2>/dev/null; then
+    infrastructure_failure temp-file-exclusive-create-failed \
+      "private temporary-file creation failed"
+  fi
+  printf -v "$target_variable" '%s' "$candidate"
+}
+trap cleanup_on_exit EXIT
+
+create_private_temporary_directory() {
   local candidate
+  local mkdir_status
   local mktemp_status
 
   set +e
-  candidate=$("$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" "$mktemp_bin" 2>/dev/null)
+  candidate=$(
+    set -o pipefail
+    "$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" \
+      "$mktemp_bin" -u -d -- /tmp/uzel-external-corpus.XXXXXXXXXX 2>/dev/null |
+      "$head_bin" -c "$((temporary_path_output_limit_chars + 1))"
+  )
   mktemp_status=$?
   set -e
-  if [[ -n $candidate && $candidate != *$'\n'* && -f $candidate && ! -L $candidate ]]; then
-    printf -v "$target_variable" '%s' "$candidate"
+  if [[ ${#candidate} -gt $temporary_path_output_limit_chars ]]; then
+    infrastructure_failure mktemp-output-limit \
+      "temporary-directory candidate exceeded ${temporary_path_output_limit_chars} characters"
   fi
   if [[ $mktemp_status -eq 124 || $mktemp_status -eq 137 ]]; then
-    infrastructure_failure mktemp-timeout "$description temporary-file creation exceeded ${mktemp_timeout_seconds}s"
+    infrastructure_failure mktemp-timeout \
+      "temporary-directory candidate creation exceeded ${mktemp_timeout_seconds}s"
   fi
   if [[ $mktemp_status -ne 0 ]]; then
-    infrastructure_failure mktemp-execution-failed "$description temporary-file creation failed with status $mktemp_status"
+    infrastructure_failure mktemp-execution-failed \
+      "temporary-directory candidate creation failed with status $mktemp_status"
   fi
-  if [[ -z ${!target_variable} ]]; then
-    infrastructure_failure mktemp-invalid-output "$description temporary-file creation returned no regular file"
+  if [[ ! $candidate =~ ^/tmp/uzel-external-corpus\.[A-Za-z0-9]{10}$ ]]; then
+    infrastructure_failure mktemp-invalid-output \
+      "temporary-directory candidate was not one exact private-directory path"
   fi
+  if [[ -e $candidate || -L $candidate ]]; then
+    infrastructure_failure mktemp-preexisting-path \
+      "temporary-directory candidate already exists"
+  fi
+
+  set +e
+  "$timeout_bin" --kill-after=1 "$mktemp_timeout_seconds" \
+    "$mkdir_bin" -m 700 -- "$candidate" >/dev/null 2>&1
+  mkdir_status=$?
+  set -e
+  if [[ $mkdir_status -eq 124 || $mkdir_status -eq 137 ]]; then
+    infrastructure_failure mkdir-timeout \
+      "exclusive temporary-directory creation exceeded ${mktemp_timeout_seconds}s"
+  fi
+  if [[ $mkdir_status -ne 0 ]]; then
+    infrastructure_failure mkdir-execution-failed \
+      "exclusive temporary-directory creation failed with status $mkdir_status"
+  fi
+  temporary_directory=$candidate
+  if [[ ! -d $temporary_directory || -L $temporary_directory || ! -O $temporary_directory ]]; then
+    infrastructure_failure mkdir-invalid-output \
+      "exclusive temporary directory is not owned by the current user"
+  fi
+
+  create_owned_temp_file entries_file entries
+  create_owned_temp_file verified_event_file event
+  create_owned_temp_file verified_snapshot_file verified-snapshot
+  create_owned_temp_file subprocess_stdout_file subprocess-stdout
+  create_owned_temp_file subprocess_stderr_file subprocess-stderr
 }
 
 command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
 command -v "$rm_bin" >/dev/null 2>&1 || infrastructure_failure rm-unavailable "rm is required"
 command -v "$mktemp_bin" >/dev/null 2>&1 || infrastructure_failure mktemp-unavailable "mktemp is required"
+command -v "$head_bin" >/dev/null 2>&1 || infrastructure_failure head-unavailable "head is required"
+command -v "$mkdir_bin" >/dev/null 2>&1 || infrastructure_failure mkdir-unavailable "mkdir is required"
+command -v "$rmdir_bin" >/dev/null 2>&1 || infrastructure_failure rmdir-unavailable "rmdir is required"
 command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailable "node is required"
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
 command -v "$sha256sum_bin" >/dev/null 2>&1 || infrastructure_failure sha256sum-unavailable "sha256sum is required"
@@ -197,11 +320,7 @@ if [[ ! $rm_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$
   infrastructure_failure invalid-timeout "rm timeout must be a positive number of seconds"
 fi
 
-create_temp_file entries_file entries
-create_temp_file verified_event_file event
-create_temp_file verified_snapshot_file verified-snapshot
-create_temp_file subprocess_stdout_file subprocess-stdout
-create_temp_file subprocess_stderr_file subprocess-stderr
+create_private_temporary_directory
 
 run_bounded_subprocess "$verified_snapshot_file" "$subprocess_stderr_file" \
   "$node_timeout_seconds" "$node_output_limit_bytes" \
@@ -218,8 +337,18 @@ if [[ $node_status -eq 2 ]]; then
   node_trust_status=1
   if [[ ! -s $verified_snapshot_file ]]; then
     run_bounded_subprocess "$verified_event_file" "$entries_file" \
+      "$node_timeout_seconds" "$trust_diagnostic_output_limit_bytes" \
+      "$head_bin" -c "$((trust_diagnostic_output_limit_bytes + 1))" \
+      "$subprocess_stderr_file"
+    node_trust_copy_status=$bounded_status
+    if [[ $bounded_output_exceeded -eq 1 ||
+      $node_trust_copy_status -ne 0 || -s $entries_file || ! -s $verified_event_file ]]; then
+      infrastructure_failure node-invalid-trust-output \
+        "corpus structure verifier trust result exceeded its bounded one-record contract"
+    fi
+    run_bounded_subprocess "$entries_file" "$verified_snapshot_file" \
       "$jq_timeout_seconds" "$trust_result_output_limit_bytes" \
-      "$jq_bin" -c -e -s \
+      "$jq_bin" -r -j -e -s \
       'select(
         length == 1
         and (.[0] | type) == "object"
@@ -228,7 +357,7 @@ if [[ $node_status -eq 2 ]]; then
         and .[0].category == "trust"
         and (.[0].code | type == "string" and test("^[a-z][a-z0-9-]*$"))
         and (.[0].message | type == "string" and length > 0)
-      ) | .[0]' "$subprocess_stderr_file"
+      ) | "valid"' "$verified_event_file"
     node_trust_status=$bounded_status
     if [[ $bounded_output_exceeded -eq 1 ]]; then
       infrastructure_failure jq-output-limit \
@@ -238,8 +367,20 @@ if [[ $node_status -eq 2 ]]; then
   if [[ $node_trust_status -eq 124 || $node_trust_status -eq 137 ]]; then
     infrastructure_failure jq-timeout "Node trust-result validation exceeded ${jq_timeout_seconds}s"
   fi
-  if [[ $node_trust_status -eq 0 && -s $verified_event_file && ! -s $entries_file ]]; then
-    IFS= read -r node_trust_result < "$verified_event_file"
+  node_trust_validation=
+  node_trust_validation_status=1
+  if [[ $node_trust_status -eq 0 && -s $entries_file && ! -s $verified_snapshot_file ]]; then
+    set +e
+    IFS= read -r -d '' node_trust_validation < "$entries_file"
+    node_trust_validation_status=$?
+    set -e
+  fi
+  node_trust_lines=()
+  if [[ $node_trust_validation_status -ne 0 && $node_trust_validation == valid ]]; then
+    mapfile -t node_trust_lines < "$verified_event_file"
+  fi
+  if [[ ${#node_trust_lines[@]} -eq 1 && -n ${node_trust_lines[0]} ]]; then
+    node_trust_result=${node_trust_lines[0]}
     printf 'EXTERNAL_NAPPLET_CORPUS_TRUST result=%s\n' "$node_trust_result" >&2
     exit 2
   fi
@@ -456,8 +597,9 @@ if [[ $nak_version_output != "nak version $expected_nak_version" ]]; then
   infrastructure_failure nak-version-mismatch "expected nak version $expected_nak_version"
 fi
 
-set +e
-"$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r \
+run_bounded_subprocess "$entries_file" "$subprocess_stderr_file" \
+  "$jq_timeout_seconds" "$entry_enumeration_output_limit_bytes" \
+  "$jq_bin" -r \
   '.entries[]
     | {
         name: .entry.name,
@@ -469,42 +611,52 @@ set +e
         eventText
       }
     | @json' \
-  "$verified_snapshot_file" > "$entries_file"
-jq_status=$?
-set -e
+  "$verified_snapshot_file"
+jq_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure jq-output-limit \
+    "entry enumeration exceeded ${entry_enumeration_output_limit_bytes} bytes on stdout or stderr"
+fi
 if [[ $jq_status -eq 124 || $jq_status -eq 137 ]]; then
   infrastructure_failure jq-timeout "entry enumeration exceeded ${jq_timeout_seconds}s"
 fi
 if [[ $jq_status -ne 0 ]]; then
   infrastructure_failure jq-execution-failed "entry enumeration failed with status $jq_status"
 fi
+if [[ ! -s $entries_file || -s $subprocess_stderr_file ]]; then
+  infrastructure_failure jq-invalid-output "entry enumeration returned invalid output"
+fi
 
 entry_count=0
+name=
+naddr=
 while IFS= read -r entry_json; do
   ((entry_count += 1))
-  set +e
-  name=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r '.name' <<< "$entry_json")
-  name_status=$?
-  naddr=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -r '.naddr' <<< "$entry_json")
-  naddr_status=$?
-  set -e
-  if [[ $name_status -eq 124 || $name_status -eq 137 ||
-    $naddr_status -eq 124 || $naddr_status -eq 137 ]]; then
-    infrastructure_failure jq-timeout "entry decoding exceeded ${jq_timeout_seconds}s"
+  extract_bounded_entry_scalar name "entry name extraction" '.name' "$entry_json"
+  case "$name" in
+    good-morning | rubik-cube | nap-feed | wifi-map) ;;
+    *) infrastructure_failure jq-invalid-output "entry name extraction returned an unknown scalar" ;;
+  esac
+  extract_bounded_entry_scalar naddr "$name naddr extraction" '.naddr' "$entry_json"
+  if [[ ! $naddr =~ ^naddr1[0-9a-z]+$ ]]; then
+    infrastructure_failure jq-invalid-output "$name naddr extraction returned an invalid scalar"
   fi
-  if [[ $name_status -ne 0 || $naddr_status -ne 0 ]]; then
-    infrastructure_failure jq-execution-failed "entry decoding failed"
+  run_bounded_subprocess "$verified_event_file" "$subprocess_stderr_file" \
+    "$jq_timeout_seconds" "$verified_event_output_limit_bytes" \
+    "$jq_bin" -j '.eventText' <<< "$entry_json"
+  event_status=$bounded_status
+  if [[ $bounded_output_exceeded -eq 1 ]]; then
+    infrastructure_failure jq-output-limit \
+      "$name verified event extraction exceeded ${verified_event_output_limit_bytes} bytes on stdout or stderr"
   fi
-  set +e
-  "$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -j '.eventText' \
-    <<< "$entry_json" > "$verified_event_file"
-  event_status=$?
-  set -e
   if [[ $event_status -eq 124 || $event_status -eq 137 ]]; then
     infrastructure_failure jq-timeout "$name verified event extraction exceeded ${jq_timeout_seconds}s"
   fi
   if [[ $event_status -ne 0 ]]; then
     infrastructure_failure jq-execution-failed "$name verified event extraction failed with status $event_status"
+  fi
+  if [[ ! -s $verified_event_file || -s $subprocess_stderr_file ]]; then
+    infrastructure_failure jq-invalid-output "$name verified event extraction returned invalid output"
   fi
   set +e
   "$timeout_bin" --kill-after=1 "$nak_timeout_seconds" "$nak_bin" verify < "$verified_event_file" >/dev/null 2>&1
