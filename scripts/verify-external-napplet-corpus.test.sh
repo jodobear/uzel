@@ -74,10 +74,12 @@ for fail_on in 1 2 3 4 5; do
     echo "$mktemp_failure_output" >&2
     exit 1
   fi
-  if [[ -e ${mktemp_file_prefix}-1 ]]; then
-    echo "expected mktemp failure $fail_on cleanup to leave no first temporary file" >&2
-    exit 1
-  fi
+  for ((created_index = 1; created_index <= 5; created_index += 1)); do
+    if [[ -e ${mktemp_file_prefix}-${created_index} ]]; then
+      echo "expected mktemp failure $fail_on cleanup to remove every previously created file" >&2
+      exit 1
+    fi
+  done
 done
 
 hanging_mktemp="$temporary_corpus/hanging-mktemp"
@@ -215,6 +217,37 @@ if [[ $zero_entry_status -ne 3 ||
   exit 1
 fi
 
+near_limit_node="$temporary_corpus/near-limit-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  '"$UZEL_REAL_NODE" "$@" | "$UZEL_REAL_JQ" '\''
+    .entries |= map(
+      .eventText = (
+        .eventText[0:-2]
+        + (" " * (16384 - (.eventText | utf8bytelength)))
+        + "}\n"
+      )
+    )
+    | if (tojson | utf8bytelength) <= 65536
+      then error("near-limit snapshot did not exceed the retired cap")
+      else .
+      end
+  '\''' \
+  > "$near_limit_node"
+chmod +x "$near_limit_node"
+near_limit_output=$(
+  UZEL_NODE_BIN="$near_limit_node" \
+    UZEL_REAL_NODE="$real_node" \
+    UZEL_REAL_JQ="$real_jq" \
+    bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json"
+)
+if [[ $near_limit_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
+  echo "expected four valid 16,384-byte event texts to fit the derived snapshot cap" >&2
+  echo "$near_limit_output" >&2
+  exit 1
+fi
+
 continuous_node="$temporary_corpus/continuous-node"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
@@ -236,6 +269,38 @@ for noise_stream in stdout stderr; do
     $continuous_node_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=node-output-limit"* ]]; then
     echo "expected continuous Node $noise_stream to hit the streaming output bound" >&2
     echo "$continuous_node_output" >&2
+    exit 1
+  fi
+done
+
+false_wc="$temporary_corpus/false-wc"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exit 47' > "$false_wc"
+chmod +x "$false_wc"
+hanging_wc="$temporary_corpus/hanging-wc"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'exec sleep 10' > "$hanging_wc"
+chmod +x "$hanging_wc"
+noisy_wc="$temporary_corpus/noisy-wc"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'printf '\''not-a-number\nunexpected\n'\''' > "$noisy_wc"
+chmod +x "$noisy_wc"
+for retired_wc in "$false_wc" "$hanging_wc" "$noisy_wc"; do
+  set +e
+  retired_wc_output=$(
+    UZEL_WC_BIN="$retired_wc" \
+      timeout --kill-after=1 2 \
+      bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+  )
+  retired_wc_status=$?
+  set -e
+  if [[ $retired_wc_status -ne 0 ||
+    $retired_wc_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
+    echo "expected retired hostile UZEL_WC_BIN to have no effect" >&2
+    echo "$retired_wc_output" >&2
     exit 1
   fi
 done
@@ -630,4 +695,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless snapshot=exact-four subprocess=stream-bounded'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=complete'

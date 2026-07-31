@@ -13,23 +13,21 @@ node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
 mktemp_bin=${UZEL_MKTEMP_BIN:-mktemp}
 rm_bin=${UZEL_RM_BIN:-rm}
-wc_bin=${UZEL_WC_BIN:-wc}
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
-subprocess_output_limit_bytes=65536
-# Bash measures `ulimit -f` in KiB. One guard block lets us detect and reject
-# output beyond the accepted byte cap while kernel-bounding each stream file.
-subprocess_file_limit_blocks=65
+nak_output_limit_bytes=65536
+# Four 16,384-byte event texts can each double when embedded as JSON strings.
+# Two more doubled evidence-file allowances cover the lock and duplicated entry
+# metadata, and 65,536 bytes cover the fixed snapshot envelope/schema overhead.
+node_output_limit_bytes=262144
 entries_file=
 verified_event_file=
 verified_snapshot_file=
 subprocess_stdout_file=
 subprocess_stderr_file=
 bounded_status=
-bounded_stdout_bytes=
-bounded_stderr_bytes=
 bounded_output_exceeded=
 
 infrastructure_failure() {
@@ -63,7 +61,10 @@ run_bounded_subprocess() {
   local stdout_file=$1
   local stderr_file=$2
   local timeout_seconds=$3
-  shift 3
+  local output_limit_bytes=$4
+  # Both explicit caps are exact KiB multiples; Bash `ulimit -f` uses KiB.
+  local file_limit_blocks=$((output_limit_bytes / 1024))
+  shift 4
 
   : > "$stdout_file"
   : > "$stderr_file"
@@ -71,18 +72,14 @@ run_bounded_subprocess() {
   {
     (
       ulimit -c 0
-      ulimit -f "$subprocess_file_limit_blocks" || exit 125
+      ulimit -f "$file_limit_blocks" || exit 125
       exec "$timeout_bin" --kill-after=1 "$timeout_seconds" "$@"
     ) > "$stdout_file" 2> "$stderr_file"
   } 2>/dev/null
   bounded_status=$?
   set -e
-  bounded_stdout_bytes=$("$wc_bin" -c < "$stdout_file")
-  bounded_stderr_bytes=$("$wc_bin" -c < "$stderr_file")
   bounded_output_exceeded=0
-  if [[ $bounded_status -eq 153 ||
-    $bounded_stdout_bytes -gt $subprocess_output_limit_bytes ||
-    $bounded_stderr_bytes -gt $subprocess_output_limit_bytes ]]; then
+  if [[ $bounded_status -eq 153 ]]; then
     bounded_output_exceeded=1
   fi
 }
@@ -115,7 +112,6 @@ create_temp_file() {
 command -v "$timeout_bin" >/dev/null 2>&1 || infrastructure_failure timeout-unavailable "timeout is required"
 command -v "$rm_bin" >/dev/null 2>&1 || infrastructure_failure rm-unavailable "rm is required"
 command -v "$mktemp_bin" >/dev/null 2>&1 || infrastructure_failure mktemp-unavailable "mktemp is required"
-command -v "$wc_bin" >/dev/null 2>&1 || infrastructure_failure wc-unavailable "wc is required"
 command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailable "node is required"
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
 command -v "$nak_bin" >/dev/null 2>&1 || infrastructure_failure nak-unavailable "pinned nak is required"
@@ -138,19 +134,20 @@ create_temp_file verified_snapshot_file verified-snapshot
 create_temp_file subprocess_stdout_file subprocess-stdout
 create_temp_file subprocess_stderr_file subprocess-stderr
 
-run_bounded_subprocess "$verified_snapshot_file" "$subprocess_stderr_file" "$node_timeout_seconds" \
+run_bounded_subprocess "$verified_snapshot_file" "$subprocess_stderr_file" \
+  "$node_timeout_seconds" "$node_output_limit_bytes" \
   "$node_bin" "$root/scripts/verify-external-napplet-corpus.mjs" --snapshot-json "$lock"
 node_status=$bounded_status
 if [[ $bounded_output_exceeded -eq 1 ]]; then
   infrastructure_failure node-output-limit \
-    "corpus structure verifier exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+    "corpus structure verifier exceeded ${node_output_limit_bytes} bytes on stdout or stderr"
 fi
 if [[ $node_status -eq 124 || $node_status -eq 137 ]]; then
   infrastructure_failure node-timeout "corpus structure verifier exceeded ${node_timeout_seconds}s"
 fi
 if [[ $node_status -eq 2 ]]; then
   node_trust_status=1
-  if [[ $bounded_stdout_bytes -eq 0 ]]; then
+  if [[ ! -s $verified_snapshot_file ]]; then
     set +e
     node_trust_result=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin" -c -e -s \
       'select(
@@ -178,7 +175,7 @@ fi
 if [[ $node_status -ne 0 ]]; then
   infrastructure_failure node-execution-failed "corpus structure verifier failed with status $node_status"
 fi
-if [[ $bounded_stderr_bytes -ne 0 ]]; then
+if [[ -s $subprocess_stderr_file ]]; then
   infrastructure_failure node-invalid-snapshot \
     "successful corpus structure verifier wrote unexpected stderr"
 fi
@@ -231,7 +228,7 @@ snapshot_metadata=$("$timeout_bin" --kill-after=1 "$jq_timeout_seconds" "$jq_bin
       and all(.entries[];
         exact_object(["entry", "eventText"])
         and (.entry | audited_entry)
-        and (.eventText | type == "string" and length > 0)
+        and (.eventText | type == "string" and utf8bytelength > 0 and utf8bytelength <= 16384)
       )
       and [.entries[].entry.name] == ["good-morning", "rubik-cube", "nap-feed", "wifi-map"]
       and [.entries[].entry] == .lock.entries
@@ -261,11 +258,11 @@ expected_entry_count=${metadata_lines[3]}
 echo "EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=$expected_entry_count commit=$source_commit mode=offline"
 
 run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
-  "$nak_timeout_seconds" "$nak_bin" --version
+  "$nak_timeout_seconds" "$nak_output_limit_bytes" "$nak_bin" --version
 nak_version_status=$bounded_status
 if [[ $bounded_output_exceeded -eq 1 ]]; then
   infrastructure_failure nak-output-limit \
-    "nak --version exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+    "nak --version exceeded ${nak_output_limit_bytes} bytes on stdout or stderr"
 fi
 if [[ $nak_version_status -eq 124 || $nak_version_status -eq 137 ]]; then
   infrastructure_failure nak-timeout "nak --version exceeded ${nak_timeout_seconds}s"
@@ -273,7 +270,7 @@ fi
 if [[ $nak_version_status -ne 0 ]]; then
   infrastructure_failure nak-execution-failed "nak --version failed with status $nak_version_status"
 fi
-if [[ $bounded_stderr_bytes -ne 0 ]]; then
+if [[ -s $subprocess_stderr_file ]]; then
   infrastructure_failure nak-invalid-output "nak --version wrote unexpected stderr"
 fi
 nak_version_output=$(< "$subprocess_stdout_file")
@@ -345,11 +342,11 @@ while IFS= read -r entry_json; do
   fi
 
   run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
-    "$nak_timeout_seconds" "$nak_bin" decode "$naddr"
+    "$nak_timeout_seconds" "$nak_output_limit_bytes" "$nak_bin" decode "$naddr"
   decode_status=$bounded_status
   if [[ $bounded_output_exceeded -eq 1 ]]; then
     infrastructure_failure nak-output-limit \
-      "$name nak decode exceeded ${subprocess_output_limit_bytes} bytes on stdout or stderr"
+      "$name nak decode exceeded ${nak_output_limit_bytes} bytes on stdout or stderr"
   fi
   if [[ $decode_status -eq 124 || $decode_status -eq 137 ]]; then
     infrastructure_failure nak-timeout "$name nak decode exceeded ${nak_timeout_seconds}s"
@@ -359,7 +356,7 @@ while IFS= read -r entry_json; do
     fi
     infrastructure_failure nak-execution-failed "$name nak decode failed with status $decode_status"
   fi
-  if [[ $bounded_stderr_bytes -ne 0 ]]; then
+  if [[ -s $subprocess_stderr_file ]]; then
     infrastructure_failure nak-invalid-output "$name nak decode wrote unexpected stderr"
   fi
   set +e

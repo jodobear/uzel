@@ -51,9 +51,18 @@ initial descriptor stat.
 
 The shell accepts a successful Node snapshot only when its exact interface
 schema contains the four audited entries in their fixed order and the copied
-lock entries match them exactly. Node verification, `nak --version`, and each
-`nak decode` stream stdout and stderr into kernel-limited files; either stream
-is rejected above 65,536 bytes before its content enters a shell variable.
+lock entries match them exactly. Each embedded event text is also limited to
+16,384 UTF-8 bytes. Node verification streams stdout and stderr into
+262,144-byte kernel-limited files. That ceiling covers four event texts at 2x
+JSON-string expansion (131,072 bytes), two 2x lock/entry metadata allowances
+(65,536 bytes), and 65,536 bytes of envelope headroom. A regression verifies a
+valid snapshot with all four event texts at 16,384 bytes and above the retired
+65,536-byte snapshot cap.
+
+`nak --version` and each `nak decode` use the same streaming mechanism with a
+65,536-byte ceiling per stdout or stderr stream. Bash's built-in file tests
+replace the former external `wc` size probe, so false, hanging, or noisy
+`UZEL_WC_BIN` overrides are retired and cannot interrupt classification.
 
 Artifact blobs are deliberately absent. Therefore offline verification proves
 the retained signed evidence and coordinate mapping, not current relay/CDN
