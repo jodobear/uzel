@@ -69,15 +69,18 @@ async function queryProfile(targetPubkey, requestGeneration) {
   const query = profileQueryRequest(targetPubkey);
   const result = await outboxQuery(query.filters, query.options);
   if (!profileRequests.isCurrent(requestGeneration)) return;
+  const resultError = typeof result.error === 'string' ? result.error : '';
+  const degraded = Boolean(result.incomplete || resultError);
   const profile = canonicalProfile(result.events, targetPubkey);
   if (profile === null) {
     name.textContent = 'Profile not found';
-    status.textContent = result.incomplete ? 'Partial evidence; no valid kind 0 found.' : 'No valid kind 0 found.';
-    evidence.textContent = result.error ?? '';
+    status.textContent = degraded ? 'Partial evidence; no valid kind 0 found.' : 'No valid kind 0 found.';
+    evidence.textContent = resultError;
     return;
   }
   renderProfile(profile, `event ${profile.eventId} · ${profile.createdAtIso}`, requestGeneration);
-  status.textContent = result.incomplete ? 'Latest-known profile; evidence incomplete.' : 'Latest-known profile.';
+  if (resultError) evidence.textContent = `${evidence.textContent} · NMP: ${resultError}`;
+  status.textContent = degraded ? 'Latest-known profile; evidence incomplete.' : 'Latest-known profile.';
 }
 
 async function loadActiveProfile() {

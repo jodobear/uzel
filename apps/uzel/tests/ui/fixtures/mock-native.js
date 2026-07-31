@@ -31,6 +31,7 @@
   let followBatchFailures = scenario === 'ready' ? 1 : 0;
   let followProjectionOverflows = scenario === 'projection-overflow' ? 1 : 0;
   let delayedAvatarRequests = scenario === 'avatar-active-cancel' ? 1 : 0;
+  let failedAvatarRequests = scenario === 'avatar-failure-retry' ? 1 : 0;
   let followIdentityRequests = 0;
 
   if (!fixtureRecords || typeof fixtureRecords !== 'object') {
@@ -273,10 +274,25 @@
             id: envelope.id,
             events: profileEventsForQuery(envelope),
             incomplete: false,
+            error: scenario === 'profile-error-evidence' && launch.dTag === 'profile-card'
+              ? 'mocked partial profile evidence'
+              : undefined,
           },
         };
       }
       case 'resource.bytes':
+        if (launch.dTag === 'follow-list' && failedAvatarRequests > 0) {
+          failedAvatarRequests -= 1;
+          return {
+            surfaceToken,
+            envelope: {
+              type: 'resource.bytes.error',
+              id: envelope.id,
+              error: 'unavailable',
+              message: 'mocked unavailable avatar',
+            },
+          };
+        }
         return {
           surfaceToken,
           envelope: {

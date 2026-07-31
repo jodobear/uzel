@@ -107,7 +107,6 @@ async function loadAvatar(row, picture, generation, signal) {
     };
     row.image.onerror = () => {
       releaseObjectUrl(objectUrl, row, true);
-      row.avatarRequest = row.avatarSource;
     };
     row.image.src = URL.createObjectURL(blob);
     objectUrl = row.image.src;
@@ -115,7 +114,6 @@ async function loadAvatar(row, picture, generation, signal) {
   } catch (error) {
     if (current(generation) && !signal.aborted) {
       row.fallback.title = `Picture unavailable through NAP-RESOURCE: ${error instanceof Error ? error.message : String(error)}`;
-      row.avatarRequest = row.avatarSource;
     }
   }
 }

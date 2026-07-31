@@ -846,6 +846,44 @@ if (FAULT_CHILD) {
     });
   });
 
+  scenarioTest('avatar-failure-retry', 'failed avatar waits for a later visibility transition', async (viewport) => {
+    await runCase('avatar-failure-retry', viewport, 'avatar-failure-retry', async (page, guarded) => {
+      await waitForReady(page);
+      const followFrame = page.frameLocator('iframe[aria-label="Direct follows"]');
+      const routedProfile = await page.evaluate(() => window.__UZEL_UI_HARNESS__.routedProfile);
+      const routedButton = followFrame.getByRole('button', {
+        name: `Open profile Routed follow profile (${routedProfile})`,
+        exact: true,
+      });
+      await routedButton.locator('.avatar-fallback[title*="mocked unavailable avatar"]').waitFor();
+      await page.waitForTimeout(250);
+      const requestCount = () => page.evaluate(() => window.__UZEL_UI_HARNESS__.envelopes
+        .filter((entry) => entry.dTag === 'follow-list' && entry.envelope.type === 'resource.bytes').length);
+      assert.equal(await requestCount(), 1, 'failed visible avatar retried without a visibility transition');
+
+      const followsList = followFrame.locator('#follows');
+      await followsList.evaluate((element) => { element.style.transform = 'translateY(2000px)'; });
+      await followsList.evaluate((element) => { element.style.transform = ''; });
+      const avatar = routedButton.locator('img');
+      await avatar.waitFor({ state: 'visible' });
+      assert.match(await avatar.getAttribute('src'), /^blob:/u);
+      assert.equal(await requestCount(), 2, 'visibility re-entry did not allow one explicit retry');
+      assert.deepEqual(guarded.externalRequests, []);
+    });
+  });
+
+  scenarioTest('profile-error-evidence', 'error-only profile evidence remains visibly degraded', async (viewport) => {
+    await runCase('profile-error-evidence', viewport, 'profile-error-evidence', async (page) => {
+      await page.getByText('Two exact builds ready through NAP-SHELL', { exact: true }).waitFor();
+      const profileFrame = page.frameLocator('iframe[aria-label="Profile card"]');
+      await profileFrame.getByText('Fixture identity profile', { exact: true }).waitFor();
+      await profileFrame.getByText('Latest-known profile; evidence incomplete.', { exact: true }).waitFor();
+      await profileFrame.locator('#evidence')
+        .getByText('NMP: mocked partial profile evidence', { exact: false }).waitFor();
+      await profileFrame.locator('#kind0').getByText('Fixture raw name', { exact: false }).waitFor();
+    });
+  });
+
   scenarioTest('follow-reload-failure', 'failed follows reload removes stale unobserved rows', async (viewport) => {
     await runCase('follow-reload-failure', viewport, 'follow-reload-failure', async (page) => {
       await waitForReady(page);
