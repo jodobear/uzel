@@ -9283,7 +9283,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L14",
+      "source_location": "L15",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9297,7 +9297,7 @@
       "label": "infrastructure_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L19",
+      "source_location": "L20",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -9311,7 +9311,7 @@
       "label": "trust_failure()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L24",
+      "source_location": "L25",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -27892,7 +27892,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_cleanup",
@@ -27902,7 +27902,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_infrastructure_failure",
@@ -27922,7 +27922,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_sh_scripts_verify_external_napplet_corpus",
       "target": "scripts_verify_external_napplet_corpus_trust_failure",
@@ -27932,7 +27932,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -27943,7 +27943,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L127",
+      "source_location": "L135",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -31164,5 +31164,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c37944828c41b5579a1b5a7573b36baf7d1690f9"
+  "built_at_commit": "5c45fa6762381aaa7ac828d3d3f0a45d35142ee6"
 }

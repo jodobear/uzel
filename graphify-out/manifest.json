@@ -695,8 +695,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
-    "mtime": 1785470933.2698133,
-    "ast_hash": "fcedebfacc33f5b164afeee93b93af47",
+    "mtime": 1785472044.8396454,
+    "ast_hash": "2b8f511f5f484365f2435176e290c127",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {
-    "mtime": 1785471012.524658,
-    "ast_hash": "2b1a78197a8cbbddb2d0f4497b5c2ebf",
+    "mtime": 1785472044.9346466,
+    "ast_hash": "b2ced5b1118a87b4ca52f99944dcce9f",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/README.md": {
