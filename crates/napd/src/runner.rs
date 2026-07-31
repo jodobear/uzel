@@ -9,8 +9,9 @@ use std::{
 };
 
 use napd_protocol::{
-    CatalogCapability, Diagnostics, MAXIMUM_ENVELOPE_BYTES, MAXIMUM_ROUTED_ENVELOPE_BYTES,
-    NappletReview, RelayDiagnostic, RoutedEnvelope, SurfaceMetadata,
+    CatalogCapability, Diagnostics, ForwardedEnvelopeClass, MAXIMUM_ENVELOPE_BYTES,
+    MAXIMUM_ROUTED_ENVELOPE_BYTES, NappletReview, RESOURCE_HOST_RESPONSE_TIMEOUT, RelayDiagnostic,
+    RoutedEnvelope, SurfaceMetadata, classify_forwarded_envelope,
 };
 use nmp_native_runtime_ffi::{
     ArtifactCoordinate, ArtifactExecutionMode, NativeConfigCommit, NativeSettingsExecutor,
@@ -240,7 +241,7 @@ impl EventBuffer {
         session_id: u64,
         matches: impl Fn(&str) -> bool,
     ) -> Option<String> {
-        self.routed_response_matching_after(cursor, &[session_id], matches)
+        self.routed_response_matching_after(cursor, &[session_id], RESPONSE_TIMEOUT, matches)
             .map(|(_, response)| response)
     }
 
@@ -248,9 +249,10 @@ impl EventBuffer {
         &self,
         cursor: u64,
         session_ids: &[u64],
+        response_timeout: Duration,
         matches: impl Fn(&str) -> bool,
     ) -> Option<(u64, String)> {
-        let deadline = Instant::now() + RESPONSE_TIMEOUT;
+        let deadline = Instant::now() + response_timeout;
         let mut events = self.events.lock().expect("event buffer poisoned");
         loop {
             if let Some(index) = events.events.iter().position(|event| {
@@ -1133,6 +1135,7 @@ impl LinuxRunner {
             .get(surface_token)
             .ok_or(RunnerError::UnknownSurface)?;
         let cursor = self.events.latest_sequence();
+        let response_timeout = response_timeout_for_envelope(envelope);
         let expectation = ResponseExpectation::from_envelope(envelope);
         self.controller
             .mapped_envelope(*session_id, envelope.to_vec());
@@ -1146,9 +1149,12 @@ impl LinuxRunner {
         };
         let (target_session, envelope) = self
             .events
-            .routed_response_matching_after(cursor, &eligible_sessions, |response| {
-                expectation.matches(response)
-            })
+            .routed_response_matching_after(
+                cursor,
+                &eligible_sessions,
+                response_timeout,
+                |response| expectation.matches(response),
+            )
             .ok_or(RunnerError::ResponseTimeout)?;
         let surface_token = self
             .surfaces
@@ -1269,6 +1275,13 @@ enum ResponseExpectation {
     Type(&'static str),
     AnyFromSource,
     IncEventAnySurface(String),
+}
+
+fn response_timeout_for_envelope(envelope: &[u8]) -> Duration {
+    match classify_forwarded_envelope(envelope) {
+        ForwardedEnvelopeClass::ResourceBytes => RESOURCE_HOST_RESPONSE_TIMEOUT,
+        ForwardedEnvelopeClass::Ordinary => RESPONSE_TIMEOUT,
+    }
 }
 
 impl ResponseExpectation {
@@ -1680,6 +1693,41 @@ mod tests {
         assert!(expectation.matches(
             r#"{"type":"inc.event","topic":"napplet:profile/open","sender":"follow-list"}"#
         ));
+    }
+
+    #[test]
+    fn resource_response_deadline_is_narrow_and_waits_remain_injectable() {
+        assert_eq!(RESPONSE_TIMEOUT, Duration::from_secs(15));
+        assert!(RESOURCE_HOST_RESPONSE_TIMEOUT > Duration::from_secs(30 + 2));
+        assert_eq!(
+            response_timeout_for_envelope(br#"{"type":"resource.bytes","id":"resource"}"#),
+            RESOURCE_HOST_RESPONSE_TIMEOUT
+        );
+        for envelope in [
+            br#"{"type":"resource.bytesMany","id":"ordinary"}"#.as_slice(),
+            br#"{"type":"resource.info","id":"ordinary"}"#.as_slice(),
+            br#"{"type":"outbox.query","id":"ordinary"}"#.as_slice(),
+            b"not-json".as_slice(),
+        ] {
+            assert_eq!(response_timeout_for_envelope(envelope), RESPONSE_TIMEOUT);
+        }
+
+        let buffer = EventBuffer::default();
+        buffer
+            .events
+            .lock()
+            .unwrap()
+            .push(response_event(1, r#"{"id":"ready"}"#), 1_024);
+        assert_eq!(
+            buffer.routed_response_matching_after(0, &[7], Duration::ZERO, |response| {
+                response.contains("ready")
+            }),
+            Some((7, r#"{"id":"ready"}"#.to_owned()))
+        );
+        assert_eq!(
+            buffer.routed_response_matching_after(1, &[7], Duration::ZERO, |_| true),
+            None
+        );
     }
 
     #[test]

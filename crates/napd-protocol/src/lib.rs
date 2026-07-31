@@ -31,6 +31,9 @@ pub const MAXIMUM_ROUTED_ENVELOPE_BYTES: usize = (100 * 1_024 * 1_024) + (64 * 1
 /// Base64 plus the response wrapper must remain below `MAX_FRAME_BYTES`.
 pub const ENVELOPE_CHUNK_BYTES: usize = 256 * 1_024;
 const IPC_TIMEOUT: Duration = Duration::from_secs(20);
+/// Gives one pinned 30-second fetch plus 2-second SVG rasterization a finite host margin.
+pub const RESOURCE_HOST_RESPONSE_TIMEOUT: Duration = Duration::from_secs(35);
+const RESOURCE_IPC_TIMEOUT: Duration = Duration::from_secs(40);
 const REPLAYABLE_REQUEST_ATTEMPTS: usize = 2;
 const MAXIMUM_PENDING_OPERATIONS: usize = 64;
 
@@ -81,6 +84,36 @@ pub enum Request {
     GetReadIdentity,
     Diagnostics,
     Shutdown,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ForwardedEnvelopeClass {
+    Ordinary,
+    ResourceBytes,
+}
+
+pub fn classify_forwarded_envelope(envelope: &[u8]) -> ForwardedEnvelopeClass {
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(envelope) else {
+        return ForwardedEnvelopeClass::Ordinary;
+    };
+    match value.get("type").and_then(serde_json::Value::as_str) {
+        Some("resource.bytes") => ForwardedEnvelopeClass::ResourceBytes,
+        _ => ForwardedEnvelopeClass::Ordinary,
+    }
+}
+
+impl Request {
+    fn response_timeout(&self) -> Duration {
+        match self {
+            Self::ForwardEnvelope { envelope, .. }
+                if classify_forwarded_envelope(envelope.as_bytes())
+                    == ForwardedEnvelopeClass::ResourceBytes =>
+            {
+                RESOURCE_IPC_TIMEOUT
+            }
+            _ => IPC_TIMEOUT,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -338,7 +371,7 @@ impl UnixClient {
             .map_err(ClientError::from)
             .map_err(DeliveryError::BeforeSend)?;
         stream
-            .set_read_timeout(Some(IPC_TIMEOUT))
+            .set_read_timeout(Some(request.response_timeout()))
             .map_err(ProtocolError::Io)
             .map_err(ClientError::from)
             .map_err(DeliveryError::BeforeSend)?;
@@ -758,6 +791,57 @@ mod tests {
             MAXIMUM_ROUTED_ENVELOPE_BYTES,
             (100 * 1_024 * 1_024) + (64 * 1_024)
         );
+    }
+
+    #[test]
+    fn resource_bytes_receives_ordered_finite_response_deadlines() {
+        let maximum_single_resource_work = Duration::from_secs(30 + 2);
+        assert!(RESOURCE_HOST_RESPONSE_TIMEOUT > maximum_single_resource_work);
+        assert!(RESOURCE_IPC_TIMEOUT > RESOURCE_HOST_RESPONSE_TIMEOUT);
+        assert_eq!(IPC_TIMEOUT, Duration::from_secs(20));
+
+        let resource_bytes = r#"{"type":"resource.bytes","id":"resource"}"#;
+        assert_eq!(
+            classify_forwarded_envelope(resource_bytes.as_bytes()),
+            ForwardedEnvelopeClass::ResourceBytes
+        );
+        assert_eq!(
+            Request::ForwardEnvelope {
+                surface_token: "surface".to_owned(),
+                envelope: resource_bytes.to_owned(),
+            }
+            .response_timeout(),
+            RESOURCE_IPC_TIMEOUT
+        );
+
+        for envelope in [
+            br#"{"type":"resource.bytesMany","id":"ordinary"}"#.as_slice(),
+            br#"{"type":"resource.info","id":"ordinary"}"#.as_slice(),
+            br#"{"type":"outbox.query","id":"ordinary"}"#.as_slice(),
+            b"not-json".as_slice(),
+        ] {
+            assert_eq!(
+                classify_forwarded_envelope(envelope),
+                ForwardedEnvelopeClass::Ordinary
+            );
+        }
+        assert_eq!(
+            Request::ForwardEnvelope {
+                surface_token: "surface".to_owned(),
+                envelope: r#"{"type":"resource.bytesMany","id":"ordinary"}"#.to_owned(),
+            }
+            .response_timeout(),
+            IPC_TIMEOUT
+        );
+        assert_eq!(
+            Request::ForwardEnvelope {
+                surface_token: "surface".to_owned(),
+                envelope: r#"{"type":"outbox.query","id":"ordinary"}"#.to_owned(),
+            }
+            .response_timeout(),
+            IPC_TIMEOUT
+        );
+        assert_eq!(Request::Status.response_timeout(), IPC_TIMEOUT);
     }
 
     #[test]
