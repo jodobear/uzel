@@ -33,6 +33,7 @@ change, and one PR:
 | #17 rendered WebKit image proof | resource/runtime lane | #10 |
 | #18 daemon control responsiveness | daemon lane | independent benchmark and bounded fix |
 | #19 pre-pane retry identity lock | product/runtime lane | discovered by #10; fix after harness merge |
+| #21 external napplet corpus | product-test lane | data lock independent; launch #13; image #17; pin #11 |
 
 Parallel work is allowed only when file ownership and protocol ownership do not
 overlap. Read-only investigation may run ahead. No implementation branch may
@@ -63,7 +64,7 @@ child exited nonzero without timeout and its process group exited. The run is
 preserved under ignored
 `.artifacts/ui-acceptance/2026-07-31T00-46-39-183Z.175943/`.
 
-## Active issue — #19
+## Completed issue — #19
 
 - [x] Reproduce the pre-pane retry path with an empty selected identity.
 - [x] Keep public identity selection locked while recovery is pending, but give
@@ -77,9 +78,11 @@ preserved under ignored
   already-ready shell.
 - [x] Run renderer acceptance, repository gates, real Linux smoke, screenshot
   inspection, documentation audit, and `graphify update .`.
-- [ ] Merge PR #22 only after exact-head checks and Codex review are clean.
+- [x] Merge PR #22 only after exact-head checks and Codex review are clean.
 
-Exact behavior-validation evidence: commit
+Accepted evidence: PR #22 merged as
+`f068085b2167e4e9c5981f314de97b9b6d6d6c96`; exact reviewed head
+`bc4eeb6296a4c9ca285a031fc5ca4dfeb219ea2f`; behavior-validation commit
 `8782260cb5d685eb0cce698682d77248ea7fc94f`; `pnpm test:ui` 22/22;
 empty-identity and one-shot identity-failure recovery pass at fixed desktop
 viewports; the real Weston/WebKit smoke reports `LINUX_RUN_SMOKE_OK` with both
@@ -88,9 +91,35 @@ a separate human-visible gate. Post-gate commit
 `b89ed4e19c9f110ff8736baa8fda98ed4aa731db` synchronizes this handoff with
 `STATUS.md` and refreshes generated documentation/graph evidence; its validation
 scope is `pnpm docs:check`, `pnpm format:check`, `git diff --check`, and
-`graphify update .`. No product behavior changed after the accepted gates. The
-current PR review head is the live `headRefOid`/`git rev-parse HEAD`; a commit
-cannot truthfully embed its own resulting object ID.
+`graphify update .`. Final docs-only correction
+`bc4eeb6296a4c9ca285a031fc5ca4dfeb219ea2f` received a clean exact-head Codex
+review. No product behavior changed after the accepted gates.
+
+## Active parallel issue — #21 data-only corpus
+
+- [x] Freeze the exact source commit, license, publisher, naddr, signed event,
+  author, kind, `d`, artifact path digest/length, aggregate, domains, and servers
+  for Good Morning, Rubik Cube, Nap Feed, and WiFi Map.
+- [x] Keep signed event records but no downloaded artifact blobs.
+- [x] Verify lock structure, signed-event tuples, event hashes/signatures, and
+  NIP-19 coordinates entirely offline with pinned `nak`.
+- [x] Test that signature drift exits as trust failure while missing verifier
+  tooling exits as infrastructure failure.
+- [x] Record provenance, license limits, source/artifact limitation, and a
+  deliberate refresh procedure.
+- [x] Keep the corpus out of runtime registration, naddr launch, dependency
+  pins, and product UI.
+
+Exact branch evidence: corpus commit `b0ba7f9`; verifier commit `6580d9a`;
+review-fix commits `0c874d9917749a96fd1945ef205390256b989573` and
+`4042c69036b8225b5d7aeb512d1b850ce08d365b`; all four corpus entries verify
+offline; the Node verifier suite rejects unknown/omitted allowlist entries; the
+shell classification suite rejects failed jq enumeration as infrastructure=`3`
+and invalid signatures as trust=`2`; exact flake `nak 0.20.1` is accepted while
+the host PATH `nak 0.16.2` is refused; ShellCheck, `pnpm check`,
+lint/boundaries, full `pnpm test`, Fallow, docs audit, and Rust formatting pass.
+No runtime integration is claimed; later live launch remains gated by #13 and
+rendered evidence by #17.
 
 ## Exit rule
 

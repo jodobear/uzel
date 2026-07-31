@@ -1,0 +1,16 @@
+{
+  "kind": 35129,
+  "id": "312bbf17fef533107d24c5682a9d58a62b7582252e912f90fb41d8d283038706",
+  "pubkey": "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
+  "created_at": 1785066724,
+  "tags": [
+    ["d", "rubik-cube"],
+    ["path", "/index.html", "12057b8de4b76b931bd880e408630eb5bab58e269a5d8f9711c7ea03cb978ab8"],
+    ["x", "e7906e9dc98f8f35359d5b6bf52eb8fd69a0726ad4a7c440c43ee14998ee8821", "aggregate"],
+    ["server", "https://cdn.hzrd149.com"],
+    ["server", "https://blossom.ditto.pub"],
+    ["title", "Rubik Cube"]
+  ],
+  "content": "",
+  "sig": "4e24b4e0101a685b82aed931dbecaf8ff3d1353eb825d3ba4fcbbb37a79e7ba84e46dc8c3a26025af89c8e4aa1bb7c1c66da9dbb58b66c4c10f78aeb8da4de4a"
+}

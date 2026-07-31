@@ -17,8 +17,8 @@
     },
     {
       "path": "STATUS.md",
-      "bytes": 4393,
-      "sha256": "6c0d5cc5033cdb3e453b1155130a460c168e1faf380e8502bd33918bde72c217"
+      "bytes": 11511,
+      "sha256": "003be4429c5ce04407f6edc68cb87274a5457fa92de27906fb6f898d445363e1"
     },
     {
       "path": "TREE.txt",
@@ -27,8 +27,8 @@
     },
     {
       "path": "audit-results.json",
-      "bytes": 217,
-      "sha256": "c225b349689729802428d7771697f3b1d96d3222b353a582f4064c6088c089a2"
+      "bytes": 192,
+      "sha256": "ddf134666f40eb2425f1df9c0807a9a33ee6be6f0a53a8ba1f82b9406dd71843"
     },
     {
       "path": "compatibility.lock",
@@ -327,8 +327,8 @@
     },
     {
       "path": "work/07-stabilize-product.md",
-      "bytes": 5192,
-      "sha256": "dd0e90a7a8a77d7961f7bdc7d80890f064ae3ca9b0009dd5cfdd595cb0ebf1fe"
+      "bytes": 6912,
+      "sha256": "10f055e8e2c579284ef647b81cefa59af591d5af3607d4127d5f4bb48912f777"
     }
   ]
 }

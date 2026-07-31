@@ -1,0 +1,17 @@
+{
+  "kind": 35129,
+  "id": "e4445830b411d920e1f5fa4f74f58144f085a43e370ed39703e60207be9c7c9d",
+  "pubkey": "266815e0c9210dfa324c6cba3573b14bee49da4209a9456f9484e5106cd408a5",
+  "created_at": 1785066724,
+  "tags": [
+    ["d", "nap-feed"],
+    ["path", "/index.html", "a3f03bc23808522d4f5c0c19b7b9567444173ce9105b8eef8ed50880836d28ea"],
+    ["x", "4e1248038e9cfb6998a7981d08f5ea30ce21ecbe9b1d14f82c8a30fa18468dd1", "aggregate"],
+    ["server", "https://cdn.hzrd149.com"],
+    ["server", "https://blossom.ditto.pub"],
+    ["title", "Napplet Feed"],
+    ["description", "Napplet manifests published by your contacts, with quick naddr copy."]
+  ],
+  "content": "",
+  "sig": "4d1d0267d6ee618bfbe383b84b2488d2e4eaab97f4a94e6392a64c3768f0ad00108bc4dcf71aa560da15e62bb7eb29935989ed1aa1f2ae420293d06c3bd4fdbc"
+}
