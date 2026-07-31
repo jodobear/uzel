@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
-  canonicalIdentityProfile, canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS,
-  profileQueryRequest, PROFILE_RESULT_LIMIT,
+  canonicalProfile, createLatestRequestGate, MAXIMUM_DATE_SECONDS, profileQueryRequest,
+  PROFILE_RESULT_LIMIT,
 } from '../src/model.js';
 
 const PUBKEY = 'c'.repeat(64);
@@ -23,40 +23,34 @@ test('binds profile queries to the selected author and leaves the deadline host-
 });
 
 test('projects the single canonical kind 0 returned by NMP', () => {
+  const content = JSON.stringify({
+    display_name: 'New',
+    about: 'Evidence-backed.',
+    website: 'https://example.test',
+    custom: { nested: true },
+  });
+
   assert.equal(PROFILE_RESULT_LIMIT, 1);
   assert.deepEqual(
-    canonicalProfile([
-      result('canonical', 30, JSON.stringify({ display_name: 'New', about: 'Evidence-backed.' })),
-    ], PUBKEY),
+    canonicalProfile([result('canonical', 30, content)], PUBKEY),
     {
       pubkey: PUBKEY,
       eventId: 'canonical',
       createdAt: 30,
-      observedAt: '1970-01-01T00:00:30.000Z',
+      createdAtIso: '1970-01-01T00:00:30.000Z',
       name: 'New',
       about: 'Evidence-backed.',
       picture: undefined,
       nip05: undefined,
+      content,
+      contentText: JSON.stringify(JSON.parse(content), null, 2),
     },
   );
 });
 
-test('projects the active NAP-IDENTITY profile without inventing event evidence', () => {
-  assert.deepEqual(canonicalIdentityProfile({
-    name: 'yo', displayName: 'Yo', about: 'hello', picture: 'https://example.test/p.jpg',
-  }, PUBKEY), {
-    pubkey: PUBKEY,
-    name: 'Yo',
-    about: 'hello',
-    picture: 'https://example.test/p.jpg',
-    nip05: undefined,
-  });
-  assert.equal(canonicalIdentityProfile(null, PUBKEY), null);
-});
-
 test('rejects timestamps outside the JavaScript Date range before projection', () => {
   assert.equal(
-    canonicalProfile([result('maximum', MAXIMUM_DATE_SECONDS, '{}')], PUBKEY)?.observedAt,
+    canonicalProfile([result('maximum', MAXIMUM_DATE_SECONDS, '{}')], PUBKEY)?.createdAtIso,
     '+275760-09-13T00:00:00.000Z',
   );
   assert.equal(canonicalProfile([result('too-large', MAXIMUM_DATE_SECONDS + 1, '{}')], PUBKEY), null);

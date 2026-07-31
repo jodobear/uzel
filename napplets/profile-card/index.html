@@ -17,6 +17,9 @@
       p { margin: 6px 0; overflow-wrap: anywhere; }
       #pubkey, #evidence { color: #aaa096; font-size: 12px; }
       #status { color: #d8bd7c; }
+      details { margin-top: 10px; }
+      summary { cursor: pointer; color: #d8bd7c; }
+      pre { max-width: 100%; max-height: 16rem; margin: 8px 0 0; overflow: auto; border: 1px solid #554b41; border-radius: 5px; padding: 10px; background: #12100e; color: #f4eee7; }
       button { padding: 5px 8px; border: 1px solid #554b41; border-radius: 5px; background: #241e19; color: inherit; font: inherit; font-size: 12px; cursor: pointer; }
     </style>
   </head>
@@ -29,6 +32,10 @@
         <p id="about"></p>
         <p id="status" role="status">Waiting for runtime…</p>
         <p id="evidence"></p>
+        <details id="metadata" open hidden>
+          <summary>Complete kind 0 metadata</summary>
+          <pre id="kind0" aria-label="Complete validated kind 0 metadata"></pre>
+        </details>
       </div>
     </article>
     <script type="module" src="/src/main.js"></script>

@@ -8,8 +8,8 @@ export default defineConfig({
     nip5aManifest({
       nappletType: 'follow-list',
       title: 'Direct follows',
-      description: 'Small direct-follow selector using runtime-mediated identity data.',
-      requires: { explicit: ['identity', 'inc'], infer: true, mode: 'error' },
+      description: 'Direct-follow selector enriched through runtime-mediated profile data.',
+      requires: { explicit: ['identity', 'inc', 'outbox', 'resource'], infer: true, mode: 'error' },
       artifactMode: 'single-file',
     }),
   ],
