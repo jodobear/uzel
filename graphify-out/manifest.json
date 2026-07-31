@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785465134.6749127,
-    "ast_hash": "064698d1238a428253b23e252a71923f",
+    "mtime": 1785465415.4213898,
+    "ast_hash": "b116a53d0d51f1e218b64471703639d5",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785465134.6768556,
-    "ast_hash": "4254d08ac004ecd6eb809cffb24b58aa",
+    "mtime": 1785465415.423089,
+    "ast_hash": "ec6a2b14762137d4137785882b8c60f2",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785465123.0812836,
-    "ast_hash": "50087e3da64943c75aeaeb8b09724521",
+    "mtime": 1785465406.8303256,
+    "ast_hash": "4878d2ed7ead992492c5b793f4246886",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "apps/uzel/src/App.svelte": {
-    "mtime": 1785462690.8744795,
-    "ast_hash": "afe8dd762466c9876078eaa241dc176c",
+    "mtime": 1785465309.9202867,
+    "ast_hash": "21f5b46980e4634ee140e7a81f1f7732",
     "semantic_hash": ""
   },
   "apps/uzel/src/main.ts": {
@@ -635,18 +635,18 @@
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/acceptance.test.mjs": {
-    "mtime": 1785462690.8759587,
-    "ast_hash": "d66a0c32525c35c9143932b26bbcccc2",
+    "mtime": 1785465309.9212868,
+    "ast_hash": "d634a6084f137a11cd44e239bbf6a34e",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/fixtures/mock-native.js": {
-    "mtime": 1785462690.8761144,
-    "ast_hash": "f10f83c1ca342f2745ca8a41e2c322a3",
+    "mtime": 1785465309.9212868,
+    "ast_hash": "6aeae14e2dad67606e5d85268034ee28",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/playwright.config.mjs": {
-    "mtime": 1785462690.8761144,
-    "ast_hash": "138dee5542c001bca34e3a1df5b2e59c",
+    "mtime": 1785465309.9212868,
+    "ast_hash": "47e8ec20fe05c496a9f4c7185562c926",
     "semantic_hash": ""
   },
   "apps/uzel/tests/ui/README.md": {
@@ -660,8 +660,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/work/07-stabilize-product.md": {
-    "mtime": 1785465123.1782846,
-    "ast_hash": "f7ef554462af7f688cf91a03420d4dc3",
+    "mtime": 1785465388.8791332,
+    "ast_hash": "eee6f6eaab4d35285debcc86f892c647",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/corpus.lock.json": {

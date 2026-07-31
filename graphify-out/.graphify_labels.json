@@ -10,7 +10,7 @@
   "8": "POC documentation audit",
   "9": "Work 01 — scaffold",
   "10": "Work 00 — validate assumptions",
-  "11": "hostile_probe.rs",
+  "11": "04-execution.md",
   "12": "Slice 04 preflight — daemon, NMP, and persistence",
   "13": "Work 04 — daemon, NMP, and persistence",
   "14": ".fetch",
@@ -22,6 +22,7 @@
   "20": "manifest.json",
   "21": "README.md",
   "22": "Gate 0 preflight and Slice 01 decision",
+  "23": "Slice 03 preflight",
   "24": "WebKit/Tauri trust spike",
   "25": "NMP API and ownership map",
   "26": "FACT-001-kehto-package-line.md",
@@ -91,6 +92,7 @@
   "90": "debian13-setup.sh",
   "91": "Work 02 — Linux exact-build runner",
   "92": "mock-native.js",
+  "93": "FACT-006 — strict CSP and direct egress",
   "94": "FACT-004 — NMP facade and ownership",
   "95": "Work 04 — daemon, NMP, and persistence",
   "96": "FACT-014-live-identity-catalog.md",
@@ -171,8 +173,5 @@
   "171": "PathBuf",
   "172": "Result",
   "173": "Self",
-  "174": "String",
-  "175": "UnixStream",
-  "176": "Vec",
-  "177": "VecDeque"
+  "174": "String"
 }
