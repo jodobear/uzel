@@ -186,6 +186,13 @@ export function verifySignedEvent(entry, event) {
   );
   requireCondition(event.content === '', 'event-id-drift', `${entry.name}: event content drifted`);
 
+  const titleTag = exactTag(event, 'title');
+  requireCondition(
+    titleTag.length === 2 && titleTag[1] === entry.title,
+    'signed-event-drift',
+    `${entry.name}: signed title drifted`,
+  );
+
   const dTag = exactTag(event, 'd');
   requireCondition(dTag.length === 2 && dTag[1] === entry.dTag, 'coordinate-drift', `${entry.name}: d tag drifted`);
 

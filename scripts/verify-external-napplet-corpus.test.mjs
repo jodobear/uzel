@@ -194,6 +194,22 @@ test('tuple drift is a trust failure before launch', async () => {
   );
 });
 
+test('lock title drift fails closed against the signed title', async () => {
+  const lock = await loadLock();
+  const entry = lock.entries[0];
+  const event = await loadEvent(entry);
+  entry.title = 'Misleading replacement title';
+
+  assert.throws(
+    () => verifySignedEvent(entry, event),
+    (error) =>
+      error instanceof CorpusVerificationError &&
+      error.category === 'trust' &&
+      error.code === 'signed-event-drift' &&
+      error.message.includes('signed title drifted'),
+  );
+});
+
 test('failure policy keeps external availability separate from trust failures', async () => {
   const lock = await loadLock();
   const infrastructure = new Set(lock.failurePolicy.infrastructure);
