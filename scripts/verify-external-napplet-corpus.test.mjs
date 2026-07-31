@@ -172,6 +172,33 @@ test('null and non-object lock roots fail as invalid lock trust errors', async (
   }
 });
 
+test('null and non-object entries fail as invalid lock trust errors', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-entry-'));
+  const lockPath = join(temporaryDirectory, 'corpus.lock.json');
+  try {
+    for (const entry of [null, [], 'not-an-object']) {
+      const lock = await loadLock();
+      lock.entries[0] = entry;
+      await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+      await assert.rejects(
+        verifyCorpus(lockPath),
+        (error) =>
+          error instanceof CorpusVerificationError &&
+          error.category === 'trust' &&
+          error.code === 'invalid-lock' &&
+          error.message.includes('entry must be an object'),
+      );
+
+      const cli = spawnSync(process.execPath, [VERIFIER_SCRIPT, lockPath], {
+        encoding: 'utf8',
+      });
+      assert.equal(cli.status, 2);
+    }
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
 test('source commit and commit URL remain pinned to the audited source', async () => {
   const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-source-'));
   const lockPath = join(temporaryDirectory, 'corpus.lock.json');
@@ -201,6 +228,56 @@ test('source commit and commit URL remain pinned to the audited source', async (
         error.category === 'trust' &&
         error.code === 'invalid-lock' &&
         error.message.includes('source.commitUrl must remain'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('event ids remain pinned by audited name instead of caller-lock self-consistency', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-event-pin-'));
+  const corpusDirectory = join(temporaryDirectory, 'corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, corpusDirectory, { recursive: true });
+    const lockPath = join(corpusDirectory, 'corpus.lock.json');
+    const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+    const eventPath = join(corpusDirectory, lock.entries[0].eventFile);
+    const event = JSON.parse(await readFile(eventPath, 'utf8'));
+    lock.entries[0].eventId = '0'.repeat(64);
+    event.id = lock.entries[0].eventId;
+    await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+    await writeFile(eventPath, JSON.stringify(event), 'utf8');
+
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'event-id-drift' &&
+        error.message.includes('exact audited value'),
+    );
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
+});
+
+test('domains remain pinned to each audited napplet capability set', async () => {
+  const temporaryDirectory = await mkdtemp(join(tmpdir(), 'uzel-corpus-domains-'));
+  const corpusDirectory = join(temporaryDirectory, 'corpus');
+  try {
+    await cp(DEFAULT_CORPUS_DIRECTORY, corpusDirectory, { recursive: true });
+    const lockPath = join(corpusDirectory, 'corpus.lock.json');
+    const lock = JSON.parse(await readFile(lockPath, 'utf8'));
+    lock.entries[1].domains = ['wallet'];
+    await writeFile(lockPath, JSON.stringify(lock), 'utf8');
+
+    await assert.rejects(
+      verifyCorpus(lockPath),
+      (error) =>
+        error instanceof CorpusVerificationError &&
+        error.category === 'trust' &&
+        error.code === 'capability-drift' &&
+        error.message.includes('exact audited capability set'),
     );
   } finally {
     await rm(temporaryDirectory, { recursive: true, force: true });

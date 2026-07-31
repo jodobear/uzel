@@ -18,11 +18,24 @@ const EXPECTED_NAK_VERSION = '0.20.1';
 const EXPECTED_SOURCE_COMMIT = 'aa4dc7a0799d95e3066b50055b29685d6e376045';
 const EXPECTED_SOURCE_COMMIT_URL =
   `https://github.com/hzrd149/napplelets/commit/${EXPECTED_SOURCE_COMMIT}`;
+const VERIFIED_SNAPSHOT_FORMAT = 'uzel.verified-external-napplet-corpus.v1';
 const EXPECTED_SAFE_AUTOMATION = new Map([
   ['good-morning', 'control'],
   ['rubik-cube', 'zero-capability-render-input'],
   ['nap-feed', 'read-only-config-outbox'],
   ['wifi-map', 'read-only-storage-outbox-no-link-click'],
+]);
+const EXPECTED_EVENT_IDS = new Map([
+  ['good-morning', 'caef62ea8feb506d621f7f4c514fcb4322280cf3041d9e4801354b5d615f9d3b'],
+  ['rubik-cube', '312bbf17fef533107d24c5682a9d58a62b7582252e912f90fb41d8d283038706'],
+  ['nap-feed', 'e4445830b411d920e1f5fa4f74f58144f085a43e370ed39703e60207be9c7c9d'],
+  ['wifi-map', '49e111745256e32af6a5b3dd02e54b731cd8848a2951e0cf6de0888ab52e1b99'],
+]);
+const EXPECTED_DOMAINS = new Map([
+  ['good-morning', ['identity', 'inc', 'link', 'outbox', 'resource', 'theme']],
+  ['rubik-cube', []],
+  ['nap-feed', ['config', 'identity', 'outbox', 'theme']],
+  ['wifi-map', ['link', 'outbox', 'storage', 'theme']],
 ]);
 
 export class CorpusVerificationError extends Error {
@@ -112,6 +125,11 @@ function verifyFailurePolicy(policy) {
 }
 
 function verifyLockEntry(entry, publisher) {
+  requireCondition(
+    entry !== null && typeof entry === 'object' && !Array.isArray(entry),
+    'invalid-lock',
+    'entry must be an object',
+  );
   requireString(entry.name, 'entry.name');
   requireString(entry.title, `${entry.name}.title`);
   requireCondition(
@@ -127,6 +145,11 @@ function verifyLockEntry(entry, publisher) {
   requireString(entry.naddr, `${entry.name}.naddr`);
   requireString(entry.eventFile, `${entry.name}.eventFile`);
   requireHex(entry.eventId, HEX_64, `${entry.name}.eventId`);
+  requireCondition(
+    entry.eventId === EXPECTED_EVENT_IDS.get(entry.name),
+    'event-id-drift',
+    `${entry.name}: event id is not the exact audited value`,
+  );
   requireHex(entry.author, HEX_64, `${entry.name}.author`);
   requireCondition(
     entry.author === publisher,
@@ -164,6 +187,11 @@ function verifyLockEntry(entry, publisher) {
     `${entry.name}.artifact.sizeBytes must be a positive integer`,
   );
   requireUniqueStrings(entry.domains, `${entry.name}.domains`, { sorted: true });
+  requireCondition(
+    JSON.stringify(entry.domains) === JSON.stringify(EXPECTED_DOMAINS.get(entry.name)),
+    'capability-drift',
+    `${entry.name}: domains are not the exact audited capability set`,
+  );
   requireCondition(
     entry.domainsSource === 'audited-artifact-meta',
     'invalid-lock',
@@ -313,13 +341,16 @@ async function readEventJson(path, description, canonicalCorpusDirectory, expect
     } catch (error) {
       infrastructure('corpus-read-failed', `${description}: ${error.message}`);
     }
-    return parseJson(text, description);
+    return {
+      event: parseJson(text, description),
+      text,
+    };
   } finally {
     await handle.close();
   }
 }
 
-export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
+async function readVerifiedCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   const resolvedLockPath = resolve(lockPath);
   const corpusDirectory = dirname(resolvedLockPath);
   const lock = await readJson(resolvedLockPath, 'corpus lock');
@@ -363,6 +394,7 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
   const names = new Set();
   const coordinates = new Set();
   const eventIds = new Set();
+  const verifiedEntries = [];
   for (const entry of lock.entries) {
     verifyLockEntry(entry, lock.publisher);
     requireCondition(!names.has(entry.name), 'invalid-lock', `duplicate name: ${entry.name}`);
@@ -379,24 +411,43 @@ export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
       'invalid-lock',
       `${entry.name}: event file escapes corpus directory`,
     );
-    const event = await readEventJson(
+    const verifiedEvent = await readEventJson(
       eventPath,
       `${entry.name} event`,
       canonicalCorpusDirectory,
       resolve(canonicalCorpusDirectory, eventPathFromCorpus),
     );
-    verifySignedEvent(entry, event);
+    verifySignedEvent(entry, verifiedEvent.event);
+    verifiedEntries.push({
+      entry,
+      eventText: verifiedEvent.text,
+    });
   }
 
-  return lock;
+  return {
+    format: VERIFIED_SNAPSHOT_FORMAT,
+    lock,
+    entries: verifiedEntries,
+  };
+}
+
+export async function verifyCorpus(lockPath = DEFAULT_CORPUS_LOCK) {
+  const verifiedCorpus = await readVerifiedCorpus(lockPath);
+  return verifiedCorpus.lock;
 }
 
 async function main() {
-  const lockPath = process.argv[2] ? resolve(process.argv[2]) : DEFAULT_CORPUS_LOCK;
+  const snapshotMode = process.argv[2] === '--snapshot-json';
+  const lockArgument = process.argv[snapshotMode ? 3 : 2];
+  const lockPath = lockArgument ? resolve(lockArgument) : DEFAULT_CORPUS_LOCK;
   try {
-    const lock = await verifyCorpus(lockPath);
+    const verifiedCorpus = await readVerifiedCorpus(lockPath);
+    if (snapshotMode) {
+      process.stdout.write(JSON.stringify(verifiedCorpus));
+      return;
+    }
     console.log(
-      `EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=${lock.entries.length} commit=${lock.source.commit} mode=offline`,
+      `EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=${verifiedCorpus.lock.entries.length} commit=${verifiedCorpus.lock.source.commit} mode=offline`,
     );
   } catch (error) {
     if (error instanceof CorpusVerificationError) {

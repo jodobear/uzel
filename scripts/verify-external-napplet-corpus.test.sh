@@ -5,13 +5,17 @@ root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 verifier="$root/scripts/verify-external-napplet-corpus.sh"
 temporary_corpus=$(mktemp -d)
 lossless_corpus=$(mktemp -d)
+null_entry_corpus=$(mktemp -d)
+snapshot_corpus=$(mktemp -d)
 
 cleanup() {
-  rm -rf -- "$temporary_corpus" "$lossless_corpus"
+  rm -rf -- "$temporary_corpus" "$lossless_corpus" "$null_entry_corpus" "$snapshot_corpus"
 }
 trap cleanup EXIT
 
 cp -R "$root/fixtures/external-napplet-corpus/." "$temporary_corpus/"
+cp -R "$root/fixtures/external-napplet-corpus/." "$null_entry_corpus/"
+cp -R "$root/fixtures/external-napplet-corpus/." "$snapshot_corpus/"
 
 basename_output=$(
   cd "$root/fixtures/external-napplet-corpus"
@@ -20,6 +24,66 @@ basename_output=$(
 if [[ $basename_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
   echo "expected a basename lock argument to resolve event files from its directory" >&2
   echo "$basename_output" >&2
+  exit 1
+fi
+
+null_entry_lock="$null_entry_corpus/corpus.lock.json"
+null_entry_lock_next="$null_entry_corpus/corpus.lock.next.json"
+jq '.entries[0] = null' "$null_entry_lock" > "$null_entry_lock_next"
+mv "$null_entry_lock_next" "$null_entry_lock"
+set +e
+null_entry_output=$(bash "$verifier" "$null_entry_lock" 2>&1)
+null_entry_status=$?
+set -e
+if [[ $null_entry_status -ne 2 || $null_entry_output != *"EXTERNAL_NAPPLET_CORPUS_TRUST code=invalid-lock"* ]]; then
+  echo "expected a null entry to be classified as trust failure" >&2
+  echo "$null_entry_output" >&2
+  exit 1
+fi
+
+real_node=$(command -v node)
+real_jq=$(command -v jq)
+snapshot_lock="$snapshot_corpus/corpus.lock.json"
+snapshot_lock_next="$snapshot_corpus/corpus.lock.next.json"
+snapshot_event="$snapshot_corpus/events/good-morning.json"
+snapshot_event_next="$snapshot_corpus/events/good-morning.next.json"
+swap_after_verify_node="$snapshot_corpus/swap-after-verify-node"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'set +e' \
+  '"$UZEL_REAL_NODE" "$@"' \
+  'node_status=$?' \
+  'set -e' \
+  'if [[ $node_status -eq 0 ]]; then' \
+  '  "$UZEL_REAL_JQ" '\''.source.commit = "0000000000000000000000000000000000000000"'\'' "$UZEL_SWAP_LOCK" > "$UZEL_SWAP_LOCK_NEXT"' \
+  '  mv -- "$UZEL_SWAP_LOCK_NEXT" "$UZEL_SWAP_LOCK"' \
+  '  "$UZEL_REAL_JQ" '\''.sig = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"'\'' "$UZEL_SWAP_EVENT" > "$UZEL_SWAP_EVENT_NEXT"' \
+  '  mv -- "$UZEL_SWAP_EVENT_NEXT" "$UZEL_SWAP_EVENT"' \
+  'fi' \
+  'exit "$node_status"' > "$swap_after_verify_node"
+chmod +x "$swap_after_verify_node"
+snapshot_output=$(
+  UZEL_NODE_BIN="$swap_after_verify_node" \
+    UZEL_REAL_NODE="$real_node" \
+    UZEL_REAL_JQ="$real_jq" \
+    UZEL_SWAP_LOCK="$snapshot_lock" \
+    UZEL_SWAP_LOCK_NEXT="$snapshot_lock_next" \
+    UZEL_SWAP_EVENT="$snapshot_event" \
+    UZEL_SWAP_EVENT_NEXT="$snapshot_event_next" \
+    bash "$verifier" "$snapshot_lock"
+)
+if [[ $snapshot_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4 commit=aa4dc7a0799d95e3066b50055b29685d6e376045 mode=offline"* ]]; then
+  echo "expected nak and reporting to consume the verified snapshot after path swaps" >&2
+  echo "$snapshot_output" >&2
+  exit 1
+fi
+if [[ $(jq -r '.source.commit' "$snapshot_lock") != "0000000000000000000000000000000000000000" ]]; then
+  echo "expected the deterministic swap hook to replace the lock after verification" >&2
+  exit 1
+fi
+if [[ $(jq -r '.sig' "$snapshot_event") != "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" ]]; then
+  echo "expected the deterministic swap hook to replace the event after verification" >&2
   exit 1
 fi
 
@@ -70,7 +134,37 @@ if [[ $version_status -ne 3 || $version_output != *"EXTERNAL_NAPPLET_CORPUS_INFR
   exit 1
 fi
 
-real_jq=$(command -v jq)
+hanging_nak="$temporary_corpus/hanging-nak"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  'case "${UZEL_HANG_OPERATION}:${1:-}" in' \
+  '  version:--version|verify:verify|decode:decode) exec sleep 10 ;;' \
+  'esac' \
+  'case "${1:-}" in' \
+  '  --version) echo "nak version 0.20.1" ;;' \
+  '  verify) exit 0 ;;' \
+  '  decode) exit 42 ;;' \
+  '  *) exit 42 ;;' \
+  'esac' > "$hanging_nak"
+chmod +x "$hanging_nak"
+for operation in version verify decode; do
+  set +e
+  timeout_output=$(
+    UZEL_HANG_OPERATION="$operation" \
+      UZEL_NAK_BIN="$hanging_nak" \
+      UZEL_NAK_TIMEOUT_SECONDS=0.1 \
+      bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json" 2>&1
+  )
+  timeout_status=$?
+  set -e
+  if [[ $timeout_status -ne 3 || $timeout_output != *"EXTERNAL_NAPPLET_CORPUS_INFRASTRUCTURE code=nak-timeout"* ]]; then
+    echo "expected hanging nak $operation to time out as infrastructure failure" >&2
+    echo "$timeout_output" >&2
+    exit 1
+  fi
+done
+
 broken_enumeration_jq="$temporary_corpus/broken-enumeration-jq"
 # This line is emitted into the fake jq script.
 # shellcheck disable=SC2016
