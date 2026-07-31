@@ -333,7 +333,7 @@ async function waitForReady(page) {
   await page.getByText('Two exact builds ready through NAP-SHELL', { exact: true }).waitFor();
   await page.getByRole('region', { name: 'Composed napplet workspace' }).waitFor();
   await page.frameLocator('iframe[aria-label="Direct follows"]')
-    .getByText('1 latest-known direct follows', { exact: true }).waitFor();
+    .getByText('2 latest-known direct follows', { exact: true }).waitFor();
   await page.frameLocator('iframe[aria-label="Profile card"]')
     .getByText(/^Latest-known (?:active identity )?profile\.$/).waitFor();
 }
