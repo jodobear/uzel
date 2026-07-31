@@ -551,6 +551,7 @@ rich_profile_maximum_pending_avatar_object_urls = 32
 rich_profile_metadata_text_result = "pass: complete kind-0 display preserves exact authored JSON text, including unsafe integers and duplicate keys, outside the live status region"
 rich_profile_renderer_result = "pass: real signed napplet bytes in deterministic Chromium showed NMP-resolved follow names and blob avatars after forced batch bisection, complete exact standard/custom/nested kind-0 text, inert hostile-looking metadata, and zero ordinary browser network requests"
 rich_profile_native_result = "pending: rerun Debian 13 interactive acceptance against these exact signed fixture hashes"
+codex_review_round_10 = "addressed: update durable status; shrink initial profile batches and bisect failures; cap and revoke avatar object URLs; preserve exact authored kind-0 text; keep full metadata outside the live status region"
 root_test_result = "pass: pnpm test runs contracts, napplets, shell, 43 non-Tauri Rust tests, all 12 Tauri tests under the exact no-default-features Linux runtime profile, and pinned assets; default-feature compilation remains covered by pnpm check and portable packaged linkage by Debian build smoke"
 stop_retry_result = "pass: absent surface cleanup is idempotent; mocked lost stop response retained the loaded lock and the second Close succeeded"
 cancel_retry_result = "pass: absent review cancellation is idempotent; mocked lost cancel response retained the exact review and the second Close succeeded"

@@ -22,17 +22,17 @@ Gate 0 outcome: **complete; Slice 01 GO for the Linux-only POC**. Every V-01 thr
 - [x] 04 daemon, NMP, and minimal persistence
 - [x] 05 integrated composed demo
 - [x] 06 user/dev modes, hostile tests, clean demo
-- [ ] 07 issue-driven product stabilization (active: #25 profile/follow avatar transport)
+- [ ] 07 issue-driven product stabilization (active: #28 rich follow rows and #29 complete kind-0 profile card)
 
 ## Latest integrated evidence
 
 ```text
-slice: Work 07 active; issue #25 implementation is locally accepted on fix/profile-follow-click-timeout; upstream provider-push configuration is tracked in jodobear/nampplets PR #11
-commits: author-bound host-deadline query eb15650ed6dbbf37038ba1950ea78b9b4aad1dc8; delayed profile regression ffecb6bfb808cced164f31a8db271b1dccb55a47 and c9a1a3ddab6486ddbd8cd45d3199c2f65790f02b; disproven timeout change reverted in 4c6c01e; bounded provider-push integration e2638f9958a4dfdb125e16f711e5296640349dae; Nampplets dependency e2f69f325a6b45213accdacfcc125e80e0687b4c
-commands: pnpm check; pnpm lint; pnpm test; pnpm test:ui; pnpm test:conformance; pnpm fallow; pnpm format:check; pnpm docs:check; pnpm smoke:linux; strict native tauri-driver/WebKit supplied-npub and follow-click probe; screenshot inspection
-observable result: the supplied npub renders yo, 435 latest-known direct follows, and its avatar. Clicking the first follow renders nopara73 and its 768069-byte JPEG through NAP-RESOURCE as a WebKit object URL. The shell remains at Two exact builds ready through NAP-SHELL and reports no runtime refusal. The true defect was base64 expansion above Nampplets default provider-push bounds after a successful resource fetch; Uzel now opts into the existing finite 104923136-byte trusted-shell aggregate ceiling through the new RuntimeConfig fields. All compile, strict lint, unit, Rust, Tauri, 24/24 renderer, conformance, Fallow, format, documentation, real Weston/WebKit, hostile-egress, and screenshot gates pass.
-known limitation: Nampplets PR #11 exact-head review and CI remain a separate merge gate; Uzel deliberately pins its exact compatibility commit and records that unpublished dependency. Nampplets issue #9 still tracks a whole-operation deadline for sequential resource.bytesMany. The accepted native proof covers resource.bytes. Visible Debian interactive acceptance remains a separate human-visible gate.
-next action: push and review the Uzel issue #25 branch; fix any exact-head Codex findings and merge only with clean CI. Re-run the same supplied-npub flow on Debian 13 interactive mode before closing #25. PR #11 must independently clear its Codex/CI gates before merge.
+slice: Work 07 active; issues #28 and #29 are implemented on feat/rich-profile-surfaces in PR #30
+commits: initial rich rendering 6384de4; renderer proof d21a0da; first signed repin b53448c; graph refresh 9d2b567; bounded review corrections 9f2532d; corrected signed repin db9fa9e
+commands: pinned-Nix `pnpm check`, `pnpm test`, `pnpm test:ui`, `pnpm test:conformance`, `pnpm lint`, `pnpm fallow`, and `pnpm format:check`; documentation audit; pinned asset audit; real Weston/WebKit `pnpm smoke:linux`; routed-profile screenshot inspection
+observable result: each follow row immediately renders a short pubkey fallback, then shows its NMP-resolved profile name and viewport-visible NAP-RESOURCE picture. Initial NAP-OUTBOX batches contain at most eight author-bound filters; one forced multi-author failure bisects to successful single-author queries. At most two profile queries and four image fetches run concurrently; pending object URLs are capped at 32 and successful URLs are revoked after decode. Active and clicked profile cards show friendly fields plus the exact authored complete kind-0 JSON as inert, wrapped text outside the concise live-status region. Root checks built all three napplets with Svelte 0/0, 31 JavaScript and 55 Rust tests passed with only two explicit live-network ignores, conformance passed 12/0/8, Fallow found zero issues, documentation reported 47 documents/78 links/9 Mermaid blocks with zero errors or warnings, Playwright passed 24/24, and real Weston/WebKit reported every daemon/shell/artifact/isolation marker green. The routed-profile screenshot was inspected.
+known limitation: the newly signed fixture bytes still require visible Debian 13 interactive acceptance with the supplied npub. Nampplets issue #9 tracks a whole-operation bound for sequential resource.bytesMany; current proof covers individual resource.bytes. Uzel deliberately remains pinned to exact NMP, Nampplets, and NAP revisions.
+next action: complete all automated gates, push the corrected exact head, request a second Codex review, merge PR #30 only when head-anchored review and CI are clean, then run Debian 13 interactive acceptance before closing #28 and #29.
 ```
 
 ## Accepted provisional risks
