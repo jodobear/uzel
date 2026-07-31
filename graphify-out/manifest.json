@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/STATUS.md": {
-    "mtime": 1785465406.8303256,
-    "ast_hash": "4878d2ed7ead992492c5b793f4246886",
+    "mtime": 1785466587.1969779,
+    "ast_hash": "169dfbc49664cedf6b6e7fd03d172784",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/TREE.txt": {
@@ -660,8 +660,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/work/07-stabilize-product.md": {
-    "mtime": 1785465388.8791332,
-    "ast_hash": "eee6f6eaab4d35285debcc86f892c647",
+    "mtime": 1785466587.3149793,
+    "ast_hash": "804f71fcd08c88d2803cc2f27e9a0f7f",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/corpus.lock.json": {
@@ -690,23 +690,23 @@
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.mjs": {
-    "mtime": 1785464667.8764036,
-    "ast_hash": "91510b75b10e563b4607e14a27d845d6",
+    "mtime": 1785466478.9908183,
+    "ast_hash": "7db60dc2d370fd558c5cf32e1a5ab995",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.sh": {
-    "mtime": 1785465684.7533047,
-    "ast_hash": "a899fb1e1ad7ae649e0ef14f61f0673e",
+    "mtime": 1785466506.9131174,
+    "ast_hash": "50be5271b7829c14dfd52cb8a72ea685",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.mjs": {
-    "mtime": 1785464683.0345662,
-    "ast_hash": "c268476e933d7d3b2d9c718d910c53f2",
+    "mtime": 1785466479.1008193,
+    "ast_hash": "c0675eccef199d64d75efa157c1646bf",
     "semantic_hash": ""
   },
   "scripts/verify-external-napplet-corpus.test.sh": {
-    "mtime": 1785465684.852306,
-    "ast_hash": "b601d666bbdf1f18bb2e8fae9f6b4eec",
+    "mtime": 1785466507.0181186,
+    "ast_hash": "519bedeb2d7a58c59bf3584bca980725",
     "semantic_hash": ""
   },
   "fixtures/external-napplet-corpus/README.md": {
