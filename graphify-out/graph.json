@@ -9293,7 +9293,7 @@
       "label": "cleanup()",
       "file_type": "code",
       "source_file": "scripts/verify-external-napplet-corpus.test.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "metadata": {
         "language": "bash",
         "kind": "bash_function"
@@ -27556,7 +27556,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.sh",
-      "source_location": "L81",
+      "source_location": "L100",
       "weight": 1.0,
       "context": "call",
       "source": "scripts_verify_external_napplet_corpus_sh__entry",
@@ -27587,7 +27587,7 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "source_file": "scripts/verify-external-napplet-corpus.test.sh",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "scripts_verify_external_napplet_corpus_test_sh_scripts_verify_external_napplet_corpus_test",
       "target": "scripts_verify_external_napplet_corpus_test_cleanup",
@@ -30757,5 +30757,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4042c69036b8225b5d7aeb512d1b850ce08d365b"
+  "built_at_commit": "f24f5fcba5e0079b16e754e4bc8eecc0cbfdd461"
 }
