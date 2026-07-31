@@ -29,9 +29,9 @@ check_sha256 e4732ee0033687aec0dfba4e1ee050a775d4cf1797741dfc0e9c858fde7559fe \
   fixtures/follow-list/event.json
 check_sha256 ecf5118afcb9d1dd218288445397ae596cf85d2d6ad7de57bb7097c8faf217ce \
   fixtures/follow-list/index.html
-check_sha256 48b598dcbc2e4e3fa313a5c23a78ef5c487ae20769eedc8e91869fb925557499 \
+check_sha256 233ee032adab22051a0e7014dc20bfe073f88875fa32b592a8a0634c4f863e62 \
   fixtures/profile-card/event.json
-check_sha256 868a771fc87eeba3a501c356d7c170d54a1df3e89268919b6d72add239e28526 \
+check_sha256 b599ba9d5ff40dc34996f12a13f310b413c2818c93e66b46bb5ccea9dfed0bf5 \
   fixtures/profile-card/index.html
 check_sha256 c6183534dc7d46b33c722f9d1771c62ed2a41fc92cfaae07030c6b04608b8bb3 \
   fixtures/hostile-egress/event.json
