@@ -1,16 +1,16 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~88,368 words
+- 129 files · ~89,339 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1252 nodes · 1783 edges · 175 communities (78 shown, 97 thin omitted)
+- 1253 nodes · 1785 edges · 175 communities (78 shown, 97 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `040fdb6b`
+- Built from commit: `777bd30f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -213,8 +213,8 @@
 ## Communities (175 total, 97 thin omitted)
 
 ### Community 0 - "hostile_probe.rs"
-Cohesion: 0.16
-Nodes (15): AtomicBool, AtomicUsize, JoinHandle, accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport (+7 more)
+Cohesion: 0.20
+Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
 
 ### Community 1 - "Assumption validation and decision gates"
 Cohesion: 0.25
@@ -285,8 +285,8 @@ Cohesion: 0.06
 Nodes (35): fallow, @napplet/cli, devDependencies, fallow, @napplet/cli, engines, node, name (+27 more)
 
 ### Community 18 - "Work 06 — hardening and demo acceptance"
-Cohesion: 0.09
-Nodes (20): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+12 more)
+Cohesion: 0.17
+Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 19 - "audit_docs.py"
 Cohesion: 0.20
@@ -437,8 +437,8 @@ Cohesion: 0.33
 Nodes (6): Acceptance, Entry status and pins, Goal, Read, Tasks, Work 03 — portable napplets
 
 ### Community 62 - "Slice 02 preflight"
-Cohesion: 0.07
-Nodes (47): AtomicU64, FnMut, From, State, TauriPlugin, Url, HostileProbeState, allowed_navigation() (+39 more)
+Cohesion: 0.05
+Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
 
 ### Community 63 - "Work 00 — validate assumptions"
 Cohesion: 0.33
@@ -453,8 +453,8 @@ Cohesion: 0.33
 Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
 
 ### Community 66 - "Work 02 — Linux exact-build runner"
-Cohesion: 0.60
-Nodes (4): create_temp_file(), infrastructure_failure(), verify-external-napplet-corpus.sh script, trust_failure()
+Cohesion: 0.52
+Nodes (5): create_temp_file(), infrastructure_failure(), run_bounded_subprocess(), verify-external-napplet-corpus.sh script, trust_failure()
 
 ### Community 67 - "lib.rs"
 Cohesion: 0.50
@@ -489,8 +489,8 @@ Cohesion: 0.22
 Nodes (8): Active parallel issue — #21 data-only corpus, Completed issue — #10, Completed issue — #19, Entry evidence, Exit rule, Goal, Work 07 — issue-driven stabilization, Work graph
 
 ### Community 175 - "server.rs"
-Cohesion: 0.07
-Nodes (58): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+50 more)
+Cohesion: 0.06
+Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+56 more)
 
 ## Knowledge Gaps
 - **434 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+429 more)
