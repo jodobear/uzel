@@ -1,16 +1,16 @@
 # Graph Report - uzel-issue21  (2026-07-31)
 
 ## Corpus Check
-- 129 files · ~89,339 words
+- 129 files · ~89,687 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1253 nodes · 1785 edges · 175 communities (78 shown, 97 thin omitted)
+- 1253 nodes · 1785 edges · 176 communities (78 shown, 98 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `777bd30f`
+- Built from commit: `d8301c1a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -56,6 +56,7 @@
 - App.svelte
 - build.rs
 - Post-POC extraction
+- .fmt
 - README.md
 - README.md
 - check-boundaries.sh
@@ -210,7 +211,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (175 total, 97 thin omitted)
+## Communities (176 total, 98 thin omitted)
 
 ### Community 0 - "hostile_probe.rs"
 Cohesion: 0.20
@@ -261,7 +262,7 @@ Cohesion: 0.16
 Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ### Community 12 - "Slice 04 preflight — daemon, NMP, and persistence"
-Cohesion: 0.22
+Cohesion: 0.18
 Nodes (4): Uzel agent instructions, Decision, Source baseline, FACT-XXX — title
 
 ### Community 13 - "Work 04 — daemon, NMP, and persistence"
@@ -289,7 +290,7 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 19 - "audit_docs.py"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 21 - "README.md"
@@ -329,7 +330,7 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 30 - "FACT-005-webkit-tauri-trust.md"
-Cohesion: 0.22
+Cohesion: 0.25
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 31 - "FACT-006-csp-egress.md"
@@ -385,8 +386,8 @@ Cohesion: 0.29
 Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and ownership map, Ownership boundary, Public facade
 
 ### Community 47 - "lib.rs"
-Cohesion: 0.13
-Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic() (+5 more)
+Cohesion: 0.14
+Nodes (12): Debug, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic(), LinuxRunner (+4 more)
 
 ### Community 48 - "POC documentation audit"
 Cohesion: 0.29
@@ -495,12 +496,12 @@ Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_
 ## Knowledge Gaps
 - **434 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+429 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **97 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **98 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `lib.rs` to `04-execution.md`, `Provisional component design`, `POC architecture`, `POC documentation audit`, `server.rs`?**
+- **Why does `LinuxRunner` connect `lib.rs` to `04-execution.md`, `Provisional component design`, `POC architecture`, `POC documentation audit`, `.fmt`, `server.rs`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **Why does `linux_resource_provider()` connect `resource.rs` to `lib.rs`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
