@@ -9,15 +9,20 @@ root=$(cd "$script_directory/.." && pwd)
 lock=${1:-"$root/fixtures/external-napplet-corpus/corpus.lock.json"}
 nak_bin=${UZEL_NAK_BIN:-nak}
 jq_bin=${UZEL_JQ_BIN:-jq}
+sha256sum_bin=${UZEL_SHA256SUM_BIN:-sha256sum}
 node_bin=${UZEL_NODE_BIN:-node}
 timeout_bin=${UZEL_TIMEOUT_BIN:-timeout}
 mktemp_bin=${UZEL_MKTEMP_BIN:-mktemp}
 rm_bin=${UZEL_RM_BIN:-rm}
 node_timeout_seconds=${UZEL_NODE_TIMEOUT_SECONDS:-10}
 jq_timeout_seconds=${UZEL_JQ_TIMEOUT_SECONDS:-10}
+sha256sum_timeout_seconds=${UZEL_SHA256SUM_TIMEOUT_SECONDS:-10}
 nak_timeout_seconds=${UZEL_NAK_TIMEOUT_SECONDS:-10}
 mktemp_timeout_seconds=${UZEL_MKTEMP_TIMEOUT_SECONDS:-10}
 nak_output_limit_bytes=65536
+canonical_lock_output_limit_bytes=65536
+sha256sum_output_limit_bytes=1024
+expected_lock_sha256=1994fc5940e51d0fd9a9567a1a82a0f836bd93ab496022cf43933eb69653c632
 # Four 16,384-byte event texts can each double when embedded as JSON strings.
 # Two more doubled evidence-file allowances cover the lock and duplicated entry
 # metadata, and 65,536 bytes cover the fixed snapshot envelope/schema overhead.
@@ -114,12 +119,16 @@ command -v "$rm_bin" >/dev/null 2>&1 || infrastructure_failure rm-unavailable "r
 command -v "$mktemp_bin" >/dev/null 2>&1 || infrastructure_failure mktemp-unavailable "mktemp is required"
 command -v "$node_bin" >/dev/null 2>&1 || infrastructure_failure node-unavailable "node is required"
 command -v "$jq_bin" >/dev/null 2>&1 || infrastructure_failure jq-unavailable "jq is required"
+command -v "$sha256sum_bin" >/dev/null 2>&1 || infrastructure_failure sha256sum-unavailable "sha256sum is required"
 command -v "$nak_bin" >/dev/null 2>&1 || infrastructure_failure nak-unavailable "pinned nak is required"
 if [[ ! $node_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "node timeout must be a positive number of seconds"
 fi
 if [[ ! $jq_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "jq timeout must be a positive number of seconds"
+fi
+if [[ ! $sha256sum_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
+  infrastructure_failure invalid-timeout "sha256sum timeout must be a positive number of seconds"
 fi
 if [[ ! $nak_timeout_seconds =~ ^(([1-9][0-9]*)(\.[0-9]+)?|0\.[0-9]*[1-9][0-9]*)$ ]]; then
   infrastructure_failure invalid-timeout "nak timeout must be a positive number of seconds"
@@ -255,6 +264,52 @@ fi
 expected_nak_version=${metadata_lines[1]}
 source_commit=${metadata_lines[2]}
 expected_entry_count=${metadata_lines[3]}
+
+run_bounded_subprocess "$entries_file" "$subprocess_stderr_file" \
+  "$jq_timeout_seconds" "$canonical_lock_output_limit_bytes" \
+  "$jq_bin" -c -S -e '.lock' "$verified_snapshot_file"
+canonical_lock_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure jq-output-limit \
+    "canonical lock exceeded ${canonical_lock_output_limit_bytes} bytes on stdout or stderr"
+fi
+if [[ $canonical_lock_status -eq 124 || $canonical_lock_status -eq 137 ]]; then
+  infrastructure_failure jq-timeout "canonical lock serialization exceeded ${jq_timeout_seconds}s"
+fi
+if [[ $canonical_lock_status -ne 0 ]]; then
+  infrastructure_failure jq-execution-failed \
+    "canonical lock serialization failed with status $canonical_lock_status"
+fi
+if [[ ! -s $entries_file || -s $subprocess_stderr_file ]]; then
+  infrastructure_failure jq-invalid-output "canonical lock serialization returned invalid output"
+fi
+
+run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \
+  "$sha256sum_timeout_seconds" "$sha256sum_output_limit_bytes" \
+  "$sha256sum_bin" "$entries_file"
+sha256sum_status=$bounded_status
+if [[ $bounded_output_exceeded -eq 1 ]]; then
+  infrastructure_failure sha256sum-output-limit \
+    "canonical lock digest exceeded ${sha256sum_output_limit_bytes} bytes on stdout or stderr"
+fi
+if [[ $sha256sum_status -eq 124 || $sha256sum_status -eq 137 ]]; then
+  infrastructure_failure sha256sum-timeout \
+    "canonical lock digest exceeded ${sha256sum_timeout_seconds}s"
+fi
+if [[ $sha256sum_status -ne 0 ]]; then
+  infrastructure_failure sha256sum-execution-failed \
+    "canonical lock digest failed with status $sha256sum_status"
+fi
+lock_digest_output=$(< "$subprocess_stdout_file")
+lock_digest=${lock_digest_output%% *}
+if [[ -s $subprocess_stderr_file || ! $lock_digest =~ ^[0-9a-f]{64}$ ||
+  $lock_digest_output != "$lock_digest  $entries_file" ]]; then
+  infrastructure_failure sha256sum-invalid-output \
+    "canonical lock digest returned invalid output"
+fi
+if [[ $lock_digest != "$expected_lock_sha256" ]]; then
+  trust_failure audited-lock-drift "canonical audited lock digest drifted"
+fi
 echo "EXTERNAL_NAPPLET_CORPUS_STRUCTURE_OK entries=$expected_entry_count commit=$source_commit mode=offline"
 
 run_bounded_subprocess "$subprocess_stdout_file" "$subprocess_stderr_file" \

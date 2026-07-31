@@ -59,6 +59,15 @@ JSON-string expansion (131,072 bytes), two 2x lock/entry metadata allowances
 valid snapshot with all four event texts at 16,384 bytes and above the retired
 65,536-byte snapshot cap.
 
+Before reporting structure success, the shell independently canonicalizes the
+snapshot's complete `.lock` with the pinned `jq -c -S` and compares its SHA-256
+to the exact audited constant. This authenticates source, policy, toolchain, and
+every entry field without hashing `eventText`, so harmless JSON whitespace in a
+valid signed event remains allowed. Canonicalization is capped at 65,536 bytes;
+`sha256sum` stdout and stderr are each capped at 1,024 bytes. Tool absence,
+timeout, failure, malformed output, or output overflow is infrastructure failure;
+an exact-schema lock digest mismatch is trust failure.
+
 `nak --version` and each `nak decode` use the same streaming mechanism with a
 65,536-byte ceiling per stdout or stderr stream. Bash's built-in file tests
 replace the former external `wc` size probe, so false, hanging, or noisy
@@ -100,9 +109,9 @@ Do not automatically rewrite this lock from a replaceable `naddr`.
    declared domains. Do not duplicate its aggregate or capability rules here.
 6. Compare source and artifact behavior, conformance results, and licenses.
    Record honestly when reproducible source-to-artifact linkage remains absent.
-7. Update the event record, lock tuple, exact-value tests, audit date, and source
-   commit in one focused PR. A relay/CDN outage alone is not permission to
-   refresh anything.
+7. Update the event record, lock tuple, canonical lock digest, exact-value tests,
+   audit date, and source commit in one focused PR. A relay/CDN outage alone is
+   not permission to refresh anything.
 8. Run the offline verifier, repository tests, documentation audit, and real
    Linux acceptance required by the integration issue before merging.
 

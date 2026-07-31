@@ -4,7 +4,7 @@ set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 verifier="$root/scripts/verify-external-napplet-corpus.sh"
 temporary_corpus=$(mktemp -d)
-lossless_corpus=$(mktemp -d)
+whitespace_corpus=$(mktemp -d)
 null_entry_corpus=$(mktemp -d)
 snapshot_corpus=$(mktemp -d)
 diagnostic_corpus=$(mktemp -d)
@@ -12,7 +12,7 @@ diagnostic_corpus=$(mktemp -d)
 cleanup() {
   rm -rf -- \
     "$temporary_corpus" \
-    "$lossless_corpus" \
+    "$whitespace_corpus" \
     "$null_entry_corpus" \
     "$snapshot_corpus" \
     "$diagnostic_corpus"
@@ -547,51 +547,25 @@ if [[ $comparison_status -ne 3 || $comparison_output != *"EXTERNAL_NAPPLET_CORPU
   exit 1
 fi
 
-cp -R "$root/fixtures/external-napplet-corpus/." "$lossless_corpus/"
-real_nak=$(command -v nak)
-lossless_node="$lossless_corpus/lossless-node"
+cp -R "$root/fixtures/external-napplet-corpus/." "$whitespace_corpus/"
+whitespace_node="$whitespace_corpus/whitespace-node"
 # These lines are emitted into the fake Node launcher.
 # shellcheck disable=SC2016
 printf '%s\n' \
   '#!/usr/bin/env bash' \
   'set -euo pipefail' \
-  'snapshot=$("$UZEL_REAL_NODE" "$@")' \
-  '"$UZEL_REAL_JQ" '\''
-    .entries[0].entry.relayHints = []
-    | .entries[1].entry.relayHints = ["wss://relay.example/path,segment"]
-    | .lock.entries[0].relayHints = []
-    | .lock.entries[1].relayHints = ["wss://relay.example/path,segment"]
-  '\'' <<< "$snapshot"' > "$lossless_node"
-chmod +x "$lossless_node"
-
-lossless_nak="$lossless_corpus/lossless-nak"
-printf '%s\n' \
-  '#!/usr/bin/env bash' \
-  "real_nak=$real_nak" \
-  "real_jq=$real_jq" \
-  'if [[ ${1:-} != "decode" ]]; then' \
-  '  exec "$real_nak" "$@"' \
-  'fi' \
-  'decoded=$("$real_nak" "$@") || exit $?' \
-  'identifier=$("$real_jq" -r .identifier <<< "$decoded") || exit $?' \
-  'case "$identifier" in' \
-  '  good-morning) relays="[]" ;;' \
-  '  rubik-cube) relays="[\"wss://relay.example/path,segment\"]" ;;' \
-  '  *) exec "$real_jq" . <<< "$decoded" ;;' \
-  'esac' \
-  '"$real_jq" --argjson relays "$relays" '\''.relays = $relays'\'' <<< "$decoded"' \
-  > "$lossless_nak"
-chmod +x "$lossless_nak"
-lossless_output=$(
-  UZEL_NODE_BIN="$lossless_node" \
+  '"$UZEL_REAL_NODE" "$@" | "$UZEL_REAL_JQ" '\''.entries |= map(.eventText = ("  \n" + .eventText + "  \n"))'\''' \
+  > "$whitespace_node"
+chmod +x "$whitespace_node"
+whitespace_output=$(
+  UZEL_NODE_BIN="$whitespace_node" \
     UZEL_REAL_NODE="$real_node" \
     UZEL_REAL_JQ="$real_jq" \
-    UZEL_NAK_BIN="$lossless_nak" \
     bash "$verifier" "$root/fixtures/external-napplet-corpus/corpus.lock.json"
 )
-if [[ $lossless_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
-  echo "expected empty and comma-bearing relay arrays to survive entry transport" >&2
-  echo "$lossless_output" >&2
+if [[ $whitespace_output != *"EXTERNAL_NAPPLET_CORPUS_OK entries=4"* ]]; then
+  echo "expected harmless signed-event JSON whitespace to remain accepted" >&2
+  echo "$whitespace_output" >&2
   exit 1
 fi
 
@@ -695,4 +669,4 @@ if [[ $multi_document_status -ne 3 || $multi_document_output != *"EXTERNAL_NAPPL
   exit 1
 fi
 
-echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded transport=lossless snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=complete'
+echo 'EXTERNAL_NAPPLET_CORPUS_CLASSIFICATION_TEST_OK trust=2 infrastructure=3 version=pinned setup=checked node=typed-bounded jq=bounded nak=bounded event-whitespace=allowed snapshot=exact-four snapshot-cap=derived subprocess=stream-bounded size-probe=builtin cleanup=complete'
