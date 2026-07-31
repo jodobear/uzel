@@ -25,9 +25,9 @@ check_sha256 d130c02862f8934caba77bfaca4a72cc2f94158daecfaf888830c0807e2352c4 \
   apps/uzel/public/trusted-shell/trusted-shell-policy.js
 check_sha256 d4c930f66df0ae1767147598d2a05b9940a06ba8f6681a1093af36e6e35251c5 \
   apps/uzel/public/trusted-shell/trusted-shell-prelude-domains.js
-check_sha256 05720abf76fe4fe48730e185a92a5f19e454f274ee4f230895bf30fe90c68a3b \
+check_sha256 8493ac8b054a463158edd19135f29b60f0c4d736afd1d531470890da16791505 \
   fixtures/follow-list/event.json
-check_sha256 bb3f974e6b082ea2fdfeda12f44ad63174ab2319dfc877251ab953c50ccbfc19 \
+check_sha256 5f0fce7582fe6ac1d0a0b59d4c5c62f4eef1cfd107baa31b4bb4a506e690362d \
   fixtures/follow-list/index.html
 check_sha256 5d58be1f613bde8159c28dffa012571d7fb3d0ca3c26788f5f6ab90adce58b1e \
   fixtures/profile-card/event.json
