@@ -79,13 +79,18 @@ preserved under ignored
   inspection, documentation audit, and `graphify update .`.
 - [ ] Merge PR #22 only after exact-head checks and Codex review are clean.
 
-Exact review evidence: PR #22 head
+Exact behavior-validation evidence: commit
 `8782260cb5d685eb0cce698682d77248ea7fc94f`; `pnpm test:ui` 22/22;
 empty-identity and one-shot identity-failure recovery pass at fixed desktop
 viewports; the real Weston/WebKit smoke reports `LINUX_RUN_SMOKE_OK` with both
 network and native sentinels zero. Visible Debian interactive acceptance remains
-a separate human-visible gate. The current review action is to synchronize this
-handoff with `STATUS.md`; no product behavior changed after the accepted gates.
+a separate human-visible gate. Post-gate commit
+`b89ed4e19c9f110ff8736baa8fda98ed4aa731db` synchronizes this handoff with
+`STATUS.md` and refreshes generated documentation/graph evidence; its validation
+scope is `pnpm docs:check`, `pnpm format:check`, `git diff --check`, and
+`graphify update .`. No product behavior changed after the accepted gates. The
+current PR review head is the live `headRefOid`/`git rev-parse HEAD`; a commit
+cannot truthfully embed its own resulting object ID.
 
 ## Exit rule
 

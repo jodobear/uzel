@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1785463207.6777656,
-    "ast_hash": "daa6241fb6b98e0b878fd67636b0ab98",
+    "mtime": 1785464796.0246756,
+    "ast_hash": "9a7620c4930a2a64f923c1d06b210cad",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1785463207.6800241,
-    "ast_hash": "953a44a792a860f05123dd04cc83639c",
+    "mtime": 1785464796.0321975,
+    "ast_hash": "0f2106637bbfd3dbd7b090ec1af2f487",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -670,8 +670,8 @@
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/work/07-stabilize-product.md": {
-    "mtime": 1785463736.725422,
-    "ast_hash": "e16a40bded7e13bbb08aa6d7febb1ddd",
+    "mtime": 1785464777.789582,
+    "ast_hash": "10c8324e2b48f9ad022a9d490a685b1f",
     "semantic_hash": ""
   }
 }

@@ -12205,7 +12205,7 @@
       "label": "Exit rule",
       "file_type": "document",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
-      "source_location": "L90",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "uzel_poc_validated_pack_work_07_stabilize_product_exit_rule",
       "community": 102,
@@ -32993,7 +32993,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "uzel-poc-validated-pack/work/07-stabilize-product.md",
-      "source_location": "L90",
+      "source_location": "L95",
       "weight": 1.0,
       "source": "uzel_poc_validated_pack_work_07_stabilize_product_work_07_issue_driven_stabilization",
       "target": "uzel_poc_validated_pack_work_07_stabilize_product_exit_rule",
@@ -33021,5 +33021,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8782260cb5d685eb0cce698682d77248ea7fc94f"
+  "built_at_commit": "b89ed4e19c9f110ff8736baa8fda98ed4aa731db"
 }
