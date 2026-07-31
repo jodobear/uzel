@@ -35,7 +35,7 @@ const FOLLOW_LIST: FixtureDefinition = FixtureDefinition {
     d_tag: "follow-list",
     aggregate_hash: "84b3a2b25deaadca2a9a7e90d4e373819f41375096754e487af5763bff56f0f2",
     index_digest: "5f0fce7582fe6ac1d0a0b59d4c5c62f4eef1cfd107baa31b4bb4a506e690362d",
-    artifact_base_url: "nmp-artifact://84b3a2b2-5dea-adca-2a9a-7e90d4e37381/",
+    artifact_base_url: "nmp-artifact://84b3a2b2-5dea-4dca-8a9a-7e90d4e37381/",
     event: include_bytes!("../../../fixtures/follow-list/event.json"),
     index: include_bytes!("../../../fixtures/follow-list/index.html"),
     domains: &["shell", "identity", "inc", "outbox", "resource"],
