@@ -284,11 +284,17 @@ def handoff(args: argparse.Namespace) -> None:
     required = {"schema", *copied, "result", "plan_contract", "ref_01d_preconditions", "d12_routing", "required_napp_deliverables", "exact_heads", "resume_command"}
     if set(handoff_record) != required or handoff_record["schema"] != "uzel.napp-dependency/v1" or handoff_record["result"] != "stop":
         raise CheckError("handoff schema/result mismatch")
-    plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", "HEAD:" + args.plan])
-    plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", "HEAD:" + args.plan]).decode().strip()
     contract = handoff_record["plan_contract"]
-    if contract != {"path": args.plan, "commit": must_git(ROOT, ["rev-parse", "HEAD"]).decode().strip(), "blob_oid": plan_oid, "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9", "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"}:
+    contract_commit = contract.get("commit")
+    if not isinstance(contract_commit, str) or not HEX.fullmatch(contract_commit):
+        raise CheckError("handoff contract commit is not an exact object id")
+    plan_spec = contract_commit + ":" + args.plan
+    plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", plan_spec])
+    plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", plan_spec]).decode().strip()
+    if contract != {"path": args.plan, "commit": contract_commit, "blob_oid": plan_oid, "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9", "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"}:
         raise CheckError("committed Plan-01 parity contract mismatch")
+    if handoff_record["exact_heads"].get("uzel") != contract_commit:
+        raise CheckError("handoff exact Uzel head must equal parity contract commit")
     if len(handoff_record["ref_01d_preconditions"]) != 3:
         raise CheckError("REF-01D requires three independent preconditions")
     print("handoff: pass")
