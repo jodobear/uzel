@@ -94,15 +94,45 @@ Explicit exclusions prevent first-milestone scope creep.
 
 ## Traceability
 
-Roadmap creation assigns each v1 requirement to exactly one phase.
+Every v1 requirement maps to exactly one roadmap phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| REF-01 | Phase 1 | Pending |
+| REF-02 | Phase 1 | Pending |
+| REF-03 | Phase 1 | Pending |
+| REF-04 | Phase 1 | Pending |
+| REF-05 | Phase 1 | Pending |
+| REF-06 | Phase 1 | Pending |
+| REF-07 | Phase 1 | Pending |
+| PKG-01 | Phase 2 | Pending |
+| PKG-02 | Phase 2 | Pending |
+| PKG-03 | Phase 2 | Pending |
+| PKG-04 | Phase 2 | Pending |
+| PKG-05 | Phase 2 | Pending |
+| CI-01 | Phase 3 | Pending |
+| CI-02 | Phase 3 | Pending |
+| CI-03 | Phase 3 | Pending |
+| CI-04 | Phase 3 | Pending |
+| CI-05 | Phase 3 | Pending |
+| CI-06 | Phase 3 | Pending |
+| CI-07 | Phase 3 | Pending |
+| PROF-01 | Phase 4 | Pending |
+| PROF-02 | Phase 4 | Pending |
+| PROF-03 | Phase 4 | Pending |
+| PROF-04 | Phase 4 | Pending |
+| PROF-05 | Phase 4 | Pending |
+| SOC-01 | Phase 5 | Pending |
+| SOC-02 | Phase 5 | Pending |
+| SOC-03 | Phase 5 | Pending |
+| SOC-04 | Phase 5 | Pending |
+| SOC-05 | Phase 5 | Pending |
+| SOC-06 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 30 total
-- Mapped to phases: 0
-- Unmapped: 30
+- Mapped to phases: 30
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-08-09*
