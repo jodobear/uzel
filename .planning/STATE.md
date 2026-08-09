@@ -4,15 +4,15 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 1
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
-status: planning
-stopped_at: "Phase 1 re-audited: replay/ownership/doc lanes ready; adapter lane blocked on committed authority set and accepted Napp candidate"
-last_updated: "2026-08-09T22:45:00+05:30"
-last_activity: 2026-08-09
-last_activity_desc: Milestone and Phase 1 re-audited against merged POC, fresh replay evidence, exact pins, and observed Napp source.
+status: planned
+stopped_at: "Phase 1 planned: five bounded plans verified; adapter lane remains blocked on committed authority set and accepted Napp candidate"
+last_updated: "2026-08-10T00:00:09+05:30"
+last_activity: 2026-08-10
+last_activity_desc: Phase 1 force-refreshed research and five bounded plans passed three-iteration checker convergence.
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 0
+  total_plans: 5
   completed_plans: 0
 ---
 
@@ -28,9 +28,9 @@ See: .planning/PROJECT.md (updated 2026-08-09)
 ## Current Position
 
 Phase: 1 of 5 (SLICE-REF-01 — POC Replay & Accepted Napp Seam)
-Plan: 0 of TBD
-Status: Conditionally ready — REF-01A/B/C ready; Napp adapter blocked
-Last activity: 2026-08-09 — Source-backed milestone and Phase 1 re-audit completed.
+Plan: 0 of 5
+Status: Planned — bounded replay/ownership/authority/qualification/Debian lanes ready; Napp adapter blocked
+Last activity: 2026-08-10 — Force-refreshed research and five plans passed checker convergence.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -91,5 +91,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-08-09T22:45:00+05:30
-Stopped at: Phase 1 re-audited; bounded preservation plans are ready, adapter remains blocked
-Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-REAUDIT.md
+Stopped at: Phase 1 planned; five bounded plans verified, adapter remains blocked
+Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md

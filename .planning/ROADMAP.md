@@ -31,7 +31,18 @@ This MVP first preserves the already-visible local-first POC—rich profile/foll
   4. Maintainer can inspect replayable Chromium and Weston/WebKit evidence, a durable ownership/state/retention/bounds disposition, minimal lifecycle/resource/performance measurements, and repository-qualified missing-contract dependencies instead of private substitutes.
   5. After an exact Napp candidate passes client/events/testkit, lifecycle, version, and pin probes, the same POC matrix passes through the narrow Rust/Tauri adapter with an explicit revert path and no dual state.
 **Safe plan slices**: REF-01A replay; REF-01B ownership/pressure; REF-01C product-doc admission; Napp candidate handoff/qualification; blocked REF-01D adapter; REF-01E Debian visible acceptance.
-**Plans**: TBD
+**Plans**: 5 plans in 2 waves
+
+**Wave 1**
+- [ ] `01-01-PLAN.md` — Replay exact merged POC from clean/relocated targets and reconcile Work 07.
+- [ ] `01-04-PLAN.md` — Qualify exact committed Napp candidate or publish fail-closed dependency handoff.
+
+**Wave 2** *(blocked on `01-01` completion)*
+- [ ] `01-02-PLAN.md` — Record ownership, storage, retention, bounds, recovery, and resource baseline.
+- [ ] `01-03-PLAN.md` — Admit audited product-first authority set and bounded issue/PR contracts.
+- [ ] `01-05-PLAN.md` — Record Debian 13 visible acceptance through a human checkpoint.
+
+**Conditional completion:** These plans intentionally exclude REF-01D adapter implementation. After `01-03` commits the authority set and `01-04` finds an exact qualifying Napp candidate, refresh research and re-plan the narrow adapter/parity slice.
 
 ### Phase 2: SLICE-PKG-01 — Canonical Nix Release Closure
 **Goal**: Linux users and release reviewers can build, inspect, and run Uzel as a self-contained Nix artifact with its exact compatible Napp runtime.
@@ -92,7 +103,7 @@ This MVP first preserves the already-visible local-first POC—rich profile/foll
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. SLICE-REF-01 — POC Replay & Accepted Napp Seam | 0/TBD | Not started | - |
+| 1. SLICE-REF-01 — POC Replay & Accepted Napp Seam | 0/5 | Planned (adapter conditional) | - |
 | 2. SLICE-PKG-01 — Canonical Nix Release Closure | 0/TBD | Not started | - |
 | 3. SLICE-CI-01 — Measured Fail-Closed Delivery Lanes | 0/TBD | Not started | - |
 | 4. SLICE-SOC-01 — Local Profile, Resources & Honest State | 0/TBD | Not started | - |
