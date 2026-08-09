@@ -52,7 +52,7 @@ The planner may choose the exact document names, measurement harness layout, and
 
 | ID | Description | Research Support |
 |---|---|---|
-| REF-01 | Replay exact-build review, confirmation, launch, and composition against an accepted candidate. | REF-01A preserves/replays the merged POC; candidate parity is conditional on later qualification. [VERIFIED: 01-REAUDIT.md] |
+| REF-01 | Replay exact-build review, confirmation, launch, rich profile/follow rendering, and composition from the current merged POC at exact current pins before any Napp adaptation. | REF-01A preserves/replays the merged POC; accepted-candidate parity is REF-07/REF-01D and remains conditional on later qualification. [VERIFIED: REQUIREMENTS.md; 01-REAUDIT.md] |
 | REF-02 | Prove source-created-surface binding and authority denial. | Retain trusted-shell source binding, native navigation policy, boundary tests, and hostile smoke markers. [VERIFIED: codebase grep] |
 | REF-03 | Recover read identity, builds, useful local state, and ambiguous outcomes without duplicate truth. | Record the current bounded state/rollback/reconciliation contract and single-instance collision behaviour. [VERIFIED: codebase grep] |
 | REF-04 | Replay Chromium and real Weston/WebKit evidence. | REF-01A records separate fixture/browser/native modes and raw artifacts. [VERIFIED: 01-REAUDIT.md] |
@@ -117,17 +117,13 @@ exact Uzel POC head + exact fixture corpus + pinned Nix shell
                               |
                               v
      REF-01A: clean/relocated replay --> browser evidence
-                              |        native Weston/WebKit evidence
-                              v
-REF-01B: ownership + state/retention + bounds + minimal measurements
-                              |
-                              v
-REF-01C: commit audited product-doc authority / issue template
-                              |
-                              +--------------------------+
-                              |                          |
-                              v                          v
-             Napp candidate qualification        REF-01E Debian human proof
+             |                    |        native Weston/WebKit evidence
+             |--------------------|------------------------------|
+             v                    v                              v
+REF-01B: ownership/state/   REF-01C: audited product-doc   REF-01E: Debian human proof
+         bounds/measurements         authority
+
+Napp candidate qualification (independent read-only lane)
                               |
                      absent / falsified?
                          | yes             | no
@@ -189,7 +185,7 @@ Do not history-rewrite/extract POC during this phase. Git documents history rewr
 
 | Slice | Status | Scope | Verification / exit |
 |---|---|---|---|
-| REF-01A | Ready | Clean/relocated replay of existing exact-build review, confirmation, multi-surface composition, profile/follow visible path, recovery, hostile denial, Chromium, Weston/WebKit; write replay manifest and Work 07 reconciliation. [VERIFIED: 01-REAUDIT.md] | All named modes pass or have unavailable record; default-target path leak documented; no production diff. [VERIFIED: 01-REAUDIT.md] |
+| REF-01A | Ready | Clean/relocated replay of existing exact-build review, confirmation, multi-surface composition, profile/follow visible path, recovery, hostile denial, Chromium, Weston/WebKit; write replay manifest and Work 07 reconciliation. [VERIFIED: 01-REAUDIT.md] | All named required modes pass. A failed, missing, or `unavailable` required mode is recorded honestly per D-08 but leaves replay blocked/incomplete; default-target path leak is documented; no production diff. [VERIFIED: D-04/D-08; 01-REAUDIT.md] |
 | REF-01B | Ready | File ownership disposition; state/retention/migration trigger map; bounds ledger; single-instance/read-profile collision probe; minimal resource/lifecycle measurements. [VERIFIED: 01-REAUDIT.md] | Every relevant POC element has owner/durability/bound/revalidate condition; all metrics raw or unavailable. [VERIFIED: 01-PATTERNS.md] |
 | REF-01C | Ready, documentation-only | Select root product-first documents/templates, narrow root auditor to canonical files, audit and commit authority without product scope change. [VERIFIED: 01-REAUDIT.md] | Chosen authority set is committed and audited; unselected copies explicitly non-normative. [VERIFIED: D-16] |
 | Napp qualification/handoff | Ready, fail-closed | Read only committed Napp tree/declared commands; capture missing/present source, events, vectors, version/lifecycle/pin evidence; write repository-qualified blocker if absent. [VERIFIED: 01-PATTERNS.md] | Any missing required evidence returns stop; no Uzel source edit. [VERIFIED: D-01/D-02] |
@@ -253,11 +249,17 @@ STATUS retains stale PR #30 language while merged source is 19519c3; Debian visi
 ~~~markdown
 repository: jodobear/napp
 observed_commit: 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e
-tree_inspected: true
-client_source: missing
-product_events_source: missing
-testkit_vectors: missing
-declared_probe: missing
+commit_tree: b12b0c13b11ce5f64e4fd91025789ae692438f38
+tree_inventory_sha256: 9d6f11acb50a13c68f77f5e4945598ba9c2a1b301c70017568fe360b16abd41b
+approved_ref_reachability: recorded
+working_tree_evidence: excluded
+client_source: {status: missing, evidence_hash: null}
+product_events_source: {status: missing, evidence_hash: null}
+testkit_vectors: {status: missing, evidence_hash: null}
+version_mismatch: {status: missing, evidence_hash: null}
+lifecycle_recovery: {status: missing, evidence_hash: null}
+pin_parity: {status: missing, evidence_hash: null}
+declared_probes: {status: missing, safe_executed: [], skipped_unsafe: []}
 result: stop
 uzel_action: no source change; publish upstream dependency handoff
 resume_when: exact committed candidate declares source and probes
@@ -274,14 +276,32 @@ Use fields discovered from exact candidate source only; do not hard-code future 
   "unit": "ms",
   "result": "unavailable",
   "reason": "named measurement method did not run on this host",
-  "environment": { "nix": "exact lock", "target": "clean" },
+  "command": ["nix", "develop", "--command", "<fixed-probe>"],
+  "environment": {
+    "architecture": "x86_64",
+    "kernel_release": "<captured>",
+    "target": "clean"
+  },
+  "inputs": {
+    "product_commit": "<full SHA>",
+    "product_tree": "<tree SHA>",
+    "fixture_inventory_sha256": "<SHA-256>"
+  },
+  "toolchain": {
+    "flake_nix_blob": "<Git blob>",
+    "flake_lock_blob": "<Git blob>",
+    "nixpkgs_locked": "<full input revision>",
+    "resolved_versions": {"nix": "<version>", "rustc": "<version>", "node": "<version>"}
+  },
   "git_head": "<full SHA>",
   "candidate": null,
-  "raw_output": "evidence/phase-01/..."
+  "raw_record": {"id": "frame-1", "sha256": "<SHA-256>", "encoding": "base64"},
+  "extractor": null,
+  "limitation": "No named observable produced a numeric sample"
 }
 ~~~
 
-An unavailable record has no synthetic samples. [VERIFIED: 01-PATTERNS.md]
+An unavailable record has no synthetic samples. Measured records additionally use one finite extractor from Plan 01-02 so the validator reproduces the numeric value from durable redacted bytes. [VERIFIED: 01-PATTERNS.md; 01-02-PLAN.md]
 
 ## State of the Art
 
