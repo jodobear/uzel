@@ -4,6 +4,10 @@
 **Domain:** Linux POC evidence replay, recovery/resource baselining, Napp-consumer qualification  
 **Confidence:** MEDIUM
 
+> **Re-audit note:** `01-REAUDIT.md` supersedes this document where it treated candidate
+> absence as blocking all Phase 1 work. Current-POC replay, ownership/pressure evidence,
+> and document admission are independently plannable; only Napp adaptation is blocked.
+
 <user_constraints>
 ## User Constraints (from CONTEXT.md)
 
@@ -11,13 +15,13 @@
 
 ### Accepted Napp Candidate Gate
 - **D-01:** Phase 1 may integrate only one exact, reachable, committed Napp candidate whose product-facing client, events, and testkit vectors are present in source and pass the phase's executable probes. — **Reversibility:** costly — A later candidate change requires repinning source and locks and replaying the trust, lifecycle, fixture, and platform evidence.
-- **D-02:** Candidate absence or a falsified contract is a stop condition. Record the full Napp repository, exact observed commit, missing contract, and required acceptance evidence; do not preserve progress through a Uzel-only facade or legacy protocol expansion.
+- **D-02:** Candidate absence or a falsified contract stops qualification/adaptation, not independent POC replay or ownership evidence. Record the full Napp repository, exact observed commit, missing contract, and required acceptance evidence; do not preserve progress through a Uzel-only facade or legacy protocol expansion.
 - **D-03:** The accepted candidate must keep NMP as the sole Nostr engine/store and Napp as runtime authority. Uzel owns presentation, trusted-host integration, and product-visible recovery only.
 
 ### Replay and Ownership Evidence
 - **D-04:** Replay the existing POC before extraction or seam replacement. Evidence must cover exact-build review, confirmation, launch, multi-surface composition, source binding, hostile denial, restart/reconciliation, deterministic Chromium, and real Weston/WebKit behavior.
 - **D-05:** Produce one durable ownership disposition tied to exact files, tests, repositories, and commits. Classify each relevant POC element as retained Uzel product code, consumed Napp contract, neutral upstream candidate, compatibility-only seam, or obsolete POC behavior.
-- **D-06:** Preserve the active legacy Work 07/PR #30 state as input evidence. Phase 1 must not silently overwrite, merge, close, or claim completion of its still-recorded visible Debian acceptance and review gates.
+- **D-06:** Reconcile legacy Work 07 with source truth: PR #30 is merged at `19519c3`; visible Debian 13 acceptance remains unresolved. Preserve the historical record and do not claim its human gate complete.
 
 ### Baseline Measurement
 - **D-07:** Record reproducible measurements, commands, environment identity, and limitations for cold start, first visible frame, local profile render, idle CPU/RSS, WebView memory, resource flow, queue bounds, cancellation, and lifecycle recovery.
@@ -35,7 +39,7 @@ The planner may choose the exact document names, measurement harness layout, and
 ### Deferred Ideas (OUT OF SCOPE)
 - Canonical Nix release closure belongs to Phase 2.
 - PR-fast, merge-group, and required-check aggregation belong to Phase 3.
-- Profile/resource UI and Social graph/feed work belong to Phases 4 and 5 and remain gated on accepted REF, PKG, and CI evidence.
+- New profile/resource gaps and Social graph/feed work belong to Phases 4 and 5. Existing rich profile/follow behavior is Phase 1 preservation evidence, not a feature to rebuild.
 - Files, Blossom, signing, wallets, authoring, richer media, ContextVM, Relatr, TUI, WASI, Android, and native napplets remain outside this milestone.
 </user_constraints>
 
@@ -44,7 +48,7 @@ The planner may choose the exact document names, measurement harness layout, and
 
 | ID | Description | Research Support |
 |---|---|---|
-| REF-01 | POC replay against one accepted candidate. | Qualification is Wave 0; existing POC runs are baseline only until candidate passes. [VERIFIED: codebase grep] |
+| REF-01 | Replay current merged POC at exact pins before adaptation. | Existing tests/fixtures and fresh clean-target replay support an independent preservation lane. [VERIFIED: live replay] |
 | REF-02 | Trusted source-created surface binding. | Existing trusted shell matches MessageEvent.source to created frame; retain it and hostile proof. [VERIFIED: codebase grep] |
 | REF-03 | Recovery without duplicate truth. | Existing runner persists bounded product state and reconciles cleanup from fresh status. [VERIFIED: codebase grep] |
 | REF-04 | Chromium plus Weston/WebKit proof. | Existing renderer and native smoke are complementary. [VERIFIED: codebase grep] |
@@ -65,11 +69,11 @@ The planner may choose the exact document names, measurement harness layout, and
 
 ## Summary
 
-Phase 01 is an evidence gate, not a seam implementation phase. Current Uzel POC has concrete Rust protocol/runner tests, trusted-shell source binding, exact fixtures, deterministic Playwright/Chromium acceptance, and Weston/WebKit smoke. Replay these before any candidate adaptation. [VERIFIED: codebase grep]
+Phase 01 is a split evidence-and-integration gate. Current Uzel POC has concrete Rust protocol/runner tests, trusted-shell source binding, exact fixtures, rich profile/follow composition, deterministic Playwright/Chromium acceptance, and Weston/WebKit smoke. Replay and classify these before any candidate adaptation. [VERIFIED: live replay plus codebase]
 
-No accepted Napp candidate exists locally. Local reachable jodobear/napp commit 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e contains planning documents only; all local reachable history has no Cargo/package manifest, Rust source tree, public client, events implementation, testkit, Nix output, or executable candidate probe. The Napp architecture describes those as future components. This falsifies D-01/D-02 now. [VERIFIED: codebase grep]
+No accepted Napp candidate exists locally. Local reachable jodobear/napp commit `0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` contains planning documents only; its dirty sibling audit is not accepted implementation. Reachable committed history has no Cargo/package manifest, Rust source tree, public client, events implementation, testkit, Nix output, or executable candidate probe. This blocks adaptation, not POC preservation. [VERIFIED: live repository inspection]
 
-Plan candidate qualification first. If source/probes remain absent, record repository jodobear/napp, observed full SHA, missing client/events/testkit/probe evidence, and resumable upstream handoff. Do not alter Uzel production code, add façade, widen POC protocol, or repin. [VERIFIED: codebase grep]
+Plan POC replay, ownership/pressure evidence, and document admission now. Plan candidate qualification as an independent fail-closed probe; if source/probes remain absent, record repository jodobear/napp, observed full SHA, missing client/events/testkit/probe evidence, and resumable upstream handoff. Do not alter Uzel production code, add façade, widen POC protocol, or repin. [VERIFIED: re-audit]
 
 **Primary recommendation:** Plan baseline preservation plus a fail-closed Napp handoff; condition all adaptation work on a later accepted committed candidate. [VERIFIED: codebase grep]
 

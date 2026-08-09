@@ -2,7 +2,7 @@
 
 ## Overview
 
-This MVP preserves the proven local-first napplet POC behind an accepted Napp seam, makes its exact runtime reproducible in the canonical Nix artifact, establishes fail-closed delivery evidence, then delivers a source-bound Social Home in two visible slices. The roadmap is sequential as the durable execution record, while REF and PKG may be worked independently and CI may measure early before its package/merge-full contract consumes PKG.
+This MVP first preserves the already-visible local-first POC—rich profile/follows, exact builds, source-bound composition, recovery, and hostile denial—then moves only its runtime-facing boundary behind an accepted Napp seam. It next makes that exact runtime reproducible in the canonical Nix artifact, composes existing checks into lean fail-closed delivery lanes, and adds only missing Social Home value. The roadmap is sequential as the durable execution record, while independent evidence/research lanes may run early without pulling later implementation forward.
 
 ## Phases
 
@@ -19,21 +19,24 @@ This MVP preserves the proven local-first napplet POC behind an accepted Napp se
 ## Phase Details
 
 ### Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam
-**Goal**: Developers and reviewers can prove the preserved POC works through one accepted Napp consumer seam without recreating runtime or Nostr authority.
+**Goal**: Developers and reviewers can replay and classify the current merged POC, then—only after qualification—prove the same behavior through one accepted Napp consumer seam without recreating runtime or Nostr authority.
 **Mode:** mvp
-**Depends on**: Nothing (first phase; Social Napp gate)
+**Depends on**: Nothing for replay/ownership/document admission; exact committed Napp candidate for qualification/adaptation.
+**Execution gate**: POC replay, ownership/pressure evidence, and product-document admission may be planned now. Adapter work is blocked until the root authority set is committed and one exact Napp client/events/testkit candidate passes fail-closed qualification.
 **Requirements**: REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07
 **Success Criteria** (what must be TRUE):
-  1. Developer can replay exact-build review, confirmation, launch, and multi-surface composition against one accepted committed Napp client/testkit candidate.
+  1. Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from a clean or relocated target at the current merged POC pins.
   2. Release reviewer can verify source-created-surface binding and denial of raw frame network, Tauri bridge, paths, secrets, and caller-selected principals before requests reach Napp.
   3. Operator can restart Uzel and recover selected read identity, exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
-  4. Maintainer can inspect replayable Chromium and Weston/WebKit evidence, a durable ownership disposition, baseline lifecycle/resource/performance measurements, and repository-qualified missing-contract dependencies instead of private substitutes.
+  4. Maintainer can inspect replayable Chromium and Weston/WebKit evidence, a durable ownership/state/retention/bounds disposition, minimal lifecycle/resource/performance measurements, and repository-qualified missing-contract dependencies instead of private substitutes.
+  5. After an exact Napp candidate passes client/events/testkit, lifecycle, version, and pin probes, the same POC matrix passes through the narrow Rust/Tauri adapter with an explicit revert path and no dual state.
+**Safe plan slices**: REF-01A replay; REF-01B ownership/pressure; REF-01C product-doc admission; Napp candidate handoff/qualification; blocked REF-01D adapter; REF-01E Debian visible acceptance.
 **Plans**: TBD
 
 ### Phase 2: SLICE-PKG-01 — Canonical Nix Release Closure
 **Goal**: Linux users and release reviewers can build, inspect, and run Uzel as a self-contained Nix artifact with its exact compatible Napp runtime.
 **Mode:** mvp
-**Depends on**: Nothing (independent early work; recorded after Phase 1 for sequential execution)
+**Depends on**: Accepted Napp package/runtime output for final closure. Uzel-only package research may proceed early; canonical package completion may not invent or copy that output.
 **Requirements**: PKG-01, PKG-02, PKG-03, PKG-04, PKG-05
 **Success Criteria** (what must be TRUE):
   1. Linux user can build `packages.uzel` and default package/app from locked `x86_64-linux` inputs, with the development shell and package-dependent checks exposed by the flake.
@@ -43,7 +46,7 @@ This MVP preserves the proven local-first napplet POC behind an accepted Napp se
 **Plans**: TBD
 
 ### Phase 3: SLICE-CI-01 — Measured Fail-Closed Delivery Lanes
-**Goal**: Contributors and merge authority receive measured, exact-head delivery evidence that cannot pass through missing or skipped required work.
+**Goal**: Contributors and merge authority receive measured, exact-head delivery evidence by composing existing commands once; missing or skipped required work cannot pass.
 **Mode:** mvp
 **Depends on**: Phase 2 for final package preflight and merge-full contract; current-lane measurement and initial PR-fast work may proceed independently of Phases 1–2.
 **Requirements**: CI-01, CI-02, CI-03, CI-04, CI-05, CI-06, CI-07
@@ -56,7 +59,7 @@ This MVP preserves the proven local-first napplet POC behind an accepted Napp se
 **Plans**: TBD
 
 ### Phase 4: SLICE-SOC-01 — Local Profile, Resources & Honest State
-**Goal**: Users can view and operate accessible local-first profile and resource state while its runtime freshness and recovery limits remain honest.
+**Goal**: Users retain the POC's accessible local-first profile/resource value through the accepted seam, while evidenced freshness and diagnostic gaps are closed without a rebuild.
 **Mode:** mvp
 **Depends on**: Phase 1 accepted Napp candidate, Phase 2 canonical package, and Phase 3 required M0 delivery evidence.
 **Execution gate**: Not executable until the accepted committed Napp candidate and required REF, PKG, and CI M0 gates are accepted; no private seam may be invented to start Social work.
@@ -71,7 +74,7 @@ This MVP preserves the proven local-first napplet POC behind an accepted Napp se
 **UI hint**: yes
 
 ### Phase 5: SLICE-SOC-02 — Source-Bound Graph, Feed & Navigation
-**Goal**: Users can navigate one composable Social Home whose local graph, feed, and profile selection stay source-bound, useful, and accessible through recovery.
+**Goal**: Users gain graph/feed navigation around the preserved follow/profile composition; local state, profile selection, recovery, and accessibility remain source-bound and useful.
 **Mode:** mvp
 **Depends on**: Phase 4 and its accepted REF, PKG, and CI M0 gates.
 **Execution gate**: Inherits the Phase 4 Social execution gate; only the accepted Napp seam and required delivery evidence may carry graph/feed/navigation work.

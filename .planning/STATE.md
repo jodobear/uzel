@@ -5,12 +5,12 @@ milestone_name: milestone
 current_phase: 1
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
 status: planning
-stopped_at: "Phase 1 planning blocked: accepted Napp client/events/testkit candidate absent"
-last_updated: "2026-08-09T15:39:55.889Z"
+stopped_at: "Phase 1 re-audited: replay/ownership/doc lanes ready; adapter lane blocked on committed authority set and accepted Napp candidate"
+last_updated: "2026-08-09T22:45:00+05:30"
 last_activity: 2026-08-09
-last_activity_desc: Initial five-slice MVP roadmap created; all v1 requirements mapped.
+last_activity_desc: Milestone and Phase 1 re-audited against merged POC, fresh replay evidence, exact pins, and observed Napp source.
 progress:
-  total_phases: 1
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -29,8 +29,8 @@ See: .planning/PROJECT.md (updated 2026-08-09)
 
 Phase: 1 of 5 (SLICE-REF-01 — POC Replay & Accepted Napp Seam)
 Plan: 0 of TBD
-Status: Ready to plan
-Last activity: 2026-08-09 — Initial five-slice MVP roadmap created; all v1 requirements mapped.
+Status: Conditionally ready — REF-01A/B/C ready; Napp adapter blocked
+Last activity: 2026-08-09 — Source-backed milestone and Phase 1 re-audit completed.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -62,6 +62,8 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table. Current roadmap decisions:
 
 - [Phase 1]: Accepted public Napp client/events/testkit seam is Social's non-negotiable gate; never promote POC-private IPC.
+- [Phase 1]: Candidate absence blocks only qualification/adaptation; merged-POC replay, ownership/pressure evidence, and product-document admission may be planned independently.
+- [Phase 1]: One instance and one active read profile are the proven baseline; no multi-instance promise or duplicate NMP/Uzel store.
 - [Phase 2]: Canonical Linux release is the Nix closure with one matching accepted Napp commit; no ambient `PATH` runtime.
 - [Phase 3]: CI starts measured and conservative; its final package/merge-full contract consumes Phase 2.
 - [Phases 4–5]: Social starts only after accepted REF, PKG, and CI M0 delivery gates; Uzel retains no duplicate Nostr/cache/runtime truth.
@@ -72,8 +74,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phases 4–5] Social execution is blocked until accepted committed Napp candidate plus REF, PKG, and CI M0 gates are accepted.
-- [Phases 1–3] REF and PKG can progress independently; CI can measure early but cannot finalize package/merge-full evidence before PKG.
+- [Phase 1] Adapter implementation is blocked until an exact committed Napp client/events/testkit candidate passes qualification.
+- [Phase 1] Installed root product-first docs/templates are uncommitted and their root auditor currently fails; adopt one audited authority set before implementation depends on it.
+- [Phase 1] Legacy Work 07 status is stale about PR #30; merged source is `19519c3`, while Debian 13 visible acceptance remains open.
+- [Phases 4–5] New Social execution is blocked until accepted committed Napp candidate plus REF, PKG, and CI M0 gates are accepted.
+- [Phases 1–3] REF preservation and Uzel-only package/CI research can progress independently; final package and merge-full evidence require accepted Napp/package outputs.
 
 ## Deferred Items
 
@@ -85,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-09T15:39:55.885Z
-Stopped at: Phase 1 planning blocked: accepted Napp client/events/testkit candidate absent
-Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-RESEARCH.md
+Last session: 2026-08-09T22:45:00+05:30
+Stopped at: Phase 1 re-audited; bounded preservation plans are ready, adapter remains blocked
+Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-REAUDIT.md

@@ -66,3 +66,22 @@
 ## Deferred Ideas
 
 - Nix packaging, delivery CI, Social Home, Files, Blossom, signing, and later platforms/capabilities remain in their assigned later phases.
+
+---
+
+## Source-backed re-audit update — 2026-08-09
+
+User requested all-lane re-audit against mapped source and product-first documentation.
+The following decisions supersede narrower automatic defaults where they conflict:
+
+| Question | Selected decision | Rejected expansion |
+|---|---|---|
+| Does missing Napp block all Phase 1 work? | No. It blocks candidate qualification/adaptation only; POC replay, ownership/pressure evidence, and document admission proceed. | Private facade or idle whole phase |
+| What is fastest visible value? | Replay/preserve merged rich profile/follow POC at exact pins. | Rebuild profile/follows or start graph/feed early |
+| What architecture is assumed? | Brownfield evidence is retained and classified; no component is automatically final or disposable. | Big-bang rewrite or automatic extraction |
+| What instance/profile scope is accepted? | One instance, one active read profile; record collision behavior. | Full multi-instance implementation in REF-01 |
+| How does migration roll back? | One narrow Rust/Tauri adapter, parity replay, then selective retirement; revert adapter/pin if needed. | Dual state/write or protocol-wide cutover |
+| What documents are authoritative? | Committed `.planning/` plus exact source now; installed root pack becomes authority only after audit/commit. | Treat untracked pack as committed fact |
+| What review process applies? | One bounded issue/PR; local CodeRabbit, Codex, final GitHub CodeRabbit once per semantic candidate. | Review reruns on unchanged inputs or Phase 1 planning ceremony |
+
+Full classifications and readiness verdict: `01-REAUDIT.md`.

@@ -9,13 +9,13 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 
 ### POC Reference and Napp Seam
 
-- [ ] **REF-01**: Developer can replay exact-build review, confirmation, launch, and multi-surface composition from the current POC against one accepted committed Napp client/testkit candidate.
+- [ ] **REF-01**: Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from the current merged POC at its exact current pins before any Napp adaptation.
 - [ ] **REF-02**: Release reviewer can verify every napplet request is bound to the trusted source-created surface before Napp receives it, with no raw frame network, Tauri bridge, host path, secret, or caller-selected principal.
 - [ ] **REF-03**: Operator can restart Uzel and recover selected read identity, installed exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
 - [ ] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
 - [ ] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
-- [ ] **REF-06**: Maintainer can inspect measured baseline evidence for cold start, first visible frame, local profile render, idle CPU/RSS, WebView memory, resource flow, queue bounds, cancellation, and lifecycle recovery where the current environment supports measurement.
-- [ ] **REF-07**: Uzel consumes only accepted product-facing Napp client/events/testkit seams and records any missing neutral contract as a repository-qualified Napp dependency rather than implementing a private substitute.
+- [ ] **REF-06**: Maintainer can inspect a small reproducible baseline for startup/ready time, local profile render, process/WebView pressure, resource flow, queue bounds, cancellation, and lifecycle recovery, with build/Nix materialization separated from runtime and unsupported measurements marked unavailable.
+- [ ] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; until then, it records a repository-qualified Napp dependency and implements no private substitute.
 
 ### Canonical Nix Package
 
@@ -37,6 +37,10 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 
 ### Profile and Resource Experience
 
+The merged POC already demonstrates substantial PROF behavior. These requirements preserve
+that behavior through the accepted Napp seam and close only evidenced product gaps; they do
+not authorize a profile/resource rebuild.
+
 - [ ] **PROF-01**: User sees the assigned profile from Napp/NMP-projected local state before background refresh completes, without a Uzel-owned profile or freshness cache.
 - [ ] **PROF-02**: User sees mediated profile image/resource loading, success, failure, cancellation, and recovery while existing concurrency, byte, retry, object-URL, and viewport cleanup bounds remain enforced.
 - [ ] **PROF-03**: User can distinguish local, refreshing, stale, partial, blocked, and diagnosable error states while valid local profile data stays visible through refresh failure.
@@ -44,6 +48,10 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 - [ ] **PROF-05**: Developer can opt into compact pressure, cache, freshness, and failure diagnostics without exposing secrets, authority tokens, raw runtime internals, or creating a second state owner.
 
 ### Social Graph, Feed, and Navigation
+
+The merged POC already demonstrates follow rows and source-bound profile selection. Phase 5
+adds graph/feed value and revalidates existing composition; it does not recreate existing
+follow/profile paths.
 
 - [ ] **SOC-01**: User sees known follows and social graph edges from Napp/NMP-projected local state first, with explicit incomplete/stale/refreshing semantics rather than a global-completeness claim.
 - [ ] **SOC-02**: User sees a local feed and navigation surface that retains useful items and selection through refresh, partial results, failure, and recovery, with ordering described as local projection policy.
@@ -86,7 +94,7 @@ Explicit exclusions prevent first-milestone scope creep.
 ## Definition of Done
 
 - All v1 requirements map to one roadmap phase and have merged, exact-head evidence.
-- REF, PKG, and CI gates are accepted before Social implementation is treated as executable.
+- Current POC preservation may proceed before Napp. New Social implementation is executable only after REF, PKG, and CI gates are accepted.
 - The exact committed Napp candidate is pinned consistently in source, locks, fixtures, and the Nix closure.
 - Canonical Nix package, PR-fast, applicable preflight, merge-group full, and review-evidence gates pass without unexpected skips.
 - Social Home visibly demonstrates local-first profile/resource and graph/feed composition while preserving source binding, bounded work, recovery, accessibility, and real WebKit evidence.
@@ -136,4 +144,4 @@ Every v1 requirement maps to exactly one roadmap phase.
 
 ---
 *Requirements defined: 2026-08-09*
-*Last updated: 2026-08-09 after initial definition*
+*Last updated: 2026-08-09 after source-backed milestone re-audit*

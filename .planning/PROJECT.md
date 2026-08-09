@@ -21,13 +21,13 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 
 ### Active
 
-- [ ] Replay the POC from current source and record the durable Uzel/Napp/upstream ownership disposition
+- [ ] Replay the merged POC from a clean or relocated target and record durable Uzel/Napp/upstream ownership, state-retention, and resource-bound dispositions
 - [ ] Preserve current acceptance, hostile-isolation, recovery, lifecycle, performance, and resource evidence while seams move behind Napp
 - [ ] Pin one accepted committed Napp client/testkit revision consistently across Cargo, lockfiles, and the Nix runtime closure
 - [ ] Produce a reproducible canonical Nix Uzel package that runs from its store path with the exact compatible Napp runtime
 - [ ] Prove measured PR-fast, path-gated native/package preflight, and merge-group full CI lanes with fail-closed review evidence
-- [ ] Present assigned profile and avatar/resource state from local data first, with honest stale, partial, refreshing, blocked, and diagnostic states
-- [ ] Present follows/social graph, feed, navigation, and profile selection through source-bound runtime-mediated composition
+- [ ] Preserve existing assigned-profile, avatar/resource, follow-row, and profile-selection value through the accepted seam; add only evidenced stale/partial/refreshing/diagnostic gaps
+- [ ] Add missing graph/feed/navigation value through source-bound runtime-mediated composition without rebuilding existing follow/profile paths
 
 ### Out of Scope
 
@@ -41,9 +41,11 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 
 ## Context
 
-The brownfield POC already contains the Tauri shell, Svelte presentation, private AF_UNIX daemon protocol, exact-build fixtures, trusted surface host, NMP-backed profile/follow paths, NAP-INC composition, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. The re-audited plan makes Nix packaging and lean CI first-class delivery contracts rather than rebuilding the product or front-loading a generic runtime framework.
+The brownfield POC already contains the Tauri shell, Svelte presentation, private AF_UNIX daemon protocol, exact-build fixtures, trusted surface host, rich NMP-backed profile/follow paths, NAP-INC profile selection, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. Production baseline `19519c3` is merged; the nested status that still calls PR #30 active is stale, while its Debian 13 visible-acceptance gap remains unresolved. The re-audited plan preserves visible value and makes Nix packaging and lean CI delivery contracts rather than rebuilding the product or front-loading a generic runtime framework.
 
-The first milestone is organized as five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, `SLICE-CI-01`, `SLICE-SOC-01`, and `SLICE-SOC-02`. REF and PKG may proceed independently; CI may measure current lanes concurrently but its final package/merge-full contract consumes PKG. Social implementation waits for an accepted committed Napp candidate and the required M0 delivery gates.
+The first milestone is organized as five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, `SLICE-CI-01`, `SLICE-SOC-01`, and `SLICE-SOC-02`. REF replay/ownership/document admission may proceed before Napp; its adapter lane waits for an accepted candidate. Uzel-only package research and CI measurement may run concurrently, but the canonical package needs the Napp output and final CI needs that package. New Social implementation waits for accepted REF, PKG, and CI gates.
+
+The installed root product-first document pack and GitHub templates are not committed at this audit. They are proposed inputs, not repository authority, until selected, audited, and committed. Committed `.planning/` artifacts and exact source remain authoritative meanwhile.
 
 GitHub issues define scoped delivery outcomes, GSD is the repository-local execution record, and GitHub remains merge authority. Each PR carries one visible outcome, declares its CI class, runs bounded local review and PR-fast evidence, and enters the merge queue only after exact-head review evidence is clean.
 
@@ -58,6 +60,8 @@ GitHub issues define scoped delivery outcomes, GSD is the repository-local execu
 - **Linux release**: The reproducible Nix derivation is canonical; ambient host packages and Flatpak workarounds cannot supply missing dependencies
 - **Responsiveness**: Local data renders first; UI-thread work stays non-blocking; WebView count, queues, retries, streams, tasks, resources, and subprocesses stay bounded and cancellable
 - **Compatibility**: Preserve exact-build identity, current-green fixtures, POC acceptance, and real WebKit evidence while changing one dependency or ownership axis at a time
+- **Current scope**: One Uzel instance and one active read profile are the proven baseline; record collisions but defer multi-instance/multi-profile implementation
+- **Migration**: Qualify, adapt one Rust/Tauri boundary, replay parity, then retire compatibility code; no dual store/write and rollback by adapter/pin revert
 - **Naming**: Project-owned identifiers are descriptive and at most 21 characters, with only narrow documented exceptions
 - **Delivery**: One contextual issue, one visible outcome, one owning worktree, one PR; out-of-scope findings move to linked future issues
 - **Review**: Local CodeRabbit, remote Codex, final remote CodeRabbit, exact-head evidence, then merge queue; missing, stale, skipped, failed, or timed-out review is not approval
@@ -66,11 +70,12 @@ GitHub issues define scoped delivery outcomes, GSD is the repository-local execu
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Preserve and replay the POC instead of rebuilding Uzel | Existing code already proves critical runtime, trust, recovery, and composition behavior | — Pending |
+| Preserve and replay the POC instead of rebuilding Uzel | Existing code already proves critical runtime, trust, recovery, rich profile/follows, and composition behavior | ✓ Re-audited at `19519c3`; fresh replay evidence captured |
 | Build only neutral Napp seams proven by visible Uzel slices | Keeps product policy in Uzel and avoids an abstract framework milestone | — Pending |
 | Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible runtime dependencies | — Pending |
 | Measure simple full-workspace CI before adding affected-crate complexity | Complexity must earn its cost through real p50/p95 evidence | — Pending |
-| Gate Social work on an accepted committed Napp candidate and M0 delivery evidence | Prevents private contract invention and protects the existing POC baseline | — Pending |
+| Split REF into independent preservation and blocked adapter lanes | Keeps useful brownfield work moving without inventing the absent Napp seam | ✓ Accepted by Phase 1 re-audit |
+| Gate new Social work on an accepted committed Napp candidate and M0 delivery evidence | Prevents private contract invention and protects the existing POC baseline | — Pending |
 | Keep GitHub as merge authority and GSD as execution record | Separates local orchestration from required checks and canonical merge state | — Pending |
 
 ## Evolution
@@ -91,4 +96,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-09 after initialization*
+*Last updated: 2026-08-09 after source-backed milestone re-audit*
