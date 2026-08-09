@@ -15,7 +15,7 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 - [ ] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
 - [ ] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
 - [ ] **REF-06**: Maintainer can inspect a small reproducible baseline for startup/ready time, local profile render, process/WebView pressure, resource flow, queue bounds, cancellation, and lifecycle recovery, with build/Nix materialization separated from runtime and unsupported measurements marked unavailable.
-- [ ] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; until then, it records a repository-qualified Napp dependency and implements no private substitute.
+- [x] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; until then, it records a repository-qualified Napp dependency and implements no private substitute.
 
 ### Canonical Nix Package
 
@@ -112,7 +112,7 @@ Every v1 requirement maps to exactly one roadmap phase.
 | REF-04 | Phase 1 | Pending |
 | REF-05 | Phase 1 | Pending |
 | REF-06 | Phase 1 | Pending |
-| REF-07 | Phase 1 | Pending |
+| REF-07 | Phase 1 | Complete |
 | PKG-01 | Phase 2 | Pending |
 | PKG-02 | Phase 2 | Pending |
 | PKG-03 | Phase 2 | Pending |
@@ -138,6 +138,7 @@ Every v1 requirement maps to exactly one roadmap phase.
 | SOC-06 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 30 total
 - Mapped to phases: 30
 - Unmapped: 0

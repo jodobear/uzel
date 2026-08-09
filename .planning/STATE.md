@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
+current_phase: 01
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
-status: planned
-stopped_at: "Phase 1 review feedback incorporated: 37 findings dispositioned; five plans verified; adapter lane remains blocked"
-last_updated: "2026-08-10T04:11:31+05:30"
+status: executing
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-08-09T23:18:09.429Z"
 last_activity: 2026-08-10
-last_activity_desc: Phase 1 incorporated CodeRabbit review feedback; all 37 findings were accepted or rejected with source-backed dispositions and checker convergence passed.
+last_activity_desc: Phase 01 execution started
 progress:
-  total_phases: 5
+  total_phases: 1
   completed_phases: 0
   total_plans: 5
-  completed_plans: 0
+  completed_plans: 1
 ---
 
 # Project State
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-09)
 
 **Core value:** Uzel makes local-first napplet composition visibly useful without duplicating runtime, Nostr, trust, or persistence truth owned by Napp and NMP.
-**Current focus:** Phase 1 — SLICE-REF-01: POC Replay & Accepted Napp Seam
+**Current focus:** Phase 01 — SLICE-REF-01 — POC Replay & Accepted Napp Seam
 
 ## Current Position
 
-Phase: 1 of 5 (SLICE-REF-01 — POC Replay & Accepted Napp Seam)
-Plan: 0 of 5
-Status: Planned — bounded replay/ownership/authority/qualification/Debian lanes ready; Napp adapter blocked
-Last activity: 2026-08-10 — Incorporated all 37 review findings and passed checker convergence.
+Phase: 01 (SLICE-REF-01 — POC Replay & Accepted Napp Seam) — EXECUTING
+Plan: 2 of 5
+Status: Ready to execute
+Last activity: 2026-08-10 — Phase 01 execution started
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
@@ -54,6 +54,11 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+**Per-Plan Metrics:**
+
+| Plan | Duration | Tasks | Files |
+|------|----------|-------|-------|
+| Phase 01-slice-ref-01-poc-replay-accepted-napp-seam P04 | 7m 28s | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -67,6 +72,8 @@ Decisions are logged in PROJECT.md Key Decisions table. Current roadmap decision
 - [Phase 2]: Canonical Linux release is the Nix closure with one matching accepted Napp commit; no ambient `PATH` runtime.
 - [Phase 3]: CI starts measured and conservative; its final package/merge-full contract consumes Phase 2.
 - [Phases 4–5]: Social starts only after accepted REF, PKG, and CI M0 delivery gates; Uzel retains no duplicate Nostr/cache/runtime truth.
+- [Phase ?]: Current Napp candidate is a repository-qualified stop, not an adapter seam.
+- [Phase ?]: Plan-01 parity binds to its recorded immutable Uzel commit, not later HEAD changes.
 
 ### Pending Todos
 
@@ -90,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-10T04:11:31+05:30
-Stopped at: Phase 1 review feedback incorporated; five plans verified, adapter remains blocked
-Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md
+Last session: 2026-08-09T23:18:09.424Z
+Stopped at: Completed 01-04-PLAN.md
+Resume file: None
