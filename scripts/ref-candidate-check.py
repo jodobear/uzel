@@ -327,11 +327,39 @@ def emit(args: argparse.Namespace) -> None:
     print("qualification record written: " + str(target))
 
 
+def emit_handoff(args: argparse.Namespace) -> None:
+    qualification_record = read_record(Path(args.qualification))
+    plan_path = args.plan
+    plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", "HEAD:" + plan_path])
+    plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", "HEAD:" + plan_path]).decode().strip()
+    copied = ["repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "admission_categories", "declared_probes", "missing_categories", "working_tree_evidence", "mutation_snapshots", "blocker", "owner", "next_probe", "rollback", "d18_rule"]
+    record = {field: qualification_record[field] for field in copied}
+    record.update({
+        "schema": "uzel.napp-dependency/v1", "result": qualification_record["result"],
+        "plan_contract": {"path": plan_path, "commit": must_git(ROOT, ["rev-parse", "HEAD"]).decode().strip(), "blob_oid": plan_oid,
+                          "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9",
+                          "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"},
+        "ref_01d_preconditions": [
+            {"name": "authority-set", "status": "blocked", "requirement": "Plan 03 authority set at one committed exact SHA."},
+            {"name": "qualified-candidate", "status": "blocked", "requirement": "Exact reachable Napp commit qualified-for-research."},
+            {"name": "replay-evidence", "status": "blocked", "requirement": "Plan-01 evidence admitted at this contract with exact manifest digest."},
+        ],
+        "d12_routing": "Reusable fixes use a dedicated jodobear/napp branch and issue, enter the contribution ledger only after Uzel validation, and are not mutated by this plan.",
+        "required_napp_deliverables": {"behavior": ["committed product client evidence", "committed product event evidence", "committed testkit/lifecycle/version/pin vectors", "approved bounded read-only project-probe sandbox contract", "Napp runtime authority with NMP as sole Nostr/store/signer/publication owner"], "repository_binding": {"uzel": "jodobear/uzel evidence-only candidate handoff; PR/issue pending separate authorization", "napp": "jodobear/napp dependency at observed commit"}},
+        "exact_heads": {"uzel": must_git(ROOT, ["rev-parse", "HEAD"]).decode().strip(), "napp": qualification_record["observed_commit"]},
+        "resume_command": "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert.",
+    })
+    target = Path(args.handoff)
+    target.write_text("# Napp Dependency Handoff\n\nOwned by `jodobear/napp`; consumed by `jodobear/uzel`. This is a candidate/pending stop, not publication authority.\n\n" + MARKER_BEGIN + "\n" + canonical_record(record) + "\n" + MARKER_END + "\n", encoding="utf-8")
+    print("handoff record written: " + str(target))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     test = commands.add_parser("self-test"); test.set_defaults(func=self_test)
     write = commands.add_parser("write-qualification"); write.add_argument("--repo", required=True); write.add_argument("--expected-commit", required=True); write.add_argument("--record", required=True); write.set_defaults(func=emit)
+    write_handoff = commands.add_parser("write-handoff"); write_handoff.add_argument("--qualification", required=True); write_handoff.add_argument("--handoff", required=True); write_handoff.add_argument("--plan", required=True); write_handoff.set_defaults(func=emit_handoff)
     check = commands.add_parser("qualification"); check.add_argument("--repo", required=True); check.add_argument("--expected-repository", required=True); check.add_argument("--expected-commit", required=True); check.add_argument("--record", required=True); check.add_argument("--expected-result", required=True); check.set_defaults(func=qualification)
     hand = commands.add_parser("handoff"); hand.add_argument("--repo", required=True); hand.add_argument("--napp-repo", required=True); hand.add_argument("--qualification", required=True); hand.add_argument("--handoff", required=True); hand.add_argument("--plan", required=True); hand.set_defaults(func=handoff)
     try:
