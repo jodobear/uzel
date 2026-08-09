@@ -5,8 +5,8 @@ milestone_name: milestone
 current_phase: 1
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-08-09T15:22:01.856Z"
+stopped_at: "Phase 1 planning blocked: accepted Napp client/events/testkit candidate absent"
+last_updated: "2026-08-09T15:39:55.889Z"
 last_activity: 2026-08-09
 last_activity_desc: Initial five-slice MVP roadmap created; all v1 requirements mapped.
 progress:
@@ -85,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-09T15:22:01.852Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-CONTEXT.md
+Last session: 2026-08-09T15:39:55.885Z
+Stopped at: Phase 1 planning blocked: accepted Napp client/events/testkit candidate absent
+Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-RESEARCH.md
