@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786451111.9377604,
-    "ast_hash": "c651f4093d5880ee082a3687dda6a789",
+    "mtime": 1786451920.4625301,
+    "ast_hash": "d384237752a439eabce10956bca07952",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
@@ -1010,13 +1010,13 @@
     "semantic_hash": ""
   },
   "evidence/phase-01/candidate-qualification.md": {
-    "mtime": 1786450498.3967655,
-    "ast_hash": "a8f7599601f94235e6a5d041ff143628",
+    "mtime": 1786451973.7766135,
+    "ast_hash": "c33c6e0e8627fb3f0a14ef7771fadfd9",
     "semantic_hash": ""
   },
   "evidence/phase-01/napp-dependency.md": {
-    "mtime": 1786450531.8980274,
-    "ast_hash": "f97b95427826d3d832d5f4e10ae58e8a",
+    "mtime": 1786451974.656384,
+    "ast_hash": "b85afe274a4a87f268c304bc0f6012dd",
     "semantic_hash": ""
   }
 }
