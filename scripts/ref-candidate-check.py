@@ -266,13 +266,17 @@ def file_state(path: Path) -> dict[str, Any]:
 
 
 def object_manifest(objects: Path) -> dict[str, Any]:
-    entries: list[dict[str, Any]] = []
+    digest = hashlib.sha256()
+    count = 0
     if not objects.exists():
-        return {"entries": entries, "sha256": sha256(b"")}
+        return {"count": count, "sha256": digest.hexdigest()}
     for path in sorted(objects.rglob("*"), key=lambda item: os.fsencode(str(item.relative_to(objects)))):
         row = {"path_hex": os.fsencode(str(path.relative_to(objects))).hex(), **file_state(path)}
-        entries.append(row)
-    return {"entries": entries, "sha256": sha256(json_bytes(entries))}
+        encoded = json_bytes(row)
+        digest.update(len(encoded).to_bytes(8, "big"))
+        digest.update(encoded)
+        count += 1
+    return {"count": count, "sha256": digest.hexdigest()}
 
 
 def snapshot(repo: Path) -> dict[str, Any]:
@@ -288,7 +292,8 @@ def snapshot(repo: Path) -> dict[str, Any]:
                                    ":(exclude)evidence/phase-01/candidate-qualification.md",
                                    ":(exclude)evidence/phase-01/napp-dependency.md"])
     values = {
-        "root": str(repo), "head": must_git(repo, ["rev-parse", "HEAD"]).decode().strip(),
+        "root": "uzel" if repo == ROOT else "napp",
+        "head": must_git(repo, ["rev-parse", "HEAD"]).decode().strip(),
         "head_bytes_sha256": sha256(head_bytes),
         "raw_index": file_state(index_path),
         "index_serialization_sha256": sha256(must_git(repo, ["ls-files", "-s", "-z"])),
@@ -435,7 +440,8 @@ def repository_from_origin(origin: str) -> str:
 def validate_snapshot(value: Any, expected_root: Path) -> None:
     keys = {"root", "head", "head_bytes_sha256", "raw_index", "index_serialization_sha256", "refs_sha256",
             "status_sha256", "status_guard_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects", "fingerprint"}
-    if not isinstance(value, dict) or set(value) != keys or value.get("root") != str(expected_root):
+    expected_label = "uzel" if expected_root == ROOT else "napp"
+    if not isinstance(value, dict) or set(value) != keys or value.get("root") != expected_label:
         raise CheckError("mutation snapshot shape/root mismatch")
     unsigned = {key: item for key, item in value.items() if key != "fingerprint"}
     if value["fingerprint"] != sha256(json_bytes(unsigned)):
@@ -467,11 +473,13 @@ def validate_record(record: dict[str, Any], repo: Path, expected_repository: str
         current = current / component
         if current.is_symlink():
             raise CheckError("tree inventory path contains a symlink")
+    actual = must_git(repo, ["ls-tree", "-rz", "--full-tree", expected_commit])
+    if not unresolved_artifact.exists():
+        write_confined(ROOT, Path(exact_path), actual)
     artifact = unresolved_artifact.resolve()
     expected_root = (ROOT / ".artifacts/phase-01/napp").resolve()
     if expected_root not in artifact.parents or artifact.is_symlink() or not artifact.is_file() or stat.S_IMODE(artifact.stat().st_mode) != 0o600:
         raise CheckError("tree inventory confinement/type/mode failed")
-    actual = must_git(repo, ["ls-tree", "-rz", "--full-tree", expected_commit])
     if artifact.read_bytes() != actual or record["tree_inventory_sha256"] != sha256(actual):
         raise CheckError("tree inventory bytes or digest mismatch")
     inventory_paths = {entry.partition(b"\t")[2].decode("utf-8", "surrogateescape")
@@ -637,7 +645,7 @@ def emit_handoff(args: argparse.Namespace) -> None:
     if args.plan != APPROVED_PLAN_PATH or args.qualification != QUALIFICATION_PATH \
             or args.handoff != HANDOFF_PATH:
         raise CheckError("handoff writer requires the approved Plan-01 and evidence paths")
-    qualification_record = read_record(Path(args.qualification))
+    qualification_record = read_record(ROOT / args.qualification)
     napp_repo = root_path(Path(args.napp_repo))
     if napp_repo != root_path(DEFAULT_NAPP_REPO):
         raise CheckError("handoff writer requires the fixed Napp repository")
