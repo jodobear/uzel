@@ -69,6 +69,7 @@
   "67": "LRN-#### — <reusable lesson>",
   "68": "Uzel POC agent instructions",
   "69": "Provisional component design",
+  "70": "hostile_probe.rs",
   "71": "Slice 02 preflight",
   "72": "Slice 05 preflight — integrated composed demo",
   "73": "ADR-#### — <decision>",
@@ -247,8 +248,12 @@
   "246": "01-02-PLAN.md",
   "247": "01-04-PLAN.md",
   "248": "01-05-PLAN.md",
+  "249": "Production-grade runtime maturity programme",
+  "250": "Critical Pitfalls",
   "251": "SUMMARY.md",
   "252": "BLOCKING CONSTRAINTS — Read Before Anything Else",
+  "253": "navigation_policy",
   "254": "candidate-qualification.md",
-  "255": "napp-dependency.md"
+  "255": "napp-dependency.md",
+  "256": "Data Flow"
 }

@@ -840,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_rs",
-      "community": 62,
+      "community": 70,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 62,
+      "community": 70,
       "norm_label": "atomicusize"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 62,
+      "community": 70,
       "norm_label": "liveprobe"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 62,
+      "community": 70,
       "norm_label": "atomicbool"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 62,
+      "community": 70,
       "norm_label": "joinhandle"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 62,
+      "community": 70,
       "norm_label": ".drop()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 62,
+      "community": 70,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 62,
+      "community": 70,
       "norm_label": "hostileprobereport"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 62,
+      "community": 70,
       "norm_label": "beaconattempt"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 62,
+      "community": 70,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 62,
+      "community": 70,
       "norm_label": ".begin()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 62,
+      "community": 70,
       "norm_label": ".attach()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 62,
+      "community": 70,
       "norm_label": ".finish()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 62,
+      "community": 70,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 62,
+      "community": 70,
       "norm_label": ".network_denials()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 62,
+      "community": 70,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 62,
+      "community": 70,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 62,
+      "community": 70,
       "norm_label": "port()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 62,
+      "community": 70,
       "norm_label": "accepted_report()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 62,
+      "community": 70,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 62,
+      "community": 70,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 62,
+      "community": 70,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 62,
+      "community": 70,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 62,
+      "community": 70,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -1580,7 +1580,7 @@
       "source_location": "L472",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_navigation_policy",
-      "community": 62,
+      "community": 253,
       "norm_label": "navigation_policy()"
     },
     {
@@ -1590,7 +1590,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tauriplugin",
-      "community": 62,
+      "community": 253,
       "norm_label": "tauriplugin"
     },
     {
@@ -1600,7 +1600,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "wry",
-      "community": 62,
+      "community": 253,
       "norm_label": "wry"
     },
     {
@@ -1610,7 +1610,7 @@
       "source_location": "L488",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_allowed_navigation",
-      "community": 62,
+      "community": 253,
       "norm_label": "allowed_navigation()"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "url",
-      "community": 62,
+      "community": 253,
       "norm_label": "url"
     },
     {
@@ -1630,7 +1630,7 @@
       "source_location": "L504",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_main",
-      "community": 62,
+      "community": 253,
       "norm_label": "main()"
     },
     {
@@ -1640,7 +1640,7 @@
       "source_location": "L536",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_default_socket_path",
-      "community": 62,
+      "community": 253,
       "norm_label": "default_socket_path()"
     },
     {
@@ -3360,7 +3360,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_request",
-      "community": 0,
+      "community": 245,
       "norm_label": "request"
     },
     {
@@ -3390,7 +3390,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 0,
+      "community": 245,
       "norm_label": "surfacemetadata"
     },
     {
@@ -3460,7 +3460,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_response",
-      "community": 0,
+      "community": 245,
       "norm_label": "response"
     },
     {
@@ -3470,7 +3470,7 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_response_error",
-      "community": 0,
+      "community": 245,
       "norm_label": ".error()"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "into",
-      "community": 0,
+      "community": 245,
       "norm_label": "into"
     },
     {
@@ -3530,7 +3530,7 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_fetchedsurface",
-      "community": 0,
+      "community": 119,
       "norm_label": "fetchedsurface"
     },
     {
@@ -3540,7 +3540,7 @@
       "source_location": "L254",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_clienterror",
-      "community": 0,
+      "community": 119,
       "norm_label": "clienterror"
     },
     {
@@ -3560,7 +3560,7 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_pendingoperation",
-      "community": 0,
+      "community": 119,
       "norm_label": "pendingoperation"
     },
     {
@@ -3570,7 +3570,7 @@
       "source_location": "L294",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror",
-      "community": 0,
+      "community": 119,
       "norm_label": "deliveryerror"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L300",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror_into_client",
-      "community": 0,
+      "community": 119,
       "norm_label": ".into_client()"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient",
-      "community": 0,
+      "community": 119,
       "norm_label": "unixclient"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request",
-      "community": 0,
+      "community": 119,
       "norm_label": ".request()"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L331",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request_attempt",
-      "community": 0,
+      "community": 245,
       "norm_label": ".request_attempt()"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L448",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_fixture",
-      "community": 0,
+      "community": 119,
       "norm_label": ".start_fixture()"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L452",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_named_fixture",
-      "community": 0,
+      "community": 119,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L458",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_hostile_probe",
-      "community": 0,
+      "community": 119,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L464",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_review_napplet",
-      "community": 0,
+      "community": 119,
       "norm_label": ".review_napplet()"
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_cancel_napplet_review",
-      "community": 0,
+      "community": 119,
       "norm_label": ".cancel_napplet_review()"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_stop_fixture",
-      "community": 0,
+      "community": 119,
       "norm_label": ".stop_fixture()"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L499",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_retire_catalog_operations",
-      "community": 0,
+      "community": 119,
       "norm_label": ".retire_catalog_operations()"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L509",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_confirm_napplet",
-      "community": 0,
+      "community": 119,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -3800,7 +3800,7 @@
       "source_location": "L539",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface",
-      "community": 0,
+      "community": 119,
       "norm_label": ".fetch_surface()"
     },
     {
@@ -3810,7 +3810,7 @@
       "source_location": "L544",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface_response",
-      "community": 0,
+      "community": 119,
       "norm_label": ".fetch_surface_response()"
     },
     {
@@ -3820,7 +3820,7 @@
       "source_location": "L572",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_operation_id_for",
-      "community": 0,
+      "community": 119,
       "norm_label": ".operation_id_for()"
     },
     {
@@ -3830,7 +3830,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request_replayable",
-      "community": 0,
+      "community": 119,
       "norm_label": ".request_replayable()"
     },
     {
@@ -3840,7 +3840,7 @@
       "source_location": "L618",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_forget_operation",
-      "community": 0,
+      "community": 119,
       "norm_label": ".forget_operation()"
     },
     {
@@ -3850,7 +3850,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_asset",
-      "community": 0,
+      "community": 119,
       "norm_label": ".fetch_asset()"
     },
     {
@@ -3860,7 +3860,7 @@
       "source_location": "L681",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_next_operation_id",
-      "community": 0,
+      "community": 119,
       "norm_label": "next_operation_id()"
     },
     {
@@ -4720,7 +4720,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 8,
+      "community": 245,
       "norm_label": ".metadata()"
     },
     {
@@ -5480,7 +5480,7 @@
       "source_location": "L1209",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_read_launched_document",
-      "community": 54,
+      "community": 3,
       "norm_label": "read_launched_document()"
     },
     {
@@ -5510,7 +5510,7 @@
       "source_location": "L1255",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_bounded_diagnostic",
-      "community": 3,
+      "community": 5,
       "norm_label": "bounded_diagnostic()"
     },
     {
@@ -5810,7 +5810,7 @@
       "source_location": "L1862",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_payload_identity_cannot_select_surface_or_session",
-      "community": 5,
+      "community": 8,
       "norm_label": "payload_identity_cannot_select_surface_or_session()"
     },
     {
@@ -5840,7 +5840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_rs",
-      "community": 0,
+      "community": 97,
       "norm_label": "server.rs"
     },
     {
@@ -5850,7 +5850,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_servererror",
-      "community": 0,
+      "community": 97,
       "norm_label": "servererror"
     },
     {
@@ -5880,7 +5880,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_assettransfer",
-      "community": 0,
+      "community": 245,
       "norm_label": "assettransfer"
     },
     {
@@ -5910,7 +5910,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replayentry",
-      "community": 0,
+      "community": 245,
       "norm_label": "replayentry"
     },
     {
@@ -5920,7 +5920,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_invalidoperationid",
-      "community": 0,
+      "community": 245,
       "norm_label": "invalidoperationid"
     },
     {
@@ -5930,7 +5930,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache",
-      "community": 0,
+      "community": 245,
       "norm_label": "replaycache"
     },
     {
@@ -5960,7 +5960,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache_lookup",
-      "community": 0,
+      "community": 245,
       "norm_label": ".lookup()"
     },
     {
@@ -5980,7 +5980,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replaycache_remember",
-      "community": 0,
+      "community": 245,
       "norm_label": ".remember()"
     },
     {
@@ -5990,7 +5990,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate",
-      "community": 0,
+      "community": 245,
       "norm_label": "daemonstate"
     },
     {
@@ -6000,7 +6000,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_new",
-      "community": 0,
+      "community": 97,
       "norm_label": ".new()"
     },
     {
@@ -6020,7 +6020,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_handle",
-      "community": 0,
+      "community": 245,
       "norm_label": ".handle()"
     },
     {
@@ -6030,7 +6030,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 0,
+      "community": 245,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -6040,7 +6040,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonstate_stage_surface",
-      "community": 0,
+      "community": 245,
       "norm_label": ".stage_surface()"
     },
     {
@@ -6060,7 +6060,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 0,
+      "community": 245,
       "norm_label": "surfacelaunch"
     },
     {
@@ -6070,7 +6070,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_key",
-      "community": 0,
+      "community": 245,
       "norm_label": "replay_key()"
     },
     {
@@ -6080,7 +6080,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_runner_error",
-      "community": 0,
+      "community": 245,
       "norm_label": "runner_error()"
     },
     {
@@ -6090,7 +6090,7 @@
       "source_location": "L319",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_bounded_detail",
-      "community": 0,
+      "community": 97,
       "norm_label": "bounded_detail()"
     },
     {
@@ -6100,7 +6100,7 @@
       "source_location": "L332",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver",
-      "community": 0,
+      "community": 97,
       "norm_label": "daemonserver"
     },
     {
@@ -6110,7 +6110,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "unixlistener",
-      "community": 0,
+      "community": 97,
       "norm_label": "unixlistener"
     },
     {
@@ -6120,7 +6120,7 @@
       "source_location": "L340",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_socketidentity",
-      "community": 0,
+      "community": 97,
       "norm_label": "socketidentity"
     },
     {
@@ -6130,7 +6130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_bind",
-      "community": 0,
+      "community": 97,
       "norm_label": ".bind()"
     },
     {
@@ -6160,7 +6160,7 @@
       "source_location": "L365",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_serve",
-      "community": 0,
+      "community": 97,
       "norm_label": ".serve()"
     },
     {
@@ -6180,7 +6180,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemonserver_drop",
-      "community": 0,
+      "community": 97,
       "norm_label": ".drop()"
     },
     {
@@ -6190,7 +6190,7 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_handle_stream",
-      "community": 0,
+      "community": 97,
       "norm_label": "handle_stream()"
     },
     {
@@ -6210,7 +6210,7 @@
       "source_location": "L414",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_write_response",
-      "community": 0,
+      "community": 97,
       "norm_label": "write_response()"
     },
     {
@@ -6230,7 +6230,7 @@
       "source_location": "L479",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_prepare_socket_parent",
-      "community": 0,
+      "community": 97,
       "norm_label": "prepare_socket_parent()"
     },
     {
@@ -6240,7 +6240,7 @@
       "source_location": "L504",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_remove_owned_stale_socket",
-      "community": 0,
+      "community": 97,
       "norm_label": "remove_owned_stale_socket()"
     },
     {
@@ -6250,7 +6250,7 @@
       "source_location": "L547",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_exchange",
-      "community": 0,
+      "community": 245,
       "norm_label": "exchange()"
     },
     {
@@ -6260,7 +6260,7 @@
       "source_location": "L554",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemon_serves_ordered_verified_asset_and_shuts_down",
-      "community": 0,
+      "community": 97,
       "norm_label": "daemon_serves_ordered_verified_asset_and_shuts_down()"
     },
     {
@@ -6270,7 +6270,7 @@
       "source_location": "L597",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_server_drop_does_not_remove_a_replacement_socket",
-      "community": 0,
+      "community": 97,
       "norm_label": "server_drop_does_not_remove_a_replacement_socket()"
     },
     {
@@ -6280,7 +6280,7 @@
       "source_location": "L611",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_socket_parent_symlink_is_refused",
-      "community": 0,
+      "community": 97,
       "norm_label": "socket_parent_symlink_is_refused()"
     },
     {
@@ -6290,7 +6290,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_active_daemon_socket_is_not_unlinked",
-      "community": 0,
+      "community": 97,
       "norm_label": "active_daemon_socket_is_not_unlinked()"
     },
     {
@@ -6300,7 +6300,7 @@
       "source_location": "L640",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_existing_shared_socket_parent_is_not_chmodded",
-      "community": 0,
+      "community": 97,
       "norm_label": "existing_shared_socket_parent_is_not_chmodded()"
     },
     {
@@ -6310,7 +6310,7 @@
       "source_location": "L656",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_incomplete_client_times_out_without_blocking_the_next_request",
-      "community": 0,
+      "community": 97,
       "norm_label": "incomplete_client_times_out_without_blocking_the_next_request()"
     },
     {
@@ -6320,7 +6320,7 @@
       "source_location": "L679",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_daemon_routes_inc_delivery_to_the_other_exact_surface",
-      "community": 0,
+      "community": 97,
       "norm_label": "daemon_routes_inc_delivery_to_the_other_exact_surface()"
     },
     {
@@ -6330,7 +6330,7 @@
       "source_location": "L735",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_oversized_routed_envelope_is_chunked_without_raising_the_frame_limit",
-      "community": 0,
+      "community": 97,
       "norm_label": "oversized_routed_envelope_is_chunked_without_raising_the_frame_limit()"
     },
     {
@@ -6340,7 +6340,7 @@
       "source_location": "L768",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_cache_binds_operation_id_to_the_exact_confirm_request",
-      "community": 0,
+      "community": 97,
       "norm_label": "replay_cache_binds_operation_id_to_the_exact_confirm_request()"
     },
     {
@@ -6350,7 +6350,7 @@
       "source_location": "L814",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_replay_cache_is_bounded_and_operation_ids_are_validated",
-      "community": 0,
+      "community": 97,
       "norm_label": "replay_cache_is_bounded_and_operation_ids_are_validated()"
     },
     {
@@ -10054,10 +10054,20 @@
       "norm_label": "read_record()"
     },
     {
-      "label": "repository_from_origin()",
+      "label": "require_committed_record()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
       "source_location": "L409",
+      "_origin": "ast",
+      "id": "scripts_ref_candidate_check_require_committed_record",
+      "community": 47,
+      "norm_label": "require_committed_record()"
+    },
+    {
+      "label": "repository_from_origin()",
+      "file_type": "code",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L426",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_repository_from_origin",
       "community": 47,
@@ -10067,7 +10077,7 @@
       "label": "validate_snapshot()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L416",
+      "source_location": "L433",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_validate_snapshot",
       "community": 47,
@@ -10077,7 +10087,7 @@
       "label": "validate_record()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L426",
+      "source_location": "L443",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_validate_record",
       "community": 47,
@@ -10087,7 +10097,7 @@
       "label": "qualification()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L488",
+      "source_location": "L505",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_qualification",
       "community": 47,
@@ -10107,7 +10117,7 @@
       "label": "handoff()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L494",
+      "source_location": "L513",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_handoff",
       "community": 47,
@@ -10117,7 +10127,7 @@
       "label": "self_test()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L543",
+      "source_location": "L566",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_self_test",
       "community": 47,
@@ -10127,7 +10137,7 @@
       "label": "emit()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L593",
+      "source_location": "L616",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_emit",
       "community": 47,
@@ -10137,7 +10147,7 @@
       "label": "emit_handoff()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L614",
+      "source_location": "L637",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_emit_handoff",
       "community": 47,
@@ -10147,7 +10157,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L657",
+      "source_location": "L680",
       "_origin": "ast",
       "id": "scripts_ref_candidate_check_main",
       "community": 47,
@@ -10202,6 +10212,16 @@
       "id": "scripts_ref_candidate_check_rationale_327",
       "community": 47,
       "norm_label": "exhaustive candidate declaration grammar; rejection precedes process creation."
+    },
+    {
+      "label": "Bind validation to the reviewed record bytes in the current commit.",
+      "file_type": "rationale",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L410",
+      "_origin": "ast",
+      "id": "scripts_ref_candidate_check_rationale_410",
+      "community": 47,
+      "norm_label": "bind validation to the reviewed record bytes in the current commit."
     },
     {
       "label": "smoke.sh",
@@ -10808,7 +10828,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "planning_codebase_architecture",
-      "community": 225,
+      "community": 251,
       "norm_label": "architecture.md"
     },
     {
@@ -10868,7 +10888,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "planning_codebase_architecture_data_flow",
-      "community": 225,
+      "community": 256,
       "norm_label": "data flow"
     },
     {
@@ -10878,7 +10898,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "planning_codebase_architecture_primary_startup_and_surface_handshake",
-      "community": 225,
+      "community": 256,
       "norm_label": "primary startup and surface handshake"
     },
     {
@@ -10888,7 +10908,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "planning_codebase_architecture_napplet_request_response_path",
-      "community": 225,
+      "community": 256,
       "norm_label": "napplet request/response path"
     },
     {
@@ -10898,7 +10918,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "planning_codebase_architecture_cross_napplet_profile_flow",
-      "community": 225,
+      "community": 256,
       "norm_label": "cross-napplet profile flow"
     },
     {
@@ -10908,7 +10928,7 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "planning_codebase_architecture_catalog_review_and_exact_build_install",
-      "community": 225,
+      "community": 256,
       "norm_label": "catalog review and exact-build install"
     },
     {
@@ -13588,7 +13608,7 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "planning_research_architecture_data_flow",
-      "community": 245,
+      "community": 61,
       "norm_label": "data flow"
     },
     {
@@ -13598,7 +13618,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "planning_research_architecture_surface_request_and_response",
-      "community": 245,
+      "community": 61,
       "norm_label": "surface request and response"
     },
     {
@@ -13608,7 +13628,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "planning_research_architecture_social_home_flow",
-      "community": 245,
+      "community": 61,
       "norm_label": "social home flow"
     },
     {
@@ -13618,7 +13638,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "planning_research_architecture_package_and_ci_flow",
-      "community": 245,
+      "community": 61,
       "norm_label": "package and ci flow"
     },
     {
@@ -13678,7 +13698,7 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "planning_research_architecture_anti_patterns",
-      "community": 97,
+      "community": 61,
       "norm_label": "anti-patterns"
     },
     {
@@ -13688,7 +13708,7 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "planning_research_architecture_recreating_runtime_truth_in_uzel",
-      "community": 97,
+      "community": 61,
       "norm_label": "recreating runtime truth in uzel"
     },
     {
@@ -13698,7 +13718,7 @@
       "source_location": "L255",
       "_origin": "ast",
       "id": "planning_research_architecture_treating_poc_private_ipc_as_public_product_contract",
-      "community": 97,
+      "community": 61,
       "norm_label": "treating poc private ipc as public product contract"
     },
     {
@@ -13708,7 +13728,7 @@
       "source_location": "L265",
       "_origin": "ast",
       "id": "planning_research_architecture_independent_cargo_and_nix_pins",
-      "community": 97,
+      "community": 61,
       "norm_label": "independent cargo and nix pins"
     },
     {
@@ -13718,7 +13738,7 @@
       "source_location": "L275",
       "_origin": "ast",
       "id": "planning_research_architecture_required_path_filtered_checks",
-      "community": 97,
+      "community": 61,
       "norm_label": "required path-filtered checks"
     },
     {
@@ -13958,7 +13978,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "planning_research_pitfalls_critical_pitfalls",
-      "community": 220,
+      "community": 250,
       "norm_label": "critical pitfalls"
     },
     {
@@ -13968,7 +13988,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_1_uzel_absorbs_runtime_or_nostr_ownership_during_extraction",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 1: uzel absorbs runtime or nostr ownership during extraction"
     },
     {
@@ -13978,7 +13998,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_2_cargo_flake_fixture_and_runtime_revisions_drift_apart",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 2: cargo, flake, fixture, and runtime revisions drift apart"
     },
     {
@@ -13988,7 +14008,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_3_package_works_in_dev_shell_not_as_canonical_nix_product",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 3: package works in dev shell, not as canonical nix product"
     },
     {
@@ -13998,7 +14018,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_4_local_first_social_home_displays_remote_like_certainty_or_duplicate_cache_truth",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 4: local-first social home displays remote-like certainty or duplicate cache truth"
     },
     {
@@ -14008,7 +14028,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_5_source_binding_or_webkit_isolation_regresses_while_deterministic_tests_stay_green",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 5: source-binding or webkit isolation regresses while deterministic tests stay green"
     },
     {
@@ -14018,7 +14038,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_6_bounded_poc_limits_are_raised_or_bypassed_for_social_data",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 6: bounded poc limits are raised or bypassed for social data"
     },
     {
@@ -14028,7 +14048,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_7_path_classified_ci_creates_green_skips_or_hides_dependency_changes",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 7: path-classified ci creates green skips or hides dependency changes"
     },
     {
@@ -14038,7 +14058,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "planning_research_pitfalls_pitfall_8_review_evidence_belongs_to_a_stale_sha_or_unavailable_reviewer_is_treated_as_approval",
-      "community": 220,
+      "community": 250,
       "norm_label": "pitfall 8: review evidence belongs to a stale sha or unavailable reviewer is treated as approval"
     },
     {
@@ -14268,7 +14288,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "planning_research_summary_project_research_summary",
-      "community": 251,
+      "community": 228,
       "norm_label": "project research summary"
     },
     {
@@ -14278,7 +14298,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "planning_research_summary_executive_summary",
-      "community": 251,
+      "community": 228,
       "norm_label": "executive summary"
     },
     {
@@ -14288,7 +14308,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "planning_research_summary_key_findings",
-      "community": 119,
+      "community": 228,
       "norm_label": "key findings"
     },
     {
@@ -14298,7 +14318,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "planning_research_summary_recommended_stack",
-      "community": 119,
+      "community": 228,
       "norm_label": "recommended stack"
     },
     {
@@ -14308,7 +14328,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "planning_research_summary_expected_features",
-      "community": 119,
+      "community": 228,
       "norm_label": "expected features"
     },
     {
@@ -14318,7 +14338,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "planning_research_summary_architecture_approach",
-      "community": 119,
+      "community": 228,
       "norm_label": "architecture approach"
     },
     {
@@ -14328,7 +14348,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "planning_research_summary_critical_pitfalls",
-      "community": 119,
+      "community": 228,
       "norm_label": "critical pitfalls"
     },
     {
@@ -14418,7 +14438,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "planning_research_summary_confidence_assessment",
-      "community": 251,
+      "community": 228,
       "norm_label": "confidence assessment"
     },
     {
@@ -14428,7 +14448,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "planning_research_summary_gaps_to_address",
-      "community": 251,
+      "community": 228,
       "norm_label": "gaps to address"
     },
     {
@@ -14438,7 +14458,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "planning_research_summary_sources",
-      "community": 251,
+      "community": 228,
       "norm_label": "sources"
     },
     {
@@ -14448,7 +14468,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "planning_research_summary_primary_high_confidence",
-      "community": 251,
+      "community": 228,
       "norm_label": "primary (high confidence)"
     },
     {
@@ -14458,7 +14478,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "planning_research_summary_secondary_medium_confidence",
-      "community": 251,
+      "community": 228,
       "norm_label": "secondary (medium confidence)"
     },
     {
@@ -17398,7 +17418,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_06_start_runbook",
-      "community": 35,
+      "community": 36,
       "norm_label": "06-start-runbook.md"
     },
     {
@@ -18028,7 +18048,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_production_grade_runtime_maturity_programme",
-      "community": 12,
+      "community": 249,
       "norm_label": "production-grade runtime maturity programme"
     },
     {
@@ -18038,7 +18058,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_independent_judgment",
-      "community": 12,
+      "community": 249,
       "norm_label": "independent judgment"
     },
     {
@@ -18048,7 +18068,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_scope_of_the_production_claim",
-      "community": 12,
+      "community": 249,
       "norm_label": "scope of the production claim"
     },
     {
@@ -18058,7 +18078,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_maturity_levels",
-      "community": 12,
+      "community": 249,
       "norm_label": "maturity levels"
     },
     {
@@ -18068,7 +18088,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_capability_maturity_ledger",
-      "community": 12,
+      "community": 249,
       "norm_label": "capability maturity ledger"
     },
     {
@@ -18078,7 +18098,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_composability_definition",
-      "community": 12,
+      "community": 249,
       "norm_label": "composability definition"
     },
     {
@@ -18088,7 +18108,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_independent_napplet_evidence_criteria",
-      "community": 12,
+      "community": 249,
       "norm_label": "independent napplet evidence criteria"
     },
     {
@@ -18098,7 +18118,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_guest_code_trust_tiers",
-      "community": 12,
+      "community": 249,
       "norm_label": "guest-code trust tiers"
     },
     {
@@ -18238,7 +18258,7 @@
       "source_location": "L410",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_production_evidence_by_milestone",
-      "community": 12,
+      "community": 249,
       "norm_label": "production evidence by milestone"
     },
     {
@@ -18248,7 +18268,7 @@
       "source_location": "L423",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_m0_required_baselines",
-      "community": 12,
+      "community": 249,
       "norm_label": "m0 required baselines"
     },
     {
@@ -18258,7 +18278,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_m5_freeze_requirements",
-      "community": 12,
+      "community": 249,
       "norm_label": "m5 freeze requirements"
     },
     {
@@ -18268,7 +18288,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_09_production_maturity_a5_and_production_decision",
-      "community": 12,
+      "community": 249,
       "norm_label": "a5 and production decision"
     },
     {
@@ -19188,7 +19208,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_templates_compat_profile",
-      "community": 78,
+      "community": 36,
       "norm_label": "compat-profile.md"
     },
     {
@@ -19278,7 +19298,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_templates_learning_note",
-      "community": 67,
+      "community": 36,
       "norm_label": "learning-note.md"
     },
     {
@@ -19368,7 +19388,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_plans_uzel_product_incubation_v4_2026_08_10_templates_milestone_learning",
-      "community": 52,
+      "community": 36,
       "norm_label": "milestone-learning.md"
     },
     {
@@ -38930,7 +38950,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L593",
+      "source_location": "L616",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_emit",
@@ -38940,7 +38960,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L614",
+      "source_location": "L637",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_emit_handoff",
@@ -38980,7 +39000,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L494",
+      "source_location": "L513",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_handoff",
@@ -39000,7 +39020,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L657",
+      "source_location": "L680",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_main",
@@ -39060,7 +39080,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L488",
+      "source_location": "L505",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_qualification",
@@ -39110,10 +39130,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L409",
+      "source_location": "L426",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_repository_from_origin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L409",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check",
+      "target": "scripts_ref_candidate_check_require_committed_record",
       "confidence_score": 1.0
     },
     {
@@ -39170,7 +39200,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L543",
+      "source_location": "L566",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_self_test",
@@ -39200,7 +39230,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L426",
+      "source_location": "L443",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_validate_record",
@@ -39210,7 +39240,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L416",
+      "source_location": "L433",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check",
       "target": "scripts_ref_candidate_check_validate_snapshot",
@@ -39262,7 +39292,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L597",
+      "source_location": "L620",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39273,7 +39303,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L617",
+      "source_location": "L640",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39295,7 +39325,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L496",
+      "source_location": "L515",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39306,7 +39336,7 @@
       "context": "collection",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L668",
+      "source_location": "L691",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39350,7 +39380,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L412",
+      "source_location": "L429",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_repository_from_origin",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39361,7 +39391,18 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L562",
+      "source_location": "L415",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_require_committed_record",
+      "target": "scripts_ref_candidate_check_checkerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L585",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39372,7 +39413,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L430",
+      "source_location": "L447",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39383,7 +39424,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L420",
+      "source_location": "L437",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_snapshot",
       "target": "scripts_ref_candidate_check_checkerror",
@@ -39427,7 +39468,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L634",
+      "source_location": "L657",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_sha256",
@@ -39449,7 +39490,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L517",
+      "source_location": "L540",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_sha256",
@@ -39493,7 +39534,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L456",
+      "source_location": "L473",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_sha256",
@@ -39504,7 +39545,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L422",
+      "source_location": "L439",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_snapshot",
       "target": "scripts_ref_candidate_check_sha256",
@@ -39548,7 +39589,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L422",
+      "source_location": "L439",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_snapshot",
       "target": "scripts_ref_candidate_check_json_bytes",
@@ -39702,7 +39743,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L426",
+      "source_location": "L443",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_py_any",
@@ -39713,7 +39754,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L416",
+      "source_location": "L433",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_snapshot",
       "target": "scripts_ref_candidate_check_py_any",
@@ -39746,7 +39787,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L594",
+      "source_location": "L617",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_root_path",
@@ -39757,7 +39798,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L619",
+      "source_location": "L642",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_root_path",
@@ -39768,7 +39809,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L495",
+      "source_location": "L514",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_root_path",
@@ -39812,7 +39853,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L435",
+      "source_location": "L452",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_root_path",
@@ -39845,7 +39886,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L594",
+      "source_location": "L617",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_py_path",
@@ -39856,7 +39897,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L618",
+      "source_location": "L641",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_py_path",
@@ -39889,7 +39930,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L495",
+      "source_location": "L514",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_py_path",
@@ -39933,7 +39974,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L489",
+      "source_location": "L506",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_qualification",
       "target": "scripts_ref_candidate_check_py_path",
@@ -39977,6 +40018,17 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L409",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_require_committed_record",
+      "target": "scripts_ref_candidate_check_py_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
       "source_location": "L230",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_run_git",
@@ -39988,7 +40040,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L571",
+      "source_location": "L594",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "scripts_ref_candidate_check_py_path",
@@ -40010,7 +40062,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L426",
+      "source_location": "L443",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_py_path",
@@ -40021,7 +40073,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L416",
+      "source_location": "L433",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_snapshot",
       "target": "scripts_ref_candidate_check_py_path",
@@ -40076,7 +40128,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L570",
+      "source_location": "L593",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "temporarydirectory",
@@ -40141,7 +40193,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L576",
+      "source_location": "L599",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "scripts_ref_candidate_check_write_confined",
@@ -40174,7 +40226,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L466",
+      "source_location": "L483",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_missing_categories",
@@ -40196,7 +40248,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L467",
+      "source_location": "L484",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_declared_probes",
@@ -40218,7 +40270,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L468",
+      "source_location": "L485",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_controlled_runner",
@@ -40251,7 +40303,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L463",
+      "source_location": "L480",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_approved_reachability",
@@ -40294,7 +40346,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L436",
+      "source_location": "L453",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_raw_origin",
@@ -40326,7 +40378,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L537",
+      "source_location": "L560",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_git_invariants_equal",
@@ -40337,7 +40389,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L483",
+      "source_location": "L500",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_git_invariants_equal",
@@ -40348,7 +40400,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L636",
+      "source_location": "L659",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_ref_01d_preconditions",
@@ -40359,7 +40411,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L520",
+      "source_location": "L543",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_ref_01d_preconditions",
@@ -40370,7 +40422,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L638",
+      "source_location": "L661",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_required_napp_deliverables",
@@ -40381,7 +40433,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L522",
+      "source_location": "L545",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_required_napp_deliverables",
@@ -40435,7 +40487,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L625",
+      "source_location": "L648",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_must_git",
@@ -40446,7 +40498,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L513",
+      "source_location": "L536",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_must_git",
@@ -40468,6 +40520,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L420",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_require_committed_record",
+      "target": "scripts_ref_candidate_check_must_git",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
       "source_location": "L280",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_snapshot",
@@ -40479,7 +40542,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L439",
+      "source_location": "L456",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_must_git",
@@ -40534,7 +40597,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L605",
+      "source_location": "L628",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_snapshot",
@@ -40545,7 +40608,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L623",
+      "source_location": "L646",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_snapshot",
@@ -40556,7 +40619,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L560",
+      "source_location": "L583",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "scripts_ref_candidate_check_snapshot",
@@ -40588,7 +40651,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L561",
+      "source_location": "L584",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "scripts_ref_candidate_check_candidate_argv_ok",
@@ -40610,7 +40673,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L460",
+      "source_location": "L477",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_pinned_blob",
@@ -40621,7 +40684,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L598",
+      "source_location": "L621",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_candidate_record",
@@ -40632,7 +40695,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L618",
+      "source_location": "L641",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_read_record",
@@ -40643,7 +40706,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L497",
+      "source_location": "L520",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_read_record",
@@ -40654,7 +40717,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L489",
+      "source_location": "L508",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_qualification",
       "target": "scripts_ref_candidate_check_read_record",
@@ -40665,7 +40728,39 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L437",
+      "source_location": "L518",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_handoff",
+      "target": "scripts_ref_candidate_check_require_committed_record",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L507",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_qualification",
+      "target": "scripts_ref_candidate_check_require_committed_record",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L410",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_rationale_410",
+      "target": "scripts_ref_candidate_check_require_committed_record",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L454",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_repository_from_origin",
@@ -40676,7 +40771,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L534",
+      "source_location": "L557",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_validate_snapshot",
@@ -40687,7 +40782,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L480",
+      "source_location": "L497",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_validate_record",
       "target": "scripts_ref_candidate_check_validate_snapshot",
@@ -40698,7 +40793,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L599",
+      "source_location": "L622",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "scripts_ref_candidate_check_validate_record",
@@ -40709,7 +40804,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L622",
+      "source_location": "L645",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "scripts_ref_candidate_check_validate_record",
@@ -40720,7 +40815,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L499",
+      "source_location": "L522",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "scripts_ref_candidate_check_validate_record",
@@ -40731,7 +40826,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L490",
+      "source_location": "L509",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_qualification",
       "target": "scripts_ref_candidate_check_validate_record",
@@ -40742,7 +40837,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L663",
+      "source_location": "L686",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_qualification",
@@ -40753,7 +40848,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L488",
+      "source_location": "L505",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_qualification",
       "target": "namespace",
@@ -40764,7 +40859,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L593",
+      "source_location": "L616",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit",
       "target": "namespace",
@@ -40775,7 +40870,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L614",
+      "source_location": "L637",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_emit_handoff",
       "target": "namespace",
@@ -40786,7 +40881,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L494",
+      "source_location": "L513",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_handoff",
       "target": "namespace",
@@ -40797,7 +40892,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L543",
+      "source_location": "L566",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_self_test",
       "target": "namespace",
@@ -40808,7 +40903,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L664",
+      "source_location": "L687",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_handoff",
@@ -40819,7 +40914,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L660",
+      "source_location": "L683",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_self_test",
@@ -40830,7 +40925,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L661",
+      "source_location": "L684",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_emit",
@@ -40841,7 +40936,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L662",
+      "source_location": "L685",
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_main",
       "target": "scripts_ref_candidate_check_emit_handoff",
@@ -52992,5 +53087,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d8abc4e6202e74f0d588bbc5f198f969a8d13ab6"
+  "built_at_commit": "c26dd1e8e3e0a7933264527c1a95bfc03849a6e2"
 }
