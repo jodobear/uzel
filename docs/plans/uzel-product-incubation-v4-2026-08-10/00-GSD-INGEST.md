@@ -288,9 +288,9 @@ execution rather than leaving stale future phases to be repaired after M0:
 - preserve `PROJECT.md`, `REQUIREMENTS.md`, `STATE.md`, codebase maps and accepted history;
 - preserve Phase 1 and reconcile the blocked `01-01` with explicit provenance;
 - preserve the pause report, blocked worktree and `b185ad1` evidence;
-- verify the installed Codex/GSD command surface, configure `runtime=codex` and
-  `workflow.use_worktrees=false`, and require plan/execute state validation when supported
-  by the installed current command help;
+- verify the installed Codex/GSD command surface, configure `runtime=codex`,
+  `workflow.use_worktrees=false`, `workflow.auto_advance=false` and no active auto-chain,
+  and require plan/execute state validation when supported by installed current help;
 - replace package-first strategy and any dependency on another repository;
 - keep integer phases 2–7 as the first bounded increment of M1–M5;
 - insert only the decimal phases required by this pack, including 2.7, without deleting or renumbering

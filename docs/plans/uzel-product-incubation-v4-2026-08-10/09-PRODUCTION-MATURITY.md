@@ -468,8 +468,9 @@ Delivery phase 7.9 may freeze the candidate only when:
 - security/incident/supported-version drafts exist;
 - an independent critical-boundary security-review scope, evidence bundle, reviewer
   independence declaration and remediation/retest protocol are frozen for A5;
-- signed immutable candidate/canary/stable channel policy, no-silent-update invariant,
-  opt-in canary health/rollback thresholds and previous-green rehearsal are complete;
+- signed immutable candidate metadata plus unsigned canary/stable transition schemas and
+  policy, no-silent-update invariant, opt-in canary health/rollback thresholds and
+  previous-green rehearsal are complete;
 - canonical terminology, milestone learning digests, executable teaching witnesses and
   agent records bind to the exact candidate/profile hash;
 - visibility/embargo review is complete;
@@ -488,7 +489,9 @@ pass_for_human_decision
 ```
 
 `pass_for_human_decision` is not automatic production approval. It permits a named human
-to authorize only a bounded release-candidate/canary step. L5 production approval requires:
+to authorize only a bounded release-candidate/canary step. Candidate/canary/stable
+transitions remain separately authorized and separately signed. L5 production approval
+requires:
 
 - all A5 blockers are closed and affected lanes re-audited;
 - a named independent security reviewer or review team without implementation ownership
@@ -496,8 +499,10 @@ to authorize only a bounded release-candidate/canary step. L5 production approva
   remediation and retest;
 - the exact supported RCP, trust tier and platform matrix are explicit;
 - residual risks are accepted by a named human owner;
-- signed immutable candidate/canary/stable metadata, no-silent-update behavior,
-  release/update/rollback/incident/support policy and previous-green recovery are ready;
+- signed immutable candidate metadata, unsigned canary/stable transition schemas,
+  no-silent-update behavior, release/update/rollback/incident/support policy and
+  previous-green recovery are ready; canary metadata is signed only after its named-human
+  authorization, and stable metadata only after the second named-human decision;
 - an opt-in bounded canary has met the predeclared privacy-safe health, correctness and
   rollback thresholds without invalidating the frozen evidence;
 - a second named-human decision promotes that exact package/profile from canary to stable;

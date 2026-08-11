@@ -416,7 +416,8 @@ Audit:
 - cache key isolation and poisoning risk;
 - required checks and branch protection;
 - artifact retention/previous-green availability;
-- signed immutable candidate/canary/stable channel metadata and RCP/package binding;
+- signed immutable candidate metadata and RCP/package binding; canary/stable schemas and
+  policies remain unsigned until their separate human approvals;
 - no silent runtime or napplet byte substitution under an active profile;
 - review SHA consistency;
 - historical replay evidence separation.
@@ -425,7 +426,9 @@ Required tests:
 
 - clean locked build;
 - store-path package smoke;
-- rebuild/compare where infrastructure supports it;
+- two separate clean realizations of the exact candidate inputs and an artifact/NAR/
+  closure comparison; inability to run this test blocks the production-candidate claim
+  or requires an explicit claim reduction, and two links to one cached output do not count;
 - no undeclared network at build/replay stages where forbidden;
 - dependency substitution failure;
 - tampered lock/hash failure;

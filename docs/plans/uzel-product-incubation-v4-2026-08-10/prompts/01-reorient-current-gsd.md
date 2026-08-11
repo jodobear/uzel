@@ -23,7 +23,9 @@ Goals:
 3. Record that Uzel is one product-shaped repository through M5; no package-first
    dependency or automatic post-M5 programme exists.
 4. Replace the impossible no-provisioning replay rule with exact-source/exact-lock
-   hermetic replay plus separate current Nix/native acceptance.
+   hermetic replay plus a separate current Nix/native baseline; record
+   `not_yet_packaged` and assign complete package acceptance to Phase 2 when outputs do
+   not yet exist.
 5. Preserve `b185ad1`, its worktree, safety ref and portable checksummed archive. Planning
    may assign only a provisional disposition.
 6. Reconcile the complete future roadmap **now**, before Phase 1 execution. Preserve

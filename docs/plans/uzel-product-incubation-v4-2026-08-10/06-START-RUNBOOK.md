@@ -32,17 +32,25 @@ set -euo pipefail
 repo_dir="/absolute/path/to/jodobear/uzel"
 evidence_dir="/absolute/private/path/uzel-phase-1-b185ad1"
 blocked_worktree="/absolute/path/to/blocked-01-01-worktree"
+wip_commit="b185ad1b8d9d034d151406b12aa189f5a6be970f"
+wip_parent="431e37af5ca86196dbaf08a534a0a7626c4ae32c"
 
 cd "$repo_dir"
 umask 077
 git rev-parse --is-inside-work-tree >/dev/null
-git cat-file -e 'b185ad1^{commit}'
-git show --stat --oneline b185ad1
+if ! git cat-file -e "$wip_commit^{commit}" 2>/dev/null; then
+  test -f "$evidence_dir/b185ad1.bundle"
+  git bundle verify "$evidence_dir/b185ad1.bundle"
+  git fetch "$evidence_dir/b185ad1.bundle" \
+    refs/heads/wip/phase-1-replay-b185ad1:refs/heads/wip/phase-1-replay-b185ad1
+fi
+test "$(git rev-parse "$wip_commit^")" = "$wip_parent"
+git show --stat --oneline "$wip_commit"
 
 if git show-ref --verify --quiet refs/heads/wip/phase-1-replay-b185ad1; then
-  test "$(git rev-parse wip/phase-1-replay-b185ad1)" = "$(git rev-parse b185ad1)"
+  test "$(git rev-parse wip/phase-1-replay-b185ad1)" = "$wip_commit"
 else
-  git branch wip/phase-1-replay-b185ad1 b185ad1
+  git branch wip/phase-1-replay-b185ad1 "$wip_commit"
 fi
 
 mkdir -p "$evidence_dir"
@@ -57,19 +65,19 @@ bundle_head="$(
   git bundle list-heads "$evidence_dir/b185ad1.bundle" |
     awk '$2 == "refs/heads/wip/phase-1-replay-b185ad1" { print $1 }'
 )"
-test "$bundle_head" = "$(git rev-parse b185ad1)"
+test "$bundle_head" = "$wip_commit"
 
 if [ ! -e "$evidence_dir/b185ad1-metadata.txt" ]; then
   {
     git show --format=fuller --stat --summary b185ad1
-    printf '\nparent=%s\n' "$(git rev-parse b185ad1^)"
-    printf 'commit=%s\n' "$(git rev-parse b185ad1)"
+    printf '\nparent=%s\n' "$wip_parent"
+    printf 'commit=%s\n' "$wip_commit"
     git worktree list --porcelain
   } > "$evidence_dir/b185ad1-metadata.txt"
 fi
-grep -Fx "parent=$(git rev-parse b185ad1^)" \
+grep -Fx "parent=$wip_parent" \
   "$evidence_dir/b185ad1-metadata.txt"
-grep -Fx "commit=$(git rev-parse b185ad1)" \
+grep -Fx "commit=$wip_commit" \
   "$evidence_dir/b185ad1-metadata.txt"
 
 if [ ! -e "$evidence_dir/blocked-status-v2.z" ]; then
@@ -90,10 +98,14 @@ fi
 
 (
   cd "$evidence_dir"
+  if [ -e SHA256SUMS ]; then
+    sha256sum -c SHA256SUMS
+  fi
   sha256sum \
     b185ad1.bundle b185ad1-metadata.txt blocked-status-v2.z \
     blocked-unstaged.patch blocked-staged.patch blocked-untracked.z \
-    blocked-untracked.tar > SHA256SUMS
+    blocked-untracked.tar > SHA256SUMS.next
+  mv SHA256SUMS.next SHA256SUMS
   sha256sum -c SHA256SUMS
 )
 ```
@@ -256,6 +268,7 @@ if [ -e "$phase_dir" ]; then
   git -C "$phase_dir" rev-parse --is-inside-work-tree >/dev/null
   test "$(git -C "$phase_dir" branch --show-current)" = "$phase_branch"
 elif git show-ref --verify --quiet "refs/heads/$phase_branch"; then
+  test "$(git rev-parse "$phase_branch")" = "$base_head"
   git worktree add "$phase_dir" "$phase_branch"
 else
   git worktree add -b "$phase_branch" "$phase_dir" "$base_head"
@@ -332,7 +345,12 @@ Ensure project configuration resolves to:
 ```bash
 node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set runtime codex
 node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set workflow.use_worktrees false
+node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set workflow.auto_advance false
+node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set workflow._auto_chain_active false
 ```
+
+Read back all four values from `.planning/config.json`; stop unless runtime is `codex`
+and the three workflow booleans are false.
 
 Print and paste the complete reorientation prompt:
 
@@ -396,11 +414,17 @@ Print and paste:
 cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md
 ```
 
-Run:
+Run the CodeRabbit diff review:
 
 ```text
 $gsd-review --phase 1 --coderabbit
 ```
+
+CodeRabbit's diff-only mode does not receive this criteria prompt. Separately pass the
+complete `prompts/02-review-phase-1.md` to a prompt-capable independent reviewer against
+the exact Phase 1 plan head. Record reviewer CLI/model/version, plan head, prompt digest,
+command and full findings. CodeRabbit alone does not satisfy this gate. If no independent
+reviewer can receive the complete prompt, stop.
 
 When a Critical/High or blocking Medium finding exists, or an accepted finding changes
 plan semantics:
@@ -448,7 +472,8 @@ $gsd-progress --forensic
 ```
 
 Before Phase 2, a human inspects separate verdicts for historical replay, current-source
-replacement invariants, current Nix/native acceptance, `b185ad1`, authority/schema/threat
+replacement invariants, current Nix/native baseline plus any `not_yet_packaged` Phase 2
+gate, `b185ad1`, authority/schema/threat
 baseline, the exact compatibility profile and manifest/build-identity interpretation,
 upstream/local-patch/maturity/knowledge baselines, CI/review measurements and
 unresolved/retired claims. Do not cross this gate

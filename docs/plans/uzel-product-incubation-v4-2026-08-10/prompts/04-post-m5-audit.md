@@ -62,9 +62,10 @@ human security reviewer or team without implementation ownership; record conflic
 scope, methods, exact evidence and findings. Automated tools do not replace that verdict.
 Never send secrets, pairing URIs, production content or private diagnostics to reviewers.
 
-Also test signed immutable candidate/canary/stable metadata, no-silent-update behavior,
-opt-in canary scope, privacy-bounded health and rollback thresholds, previous-green
-recovery and the requirement for a second named-human stable-release decision.
+Also test signed immutable candidate metadata, unsigned canary/stable transition schemas,
+no-silent-update behavior, opt-in canary scope, privacy-bounded health and rollback
+thresholds, previous-green recovery and enforcement that canary/stable metadata cannot be
+signed before their respective named-human decisions.
 
 Produce exact candidate identity, lane reports/reviewers/methods, findings ledger,
 cross-lane synthesis, unsupported claims, remediation/retest matrix, residual risk and

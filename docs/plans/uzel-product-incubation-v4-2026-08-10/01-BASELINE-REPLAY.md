@@ -19,7 +19,7 @@ Do not collapse these:
 |---|---|---|
 | Historical exact-source replay | Can the old source and fixed dependency graph execute the claims made for it? | That the current package is distributable or secure |
 | Current source tests | Does the current implementation satisfy the relevant invariants? | That the old POC was reproducible |
-| Current Nix/native acceptance | Does the current distributable closure build and run independently of the checkout? | Historical source sufficiency |
+| Current Nix/native baseline | What package outputs exist now, and what current native/dev-shell evidence runs? | Historical source sufficiency or future package delivery |
 
 All Phase 1 summaries and dashboards must label the evidence class.
 
@@ -254,10 +254,14 @@ A missing replacement for any critical invariant blocks delivery phase 2.
 ### Package outputs
 
 Inventory and verify only outputs that actually exist or are justified by current
-operations. At minimum the packaged product should identify:
+operations. If no installable GUI/daemon package exists, record `not_yet_packaged`, run
+only the current locked native/dev-shell baseline, and assign package creation plus
+checkout-independent acceptance to Phase 2. That honest absence does not block M0 unless
+current source or release claims say the package already exists. Once packaged, the
+product should identify:
 
 - Uzel GUI/application result;
-- separate runtime daemon result; absence is an explicit package-acceptance blocker;
+- separate runtime daemon result; absence blocks Phase 2 package acceptance;
 - user-service definition where used;
 - exact resources and test fixtures needed for acceptance;
 - bounded diagnostics/control entrypoint only if current source already has one or M5
@@ -280,6 +284,10 @@ Run with:
 - deterministic fixture services where network behavior is needed.
 
 ### Required checks
+
+Run package-specific checks only for outputs that exist. Phase 2 must run the complete
+list after creating the first installable GUI/daemon outputs; M0 records missing checks as
+owned Phase 2 gates rather than fabricating a package or importing Phase 2 scope.
 
 - package builds from locked inputs;
 - product and daemon locate each other without arbitrary `PATH` search;
@@ -422,10 +430,11 @@ Stop and escalate rather than improvising when:
 M0 completes only after:
 
 - Git/GSD incident evidence and `b185ad1` are safely reconciled;
-- both replay and package verdicts exist independently;
+- replay and current Nix/native-baseline verdicts exist independently;
 - claim provenance and replacement evidence are explicit;
 - current authority, threat, schema and XDG scope are documented against source;
-- current package acceptance runs without checkout/ambient-tool dependence;
+- every current package output, if any, passes without checkout/ambient-tool dependence;
+  otherwise `not_yet_packaged` and the complete Phase 2 package-acceptance gate are explicit;
 - CI/review baselines are measured;
 - the canonical profile bytes/hash, generated rendering, immutable upstream registry,
   SIR, negotiation vectors and initial capability ledgers exist at exact source identities;

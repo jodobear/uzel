@@ -1,8 +1,12 @@
 # Prompt — independently review revised Phase 1 plans
 
 Review the generated Uzel Phase 1 plans against the exact repository and v4 baseline
-contract. Use CodeRabbit through `$gsd-review --phase 1 --coderabbit`; the primary Codex
-runtime must not be the only independent reviewer.
+contract. Run CodeRabbit through `$gsd-review --phase 1 --coderabbit` as supplemental
+diff review, then give this complete prompt to a prompt-capable independent reviewer
+against the exact plan head. Record reviewer CLI/model/version, head, prompt digest,
+command and full findings. CodeRabbit's diff-only mode alone does not satisfy this gate;
+stop if the independent reviewer cannot receive every criterion. The primary Codex
+runtime must not self-certify the plan.
 
 Read the v4 ingest, baseline replay and delivery-quality documents; all current Phase 1
 artifacts; exact package-manager/lock/script/Nix/test files; and Git/worktree/evidence
@@ -17,7 +21,8 @@ Verify with `file:line` or command evidence:
 4. Lifecycle scripts are disabled by default or exactly allowlisted and sandboxed.
 5. Globals, dynamic downloads, copied dependency trees and package substitution are
    forbidden.
-6. Historical replay and current Nix/native acceptance produce separate verdicts.
+6. Historical replay and current Nix/native baseline produce separate verdicts; absent
+   installable outputs are `not_yet_packaged` with package acceptance owned by Phase 2.
 7. Honest unavailable/failed/superseded outcomes and critical-invariant replacement
    rules exist.
 8. Replay has one inventory, one realization path, one attempt and at most one proven

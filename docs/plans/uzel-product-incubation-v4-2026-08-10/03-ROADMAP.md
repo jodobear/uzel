@@ -130,15 +130,17 @@ prevents implementation nuance from being lost.
 ## Visible outcome
 
 There is no new end-user feature. The existing product/POC remains runnable, its claims
-are truthfully classified, the current Nix package path is proven independently, and the
-programme can continue without hidden plan/tool contradictions.
+are truthfully classified, current Nix outputs plus native/dev-shell evidence are recorded
+honestly, and the programme can continue without hidden plan/tool contradictions. A
+missing installable GUI/daemon package is `not_yet_packaged` and owned by Phase 2, not
+silently pulled into M0.
 
 ## Required plans
 
 Use `01-BASELINE-REPLAY.md` as the contract:
 
 - incident/replay reconciliation;
-- current Nix package/native acceptance;
+- current Nix output inventory and native/dev-shell baseline;
 - authority/schema/threat baseline;
 - measured CI/test/review baseline;
 - ecosystem/compatibility/maturity/knowledge baseline.
@@ -147,7 +149,7 @@ Use `01-BASELINE-REPLAY.md` as the contract:
 
 - historical claim ledger and replay verdict;
 - current-source replacement evidence;
-- package/native verdict;
+- Nix/native baseline verdict, including `not_yet_packaged` when applicable;
 - `b185ad1` final disposition;
 - current authority matrix and planned deltas;
 - durable-format registry;
@@ -200,11 +202,12 @@ source-degraded, offline and failed states.
 
 ## Entry conditions
 
-- M0 replay/package/authority evidence has human approval;
+- M0 replay/Nix-native-baseline/authority evidence has human approval;
 - one exact-pinned canonical Nostr owner and private adapter contract exist;
 - exact-build/session message path and hostile guest fixtures work;
 - instance/local-profile schemas exist;
-- package launch is checkout-independent;
+- Phase 2 owns creation and checkout-independent acceptance of the first installable
+  GUI/daemon package when M0 recorded `not_yet_packaged`;
 - future GSD roadmap already matches the sequence in this document;
 - one immutable compatibility profile reconciles the exact manifest/build identity,
   web projection, NAP domains, conformance tool and canonical engine revisions;
@@ -1070,9 +1073,10 @@ Close the cross-cutting L4 evidence before candidate freeze:
   emergency rollback drafts;
 - an independently scoped critical-boundary security-review brief, reviewer independence
   criteria, evidence bundle and finding/remediation protocol for A5;
-- signed immutable candidate/canary/stable channel metadata, no-silent-update policy,
-  opt-in canary scope, privacy-bounded health criteria, rollback thresholds and
-  previous-green recovery rehearsal for the post-A5 release decision;
+- signed immutable candidate metadata; unsigned canary/stable schemas and policy for
+  later authorized transitions; no-silent-update policy, opt-in canary scope,
+  privacy-bounded health criteria, rollback thresholds and previous-green recovery
+  rehearsal for the post-A5 release decision;
 - every enabled required-journey capability promoted to L4 or removed/disabled from the
   supported profile.
 

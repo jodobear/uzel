@@ -548,8 +548,9 @@ Generate and verify:
 - package/source checksums and provenance;
 - two-clean-build reproducibility report and classified variance ledger;
 - previous-green package availability and rollback evidence;
-- signed immutable candidate/canary/stable channel metadata, no-silent-update checks and
-  predeclared canary rollback thresholds.
+- signed immutable candidate metadata, unsigned canary/stable transition schemas,
+  no-silent-update checks and predeclared canary rollback thresholds. Canary/stable
+  metadata remains unsigned until its respective human authorization.
 
 No first-launch dependency fetch is allowed outside explicit verified user-content
 operations.
