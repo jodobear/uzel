@@ -43,7 +43,8 @@
 
 ## Blockers & Open Items
 
-- Preserve `b185ad1` through a durable safety ref and portable checksummed bundle.
+- `b185ad1` is preserved through `wip/phase-1-replay-b185ad1` and a verified checksummed bundle outside the repository.
+- Supply the runbook-required external v4 ZIP `.sha256` sidecar; internal pack hashes alone do not establish outer archive provenance.
 - Install the audited v4 pack through a planning-only branch/PR at `docs/plans/uzel-product-incubation-v4-2026-08-10/`.
 - Reorient current GSD state with v4 prompt 01; do not resume old execution.
 - Replan Phase 1 in place, then obtain independent CodeRabbit review using prompt 02.

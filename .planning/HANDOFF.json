@@ -41,7 +41,7 @@
       "workaround": "Replace old plan with v4 two-track exact-source replay and current Nix/native acceptance contract"
     },
     {
-      "description": "V4 authority pack is supplied at repository root rather than installed through the required planning-only path/branch",
+      "description": "V4 authority pack is supplied at repository root without the runbook-required external .sha256 sidecar and is not installed through the required planning-only path/branch",
       "type": "human_action",
       "workaround": "Verify and install pack through the runbook before reorientation"
     }
@@ -71,6 +71,6 @@
     "Concurrent deletion of uzel-poc-validated-pack",
     "Uninstalled v4 pack directory and ZIP"
   ],
-  "next_action": "Follow v4 06-START-RUNBOOK.md: preserve b185ad1, install pack through planning-only branch, then execute prompts/01-reorient-current-gsd.md without resuming implementation",
+  "next_action": "Supply and verify uzel-product-incubation-v4-2026-08-10.sha256, install pack through planning-only branch, then execute prompts/01-reorient-current-gsd.md without resuming implementation",
   "context_notes": "Primary checkout is intentionally dirty with user-owned work. Clean manual worktrees are required. Relative apply_patch paths target the primary checkout even when shell workdir points at /tmp; worktree patches must use absolute paths."
 }
