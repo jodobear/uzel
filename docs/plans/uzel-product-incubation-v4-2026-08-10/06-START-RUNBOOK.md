@@ -128,7 +128,24 @@ fi
 
 (
   cd "$evidence_dir"
+  expected_checksum_paths="$(
+    printf '%s\n' \
+      b185ad1.bundle b185ad1-metadata.txt \
+      blocked-worktree-v2/SHA256SUMS \
+      blocked-worktree-v2/blocked-status-v2.z \
+      blocked-worktree-v2/blocked-unstaged.patch \
+      blocked-worktree-v2/blocked-staged.patch \
+      blocked-worktree-v2/blocked-untracked.z \
+      blocked-worktree-v2/blocked-untracked.tar |
+      sort
+  )"
   if [ -e SHA256SUMS ]; then
+    actual_checksum_paths="$(awk 'NF == 2 { print $2 }' SHA256SUMS | sort)"
+    if [ "$actual_checksum_paths" != "$expected_checksum_paths" ]; then
+      printf '%s\n' \
+        'stale evidence SHA256SUMS: preserve this directory and use a new evidence_dir or migrate it explicitly' >&2
+      exit 1
+    fi
     sha256sum -c SHA256SUMS
   else
     sha256sum \

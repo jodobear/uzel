@@ -6,7 +6,7 @@
     "mermaid_diagrams": 22,
     "payload_files": 33,
     "warnings": 0,
-    "words": 51318
+    "words": 51378
   },
   "errors": [],
   "markdown_files": [
@@ -53,11 +53,11 @@
       "words": 4916
     },
     {
-      "bytes": 23074,
+      "bytes": 23776,
       "mermaid": 0,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "a0c054f4684d9cefa5401588ef444a4aeeb982af79373317fa661139575f873a",
-      "words": 2906
+      "sha256": "eecd78a4074f06dd95f490272932e930d5a8dd31712cb5a36981766ab09c14d5",
+      "words": 2966
     },
     {
       "bytes": 25988,
