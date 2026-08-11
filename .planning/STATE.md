@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
-status: executing
-stopped_at: Completed 01-04-PLAN.md
+status: paused
+stopped_at: V4 reorientation and independent Phase 1 plan review required
 last_updated: "2026-08-09T23:18:09.429Z"
 last_activity: 2026-08-10
 last_activity_desc: Phase 01 execution started
@@ -23,13 +23,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-09)
 
 **Core value:** Uzel makes local-first napplet composition visibly useful without duplicating runtime, Nostr, trust, or persistence truth owned by Napp and NMP.
-**Current focus:** Phase 01 — SLICE-REF-01 — POC Replay & Accepted Napp Seam
+**Current focus:** Reorient Phase 01 from the committed v4 authority; no implementation may resume before independent plan review passes.
 
 ## Current Position
 
-Phase: 01 (SLICE-REF-01 — POC Replay & Accepted Napp Seam) — EXECUTING
-Plan: 2 of 5
-Status: Ready to execute
+Phase: 01 (SLICE-REF-01 — POC Replay & Accepted Napp Seam) — PAUSED
+Plan: superseded plans preserved as evidence; revision not started
+Status: Reorientation and independent review required
 Last activity: 2026-08-10 — Phase 01 execution started
 
 Progress: [██░░░░░░░░] 20%

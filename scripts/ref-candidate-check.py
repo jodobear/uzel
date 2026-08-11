@@ -28,6 +28,18 @@ MARKER_END = "<!-- ref-candidate-record:end -->"
 HEX = re.compile(r"^[0-9a-f]{40,64}$")
 SAFE_PATH = re.compile(r"^(?!-)(?!.*(?:^|/)(?:\.|\.\.)(?:/|$))[A-Za-z0-9._/@+=,:-]+(?:/[A-Za-z0-9._/@+=,:-]+)*$")
 ROOT = Path(__file__).resolve().parents[1]
+APPROVED_REFS = ("refs/heads/master",)
+CATEGORY_NAMES = (
+    "product_client", "product_events", "testkit_vectors", "version_authority",
+    "lifecycle_recovery", "instance_profile_scope", "nmp_ownership_projection", "pin_parity_input",
+)
+BLOCKER = "Committed candidate lacks source-backed admission evidence and an admitted project-probe sandbox contract."
+NEXT_PROBE = "Napp owners publish committed behavioral evidence, vectors, and an approved read-only probe contract."
+ROLLBACK = "Preserve the accepted POC pin; revert only the future Napp pin and narrow adapter together."
+D18_RULE = "One handoff per semantic candidate; qualification never authorizes publication or adapter implementation."
+D12_ROUTING = "Reusable fixes use a dedicated jodobear/napp branch and issue, enter the contribution ledger only after Uzel validation, and are not mutated by this plan."
+RESUME_COMMAND = "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert."
+DEFAULT_NAPP_REPO = Path("/workspace/projects/napplets/napp-uzel/napp")
 
 
 class CheckError(RuntimeError):
@@ -74,6 +86,108 @@ def repo_git_path(repo: Path, value: str) -> Path:
     if not path.is_absolute():
         path = repo / path
     return path.resolve()
+
+
+def write_confined(root: Path, relative: Path, data: bytes) -> None:
+    """Write beneath root without following a symlink in any path component."""
+    if relative.is_absolute() or any(part in ("", ".", "..") for part in relative.parts):
+        raise CheckError("unsafe artifact path")
+    flags = os.O_RDONLY | os.O_DIRECTORY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    directory_fd = os.open(root, flags)
+    try:
+        for component in relative.parts[:-1]:
+            try:
+                os.mkdir(component, 0o700, dir_fd=directory_fd)
+            except FileExistsError:
+                pass
+            next_fd = os.open(component, flags, dir_fd=directory_fd)
+            os.close(directory_fd)
+            directory_fd = next_fd
+        file_flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC
+        if hasattr(os, "O_NOFOLLOW"):
+            file_flags |= os.O_NOFOLLOW
+        file_fd = os.open(relative.name, file_flags, 0o600, dir_fd=directory_fd)
+        try:
+            os.fchmod(file_fd, 0o600)
+            with os.fdopen(file_fd, "wb", closefd=False) as target:
+                target.write(data)
+                target.flush()
+                os.fsync(target.fileno())
+        finally:
+            os.close(file_fd)
+    finally:
+        os.close(directory_fd)
+
+
+def write_repo_output(path: Path, data: bytes) -> None:
+    if path.is_absolute():
+        try:
+            relative = path.relative_to(ROOT)
+        except ValueError as error:
+            raise CheckError("output path is outside the Uzel repository") from error
+    else:
+        relative = path
+    write_confined(ROOT, relative, data)
+
+
+def missing_categories() -> dict[str, dict[str, Any]]:
+    return {
+        name: {
+            "status": "missing", "evidence": "missing-in-committed-tree", "sha256": None,
+            "owner": "jodobear/napp with NMP/Uzel evidence"
+            if name in {"nmp_ownership_projection", "pin_parity_input"} else "jodobear/napp",
+        }
+        for name in CATEGORY_NAMES
+    }
+
+
+def declared_probes() -> list[dict[str, Any]]:
+    return [{"kind": "project", "raw_declaration": "missing-in-committed-tree",
+             "probe_status": "skipped-unsafe", "rejection_code": "no-candidate-declared-sandbox-contract",
+             "required": True}]
+
+
+def controlled_runner() -> dict[str, Any]:
+    return {"git": git_binary(), "shell": False, "environment": "allowlist-only",
+            "network": "disabled-by-policy", "candidate_argv": "finite-literal-grammar"}
+
+
+def approved_reachability(repo: Path, commit: str) -> dict[str, Any]:
+    reachable = []
+    for ref in APPROVED_REFS:
+        if run_git(repo, ["show-ref", "--verify", "--quiet", ref]).returncode == 0 \
+                and run_git(repo, ["merge-base", "--is-ancestor", commit, ref]).returncode == 0:
+            reachable.append(ref)
+    return {"approved_refs": reachable, "reachable": bool(reachable)}
+
+
+def git_invariants_equal(before: dict[str, Any], after: dict[str, Any]) -> bool:
+    keys = ("root", "head", "head_bytes_sha256", "raw_index", "index_serialization_sha256",
+            "refs_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects")
+    return all(before.get(key) == after.get(key) for key in keys)
+
+
+def ref_01d_preconditions() -> list[dict[str, str]]:
+    return [
+        {"name": "authority-set", "status": "blocked", "requirement": "Plan 03 authority set at one committed exact SHA."},
+        {"name": "qualified-candidate", "status": "blocked", "requirement": "Exact reachable Napp commit qualified-for-research."},
+        {"name": "replay-evidence", "status": "blocked", "requirement": "Plan-01 evidence admitted at this contract with exact manifest digest."},
+    ]
+
+
+def required_napp_deliverables() -> dict[str, Any]:
+    return {
+        "behavior": ["committed product client evidence", "committed product event evidence",
+                     "committed testkit/lifecycle/version/pin vectors",
+                     "approved bounded read-only project-probe sandbox contract",
+                     "Napp runtime authority with NMP as sole Nostr/store/signer/publication owner"],
+        "repository_binding": {
+            "uzel": "jodobear/uzel evidence-only candidate handoff; PR/issue pending separate authorization",
+            "napp": "jodobear/napp dependency at observed commit",
+        },
+    }
 
 
 def run_git(repo: Path, argv: list[str], stdin: bytes | None = None) -> subprocess.CompletedProcess[bytes]:
@@ -204,34 +318,22 @@ def candidate_record(repo: Path, commit: str) -> dict[str, Any]:
     inventory = must_git(repo, ["ls-tree", "-rz", "--full-tree", commit])
     inventory_paths = {entry.partition(b"\t")[2].decode("utf-8", "surrogateescape") for entry in inventory.split(b"\0") if entry}
     artifact_relative = f".artifacts/phase-01/napp/{commit}/tree.bin"
-    artifact = ROOT / artifact_relative
-    artifact.parent.mkdir(parents=True, exist_ok=True)
-    artifact.write_bytes(inventory)
-    os.chmod(artifact, 0o600)
+    write_confined(ROOT, Path(artifact_relative), inventory)
     objects = set(parse_inventory(inventory))
     origin = must_git(repo, ["remote", "get-url", "origin"]).decode().strip()
-    refs = must_git(repo, ["for-each-ref", "--sort=refname", "--format=%(refname)"]).decode().splitlines()
-    approved = [ref for ref in refs if run_git(repo, ["merge-base", "--is-ancestor", commit, ref]).returncode == 0]
-    categories = {}
-    names = ["product_client", "product_events", "testkit_vectors", "version_authority", "lifecycle_recovery",
-             "instance_profile_scope", "nmp_ownership_projection", "pin_parity_input"]
-    for name in names:
-        owner = "jodobear/napp" if name not in {"nmp_ownership_projection", "pin_parity_input"} else "jodobear/napp with NMP/Uzel evidence"
-        categories[name] = {"status": "missing", "evidence": "missing-in-committed-tree", "sha256": None, "owner": owner}
+    categories = missing_categories()
     record = {
         "schema": "uzel.ref-candidate/v1", "repository": EXPECTED_REPOSITORY, "origin": origin,
         "observed_commit": commit, "observed_tree": tree, "tree_inventory_path": artifact_relative,
-        "tree_inventory_sha256": sha256(inventory), "approved_ref_reachability": {"approved_refs": approved, "reachable": bool(approved)},
+        "tree_inventory_sha256": sha256(inventory), "approved_ref_reachability": approved_reachability(repo, commit),
         "pinned_blobs": {path: pinned_blob(repo, commit, path, inventory_paths) for path in ["AGENTS.md", "README.md", ".planning/PROJECT.md", ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md"]},
         "working_tree_evidence": "excluded", "admission_categories": categories,
-        "declared_probes": [{"kind": "project", "raw_declaration": "missing-in-committed-tree", "probe_status": "skipped-unsafe", "rejection_code": "no-candidate-declared-sandbox-contract", "required": True}],
-        "controlled_runner": {"git": git_binary(), "shell": False, "environment": "allowlist-only", "network": "disabled-by-policy", "candidate_argv": "finite-literal-grammar"},
+        "declared_probes": declared_probes(),
+        "controlled_runner": controlled_runner(),
         "mutation_snapshots": {"napp_before": before_napp, "uzel_before": before_uzel},
-        "missing_categories": names + ["declared_executable_probes"], "result": "stop",
-        "blocker": "Committed candidate lacks source-backed admission evidence and an admitted project-probe sandbox contract.",
-        "owner": "jodobear/napp", "next_probe": "Napp owners publish committed behavioral evidence, vectors, and an approved read-only probe contract.",
-        "rollback": "Preserve the accepted POC pin; revert only the future Napp pin and narrow adapter together.",
-        "d18_rule": "One handoff per semantic candidate; qualification never authorizes publication or adapter implementation.",
+        "missing_categories": [*CATEGORY_NAMES, "declared_executable_probes"], "result": "stop",
+        "blocker": BLOCKER, "owner": "jodobear/napp", "next_probe": NEXT_PROBE,
+        "rollback": ROLLBACK, "d18_rule": D18_RULE,
     }
     record["mutation_snapshots"]["napp_after"] = snapshot(repo)
     record["mutation_snapshots"]["uzel_after"] = snapshot(ROOT)
@@ -249,12 +351,38 @@ def read_record(path: Path) -> dict[str, Any]:
     return value
 
 
-def validate_record(record: dict[str, Any], repo: Path, expected_commit: str, expected_result: str) -> None:
+def repository_from_origin(origin: str) -> str:
+    match = re.fullmatch(r"(?:git@github\.com:|https://github\.com/)([^/]+/[^/]+?)(?:\.git)?", origin)
+    if not match:
+        raise CheckError("origin is not a canonical GitHub repository URL")
+    return match.group(1)
+
+
+def validate_snapshot(value: Any, expected_root: Path) -> None:
+    keys = {"root", "head", "head_bytes_sha256", "raw_index", "index_serialization_sha256", "refs_sha256",
+            "status_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects", "fingerprint"}
+    if not isinstance(value, dict) or set(value) != keys or value.get("root") != str(expected_root):
+        raise CheckError("mutation snapshot shape/root mismatch")
+    unsigned = {key: item for key, item in value.items() if key != "fingerprint"}
+    if value["fingerprint"] != sha256(json_bytes(unsigned)):
+        raise CheckError("mutation snapshot fingerprint mismatch")
+
+
+def validate_record(record: dict[str, Any], repo: Path, expected_repository: str,
+                    expected_commit: str, expected_result: str) -> None:
     required = {"schema", "repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "pinned_blobs", "working_tree_evidence", "admission_categories", "declared_probes", "controlled_runner", "mutation_snapshots", "missing_categories", "result", "blocker", "owner", "next_probe", "rollback", "d18_rule"}
     if set(record) != required:
         raise CheckError("qualification fields are missing or unknown")
-    if record["repository"] != EXPECTED_REPOSITORY or record["observed_commit"] != expected_commit or record["result"] != expected_result:
+    if expected_repository != EXPECTED_REPOSITORY or record["repository"] != expected_repository \
+            or record["observed_commit"] != expected_commit or record["result"] != expected_result:
         raise CheckError("qualification identity/result mismatch")
+    repo = root_path(repo)
+    origin = must_git(repo, ["remote", "get-url", "origin"]).decode().strip()
+    if repository_from_origin(origin) != expected_repository or record["origin"] != origin:
+        raise CheckError("qualification repository/origin mismatch")
+    tree = must_git(repo, ["rev-parse", "--verify", "--end-of-options", expected_commit + "^{tree}"]).decode().strip()
+    if record["observed_tree"] != tree:
+        raise CheckError("qualification tree mismatch")
     exact_path = f".artifacts/phase-01/napp/{expected_commit}/tree.bin"
     if record["tree_inventory_path"] != exact_path or not exact_path.endswith("/tree.bin"):
         raise CheckError("tree inventory path is not the fixed .bin path")
@@ -262,34 +390,55 @@ def validate_record(record: dict[str, Any], repo: Path, expected_commit: str, ex
     expected_root = (ROOT / ".artifacts/phase-01/napp").resolve()
     if expected_root not in artifact.parents or artifact.is_symlink() or not artifact.is_file() or stat.S_IMODE(artifact.stat().st_mode) != 0o600:
         raise CheckError("tree inventory confinement/type/mode failed")
-    actual = must_git(root_path(repo), ["ls-tree", "-rz", "--full-tree", expected_commit])
+    actual = must_git(repo, ["ls-tree", "-rz", "--full-tree", expected_commit])
     if artifact.read_bytes() != actual or record["tree_inventory_sha256"] != sha256(actual):
         raise CheckError("tree inventory bytes or digest mismatch")
-    if record["working_tree_evidence"] != "excluded" or record["result"] == "qualified-for-research":
-        raise CheckError("current candidate must remain fail-closed")
+    inventory_paths = {entry.partition(b"\t")[2].decode("utf-8", "surrogateescape")
+                       for entry in actual.split(b"\0") if entry}
+    expected_pinned = {path: pinned_blob(repo, expected_commit, path, inventory_paths)
+                       for path in ["AGENTS.md", "README.md", ".planning/PROJECT.md", ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md"]}
+    static_expected = {
+        "approved_ref_reachability": approved_reachability(repo, expected_commit),
+        "pinned_blobs": expected_pinned,
+        "working_tree_evidence": "excluded",
+        "admission_categories": missing_categories(),
+        "declared_probes": declared_probes(),
+        "controlled_runner": controlled_runner(),
+        "missing_categories": [*CATEGORY_NAMES, "declared_executable_probes"],
+        "blocker": BLOCKER, "owner": "jodobear/napp", "next_probe": NEXT_PROBE,
+        "rollback": ROLLBACK, "d18_rule": D18_RULE,
+    }
+    for field, expected in static_expected.items():
+        if record.get(field) != expected:
+            raise CheckError("qualification provenance mismatch: " + field)
     snapshots = record["mutation_snapshots"]
-    if snapshots["napp_before"]["fingerprint"] != snapshots["napp_after"]["fingerprint"]:
-        raise CheckError("Napp mutation snapshot changed")
-    for category in record["admission_categories"].values():
-        if category["status"] != "missing":
-            raise CheckError("current candidate may not claim an unverified category")
+    if set(snapshots) != {"napp_before", "napp_after", "uzel_before", "uzel_after"}:
+        raise CheckError("mutation snapshot set mismatch")
+    for name in ("napp_before", "napp_after"):
+        validate_snapshot(snapshots[name], repo)
+    for name in ("uzel_before", "uzel_after"):
+        validate_snapshot(snapshots[name], ROOT)
+    if not git_invariants_equal(snapshots["napp_before"], snapshots["napp_after"]) \
+            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"]):
+        raise CheckError("undeclared Git mutation detected")
 
 
 def qualification(args: argparse.Namespace) -> None:
     record = read_record(Path(args.record))
-    validate_record(record, Path(args.repo), args.expected_commit, args.expected_result)
+    validate_record(record, Path(args.repo), args.expected_repository, args.expected_commit, args.expected_result)
     print("qualification: pass")
 
 
 def handoff(args: argparse.Namespace) -> None:
     qualification_record = read_record(Path(args.qualification))
     handoff_record = read_record(Path(args.handoff))
-    validate_record(qualification_record, Path(args.napp_repo), EXPECTED_COMMIT, "stop")
+    validate_record(qualification_record, Path(args.napp_repo), EXPECTED_REPOSITORY, EXPECTED_COMMIT, "stop")
     copied = ["repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "admission_categories", "declared_probes", "missing_categories", "working_tree_evidence", "mutation_snapshots", "blocker", "owner", "next_probe", "rollback", "d18_rule"]
     for field in copied:
         if handoff_record.get(field) != qualification_record[field]:
             raise CheckError("handoff field mismatch: " + field)
-    required = {"schema", *copied, "result", "plan_contract", "ref_01d_preconditions", "d12_routing", "required_napp_deliverables", "exact_heads", "resume_command"}
+    required = {"schema", *copied, "result", "plan_contract", "ref_01d_preconditions", "d12_routing",
+                "required_napp_deliverables", "exact_heads", "resume_command", "handoff_write_snapshots"}
     if set(handoff_record) != required or handoff_record["schema"] != "uzel.napp-dependency/v1" or handoff_record["result"] != "stop":
         raise CheckError("handoff schema/result mismatch")
     contract = handoff_record["plan_contract"]
@@ -301,10 +450,27 @@ def handoff(args: argparse.Namespace) -> None:
     plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", plan_spec]).decode().strip()
     if contract != {"path": args.plan, "commit": contract_commit, "blob_oid": plan_oid, "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9", "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"}:
         raise CheckError("committed Plan-01 parity contract mismatch")
-    if handoff_record["exact_heads"].get("uzel") != contract_commit:
-        raise CheckError("handoff exact Uzel head must equal parity contract commit")
-    if len(handoff_record["ref_01d_preconditions"]) != 3:
-        raise CheckError("REF-01D requires three independent preconditions")
+    exact_expected = {
+        "ref_01d_preconditions": ref_01d_preconditions(),
+        "d12_routing": D12_ROUTING,
+        "required_napp_deliverables": required_napp_deliverables(),
+        "exact_heads": {"uzel": contract_commit, "napp": EXPECTED_COMMIT},
+        "resume_command": RESUME_COMMAND,
+    }
+    for field, expected in exact_expected.items():
+        if handoff_record.get(field) != expected:
+            raise CheckError("handoff resume contract mismatch: " + field)
+    snapshots = handoff_record["handoff_write_snapshots"]
+    if set(snapshots) != {"napp_before", "napp_after", "uzel_before", "uzel_after"}:
+        raise CheckError("handoff mutation snapshot set mismatch")
+    napp_repo = root_path(Path(args.napp_repo))
+    for name in ("napp_before", "napp_after"):
+        validate_snapshot(snapshots[name], napp_repo)
+    for name in ("uzel_before", "uzel_after"):
+        validate_snapshot(snapshots[name], ROOT)
+    if not git_invariants_equal(snapshots["napp_before"], snapshots["napp_after"]) \
+            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"]):
+        raise CheckError("handoff write caused undeclared Git mutation")
     print("handoff: pass")
 
 
@@ -337,12 +503,23 @@ def self_test(_: argparse.Namespace) -> None:
 def emit(args: argparse.Namespace) -> None:
     record = candidate_record(Path(args.repo), args.expected_commit)
     target = Path(args.record)
-    target.write_text("# Napp Candidate Qualification\n\nCommitted-object evidence only; sibling working-tree material is excluded.\n\n" + MARKER_BEGIN + "\n" + canonical_record(record) + "\n" + MARKER_END + "\n", encoding="utf-8")
+    prefix = "# Napp Candidate Qualification\n\nCommitted-object evidence only; sibling working-tree material is excluded.\n\n"
+    def write() -> None:
+        write_repo_output(target, (prefix + MARKER_BEGIN + "\n" + canonical_record(record) + "\n" + MARKER_END + "\n").encode())
+    write()
+    record["mutation_snapshots"]["napp_after"] = snapshot(root_path(Path(args.repo)))
+    record["mutation_snapshots"]["uzel_after"] = snapshot(ROOT)
+    write()
+    if snapshot(root_path(Path(args.repo)))["fingerprint"] != record["mutation_snapshots"]["napp_after"]["fingerprint"] \
+            or snapshot(ROOT)["fingerprint"] != record["mutation_snapshots"]["uzel_after"]["fingerprint"]:
+        raise CheckError("qualification evidence write did not stabilize")
     print("qualification record written: " + str(target))
 
 
 def emit_handoff(args: argparse.Namespace) -> None:
     qualification_record = read_record(Path(args.qualification))
+    napp_repo = root_path(Path(args.napp_repo))
+    write_snapshots = {"napp_before": snapshot(napp_repo), "uzel_before": snapshot(ROOT)}
     plan_path = args.plan
     plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", "HEAD:" + plan_path])
     plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", "HEAD:" + plan_path]).decode().strip()
@@ -353,18 +530,24 @@ def emit_handoff(args: argparse.Namespace) -> None:
         "plan_contract": {"path": plan_path, "commit": must_git(ROOT, ["rev-parse", "HEAD"]).decode().strip(), "blob_oid": plan_oid,
                           "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9",
                           "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"},
-        "ref_01d_preconditions": [
-            {"name": "authority-set", "status": "blocked", "requirement": "Plan 03 authority set at one committed exact SHA."},
-            {"name": "qualified-candidate", "status": "blocked", "requirement": "Exact reachable Napp commit qualified-for-research."},
-            {"name": "replay-evidence", "status": "blocked", "requirement": "Plan-01 evidence admitted at this contract with exact manifest digest."},
-        ],
-        "d12_routing": "Reusable fixes use a dedicated jodobear/napp branch and issue, enter the contribution ledger only after Uzel validation, and are not mutated by this plan.",
-        "required_napp_deliverables": {"behavior": ["committed product client evidence", "committed product event evidence", "committed testkit/lifecycle/version/pin vectors", "approved bounded read-only project-probe sandbox contract", "Napp runtime authority with NMP as sole Nostr/store/signer/publication owner"], "repository_binding": {"uzel": "jodobear/uzel evidence-only candidate handoff; PR/issue pending separate authorization", "napp": "jodobear/napp dependency at observed commit"}},
+        "ref_01d_preconditions": ref_01d_preconditions(),
+        "d12_routing": D12_ROUTING,
+        "required_napp_deliverables": required_napp_deliverables(),
         "exact_heads": {"uzel": must_git(ROOT, ["rev-parse", "HEAD"]).decode().strip(), "napp": qualification_record["observed_commit"]},
-        "resume_command": "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert.",
+        "resume_command": RESUME_COMMAND,
+        "handoff_write_snapshots": write_snapshots,
     })
     target = Path(args.handoff)
-    target.write_text("# Napp Dependency Handoff\n\nOwned by `jodobear/napp`; consumed by `jodobear/uzel`. This is a candidate/pending stop, not publication authority.\n\n" + MARKER_BEGIN + "\n" + canonical_record(record) + "\n" + MARKER_END + "\n", encoding="utf-8")
+    prefix = "# Napp Dependency Handoff\n\nOwned by `jodobear/napp`; consumed by `jodobear/uzel`. This is a candidate/pending stop, not publication authority.\n\n"
+    def write() -> None:
+        write_repo_output(target, (prefix + MARKER_BEGIN + "\n" + canonical_record(record) + "\n" + MARKER_END + "\n").encode())
+    write()
+    write_snapshots["napp_after"] = snapshot(napp_repo)
+    write_snapshots["uzel_after"] = snapshot(ROOT)
+    write()
+    if snapshot(napp_repo)["fingerprint"] != write_snapshots["napp_after"]["fingerprint"] \
+            or snapshot(ROOT)["fingerprint"] != write_snapshots["uzel_after"]["fingerprint"]:
+        raise CheckError("handoff evidence write did not stabilize")
     print("handoff record written: " + str(target))
 
 
@@ -373,7 +556,7 @@ def main() -> int:
     commands = parser.add_subparsers(dest="command", required=True)
     test = commands.add_parser("self-test"); test.set_defaults(func=self_test)
     write = commands.add_parser("write-qualification"); write.add_argument("--repo", required=True); write.add_argument("--expected-commit", required=True); write.add_argument("--record", required=True); write.set_defaults(func=emit)
-    write_handoff = commands.add_parser("write-handoff"); write_handoff.add_argument("--qualification", required=True); write_handoff.add_argument("--handoff", required=True); write_handoff.add_argument("--plan", required=True); write_handoff.set_defaults(func=emit_handoff)
+    write_handoff = commands.add_parser("write-handoff"); write_handoff.add_argument("--qualification", required=True); write_handoff.add_argument("--handoff", required=True); write_handoff.add_argument("--plan", required=True); write_handoff.add_argument("--napp-repo", default=str(DEFAULT_NAPP_REPO)); write_handoff.set_defaults(func=emit_handoff)
     check = commands.add_parser("qualification"); check.add_argument("--repo", required=True); check.add_argument("--expected-repository", required=True); check.add_argument("--expected-commit", required=True); check.add_argument("--record", required=True); check.add_argument("--expected-result", required=True); check.set_defaults(func=qualification)
     hand = commands.add_parser("handoff"); hand.add_argument("--repo", required=True); hand.add_argument("--napp-repo", required=True); hand.add_argument("--qualification", required=True); hand.add_argument("--handoff", required=True); hand.add_argument("--plan", required=True); hand.set_defaults(func=handoff)
     try:
