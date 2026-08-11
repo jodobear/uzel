@@ -1,0 +1,59 @@
+# Machine-readable compatibility-profile transition record.
+# The generated human rendering explains the same validated record; it is not a second
+# authority. Replace illustrative values through the M0-defined schema/tooling.
+
+schema_version = 1
+transition_id = "uzel-transition-example"
+created_at = "1970-01-01T00:00:00Z"
+owner = "unassigned"
+status = "draft" # draft | candidate | accepted | superseded | rejected
+
+[from]
+profile_id = "uzel-profile-old"
+profile_hash_scheme = "sha256-exact-utf8-bytes-v1"
+profile_hash = "0000000000000000000000000000000000000000000000000000000000000000"
+package_id = "old-package"
+release_manifest_id = "<signed immutable manifest id>"
+release_manifest_sha256 = "<64-hex digest>"
+artifact_sha256 = "<64-hex digest>"
+
+[to]
+profile_id = "uzel-profile-new"
+profile_hash_scheme = "sha256-exact-utf8-bytes-v1"
+profile_hash = "1111111111111111111111111111111111111111111111111111111111111111"
+package_id = "new-package"
+release_manifest_id = "<signed immutable manifest id>"
+release_manifest_sha256 = "<64-hex digest>"
+artifact_sha256 = "<64-hex digest>"
+
+[window]
+old_profile_supported_until = ""
+new_profile_supported_from = ""
+overlap_required = false
+rollback_profile_id = "uzel-profile-old"
+rollback_requires_restore = false
+
+[[changes]]
+id = "change-example"
+class = "wire_or_schema" # api_only | wire_or_schema | authority | security | storage | migration | interop | removal
+compatibility = "breaking" # compatible | conditional | deprecated | breaking | removed
+capability = "example"
+summary = "Illustrative transition entry"
+authority_delta = "none"
+security_delta = "none"
+data_delta = "none"
+migration = "not_required"
+rollback = "previous profile remains valid"
+deprecation = "none"
+evidence = ["fixture-or-report-id"]
+
+[[verification]]
+id = "transition-vector-example"
+kind = "contract"
+command_or_path = "tests/compat/example"
+expected = "old/new profile behavior is distinguished without implicit downgrade"
+
+[decision]
+outcome = "defer" # defer | reject | wait_for_upstream | adopt_with_adapter | adopt
+record = "ADR-or-SIR-id"
+known_risks = []
