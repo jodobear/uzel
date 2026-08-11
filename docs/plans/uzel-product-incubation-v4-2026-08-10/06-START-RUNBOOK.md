@@ -240,11 +240,11 @@ Open and merge a planning-only contextual PR. It must contain no product source,
 dependency lock, generated build output or `.planning` state change.
 
 If repository instructions require a Graphify refresh after adding the pack auditor,
-keep `graphify-out/` out of the planning-only PR. Before merging this PR, run `graphify
-update .` against its exact head in an isolated metadata branch, commit only the refreshed
-`graphify-out/`, merge that metadata-only PR, then refresh this planning branch from the
-integration base. Do not merge this PR or create the Phase 1 worktree until the graph
-refresh is integrated.
+keep `graphify-out/` out of the planning-only PR. Merge the independently reviewed planning
+PR first. Then create an isolated metadata branch from that exact integrated commit, run
+`graphify update .`, commit only the durable refreshed `graphify-out/` artifacts and merge
+the metadata-only PR. Do not create the Phase 1 worktree until the graph refresh is
+integrated; a pre-merge graph must not advertise plan paths absent from its branch tree.
 
 ## Step 2 — create a clean manual Phase 1 worktree
 
