@@ -333,9 +333,10 @@ def audit_fences(rel: str, text: str) -> tuple[list[str], int]:
     opened: tuple[int, str] | None = None
     mermaids = 0
     for line_no, line in enumerate(text.splitlines(), 1):
-        if not line.startswith("```"):
+        candidate = line.lstrip(" ")
+        if len(line) - len(candidate) > 3 or not candidate.startswith("```"):
             continue
-        info = line[3:].strip()
+        info = candidate[3:].strip()
         if opened is None:
             opened = (line_no, info)
             if info == "mermaid":
