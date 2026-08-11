@@ -301,7 +301,7 @@ Use fields discovered from exact candidate source only; do not hard-code future 
 }
 ~~~
 
-An unavailable record has no synthetic samples. Measured records additionally use one finite extractor from Plan 01-02 so the validator reproduces the numeric value from durable redacted bytes. [VERIFIED: 01-PATTERNS.md; 01-02-PLAN.md]
+An unavailable record has no synthetic samples. Measured records additionally use one finite extractor from Plan 01-02 so the validator reproduces the numeric value from durable redacted bytes. [VERIFIED: 01-PATTERNS.md; 01-02-PLAN.superseded.md]
 
 ## State of the Art
 

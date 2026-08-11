@@ -41,7 +41,7 @@ D18_RULE = "One handoff per semantic candidate; qualification never authorizes p
 D12_ROUTING = "Reusable fixes use a dedicated jodobear/napp branch and issue, enter the contribution ledger only after Uzel validation, and are not mutated by this plan."
 RESUME_COMMAND = "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert."
 DEFAULT_NAPP_REPO = Path("/workspace/projects/napplets/napp-uzel/napp")
-APPROVED_PLAN_PATH = ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md"
+APPROVED_PLAN_PATH = ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.superseded.md"
 QUALIFICATION_PATH = "evidence/phase-01/candidate-qualification.md"
 HANDOFF_PATH = "evidence/phase-01/napp-dependency.md"
 

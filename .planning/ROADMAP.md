@@ -35,24 +35,24 @@ This MVP first preserves the already-visible local-first POC—rich profile/foll
   5. After an exact Napp candidate passes client/events/testkit, lifecycle, version, and pin probes, the same POC matrix passes through the narrow Rust/Tauri adapter with an explicit revert path and no dual state.
 
 **Safe plan slices**: REF-01A replay; REF-01B ownership/pressure; REF-01C product-doc admission; Napp candidate handoff/qualification; blocked REF-01D adapter; REF-01E Debian visible acceptance.
-**Superseded plan evidence**: 1/5 historically executed; all five files carry enforceable `status: superseded` frontmatter and are excluded from GSD execution pending v4 replanning.
+**Superseded plan evidence**: 1/5 historically executed; all five files retain `status: superseded` and use the non-discoverable `*-PLAN.superseded.md` suffix. Installed GSD reports zero executable plans pending v4 replanning.
 
-- [ ] 01-01-PLAN.md
-- [ ] 01-02-PLAN.md
-- [ ] 01-03-PLAN.md
-- [x] 01-04-PLAN.md
-- [ ] 01-05-PLAN.md
+- [ ] 01-01-PLAN.superseded.md
+- [ ] 01-02-PLAN.superseded.md
+- [ ] 01-03-PLAN.superseded.md
+- [x] 01-04-PLAN.superseded.md
+- [ ] 01-05-PLAN.superseded.md
 
 **Wave 1**
 
-- [ ] `01-01-PLAN.md` — Historical replay attempt; superseded and non-executable.
-- [x] `01-04-PLAN.md` — Historical fail-closed dependency handoff; complete evidence, superseded and non-executable.
+- [ ] `01-01-PLAN.superseded.md` — Historical replay attempt; superseded and non-executable.
+- [x] `01-04-PLAN.superseded.md` — Historical fail-closed dependency handoff; complete evidence, superseded and non-executable.
 
 **Wave 2** *(blocked on `01-01` completion)*
 
-- [ ] `01-02-PLAN.md` — Historical ownership/resource draft; superseded and non-executable.
-- [ ] `01-03-PLAN.md` — Historical authority-admission draft; superseded and non-executable.
-- [ ] `01-05-PLAN.md` — Historical Debian acceptance draft; superseded and non-executable.
+- [ ] `01-02-PLAN.superseded.md` — Historical ownership/resource draft; superseded and non-executable.
+- [ ] `01-03-PLAN.superseded.md` — Historical authority-admission draft; superseded and non-executable.
+- [ ] `01-05-PLAN.superseded.md` — Historical Debian acceptance draft; superseded and non-executable.
 
 **Conditional completion:** These plans intentionally exclude REF-01D adapter implementation. After `01-03` commits the authority set and `01-04` finds an exact qualifying Napp candidate, refresh research and re-plan the narrow adapter/parity slice.
 
