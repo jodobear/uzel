@@ -1,15 +1,16 @@
-# Graph Report - .  (2026-08-11)
+# Graph Report - uzel-integration-phase-01-v4  (2026-08-11)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 190 files · ~202,363 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1782 nodes · 2346 edges · 211 communities (107 shown, 104 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.79)
+- 2253 nodes · 2936 edges · 256 communities (149 shown, 107 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `90add60f`
+- Built from commit: `fc0df617`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -40,6 +41,7 @@
 - Uzel agent instructions
 - linux-run-smoke.sh
 - GSD ingest — reorient the existing Uzel project in place
+- Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research
 - tauri.conf.json
 - Bounded slices
 - debian13-live-test.sh
@@ -58,6 +60,7 @@
 - M4 / GSD delivery phases 5, 5.1–5.3 — verified static-image attachment round trip
 - Observations
 - Debian 13 live test
+- ref-candidate-check.py
 - Uzel product-incubation plan — revision 4
 - package.json
 - trusted-shell-policy.js
@@ -69,6 +72,7 @@
 - package.json
 - package.json
 - profile-open-v1.schema.json
+- Architecture Research
 - main.rs
 - Slice 03 preflight
 - probes.test.mjs
@@ -77,6 +81,7 @@
 - LRN-#### — <reusable lesson>
 - Uzel POC agent instructions
 - Provisional component design
+- hostile_probe.rs
 - Slice 02 preflight
 - Slice 05 preflight — integrated composed demo
 - ADR-#### — <decision>
@@ -100,6 +105,7 @@
 - Work 01 — scaffold
 - Work 07 — issue-driven stabilization
 - 03-ROADMAP.md
+- README.md
 - NMP API and ownership map
 - Work 02 — Linux exact-build runner
 - Work 04 — daemon, NMP, and persistence
@@ -121,11 +127,13 @@
 - Vec
 - VecDeque
 - Execution slices
-- README.md
+- Key Findings
+- Uzel single-repository POC
 - Work 03 — portable napplets
 - Work 05 — composed demo
 - MANIFEST.json
 - audit_docs.py
+- Work 06 — hardening and demo acceptance
 - fedora-run-smoke.sh
 - check_sha256
 - debian-build-smoke.sh
@@ -216,6 +224,43 @@
 - Vec
 - VecDeque
 - Path
+- Implementation Decisions
+- Pattern Assignments
+- Pitfalls Research
+- CodeRabbit Review
+- Feature Research
+- Phase 01 Plan 04: Napp Qualification and Handoff Summary
+- Requirements: Uzel
+- Architecture
+- Phase 1 and Milestone Re-audit
+- Stack Research
+- Implications for Roadmap
+- Codebase Concerns
+- Uzel
+- Phase Details
+- Project State
+- Coding Conventions
+- Testing Patterns
+- GSD Session Report
+- External Integrations
+- 01-01-PLAN.md
+- Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Discussion Log
+- POC architecture
+- Verified facts
+- Gate 0 preflight and Slice 01 decision
+- Technology Stack
+- Codebase Structure
+- 01-03-PLAN.md
+- .fmt
+- 01-02-PLAN.md
+- 01-04-PLAN.md
+- 01-05-PLAN.md
+- Production-grade runtime maturity programme
+- BLOCKING CONSTRAINTS — Read Before Anything Else
+- navigation_policy
+- candidate-qualification.md
+- napp-dependency.md
+- Data Flow
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 38 edges
@@ -225,9 +270,9 @@
 5. `RunnerError` - 24 edges
 6. `A5 — mandatory post-M5 whole-system audit` - 24 edges
 7. `ClientError` - 22 edges
-8. `Delivery, quality, review and packaging discipline` - 21 edges
-9. `Decision, nuance and educational-knowledge system` - 20 edges
-10. `Response` - 19 edges
+8. `validate_record()` - 21 edges
+9. `Delivery, quality, review and packaging discipline` - 21 edges
+10. `Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
@@ -244,11 +289,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (211 total, 104 thin omitted)
+## Communities (256 total, 107 thin omitted)
 
 ### Community 0 - "UnixClient"
-Cohesion: 0.06
-Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+56 more)
+Cohesion: 0.13
+Nodes (26): DecodeError, Read, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk(), deterministic_presend_failures_do_not_retain_catalog_operations() (+18 more)
 
 ### Community 1 - "trusted-shell.js"
 Cohesion: 0.25
@@ -260,15 +305,15 @@ Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: c
 
 ### Community 3 - "LinuxRunner"
 Cohesion: 0.13
-Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic() (+5 more)
+Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), LinuxRunner (+5 more)
 
 ### Community 4 - "Delivery, quality, review and packaging discipline"
 Cohesion: 0.04
 Nodes (49): 10. Interoperability and version-skew tests, 11. Supply-chain and release-evidence tests, 1. Unit/model tests, 2. Contract and vector tests, 3. Component/integration tests, 4. Adversarial/security tests, 5. Fault injection and recovery, 6. Browser/native tests (+41 more)
 
 ### Community 5 - "runner.rs"
-Cohesion: 0.13
-Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
+Cohesion: 0.12
+Nodes (12): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), bounded_diagnostic(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState (+4 more)
 
 ### Community 6 - "Uzel product and incubation architecture"
 Cohesion: 0.04
@@ -350,6 +395,10 @@ Nodes (17): cleanup(), GDK_BACKEND, hostile_markers_are_ordered(), NO_AT_BRIDGE,
 Cohesion: 0.12
 Nodes (16): `01-01` — reconcile the incident and produce replay evidence, `01-02` — current Nix package and native baseline, `01-03` — authority, schema and threat baseline, `01-04` — measured CI, test and review baseline, `01-05` — ecosystem, compatibility, maturity and knowledge baseline, Current Phase 1 incident, Dependencies and execution order, GSD ingest — reorient the existing Uzel project in place (+8 more)
 
+### Community 26 - "Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research"
+Cohesion: 0.04
+Nodes (44): Accepted Napp Candidate Gate, Anti-Patterns to Avoid, Architectural Responsibility Map, Architecture Patterns, Assumptions Log, Baseline Measurement, Bounded MVP Plan Slices, Candidate qualification record (+36 more)
+
 ### Community 27 - "tauri.conf.json"
 Cohesion: 0.12
 Nodes (16): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+8 more)
@@ -368,7 +417,7 @@ Nodes (14): Bounded notification within phase 6.2, Bounded slices, Entry conditi
 
 ### Community 32 - "audit_docs.py"
 Cohesion: 0.30
-Nodes (15): Any, audit_fences(), audit_hashes(), audit_links(), audit_pack_symlinks(), audit_policy(), audit_toml(), clean_target() (+7 more)
+Nodes (15): audit_fences(), audit_hashes(), audit_links(), audit_pack_symlinks(), audit_policy(), audit_toml(), clean_target(), first_symlink_component() (+7 more)
 
 ### Community 33 - "M3 / GSD delivery phases 4, 4.1–4.3 — external signer and deliberate text publication"
 Cohesion: 0.15
@@ -379,7 +428,7 @@ Cohesion: 0.25
 Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 02 upstream result, Slice 03 upstream result, Slice 06 upstream result, Upstream contribution ledger
 
 ### Community 35 - "Installation and Phase 1 restart runbook"
-Cohesion: 0.15
+Cohesion: 0.17
 Nodes (12): Destination, Installation and Phase 1 restart runbook, Step 0 — pause and preserve the blocked execution, Step 1 — verify and install the planning pack, Step 2 — create a clean manual Phase 1 worktree, Step 3 — inspect and reorient the existing GSD project, Step 4 — replan Phase 1 in place, Step 5 — independently review and converge Phase 1 plans (+4 more)
 
 ### Community 37 - "parse_options"
@@ -399,8 +448,8 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 41 - "Assumption validation and decision gates"
-Cohesion: 0.05
-Nodes (37): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+29 more)
+Cohesion: 0.17
+Nodes (10): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+2 more)
 
 ### Community 42 - "M2 / GSD delivery phases 3, 3.1–3.3 — local-first offline authoring"
 Cohesion: 0.18
@@ -417,6 +466,10 @@ Nodes (11): Capability negotiation is not a safe implicit-presence check, Ecosys
 ### Community 45 - "Debian 13 live test"
 Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
+
+### Community 47 - "ref-candidate-check.py"
+Cohesion: 0.15
+Nodes (51): CompletedProcess, Namespace, RuntimeError, approved_reachability(), candidate_argv_ok(), candidate_record(), canonical_record(), CheckError (+43 more)
 
 ### Community 48 - "Uzel product-incubation plan — revision 4"
 Cohesion: 0.20
@@ -435,16 +488,12 @@ Cohesion: 0.24
 Nodes (5): createSurfaceHost(), mount(), receive(), unmount(), Window
 
 ### Community 52 - "Milestone <M> learning digest"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Agent reference delta, Contradiction and disclosure check, Decisions that survived contact with the product, Ecosystem movement, Educational backlog seeds, Human case-study outline, Milestone <M> learning digest, Nuances and negative results (+1 more)
 
-### Community 53 - "04-execution.md"
-Cohesion: 0.16
-Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
-
 ### Community 54 - "reconcile_launched_session"
-Cohesion: 0.33
-Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
+Cohesion: 0.40
+Nodes (5): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, reconcile_launched_session()
 
 ### Community 55 - "Tests, quality gates, and demo"
 Cohesion: 0.20
@@ -462,9 +511,13 @@ Nodes (17): @napplet/nap, @napplet/shim, @napplet/vite-plugin, vite, dependencie
 Cohesion: 0.13
 Nodes (14): pubkey, version, additionalProperties, $id, properties, pubkey, version, pattern (+6 more)
 
+### Community 61 - "Architecture Research"
+Cohesion: 0.07
+Nodes (28): Anti-Patterns, Architectural Patterns, Architecture Research, Build Order and Phase Dependencies, Component Responsibilities, Data Flow, External-primary (MEDIUM through available web-search confidence seam), Independent Cargo and Nix Pins (+20 more)
+
 ### Community 62 - "main.rs"
-Cohesion: 0.05
-Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
+Cohesion: 0.09
+Nodes (34): AtomicU64, FnMut, From, State, HostileProbeState, ambiguous_confirmation_crosses_as_a_typed_retry_state(), ambiguous_review_crosses_as_a_typed_retry_state(), cancel_napplet_review() (+26 more)
 
 ### Community 63 - "Slice 03 preflight"
 Cohesion: 0.20
@@ -493,6 +546,10 @@ Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository 
 ### Community 69 - "Provisional component design"
 Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
+
+### Community 70 - "hostile_probe.rs"
+Cohesion: 0.16
+Nodes (15): AtomicBool, AtomicUsize, JoinHandle, accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport (+7 more)
 
 ### Community 71 - "Slice 02 preflight"
 Cohesion: 0.22
@@ -559,7 +616,7 @@ Cohesion: 0.25
 Nodes (7): Commands and results, Exact next step, NMP and persistence evidence, Outcome, Private protocol evidence, Remaining boundaries, Slice 04 preflight — daemon, NMP, and persistence
 
 ### Community 90 - "Slice 06 preflight — hardening and clean demo acceptance"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 91 - "WebKit/Tauri trust spike"
@@ -585,6 +642,10 @@ Nodes (7): Active issue — #19, Completed issue — #10, Entry evidence, Exit r
 ### Community 96 - "03-ROADMAP.md"
 Cohesion: 0.29
 Nodes (6): A5 — mandatory post-M5 stop, Continuous lanes, Programme map, Roadmap rule, Slice and issue size, Uzel product-first roadmap
+
+### Community 97 - "README.md"
+Cohesion: 0.20
+Nodes (19): UnixListener, active_daemon_socket_is_not_unlinked(), bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, existing_shared_socket_parent_is_not_chmodded(), handle_stream() (+11 more)
 
 ### Community 98 - "NMP API and ownership map"
 Cohesion: 0.29
@@ -614,8 +675,12 @@ Nodes (5): Capability promotion, Contradiction and disclosure check, Durable del
 Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
-### Community 120 - "README.md"
-Cohesion: 0.20
+### Community 119 - "Key Findings"
+Cohesion: 0.25
+Nodes (6): ClientError, DeliveryError, FetchedSurface, next_operation_id(), PendingOperation, UnixClient
+
+### Community 120 - "Uzel single-repository POC"
+Cohesion: 0.22
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 121 - "Work 03 — portable napplets"
@@ -634,29 +699,173 @@ Nodes (7): date, excluded_from_payload_hashes, files, name, revision, reports/au
 Cohesion: 0.70
 Nodes (4): main(), manifest_paths(), strip_code(), write_manifest()
 
+### Community 125 - "Work 06 — hardening and demo acceptance"
+Cohesion: 0.40
+Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
+
 ### Community 126 - "fedora-run-smoke.sh"
 Cohesion: 0.50
 Nodes (3): fedora-run-smoke.sh script, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
 
+### Community 218 - "Implementation Decisions"
+Cohesion: 0.10
+Nodes (19): Accepted Napp Candidate Gate, Baseline Measurement, Canonical References, Deferred Ideas, Established Patterns, Existing Code and Tests, Existing Code Insights, Implementation Decisions (+11 more)
+
+### Community 219 - "Pattern Assignments"
+Cohesion: 0.11
+Nodes (18): Browser/native proof separation, `evidence/phase-01/candidate-qualification.md` (config/evidence record, batch), `evidence/phase-01/measurements/<mode>.json` (test evidence, batch), `evidence/phase-01/ownership-disposition.json` (config/data map, transform), `evidence/phase-01/replay-manifest.json` (config/evidence record, batch), `evidence/phase-01/work-07-preservation.md` (evidence record, transform), Fail-closed replay and bounded errors, File Classification (+10 more)
+
+### Community 220 - "Pitfalls Research"
+Cohesion: 0.11
+Nodes (19): Critical Pitfalls, Integration Gotchas, "Looks Done But Isn't" Checklist, Performance Traps, Pitfall 1: Uzel absorbs runtime or Nostr ownership during extraction, Pitfall 2: Cargo, flake, fixture, and runtime revisions drift apart, Pitfall 3: Package works in dev shell, not as canonical Nix product, Pitfall 4: Local-first Social Home displays remote-like certainty or duplicate cache truth (+11 more)
+
+### Community 221 - "CodeRabbit Review"
+Cohesion: 0.12
+Nodes (16): Agreed Concerns, Agreed Strengths, CodeRabbit Review, Consensus Summary, Critical, Cross-AI Plan Review — Phase 01, Divergent Views, High-Priority Review Inputs (+8 more)
+
+### Community 222 - "Feature Research"
+Cohesion: 0.12
+Nodes (17): Add After Validation (v1.x), Anti-Features (Commonly Requested, Often Problematic), Competitor Feature Analysis, Dependency Notes, Differentiators (Competitive Advantage), External primary sources (verified; MEDIUM confidence through web-search seam), Feature Dependencies, Feature Landscape (+9 more)
+
+### Community 223 - "Phase 01 Plan 04: Napp Qualification and Handoff Summary"
+Cohesion: 0.13
+Nodes (14): Accomplishments, Auto-fixed Issues, D-18 Review Handoff, Decisions Made, Deviations from Plan, Files Created/Modified, Issues Encountered, Known Stubs (+6 more)
+
+### Community 224 - "Requirements: Uzel"
+Cohesion: 0.13
+Nodes (14): Blossom and Authoring, Canonical Nix Package, Definition of Done, Later Platforms and Capabilities, Lean Delivery and Review, Local Files, Out of Scope, POC Reference and Napp Seam (+6 more)
+
+### Community 225 - "Architecture"
+Cohesion: 0.15
+Nodes (13): Anti-Patterns, Architectural Constraints, Architecture, Component Responsibilities, Cross-Cutting Concerns, Entry Points, Error Handling, Hand-Mirrored UI DTOs (+5 more)
+
+### Community 226 - "Phase 1 and Milestone Re-audit"
+Cohesion: 0.17
+Nodes (11): Blockers and dependencies on Napp, Classification key, Corrected current-phase scope, Evidence status, Explicit out of scope, Facts requiring fresh research, Lane audit, Phase 1 and Milestone Re-audit (+3 more)
+
+### Community 227 - "Stack Research"
+Cohesion: 0.17
+Nodes (11): Alternatives Considered, CI Tooling and Scope, Development Commands, Exact Napp Pin Pattern, Gate 0 Additions — Validate Before Social Work, Locked Baseline — Preserve, Recommended Stack, Sources (+3 more)
+
+### Community 228 - "Implications for Roadmap"
+Cohesion: 0.17
+Nodes (12): Architecture Approach, Confidence Assessment, Critical Pitfalls, Executive Summary, Expected Features, Gaps to Address, Key Findings, Primary (HIGH confidence) (+4 more)
+
+### Community 229 - "Codebase Concerns"
+Cohesion: 0.18
+Nodes (10): Codebase Concerns, Dependencies at Risk, Fragile Areas, Known Bugs, Missing Critical Features, Performance Bottlenecks, Scaling Limits, Security Considerations (+2 more)
+
+### Community 230 - "Uzel"
+Cohesion: 0.18
+Nodes (11): Active, Constraints, Context, Core Value, Evolution, Key Decisions, Out of Scope, Requirements (+3 more)
+
+### Community 231 - "Phase Details"
+Cohesion: 0.18
+Nodes (10): Overview, Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam, Phase 2: SLICE-PKG-01 — Canonical Nix Release Closure, Phase 3: SLICE-CI-01 — Measured Fail-Closed Delivery Lanes, Phase 4: SLICE-SOC-01 — Local Profile, Resources & Honest State, Phase 5: SLICE-SOC-02 — Source-Bound Graph, Feed & Navigation, Phase Details, Phases (+2 more)
+
+### Community 232 - "Project State"
+Cohesion: 0.18
+Nodes (10): Accumulated Context, Blockers/Concerns, Current Position, Decisions, Deferred Items, Pending Todos, Performance Metrics, Project Reference (+2 more)
+
+### Community 233 - "Coding Conventions"
+Cohesion: 0.20
+Nodes (9): Code Style, Coding Conventions, Comments, Error Handling, Function Design, Import Organization, Logging, Module Design (+1 more)
+
+### Community 234 - "Testing Patterns"
+Cohesion: 0.20
+Nodes (9): Common Patterns, Coverage, Fixtures and Factories, Mocking, Test File Organization, Test Framework, Test Structure, Test Types (+1 more)
+
+### Community 235 - "GSD Session Report"
+Cohesion: 0.20
+Nodes (9): Blockers & Open Items, Decisions Made, Estimated Resource Usage, Files Changed, GSD Session Report, Key Outcomes, Phases Touched, Session Summary (+1 more)
+
+### Community 236 - "External Integrations"
+Cohesion: 0.22
+Nodes (8): APIs & External Services, Authentication & Identity, CI/CD & Deployment, Data Storage, Environment Configuration, External Integrations, Monitoring & Observability, Webhooks & Callbacks
+
+### Community 237 - "01-01-PLAN.md"
+Cohesion: 0.22
+Nodes (8): Artifacts this phase produces, D-18 candidate handoff and separately authorized ship/review gate, Fixed replay admission identity, Multi-Source Coverage Audit, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
+
+### Community 238 - "Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Discussion Log"
+Cohesion: 0.22
+Nodes (8): Accepted Napp Candidate Gate, Baseline Measurement, Deferred Ideas, Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Discussion Log, Recovery and Upstream Stops, Replay and Ownership Evidence, Source-backed re-audit update — 2026-08-09, the agent's Discretion
+
+### Community 239 - "POC architecture"
+Cohesion: 0.22
+Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
+
+### Community 240 - "Verified facts"
+Cohesion: 0.20
+Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
+
+### Community 241 - "Gate 0 preflight and Slice 01 decision"
+Cohesion: 0.18
+Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
+
+### Community 242 - "Technology Stack"
+Cohesion: 0.25
+Nodes (7): Configuration, Frameworks, Key Dependencies, Languages, Platform Requirements, Runtime, Technology Stack
+
+### Community 243 - "Codebase Structure"
+Cohesion: 0.25
+Nodes (7): Codebase Structure, Directory Layout, Directory Purposes, Key File Locations, Naming Conventions, Special Directories, Where to Add New Code
+
+### Community 244 - "01-03-PLAN.md"
+Cohesion: 0.25
+Nodes (7): Artifacts this phase produces, Atomic docs-only scope and staging invariant, D-18 candidate handoff and separately authorized ship/review gate, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
+
+### Community 245 - ".fmt"
+Cohesion: 0.18
+Nodes (13): Into, SurfaceLaunch, Request, Response, SurfaceMetadata, AssetTransfer, DaemonState, exchange() (+5 more)
+
+### Community 246 - "01-02-PLAN.md"
+Cohesion: 0.29
+Nodes (6): Artifacts this phase produces, D-18 candidate handoff and separately authorized ship/review gate, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
+
+### Community 247 - "01-04-PLAN.md"
+Cohesion: 0.29
+Nodes (6): Artifacts this phase produces, D-18 candidate handoff and separately authorized ship/review gate, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
+
+### Community 248 - "01-05-PLAN.md"
+Cohesion: 0.29
+Nodes (6): Artifacts this phase produces, D-18 candidate handoff and separately authorized ship/review gate, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
+
+### Community 249 - "Production-grade runtime maturity programme"
+Cohesion: 0.25
+Nodes (8): Implications for Roadmap, Phase 1: REF-01 — POC replay and accepted Napp seam, Phase 2: PKG-01 — Canonical Nix release closure, Phase 3: CI-01 — Measured fail-closed delivery lanes, Phase 4: SOC-01 — Local profile, resources, and honest state, Phase 5: SOC-02 — Source-bound graph, feed, and navigation, Phase Ordering Rationale, Research Flags
+
+### Community 252 - "BLOCKING CONSTRAINTS — Read Before Anything Else"
+Cohesion: 0.33
+Nodes (5): BLOCKING CONSTRAINTS — Read Before Anything Else, Critical Anti-Patterns, Infrastructure State, Pre-Execution Critique Required, Required Reading (in order)
+
+### Community 253 - "navigation_policy"
+Cohesion: 0.29
+Nodes (7): TauriPlugin, Url, allowed_navigation(), default_socket_path(), main(), navigation_policy(), Wry
+
+### Community 256 - "Data Flow"
+Cohesion: 0.40
+Nodes (5): Catalog Review and Exact-Build Install, Cross-Napplet Profile Flow, Data Flow, Napplet Request/Response Path, Primary Startup and Surface Handshake
+
 ## Knowledge Gaps
-- **852 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+847 more)
+- **1176 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+1171 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **104 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **107 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `M0 / GSD Phase 1 — truthful baseline and replay contract` connect `M0 / GSD Phase 1 — truthful baseline and replay contract` to `README.md`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `Delivery, quality, review and packaging discipline` connect `Delivery, quality, review and packaging discipline` to `README.md`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
-- **Why does `A5 — mandatory post-M5 whole-system audit` connect `A5 — mandatory post-M5 whole-system audit` to `README.md`?**
-  _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `Decision, nuance and educational-knowledge system` connect `Decision, nuance and educational-knowledge system` to `README.md`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `Uzel product and incubation architecture` connect `Uzel product and incubation architecture` to `README.md`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _852 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1176 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `UnixClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.05798969072164949 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `LinuxRunner` be split into smaller, more focused modules?**
-  _Cohesion score 0.1268939393939394 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12878787878787878 - nodes in this community are weakly interconnected._
