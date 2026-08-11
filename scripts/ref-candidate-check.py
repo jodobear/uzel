@@ -181,6 +181,11 @@ def approved_reachability(repo: Path, commit: str) -> dict[str, Any]:
     return {"approved_refs": reachable, "reachable": bool(reachable)}
 
 
+def raw_origin(repo: Path) -> str:
+    """Read literal local origin without includes or URL rewrite expansion."""
+    return must_git(repo, ["config", "--local", "--no-includes", "--get", "remote.origin.url"]).decode().strip()
+
+
 def safe_literal_path(value: str) -> bool:
     """Accept only literal, relative Git tree paths with non-empty components."""
     if not value or value.startswith(("/", "-", ":")) or ":" in value or "//" in value:
@@ -362,7 +367,7 @@ def candidate_record(repo: Path, commit: str) -> dict[str, Any]:
     artifact_relative = f".artifacts/phase-01/napp/{commit}/tree.bin"
     write_confined(ROOT, Path(artifact_relative), inventory)
     objects = set(parse_inventory(inventory))
-    origin = must_git(repo, ["remote", "get-url", "origin"]).decode().strip()
+    origin = raw_origin(repo)
     categories = missing_categories()
     record = {
         "schema": "uzel.ref-candidate/v1", "repository": EXPECTED_REPOSITORY, "origin": origin,
@@ -413,13 +418,14 @@ def validate_snapshot(value: Any, expected_root: Path) -> None:
 def validate_record(record: dict[str, Any], repo: Path, expected_repository: str,
                     expected_commit: str, expected_result: str) -> None:
     required = {"schema", "repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "pinned_blobs", "working_tree_evidence", "admission_categories", "declared_probes", "controlled_runner", "mutation_snapshots", "missing_categories", "result", "blocker", "owner", "next_probe", "rollback", "d18_rule"}
-    if set(record) != required:
+    if set(record) != required or record.get("schema") != "uzel.ref-candidate/v1":
         raise CheckError("qualification fields are missing or unknown")
-    if expected_repository != EXPECTED_REPOSITORY or record["repository"] != expected_repository \
-            or record["observed_commit"] != expected_commit or record["result"] != expected_result:
+    if expected_result != "stop" or expected_repository != EXPECTED_REPOSITORY \
+            or record["repository"] != expected_repository or record["observed_commit"] != expected_commit \
+            or record["result"] != "stop":
         raise CheckError("qualification identity/result mismatch")
     repo = root_path(repo)
-    origin = must_git(repo, ["remote", "get-url", "origin"]).decode().strip()
+    origin = raw_origin(repo)
     if repository_from_origin(origin) != expected_repository or record["origin"] != origin:
         raise CheckError("qualification repository/origin mismatch")
     tree = must_git(repo, ["rev-parse", "--verify", "--end-of-options", expected_commit + "^{tree}"]).decode().strip()

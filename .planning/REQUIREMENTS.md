@@ -112,7 +112,7 @@ Every v1 requirement maps to exactly one roadmap phase.
 | REF-04 | Phase 1 | Pending |
 | REF-05 | Phase 1 | Pending |
 | REF-06 | Phase 1 | Pending |
-| REF-07 | Phase 1 | Complete |
+| REF-07 | Phase 1 | Pending |
 | PKG-01 | Phase 2 | Pending |
 | PKG-02 | Phase 2 | Pending |
 | PKG-03 | Phase 2 | Pending |

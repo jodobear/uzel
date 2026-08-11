@@ -17,7 +17,7 @@ key-files:
 key-decisions:
   - "Current Napp candidate is a repository-qualified stop, not an adapter seam."
   - "Plan-01 parity binds to its recorded immutable Uzel commit, not later HEAD changes."
-requirements-completed: [REF-07]
+requirements-completed: []
 coverage:
   - id: D1
     description: Fail-closed candidate qualification and safe-probe grammar
