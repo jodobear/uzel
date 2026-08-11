@@ -6,7 +6,7 @@
     "mermaid_diagrams": 22,
     "payload_files": 33,
     "warnings": 0,
-    "words": 51081
+    "words": 51249
   },
   "errors": [],
   "markdown_files": [
@@ -53,11 +53,11 @@
       "words": 4916
     },
     {
-      "bytes": 21773,
+      "bytes": 22166,
       "mermaid": 0,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "313079ccfc6a92c3b0a627edc7431639b647a0e6ec356bada83d51a367475f13",
-      "words": 2797
+      "sha256": "a53a11d8c5f01ce234e64f903e3c0c6053c680791c066ae6afbcc570eae9da3f",
+      "words": 2837
     },
     {
       "bytes": 25988,
@@ -109,11 +109,11 @@
       "words": 598
     },
     {
-      "bytes": 2907,
+      "bytes": 3255,
       "mermaid": 0,
       "path": "prompts/03-execute-phase-1.md",
-      "sha256": "b9b03df5f14e0bf9c08b82855d6a76aaa2267b4bf404c7a97a0033758cf0da65",
-      "words": 380
+      "sha256": "33acd78627ac07b449d119ec1e702d2cc5e036cce373276dc3d2110583442649",
+      "words": 427
     },
     {
       "bytes": 5268,
@@ -193,18 +193,18 @@
       "words": 153
     },
     {
-      "bytes": 1612,
+      "bytes": 1719,
       "mermaid": 0,
       "path": "templates/SPEC-INTERPRETATION.md",
-      "sha256": "8d316fba55b0f2e0836ce31ca2038d83f0ed2490c4ab9e5df85f3337c607fe26",
-      "words": 183
+      "sha256": "9fa84a1336a490c1c5cf1b8fc9ad91242d61e6d804a46cd9a1193c21656b0ec6",
+      "words": 195
     },
     {
-      "bytes": 1816,
+      "bytes": 2388,
       "mermaid": 0,
       "path": "templates/UPSTREAM-RECORD.md",
-      "sha256": "faf1f86ee83318ba2b2ba203eec2d6f7733977c7a61d217b98bc437e9149b579",
-      "words": 210
+      "sha256": "c66ebae4bbb1f64e3cb73b0181666d0dc1793bc5d26708706d7a785538278b1d",
+      "words": 279
     }
   ],
   "notes": [

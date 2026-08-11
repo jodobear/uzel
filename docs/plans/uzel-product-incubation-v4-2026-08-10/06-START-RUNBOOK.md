@@ -83,12 +83,22 @@ grep -Fx "commit=$wip_commit" \
 if [ ! -e "$evidence_dir/blocked-status-v2.z" ]; then
   git -C "$blocked_worktree" status --porcelain=v2 -z \
     > "$evidence_dir/blocked-status-v2.z"
+fi
+if [ ! -e "$evidence_dir/blocked-unstaged.patch" ]; then
   git -C "$blocked_worktree" diff --binary \
     > "$evidence_dir/blocked-unstaged.patch"
+fi
+if [ ! -e "$evidence_dir/blocked-staged.patch" ]; then
   git -C "$blocked_worktree" diff --cached --binary \
     > "$evidence_dir/blocked-staged.patch"
+fi
+untracked_list_regenerated=false
+if [ ! -e "$evidence_dir/blocked-untracked.z" ]; then
   git -C "$blocked_worktree" ls-files --others --exclude-standard -z -- \
     > "$evidence_dir/blocked-untracked.z"
+  untracked_list_regenerated=true
+fi
+if [ ! -e "$evidence_dir/blocked-untracked.tar" ] || "$untracked_list_regenerated"; then
   (
     cd "$blocked_worktree"
     tar --null --files-from="$evidence_dir/blocked-untracked.z" \
@@ -267,6 +277,7 @@ git cat-file -e "$base_head:docs/plans/uzel-product-incubation-v4-2026-08-10/00-
 if [ -e "$phase_dir" ]; then
   git -C "$phase_dir" rev-parse --is-inside-work-tree >/dev/null
   test "$(git -C "$phase_dir" branch --show-current)" = "$phase_branch"
+  test "$(git -C "$phase_dir" rev-parse HEAD)" = "$base_head"
 elif git show-ref --verify --quiet "refs/heads/$phase_branch"; then
   test "$(git rev-parse "$phase_branch")" = "$base_head"
   git worktree add "$phase_dir" "$phase_branch"
@@ -276,7 +287,7 @@ fi
 
 cd "$phase_dir"
 test "$(git branch --show-current)" = "$phase_branch"
-git merge-base --is-ancestor "$base_head" HEAD
+test "$(git rev-parse HEAD)" = "$base_head"
 test -z "$(git status --porcelain)"
 git status --short --branch
 ```

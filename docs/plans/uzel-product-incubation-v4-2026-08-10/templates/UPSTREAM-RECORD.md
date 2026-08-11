@@ -18,13 +18,24 @@
 - **Authorship/signoff/DCO/CLA disposition:**
 - **Public text/patch human reviewer:**
 
+## Lifecycle events
+
+Append-only. Never rewrite an earlier transition.
+
+| State transition | Timestamp | Exact upstream revision/pin | Actor | Evidence |
+|---|---|---|---|---|
+| observed | | | | |
+
 ## Problem and impact
 
 Minimal general problem, affected capability/profile, user/security consequence.
 
 ## Reproduction
 
-Synthetic public reproducer and results at Uzel pin/current head.
+When the Disclosure constraint permits publication, provide a synthetic public reproducer
+and results at the Uzel pin/current head. For internal or embargoed records, provide a
+non-public evidence reference or record why reproduction is deferred; never expose restricted
+upstream details merely to satisfy this field.
 
 ## Channel decision
 
@@ -43,4 +54,5 @@ Maintainer feedback, accepted semantics and resulting revision/release.
 
 Record separate events for upstream merge, release, Uzel adoption at an exact pin and
 local-patch removal. A merge is not a release, adoption or proof that the workaround is
-now removable.
+now removable. `patch_removed` is allowed only after append-only `released` and `adopted`
+events cite exact revisions/pins and evidence.

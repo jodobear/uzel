@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 import tomllib
@@ -56,6 +57,7 @@ PAYLOAD_FILES = {
 }
 META_FILES = {"MANIFEST.json", "SHA256SUMS", "reports/audit.json"}
 EXPECTED_FILES = PAYLOAD_FILES | META_FILES
+HASH_EXCLUSIONS = ["MANIFEST.json", "SHA256SUMS", "reports/audit.json"]
 
 # Operational Markdown is checked for stale execution policy. Templates and the audit
 # describe examples/history and are checked by their own invariants instead.
@@ -274,6 +276,17 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def first_symlink_component(path: Path) -> Path | None:
+    """Return the first existing symlink in an absolute output path."""
+    absolute = path.absolute()
+    current = Path(absolute.anchor)
+    for part in absolute.parts[1:]:
+        current /= part
+        if current.is_symlink():
+            return current
+    return None
+
+
 def rel_files(root: Path) -> set[str]:
     return {str(path.relative_to(root)) for path in root.rglob("*") if path.is_file()}
 
@@ -337,6 +350,11 @@ def load_manifest(root: Path, errors: list[str]) -> dict[str, Any]:
 
 def audit_hashes(root: Path, errors: list[str]) -> None:
     data = load_manifest(root, errors)
+    if data.get("excluded_from_payload_hashes") != HASH_EXCLUSIONS:
+        errors.append(
+            "MANIFEST.json: excluded_from_payload_hashes must identify the exact "
+            "self-referential/generated metadata exclusions"
+        )
     entries = data.get("files", []) if isinstance(data, dict) else []
     mapped: dict[str, dict[str, Any]] = {}
     for entry in entries:
@@ -512,8 +530,14 @@ def main() -> int:
         print(f"error: not a directory: {root}", file=sys.stderr)
         return 2
 
-    output = Path(args.json_path).resolve() if args.json_path else root / "reports/audit.json"
-    canonical_output = (root / "reports/audit.json").resolve()
+    raw_output = Path(args.json_path) if args.json_path else root / "reports/audit.json"
+    output = raw_output.absolute()
+    symlink = first_symlink_component(output)
+    if symlink is not None:
+        print(f"error: audit report path contains symlink: {symlink}", file=sys.stderr)
+        return 2
+
+    canonical_output = root / "reports/audit.json"
     try:
         output.relative_to(root)
         output_is_inside_root = True
@@ -614,7 +638,30 @@ def main() -> int:
         ],
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    symlink = first_symlink_component(output)
+    if symlink is not None:
+        print(f"error: audit report path contains symlink: {symlink}", file=sys.stderr)
+        return 2
+    report_text = json.dumps(report, indent=2, sort_keys=True) + "\n"
+    try:
+        parent_fd = os.open(
+            output.parent,
+            os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
+        )
+        try:
+            report_fd = os.open(
+                output.name,
+                os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW | os.O_CLOEXEC,
+                0o644,
+                dir_fd=parent_fd,
+            )
+        finally:
+            os.close(parent_fd)
+        with os.fdopen(report_fd, "w", encoding="utf-8") as handle:
+            handle.write(report_text)
+    except OSError as exc:
+        print(f"error: cannot safely write audit report {output}: {exc}", file=sys.stderr)
+        return 2
 
     print(json.dumps(report["counts"], indent=2, sort_keys=True))
     if errors:

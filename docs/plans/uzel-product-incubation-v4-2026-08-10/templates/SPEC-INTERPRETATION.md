@@ -45,6 +45,9 @@ Contract vectors, conformance fixtures, interop peers, migrations and negative t
 Existing thread, issue, PR, private disclosure or no-action rationale. Link the Upstream
 Record.
 
+- **Upstream Record:** UPR-#### | none
+- **No-record rationale:** required when Upstream Record is `none`
+
 ## Recheck triggers
 
 Exact upstream merge/release/change, failed peer interop, schema migration, security

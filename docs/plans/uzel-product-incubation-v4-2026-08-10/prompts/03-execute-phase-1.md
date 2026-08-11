@@ -6,7 +6,10 @@ Phase 2.
 
 Before execution confirm the expected branch/clean state, current reviewed plans, zero Critical/High or blocking Medium
 findings and explicit dispositions for the remainder, `b185ad1` worktree/safety ref/portable archive, unchanged source and
-locks, and the reconciled future roadmap through 7.9.
+locks, and the reconciled future roadmap through 7.9. Require the complete independent-review artifact: reviewer
+CLI/model/version, exact reviewed plan head, exact review-prompt digest, review command, full findings and criterion
+coverage. Reject a summary-only or incomplete artifact. Recompute the current plan head and prompt digest; both must
+exactly match the artifact before execution may begin.
 
 Rules:
 

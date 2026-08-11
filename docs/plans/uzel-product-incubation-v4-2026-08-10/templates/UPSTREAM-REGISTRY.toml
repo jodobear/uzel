@@ -1,5 +1,8 @@
 # Canonical machine-readable upstream registry template.
 # One entry per watched specification, proposal, library, tool or provider.
+# Validator rules: private_security requires a non-empty disclosure channel in
+# security_route; change_class = "security" requires an explicit non-none security_route
+# decision. Placeholder angle-bracket values are invalid in instantiated registries.
 
 schema_version = 1
 generated_at = "YYYY-MM-DDTHH:MM:SSZ"
@@ -15,6 +18,9 @@ security_route = "<SECURITY.md/contact or none>"
 license = "<SPDX or review_required>"
 
 [upstreams.pin]
+# Validator rules by ref_kind: commit, tag and release require a resolved immutable
+# 40-hex commit plus content_sha256; package requires package_integrity or content_sha256.
+# Reject unset conditional fields and angle-bracket placeholders before replay.
 ref_kind = "commit" # commit | tag | release | package
 ref_name = "<human label>"
 commit = "<40-hex commit when git>"
