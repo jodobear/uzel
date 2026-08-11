@@ -1,16 +1,16 @@
 # Graph Report - uzel-integration-phase-01-v4  (2026-08-11)
 
 ## Corpus Check
-- 190 files · ~201,978 words
+- 190 files · ~202,112 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2249 nodes · 2917 edges · 253 communities (145 shown, 108 thin omitted)
+- 2249 nodes · 2920 edges · 251 communities (144 shown, 107 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7b9f8b6a`
+- Built from commit: `8b098c47`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -127,13 +127,11 @@
 - Vec
 - VecDeque
 - Execution slices
-- Anti-Patterns
 - Uzel single-repository POC
 - Work 03 — portable napplets
 - Work 05 — composed demo
 - MANIFEST.json
 - audit_docs.py
-- Data Flow
 - fedora-run-smoke.sh
 - check_sha256
 - debian-build-smoke.sh
@@ -286,7 +284,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (253 total, 108 thin omitted)
+## Communities (251 total, 107 thin omitted)
 
 ### Community 0 - "UnixClient"
 Cohesion: 0.06
@@ -445,8 +443,8 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 41 - "Assumption validation and decision gates"
-Cohesion: 0.22
-Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
+Cohesion: 0.17
+Nodes (10): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+2 more)
 
 ### Community 42 - "M2 / GSD delivery phases 3, 3.1–3.3 — local-first offline authoring"
 Cohesion: 0.18
@@ -465,7 +463,7 @@ Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
 
 ### Community 47 - "ref-candidate-check.py"
-Cohesion: 0.15
+Cohesion: 0.16
 Nodes (47): CompletedProcess, Namespace, RuntimeError, approved_reachability(), candidate_argv_ok(), candidate_record(), canonical_record(), CheckError (+39 more)
 
 ### Community 48 - "Uzel product-incubation plan — revision 4"
@@ -513,8 +511,8 @@ Cohesion: 0.13
 Nodes (14): pubkey, version, additionalProperties, $id, properties, pubkey, version, pattern (+6 more)
 
 ### Community 61 - "Architecture Research"
-Cohesion: 0.11
-Nodes (19): Architectural Patterns, Architecture Research, Build Order and Phase Dependencies, Component Responsibilities, External-primary (MEDIUM through available web-search confidence seam), Integration Points, Internal Boundaries, Pattern 1: Source-bound capability projection (+11 more)
+Cohesion: 0.07
+Nodes (28): Anti-Patterns, Architectural Patterns, Architecture Research, Build Order and Phase Dependencies, Component Responsibilities, Data Flow, External-primary (MEDIUM through available web-search confidence seam), Independent Cargo and Nix Pins (+20 more)
 
 ### Community 62 - "main.rs"
 Cohesion: 0.05
@@ -541,11 +539,11 @@ Cohesion: 0.22
 Nodes (8): Agent trap, Consequence for Uzel, Educational seed, Evidence, Executable witness, Learning, LRN-#### — <reusable lesson>, Question or failed assumption
 
 ### Community 68 - "Uzel POC agent instructions"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 69 - "Provisional component design"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 70 - "Critical Pitfalls"
@@ -644,6 +642,10 @@ Nodes (7): Active issue — #19, Completed issue — #10, Entry evidence, Exit r
 Cohesion: 0.29
 Nodes (6): A5 — mandatory post-M5 stop, Continuous lanes, Programme map, Roadmap rule, Slice and issue size, Uzel product-first roadmap
 
+### Community 97 - "README.md"
+Cohesion: 0.40
+Nodes (5): Catalog Review and Exact-Build Install, Cross-Napplet Profile Flow, Data Flow, Napplet Request/Response Path, Primary Startup and Surface Handshake
+
 ### Community 98 - "NMP API and ownership map"
 Cohesion: 0.29
 Nodes (6): Accepted pin, Executable probe, nampplets adapter seam, NMP API and ownership map, Ownership boundary, Public facade
@@ -672,12 +674,8 @@ Nodes (5): Capability promotion, Contradiction and disclosure check, Durable del
 Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
-### Community 119 - "Anti-Patterns"
-Cohesion: 0.40
-Nodes (5): Anti-Patterns, Independent Cargo and Nix Pins, Recreating Runtime Truth in Uzel, Required Path-filtered Checks, Treating POC Private IPC as Public Product Contract
-
 ### Community 120 - "Uzel single-repository POC"
-Cohesion: 0.33
+Cohesion: 0.22
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 121 - "Work 03 — portable napplets"
@@ -695,10 +693,6 @@ Nodes (7): date, excluded_from_payload_hashes, files, name, revision, reports/au
 ### Community 124 - "audit_docs.py"
 Cohesion: 0.70
 Nodes (4): main(), manifest_paths(), strip_code(), write_manifest()
-
-### Community 125 - "Data Flow"
-Cohesion: 0.50
-Nodes (4): Data Flow, Package and CI Flow, Social Home Flow, Surface Request and Response
 
 ### Community 126 - "fedora-run-smoke.sh"
 Cohesion: 0.50
@@ -733,8 +727,8 @@ Cohesion: 0.13
 Nodes (14): Blossom and Authoring, Canonical Nix Package, Definition of Done, Later Platforms and Capabilities, Lean Delivery and Review, Local Files, Out of Scope, POC Reference and Napp Seam (+6 more)
 
 ### Community 225 - "Architecture"
-Cohesion: 0.11
-Nodes (18): Anti-Patterns, Architectural Constraints, Architecture, Catalog Review and Exact-Build Install, Component Responsibilities, Cross-Cutting Concerns, Cross-Napplet Profile Flow, Data Flow (+10 more)
+Cohesion: 0.15
+Nodes (13): Anti-Patterns, Architectural Constraints, Architecture, Component Responsibilities, Cross-Cutting Concerns, Entry Points, Error Handling, Hand-Mirrored UI DTOs (+5 more)
 
 ### Community 226 - "Phase 1 and Milestone Re-audit"
 Cohesion: 0.17
@@ -789,11 +783,11 @@ Cohesion: 0.22
 Nodes (8): Accepted Napp Candidate Gate, Baseline Measurement, Deferred Ideas, Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Discussion Log, Recovery and Upstream Stops, Replay and Ownership Evidence, Source-backed re-audit update — 2026-08-09, the agent's Discretion
 
 ### Community 239 - "POC architecture"
-Cohesion: 0.22
+Cohesion: 0.18
 Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
 
 ### Community 240 - "Verified facts"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 241 - "Gate 0 preflight and Slice 01 decision"
@@ -831,7 +825,7 @@ Nodes (5): BLOCKING CONSTRAINTS — Read Before Anything Else, Critical Anti-Pat
 ## Knowledge Gaps
 - **1176 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+1171 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **108 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **107 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
