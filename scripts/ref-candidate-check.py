@@ -42,6 +42,8 @@ D12_ROUTING = "Reusable fixes use a dedicated jodobear/napp branch and issue, en
 RESUME_COMMAND = "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert."
 DEFAULT_NAPP_REPO = Path("/workspace/projects/napplets/napp-uzel/napp")
 APPROVED_PLAN_PATH = ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md"
+QUALIFICATION_PATH = "evidence/phase-01/candidate-qualification.md"
+HANDOFF_PATH = "evidence/phase-01/napp-dependency.md"
 
 
 class CheckError(RuntimeError):
@@ -583,7 +585,12 @@ def self_test(_: argparse.Namespace) -> None:
 
 
 def emit(args: argparse.Namespace) -> None:
-    record = candidate_record(Path(args.repo), args.expected_commit)
+    repo = root_path(Path(args.repo))
+    if repo != root_path(DEFAULT_NAPP_REPO) or args.expected_commit != EXPECTED_COMMIT \
+            or args.record != QUALIFICATION_PATH:
+        raise CheckError("qualification writer requires the fixed Napp candidate and evidence path")
+    record = candidate_record(repo, args.expected_commit)
+    validate_record(record, repo, EXPECTED_REPOSITORY, EXPECTED_COMMIT, "stop")
     target = Path(args.record)
     prefix = "# Napp Candidate Qualification\n\nCommitted-object evidence only; sibling working-tree material is excluded.\n\n"
     def write() -> None:
@@ -599,10 +606,14 @@ def emit(args: argparse.Namespace) -> None:
 
 
 def emit_handoff(args: argparse.Namespace) -> None:
-    if args.plan != APPROVED_PLAN_PATH:
-        raise CheckError("handoff requires the approved Plan-01 path")
+    if args.plan != APPROVED_PLAN_PATH or args.qualification != QUALIFICATION_PATH \
+            or args.handoff != HANDOFF_PATH:
+        raise CheckError("handoff writer requires the approved Plan-01 and evidence paths")
     qualification_record = read_record(Path(args.qualification))
     napp_repo = root_path(Path(args.napp_repo))
+    if napp_repo != root_path(DEFAULT_NAPP_REPO):
+        raise CheckError("handoff writer requires the fixed Napp repository")
+    validate_record(qualification_record, napp_repo, EXPECTED_REPOSITORY, EXPECTED_COMMIT, "stop")
     write_snapshots = {"napp_before": snapshot(napp_repo), "uzel_before": snapshot(ROOT)}
     plan_path = args.plan
     plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", "HEAD:" + plan_path])

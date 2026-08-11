@@ -14,15 +14,15 @@
       "name": "Napp qualification and dependency handoff",
       "status": "done",
       "commit": "431e37a"
-    },
+    }
+  ],
+  "remaining_tasks": [
     {
       "id": "01-01-wip",
       "name": "Historical replay harness",
       "status": "in_progress",
       "progress": "Isolated commit b185ad1b8d9d034d151406b12aa189f5a6be970f exists; replay blocked because exact dependency closure was unavailable under the old no-provisioning rule"
-    }
-  ],
-  "remaining_tasks": [
+    },
     {
       "id": "v4-reorient",
       "name": "Reorient GSD and replace Phase 1 plans from v4 authority",
