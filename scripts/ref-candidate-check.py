@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import re
+import secrets
 import shutil
 import stat
 import subprocess
@@ -106,18 +107,34 @@ def write_confined(root: Path, relative: Path, data: bytes) -> None:
             next_fd = os.open(component, flags, dir_fd=directory_fd)
             os.close(directory_fd)
             directory_fd = next_fd
-        file_flags = os.O_WRONLY | os.O_CREAT | os.O_TRUNC
+        try:
+            existing = os.stat(relative.name, dir_fd=directory_fd, follow_symlinks=False)
+        except FileNotFoundError:
+            existing = None
+        if existing is not None and (not stat.S_ISREG(existing.st_mode) or existing.st_nlink != 1):
+            raise CheckError("output leaf must be a regular single-link file")
+        file_flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
         if hasattr(os, "O_NOFOLLOW"):
             file_flags |= os.O_NOFOLLOW
-        file_fd = os.open(relative.name, file_flags, 0o600, dir_fd=directory_fd)
+        temporary = "." + relative.name + ".tmp-" + secrets.token_hex(16)
+        file_fd = os.open(temporary, file_flags, 0o600, dir_fd=directory_fd)
         try:
+            opened = os.fstat(file_fd)
+            if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+                raise CheckError("temporary output is not a regular single-link file")
             os.fchmod(file_fd, 0o600)
             with os.fdopen(file_fd, "wb", closefd=False) as target:
                 target.write(data)
                 target.flush()
                 os.fsync(target.fileno())
+            os.replace(temporary, relative.name, src_dir_fd=directory_fd, dst_dir_fd=directory_fd)
+            os.fsync(directory_fd)
         finally:
             os.close(file_fd)
+            try:
+                os.unlink(temporary, dir_fd=directory_fd)
+            except FileNotFoundError:
+                pass
     finally:
         os.close(directory_fd)
 
@@ -536,6 +553,23 @@ def self_test(_: argparse.Namespace) -> None:
     for malformed in (b"a" * 40 + b"\xff\n", b"a" * 40 + b"\r\n", b"a" * 40, b"\n"):
         if candidate_argv_ok(["git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(objectsize)"], EXPECTED_COMMIT, object_ids, malformed)[0]:
             raise CheckError("literal grammar admitted malformed batch stdin")
+    with tempfile.TemporaryDirectory(prefix="uzel-confined-write-") as test_root_name:
+        test_root = Path(test_root_name)
+        target = test_root / "target"
+        target.write_bytes(b"preserve")
+        os.link(target, test_root / "output")
+        try:
+            write_confined(test_root, Path("output"), b"changed")
+        except CheckError:
+            pass
+        else:
+            raise CheckError("confined writer admitted a hard-linked output")
+        if target.read_bytes() != b"preserve":
+            raise CheckError("confined writer mutated a hard-link target")
+        (test_root / "output").unlink()
+        write_confined(test_root, Path("output"), b"atomic")
+        if (test_root / "output").read_bytes() != b"atomic":
+            raise CheckError("confined writer failed atomic replacement")
     after = snapshot(ROOT)
     if before["fingerprint"] != after["fingerprint"]:
         raise CheckError("self-test changed repository state")
