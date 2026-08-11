@@ -1,16 +1,16 @@
 # Graph Report - uzel-plan-v4-clean  (2026-08-11)
 
 ## Corpus Check
-- 155 files · ~139,253 words
+- 155 files · ~139,310 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1781 nodes · 2343 edges · 214 communities (110 shown, 104 thin omitted)
+- 1782 nodes · 2346 edges · 211 communities (107 shown, 104 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `768adbcd`
+- Built from commit: `8995a509`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -59,7 +59,6 @@
 - WebKit/Tauri trust spike
 - check-boundaries.sh
 - smoke.sh
-- Work 07 — issue-driven stabilization
 - Work 04 — daemon, NMP, and persistence
 - ExactFixtureSource
 - trusted-shell-policy.js
@@ -71,7 +70,6 @@
 - package.json
 - package.json
 - profile-open-v1.schema.json
-- Execution slices
 - Slice 02 preflight
 - Work 00 — validate assumptions
 - main.js
@@ -80,7 +78,6 @@
 - lib.rs
 - Verified facts
 - Execution slices
-- Uzel single-repository POC
 - check_sha256
 - POC status
 - build-signed-napplet-fixtures.sh
@@ -248,7 +245,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (214 total, 104 thin omitted)
+## Communities (211 total, 104 thin omitted)
 
 ### Community 0 - "POC scope and acceptance"
 Cohesion: 0.06
@@ -371,8 +368,8 @@ Cohesion: 0.14
 Nodes (14): Bounded notification within phase 6.2, Bounded slices, Entry conditions, Exclusions, M4.5 exit gate, M4.5 / GSD delivery phases 6, 6.1–6.2 — scheduling, recovery and cross-domain composition, Phase 6.1 — due-time signer behavior and restart reconciliation, Phase 6.2 — integrated composition, notification and resource closure (+6 more)
 
 ### Community 32 - "FACT-007-local-ipc.md"
-Cohesion: 0.31
-Nodes (14): Any, audit_fences(), audit_hashes(), audit_links(), audit_policy(), audit_toml(), clean_target(), first_symlink_component() (+6 more)
+Cohesion: 0.30
+Nodes (15): Any, audit_fences(), audit_hashes(), audit_links(), audit_pack_symlinks(), audit_policy(), audit_toml(), clean_target() (+7 more)
 
 ### Community 33 - "FACT-008-toolchain.md"
 Cohesion: 0.15
@@ -403,8 +400,8 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 41 - "Post-POC extraction"
-Cohesion: 0.17
-Nodes (10): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+2 more)
+Cohesion: 0.05
+Nodes (37): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+29 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.18
@@ -421,10 +418,6 @@ Nodes (11): Capability negotiation is not a safe implicit-presence check, Ecosys
 ### Community 45 - "smoke.sh"
 Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
-
-### Community 47 - "Work 07 — issue-driven stabilization"
-Cohesion: 0.18
-Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
 
 ### Community 48 - "Work 04 — daemon, NMP, and persistence"
 Cohesion: 0.20
@@ -470,10 +463,6 @@ Nodes (17): @napplet/nap, @napplet/shim, @napplet/vite-plugin, vite, dependencie
 Cohesion: 0.13
 Nodes (14): pubkey, version, additionalProperties, $id, properties, pubkey, version, pattern (+6 more)
 
-### Community 61 - "Execution slices"
-Cohesion: 0.20
-Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
-
 ### Community 62 - "Slice 02 preflight"
 Cohesion: 0.05
 Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
@@ -499,16 +488,12 @@ Cohesion: 0.22
 Nodes (8): Agent trap, Consequence for Uzel, Educational seed, Evidence, Executable witness, Learning, LRN-#### — <reusable lesson>, Question or failed assumption
 
 ### Community 68 - "Verified facts"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 69 - "Execution slices"
 Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
-
-### Community 70 - "Uzel single-repository POC"
-Cohesion: 0.22
-Nodes (9): Accepted provisional risks, Confirmed assumptions, Decision, Exact next steps, Gate 0 preflight and Slice 01 decision, Gate results, Rejected assumptions, Required design changes (+1 more)
 
 ### Community 71 - "check_sha256"
 Cohesion: 0.22
@@ -631,7 +616,7 @@ Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
 ### Community 120 - "ProtocolError"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 121 - "handle_stream"
