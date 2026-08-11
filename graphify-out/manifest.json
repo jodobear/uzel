@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786452304.7736995,
-    "ast_hash": "0297b2ab434c837b8ef97fd21ec13abe",
+    "mtime": 1786452714.1441407,
+    "ast_hash": "0a38c92f67d99c196f415e65f6a9baa5",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
@@ -865,8 +865,8 @@
     "semantic_hash": ""
   },
   ".planning/REQUIREMENTS.md": {
-    "mtime": 1786451188.5395913,
-    "ast_hash": "3fb9caa57f63a7f12c273ee7e0813a15",
+    "mtime": 1786452714.3391428,
+    "ast_hash": "eda393af96c6a4d967ff4b9466cf3e9c",
     "semantic_hash": ""
   },
   ".planning/ROADMAP.md": {
@@ -940,8 +940,8 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-SUMMARY.md": {
-    "mtime": 1786448492.7452211,
-    "ast_hash": "930a078b4f40119f881d4e1cceadc748",
+    "mtime": 1786452714.527145,
+    "ast_hash": "e58789b6ce8febd066cb3db8387e1714",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-05-PLAN.md": {
