@@ -68,7 +68,28 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Depends on:** Nothing; this is the brownfield incident-recovery phase.
 **Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
 **Execution gate:** Revised plans must pass Prompt 02 independent review before implementation.
-**Plans:** 0 active plans. Five `*-PLAN.superseded.md` files remain non-executable evidence.
+**Plans:** 5 active plans across 4 waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
+
+**Wave 1**
+
+- [ ] `01-01-PLAN.md` — reconcile incident evidence, exact-source replay and final `b185ad1` disposition.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] `01-02-PLAN.md` — inventory current package outputs and produce separate Nix/native verdicts.
+- [ ] `01-03-PLAN.md` — establish current authority, identity, schema, storage, trust and threat baselines.
+
+**Wave 3** *(blocked on both Wave 2 plans)*
+
+- [ ] `01-04-PLAN.md` — measure CI/test/review behavior and pin the exact-SHA review flow.
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] `01-05-PLAN.md` — close ecosystem, compatibility, SIR, capability, fairness and knowledge baselines at a human Phase-2 gate.
+
+**Execution gate:** These plans are not authorized for implementation until the exact
+plan head passes `prompts/02-review-phase-1.md` independent review and the human
+explicitly approves Phase 1 execution.
 
 Required responsibilities:
 

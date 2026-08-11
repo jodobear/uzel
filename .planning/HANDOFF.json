@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-11T17:43:06Z",
+  "timestamp": "2026-08-11T20:34:20Z",
   "phase": "01",
   "phase_name": "Truthful baseline and execution reset",
-  "status": "ready_to_plan",
+  "status": "planned_review_required",
   "completed": [
     "Reconciled PROJECT, REQUIREMENTS, ROADMAP, STATE and config to committed v4 authority",
     "Created the complete 34-phase map through 7.9 without renumbering integer phases",
     "Preserved the blocked replay commit, worktree, safety ref and checksummed archive",
     "Recorded installed tool versions and supported command forms",
-    "Confirmed zero executable Phase 1 plans and no product or dependency changes",
-    "Completed GSD onboarding and reclaimed shared tmp capacity without removing source or active worktrees"
+    "Completed GSD onboarding and reclaimed shared tmp capacity without removing source or active worktrees",
+    "Created five revised Phase 1 plans across four waves from the digest-bound ADR projection",
+    "Passed GSD plan-structure, 31-of-31 decision coverage and independent internal plan-checker validation"
   ],
   "remaining": [
-    "Generate revised Phase 1 plans from the authoritative ingest",
     "Run Prompt 02 independent review and local CodeRabbit",
     "Resolve every material review finding",
     "Stop for human go/no-go before implementation"
@@ -22,10 +22,10 @@
     "Phase 1 execution is forbidden until revised plans pass independent review and human approval",
     "Napp candidate remains a stop until an exact committed client/events/testkit candidate qualifies"
   ],
-  "next_action": "$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative",
+  "next_action": "Follow docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md against the exact plan head",
   "do_not": [
     "Do not run $gsd-resume-work",
-    "Do not execute superseded plans",
+    "Do not execute superseded or revised plans before Prompt 02 review and human approval",
     "Do not mutate the blocked replay worktree",
     "Do not automatically advance to Phase 2"
   ]
