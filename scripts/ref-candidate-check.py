@@ -281,19 +281,25 @@ def snapshot(repo: Path) -> dict[str, Any]:
     common_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-common-dir"]).decode().strip())
     object_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "objects"]).decode().strip())
     index_path = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "index"]).decode().strip())
+    head_path = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "HEAD"]).decode().strip())
+    head_bytes = head_path.read_bytes()
     status = must_git(repo, ["status", "--porcelain=v2", "-z"])
     status_guard = must_git(repo, ["status", "--porcelain=v2", "-z", "--", ".",
                                    ":(exclude)evidence/phase-01/candidate-qualification.md",
                                    ":(exclude)evidence/phase-01/napp-dependency.md"])
     values = {
         "root": str(repo), "head": must_git(repo, ["rev-parse", "HEAD"]).decode().strip(),
-        "head_bytes_sha256": sha256(must_git(repo, ["rev-parse", "HEAD"])),
+        "head_bytes_sha256": sha256(head_bytes),
         "raw_index": file_state(index_path),
         "index_serialization_sha256": sha256(must_git(repo, ["ls-files", "-s", "-z"])),
         "refs_sha256": sha256(must_git(repo, ["for-each-ref", "--sort=refname", "--format=%(refname) %(objectname)"])),
         "status_sha256": sha256(status), "status_guard_sha256": sha256(status_guard),
         "git_dir": str(git_dir), "common_dir": str(common_dir), "object_dir": str(object_dir),
-        "protected": {name: file_state(common_dir / name) for name in ("HEAD", "packed-refs", "refs", "logs", "worktrees")},
+        "protected": {
+            "HEAD": file_state(head_path),
+            "common-HEAD": file_state(common_dir / "HEAD"),
+            **{name: file_state(common_dir / name) for name in ("packed-refs", "refs", "logs", "worktrees")},
+        },
         "objects": object_manifest(object_dir),
     }
     values["fingerprint"] = sha256(json_bytes(values))
