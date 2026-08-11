@@ -26,7 +26,7 @@ EXPECTED_REPOSITORY = "jodobear/napp"
 MARKER_BEGIN = "<!-- ref-candidate-record:begin -->"
 MARKER_END = "<!-- ref-candidate-record:end -->"
 HEX = re.compile(r"^[0-9a-f]{40,64}$")
-SAFE_PATH = re.compile(r"^(?!-)(?!.*(?:^|/)(?:\.|\.\.)(?:/|$))[A-Za-z0-9._/@+=,:-]+(?:/[A-Za-z0-9._/@+=,:-]+)*$")
+SAFE_PATH_COMPONENT = re.compile(r"^[A-Za-z0-9._@+=,-]+$")
 ROOT = Path(__file__).resolve().parents[1]
 APPROVED_REFS = ("refs/heads/master",)
 CATEGORY_NAMES = (
@@ -164,10 +164,22 @@ def approved_reachability(repo: Path, commit: str) -> dict[str, Any]:
     return {"approved_refs": reachable, "reachable": bool(reachable)}
 
 
-def git_invariants_equal(before: dict[str, Any], after: dict[str, Any]) -> bool:
+def safe_literal_path(value: str) -> bool:
+    """Accept only literal, relative Git tree paths with non-empty components."""
+    if not value or value.startswith(("/", "-", ":")) or ":" in value or "//" in value:
+        return False
+    components = value.split("/")
+    return all(component not in ("", ".", "..")
+               and not component.startswith("-")
+               and bool(SAFE_PATH_COMPONENT.fullmatch(component))
+               for component in components)
+
+
+def git_invariants_equal(before: dict[str, Any], after: dict[str, Any], *, allow_declared_outputs: bool = False) -> bool:
     keys = ("root", "head", "head_bytes_sha256", "raw_index", "index_serialization_sha256",
             "refs_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects")
-    return all(before.get(key) == after.get(key) for key in keys)
+    status_key = "status_guard_sha256" if allow_declared_outputs else "status_sha256"
+    return all(before.get(key) == after.get(key) for key in (*keys, status_key))
 
 
 def ref_01d_preconditions() -> list[dict[str, str]]:
@@ -245,13 +257,17 @@ def snapshot(repo: Path) -> dict[str, Any]:
     common_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-common-dir"]).decode().strip())
     object_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "objects"]).decode().strip())
     index_path = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "index"]).decode().strip())
+    status = must_git(repo, ["status", "--porcelain=v2", "-z"])
+    status_guard = must_git(repo, ["status", "--porcelain=v2", "-z", "--", ".",
+                                   ":(exclude)evidence/phase-01/candidate-qualification.md",
+                                   ":(exclude)evidence/phase-01/napp-dependency.md"])
     values = {
         "root": str(repo), "head": must_git(repo, ["rev-parse", "HEAD"]).decode().strip(),
         "head_bytes_sha256": sha256(must_git(repo, ["rev-parse", "HEAD"])),
         "raw_index": file_state(index_path),
         "index_serialization_sha256": sha256(must_git(repo, ["ls-files", "-s", "-z"])),
         "refs_sha256": sha256(must_git(repo, ["for-each-ref", "--sort=refname", "--format=%(refname) %(objectname)"])),
-        "status_sha256": sha256(must_git(repo, ["status", "--porcelain=v2", "-z"])),
+        "status_sha256": sha256(status), "status_guard_sha256": sha256(status_guard),
         "git_dir": str(git_dir), "common_dir": str(common_dir), "object_dir": str(object_dir),
         "protected": {name: file_state(common_dir / name) for name in ("HEAD", "packed-refs", "refs", "logs", "worktrees")},
         "objects": object_manifest(object_dir),
@@ -267,9 +283,13 @@ def parse_inventory(data: bytes) -> list[str]:
             continue
         header, _sep, _path = entry.partition(b"\t")
         fields = header.split()
-        if len(fields) != 3 or not HEX.fullmatch(fields[2].decode("ascii", "ignore")):
+        try:
+            object_id = fields[2].decode("ascii")
+        except (IndexError, UnicodeDecodeError) as error:
+            raise CheckError("invalid canonical ls-tree inventory") from error
+        if len(fields) != 3 or not HEX.fullmatch(object_id):
             raise CheckError("invalid canonical ls-tree inventory")
-        objects.append(fields[2].decode())
+        objects.append(object_id)
     return objects
 
 
@@ -277,23 +297,27 @@ def candidate_argv_ok(argv: list[str], commit: str, object_ids: set[str], stdin:
     """Exhaustive candidate declaration grammar; rejection precedes process creation."""
     if not argv or argv[0] != "git" or any("\n" in item or any(ch in item for ch in ";&|`$<>") for item in argv):
         return False, "forbidden-token"
-    commit_forms = {commit + "^{commit}", commit + "^{tree}"}
     if argv in (["git", "rev-parse", "--verify", "--end-of-options", commit + "^{commit}"],
                 ["git", "rev-parse", "--verify", "--end-of-options", commit + "^{tree}"],
                 ["git", "ls-tree", "-rz", "--full-tree", commit]):
         return True, "admitted"
     if len(argv) >= 6 and argv[:5] == ["git", "ls-tree", "-rz", "--full-tree", commit] and argv[5] == "--":
-        return (all(SAFE_PATH.fullmatch(path) for path in argv[6:]), "admitted-paths" if all(SAFE_PATH.fullmatch(path) for path in argv[6:]) else "unsafe-path")
+        valid = bool(argv[6:]) and all(safe_literal_path(path) for path in argv[6:])
+        return valid, "admitted-paths" if valid else "unsafe-path"
     if len(argv) == 6 and argv[:5] == ["git", "show", "--no-ext-diff", "--no-textconv", "--no-renames"]:
         return False, "invalid-show-shape"
     if len(argv) == 7 and argv[:6] == ["git", "show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format="]:
         value = argv[6]
-        return (value.startswith(commit + ":") and bool(SAFE_PATH.fullmatch(value[len(commit) + 1:])), "admitted-show" if value.startswith(commit + ":") else "unsafe-show")
+        valid = value.startswith(commit + ":") and safe_literal_path(value[len(commit) + 1:])
+        return valid, "admitted-show" if valid else "unsafe-show"
     if len(argv) == 3 and argv[:2] == ["git", "cat-file"] and argv[2] == "--batch-check=%(objectname) %(objecttype) %(objectsize)":
-        valid = stdin is not None and all(line in object_ids for line in stdin.decode("ascii", "ignore").splitlines()) and stdin.endswith(b"\n")
+        try:
+            decoded = stdin.decode("ascii") if stdin is not None else ""
+        except UnicodeDecodeError:
+            decoded = ""
+        lines = decoded[:-1].split("\n") if decoded.endswith("\n") else []
+        valid = bool(lines) and all(HEX.fullmatch(line) and line in object_ids for line in lines)
         return valid, "admitted-batch" if valid else "unsafe-batch-stdin"
-    if len(argv) == 3 and argv[:2] == ["git", "cat-file"]:
-        return argv[2] in object_ids, "admitted-object" if argv[2] in object_ids else "unknown-object"
     if len(argv) == 4 and argv[:3] == ["git", "cat-file", "-e"]:
         return argv[3] in object_ids or argv[3] == commit + "^{commit}", "admitted-exists" if argv[3] in object_ids or argv[3] == commit + "^{commit}" else "unknown-object"
     if len(argv) == 4 and argv[:3] in (["git", "cat-file", "-t"], ["git", "cat-file", "-s"]):
@@ -361,7 +385,7 @@ def repository_from_origin(origin: str) -> str:
 
 def validate_snapshot(value: Any, expected_root: Path) -> None:
     keys = {"root", "head", "head_bytes_sha256", "raw_index", "index_serialization_sha256", "refs_sha256",
-            "status_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects", "fingerprint"}
+            "status_sha256", "status_guard_sha256", "git_dir", "common_dir", "object_dir", "protected", "objects", "fingerprint"}
     if not isinstance(value, dict) or set(value) != keys or value.get("root") != str(expected_root):
         raise CheckError("mutation snapshot shape/root mismatch")
     unsigned = {key: item for key, item in value.items() if key != "fingerprint"}
@@ -387,7 +411,13 @@ def validate_record(record: dict[str, Any], repo: Path, expected_repository: str
     exact_path = f".artifacts/phase-01/napp/{expected_commit}/tree.bin"
     if record["tree_inventory_path"] != exact_path or not exact_path.endswith("/tree.bin"):
         raise CheckError("tree inventory path is not the fixed .bin path")
-    artifact = (ROOT / exact_path).resolve()
+    unresolved_artifact = ROOT / exact_path
+    current = ROOT
+    for component in Path(exact_path).parts:
+        current = current / component
+        if current.is_symlink():
+            raise CheckError("tree inventory path contains a symlink")
+    artifact = unresolved_artifact.resolve()
     expected_root = (ROOT / ".artifacts/phase-01/napp").resolve()
     if expected_root not in artifact.parents or artifact.is_symlink() or not artifact.is_file() or stat.S_IMODE(artifact.stat().st_mode) != 0o600:
         raise CheckError("tree inventory confinement/type/mode failed")
@@ -420,7 +450,7 @@ def validate_record(record: dict[str, Any], repo: Path, expected_repository: str
     for name in ("uzel_before", "uzel_after"):
         validate_snapshot(snapshots[name], ROOT)
     if not git_invariants_equal(snapshots["napp_before"], snapshots["napp_after"]) \
-            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"]):
+            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"], allow_declared_outputs=True):
         raise CheckError("undeclared Git mutation detected")
 
 
@@ -474,7 +504,7 @@ def handoff(args: argparse.Namespace) -> None:
     for name in ("uzel_before", "uzel_after"):
         validate_snapshot(snapshots[name], ROOT)
     if not git_invariants_equal(snapshots["napp_before"], snapshots["napp_after"]) \
-            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"]):
+            or not git_invariants_equal(snapshots["uzel_before"], snapshots["uzel_after"], allow_declared_outputs=True):
         raise CheckError("handoff write caused undeclared Git mutation")
     print("handoff: pass")
 
@@ -491,7 +521,11 @@ def self_test(_: argparse.Namespace) -> None:
                 ["git", "cat-file", "--filters", "a" * 40], ["git", "show", "--textconv", "x"], ["git", "show", "--ext-diff", "x"],
                 ["git", "-c", "alias.x=!touch", "x"], ["git", "--config-env=x=y", "status"], ["git", "update-ref", "x", "y"],
                 ["git", "symbolic-ref", "HEAD", "x"], ["git", "update-index", "x"], ["git", "maintenance", "run"], ["git", "lfs", "install"],
-                ["git", "show", "$(curl x)"], ["curl", "https://example.invalid"], ["git", "show", "a;b"]]
+                ["git", "show", "$(curl x)"], ["curl", "https://example.invalid"], ["git", "show", "a;b"],
+                ["git", "ls-tree", "-rz", "--full-tree", EXPECTED_COMMIT, "--", ":/README.md"],
+                ["git", "ls-tree", "-rz", "--full-tree", EXPECTED_COMMIT, "--", "/README.md"],
+                ["git", "ls-tree", "-rz", "--full-tree", EXPECTED_COMMIT, "--", "foo//bar"],
+                ["git", "cat-file", "a" * 40]]
     before = snapshot(ROOT)
     if not all(candidate_argv_ok(value, EXPECTED_COMMIT, object_ids)[0] for value in positive):
         raise CheckError("literal grammar rejected a positive case")
@@ -499,6 +533,9 @@ def self_test(_: argparse.Namespace) -> None:
         raise CheckError("literal grammar admitted a negative case")
     if candidate_argv_ok(["git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(objectsize)"], EXPECTED_COMMIT, object_ids, b"a" * 40 + b"\n")[0] is False:
         raise CheckError("literal grammar rejected safe batch form")
+    for malformed in (b"a" * 40 + b"\xff\n", b"a" * 40 + b"\r\n", b"a" * 40, b"\n"):
+        if candidate_argv_ok(["git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(objectsize)"], EXPECTED_COMMIT, object_ids, malformed)[0]:
+            raise CheckError("literal grammar admitted malformed batch stdin")
     after = snapshot(ROOT)
     if before["fingerprint"] != after["fingerprint"]:
         raise CheckError("self-test changed repository state")
