@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786448492.775347,
-    "ast_hash": "cf785ae08f00ccf8c58744c8bfd4c2df",
+    "mtime": 1786449540.985311,
+    "ast_hash": "e6af173fd9016b600b6505f89ee7cc78",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
