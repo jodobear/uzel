@@ -63,7 +63,7 @@ def canonical_record(value: Any) -> str:
 
 
 def root_path(repo: Path) -> Path:
-    return Path(run_git(repo, ["rev-parse", "--show-toplevel"]).stdout.decode().strip()).resolve()
+    return Path(must_git(repo, ["rev-parse", "--show-toplevel"]).decode().strip()).resolve()
 
 
 def safe_env() -> tuple[dict[str, str], tempfile.TemporaryDirectory[str]]:
