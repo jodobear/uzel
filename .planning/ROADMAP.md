@@ -1,134 +1,327 @@
-# Roadmap: Uzel
+# Roadmap: Uzel product incubation through M5
 
 ## Overview
 
-This MVP first preserves the already-visible local-first POC—rich profile/follows, exact builds, source-bound composition, recovery, and hostile denial—then moves only its runtime-facing boundary behind an accepted Napp seam. It next makes that exact runtime reproducible in the canonical Nix artifact, composes existing checks into lean fail-closed delivery lanes, and adds only missing Social Home value. The roadmap is sequential as the durable execution record, while independent evidence/research lanes may run early without pulling later implementation forward.
+Uzel remains one product-shaped brownfield repository through M5. Phase 1 truthfully
+reconciles the existing POC and execution incident. Phases 2 through 7.9 then deliver
+bounded vertical product increments. Every listed integer or decimal phase after M0 is
+one contextual issue, one manual worktree/branch, and one primary PR.
+
+The detailed product contract is
+`docs/plans/uzel-product-incubation-v4-2026-08-10/03-ROADMAP.md`.
+This file is the live GSD roadmap. The committed v4 pack supplies the durable detail.
+
+## Programme gates
+
+- No Phase 1 implementation until revised plans pass Prompt 02 independent review.
+- No Phase 2 execution until Phase 1 produces separate replay and current Nix/native
+  verdicts, the manifest/exact-build and launch-negotiation profile receives a human
+  go/no-go, and the owner approves advancement.
+- No automatic GSD worktrees or automatic phase advancement under Codex.
+- Phase 7.9 freezes one exact candidate. A5 is a mandatory twelve-lane
+  non-implementation stop; no release, milestone completion, dependency churn, or new
+  feature programme begins automatically.
 
 ## Phases
 
-**Phase Numbering:**
-
-- Integer phases are planned milestone work.
-- Decimal phases are urgent insertions only.
-
-- [ ] **Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam** - Preserve evidence and establish the only permitted consumer seam for Social work.
-- [ ] **Phase 2: SLICE-PKG-01 — Canonical Nix Release Closure** - Deliver the exact-pinned, store-path Linux artifact.
-- [ ] **Phase 3: SLICE-CI-01 — Measured Fail-Closed Delivery Lanes** - Make scoped PR and merge-queue evidence observable and fail closed.
-- [ ] **Phase 4: SLICE-SOC-01 — Local Profile, Resources & Honest State** - Show local-first profile and resource state through the accepted seam.
-- [ ] **Phase 5: SLICE-SOC-02 — Source-Bound Graph, Feed & Navigation** - Complete the composable Social Home experience.
+- [ ] **Phase 1: Truthful baseline and execution reset**
+- [ ] **Phase 2: Packaged shell and exact-build guest boundary**
+- [ ] **Phase 2.1: Local profile and cached/live text Home**
+- [ ] **Phase 2.2: Trusted destination policy and bounded resource fetch**
+- [ ] **Phase 2.3: Isolated raster normalization and resource cache**
+- [ ] **Phase 2.4: People and Profile guest surface**
+- [ ] **Phase 2.5: Mediated cross-surface intents**
+- [ ] **Phase 2.6: M1 diagnostics and integrated closure**
+- [ ] **Phase 2.7: External clean-room compatibility and composition capstone**
+- [ ] **Phase 3: Product-service foundation and draft schema**
+- [ ] **Phase 3.1: Minimal Composer create/edit/save/reopen**
+- [ ] **Phase 3.2: Draft library and conflict semantics**
+- [ ] **Phase 3.3: Recovery, migration and packaged offline closure**
+- [ ] **Phase 4: Signer pairing and client-secret lifecycle**
+- [ ] **Phase 4.1: Publication grant and trusted payload review**
+- [ ] **Phase 4.2: Constrained sign, pre-send verification and engine-owned publication**
+- [ ] **Phase 4.3: Adverse recovery and publication UX closure**
+- [ ] **Phase 5: Trusted selection, bounded image import and local object**
+- [ ] **Phase 5.1: Blossom authorization and verified upload**
+- [ ] **Phase 5.2: Verified fetch, cache and offline reopen**
+- [ ] **Phase 5.3: Composer attachment, export and integrated round trip**
+- [ ] **Phase 6: Durable schedule intent and daemon-hosted scheduler**
+- [ ] **Phase 6.1: Due-time signer behavior and restart reconciliation**
+- [ ] **Phase 6.2: Integrated composition, notification and resource closure**
+- [ ] **Phase 7: Multi-profile UX and authority isolation**
+- [ ] **Phase 7.1: Two simultaneous packaged instances**
+- [ ] **Phase 7.2: Exact-build registry, launch, revoke and removal**
+- [ ] **Phase 7.3: Exact-build update, quarantine and previous-build rollback**
+- [ ] **Phase 7.4: Bounded operations and diagnostics**
+- [ ] **Phase 7.5: Schema migration, integrity and corruption recovery**
+- [ ] **Phase 7.6: Backup, restore, profile deletion and package rollback truth**
+- [ ] **Phase 7.7: Surface and supported-Linux closure**
+- [ ] **Phase 7.8: Production-evidence, performance and resource closure**
+- [ ] **Phase 7.9: Freeze exact audit candidate**
 
 ## Phase Details
 
-### Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam
+### Phase 1: Truthful baseline and execution reset
 
-**Goal**: Developers and reviewers can replay and classify the current merged POC, then—only after qualification—prove the same behavior through one accepted Napp consumer seam without recreating runtime or Nostr authority.
+**Goal:** Preserve the current POC and incident evidence while producing honest, separate historical replay and current Nix/native verdicts plus source-grounded authority, CI, compatibility, maturity and knowledge baselines.
 **Mode:** mvp
-**Depends on**: Nothing for replay/ownership/document admission; exact committed Napp candidate for qualification/adaptation.
-**Execution gate**: POC replay, ownership/pressure evidence, and product-document admission may be planned now. Adapter work is blocked until the root authority set is committed and one exact Napp client/events/testkit candidate passes fail-closed qualification.
-**Requirements**: REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07
-**Success Criteria** (what must be TRUE):
+**Depends on:** Nothing; this is the brownfield incident-recovery phase.
+**Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
+**Execution gate:** Revised plans must pass Prompt 02 independent review before implementation.
+**Plans:** 0 active plans. Five `*-PLAN.superseded.md` files remain non-executable evidence.
 
-  1. Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from a clean or relocated target at the current merged POC pins.
-  2. Release reviewer can verify source-created-surface binding and denial of raw frame network, Tauri bridge, paths, secrets, and caller-selected principals before requests reach Napp.
-  3. Operator can restart Uzel and recover selected read identity, exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
-  4. Maintainer can inspect replayable Chromium and Weston/WebKit evidence, a durable ownership/state/retention/bounds disposition, minimal lifecycle/resource/performance measurements, and repository-qualified missing-contract dependencies instead of private substitutes.
-  5. After an exact Napp candidate passes client/events/testkit, lifecycle, version, and pin probes, the same POC matrix passes through the narrow Rust/Tauri adapter with an explicit revert path and no dual state.
+Required responsibilities:
 
-**Safe plan slices**: REF-01A replay; REF-01B ownership/pressure; REF-01C product-doc admission; Napp candidate handoff/qualification; blocked REF-01D adapter; REF-01E Debian visible acceptance.
-**Superseded plan evidence**: 1/5 historically executed; all five files retain `status: superseded` and use the non-discoverable `*-PLAN.superseded.md` suffix. Installed GSD reports zero executable plans pending v4 replanning.
+1. incident and exact-source replay reconciliation, including final evidence-based `b185ad1` disposition;
+2. current package-output inventory and separate Nix/native baseline with honest `not_yet_packaged`;
+3. current-source authority, schema, instance/profile and threat baseline;
+4. measured CI, test, review and orchestration baseline;
+5. ecosystem registry, immutable compatibility profile, manifest/exact-build SIR,
+   negotiation vectors, capability ledgers, fairness baseline and knowledge lifecycle.
 
-- [ ] 01-01-PLAN.superseded.md
-- [ ] 01-02-PLAN.superseded.md
-- [ ] 01-03-PLAN.superseded.md
-- [x] 01-04-PLAN.superseded.md
-- [ ] 01-05-PLAN.superseded.md
+No product feature, dependency upgrade, broad filesystem/media platform, public API, or
+automatic Phase 2 transition belongs here.
 
-**Wave 1**
+### Phase 2: Packaged shell and exact-build guest boundary
 
-- [ ] `01-01-PLAN.superseded.md` — Historical replay attempt; superseded and non-executable.
-- [x] `01-04-PLAN.superseded.md` — Historical fail-closed dependency handoff; complete evidence, superseded and non-executable.
+**Goal:** Launch one checkout-independent Nix-packaged Uzel shell with one hostile exact-build guest, trusted diagnostics, fail-before-guest capability negotiation, transcript binding and bounded fair admission.
+**Depends on:** Phase 1 human go/no-go.
+**Requirements:** M1-20
+**Plans:** 0 plans
 
-**Wave 2** *(blocked on `01-01` completion)*
+### Phase 2.1: Local profile and cached/live text Home (INSERTED)
 
-- [ ] `01-02-PLAN.superseded.md` — Historical ownership/resource draft; superseded and non-executable.
-- [ ] `01-03-PLAN.superseded.md` — Historical authority-admission draft; superseded and non-executable.
-- [ ] `01-05-PLAN.superseded.md` — Historical Debian acceptance draft; superseded and non-executable.
+**Goal:** Deliver a real read-only local profile with daemon-bound actor context, immediate cached Home, bounded live updates, cancellation and honest freshness states.
+**Depends on:** Phase 2
+**Requirements:** M1-21
+**Plans:** 0 plans
 
-**Conditional completion:** These plans intentionally exclude REF-01D adapter implementation. After `01-03` commits the authority set and `01-04` finds an exact qualifying Napp candidate, refresh research and re-plan the narrow adapter/parity slice.
+### Phase 2.2: Trusted destination policy and bounded resource fetch (INSERTED)
 
-### Phase 2: SLICE-PKG-01 — Canonical Nix Release Closure
+**Goal:** Deliver one semantic, policy-mediated resource path with DNS/address/redirect/proxy defenses, bounded streaming, cancellation and no guest-selected raw destination.
+**Depends on:** Phase 2.1
+**Requirements:** M1-22
+**Plans:** 0 plans
 
-**Goal**: Linux users and release reviewers can build, inspect, and run Uzel as a self-contained Nix artifact with its exact compatible Napp runtime.
-**Mode:** mvp
-**Depends on**: Accepted Napp package/runtime output for final closure. Uzel-only package research may proceed early; canonical package completion may not invent or copy that output.
-**Requirements**: PKG-01, PKG-02, PKG-03, PKG-04, PKG-05
-**Success Criteria** (what must be TRUE):
+### Phase 2.3: Isolated raster normalization and resource cache (INSERTED)
 
-  1. Linux user can build `packages.uzel` and default package/app from locked `x86_64-linux` inputs, with the development shell and package-dependent checks exposed by the flake.
-  2. Release reviewer can prove Cargo, both lockfiles, fixtures, and the packaged runtime closure identify the same accepted full Napp commit.
-  3. Linux user can start the package from its Nix store path without the checkout, development shell, ambient system packages, or arbitrary `nappd` discovery from `PATH`.
-  4. Operator receives a clear incompatible-client/runtime failure rather than a silently incompatible daemon, and release reviewer can inspect the closure, size, Napp runtime reference, desktop assets, and applicable package/WebKit smoke evidence.
+**Goal:** Display profile imagery through a restartable no-network low-authority worker with strict decode/resource limits, provenance, bounded cache and safe failure.
+**Depends on:** Phase 2.2
+**Requirements:** M1-23
+**Plans:** 0 plans
 
-**Plans**: TBD
+### Phase 2.4: People and Profile guest surface (INSERTED)
 
-### Phase 3: SLICE-CI-01 — Measured Fail-Closed Delivery Lanes
+**Goal:** Deliver accessible, bounded People/Profile projection with cached/offline behavior and partial-source failure isolation.
+**Depends on:** Phase 2.3
+**Requirements:** M1-24
+**Plans:** 0 plans
 
-**Goal**: Contributors and merge authority receive measured, exact-head delivery evidence by composing existing commands once; missing or skipped required work cannot pass.
-**Mode:** mvp
-**Depends on**: Phase 2 for final package preflight and merge-full contract; current-lane measurement and initial PR-fast work may proceed independently of Phases 1–2.
-**Requirements**: CI-01, CI-02, CI-03, CI-04, CI-05, CI-06, CI-07
-**Success Criteria** (what must be TRUE):
+### Phase 2.5: Mediated cross-surface intents (INSERTED)
 
-  1. Contributor receives conservative changed-scope PR-fast results for docs, frontend, Rust, contracts, native-host/security, and package/toolchain changes, with shared or uncertain inputs promoted to full scope.
-  2. Contributor receives formatter, typecheck, unit, Fallow, Rust, and targeted Chromium evidence only when applicable; package/toolchain and host/security/native/package changes also receive their required Nix or Weston/WebKit proof.
-  3. Merge queue validates the exact `merge_group` SHA with the canonical Nix package and full required suite before GitHub merges.
-  4. One stable required aggregator fails when a classified job is missing, cancelled, failed, or unexpectedly skipped instead of accepting path-filter silence.
-  5. Maintainer can inspect p50/p95 and cache/cancellation measurements before retaining CI complexity, while merge authority can bind local CodeRabbit, remote Codex, final CodeRabbit, lane, disposition, and zero-blocker evidence to the required exact head SHA.
+**Goal:** Deliver versioned bounded intents between exact-build surfaces without authority transfer, stale delivery, unbounded fan-out or direct peer references.
+**Depends on:** Phase 2.4
+**Requirements:** M1-25
+**Plans:** 0 plans
 
-**Plans**: TBD
+### Phase 2.6: M1 diagnostics and integrated closure (INSERTED)
 
-### Phase 4: SLICE-SOC-01 — Local Profile, Resources & Honest State
+**Goal:** Expose only M1 support diagnostics and prove the complete packaged Social Home journey across native, hostile, accessibility and resource gates.
+**Depends on:** Phase 2.5
+**Requirements:** M1-26
+**Plans:** 0 plans
 
-**Goal**: Users retain the POC's accessible local-first profile/resource value through the accepted seam, while evidenced freshness and diagnostic gaps are closed without a rebuild.
-**Mode:** mvp
-**Depends on**: Phase 1 accepted Napp candidate, Phase 2 canonical package, and Phase 3 required M0 delivery evidence.
-**Execution gate**: Not executable until the accepted committed Napp candidate and required REF, PKG, and CI M0 gates are accepted; no private seam may be invented to start Social work.
-**Requirements**: PROF-01, PROF-02, PROF-03, PROF-04, PROF-05
-**Success Criteria** (what must be TRUE):
+### Phase 2.7: External clean-room compatibility and composition capstone (INSERTED)
 
-  1. User sees assigned profile data from Napp/NMP-projected local state before background refresh, without a Uzel-owned profile or freshness cache.
-  2. User sees mediated profile-resource loading, success, failure, cancellation, and recovery while existing concurrency, byte, retry, object-URL, and viewport cleanup bounds hold.
-  3. User can distinguish local, refreshing, stale, partial, blocked, and diagnosable error states while valid local profile data remains visible through refresh failure.
-  4. Keyboard and assistive-technology users can operate profile and resource state with stable focus, semantic controls, accessible names, and non-disruptive status announcements.
-  5. Developer can opt into compact pressure, cache, freshness, and failure diagnostics without exposing secrets, authority tokens, raw runtime internals, or creating another state owner.
+**Goal:** Generate the public compatibility kit and prove packaged black-box composition with an external-source clean-room fixture while retaining the independent-peer M5 blocker.
+**Depends on:** Phase 2.6
+**Requirements:** M1-27
+**Plans:** 0 plans
 
-**Plans**: TBD
-**UI hint**: yes
+### Phase 3: Product-service foundation and draft schema
 
-### Phase 5: SLICE-SOC-02 — Source-Bound Graph, Feed & Navigation
+**Goal:** Add one daemon-hosted product-service owner for versioned, crash-safe, instance/profile-scoped draft state without shell or guest database access.
+**Depends on:** Phase 2.7
+**Requirements:** M2-30
+**Plans:** 0 plans
 
-**Goal**: Users gain graph/feed navigation around the preserved follow/profile composition; local state, profile selection, recovery, and accessibility remain source-bound and useful.
-**Mode:** mvp
-**Depends on**: Phase 4 and its accepted REF, PKG, and CI M0 gates.
-**Execution gate**: Inherits the Phase 4 Social execution gate; only the accepted Napp seam and required delivery evidence may carry graph/feed/navigation work.
-**Requirements**: SOC-01, SOC-02, SOC-03, SOC-04, SOC-05, SOC-06
-**Success Criteria** (what must be TRUE):
+### Phase 3.1: Minimal Composer create/edit/save/reopen (INSERTED)
 
-  1. User sees known follows and graph edges from Napp/NMP-projected local state first, with explicit incomplete, stale, and refreshing semantics rather than a global-completeness claim.
-  2. User sees a local feed and navigation view that retains useful items and selection through refresh, partial results, failure, and recovery, with its local projection ordering described.
-  3. User can select a profile from graph or feed navigation through source-bound, runtime-mediated `napplet:profile/open` routing that cannot choose its own principal or bypass the trusted host.
-  4. Profile, graph, and feed remain independent exact-build napplets composed into one visible Social Home without direct frame peering or duplicate runtime/Nostr data paths.
-  5. Keyboard and assistive-technology users can navigate graph, feed, and profile selection with stable focus and accessible state changes; release reviewer can verify bounded surfaces, queues, subscriptions, resources, retries, cancellation, recovery, hostile-egress, and affected real-WebKit behavior.
+**Goal:** Deliver a first-party guest Composer that creates, edits, saves and reopens text offline through one scoped product capability.
+**Depends on:** Phase 3
+**Requirements:** M2-31
+**Plans:** 0 plans
 
-**Plans**: TBD
-**UI hint**: yes
+### Phase 3.2: Draft library and conflict semantics (INSERTED)
+
+**Goal:** Deliver bounded draft organization and explicit concurrent-edit conflict handling without silent last-write-wins.
+**Depends on:** Phase 3.1
+**Requirements:** M2-32
+**Plans:** 0 plans
+
+### Phase 3.3: Recovery, migration and packaged offline closure (INSERTED)
+
+**Goal:** Prove packaged offline authoring through kill, disk, corruption, future-schema, profile-switch, conflict and interrupted-migration cases.
+**Depends on:** Phase 3.2
+**Requirements:** M2-33
+**Plans:** 0 plans
+
+### Phase 4: Signer pairing and client-secret lifecycle
+
+**Goal:** Bind an external signer to an explicit local profile through trusted UI and one evidence-backed protected or session-only client-key lifecycle with no guest secret exposure.
+**Depends on:** Phase 3.3
+**Requirements:** M3-40
+**Plans:** 0 plans
+
+### Phase 4.1: Publication grant and trusted payload review (INSERTED)
+
+**Goal:** Commit a narrow exact-build/profile/source-bound publication grant and anti-spoof canonical event-template review outside guest authority.
+**Depends on:** Phase 4
+**Requirements:** M3-41
+**Plans:** 0 plans
+
+### Phase 4.2: Constrained sign, pre-send verification and engine-owned publication (INSERTED)
+
+**Goal:** Persist one publication intent, validate final signer output against the reviewed template before any relay write, and retain engine-owned per-relay evidence.
+**Depends on:** Phase 4.1
+**Requirements:** M3-42
+**Plans:** 0 plans
+
+### Phase 4.3: Adverse recovery and publication UX closure (INSERTED)
+
+**Goal:** Deliver honest recovery/history for refusal, disconnect, replay, expiry, restart, partial relay, duplicate and unknown publication outcomes.
+**Depends on:** Phase 4.2
+**Requirements:** M3-43
+**Plans:** 0 plans
+
+### Phase 5: Trusted selection, bounded image import and local object
+
+**Goal:** Import one supported static raster through trusted selection, opaque handles, an isolated worker and a profile-scoped bounded object store without exposing host paths.
+**Depends on:** Phase 4.3
+**Requirements:** M4-50
+**Plans:** 0 plans
+
+### Phase 5.1: Blossom authorization and verified upload (INSERTED)
+
+**Goal:** Validate signer-produced Blossom authorization before the first upload byte, then run one bounded policy-mediated transfer with explicit unknown handling.
+**Depends on:** Phase 5
+**Requirements:** M4-51
+**Plans:** 0 plans
+
+### Phase 5.2: Verified fetch, cache and offline reopen (INSERTED)
+
+**Goal:** Fetch through the same destination policy and commit cache bytes atomically only after expected length/hash verification.
+**Depends on:** Phase 5.1
+**Requirements:** M4-52
+**Plans:** 0 plans
+
+### Phase 5.3: Composer attachment, export and integrated round trip (INSERTED)
+
+**Goal:** Complete packaged select, import, upload, verify, attach, publish, fetch, offline reopen and atomic export while keeping every outcome distinct.
+**Depends on:** Phase 5.2
+**Requirements:** M4-53
+**Plans:** 0 plans
+
+### Phase 6: Durable schedule intent and daemon-hosted scheduler
+
+**Goal:** Persist an exact-revision schedule intent and narrow future-action grant under one bounded daemon-hosted scheduler.
+**Depends on:** Phase 5.3
+**Requirements:** M45-60
+**Plans:** 0 plans
+
+### Phase 6.1: Due-time signer behavior and restart reconciliation (INSERTED)
+
+**Goal:** Revalidate exact revision/template/grant/actor/build/destination at due time and truthfully reconcile signer, relay and restart ambiguity.
+**Depends on:** Phase 6
+**Requirements:** M45-61
+**Plans:** 0 plans
+
+### Phase 6.2: Integrated composition, notification and resource closure (INSERTED)
+
+**Goal:** Complete the coherent Social-to-authoring-to-publication workflow with mediated intents, bounded optional notifications and measured background resources.
+**Depends on:** Phase 6.1
+**Requirements:** M45-62
+**Plans:** 0 plans
+
+### Phase 7: Multi-profile UX and authority isolation
+
+**Goal:** Prove explicit actor/profile binding and cross-profile denial across read-only and signer-backed profiles and all durable work.
+**Depends on:** Phase 6.2
+**Requirements:** M5-70
+**Plans:** 0 plans
+
+### Phase 7.1: Two simultaneous packaged instances (INSERTED)
+
+**Goal:** Prove disjoint simultaneous packaged instances across endpoints, locks, state, objects, caches, jobs and diagnostics.
+**Depends on:** Phase 7
+**Requirements:** M5-71
+**Plans:** 0 plans
+
+### Phase 7.2: Exact-build registry, launch, revoke and removal (INSERTED)
+
+**Goal:** Deliver immutable exact-build registration and bounded launch, stop, disable, revoke and remove lifecycle with explicit trust tier.
+**Depends on:** Phase 7.1
+**Requirements:** M5-72
+**Plans:** 0 plans
+
+### Phase 7.3: Exact-build update, quarantine and previous-build rollback (INSERTED)
+
+**Goal:** Deliver explicit capability/provenance/profile-transition review, quarantine and exact previous-build rollback without silent authority inheritance.
+**Depends on:** Phase 7.2
+**Requirements:** M5-73
+**Plans:** 0 plans
+
+### Phase 7.4: Bounded operations and diagnostics (INSERTED)
+
+**Goal:** Deliver only product-justified health, targeting, inspection, cancellation, shutdown and redacted export operations without a universal admin plane.
+**Depends on:** Phase 7.3
+**Requirements:** M5-74
+**Plans:** 0 plans
+
+### Phase 7.5: Schema migration, integrity and corruption recovery (INSERTED)
+
+**Goal:** Complete durable-format fixtures, forward/interrupted migration, integrity quarantine and truthful unsupported-future/rollback behavior.
+**Depends on:** Phase 7.4
+**Requirements:** M5-75
+**Plans:** 0 plans
+
+### Phase 7.6: Backup, restore, profile deletion and package rollback truth (INSERTED)
+
+**Goal:** Rehearse verified backup, clean/profile restore, deletion, previous-green package recovery and honest downgrade limits.
+**Depends on:** Phase 7.5
+**Requirements:** M5-76
+**Plans:** 0 plans
+
+### Phase 7.7: Surface and supported-Linux closure (INSERTED)
+
+**Goal:** Close native WebKit, accessibility, Fedora SELinux, Weston, reference-session and package/service lifecycle evidence with explicit unsupported outcomes.
+**Depends on:** Phase 7.6
+**Requirements:** M5-77
+**Plans:** 0 plans
+
+### Phase 7.8: Production-evidence, performance and resource closure (INSERTED)
+
+**Goal:** Close L4 fuzz, dynamic-analysis, interop/version-skew, independent-peer, supply-chain, reproducibility, security-review and measured-resource evidence.
+**Depends on:** Phase 7.7
+**Requirements:** M5-78
+**Plans:** 0 plans
+
+### Phase 7.9: Freeze exact audit candidate (INSERTED)
+
+**Goal:** Freeze one exact Git/tree/Nix/profile/evidence candidate and A5 input bundle marked not release-approved, then stop.
+**Depends on:** Phase 7.8
+**Requirements:** M5-79
+**Plans:** 0 plans
+
+## A5 mandatory stop
+
+A5 is not an implementation phase. After Phase 7.9: freeze feature work, dependency
+churn, roadmap advancement, release completion and tagging; run the twelve-lane
+`05-POST-M5-AUDIT.md`; remediate blockers against the same candidate line; require an
+explicit human decision before any next programme.
 
 ## Progress
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. SLICE-REF-01 — POC Replay & Accepted Napp Seam | 1/5 | In Progress|  |
-| 2. SLICE-PKG-01 — Canonical Nix Release Closure | 0/TBD | Not started | - |
-| 3. SLICE-CI-01 — Measured Fail-Closed Delivery Lanes | 0/TBD | Not started | - |
-| 4. SLICE-SOC-01 — Local Profile, Resources & Honest State | 0/TBD | Not started | - |
-| 5. SLICE-SOC-02 — Source-Bound Graph, Feed & Navigation | 0/TBD | Not started | - |
+All 34 active phases are pending. Phase 1 has zero executable plans until v4 replanning.
+Historical `01-04-SUMMARY.md` remains accepted incident evidence but does not count as
+completion of the revised phase.

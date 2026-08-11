@@ -2,98 +2,134 @@
 
 ## What This Is
 
-Uzel is a Linux Tauri 2 + Svelte graphical product for composable, local-first napplets. It preserves the proven Uzel POC while moving runtime contracts and policy behind one exact-pinned neutral Napp client/runtime seam, then turns that foundation into a compelling Social Home experience.
+Uzel is a Linux-first native environment for small, composable napplets. It is one
+product-shaped brownfield repository through M5, not a package-first programme, runtime
+demo, SDK showcase, or collection of disposable POCs.
+
+The existing POC is accepted evidence: exact-build review and launch, rich profile and
+follow views, source-bound guest mediation, bounded recovery, deterministic browser
+tests, and native Weston/WebKit hostile-denial proof already exist. New work preserves
+those behaviors while correcting ownership and packaging boundaries.
 
 ## Core Value
 
-Uzel must make local-first napplet composition visibly useful without duplicating runtime, Nostr, trust, or persistence truth owned by Napp and NMP.
+Uzel makes local-first napplet composition visibly useful without duplicating runtime,
+Nostr, trust, signing, publication, or persistence truth owned by the daemon runtime and
+the exact-pinned canonical Nostr engine.
+
+## Product Outcome
+
+By Phase 7.9, a technically capable Linux user can install one exact Nix result, use
+cached/live Social Home, author offline, pair an external signer, deliberately publish
+text, complete a verified static-image attachment round trip, schedule an exact revision,
+recover across failure, operate multiple profiles/instances, inspect bounded evidence,
+and freeze one production-candidate input for A5.
+
+Phase 7.9 is not release approval. A5 and explicit human judgment remain mandatory.
+
+## Current Milestone
+
+M0 / Phase 1 is an incident-recovery and truthful-baseline phase:
+
+- Track A: exact-source/exact-lock hermetic replay with one bounded attempt and honest
+  verdict;
+- Track B: separate current package-output inventory and Nix/native baseline, using
+  `not_yet_packaged` when installable GUI/daemon outputs do not exist;
+- source-grounded authority, schema, threat, CI/review, compatibility, maturity and
+  knowledge baselines;
+- preserved `b185ad1` worktree, safety ref and checksummed portable archive;
+- human stop before Phase 2.
+
+No new product feature, dependency upgrade, broad file/media platform, public API, or
+automatic advancement belongs in Phase 1.
 
 ## Requirements
 
-### Validated
+The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phases:
 
-- ✓ A Linux Tauri/Svelte shell launches exact-build signed napplets through a private daemon boundary — existing POC
-- ✓ Trusted host source binding prevents untrusted napplet frames from receiving raw network or native Tauri authority — existing POC
-- ✓ One daemon-owned runtime/NMP plane supplies read-only profile and follow data, bounded resources, and cache-first recovery — existing POC
-- ✓ Independent profile and follow napplets compose through runtime-mediated NAP-INC routing — existing POC
-- ✓ Deterministic Chromium tests and real Weston/WebKit hostile-egress evidence cover the core trust boundary — existing POC
-- ✓ A pinned Nix development environment supports the current Rust, frontend, Tauri, and WebKit workflow — existing POC
+- M0 establishes truthful replay/package/source/delivery/ecosystem baselines;
+- M1 delivers the packaged Social Home and exact-build guest boundary;
+- M2 adds daemon-owned local-first authoring;
+- M3 adds external-signer publication with final-event validation;
+- M4 adds trusted static-image import and verified Blossom round trip;
+- M4.5 adds exact-revision scheduling and restart reconciliation;
+- M5 closes multi-profile/instance authority, lifecycle, migration, operations,
+  supported-Linux and production evidence before the A5 stop.
 
-### Active
+## Locked Architecture
 
-- [ ] Replay the merged POC from a clean or relocated target and record durable Uzel/Napp/upstream ownership, state-retention, and resource-bound dispositions
-- [ ] Preserve current acceptance, hostile-isolation, recovery, lifecycle, performance, and resource evidence while seams move behind Napp
-- [ ] Pin one accepted committed Napp client/testkit revision consistently across Cargo, lockfiles, and the Nix runtime closure
-- [ ] Produce a reproducible canonical Nix Uzel package that runs from its store path with the exact compatible Napp runtime
-- [ ] Prove measured PR-fast, path-gated native/package preflight, and merge-group full CI lanes with fail-closed review evidence
-- [ ] Preserve existing assigned-profile, avatar/resource, follow-row, and profile-selection value through the accepted seam; add only evidenced stale/partial/refreshing/diagnostic gaps
-- [ ] Add missing graph/feed/navigation value through source-bound runtime-mediated composition without rebuilding existing follow/profile paths
+- The trusted Tauri/Svelte shell owns presentation, workspace chrome and human decisions.
+- First-party Home, People/Profile and Composer surfaces remain exact-build guests with
+  no privileged shortcut.
+- Runtime mediation owns session, grant, handle and exact-build authority.
+- A daemon-hosted product service owns durable Uzel drafts, schedules and workflow intent;
+  the shell never opens its database.
+- One exact-pinned canonical Nostr engine owns Nostr queries, relay state, provenance,
+  freshness, signing, writes and delivery evidence.
+- Local profile, actor, viewed subject, signer connection, client identity, exact build,
+  instance, session and generation are distinct.
+- Every package binds one immutable exact-UTF-8 Runtime Compatibility Profile and exposes
+  its hash.
+- Missing required capabilities reject before guest code; optional omissions are explicit
+  and a canonical transcript binds the fixed launch result.
+- Guest-influenced work has global and per-principal admission, fairness,
+  anti-starvation, cancellation and cleanup.
+- Signer-produced events are validated against the reviewed canonical template before
+  any relay write.
+- Blossom authorization is validated before any upload body.
+- Scheduling grants only one exact reviewed future action; it is not generic unattended
+  signing authority.
+- Before A5, untrusted raster parsing runs in a separate no-network low-authority worker.
+- No shell database, second Nostr plane, generic filesystem server, public daemon
+  protocol, or universal admin API.
 
-### Out of Scope
+## Delivery Model
 
-- Local Files — activates only after Social Home acceptance
-- Blossom and local-first authoring — require accepted filesystem and external-signer seams first
-- Signing, wallets, and private-key custody — not part of this read-oriented milestone
-- FIPS, media, ContextVM, Relatr, search, TUI, WASI, Android, and native napplets — parked beyond the first milestone
-- Flatpak packaging — Nix is the canonical Linux build and installation artifact
-- A Uzel-owned Napp substitute, Nostr engine, relay pool, signer, grants store, or duplicate cache — violates ownership boundaries
-- Public daemon protocol or production multi-WebView/compositor work — not required for the scoped Linux product milestone
-
-## Context
-
-The brownfield POC already contains the Tauri shell, Svelte presentation, private AF_UNIX daemon protocol, exact-build fixtures, trusted surface host, rich NMP-backed profile/follow paths, NAP-INC profile selection, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. Production baseline `19519c3` is merged; the nested status that still calls PR #30 active is stale, while its Debian 13 visible-acceptance gap remains unresolved. The re-audited plan preserves visible value and makes Nix packaging and lean CI delivery contracts rather than rebuilding the product or front-loading a generic runtime framework.
-
-The first milestone is organized as five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, `SLICE-CI-01`, `SLICE-SOC-01`, and `SLICE-SOC-02`. REF replay/ownership/document admission may proceed before Napp; its adapter lane waits for an accepted candidate. Uzel-only package research and CI measurement may run concurrently, but the canonical package needs the Napp output and final CI needs that package. New Social implementation waits for accepted REF, PKG, and CI gates.
-
-The installed root product-first document pack and GitHub templates are not committed at this audit. They are proposed inputs, not repository authority, until selected, audited, and committed. Committed `.planning/` artifacts and exact source remain authoritative meanwhile.
-
-GitHub issues define scoped delivery outcomes, GSD is the repository-local execution record, and GitHub remains merge authority. Each PR carries one visible outcome, declares its CI class, runs bounded local review and PR-fast evidence, and enters the merge queue only after exact-head review evidence is clean.
+- The committed v4 pack is programme input; `.planning/` is live GSD state.
+- After M0, every listed integer or decimal phase is one contextual issue, one manual
+  worktree/branch and one primary PR.
+- GSD automatic worktrees and automatic advancement are disabled under Codex.
+- Plans are independently reviewed before execution; implementation review is serial:
+  local CodeRabbit, remote Codex, remote CodeRabbit, final Codex on the final material
+  SHA, then required CI/verification and merge.
+- Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
+  learning, education and visibility deltas.
 
 ## Constraints
 
-- **Product stack**: Tauri 2 + Svelte remains locked — preserve the proven Linux product shell
-- **Ownership**: Rust owns canonical surface/layout state and Napp client lifecycle; Svelte owns presentation — avoid split runtime truth
-- **Runtime boundary**: Uzel consumes `napp-client`, product-facing events, and committed testkit vectors only — Napp owns runtime contracts and policy
-- **Nostr boundary**: NMP is the sole Nostr query, relay, canonical-store, signer, freshness, provenance, and publication plane — no duplicate data plane
-- **Trust**: Every napplet request is source-bound before reaching Napp; untrusted surfaces receive no Tauri bridge, secrets, host paths, raw network, or caller-selected principal
-- **Dependency pinning**: Cargo and flake inputs must identify the same accepted Napp commit; arbitrary `nappd` discovery from `PATH` is forbidden
-- **Linux release**: The reproducible Nix derivation is canonical; ambient host packages and Flatpak workarounds cannot supply missing dependencies
-- **Responsiveness**: Local data renders first; UI-thread work stays non-blocking; WebView count, queues, retries, streams, tasks, resources, and subprocesses stay bounded and cancellable
-- **Compatibility**: Preserve exact-build identity, current-green fixtures, POC acceptance, and real WebKit evidence while changing one dependency or ownership axis at a time
-- **Current scope**: One Uzel instance and one active read profile are the proven baseline; record collisions but defer multi-instance/multi-profile implementation
-- **Migration**: Qualify, adapt one Rust/Tauri boundary, replay parity, then retire compatibility code; no dual store/write and rollback by adapter/pin revert
-- **Naming**: Project-owned identifiers are descriptive and at most 21 characters, with only narrow documented exceptions
-- **Delivery**: One contextual issue, one visible outcome, one owning worktree, one PR; out-of-scope findings move to linked future issues
-- **Review**: Local CodeRabbit, remote Codex, final remote CodeRabbit, exact-head evidence, then merge queue; missing, stale, skipped, failed, or timed-out review is not approval
+- Preserve exact source and locks during historical replay.
+- Prefer reuse, then narrow adaptation, then upstream contribution, then only the proven
+  missing seam.
+- No global binaries, dynamic downloads, package substitution, copied dependency trees,
+  silent fallback, or closure drift as replay evidence.
+- Nix package/runtime truth must be checkout- and ambient-`PATH`-independent.
+- State, queues, retries, resources and histories are bounded; remote ambiguity remains
+  explicit `unknown`.
+- No secrets, pairing URIs, private user content or unredacted diagnostics enter external
+  review evidence.
+
+## Out of Scope Before A5
+
+- FIPS/mesh transport, ContextVM, Relatr/Open Ranking, broad search;
+- wallets, Bitcoin, Lightning or Cashu;
+- native/WASI napplets, Android, TUI or general headless product;
+- public marketplace or unattended updates;
+- arbitrary directories, watchers, general filesystem platform;
+- arbitrary in-process media/document decoders;
+- custom compositor/window manager;
+- broad D-Bus, shell execution or multi-host administration.
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| Preserve and replay the POC instead of rebuilding Uzel | Existing code already proves critical runtime, trust, recovery, rich profile/follows, and composition behavior | Re-audited at `19519c3`; current replay material is audit/WIP evidence, not accepted exact-build replay and not authority for Napp transition |
-| Build only neutral Napp seams proven by visible Uzel slices | Keeps product policy in Uzel and avoids an abstract framework milestone | — Pending |
-| Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible runtime dependencies | — Pending |
-| Measure simple full-workspace CI before adding affected-crate complexity | Complexity must earn its cost through real p50/p95 evidence | — Pending |
-| Split REF into independent preservation and blocked adapter lanes | Keeps useful brownfield work moving without inventing the absent Napp seam | ✓ Accepted by Phase 1 re-audit |
-| Gate new Social work on an accepted committed Napp candidate and M0 delivery evidence | Prevents private contract invention and protects the existing POC baseline | — Pending |
-| Keep GitHub as merge authority and GSD as execution record | Separates local orchestration from required checks and canonical merge state | — Pending |
-
-## Evolution
-
-This document evolves at phase transitions and milestone boundaries.
-
-**After each phase transition** (via `$gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `$gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
+| Decision | Rationale | Status |
+|---|---|---|
+| Existing POC is brownfield evidence, not disposable legacy or automatic final architecture | Preserve proven value while letting product slices correct boundaries | Locked |
+| Uzel is the only product repository through M5 | Prevent package-first dependency inversion and fragmented ownership | Locked |
+| `b185ad1` remains unmerged and provisionally retained during planning | Final disposition needs executed evidence | Locked |
+| Historical replay and current Nix/native acceptance are separate verdicts | One cannot repair or substitute for the other | Locked |
+| Missing installable package outputs are `not_yet_packaged` and Phase 2-owned | Avoid fabricating package success or importing Phase 2 work into M0 | Locked |
+| Phase 2 waits for manifest/exact-build and launch-negotiation human go/no-go | Moving specs/packages currently disagree | Locked |
+| M5 produces a frozen A5 candidate, not release completion | Keep normative release judgment human and explicit | Locked |
 
 ---
-*Last updated: 2026-08-09 after source-backed milestone re-audit*
+*Reoriented from committed v4 authority: 2026-08-11*

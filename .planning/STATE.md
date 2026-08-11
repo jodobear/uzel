@@ -1,103 +1,96 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
+milestone: v4
+milestone_name: Uzel product incubation through M5
 current_phase: 01
-current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
-status: paused
-stopped_at: V4 reorientation and independent Phase 1 plan review required
-last_updated: "2026-08-11T12:25:41Z"
+current_phase_name: Truthful baseline and execution reset
+status: ready_to_plan
+stopped_at: V4 reorientation complete; revised Phase 1 planning required
+last_updated: "2026-08-11T17:43:06Z"
 last_activity: 2026-08-11
-last_activity_desc: Superseded plans disabled; v4 reorientation required
+last_activity_desc: Reconciled GSD planning state to committed v4 programme authority
 progress:
-  total_phases: 5
+  total_phases: 34
   completed_phases: 0
-  total_plans: 5
-  completed_plans: 1
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-09)
+See `.planning/PROJECT.md` and the authoritative programme ingest at
+`docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`.
 
-**Core value:** Uzel makes local-first napplet composition visibly useful without duplicating runtime, Nostr, trust, or persistence truth owned by Napp and NMP.
-**Current focus:** Reorient Phase 01 from the committed v4 authority; no implementation may resume before independent plan review passes.
+**Core value:** Uzel delivers visibly useful local-first napplet composition while Napp
+owns runtime authority and one canonical Nostr engine owns Nostr truth.
+
+**Current focus:** Plan Phase 1 from the committed v4 authority. Do not execute until
+Prompt 02 independent review resolves all material findings and the human gate passes.
 
 ## Current Position
 
-Phase: 01 (SLICE-REF-01 — POC Replay & Accepted Napp Seam) — PAUSED
-Plan: superseded plans preserved as evidence; revision not started
-Status: Reorientation and independent review required
-Last activity: 2026-08-11 — Superseded plans disabled; v4 reorientation required
-
-Progress: [██░░░░░░░░] 20%
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 1 historical evidence-only plan
-- Average duration: -
-- Total execution time: 0 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
-**Per-Plan Metrics:**
-
-| Plan | Duration | Tasks | Files |
-|------|----------|-------|-------|
-| Phase 01-slice-ref-01-poc-replay-accepted-napp-seam P04 | 7m 28s | 2 tasks | 9 files |
+- Phase: 1 of 34 — Truthful baseline and execution reset
+- Plans: zero executable plans; five superseded plans retained as incident evidence
+- Status: ready to plan
+- Progress: `[..........]` 0%
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table. Current roadmap decisions:
-
-- [Phase 1]: Accepted public Napp client/events/testkit seam is Social's non-negotiable gate; never promote POC-private IPC.
-- [Phase 1]: Candidate absence blocks only qualification/adaptation; merged-POC replay, ownership/pressure evidence, and product-document admission may be planned independently.
-- [Phase 1]: One instance and one active read profile are the proven baseline; no multi-instance promise or duplicate NMP/Uzel store.
-- [Phase 2]: Canonical Linux release is the Nix closure with one matching accepted Napp commit; no ambient `PATH` runtime.
-- [Phase 3]: CI starts measured and conservative; its final package/merge-full contract consumes Phase 2.
-- [Phases 4–5]: Social starts only after accepted REF, PKG, and CI M0 delivery gates; Uzel retains no duplicate Nostr/cache/runtime truth.
-- [Phase ?]: Current Napp candidate is a repository-qualified stop, not an adapter seam.
-- [Phase ?]: Plan-01 parity binds to its recorded immutable Uzel commit, not later HEAD changes.
+- Uzel remains one product-shaped repository through Phase 7.9/M5.
+- Historical exact-source replay and the current Nix/native baseline produce separate
+  verdicts; neither substitutes for the other.
+- `b185ad1b8d9d034d151406b12aa189f5a6be970f`, its worktree, safety ref and portable
+  archive remain preserved. Planning assigns only provisional disposition.
+- Runtime is Codex. Automatic GSD worktrees and automatic phase advancement are off.
+- Phase 2 cannot execute before the manifest/exact-build and launch-negotiation profile
+  receives an explicit human go/no-go.
+- Phase 7.9 freezes one exact candidate. A5 is a mandatory twelve-lane
+  non-implementation stop, not automatic release or programme continuation.
+- Installed help supports `--ingest`, `--ingest-format`, `--reviews`, `--coderabbit`,
+  `--insert`, `--edit`, default plan verification and post-execution `verify-work`.
+  Installed help does not document `--validate`; do not add it to the planning command.
 
 ### Pending Todos
 
-- Run `docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/01-reorient-current-gsd.md`.
-- Independently review the revised Phase 1 plan with `prompts/02-review-phase-1.md`.
+- Run the exact Phase 1 planning command recorded below.
+- Independently review the revised plans with `prompts/02-review-phase-1.md` and local
+  CodeRabbit; resolve material findings.
+- Stop for human go/no-go before any Phase 1 implementation.
 
-### Blockers/Concerns
+### Blockers and Evidence Gaps
 
-- [Phase 1] Adapter implementation is blocked until an exact committed Napp client/events/testkit candidate passes qualification.
-- [Phase 1] The v4 authority is committed; GSD reorientation and independent plan review remain incomplete.
-- [Phase 1] Legacy Work 07 status is stale about PR #30; merged source is `19519c3`, while Debian 13 visible acceptance remains open.
-- [Phases 4–5] New Social execution is blocked until accepted committed Napp candidate plus REF, PKG, and CI M0 gates are accepted.
-- [Phases 1–3] REF preservation and Uzel-only package/CI research can progress independently; final package and merge-full evidence require accepted Napp/package outputs.
+- Historical replay remains unresolved until execution realizes the exact source/lock
+  closure and records an evidence-based final disposition.
+- Current installable package outputs have not yet been proved; record
+  `not_yet_packaged` when absent and assign full package acceptance to Phase 2.
+- Napp candidate `0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` remains a qualified stop,
+  not an accepted product client/events/testkit seam.
+- Managed Codex is `0.147.0`; bare `codex` resolves stale Nix `0.92.0` on `PATH`.
+- GSD `1.8.0` warns that baked agent definitions predate current config; no speculative
+  model override was added and no toolchain update belongs in this phase.
+- Graphify is disabled in project config, so committed `.planning/codebase/` maps were
+  used without mutating the graph.
+- Preserved manual/incident worktrees yield expected health warnings; do not prune them.
 
-## Deferred Items
+### Resolved Environment Constraint
 
-| Category | Item | Status | Deferred At |
-|----------|------|--------|-------------|
-| Files | Local Files | After Social Home acceptance | 2026-08-09 |
-| Authoring | Blossom, signing, wallets, and key custody | After accepted filesystem and external-signer seams | 2026-08-09 |
-| Platforms | FIPS, media, ContextVM, Relatr, search, TUI, WASI, Android, native napplets, Flatpak | Beyond first milestone | 2026-08-09 |
+- `/workspace/tmp` and `/tmp` are the same 98 GiB `/dev/loop0` filesystem. Three
+  verified ignored and unused Rust `target/` trees were removed, increasing available
+  space to 89 GiB (6% used). Source, registered worktrees, active Upay P5.1 work,
+  `upay-p22`, blocked Uzel WIP and portable evidence were preserved.
+
+## Exact Next Action
+
+```text
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative
+```
+
+Do not run `$gsd-resume-work` and do not execute Phase 1 in this state.
 
 ## Session Continuity
 
-Last session: 2026-08-11T12:25:41Z
-Stopped at: V4 reorientation and independent review required
-Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/.continue-here.md
+Resume file: `.planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/.continue-here.md`
