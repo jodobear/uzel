@@ -2,9 +2,9 @@
   "date": "2026-08-10",
   "files": [
     {
-      "bytes": 17079,
+      "bytes": 17298,
       "path": "00-GSD-INGEST.md",
-      "sha256": "203bcee89c6c22d5d49e661ac52dd682dc7d33d86e007b71d9a0a52de378e82e"
+      "sha256": "a8fcd696d173c5760f52067b8fa5889c53f323940b02b9e217c4842df62f8aa1"
     },
     {
       "bytes": 18256,
@@ -12,9 +12,9 @@
       "sha256": "af2f7450fb5f3b82fb4fe5b42f1b456e5af5842004cde113f7f84b9d6037c0a9"
     },
     {
-      "bytes": 58351,
+      "bytes": 58761,
       "path": "02-PRODUCT-ARCHITECTURE.md",
-      "sha256": "69a2d62985c87ff60846b3a8fa787a32aea807d7c788a9da962fb172ff8a674e"
+      "sha256": "4bb36f5dd76315c819da8871b9c7a0b00e8135d3c911d10c160d1cc1b972f7e7"
     },
     {
       "bytes": 49744,
@@ -32,14 +32,14 @@
       "sha256": "e5a663a815a0c958a08c1cc0e8e01a475bbd5085a6f9be94366b2f5843460c42"
     },
     {
-      "bytes": 18611,
+      "bytes": 20483,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "08afe9ba2bfc82ee928c3d9aeebe60db3028c8f66b307a16c7cd53aa737aea6b"
+      "sha256": "9f2f6d459e6fef725fb72255269a705e1a79a33eb64d918920aa1ab1f6db3cef"
     },
     {
-      "bytes": 25827,
+      "bytes": 25988,
       "path": "07-ECOSYSTEM-UPSTREAM.md",
-      "sha256": "2a19fb3cd53d5eb87d34a756bdbfa7981ca458b13b66c7f76318e732cb297532"
+      "sha256": "a91389d86eab3fa7d0f93c564d23cb25d3d5624db794571e7037491caa22c53c"
     },
     {
       "bytes": 18753,
@@ -47,9 +47,9 @@
       "sha256": "1794abeefcf7188ddd643b96711429aa35d3b0d6d7c6c970456e23257628fb30"
     },
     {
-      "bytes": 23462,
+      "bytes": 23479,
       "path": "09-PRODUCTION-MATURITY.md",
-      "sha256": "542354b7d254db97ae08315fa7dfe4ed963cb8aee3892f4f547789c0d8de91fd"
+      "sha256": "6c5d35fa5508347be7564f6bf5311f5236d3edab5b165f93ade65feab30c6f99"
     },
     {
       "bytes": 25100,
@@ -62,9 +62,9 @@
       "sha256": "3aeb0687edc701c5012b85564209aad3bf855335d4e09e498e38bb9642ed6826"
     },
     {
-      "bytes": 4101,
+      "bytes": 4089,
       "path": "prompts/01-reorient-current-gsd.md",
-      "sha256": "6a9350fad3cd765437508df143ff2dc05c097eb2d0601c942a7ccff8e3e17572"
+      "sha256": "50845ee3741687bee541b8c43fab13c7138f7a4254552ca7f1cbb573947aeb84"
     },
     {
       "bytes": 3946,
@@ -82,14 +82,14 @@
       "sha256": "6074f9e36445f7a59c578ec544b3c5b9108ca4635bb3c506a721ee16f3f51b71"
     },
     {
-      "bytes": 2492,
+      "bytes": 2605,
       "path": "prompts/05-phase-closeout.md",
-      "sha256": "828a64396542d84a6197dce00826cc2c7ff5644f5ac03aaf352bac24c3f41dcd"
+      "sha256": "87ae331af19801dd2e15eb22382bc97e703d86a51dd1048bb71c1e9bb163147d"
     },
     {
-      "bytes": 2686,
+      "bytes": 2822,
       "path": "prompts/06-upstream-contribution.md",
-      "sha256": "3100cff865a2a240bc1de892c525c93ffba95011ca219a1022150cdaa4d98a56"
+      "sha256": "3f9a006f41580541b729ad43af29bf4b73660219a64a214878a20a660fac9c29"
     },
     {
       "bytes": 1908,
@@ -102,9 +102,9 @@
       "sha256": "73450553091f26d8519def6989661c052791dd326b7f1b7c787ada9f71bb269e"
     },
     {
-      "bytes": 23836,
+      "bytes": 23867,
       "path": "scripts/audit_docs.py",
-      "sha256": "705b33de1742d8fca8273da88cd91eecfcd8cf753090e1ddca87780050e9a3b2"
+      "sha256": "530fa03d1ad2e848f3f394a71ebd15185b944cc09fcfc7c7b90949a6ffc3df37"
     },
     {
       "bytes": 928,
@@ -132,9 +132,9 @@
       "sha256": "484e02ff6f6b80167fa79c4324b2e730f534d355d17464e5d77f53dd897b02c8"
     },
     {
-      "bytes": 1909,
+      "bytes": 2164,
       "path": "templates/MILESTONE-LEARNING.md",
-      "sha256": "1bdd28da724809da50c1ec68d0cd976a74c870a9463e9e507f39c54e998997a1"
+      "sha256": "b39e0b432ce767a1d336dd46916a2210e13bb7677ff4b83e3b6673e107426002"
     },
     {
       "bytes": 1446,
@@ -152,19 +152,19 @@
       "sha256": "8d316fba55b0f2e0836ce31ca2038d83f0ed2490c4ab9e5df85f3337c607fe26"
     },
     {
-      "bytes": 632,
+      "bytes": 824,
       "path": "templates/TERM-REGISTRY.toml",
-      "sha256": "2b72ec87b0cebfb7c34453ae5288077eedae800b6fc8dfe2281558cd2527bf57"
+      "sha256": "b8d6d496c56d2c3b150c743c0aeda4c011482812358c32cc7ae8c822c4ae2353"
     },
     {
-      "bytes": 1757,
+      "bytes": 1816,
       "path": "templates/UPSTREAM-RECORD.md",
-      "sha256": "b39e421694ba3b375b40e4169a5bff1d6cbe9046d1035e2feb78c5a55358bf72"
+      "sha256": "faf1f86ee83318ba2b2ba203eec2d6f7733977c7a61d217b98bc437e9149b579"
     },
     {
-      "bytes": 1730,
+      "bytes": 1816,
       "path": "templates/UPSTREAM-REGISTRY.toml",
-      "sha256": "fbc5454a858a8e85e66ca84dd778482195289ea7fff67b027a625a5fd7e0f404"
+      "sha256": "10d49c01bde6c7299750782ba9743bc52d5063dc5008c0adbd358fc10601e761"
     }
   ],
   "name": "uzel-product-incubation-v4-2026-08-10",

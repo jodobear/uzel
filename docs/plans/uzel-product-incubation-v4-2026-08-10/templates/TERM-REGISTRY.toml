@@ -3,6 +3,10 @@ registry_id = "uzel-canonical-terms-v1"
 status = "template"
 last_reviewed = "YYYY-MM-DD"
 
+# Validator rules: every superseded term has at least one replaced_by ID that exists;
+# self-references and replacement cycles are invalid. Non-superseded terms may keep
+# replaced_by empty.
+
 [[term]]
 term_id = "term.example"
 label = "preferred label"

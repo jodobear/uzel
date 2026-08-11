@@ -31,8 +31,10 @@ set -euo pipefail
 
 repo_dir="/absolute/path/to/jodobear/uzel"
 evidence_dir="/absolute/private/path/uzel-phase-1-b185ad1"
+blocked_worktree="/absolute/path/to/blocked-01-01-worktree"
 
 cd "$repo_dir"
+umask 077
 git rev-parse --is-inside-work-tree >/dev/null
 git cat-file -e 'b185ad1^{commit}'
 git show --stat --oneline b185ad1
@@ -70,11 +72,28 @@ grep -Fx "parent=$(git rev-parse b185ad1^)" \
 grep -Fx "commit=$(git rev-parse b185ad1)" \
   "$evidence_dir/b185ad1-metadata.txt"
 
+if [ ! -e "$evidence_dir/blocked-status-v2.z" ]; then
+  git -C "$blocked_worktree" status --porcelain=v2 -z \
+    > "$evidence_dir/blocked-status-v2.z"
+  git -C "$blocked_worktree" diff --binary \
+    > "$evidence_dir/blocked-unstaged.patch"
+  git -C "$blocked_worktree" diff --cached --binary \
+    > "$evidence_dir/blocked-staged.patch"
+  git -C "$blocked_worktree" ls-files --others --exclude-standard -z -- \
+    > "$evidence_dir/blocked-untracked.z"
+  (
+    cd "$blocked_worktree"
+    tar --null --files-from="$evidence_dir/blocked-untracked.z" \
+      --no-recursion -cf "$evidence_dir/blocked-untracked.tar"
+  )
+fi
+
 (
   cd "$evidence_dir"
-  if [ ! -e SHA256SUMS ]; then
-    sha256sum b185ad1.bundle b185ad1-metadata.txt > SHA256SUMS
-  fi
+  sha256sum \
+    b185ad1.bundle b185ad1-metadata.txt blocked-status-v2.z \
+    blocked-unstaged.patch blocked-staged.patch blocked-untracked.z \
+    blocked-untracked.tar > SHA256SUMS
   sha256sum -c SHA256SUMS
 )
 ```
@@ -111,6 +130,35 @@ trusted_pack_sha256="<64-hex SHA-256 from a signed release or authenticated owne
   test "$(awk 'NR == 1 { print $1 }' "$pack_name.sha256")" = "$trusted_pack_sha256"
   printf '%s  %s\n' "$trusted_pack_sha256" "$pack_name.zip" | sha256sum -c -
   unzip -tq "$pack_name.zip"
+  python3 - "$pack_name.zip" "$pack_name" <<'PY'
+import stat
+import sys
+import zipfile
+from pathlib import PurePosixPath
+
+archive, expected_root = sys.argv[1:]
+seen = set()
+with zipfile.ZipFile(archive) as source:
+    for entry in source.infolist():
+        name = entry.filename
+        path = PurePosixPath(name)
+        parts = path.parts
+        if (
+            not parts
+            or path.is_absolute()
+            or "\\" in name
+            or parts[0] != expected_root
+            or any(part in {"", ".", ".."} for part in parts)
+        ):
+            raise SystemExit(f"unsafe archive path: {name!r}")
+        normalized = "/".join(parts)
+        if normalized in seen:
+            raise SystemExit(f"duplicate archive path: {normalized!r}")
+        seen.add(normalized)
+        kind = stat.S_IFMT(entry.external_attr >> 16)
+        if kind not in {0, stat.S_IFREG, stat.S_IFDIR}:
+            raise SystemExit(f"special archive entry rejected: {name!r}")
+PY
 )
 
 cd "$repo_dir"
@@ -241,11 +289,13 @@ test -z "$(git status --porcelain)"
 codex --version
 ```
 
-As of this pack date, the current GSD installation guide lists Codex CLI 0.130.0 or newer
-as the minimum supported Codex line. Record the actual Codex, GSD, CodeRabbit, Rust, Node
-and Nix versions plus installed-help output. Freeze this orchestration/toolchain profile
-for Phase 1; do not update it during planning, execution or review. Current installed help
-and the phase pin remain authoritative if upstream requirements move later.
+Do not infer skill discovery or hook support from a remembered Codex version floor.
+Record the actual Codex, GSD, CodeRabbit, Rust, Node and Nix versions plus installed-help
+output; record the exact guide repository/path/revision/date when a minimum version is
+cited. Probe required skill discovery and hook behavior directly. Freeze this
+orchestration/toolchain profile for Phase 1; do not update it during planning, execution
+or review. Current installed help, capability probes and the phase pin remain authoritative
+if upstream requirements move later.
 
 Run `$gsd-help --full` and confirm equivalent semantics for:
 

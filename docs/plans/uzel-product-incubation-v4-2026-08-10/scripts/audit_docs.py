@@ -182,7 +182,7 @@ REQUIRED_TEXT: dict[str, list[str]] = {
     ],
     "06-START-RUNBOOK.md": [
         "$gsd-help --full",
-        "Codex CLI 0.130.0 or newer",
+        "Probe required skill discovery and hook behavior directly",
         "$gsd-plan-phase 1 --ingest",
         "$gsd-review --phase 1 --coderabbit",
         "$gsd-plan-phase 1 --reviews",

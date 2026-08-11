@@ -9,7 +9,8 @@ id = "<stable-local-id>"
 role = "spec" # spec | proposal | library | tool | provider | conformance | platform | orchestration
 canonical_repo = "<url>"
 canonical_path = "<path or package>"
-contribution_route = "issue_first" # comment_existing | issue_first | pr_ok | private_security
+contribution_route = "issue_first" # no_action | comment_existing | issue_first | pr_ok | private_security
+contribution_rationale = "<required rationale, especially for no_action>"
 security_route = "<SECURITY.md/contact or none>"
 license = "<SPDX or review_required>"
 

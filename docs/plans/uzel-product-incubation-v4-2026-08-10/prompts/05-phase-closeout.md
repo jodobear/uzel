@@ -41,8 +41,9 @@ Reconcile what the phase actually proved. Then:
    teaching claim to an exact executable/inspectable witness;
 8. at a milestone endpoint invoke the separate milestone-learning prompt; otherwise keep
    educational work as a traceable seed;
-9. regenerate visibility-aware internal/public knowledge indexes and prove the public
-   index excludes internal/embargoed records;
+9. regenerate visibility-aware internal/public knowledge indexes; require the public
+   generator to fail closed on unresolved or unknown visibility, and prove the public
+   index excludes internal/embargoed records through its validation gate;
 10. run links/fences/docs, architecture-boundary and all affected tests;
 11. report exact files changed, toolchain/profile identities and unresolved owned trigger.
 

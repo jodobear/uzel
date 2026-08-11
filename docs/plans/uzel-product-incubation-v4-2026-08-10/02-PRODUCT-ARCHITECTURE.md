@@ -875,7 +875,9 @@ stateDiagram-v2
     Created --> Cancelled
     Validated --> Failed
     Executing --> Failed
-    Blocked --> Ready
+    Blocked --> Reauthorizing: explicit recovery
+    Reauthorizing --> Ready: fresh authorization passes
+    Reauthorizing --> Cancelled: revoked or identity mismatch
     Unknown --> Verifying: explicit reconciliation
 ```
 
@@ -884,6 +886,9 @@ Rules:
 - persist intent before irreversible effects;
 - include idempotency/correlation evidence where the remote system supports it;
 - never automatically retry `unknown` unless duplicate safety is proven;
+- a blocked operation reaches `ready` only through explicit recovery that revalidates the
+  exact build, profile, actor, grant, reviewed template, destination and expiry; revocation
+  or identity mismatch requires a new authorization flow or terminal cancellation;
 - distinguish request sent, signer accepted, event signed, final artifact validated,
   provider accepted, bytes verified and user workflow complete;
 - validate every signer-produced artifact before any relay write, upload body or other

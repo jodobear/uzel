@@ -13,7 +13,12 @@
 
 ## What the milestone proved
 
-Only evidence-backed outcomes. Link capability ledgers and package/native reports.
+Only evidence-backed outcomes. Link capability ledgers and package/native reports. Give
+each claim a stable row ID; narrative sections reference those IDs.
+
+| Claim ID | Claim | Classification | Evidence |
+|---|---|---|---|
+| CLM-001 | <bounded claim> | fact \| measured result \| interpretation \| Uzel policy | <exact witness/digest> |
 
 ## Decisions that survived contact with the product
 

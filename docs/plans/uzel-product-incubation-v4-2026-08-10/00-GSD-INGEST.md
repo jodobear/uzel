@@ -9,7 +9,10 @@ project history, state and prior evidence.
 
 ## Locked programme decisions
 
-1. Uzel is the only active implementation repository through M5.
+1. Uzel is the only active product implementation repository through M5. Evidence-only
+   external clean-room fixture repositories and the separately authored peer repository
+   required by the composability gate are permitted; they are not alternate Uzel product
+   implementations.
 2. Build visible vertical product slices; pull internal mechanisms from their needs.
 3. Preserve the separate runtime daemon and exact-build guest boundary.
 4. Use one canonical Nostr engine through a narrow private adapter. The current provider

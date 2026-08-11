@@ -412,7 +412,7 @@ or embargoed evidence.
 | Milestone | Maturity objective |
 |---|---|
 | M0 | Establish machine RCP/registry, ledgers, trust/schema/supply-chain baselines and L0/L1 evidence |
-| M1 | Raise launch/read/resource/composition foundations to L2/L3 and complete independent capstone |
+| M1 | Raise launch/read/resource/composition foundations to L2/L3 and complete the Uzel-authored clean-room capstone |
 | M2 | Raise daemon product-service draft persistence/recovery to L3 |
 | M3 | Raise signer/review/publish path to L3 with pre-send validation and signer/relay interop |
 | M4 | Raise object/media/Blossom path to L3 with worker isolation and server interop |

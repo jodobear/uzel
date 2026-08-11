@@ -560,9 +560,11 @@ Before M5 freeze, exercise where relevant:
 - unsupported/unknown capability and message behavior;
 - degraded/offline/partial counterparty behavior.
 
-An independent napplet used as production evidence must:
+The Uzel-authored M1 fixture may use an independently versioned external-source boundary,
+but it is not independent-peer evidence. An independently authored napplet used for the
+L4/M5 composability gate must:
 
-- live in a separate repository or independently versioned source boundary;
+- live in a separate source repository and use a build pipeline independent of Uzel;
 - build without Uzel internal crates, private test hooks or source-tree assumptions;
 - have exact source, dependency, manifest and artifact provenance;
 - run as a black-box packaged-runtime guest through the same verification and negotiation

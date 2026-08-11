@@ -32,10 +32,12 @@ Required work:
 14. state separate future events for upstream acceptance, merge, release, exact Uzel
     adoption and local-patch removal.
 
-For NMP and every other fast-moving upstream, verify the current repository-specific
-route at the exact observed revision before acting; prefer an existing thread or issue-
-first route when current guidance or maintainer practice requires it. For NAP/NIP changes,
-provide implementation, security and interoperability evidence rather than preference.
+For Nostr Multi-Platform (NMP, `https://github.com/pablof7z/nmp`) and every other
+fast-moving upstream, verify the current repository-specific route at an exact recorded
+repository revision before acting; prefer an existing thread or issue-first route when
+current guidance or maintainer practice requires it. For Napplet Application Protocol
+(NAP) or Nostr Implementation Possibility (NIP) changes, provide implementation,
+security and interoperability evidence rather than preference.
 Use private disclosure for security issues.
 
 Output the proposed route, draft interaction/patch, evidence and privacy checklist. Do

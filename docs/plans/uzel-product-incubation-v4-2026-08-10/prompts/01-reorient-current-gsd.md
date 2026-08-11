@@ -62,7 +62,7 @@ Goals:
 11. Ensure no Phase 2 execution can begin before the manifest/build identity and launch-
     negotiation profile receives a human go/no-go decision.
 12. Record installed Codex/GSD versions and command help; require supported `--ingest`,
-    `--ingest`, `--ingest-format`, `--reviews`, `--coderabbit`, `--insert` and `--edit` forms plus default plan verification and post-execution `verify-work` rather than
+    `--ingest-format`, `--reviews`, `--coderabbit`, `--insert` and `--edit` forms plus default plan verification and post-execution `verify-work` rather than
     guessing from stale documentation.
 
 Output:

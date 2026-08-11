@@ -5,7 +5,8 @@
 - **Upstream:**
 - **Exact Uzel pin:**
 - **Current upstream revision tested:**
-- **Candidate-next probe:** not_run | green_advisory | changed | blocked_high_risk | evidence
+- **Candidate-next probe:** not_run | green_advisory | changed | blocked_high_risk | failed_harness
+- **Candidate-next evidence:** <path/digest or none>
 - **Uzel issue/PR:**
 - **Public/private upstream link:**
 - **Owner:**
