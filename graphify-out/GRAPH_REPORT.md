@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 2235 nodes · 2860 edges · 250 communities (144 shown, 106 thin omitted)
+- 2247 nodes · 2914 edges · 250 communities (144 shown, 106 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1be4ac30`
+- Built from commit: `533f67bb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -298,7 +298,7 @@ Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: c
 
 ### Community 3 - "LinuxRunner"
 Cohesion: 0.13
-Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), LinuxRunner (+5 more)
+Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic() (+5 more)
 
 ### Community 4 - "Delivery, quality, review and packaging discipline"
 Cohesion: 0.04
@@ -306,7 +306,7 @@ Nodes (49): 10. Interoperability and version-skew tests, 11. Supply-chain and re
 
 ### Community 5 - "runner.rs"
 Cohesion: 0.12
-Nodes (12): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), bounded_diagnostic(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState (+4 more)
+Nodes (12): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), payload_identity_cannot_select_surface_or_session(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState (+4 more)
 
 ### Community 6 - "Uzel product and incubation architecture"
 Cohesion: 0.04
@@ -318,7 +318,7 @@ Nodes (12): Condvar, Fn, RuntimeEvent, RuntimeObservationFrame, RuntimeObserver,
 
 ### Community 8 - ".forward_from_surface"
 Cohesion: 0.21
-Nodes (11): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation (+3 more)
+Nodes (10): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation, SurfaceLaunch (+2 more)
 
 ### Community 9 - "Material findings and corrections"
 Cohesion: 0.05
@@ -461,8 +461,8 @@ Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
 
 ### Community 47 - "ref-candidate-check.py"
-Cohesion: 0.21
-Nodes (33): CompletedProcess, Namespace, RuntimeError, candidate_argv_ok(), candidate_record(), canonical_record(), CheckError, emit() (+25 more)
+Cohesion: 0.17
+Nodes (45): CompletedProcess, Namespace, RuntimeError, approved_reachability(), candidate_argv_ok(), candidate_record(), canonical_record(), CheckError (+37 more)
 
 ### Community 48 - "Uzel product-incubation plan — revision 4"
 Cohesion: 0.20
@@ -489,8 +489,8 @@ Cohesion: 0.16
 Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ### Community 54 - "reconcile_launched_session"
-Cohesion: 0.40
-Nodes (5): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, reconcile_launched_session()
+Cohesion: 0.33
+Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
 
 ### Community 55 - "Tests, quality gates, and demo"
 Cohesion: 0.20
@@ -537,7 +537,7 @@ Cohesion: 0.22
 Nodes (8): Agent trap, Consequence for Uzel, Educational seed, Evidence, Executable witness, Learning, LRN-#### — <reusable lesson>, Question or failed assumption
 
 ### Community 68 - "Uzel POC agent instructions"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 69 - "Provisional component design"
@@ -613,7 +613,7 @@ Cohesion: 0.25
 Nodes (7): Commands and results, Exact next step, NMP and persistence evidence, Outcome, Private protocol evidence, Remaining boundaries, Slice 04 preflight — daemon, NMP, and persistence
 
 ### Community 90 - "Slice 06 preflight — hardening and clean demo acceptance"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Bubblewrap decision, Commands and results, Exact hostile evidence, Failed evidence and toolchain limit, Go/no-go and exact next steps, Outcome, Slice 06 preflight — hardening and clean demo acceptance, Upstream result
 
 ### Community 91 - "WebKit/Tauri trust spike"
@@ -828,17 +828,17 @@ Nodes (5): Catalog Review and Exact-Build Install, Cross-Napplet Profile Flow, D
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Uzel product and incubation architecture` connect `Uzel product and incubation architecture` to `README.md`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `M0 / GSD Phase 1 — truthful baseline and replay contract` connect `M0 / GSD Phase 1 — truthful baseline and replay contract` to `README.md`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Why does `Delivery, quality, review and packaging discipline` connect `Delivery, quality, review and packaging discipline` to `README.md`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `Fast-moving ecosystem, compatibility and upstream stewardship` connect `Fast-moving ecosystem, compatibility and upstream stewardship` to `README.md`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `Uzel product and incubation architecture` connect `Uzel product and incubation architecture` to `README.md`?**
   _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _1176 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `UnixClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.05798969072164949 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05899122807017544 - nodes in this community are weakly interconnected._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `LinuxRunner` be split into smaller, more focused modules?**
-  _Cohesion score 0.12878787878787878 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1268939393939394 - nodes in this community are weakly interconnected._
