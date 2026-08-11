@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786454549.007046,
-    "ast_hash": "4967f8d32da412c241df3e1aa696e635",
+    "mtime": 1786454920.0247784,
+    "ast_hash": "77099833627c09426cea44a8e8c67214",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
@@ -870,8 +870,8 @@
     "semantic_hash": ""
   },
   ".planning/ROADMAP.md": {
-    "mtime": 1786451390.4667814,
-    "ast_hash": "2eacfead8832130316e295c98060ab8e",
+    "mtime": 1786454950.451401,
+    "ast_hash": "e346e0647905e73ccfe4fa8f49381ebd",
     "semantic_hash": ""
   },
   ".planning/STATE.md": {
@@ -915,38 +915,13 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/.continue-here.md": {
-    "mtime": 1786451390.5737827,
-    "ast_hash": "e88235b99b376676540a66c95331e1e2",
-    "semantic_hash": ""
-  },
-  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md": {
-    "mtime": 1786451364.7485025,
-    "ast_hash": "72acf3e2711f686dc219c12102d7b02c",
-    "semantic_hash": ""
-  },
-  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-02-PLAN.md": {
-    "mtime": 1786451364.8385036,
-    "ast_hash": "4595121e8b240a7fac08c4702899e9f5",
-    "semantic_hash": ""
-  },
-  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-03-PLAN.md": {
-    "mtime": 1786451364.9395046,
-    "ast_hash": "56055c7cf27c7a09b9dabcd10bc74b5e",
-    "semantic_hash": ""
-  },
-  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-PLAN.md": {
-    "mtime": 1786451365.0355055,
-    "ast_hash": "75384baaae00c781a0519aec214cd7d0",
+    "mtime": 1786454950.635403,
+    "ast_hash": "e7a09d32a7de39d7b20128067cce5cc1",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-SUMMARY.md": {
-    "mtime": 1786452714.527145,
-    "ast_hash": "e58789b6ce8febd066cb3db8387e1714",
-    "semantic_hash": ""
-  },
-  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-05-PLAN.md": {
-    "mtime": 1786451365.1265066,
-    "ast_hash": "8c1d43f5cd26807b55a8b51aae826e91",
+    "mtime": 1786454920.023726,
+    "ast_hash": "30479e3c4d443a8508cd63ecc7baee56",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-CONTEXT.md": {
@@ -970,13 +945,13 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-RESEARCH.md": {
-    "mtime": 1786448492.7453465,
-    "ast_hash": "6ef73cf8cea47da1f4de697ed2cf8de2",
+    "mtime": 1786454920.0239663,
+    "ast_hash": "d1641863138ea54f0f525a6dc48f6e85",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-REVIEWS.md": {
-    "mtime": 1786451274.6495252,
-    "ast_hash": "0b6504d2245a2d07bd459c8aed050b01",
+    "mtime": 1786454920.0243933,
+    "ast_hash": "c540b27bc5396c0bbe8779b3a385b84a",
     "semantic_hash": ""
   },
   ".planning/reports/20260811-session-report.md": {
@@ -1010,13 +985,38 @@
     "semantic_hash": ""
   },
   "evidence/phase-01/candidate-qualification.md": {
-    "mtime": 1786454569.398442,
-    "ast_hash": "05de2bbab762619232dc09aa55072322",
+    "mtime": 1786454968.0940344,
+    "ast_hash": "cc26c3906a0dee8a8c43ab072afb6d0c",
     "semantic_hash": ""
   },
   "evidence/phase-01/napp-dependency.md": {
-    "mtime": 1786454570.2993276,
-    "ast_hash": "980fced9770ae28690c546089189071e",
+    "mtime": 1786454968.9936492,
+    "ast_hash": "bf24259cdcff1fb97b613aef68dc9396",
+    "semantic_hash": ""
+  },
+  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.superseded.md": {
+    "mtime": 1786451364.7485025,
+    "ast_hash": "72acf3e2711f686dc219c12102d7b02c",
+    "semantic_hash": ""
+  },
+  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-02-PLAN.superseded.md": {
+    "mtime": 1786451364.8385036,
+    "ast_hash": "4595121e8b240a7fac08c4702899e9f5",
+    "semantic_hash": ""
+  },
+  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-03-PLAN.superseded.md": {
+    "mtime": 1786451364.9395046,
+    "ast_hash": "56055c7cf27c7a09b9dabcd10bc74b5e",
+    "semantic_hash": ""
+  },
+  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-PLAN.superseded.md": {
+    "mtime": 1786454920.0233111,
+    "ast_hash": "65f15d9193c1ac239f8cb0d5f3b06ee4",
+    "semantic_hash": ""
+  },
+  ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-05-PLAN.superseded.md": {
+    "mtime": 1786451365.1265066,
+    "ast_hash": "8c1d43f5cd26807b55a8b51aae826e91",
     "semantic_hash": ""
   }
 }
