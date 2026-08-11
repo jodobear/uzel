@@ -1,16 +1,16 @@
 # Graph Report - uzel-integration-phase-01-v4  (2026-08-11)
 
 ## Corpus Check
-- 190 files · ~202,137 words
+- 190 files · ~202,204 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2251 nodes · 2926 edges · 253 communities (146 shown, 107 thin omitted)
+- 2251 nodes · 2928 edges · 252 communities (145 shown, 107 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `20f81098`
+- Built from commit: `8fa10241`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -81,7 +81,6 @@
 - LRN-#### — <reusable lesson>
 - Uzel POC agent instructions
 - Provisional component design
-- Critical Pitfalls
 - Slice 02 preflight
 - Slice 05 preflight — integrated composed demo
 - ADR-#### — <decision>
@@ -269,8 +268,8 @@
 6. `A5 — mandatory post-M5 whole-system audit` - 24 edges
 7. `ClientError` - 22 edges
 8. `Delivery, quality, review and packaging discipline` - 21 edges
-9. `Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research` - 20 edges
-10. `Decision, nuance and educational-knowledge system` - 20 edges
+9. `validate_record()` - 20 edges
+10. `Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
@@ -287,7 +286,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (253 total, 107 thin omitted)
+## Communities (252 total, 107 thin omitted)
 
 ### Community 0 - "UnixClient"
 Cohesion: 0.06
@@ -545,10 +544,6 @@ Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository 
 Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
-### Community 70 - "Critical Pitfalls"
-Cohesion: 0.22
-Nodes (9): Critical Pitfalls, Pitfall 1: Uzel absorbs runtime or Nostr ownership during extraction, Pitfall 2: Cargo, flake, fixture, and runtime revisions drift apart, Pitfall 3: Package works in dev shell, not as canonical Nix product, Pitfall 4: Local-first Social Home displays remote-like certainty or duplicate cache truth, Pitfall 5: Source-binding or WebKit isolation regresses while deterministic tests stay green, Pitfall 6: Bounded POC limits are raised or bypassed for Social data, Pitfall 7: Path-classified CI creates green skips or hides dependency changes (+1 more)
-
 ### Community 71 - "Slice 02 preflight"
 Cohesion: 0.22
 Nodes (9): Commands and observed results, Exact dependency and asset record, Next step, Preserved failed Fedora probe, Required design correction, Runtime evidence, Slice 02 preflight, Upstream result (+1 more)
@@ -566,11 +561,11 @@ Cohesion: 0.25
 Nodes (8): Bounds, admission, fairness and operations, Capability ledger — <capability-id>, Claim and journeys, Contract, negotiation and state, Evidence matrix, Persistence and recovery, Trust and identity, Upstream and known gaps
 
 ### Community 78 - "Uzel Runtime Compatibility Profile — <profile-id>"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Capability negotiation, Evidence, Exact source identities, Exclusions and deviations, Identity and trust semantics, Migration and rollback, Supported behavior, Uzel Runtime Compatibility Profile — <profile-id>
 
 ### Community 79 - "SIR-#### — <interpreted seam or ambiguity>"
-Cohesion: 0.22
+Cohesion: 0.25
 Nodes (8): Alternatives and consequences, Chosen interpretation, Exact sources, Executable evidence, Question or contradiction, Recheck triggers, SIR-#### — <interpreted seam or ambiguity>, Upstream route
 
 ### Community 80 - "UPR-#### — <upstream interaction>"
@@ -714,8 +709,8 @@ Cohesion: 0.11
 Nodes (18): Browser/native proof separation, `evidence/phase-01/candidate-qualification.md` (config/evidence record, batch), `evidence/phase-01/measurements/<mode>.json` (test evidence, batch), `evidence/phase-01/ownership-disposition.json` (config/data map, transform), `evidence/phase-01/replay-manifest.json` (config/evidence record, batch), `evidence/phase-01/work-07-preservation.md` (evidence record, transform), Fail-closed replay and bounded errors, File Classification (+10 more)
 
 ### Community 220 - "Pitfalls Research"
-Cohesion: 0.20
-Nodes (10): Integration Gotchas, "Looks Done But Isn't" Checklist, Performance Traps, Pitfall-to-Phase Mapping, Pitfalls Research, Recovery Strategies, Security Mistakes, Sources (+2 more)
+Cohesion: 0.11
+Nodes (19): Critical Pitfalls, Integration Gotchas, "Looks Done But Isn't" Checklist, Performance Traps, Pitfall 1: Uzel absorbs runtime or Nostr ownership during extraction, Pitfall 2: Cargo, flake, fixture, and runtime revisions drift apart, Pitfall 3: Package works in dev shell, not as canonical Nix product, Pitfall 4: Local-first Social Home displays remote-like certainty or duplicate cache truth (+11 more)
 
 ### Community 221 - "CodeRabbit Review"
 Cohesion: 0.12

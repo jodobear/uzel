@@ -845,8 +845,8 @@
     "semantic_hash": ""
   },
   ".planning/HANDOFF.json": {
-    "mtime": 1786451188.1375868,
-    "ast_hash": "73c1871dcd63bf8aeb9eea4229b30f21",
+    "mtime": 1786453080.4661148,
+    "ast_hash": "20079e19c04410987a49d79fc22c85ad",
     "semantic_hash": ""
   },
   ".planning/config.json": {
@@ -855,8 +855,8 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786452714.1441407,
-    "ast_hash": "0a38c92f67d99c196f415e65f6a9baa5",
+    "mtime": 1786453080.289113,
+    "ast_hash": "b824259f3bbcc82606bfaad9e736c6ab",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
@@ -1010,13 +1010,13 @@
     "semantic_hash": ""
   },
   "evidence/phase-01/candidate-qualification.md": {
-    "mtime": 1786451973.7766135,
-    "ast_hash": "c33c6e0e8627fb3f0a14ef7771fadfd9",
+    "mtime": 1786453100.298179,
+    "ast_hash": "d36eb6271ece1082974adde1e13bea11",
     "semantic_hash": ""
   },
   "evidence/phase-01/napp-dependency.md": {
-    "mtime": 1786451974.656384,
-    "ast_hash": "b85afe274a4a87f268c304bc0f6012dd",
+    "mtime": 1786453101.333207,
+    "ast_hash": "e487f9d459aa3fd1c0531c7319eea55b",
     "semantic_hash": ""
   }
 }
