@@ -11,7 +11,7 @@
 **Duration:** Multi-session planning and execution attempt, 2026-08-10 through 2026-08-11
 **Phase Progress:** 1 of 5 superseded Phase 1 plans completed; execution paused for v4 reconciliation
 **Plans Executed:** 01-04 complete; 01-01 blocked during Task 1
-**Commits Made:** 6 on the integration checkout plus isolated WIP `b185ad1`
+**Commits Made:** 6 on the integration checkout plus isolated WIP `b185ad1b8d9d034d151406b12aa189f5a6be970f`
 
 ## Work Performed
 
@@ -25,7 +25,7 @@
 ### Key Outcomes
 
 - Preserved Napp qualification evidence and validator on the integration branch.
-- Preserved isolated replay harness/evidence at `b185ad1` without merging it.
+- Preserved isolated replay harness/evidence at `b185ad1b8d9d034d151406b12aa189f5a6be970f` without merging it.
 - Stopped implementation before selecting an unevidenced dependency-provisioning workaround.
 - Verified the supplied v4 pack's internal `SHA256SUMS` and documentation audit: 36 files, zero errors, zero warnings.
 
@@ -38,12 +38,12 @@
 ## Files Changed
 
 - Main checkout: Plan 01-04 validator, evidence, Graphify refresh, summary, and GSD tracking.
-- Isolated worktree only: Plan 01-01 replay harness and evidence in `b185ad1`.
+- Isolated worktree only: Plan 01-01 replay harness and evidence in `b185ad1b8d9d034d151406b12aa189f5a6be970f`.
 - Existing user-owned dirty/untracked files and concurrent removal of the old validated pack remain untouched.
 
 ## Blockers & Open Items
 
-- `b185ad1` is preserved through `wip/phase-1-replay-b185ad1` and a verified checksummed bundle outside the repository.
+- `b185ad1b8d9d034d151406b12aa189f5a6be970f` is preserved through `wip/phase-1-replay-b185ad1` and `/workspace/projects/napplets/napp-uzel/uzel-phase-1-b185ad1/b185ad1.bundle` (SHA-256 `2690ff85ed2d561af3592833d6741b92e7cedfb0afdf343db1d140bfde0cba37`). Verify with `sha256sum -c /workspace/projects/napplets/napp-uzel/uzel-phase-1-b185ad1/SHA256SUMS`.
 - Supply the runbook-required external v4 ZIP `.sha256` sidecar; internal pack hashes alone do not establish outer archive provenance.
 - Install the audited v4 pack through a planning-only branch/PR at `docs/plans/uzel-product-incubation-v4-2026-08-10/`.
 - Reorient current GSD state with v4 prompt 01; do not resume old execution.

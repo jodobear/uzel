@@ -1,35 +1,35 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-11T01:00:23.349Z",
+  "timestamp": "2026-08-11T12:25:41Z",
   "phase": "01",
   "phase_name": "SLICE-REF-01 - v4 baseline reconciliation pending",
   "phase_dir": ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam",
-  "plan": 1,
-  "task": 1,
-  "total_tasks": 2,
+  "plan": null,
+  "task": null,
+  "total_tasks": 4,
   "status": "paused",
   "completed_tasks": [
     {
-      "id": 4,
+      "id": "01-04",
       "name": "Napp qualification and dependency handoff",
       "status": "done",
       "commit": "431e37a"
     },
     {
-      "id": 1,
+      "id": "01-01-wip",
       "name": "Historical replay harness",
       "status": "in_progress",
-      "progress": "Isolated commit b185ad1 exists; replay blocked because exact dependency closure was unavailable under the old no-provisioning rule"
+      "progress": "Isolated commit b185ad1b8d9d034d151406b12aa189f5a6be970f exists; replay blocked because exact dependency closure was unavailable under the old no-provisioning rule"
     }
   ],
   "remaining_tasks": [
     {
-      "id": 1,
+      "id": "v4-reorient",
       "name": "Reorient GSD and replace Phase 1 plans from v4 authority",
       "status": "not_started"
     },
     {
-      "id": 2,
+      "id": "v4-review",
       "name": "Independently review revised Phase 1 plans",
       "status": "not_started"
     }
@@ -39,11 +39,6 @@
       "description": "Old Phase 1 replay plan requires Vite and conformance tooling but forbids realizing the exact dependency closure",
       "type": "technical",
       "workaround": "Replace old plan with v4 two-track exact-source replay and current Nix/native acceptance contract"
-    },
-    {
-      "description": "V4 authority pack is supplied at repository root without the runbook-required external .sha256 sidecar and is not installed through the required planning-only path/branch",
-      "type": "human_action",
-      "workaround": "Verify and install pack through the runbook before reorientation"
     }
   ],
   "async_jobs": [],
@@ -67,10 +62,8 @@
     }
   ],
   "uncommitted_files": [
-    "User-owned root documentation/product-pack inputs",
-    "Concurrent deletion of uzel-poc-validated-pack",
-    "Uninstalled v4 pack directory and ZIP"
+    "User-owned dirty primary checkout remains quarantined and untouched"
   ],
-  "next_action": "Supply and verify uzel-product-incubation-v4-2026-08-10.sha256, install pack through planning-only branch, then execute prompts/01-reorient-current-gsd.md without resuming implementation",
+  "next_action": "Execute prompts/01-reorient-current-gsd.md from the committed v4 authority without resuming implementation, then run prompts/02-review-phase-1.md",
   "context_notes": "Primary checkout is intentionally dirty with user-owned work. Clean manual worktrees are required. Relative apply_patch paths target the primary checkout even when shell workdir points at /tmp; worktree patches must use absolute paths."
 }

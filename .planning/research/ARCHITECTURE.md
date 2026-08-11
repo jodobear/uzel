@@ -202,9 +202,11 @@ artifact strategy. Uzel locked Nix derivation is canonical.
 ## Build Order and Phase Dependencies
 
 1. **REF — replay and acceptance disposition.** Preserve POC outputs, hostile-isolation,
-   lifecycle, recovery, resource and performance evidence. Establish exact committed Napp
-   candidate, documented public client/testkit seam and migration adapter plan. This is
-   Social Napp gate: no Social implementation before pass.
+   lifecycle, recovery, resource and performance evidence. Require replay and ownership
+   evidence, then either qualify one exact committed Napp candidate or record a
+   repository-qualified dependency handoff. The public seam and adapter plan remain
+   conditional on qualification. This is the Social Napp gate: no Social implementation
+   before pass.
 
 2. **PKG — canonical closure.** Independent from REF implementation where pin evidence
    exists. Add dual pin representation, pin check, package/app/check outputs and

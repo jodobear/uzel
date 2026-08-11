@@ -6,11 +6,11 @@ current_phase: 01
 current_phase_name: SLICE-REF-01 — POC Replay & Accepted Napp Seam
 status: paused
 stopped_at: V4 reorientation and independent Phase 1 plan review required
-last_updated: "2026-08-09T23:18:09.429Z"
-last_activity: 2026-08-10
-last_activity_desc: Phase 01 execution started
+last_updated: "2026-08-11T12:25:41Z"
+last_activity: 2026-08-11
+last_activity_desc: Superseded plans disabled; v4 reorientation required
 progress:
-  total_phases: 1
+  total_phases: 5
   completed_phases: 0
   total_plans: 5
   completed_plans: 1
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-08-09)
 Phase: 01 (SLICE-REF-01 — POC Replay & Accepted Napp Seam) — PAUSED
 Plan: superseded plans preserved as evidence; revision not started
 Status: Reorientation and independent review required
-Last activity: 2026-08-10 — Phase 01 execution started
+Last activity: 2026-08-11 — Superseded plans disabled; v4 reorientation required
 
 Progress: [██░░░░░░░░] 20%
 
@@ -38,7 +38,7 @@ Progress: [██░░░░░░░░] 20%
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 1 historical evidence-only plan
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -77,12 +77,13 @@ Decisions are logged in PROJECT.md Key Decisions table. Current roadmap decision
 
 ### Pending Todos
 
-None yet.
+- Run `docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/01-reorient-current-gsd.md`.
+- Independently review the revised Phase 1 plan with `prompts/02-review-phase-1.md`.
 
 ### Blockers/Concerns
 
 - [Phase 1] Adapter implementation is blocked until an exact committed Napp client/events/testkit candidate passes qualification.
-- [Phase 1] Installed root product-first docs/templates are uncommitted and their root auditor currently fails; adopt one audited authority set before implementation depends on it.
+- [Phase 1] The v4 authority is committed; GSD reorientation and independent plan review remain incomplete.
 - [Phase 1] Legacy Work 07 status is stale about PR #30; merged source is `19519c3`, while Debian 13 visible acceptance remains open.
 - [Phases 4–5] New Social execution is blocked until accepted committed Napp candidate plus REF, PKG, and CI M0 gates are accepted.
 - [Phases 1–3] REF preservation and Uzel-only package/CI research can progress independently; final package and merge-full evidence require accepted Napp/package outputs.
@@ -97,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-09T23:18:09.424Z
-Stopped at: Completed 01-04-PLAN.md
-Resume file: None
+Last session: 2026-08-11T12:25:41Z
+Stopped at: V4 reorientation and independent review required
+Resume file: .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/.continue-here.md

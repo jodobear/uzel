@@ -35,7 +35,7 @@ This MVP first preserves the already-visible local-first POC—rich profile/foll
   5. After an exact Napp candidate passes client/events/testkit, lifecycle, version, and pin probes, the same POC matrix passes through the narrow Rust/Tauri adapter with an explicit revert path and no dual state.
 
 **Safe plan slices**: REF-01A replay; REF-01B ownership/pressure; REF-01C product-doc admission; Napp candidate handoff/qualification; blocked REF-01D adapter; REF-01E Debian visible acceptance.
-**Plans**: 1/5 plans executed
+**Superseded plan evidence**: 1/5 historically executed; all five files carry enforceable `status: superseded` frontmatter and are excluded from GSD execution pending v4 replanning.
 
 - [ ] 01-01-PLAN.md
 - [ ] 01-02-PLAN.md
@@ -45,14 +45,14 @@ This MVP first preserves the already-visible local-first POC—rich profile/foll
 
 **Wave 1**
 
-- [ ] `01-01-PLAN.md` — Replay exact merged POC from clean/relocated targets and reconcile Work 07.
-- [ ] `01-04-PLAN.md` — Qualify exact committed Napp candidate or publish fail-closed dependency handoff.
+- [ ] `01-01-PLAN.md` — Historical replay attempt; superseded and non-executable.
+- [x] `01-04-PLAN.md` — Historical fail-closed dependency handoff; complete evidence, superseded and non-executable.
 
 **Wave 2** *(blocked on `01-01` completion)*
 
-- [ ] `01-02-PLAN.md` — Record ownership, storage, retention, bounds, recovery, and resource baseline.
-- [ ] `01-03-PLAN.md` — Admit audited product-first authority set and bounded issue/PR contracts.
-- [ ] `01-05-PLAN.md` — Record Debian 13 visible acceptance through a human checkpoint.
+- [ ] `01-02-PLAN.md` — Historical ownership/resource draft; superseded and non-executable.
+- [ ] `01-03-PLAN.md` — Historical authority-admission draft; superseded and non-executable.
+- [ ] `01-05-PLAN.md` — Historical Debian acceptance draft; superseded and non-executable.
 
 **Conditional completion:** These plans intentionally exclude REF-01D adapter implementation. After `01-03` commits the authority set and `01-04` finds an exact qualifying Napp candidate, refresh research and re-plan the narrow adapter/parity slice.
 

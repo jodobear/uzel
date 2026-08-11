@@ -67,7 +67,7 @@ nix build .#uzel
 ./result/bin/uzel --version
 ```
 
-No `npm install`, global `cargo install`, host WebKit package installation, Flatpak, sccache, or new CI control plane is required. Add nextest only through its pinned installation/release process once Gate 0 approves it.
+No `npm install`, global `cargo install`, host WebKit package installation, Flatpak, sccache, or third-party CI platform is required. The repository still needs committed GitHub Actions for `pull_request` and `merge_group`, plus one stable required aggregator; no workflow currently supplies those gates. Add nextest only through its pinned installation/release process once Gate 0 approves it.
 
 ## Alternatives Considered
 

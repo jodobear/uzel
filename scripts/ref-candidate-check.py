@@ -40,6 +40,7 @@ D18_RULE = "One handoff per semantic candidate; qualification never authorizes p
 D12_ROUTING = "Reusable fixes use a dedicated jodobear/napp branch and issue, enter the contribution ledger only after Uzel validation, and are not mutated by this plan."
 RESUME_COMMAND = "$gsd-plan-phase 1 --research; then create one narrow Rust/Tauri adapter plan only after all three preconditions; retain D-15 pin/adapter revert."
 DEFAULT_NAPP_REPO = Path("/workspace/projects/napplets/napp-uzel/napp")
+APPROVED_PLAN_PATH = ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md"
 
 
 class CheckError(RuntimeError):
@@ -430,6 +431,8 @@ def qualification(args: argparse.Namespace) -> None:
 
 
 def handoff(args: argparse.Namespace) -> None:
+    if root_path(Path(args.repo)) != ROOT or args.plan != APPROVED_PLAN_PATH:
+        raise CheckError("handoff requires the fixed Uzel root and approved Plan-01 path")
     qualification_record = read_record(Path(args.qualification))
     handoff_record = read_record(Path(args.handoff))
     validate_record(qualification_record, Path(args.napp_repo), EXPECTED_REPOSITORY, EXPECTED_COMMIT, "stop")
@@ -446,6 +449,8 @@ def handoff(args: argparse.Namespace) -> None:
     if not isinstance(contract_commit, str) or not HEX.fullmatch(contract_commit):
         raise CheckError("handoff contract commit is not an exact object id")
     plan_spec = contract_commit + ":" + args.plan
+    if must_git(ROOT, ["cat-file", "-t", plan_spec]).decode().strip() != "blob":
+        raise CheckError("approved Plan-01 object is not a blob")
     plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", plan_spec])
     plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", plan_spec]).decode().strip()
     if contract != {"path": args.plan, "commit": contract_commit, "blob_oid": plan_oid, "content_sha256": sha256(plan_bytes), "fixed_production_commit": "19519c378c2e775c6ad4b042cfd9aadd89f766b9", "replay_manifest_path": ".artifacts/phase-01/replay/manifest.json", "replay_manifest_status": "pending-plan-01"}:
@@ -517,12 +522,16 @@ def emit(args: argparse.Namespace) -> None:
 
 
 def emit_handoff(args: argparse.Namespace) -> None:
+    if args.plan != APPROVED_PLAN_PATH:
+        raise CheckError("handoff requires the approved Plan-01 path")
     qualification_record = read_record(Path(args.qualification))
     napp_repo = root_path(Path(args.napp_repo))
     write_snapshots = {"napp_before": snapshot(napp_repo), "uzel_before": snapshot(ROOT)}
     plan_path = args.plan
     plan_bytes = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames", "--format=", "HEAD:" + plan_path])
     plan_oid = must_git(ROOT, ["rev-parse", "--verify", "--end-of-options", "HEAD:" + plan_path]).decode().strip()
+    if must_git(ROOT, ["cat-file", "-t", "HEAD:" + plan_path]).decode().strip() != "blob":
+        raise CheckError("approved Plan-01 object is not a blob")
     copied = ["repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "admission_categories", "declared_probes", "missing_categories", "working_tree_evidence", "mutation_snapshots", "blocker", "owner", "next_probe", "rollback", "d18_rule"]
     record = {field: qualification_record[field] for field in copied}
     record.update({

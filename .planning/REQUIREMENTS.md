@@ -15,7 +15,7 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 - [ ] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
 - [ ] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
 - [ ] **REF-06**: Maintainer can inspect a small reproducible baseline for startup/ready time, local profile render, process/WebView pressure, resource flow, queue bounds, cancellation, and lifecycle recovery, with build/Nix materialization separated from runtime and unsupported measurements marked unavailable.
-- [x] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; until then, it records a repository-qualified Napp dependency and implements no private substitute.
+- [ ] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; the repository-qualified dependency handoff exists, but candidate qualification and seam replay remain incomplete.
 
 ### Canonical Nix Package
 

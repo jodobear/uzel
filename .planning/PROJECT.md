@@ -70,7 +70,7 @@ GitHub issues define scoped delivery outcomes, GSD is the repository-local execu
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Preserve and replay the POC instead of rebuilding Uzel | Existing code already proves critical runtime, trust, recovery, rich profile/follows, and composition behavior | ✓ Re-audited at `19519c3`; fresh replay evidence captured |
+| Preserve and replay the POC instead of rebuilding Uzel | Existing code already proves critical runtime, trust, recovery, rich profile/follows, and composition behavior | Re-audited at `19519c3`; current replay material is audit/WIP evidence, not accepted exact-build replay and not authority for Napp transition |
 | Build only neutral Napp seams proven by visible Uzel slices | Keeps product policy in Uzel and avoids an abstract framework milestone | — Pending |
 | Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible runtime dependencies | — Pending |
 | Measure simple full-workspace CI before adding affected-crate complexity | Complexity must earn its cost through real p50/p95 evidence | — Pending |
