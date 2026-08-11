@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import stat
 import subprocess
 import sys
@@ -62,10 +63,17 @@ def safe_env() -> tuple[dict[str, str], tempfile.TemporaryDirectory[str]]:
 
 
 def git_binary() -> str:
-    path = subprocess.run(["/usr/bin/env", "which", "git"], capture_output=True, check=True, text=True).stdout.strip()
+    path = shutil.which("git", path=os.defpath)
     if not path or not os.path.isabs(path):
         raise CheckError("absolute Git executable unavailable")
     return str(Path(path).resolve())
+
+
+def repo_git_path(repo: Path, value: str) -> Path:
+    path = Path(value)
+    if not path.is_absolute():
+        path = repo / path
+    return path.resolve()
 
 
 def run_git(repo: Path, argv: list[str], stdin: bytes | None = None) -> subprocess.CompletedProcess[bytes]:
@@ -118,10 +126,10 @@ def object_manifest(objects: Path) -> dict[str, Any]:
 
 def snapshot(repo: Path) -> dict[str, Any]:
     repo = root_path(repo)
-    git_dir = Path(must_git(repo, ["rev-parse", "--git-dir"]).decode().strip()).resolve()
-    common_dir = Path(must_git(repo, ["rev-parse", "--git-common-dir"]).decode().strip()).resolve()
-    object_dir = Path(must_git(repo, ["rev-parse", "--git-path", "objects"]).decode().strip()).resolve()
-    index_path = Path(must_git(repo, ["rev-parse", "--git-path", "index"]).decode().strip()).resolve()
+    git_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-dir"]).decode().strip())
+    common_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-common-dir"]).decode().strip())
+    object_dir = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "objects"]).decode().strip())
+    index_path = repo_git_path(repo, must_git(repo, ["rev-parse", "--git-path", "index"]).decode().strip())
     values = {
         "root": str(repo), "head": must_git(repo, ["rev-parse", "HEAD"]).decode().strip(),
         "head_bytes_sha256": sha256(must_git(repo, ["rev-parse", "HEAD"])),
