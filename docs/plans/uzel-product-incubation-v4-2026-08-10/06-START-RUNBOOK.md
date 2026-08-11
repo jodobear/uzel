@@ -92,8 +92,9 @@ uzel-product-incubation-v4-2026-08-10.zip
 uzel-product-incubation-v4-2026-08-10.sha256
 ```
 
-Run from a clean checkout on the active GSD integration branch. Replace the paths and do
-not assume the branch is named `main`.
+Run from a clean checkout of the real remote PR base. The paused GSD history may remain
+on a separate local integration ref; do not use that divergent ref as the planning PR
+base merely to make the incident ancestry check pass. Replace paths and refs explicitly.
 
 ```bash
 set -euo pipefail
@@ -116,22 +117,23 @@ cd "$repo_dir"
 git rev-parse --is-inside-work-tree >/dev/null
 test -z "$(git status --porcelain)"
 
-base_branch="$(git branch --show-current)"
-test -n "$base_branch"
-base_head="$(git rev-parse HEAD)"
+pr_base_ref="origin/<real-pr-base-branch>"
+git fetch origin
+pr_base_head="$(git rev-parse "$pr_base_ref")"
+test "$(git rev-parse HEAD)" = "$pr_base_head"
 blocked_parent="$(git rev-parse b185ad1^)"
-git merge-base --is-ancestor "$blocked_parent" "$base_head"
+git cat-file -e "$blocked_parent^{commit}"
+test -n "$(git merge-base "$blocked_parent" "$pr_base_head")"
 
 plan_branch="plan/uzel-incubation-v4"
 if git show-ref --verify --quiet "refs/heads/$plan_branch"; then
   git switch "$plan_branch"
 else
-  git switch -c "$plan_branch"
+  git switch -c "$plan_branch" "$pr_base_head"
 fi
 test -z "$(git status --porcelain)"
-git merge-base --is-ancestor "$base_head" HEAD
-git merge-base --is-ancestor "$blocked_parent" HEAD
-prior_paths="$(git diff --name-only "$base_head"...HEAD)"
+git merge-base --is-ancestor "$pr_base_head" HEAD
+prior_paths="$(git diff --name-only "$pr_base_head"...HEAD)"
 if [ -n "$prior_paths" ]; then
   printf '%s\n' "$prior_paths" | grep -Ev \
     "^docs/plans/$pack_name/" >/dev/null && {
@@ -152,7 +154,7 @@ unzip -q "$pack_dir/$pack_name.zip" -d docs/plans
 
 git add "docs/plans/$pack_name"
 git diff --cached --check
-all_paths="$(git diff --name-only "$base_head"...HEAD; git diff --cached --name-only)"
+all_paths="$(git diff --name-only "$pr_base_head"...HEAD; git diff --cached --name-only)"
 printf '%s\n' "$all_paths" | sed '/^$/d' | grep -Ev \
   "^docs/plans/$pack_name/" >/dev/null && {
     printf 'planning PR would contain unrelated paths\n' >&2
@@ -176,22 +178,31 @@ refresh is integrated.
 
 ## Step 2 — create a clean manual Phase 1 worktree
 
-After the planning PR is merged:
+After the planning PR is merged, first identify or prepare one clean integration ref that
+contains both histories: the preserved paused GSD parent and the exact merged planning
+pack. Preparing that ref is an explicit history-reconciliation step, not part of the
+planning-only PR. Use a reviewed reconciliation PR when the integration ref is shared;
+otherwise use a dedicated local integration branch and record its exact head. Do not
+continue from remote `master` alone when it lacks the paused GSD history.
 
 ```bash
 set -euo pipefail
 
 repo_dir="/absolute/path/to/jodobear/uzel"
-base_branch="<active-gsd-integration-branch>"
+integration_ref="<exact-ref-containing-paused-gsd-history-and-merged-pack>"
+pack_merge="<exact-merged-planning-pr-commit>"
 phase_dir="/absolute/path/to/uzel-phase-1-v4"
 phase_branch="phase/01-baseline-v4"
 
 cd "$repo_dir"
 git fetch origin
-git switch "$base_branch"
-git pull --ff-only origin "$base_branch"
 test -z "$(git status --porcelain)"
-base_head="$(git rev-parse "$base_branch")"
+blocked_parent="$(git rev-parse b185ad1^)"
+base_head="$(git rev-parse "$integration_ref")"
+git merge-base --is-ancestor "$blocked_parent" "$base_head"
+git merge-base --is-ancestor "$pack_merge" "$base_head"
+git cat-file -e "$base_head:.planning/PROJECT.md"
+git cat-file -e "$base_head:docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md"
 
 if [ -e "$phase_dir" ]; then
   git -C "$phase_dir" rev-parse --is-inside-work-tree >/dev/null
@@ -199,7 +210,7 @@ if [ -e "$phase_dir" ]; then
 elif git show-ref --verify --quiet "refs/heads/$phase_branch"; then
   git worktree add "$phase_dir" "$phase_branch"
 else
-  git worktree add -b "$phase_branch" "$phase_dir" "$base_branch"
+  git worktree add -b "$phase_branch" "$phase_dir" "$base_head"
 fi
 
 cd "$phase_dir"

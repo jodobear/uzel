@@ -512,6 +512,20 @@ def main() -> int:
         print(f"error: not a directory: {root}", file=sys.stderr)
         return 2
 
+    output = Path(args.json_path).resolve() if args.json_path else root / "reports/audit.json"
+    canonical_output = (root / "reports/audit.json").resolve()
+    try:
+        output.relative_to(root)
+        output_is_inside_root = True
+    except ValueError:
+        output_is_inside_root = False
+    if output_is_inside_root and output != canonical_output:
+        print(
+            "error: --json inside the audited pack must target reports/audit.json",
+            file=sys.stderr,
+        )
+        return 2
+
     errors: list[str] = []
     warnings: list[str] = []
     actual = rel_files(root)
@@ -599,7 +613,6 @@ def main() -> int:
             "Source, package, provider, interoperability and platform claims remain implementation evidence gates.",
         ],
     }
-    output = Path(args.json_path).resolve() if args.json_path else root / "reports/audit.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
