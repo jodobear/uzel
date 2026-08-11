@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-08-11T01:00:23.349Z",
+  "phase": "01",
+  "phase_name": "SLICE-REF-01 - v4 baseline reconciliation pending",
+  "phase_dir": ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam",
+  "plan": 1,
+  "task": 1,
+  "total_tasks": 2,
+  "status": "paused",
+  "completed_tasks": [
+    {
+      "id": 4,
+      "name": "Napp qualification and dependency handoff",
+      "status": "done",
+      "commit": "431e37a"
+    },
+    {
+      "id": 1,
+      "name": "Historical replay harness",
+      "status": "in_progress",
+      "progress": "Isolated commit b185ad1 exists; replay blocked because exact dependency closure was unavailable under the old no-provisioning rule"
+    }
+  ],
+  "remaining_tasks": [
+    {
+      "id": 1,
+      "name": "Reorient GSD and replace Phase 1 plans from v4 authority",
+      "status": "not_started"
+    },
+    {
+      "id": 2,
+      "name": "Independently review revised Phase 1 plans",
+      "status": "not_started"
+    }
+  ],
+  "blockers": [
+    {
+      "description": "Old Phase 1 replay plan requires Vite and conformance tooling but forbids realizing the exact dependency closure",
+      "type": "technical",
+      "workaround": "Replace old plan with v4 two-track exact-source replay and current Nix/native acceptance contract"
+    },
+    {
+      "description": "V4 authority pack is supplied at repository root rather than installed through the required planning-only path/branch",
+      "type": "human_action",
+      "workaround": "Verify and install pack through the runbook before reorientation"
+    }
+  ],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Human go/no-go after revised Phase 1 plan and independent review",
+      "context": "Prompt 02 requires CodeRabbit review and blocks execution on material findings",
+      "blocking": true
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "Do not resume or merge b185ad1 during planning",
+      "rationale": "V4 contract requires evidence-based final disposition during execution",
+      "phase": "01"
+    },
+    {
+      "decision": "Treat historical replay and current package acceptance as independent evidence tracks",
+      "rationale": "A current package result cannot repair or substitute for historical exact-source replay",
+      "phase": "01"
+    }
+  ],
+  "uncommitted_files": [
+    "User-owned root documentation/product-pack inputs",
+    "Concurrent deletion of uzel-poc-validated-pack",
+    "Uninstalled v4 pack directory and ZIP"
+  ],
+  "next_action": "Follow v4 06-START-RUNBOOK.md: preserve b185ad1, install pack through planning-only branch, then execute prompts/01-reorient-current-gsd.md without resuming implementation",
+  "context_notes": "Primary checkout is intentionally dirty with user-owned work. Clean manual worktrees are required. Relative apply_patch paths target the primary checkout even when shell workdir points at /tmp; worktree patches must use absolute paths."
+}
