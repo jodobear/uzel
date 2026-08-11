@@ -406,6 +406,23 @@ def read_record(path: Path) -> dict[str, Any]:
     return value
 
 
+def require_committed_record(path: Path, expected_relative: str) -> None:
+    """Bind validation to the reviewed record bytes in the current commit."""
+    if path.is_absolute():
+        try:
+            relative = path.resolve().relative_to(ROOT)
+        except ValueError as error:
+            raise CheckError("record path is outside the Uzel repository") from error
+    else:
+        relative = path
+    if relative.as_posix() != expected_relative or (ROOT / relative).is_symlink():
+        raise CheckError("record path is not the fixed committed evidence path")
+    committed = must_git(ROOT, ["show", "--no-ext-diff", "--no-textconv", "--no-renames",
+                                "--format=", "HEAD:" + expected_relative])
+    if (ROOT / relative).read_bytes() != committed:
+        raise CheckError("record bytes differ from the reviewed HEAD blob")
+
+
 def repository_from_origin(origin: str) -> str:
     match = re.fullmatch(r"(?:git@github\.com:|https://github\.com/)([^/]+/[^/]+?)(?:\.git)?", origin)
     if not match:
@@ -486,7 +503,9 @@ def validate_record(record: dict[str, Any], repo: Path, expected_repository: str
 
 
 def qualification(args: argparse.Namespace) -> None:
-    record = read_record(Path(args.record))
+    path = Path(args.record)
+    require_committed_record(path, QUALIFICATION_PATH)
+    record = read_record(path)
     validate_record(record, Path(args.repo), args.expected_repository, args.expected_commit, args.expected_result)
     print("qualification: pass")
 
@@ -494,8 +513,12 @@ def qualification(args: argparse.Namespace) -> None:
 def handoff(args: argparse.Namespace) -> None:
     if root_path(Path(args.repo)) != ROOT or args.plan != APPROVED_PLAN_PATH:
         raise CheckError("handoff requires the fixed Uzel root and approved Plan-01 path")
-    qualification_record = read_record(Path(args.qualification))
-    handoff_record = read_record(Path(args.handoff))
+    qualification_path = Path(args.qualification)
+    handoff_path = Path(args.handoff)
+    require_committed_record(qualification_path, QUALIFICATION_PATH)
+    require_committed_record(handoff_path, HANDOFF_PATH)
+    qualification_record = read_record(qualification_path)
+    handoff_record = read_record(handoff_path)
     validate_record(qualification_record, Path(args.napp_repo), EXPECTED_REPOSITORY, EXPECTED_COMMIT, "stop")
     copied = ["repository", "origin", "observed_commit", "observed_tree", "tree_inventory_path", "tree_inventory_sha256", "approved_ref_reachability", "admission_categories", "declared_probes", "missing_categories", "working_tree_evidence", "mutation_snapshots", "blocker", "owner", "next_probe", "rollback", "d18_rule"]
     for field in copied:
