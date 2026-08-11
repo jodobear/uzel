@@ -1,0 +1,177 @@
+{
+  "date": "2026-08-10",
+  "excluded_from_payload_hashes": [
+    "MANIFEST.json",
+    "SHA256SUMS",
+    "reports/audit.json"
+  ],
+  "files": [
+    {
+      "bytes": 17339,
+      "path": "00-GSD-INGEST.md",
+      "sha256": "098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d"
+    },
+    {
+      "bytes": 18962,
+      "path": "01-BASELINE-REPLAY.md",
+      "sha256": "9531c1a45cd349285b4b9c1d30294b107501467b250249d794bbcd3236ffdaa0"
+    },
+    {
+      "bytes": 58761,
+      "path": "02-PRODUCT-ARCHITECTURE.md",
+      "sha256": "4bb36f5dd76315c819da8871b9c7a0b00e8135d3c911d10c160d1cc1b972f7e7"
+    },
+    {
+      "bytes": 50119,
+      "path": "03-ROADMAP.md",
+      "sha256": "1332450ee87ab3384339e763f59ca9c51b7ccd583404547731fa1fbd6e083e7d"
+    },
+    {
+      "bytes": 38391,
+      "path": "04-DELIVERY-QUALITY.md",
+      "sha256": "1e4ed808c97165885607a6e6152432145fdc5c0ea30fd7f919acb157b55e2f5b"
+    },
+    {
+      "bytes": 39700,
+      "path": "05-POST-M5-AUDIT.md",
+      "sha256": "387dc544cc5ad5f6fe89fe90303ce7a7da565765b51a464b3d5ed84899269b40"
+    },
+    {
+      "bytes": 23776,
+      "path": "06-START-RUNBOOK.md",
+      "sha256": "eecd78a4074f06dd95f490272932e930d5a8dd31712cb5a36981766ab09c14d5"
+    },
+    {
+      "bytes": 25988,
+      "path": "07-ECOSYSTEM-UPSTREAM.md",
+      "sha256": "a91389d86eab3fa7d0f93c564d23cb25d3d5624db794571e7037491caa22c53c"
+    },
+    {
+      "bytes": 18753,
+      "path": "08-DECISIONS-LEARNING.md",
+      "sha256": "1794abeefcf7188ddd643b96711429aa35d3b0d6d7c6c970456e23257628fb30"
+    },
+    {
+      "bytes": 23772,
+      "path": "09-PRODUCTION-MATURITY.md",
+      "sha256": "95cfca88b77ee1cb583ce336d743ba03c08fe2cc267db2dff5231cfb93054c27"
+    },
+    {
+      "bytes": 25100,
+      "path": "AUDIT.md",
+      "sha256": "42ee94f4e439d01f97852edd7ecf7dc78f0bf681ca345af8546728616248d789"
+    },
+    {
+      "bytes": 16369,
+      "path": "README.md",
+      "sha256": "3aeb0687edc701c5012b85564209aad3bf855335d4e09e498e38bb9642ed6826"
+    },
+    {
+      "bytes": 4202,
+      "path": "prompts/01-reorient-current-gsd.md",
+      "sha256": "00067496f2c347689437f1bb91c5e16851e8712c55dbcebb35751edc88f24872"
+    },
+    {
+      "bytes": 4367,
+      "path": "prompts/02-review-phase-1.md",
+      "sha256": "df29e3ea5f2a295c4d15c1239bf1a0c55810389bf565fcfd9ff5a4fa0db6c7bc"
+    },
+    {
+      "bytes": 3255,
+      "path": "prompts/03-execute-phase-1.md",
+      "sha256": "33acd78627ac07b449d119ec1e702d2cc5e036cce373276dc3d2110583442649"
+    },
+    {
+      "bytes": 5268,
+      "path": "prompts/04-post-m5-audit.md",
+      "sha256": "b87247250e2b78bd42e5e55dda21a8958393381401c4ae344cd9b5567c7ea59e"
+    },
+    {
+      "bytes": 2605,
+      "path": "prompts/05-phase-closeout.md",
+      "sha256": "87ae331af19801dd2e15eb22382bc97e703d86a51dd1048bb71c1e9bb163147d"
+    },
+    {
+      "bytes": 2822,
+      "path": "prompts/06-upstream-contribution.md",
+      "sha256": "3f9a006f41580541b729ad43af29bf4b73660219a64a214878a20a660fac9c29"
+    },
+    {
+      "bytes": 1908,
+      "path": "prompts/07-milestone-learning.md",
+      "sha256": "789b48590104467e0e583ee60d16c07d32c8377d2865d1c91d2a69e975ebb582"
+    },
+    {
+      "bytes": 6457,
+      "path": "reports/ecosystem-baseline-2026-08-10.md",
+      "sha256": "73450553091f26d8519def6989661c052791dd326b7f1b7c787ada9f71bb269e"
+    },
+    {
+      "bytes": 26254,
+      "path": "scripts/audit_docs.py",
+      "sha256": "eeeab8fbc9181043d8823f939b92af87ef15d271fac5906771cf73292f9a7975"
+    },
+    {
+      "bytes": 928,
+      "path": "templates/ADR.md",
+      "sha256": "b1b31714f7916a590ee1f79944740bc87db6e77f1f181ed8f380a74a6e21df16"
+    },
+    {
+      "bytes": 1534,
+      "path": "templates/CAPABILITY-LEDGER.md",
+      "sha256": "c33b873baa6f751f1b2facfee399d0775d8f637b7e99c0877d6623a5997e98d8"
+    },
+    {
+      "bytes": 1843,
+      "path": "templates/COMPAT-PROFILE.md",
+      "sha256": "dae6bf5be89939a5fea4c0d43ad67e8f127b698d4d52a998dba8b07847394957"
+    },
+    {
+      "bytes": 3673,
+      "path": "templates/COMPAT-PROFILE.toml",
+      "sha256": "d38a6794936d68f4ca11f83945039a6ac4282c8ec325dad365a5217d255a416d"
+    },
+    {
+      "bytes": 1093,
+      "path": "templates/LEARNING-NOTE.md",
+      "sha256": "484e02ff6f6b80167fa79c4324b2e730f534d355d17464e5d77f53dd897b02c8"
+    },
+    {
+      "bytes": 2164,
+      "path": "templates/MILESTONE-LEARNING.md",
+      "sha256": "b39e0b432ce767a1d336dd46916a2210e13bb7677ff4b83e3b6673e107426002"
+    },
+    {
+      "bytes": 1446,
+      "path": "templates/PHASE-CLOSEOUT.md",
+      "sha256": "246b4749324c50309eb9758e57104dc10c4774aa9c0d9fe90fe597e63d165cd5"
+    },
+    {
+      "bytes": 2094,
+      "path": "templates/PROFILE-TRANSITION.toml",
+      "sha256": "f933981ca154ce1a196e367115c504f3f8a59ed6e778b0b8fa15402d8d5a371c"
+    },
+    {
+      "bytes": 1719,
+      "path": "templates/SPEC-INTERPRETATION.md",
+      "sha256": "9fa84a1336a490c1c5cf1b8fc9ad91242d61e6d804a46cd9a1193c21656b0ec6"
+    },
+    {
+      "bytes": 959,
+      "path": "templates/TERM-REGISTRY.toml",
+      "sha256": "1c3c629aa8f8f7f583e215b1fa3bcdbd50ecc3907c4cc4d7dc8e96226c15685f"
+    },
+    {
+      "bytes": 2388,
+      "path": "templates/UPSTREAM-RECORD.md",
+      "sha256": "c66ebae4bbb1f64e3cb73b0181666d0dc1793bc5d26708706d7a785538278b1d"
+    },
+    {
+      "bytes": 2324,
+      "path": "templates/UPSTREAM-REGISTRY.toml",
+      "sha256": "e3d5c8bc7e21bdafe7399945243133cd8bdff2e466cb151578f9473b9c07a6ff"
+    }
+  ],
+  "name": "uzel-product-incubation-v4-2026-08-10",
+  "revision": 4
+}
