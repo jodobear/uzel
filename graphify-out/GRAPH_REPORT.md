@@ -4,12 +4,12 @@
 - cluster-only mode — file stats not available
 
 ## Summary
-- 2247 nodes · 2914 edges · 250 communities (144 shown, 106 thin omitted)
+- 2247 nodes · 2914 edges · 251 communities (144 shown, 107 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `533f67bb`
+- Built from commit: `e4256001`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -104,6 +104,7 @@
 - Work 01 — scaffold
 - Work 07 — issue-driven stabilization
 - 03-ROADMAP.md
+- README.md
 - NMP API and ownership map
 - Work 02 — Linux exact-build runner
 - Work 04 — daemon, NMP, and persistence
@@ -125,7 +126,7 @@
 - Vec
 - VecDeque
 - Execution slices
-- README.md
+- Uzel single-repository POC
 - Work 03 — portable napplets
 - Work 05 — composed demo
 - MANIFEST.json
@@ -282,7 +283,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (250 total, 106 thin omitted)
+## Communities (251 total, 107 thin omitted)
 
 ### Community 0 - "UnixClient"
 Cohesion: 0.06
@@ -441,8 +442,8 @@ Cohesion: 0.17
 Nodes (11): Accepted post-foundation extension, Architectural invariants, Demo-complete, Foundation-complete, Non-goals, Objective, POC scope and acceptance, Required napplets (+3 more)
 
 ### Community 41 - "Assumption validation and decision gates"
-Cohesion: 0.17
-Nodes (10): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+2 more)
+Cohesion: 0.22
+Nodes (9): Assumption validation and decision gates, Current observed baseline, Gate 0 decision, Gate matrix, Hard stops, Per-slice validation, Plan correction rule, Required outputs (+1 more)
 
 ### Community 42 - "M2 / GSD delivery phases 3, 3.1–3.3 — local-first offline authoring"
 Cohesion: 0.18
@@ -537,11 +538,11 @@ Cohesion: 0.22
 Nodes (8): Agent trap, Consequence for Uzel, Educational seed, Evidence, Executable witness, Learning, LRN-#### — <reusable lesson>, Question or failed assumption
 
 ### Community 68 - "Uzel POC agent instructions"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository boundaries, Required method, Trust rules, Upstream contribution policy (+1 more)
 
 ### Community 69 - "Provisional component design"
-Cohesion: 0.22
+Cohesion: 0.20
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
 
 ### Community 70 - "Critical Pitfalls"
@@ -668,8 +669,8 @@ Nodes (5): Capability promotion, Contradiction and disclosure check, Durable del
 Cohesion: 0.33
 Nodes (6): Dependency graph, Execution slices, Handoff, Parallel work, Slice entry gate, Slices
 
-### Community 120 - "README.md"
-Cohesion: 0.22
+### Community 120 - "Uzel single-repository POC"
+Cohesion: 0.33
 Nodes (6): Demo result, Document map, Mandatory first step, Scope rule, Start order, Uzel single-repository POC
 
 ### Community 121 - "Work 03 — portable napplets"
@@ -777,11 +778,11 @@ Cohesion: 0.22
 Nodes (8): Accepted Napp Candidate Gate, Baseline Measurement, Deferred Ideas, Phase 1: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Discussion Log, Recovery and Upstream Stops, Replay and Ownership Evidence, Source-backed re-audit update — 2026-08-09, the agent's Discretion
 
 ### Community 239 - "POC architecture"
-Cohesion: 0.18
+Cohesion: 0.22
 Nodes (9): Accepted upstream seam, Composition flow, POC architecture, Repository zones, Runtime topology, Session start, Shared Nostr flow, Trust domains (+1 more)
 
 ### Community 240 - "Verified facts"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): Decision, Kehto #204, `nampplets`, NAP registry, Napplet packages, NIP-5A and NIP-5D, NMP, Source baseline (+1 more)
 
 ### Community 241 - "Gate 0 preflight and Slice 01 decision"
@@ -823,7 +824,7 @@ Nodes (5): Catalog Review and Exact-Build Install, Cross-Napplet Profile Flow, D
 ## Knowledge Gaps
 - **1176 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+1171 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **106 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **107 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_

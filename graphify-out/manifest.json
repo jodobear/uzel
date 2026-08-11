@@ -845,8 +845,8 @@
     "semantic_hash": ""
   },
   ".planning/HANDOFF.json": {
-    "mtime": 1786448492.7433465,
-    "ast_hash": "dd2769b50fdda5419d10566b5eef226e",
+    "mtime": 1786451188.1375868,
+    "ast_hash": "73c1871dcd63bf8aeb9eea4229b30f21",
     "semantic_hash": ""
   },
   ".planning/config.json": {
@@ -855,28 +855,28 @@
     "semantic_hash": ""
   },
   "scripts/ref-candidate-check.py": {
-    "mtime": 1786450450.8035886,
-    "ast_hash": "f20cb4b964732cca05481cd8da57ca15",
+    "mtime": 1786451111.9377604,
+    "ast_hash": "c651f4093d5880ee082a3687dda6a789",
     "semantic_hash": ""
   },
   ".planning/PROJECT.md": {
-    "mtime": 1786448492.7443721,
-    "ast_hash": "714e7db8d77d3a3d14613735ebcee967",
+    "mtime": 1786451188.6735928,
+    "ast_hash": "b2f6197bba0a616d877c2af0b6344af0",
     "semantic_hash": ""
   },
   ".planning/REQUIREMENTS.md": {
-    "mtime": 1786448492.7443721,
-    "ast_hash": "0b48353467d8c34e554c5951b4abcb72",
+    "mtime": 1786451188.5395913,
+    "ast_hash": "3fb9caa57f63a7f12c273ee7e0813a15",
     "semantic_hash": ""
   },
   ".planning/ROADMAP.md": {
-    "mtime": 1786448492.7443721,
-    "ast_hash": "3cc95f85de664b0e4bc0cfa12d2e91b1",
+    "mtime": 1786451390.4667814,
+    "ast_hash": "2eacfead8832130316e295c98060ab8e",
     "semantic_hash": ""
   },
   ".planning/STATE.md": {
-    "mtime": 1786450461.8057082,
-    "ast_hash": "0d7064250590cb4a2636902cb64da4f2",
+    "mtime": 1786451188.3585892,
+    "ast_hash": "3a2c5f3847b9f1a9b039f6c6b264ea52",
     "semantic_hash": ""
   },
   ".planning/codebase/ARCHITECTURE.md": {
@@ -915,28 +915,28 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/.continue-here.md": {
-    "mtime": 1786448492.7449086,
-    "ast_hash": "cca7387caef3dde57922bc55bf6e5b8a",
+    "mtime": 1786451390.5737827,
+    "ast_hash": "e88235b99b376676540a66c95331e1e2",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.md": {
-    "mtime": 1786448492.7449417,
-    "ast_hash": "58d0e13883e49994546216bf56f50bb6",
+    "mtime": 1786451364.7485025,
+    "ast_hash": "72acf3e2711f686dc219c12102d7b02c",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-02-PLAN.md": {
-    "mtime": 1786448492.7449417,
-    "ast_hash": "fd944363465b0385bc3ac77da918f137",
+    "mtime": 1786451364.8385036,
+    "ast_hash": "4595121e8b240a7fac08c4702899e9f5",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-03-PLAN.md": {
-    "mtime": 1786448492.7449417,
-    "ast_hash": "3f41523aa6ad9759544a25e9a5177ae5",
+    "mtime": 1786451364.9395046,
+    "ast_hash": "56055c7cf27c7a09b9dabcd10bc74b5e",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-PLAN.md": {
-    "mtime": 1786448492.7452211,
-    "ast_hash": "aacf618520ed178c07c88c3e427a4f9b",
+    "mtime": 1786451365.0355055,
+    "ast_hash": "75384baaae00c781a0519aec214cd7d0",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-04-SUMMARY.md": {
@@ -945,8 +945,8 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-05-PLAN.md": {
-    "mtime": 1786448492.7452211,
-    "ast_hash": "440e5abdd7404b86c47d60066866e5be",
+    "mtime": 1786451365.1265066,
+    "ast_hash": "8c1d43f5cd26807b55a8b51aae826e91",
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-CONTEXT.md": {
@@ -975,18 +975,18 @@
     "semantic_hash": ""
   },
   ".planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-REVIEWS.md": {
-    "mtime": 1786448492.7453465,
-    "ast_hash": "426a3754f831349b1d7bcec55d61bf58",
+    "mtime": 1786451274.6495252,
+    "ast_hash": "0b6504d2245a2d07bd459c8aed050b01",
     "semantic_hash": ""
   },
   ".planning/reports/20260811-session-report.md": {
-    "mtime": 1786448492.7453465,
-    "ast_hash": "581c3c2f9e212cfd47023f4cb75bc234",
+    "mtime": 1786451228.7240272,
+    "ast_hash": "4598a470f1ca49623f877a69d06544b4",
     "semantic_hash": ""
   },
   ".planning/research/ARCHITECTURE.md": {
-    "mtime": 1786448492.7453465,
-    "ast_hash": "095675545796cf22d25a22f25ccbdd1f",
+    "mtime": 1786451256.6813304,
+    "ast_hash": "f3efb33a35582df53daec35878205933",
     "semantic_hash": ""
   },
   ".planning/research/FEATURES.md": {
@@ -1000,8 +1000,8 @@
     "semantic_hash": ""
   },
   ".planning/research/STACK.md": {
-    "mtime": 1786448492.7457535,
-    "ast_hash": "bfeac72256028aa88f0659a81494b517",
+    "mtime": 1786451256.5163286,
+    "ast_hash": "b8fe2c7099b6942858859cf0e362ffe3",
     "semantic_hash": ""
   },
   ".planning/research/SUMMARY.md": {
