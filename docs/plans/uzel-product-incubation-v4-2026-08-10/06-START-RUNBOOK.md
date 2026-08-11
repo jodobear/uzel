@@ -32,12 +32,20 @@ set -euo pipefail
 repo_dir="/absolute/path/to/jodobear/uzel"
 evidence_dir="/absolute/private/path/uzel-phase-1-b185ad1"
 blocked_worktree="/absolute/path/to/blocked-01-01-worktree"
+blocked_branch="gsd/phase-01-plan-01-replay"
 wip_commit="b185ad1b8d9d034d151406b12aa189f5a6be970f"
 wip_parent="431e37af5ca86196dbaf08a534a0a7626c4ae32c"
 
 cd "$repo_dir"
 umask 077
 git rev-parse --is-inside-work-tree >/dev/null
+repo_common_dir="$(realpath "$(git rev-parse --git-common-dir)")"
+blocked_common_dir="$(
+  realpath "$(git -C "$blocked_worktree" rev-parse --git-common-dir)"
+)"
+test "$blocked_common_dir" = "$repo_common_dir"
+test "$(git -C "$blocked_worktree" branch --show-current)" = "$blocked_branch"
+test "$(git -C "$blocked_worktree" rev-parse HEAD)" = "$wip_commit"
 if ! git cat-file -e "$wip_commit^{commit}" 2>/dev/null; then
   test -f "$evidence_dir/b185ad1.bundle"
   git bundle verify "$evidence_dir/b185ad1.bundle"
@@ -80,42 +88,59 @@ grep -Fx "parent=$wip_parent" \
 grep -Fx "commit=$wip_commit" \
   "$evidence_dir/b185ad1-metadata.txt"
 
-if [ ! -e "$evidence_dir/blocked-status-v2.z" ]; then
+snapshot_dir="$evidence_dir/blocked-worktree-v2"
+if [ -e "$snapshot_dir" ]; then
+  (
+    cd "$snapshot_dir"
+    sha256sum -c SHA256SUMS
+  )
+else
+  capture_dir="$(mktemp -d "$evidence_dir/.blocked-worktree-v2.XXXXXX")"
+  case "$capture_dir" in
+    "$evidence_dir"/.blocked-worktree-v2.*) ;;
+    *) printf 'unsafe capture directory\n' >&2; exit 1 ;;
+  esac
+  trap 'rm -rf -- "$capture_dir"' EXIT
+
   git -C "$blocked_worktree" status --porcelain=v2 -z \
-    > "$evidence_dir/blocked-status-v2.z"
-fi
-if [ ! -e "$evidence_dir/blocked-unstaged.patch" ]; then
+    > "$capture_dir/blocked-status-v2.z"
   git -C "$blocked_worktree" diff --binary \
-    > "$evidence_dir/blocked-unstaged.patch"
-fi
-if [ ! -e "$evidence_dir/blocked-staged.patch" ]; then
+    > "$capture_dir/blocked-unstaged.patch"
   git -C "$blocked_worktree" diff --cached --binary \
-    > "$evidence_dir/blocked-staged.patch"
-fi
-untracked_list_regenerated=false
-if [ ! -e "$evidence_dir/blocked-untracked.z" ]; then
+    > "$capture_dir/blocked-staged.patch"
   git -C "$blocked_worktree" ls-files --others --exclude-standard -z -- \
-    > "$evidence_dir/blocked-untracked.z"
-  untracked_list_regenerated=true
-fi
-if [ ! -e "$evidence_dir/blocked-untracked.tar" ] || "$untracked_list_regenerated"; then
+    > "$capture_dir/blocked-untracked.z"
   (
     cd "$blocked_worktree"
-    tar --null --files-from="$evidence_dir/blocked-untracked.z" \
-      --no-recursion -cf "$evidence_dir/blocked-untracked.tar"
+    tar --null --files-from="$capture_dir/blocked-untracked.z" \
+      --no-recursion -cf "$capture_dir/blocked-untracked.tar"
   )
+  (
+    cd "$capture_dir"
+    sha256sum \
+      blocked-status-v2.z blocked-unstaged.patch blocked-staged.patch \
+      blocked-untracked.z blocked-untracked.tar > SHA256SUMS
+    sha256sum -c SHA256SUMS
+  )
+  mv "$capture_dir" "$snapshot_dir"
+  trap - EXIT
 fi
 
 (
   cd "$evidence_dir"
   if [ -e SHA256SUMS ]; then
     sha256sum -c SHA256SUMS
+  else
+    sha256sum \
+      b185ad1.bundle b185ad1-metadata.txt \
+      blocked-worktree-v2/SHA256SUMS \
+      blocked-worktree-v2/blocked-status-v2.z \
+      blocked-worktree-v2/blocked-unstaged.patch \
+      blocked-worktree-v2/blocked-staged.patch \
+      blocked-worktree-v2/blocked-untracked.z \
+      blocked-worktree-v2/blocked-untracked.tar > SHA256SUMS.next
+    mv SHA256SUMS.next SHA256SUMS
   fi
-  sha256sum \
-    b185ad1.bundle b185ad1-metadata.txt blocked-status-v2.z \
-    blocked-unstaged.patch blocked-staged.patch blocked-untracked.z \
-    blocked-untracked.tar > SHA256SUMS.next
-  mv SHA256SUMS.next SHA256SUMS
   sha256sum -c SHA256SUMS
 )
 ```
