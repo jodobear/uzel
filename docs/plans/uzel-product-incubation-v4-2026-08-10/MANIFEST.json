@@ -107,9 +107,9 @@
       "sha256": "73450553091f26d8519def6989661c052791dd326b7f1b7c787ada9f71bb269e"
     },
     {
-      "bytes": 25550,
+      "bytes": 26173,
       "path": "scripts/audit_docs.py",
-      "sha256": "a42ff73a3935f419cf7eae036ea3cfdb86aec307f5652da636c862e4b8559c0e"
+      "sha256": "e5e855358e0e665454c09140b99e3bbd729ed4cb7910f355438ed4b48d4b7d5e"
     },
     {
       "bytes": 928,

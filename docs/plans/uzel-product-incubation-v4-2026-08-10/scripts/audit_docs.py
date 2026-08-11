@@ -288,7 +288,17 @@ def first_symlink_component(path: Path) -> Path | None:
 
 
 def rel_files(root: Path) -> set[str]:
-    return {str(path.relative_to(root)) for path in root.rglob("*") if path.is_file()}
+    return {
+        str(path.relative_to(root))
+        for path in root.rglob("*")
+        if path.is_file() and not path.is_symlink()
+    }
+
+
+def audit_pack_symlinks(root: Path, errors: list[str]) -> None:
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink():
+            errors.append(f"archive contains symlink: {path.relative_to(root)}")
 
 
 def clean_target(raw: str) -> str:
@@ -343,6 +353,9 @@ def load_manifest(root: Path, errors: list[str]) -> dict[str, Any]:
     except Exception as exc:  # noqa: BLE001
         errors.append(f"MANIFEST.json: cannot parse: {exc}")
         return {}
+    if not isinstance(data, dict):
+        errors.append("MANIFEST.json: root must be a JSON object")
+        return {}
     if data.get("name") != PACK_NAME or data.get("revision") != REVISION:
         errors.append("MANIFEST.json: wrong pack name or revision")
     return data
@@ -371,7 +384,7 @@ def audit_hashes(root: Path, errors: list[str]) -> None:
         )
     for rel in sorted(PAYLOAD_FILES & set(mapped)):
         path = root / rel
-        if not path.is_file():
+        if not path.is_file() or path.is_symlink():
             continue
         if mapped[rel].get("sha256") != sha256(path):
             errors.append(f"MANIFEST.json: hash mismatch: {rel}")
@@ -402,7 +415,7 @@ def audit_hashes(root: Path, errors: list[str]) -> None:
         )
     for rel in sorted(PAYLOAD_FILES & set(parsed)):
         path = root / rel
-        if path.is_file() and parsed[rel] != sha256(path):
+        if path.is_file() and not path.is_symlink() and parsed[rel] != sha256(path):
             errors.append(f"SHA256SUMS: hash mismatch: {rel}")
 
 
@@ -414,7 +427,10 @@ def audit_toml(root: Path, errors: list[str]) -> None:
         "templates/UPSTREAM-REGISTRY.toml",
     ):
         try:
-            with (root / rel).open("rb") as handle:
+            path = root / rel
+            if path.is_symlink():
+                continue
+            with path.open("rb") as handle:
                 data = tomllib.load(handle)
         except Exception as exc:  # noqa: BLE001
             errors.append(f"{rel}: invalid TOML: {exc}")
@@ -552,6 +568,7 @@ def main() -> int:
 
     errors: list[str] = []
     warnings: list[str] = []
+    audit_pack_symlinks(root, errors)
     actual = rel_files(root)
     payload_complete = PAYLOAD_FILES <= actual
     if actual != EXPECTED_FILES:
@@ -563,7 +580,7 @@ def main() -> int:
     audit_hashes(root, errors)
     audit_toml(root, errors)
 
-    md_files = sorted(root.rglob("*.md"))
+    md_files = sorted(path for path in root.rglob("*.md") if not path.is_symlink())
     total_words = 0
     mermaid_count = 0
     rows: list[dict[str, Any]] = []
@@ -600,7 +617,7 @@ def main() -> int:
 
     for rel, phrases in REQUIRED_TEXT.items():
         path = root / rel
-        if not path.is_file():
+        if not path.is_file() or path.is_symlink():
             continue
         text = re.sub(r"\s+", " ", path.read_text(encoding="utf-8")).casefold()
         for phrase in phrases:
