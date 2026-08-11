@@ -39816,6 +39816,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/ref-candidate-check.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "scripts_ref_candidate_check_root_path",
+      "target": "scripts_ref_candidate_check_must_git",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "context": "return_type",
       "confidence": "EXTRACTED",
@@ -39824,17 +39835,6 @@
       "weight": 1.0,
       "source": "scripts_ref_candidate_check_root_path",
       "target": "scripts_ref_candidate_check_py_path",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/ref-candidate-check.py",
-      "source_location": "L66",
-      "weight": 1.0,
-      "source": "scripts_ref_candidate_check_root_path",
-      "target": "scripts_ref_candidate_check_run_git",
       "confidence_score": 1.0
     },
     {
@@ -53098,5 +53098,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4978296a2736177652804c907418c3274b2b902a"
+  "built_at_commit": "fc0df617cf01f106c09cf6107023728ef842ba99"
 }
