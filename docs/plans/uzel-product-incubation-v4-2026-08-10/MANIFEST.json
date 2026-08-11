@@ -1,5 +1,5 @@
 {
-  "date": "2026-08-10",
+  "date": "2026-08-12",
   "excluded_from_payload_hashes": [
     "MANIFEST.json",
     "SHA256SUMS",
@@ -10,6 +10,11 @@
       "bytes": 17339,
       "path": "00-GSD-INGEST.md",
       "sha256": "098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d"
+    },
+    {
+      "bytes": 13259,
+      "path": "00-GSD-INGEST-ADR.md",
+      "sha256": "592cc7e54bc487ead0323ec1b22987af1281c65323c750f17c3ad3cb5949c22b"
     },
     {
       "bytes": 18962,
@@ -27,9 +32,9 @@
       "sha256": "1332450ee87ab3384339e763f59ca9c51b7ccd583404547731fa1fbd6e083e7d"
     },
     {
-      "bytes": 38391,
+      "bytes": 38395,
       "path": "04-DELIVERY-QUALITY.md",
-      "sha256": "1e4ed808c97165885607a6e6152432145fdc5c0ea30fd7f919acb157b55e2f5b"
+      "sha256": "3b64084015b6c2282e3ebacbe96db438a90cfbff9082ff5b4e652fdf68f3a82f"
     },
     {
       "bytes": 39700,
@@ -37,9 +42,9 @@
       "sha256": "387dc544cc5ad5f6fe89fe90303ce7a7da565765b51a464b3d5ed84899269b40"
     },
     {
-      "bytes": 23776,
+      "bytes": 24139,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "eecd78a4074f06dd95f490272932e930d5a8dd31712cb5a36981766ab09c14d5"
+      "sha256": "f0fe8dad2a30239033594742fc7eacc5a1d39acea473a6d767f184fec674cbe9"
     },
     {
       "bytes": 25988,
@@ -62,9 +67,9 @@
       "sha256": "42ee94f4e439d01f97852edd7ecf7dc78f0bf681ca345af8546728616248d789"
     },
     {
-      "bytes": 16369,
+      "bytes": 16519,
       "path": "README.md",
-      "sha256": "3aeb0687edc701c5012b85564209aad3bf855335d4e09e498e38bb9642ed6826"
+      "sha256": "0694543d2f68a8f3580803a562f24293a98410f7070a058bcb7de2143756d52a"
     },
     {
       "bytes": 4202,
@@ -107,9 +112,9 @@
       "sha256": "73450553091f26d8519def6989661c052791dd326b7f1b7c787ada9f71bb269e"
     },
     {
-      "bytes": 26254,
+      "bytes": 28897,
       "path": "scripts/audit_docs.py",
-      "sha256": "eeeab8fbc9181043d8823f939b92af87ef15d271fac5906771cf73292f9a7975"
+      "sha256": "bfbbcddb0553d591df38b73af2be132d258542cafcb22a5a88391c36d1c3b51f"
     },
     {
       "bytes": 928,

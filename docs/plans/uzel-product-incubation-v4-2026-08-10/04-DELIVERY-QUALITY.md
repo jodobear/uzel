@@ -106,7 +106,7 @@ compatibility/toolchain issue rather than weakening or improvising the gate.
 For the current Phase 1 correction:
 
 ```text
-$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST-ADR.md --ingest-format narrative
 ```
 
 During the planning-only Phase 1 reorientation, reconcile the entire future roadmap to

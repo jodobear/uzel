@@ -439,14 +439,19 @@ map unless `$gsd-health` proves corruption and a separate bounded repair is appr
 
 ## Step 4 — replan Phase 1 in place
 
+`00-GSD-INGEST.md` remains the programme authority. GSD 1.10.0's narrative parser does
+not recognize its programme-specific headings and returns zero locked decisions. Use the
+checksum-bound `00-GSD-INGEST-ADR.md` projection for the parser express path; independently
+review that projection against the authoritative ingest whenever either file changes.
+
 Run exactly one form, selected from the recorded installed help:
 
 ```text
 # preferred when this installed version documents state/plan validation
-$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative --validate
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST-ADR.md --ingest-format narrative --validate
 
 # otherwise
-$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST-ADR.md --ingest-format narrative
 ```
 
 Do not run both forms or infer flag semantics from another release/branch.

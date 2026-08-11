@@ -19,10 +19,13 @@ from typing import Any
 
 PACK_NAME = "uzel-product-incubation-v4-2026-08-10"
 REVISION = 4
+SOURCE_INGEST_SHA256 = "098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d"
+EXPECTED_PROJECTION_DECISIONS = [f"D-{index:02d}" for index in range(1, 32)]
 
 PAYLOAD_FILES = {
     "README.md",
     "00-GSD-INGEST.md",
+    "00-GSD-INGEST-ADR.md",
     "01-BASELINE-REPLAY.md",
     "02-PRODUCT-ARCHITECTURE.md",
     "03-ROADMAP.md",
@@ -85,6 +88,14 @@ EXPECTED_PHASES = [
 ]
 
 REQUIRED_TEXT: dict[str, list[str]] = {
+    "00-GSD-INGEST-ADR.md": [
+        "not an independent authority",
+        "098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d",
+        "D-01",
+        "D-31",
+        "not_yet_packaged",
+        "Independent Prompt 02 review",
+    ],
     "README.md": [
         "production candidate",
         "A5 attacks that exact candidate through twelve audit lanes",
@@ -185,7 +196,7 @@ REQUIRED_TEXT: dict[str, list[str]] = {
     "06-START-RUNBOOK.md": [
         "$gsd-help --full",
         "Probe required skill discovery and hook behavior directly",
-        "$gsd-plan-phase 1 --ingest",
+        "$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST-ADR.md",
         "$gsd-review --phase 1 --coderabbit",
         "$gsd-plan-phase 1 --reviews",
         "$gsd-execute-phase 1",
@@ -440,6 +451,61 @@ def audit_toml(root: Path, errors: list[str]) -> None:
             errors.append(f"{rel}: schema_version must be 1")
 
 
+def audit_gsd_ingest_projection(root: Path, errors: list[str]) -> None:
+    source_path = root / "00-GSD-INGEST.md"
+    projection_path = root / "00-GSD-INGEST-ADR.md"
+    source_digest = sha256(source_path)
+    if source_digest != SOURCE_INGEST_SHA256:
+        errors.append(
+            "00-GSD-INGEST.md: authoritative digest changed; independently re-audit "
+            "before updating the parser projection"
+        )
+
+    text = projection_path.read_text(encoding="utf-8")
+    headings = list(re.finditer(r"^##\s+(.+?)\s*$", text, re.M))
+    sections: dict[str, str] = {}
+    for index, heading in enumerate(headings):
+        start = heading.end()
+        end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+        sections[heading.group(1).strip().lower()] = text[start:end].strip()
+
+    required_sections = [
+        "status",
+        "context",
+        "decisions",
+        "out of scope",
+        "deferred",
+        "dependencies",
+        "implementation plan",
+        "success criteria",
+        "risks",
+    ]
+    for section in required_sections:
+        if not sections.get(section):
+            errors.append(f"00-GSD-INGEST-ADR.md: missing/nonempty parser section: {section}")
+
+    if not sections.get("status", "").lower().startswith("accepted"):
+        errors.append("00-GSD-INGEST-ADR.md: parser status must be Accepted")
+
+    decision_ids = re.findall(
+        r"^-\s+(D-\d{2})\s+—\s+\S", sections.get("decisions", ""), re.M
+    )
+    if decision_ids != EXPECTED_PROJECTION_DECISIONS:
+        errors.append(
+            "00-GSD-INGEST-ADR.md: decision sequence mismatch; "
+            f"expected {EXPECTED_PROJECTION_DECISIONS}, found {decision_ids}"
+        )
+
+    bound = re.search(
+        r"Source SHA-256:\s*`([0-9a-f]{64})`", sections.get("context", "")
+    )
+    bound_digest = bound.group(1) if bound else ""
+    if bound_digest != SOURCE_INGEST_SHA256 or bound_digest != source_digest:
+        errors.append(
+            "00-GSD-INGEST-ADR.md: source digest binding does not match immutable authority"
+        )
+
+
 def audit_policy(root: Path, errors: list[str]) -> None:
     operational = "\n".join((root / rel).read_text(encoding="utf-8") for rel in sorted(OPERATIONAL_MD))
     for phrase in STALE_OPERATIONAL:
@@ -579,6 +645,7 @@ def main() -> int:
         )
 
     audit_hashes(root, errors)
+    audit_gsd_ingest_projection(root, errors)
     audit_toml(root, errors)
 
     md_files = sorted(path for path in root.rglob("*.md") if not path.is_symlink())

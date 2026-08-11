@@ -291,6 +291,7 @@ profile.
 | Need | Read |
 |---|---|
 | GSD reorientation | [00-GSD-INGEST.md](00-GSD-INGEST.md) |
+| GSD ADR parser projection | [00-GSD-INGEST-ADR.md](00-GSD-INGEST-ADR.md) — mechanical planning projection bound to the authoritative ingest SHA |
 | Phase 1 replay incident | [01-BASELINE-REPLAY.md](01-BASELINE-REPLAY.md) |
 | Architecture/authority/state | [02-PRODUCT-ARCHITECTURE.md](02-PRODUCT-ARCHITECTURE.md) |
 | M0–M5 delivery | [03-ROADMAP.md](03-ROADMAP.md) |
