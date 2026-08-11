@@ -1,16 +1,16 @@
 # Graph Report - uzel-integration-phase-01-v4  (2026-08-11)
 
 ## Corpus Check
-- 190 files · ~202,320 words
+- 190 files · ~202,352 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2253 nodes · 2935 edges · 257 communities (150 shown, 107 thin omitted)
+- 2253 nodes · 2936 edges · 256 communities (149 shown, 107 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3d91e2b5`
+- Built from commit: `c3f196ad`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -256,7 +256,6 @@
 - 01-04-PLAN.md
 - 01-05-PLAN.md
 - Production-grade runtime maturity programme
-- Critical Pitfalls
 - BLOCKING CONSTRAINTS — Read Before Anything Else
 - navigation_policy
 - candidate-qualification.md
@@ -271,8 +270,8 @@
 5. `RunnerError` - 24 edges
 6. `A5 — mandatory post-M5 whole-system audit` - 24 edges
 7. `ClientError` - 22 edges
-8. `Delivery, quality, review and packaging discipline` - 21 edges
-9. `validate_record()` - 20 edges
+8. `validate_record()` - 21 edges
+9. `Delivery, quality, review and packaging discipline` - 21 edges
 10. `Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
@@ -290,7 +289,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (257 total, 107 thin omitted)
+## Communities (256 total, 107 thin omitted)
 
 ### Community 0 - "UnixClient"
 Cohesion: 0.13
@@ -341,8 +340,8 @@ Cohesion: 0.07
 Nodes (30): Acceptance environment, Authority and schema baseline, Current Nix package/native acceptance, Ecosystem, compatibility and maturity baseline, Exact closure policy, Exit gate, `failed_behavior`, Incident preservation (+22 more)
 
 ### Community 12 - "Production engineering dimensions"
-Cohesion: 0.15
-Nodes (13): 10. Data safety, 11. UX and accessibility as correctness, 12. Operations and observability, 1. Semantic ownership and dependency direction, 2. Compatibility and launch integrity, 3. State-machine correctness, 4. Memory, CPU, queues and wakeups, 5. Fuzzing and property tests (+5 more)
+Cohesion: 0.08
+Nodes (25): 10. Data safety, 11. UX and accessibility as correctness, 12. Operations and observability, 1. Semantic ownership and dependency direction, 2. Compatibility and launch integrity, 3. State-machine correctness, 4. Memory, CPU, queues and wakeups, 5. Fuzzing and property tests (+17 more)
 
 ### Community 13 - "main.js"
 Cohesion: 0.06
@@ -469,7 +468,7 @@ Cohesion: 0.18
 Nodes (8): Evidence boundary, Renderer acceptance harness, 1. Clone and install the launcher, 2. Run automated real-WebKit acceptance, 3. Run visible desktop demo, Debian 13 live test, Development, Uzel
 
 ### Community 47 - "ref-candidate-check.py"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (51): CompletedProcess, Namespace, RuntimeError, approved_reachability(), candidate_argv_ok(), candidate_record(), canonical_record(), CheckError (+43 more)
 
 ### Community 48 - "Uzel product-incubation plan — revision 4"
@@ -537,7 +536,7 @@ Cohesion: 0.67
 Nodes (3): matchesLog(), napdReadyPattern(), script
 
 ### Community 67 - "LRN-#### — <reusable lesson>"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Agent trap, Consequence for Uzel, Educational seed, Evidence, Executable witness, Learning, LRN-#### — <reusable lesson>, Question or failed assumption
 
 ### Community 68 - "Uzel POC agent instructions"
@@ -561,7 +560,7 @@ Cohesion: 0.22
 Nodes (8): Commands and results, Exact dependency and upstream evidence, Exact next step, Honest boundary, Linux shell evidence, Outcome, Runtime composition evidence, Slice 05 preflight — integrated composed demo
 
 ### Community 73 - "ADR-#### — <decision>"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): ADR-#### — <decision>, Alternatives considered, Consequences, Context, Decision, Evidence, Revisit trigger
 
 ### Community 74 - "Capability ledger — <capability-id>"
@@ -569,7 +568,7 @@ Cohesion: 0.25
 Nodes (8): Bounds, admission, fairness and operations, Capability ledger — <capability-id>, Claim and journeys, Contract, negotiation and state, Evidence matrix, Persistence and recovery, Trust and identity, Upstream and known gaps
 
 ### Community 78 - "Uzel Runtime Compatibility Profile — <profile-id>"
-Cohesion: 0.25
+Cohesion: 0.22
 Nodes (8): Capability negotiation, Evidence, Exact source identities, Exclusions and deviations, Identity and trust semantics, Migration and rollback, Supported behavior, Uzel Runtime Compatibility Profile — <profile-id>
 
 ### Community 79 - "SIR-#### — <interpreted seam or ambiguity>"
@@ -717,8 +716,8 @@ Cohesion: 0.11
 Nodes (18): Browser/native proof separation, `evidence/phase-01/candidate-qualification.md` (config/evidence record, batch), `evidence/phase-01/measurements/<mode>.json` (test evidence, batch), `evidence/phase-01/ownership-disposition.json` (config/data map, transform), `evidence/phase-01/replay-manifest.json` (config/evidence record, batch), `evidence/phase-01/work-07-preservation.md` (evidence record, transform), Fail-closed replay and bounded errors, File Classification (+10 more)
 
 ### Community 220 - "Pitfalls Research"
-Cohesion: 0.20
-Nodes (10): Integration Gotchas, "Looks Done But Isn't" Checklist, Performance Traps, Pitfall-to-Phase Mapping, Pitfalls Research, Recovery Strategies, Security Mistakes, Sources (+2 more)
+Cohesion: 0.11
+Nodes (19): Critical Pitfalls, Integration Gotchas, "Looks Done But Isn't" Checklist, Performance Traps, Pitfall 1: Uzel absorbs runtime or Nostr ownership during extraction, Pitfall 2: Cargo, flake, fixture, and runtime revisions drift apart, Pitfall 3: Package works in dev shell, not as canonical Nix product, Pitfall 4: Local-first Social Home displays remote-like certainty or duplicate cache truth (+11 more)
 
 ### Community 221 - "CodeRabbit Review"
 Cohesion: 0.12
@@ -749,8 +748,8 @@ Cohesion: 0.17
 Nodes (11): Alternatives Considered, CI Tooling and Scope, Development Commands, Exact Napp Pin Pattern, Gate 0 Additions — Validate Before Social Work, Locked Baseline — Preserve, Recommended Stack, Sources (+3 more)
 
 ### Community 228 - "Implications for Roadmap"
-Cohesion: 0.10
-Nodes (20): Architecture Approach, Confidence Assessment, Critical Pitfalls, Executive Summary, Expected Features, Gaps to Address, Implications for Roadmap, Key Findings (+12 more)
+Cohesion: 0.17
+Nodes (12): Architecture Approach, Confidence Assessment, Critical Pitfalls, Executive Summary, Expected Features, Gaps to Address, Key Findings, Primary (HIGH confidence) (+4 more)
 
 ### Community 229 - "Codebase Concerns"
 Cohesion: 0.18
@@ -833,12 +832,8 @@ Cohesion: 0.29
 Nodes (6): Artifacts this phase produces, D-18 candidate handoff and separately authorized ship/review gate, Phase Goal, Review Feedback Disposition, STRIDE Threat Register — ASVS L1, block high, Trust Boundaries
 
 ### Community 249 - "Production-grade runtime maturity programme"
-Cohesion: 0.17
-Nodes (12): A5 and production decision, Capability maturity ledger, Composability definition, Guest-code trust tiers, Independent judgment, Independent napplet evidence criteria, M0 required baselines, M5 freeze requirements (+4 more)
-
-### Community 250 - "Critical Pitfalls"
-Cohesion: 0.22
-Nodes (9): Critical Pitfalls, Pitfall 1: Uzel absorbs runtime or Nostr ownership during extraction, Pitfall 2: Cargo, flake, fixture, and runtime revisions drift apart, Pitfall 3: Package works in dev shell, not as canonical Nix product, Pitfall 4: Local-first Social Home displays remote-like certainty or duplicate cache truth, Pitfall 5: Source-binding or WebKit isolation regresses while deterministic tests stay green, Pitfall 6: Bounded POC limits are raised or bypassed for Social data, Pitfall 7: Path-classified CI creates green skips or hides dependency changes (+1 more)
+Cohesion: 0.25
+Nodes (8): Implications for Roadmap, Phase 1: REF-01 — POC replay and accepted Napp seam, Phase 2: PKG-01 — Canonical Nix release closure, Phase 3: CI-01 — Measured fail-closed delivery lanes, Phase 4: SOC-01 — Local profile, resources, and honest state, Phase 5: SOC-02 — Source-bound graph, feed, and navigation, Phase Ordering Rationale, Research Flags
 
 ### Community 252 - "BLOCKING CONSTRAINTS — Read Before Anything Else"
 Cohesion: 0.33
