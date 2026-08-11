@@ -1,0 +1,492 @@
+# Installation and Phase 1 restart runbook
+
+## Destination
+
+Install the pack in the active Uzel repository at:
+
+```text
+docs/plans/uzel-product-incubation-v4-2026-08-10/
+```
+
+Do not extract it into `.planning/`, the blocked `01-01` worktree, another repository, a
+dirty checkout or a directory containing an older pack. Commit it through a planning-
+only PR first; then create a fresh manual Phase 1 worktree from the merged integration
+branch.
+
+## Step 0 — pause and preserve the blocked execution
+
+In the blocked top-level Codex/GSD session:
+
+```text
+$gsd-pause-work --report
+```
+
+Stop that session. Do not continue `01-01` or delete its worktree.
+
+From an ordinary Uzel checkout, create both a durable local ref and a portable,
+checksummed Git bundle outside the repository:
+
+```bash
+set -euo pipefail
+
+repo_dir="/absolute/path/to/jodobear/uzel"
+evidence_dir="/absolute/private/path/uzel-phase-1-b185ad1"
+
+cd "$repo_dir"
+git rev-parse --is-inside-work-tree >/dev/null
+git cat-file -e 'b185ad1^{commit}'
+git show --stat --oneline b185ad1
+
+if git show-ref --verify --quiet refs/heads/wip/phase-1-replay-b185ad1; then
+  test "$(git rev-parse wip/phase-1-replay-b185ad1)" = "$(git rev-parse b185ad1)"
+else
+  git branch wip/phase-1-replay-b185ad1 b185ad1
+fi
+
+mkdir -p "$evidence_dir"
+if [ ! -e "$evidence_dir/b185ad1.bundle" ]; then
+  git bundle create \
+    "$evidence_dir/b185ad1.bundle" \
+    wip/phase-1-replay-b185ad1
+fi
+
+git bundle verify "$evidence_dir/b185ad1.bundle"
+bundle_head="$(
+  git bundle list-heads "$evidence_dir/b185ad1.bundle" |
+    awk '$2 == "refs/heads/wip/phase-1-replay-b185ad1" { print $1 }'
+)"
+test "$bundle_head" = "$(git rev-parse b185ad1)"
+
+if [ ! -e "$evidence_dir/b185ad1-metadata.txt" ]; then
+  {
+    git show --format=fuller --stat --summary b185ad1
+    printf '\nparent=%s\n' "$(git rev-parse b185ad1^)"
+    printf 'commit=%s\n' "$(git rev-parse b185ad1)"
+    git worktree list --porcelain
+  } > "$evidence_dir/b185ad1-metadata.txt"
+fi
+grep -Fx "parent=$(git rev-parse b185ad1^)" \
+  "$evidence_dir/b185ad1-metadata.txt"
+grep -Fx "commit=$(git rev-parse b185ad1)" \
+  "$evidence_dir/b185ad1-metadata.txt"
+
+(
+  cd "$evidence_dir"
+  if [ ! -e SHA256SUMS ]; then
+    sha256sum b185ad1.bundle b185ad1-metadata.txt > SHA256SUMS
+  fi
+  sha256sum -c SHA256SUMS
+)
+```
+
+Record the blocked worktree path/branch and evidence directory in the pause/incident
+record. Do not push the WIP branch unless the owner explicitly chooses to. Do not prune
+worktrees until Phase 1 assigns an evidence-based disposition.
+
+## Step 1 — verify and install the planning pack
+
+Download together:
+
+```text
+uzel-product-incubation-v4-2026-08-10.zip
+uzel-product-incubation-v4-2026-08-10.sha256
+```
+
+Run from a clean checkout on the active GSD integration branch. Replace the paths and do
+not assume the branch is named `main`.
+
+```bash
+set -euo pipefail
+
+pack_dir="/absolute/path/to/downloads"
+repo_dir="/absolute/path/to/jodobear/uzel"
+pack_name="uzel-product-incubation-v4-2026-08-10"
+trusted_pack_sha256="<64-hex SHA-256 from a signed release or authenticated owner handoff>"
+
+(
+  cd "$pack_dir"
+  printf '%s\n' "$trusted_pack_sha256" | grep -Eq '^[0-9a-f]{64}$'
+  test "$(wc -l < "$pack_name.sha256")" -eq 1
+  test "$(awk 'NR == 1 { print $1 }' "$pack_name.sha256")" = "$trusted_pack_sha256"
+  printf '%s  %s\n' "$trusted_pack_sha256" "$pack_name.zip" | sha256sum -c -
+  unzip -tq "$pack_name.zip"
+)
+
+cd "$repo_dir"
+git rev-parse --is-inside-work-tree >/dev/null
+test -z "$(git status --porcelain)"
+
+base_branch="$(git branch --show-current)"
+test -n "$base_branch"
+base_head="$(git rev-parse HEAD)"
+blocked_parent="$(git rev-parse b185ad1^)"
+git merge-base --is-ancestor "$blocked_parent" "$base_head"
+
+plan_branch="plan/uzel-incubation-v4"
+if git show-ref --verify --quiet "refs/heads/$plan_branch"; then
+  git switch "$plan_branch"
+else
+  git switch -c "$plan_branch"
+fi
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor "$base_head" HEAD
+git merge-base --is-ancestor "$blocked_parent" HEAD
+prior_paths="$(git diff --name-only "$base_head"...HEAD)"
+if [ -n "$prior_paths" ]; then
+  printf '%s\n' "$prior_paths" | grep -Ev \
+    "^docs/plans/$pack_name/" >/dev/null && {
+      printf 'planning branch contains unrelated paths\n' >&2
+      exit 1
+    }
+fi
+
+mkdir -p docs/plans
+test ! -e "docs/plans/$pack_name"
+unzip -q "$pack_dir/$pack_name.zip" -d docs/plans
+
+(
+  cd "docs/plans/$pack_name"
+  sha256sum -c SHA256SUMS
+  PYTHONDONTWRITEBYTECODE=1 python3 scripts/audit_docs.py .
+)
+
+git add "docs/plans/$pack_name"
+git diff --cached --check
+all_paths="$(git diff --name-only "$base_head"...HEAD; git diff --cached --name-only)"
+printf '%s\n' "$all_paths" | sed '/^$/d' | grep -Ev \
+  "^docs/plans/$pack_name/" >/dev/null && {
+    printf 'planning PR would contain unrelated paths\n' >&2
+    exit 1
+  }
+if ! git diff --cached --quiet; then
+  git commit -m "docs: adopt audited Uzel incubation plan v4"
+fi
+git push -u origin "$plan_branch"
+```
+
+Open and merge a planning-only contextual PR. It must contain no product source,
+dependency lock, generated build output or `.planning` state change.
+
+If repository instructions require a Graphify refresh after adding the pack auditor,
+keep `graphify-out/` out of the planning-only PR. Before merging this PR, run `graphify
+update .` against its exact head in an isolated metadata branch, commit only the refreshed
+`graphify-out/`, merge that metadata-only PR, then refresh this planning branch from the
+integration base. Do not merge this PR or create the Phase 1 worktree until the graph
+refresh is integrated.
+
+## Step 2 — create a clean manual Phase 1 worktree
+
+After the planning PR is merged:
+
+```bash
+set -euo pipefail
+
+repo_dir="/absolute/path/to/jodobear/uzel"
+base_branch="<active-gsd-integration-branch>"
+phase_dir="/absolute/path/to/uzel-phase-1-v4"
+phase_branch="phase/01-baseline-v4"
+
+cd "$repo_dir"
+git fetch origin
+git switch "$base_branch"
+git pull --ff-only origin "$base_branch"
+test -z "$(git status --porcelain)"
+base_head="$(git rev-parse "$base_branch")"
+
+if [ -e "$phase_dir" ]; then
+  git -C "$phase_dir" rev-parse --is-inside-work-tree >/dev/null
+  test "$(git -C "$phase_dir" branch --show-current)" = "$phase_branch"
+elif git show-ref --verify --quiet "refs/heads/$phase_branch"; then
+  git worktree add "$phase_dir" "$phase_branch"
+else
+  git worktree add -b "$phase_branch" "$phase_dir" "$base_branch"
+fi
+
+cd "$phase_dir"
+test "$(git branch --show-current)" = "$phase_branch"
+git merge-base --is-ancestor "$base_head" HEAD
+test -z "$(git status --porcelain)"
+git status --short --branch
+```
+
+This worktree is the Phase 1 planning/execution boundary. GSD automatic worktrees remain
+disabled under Codex. The historical replay may create a separate disposable checkout.
+
+## Step 3 — inspect and reorient the existing GSD project
+
+Start a fresh top-level Codex session in the new Phase 1 worktree. Do **not** run
+`$gsd-resume-work`; it may resume the blocked plan before reconciliation.
+
+Before invoking GSD, prove that the session and shell are rooted in the intended
+worktree and record the Codex version:
+
+```bash
+set -euo pipefail
+expected_branch="phase/01-baseline-v4"
+repo_root="$(git rev-parse --show-toplevel)"
+test "$(realpath "$repo_root")" = "$(realpath "$PWD")"
+test "$(git branch --show-current)" = "$expected_branch"
+test -z "$(git status --porcelain)"
+codex --version
+```
+
+As of this pack date, the current GSD installation guide lists Codex CLI 0.130.0 or newer
+as the minimum supported Codex line. Record the actual Codex, GSD, CodeRabbit, Rust, Node
+and Nix versions plus installed-help output. Freeze this orchestration/toolchain profile
+for Phase 1; do not update it during planning, execution or review. Current installed help
+and the phase pin remain authoritative if upstream requirements move later.
+
+Run `$gsd-help --full` and confirm equivalent semantics for:
+
+```text
+plan-phase: --ingest, --ingest-format, --reviews; plan checker enabled by default
+execute-phase: phase execution
+verify-work: post-execution verification
+review: --phase, --coderabbit
+extract-learnings: phase argument, when present
+phase: --insert, --edit
+pause-work: --report
+```
+
+Online documentation, a development branch and the installed release may differ. Record
+whether the pinned installed help exposes a state/plan `--validate` option for
+`plan-phase` and/or `execute-phase`, and record its exact semantics. Use that option when
+present and appropriate; otherwise run the documented form without it. In both cases,
+plan-checker verification remains enabled and `verify-work` remains mandatory. Never use
+`--skip-verify` for this programme without an explicit incident decision and equivalent
+replacement evidence. If equivalent plan checking, independent review, state coherence,
+execution or post-execution verification is unavailable, stop and create a bounded
+compatibility/toolchain issue; update in a separate campaign, restart Codex, record the
+new immutable version and repeat preflight.
+
+Run:
+
+```text
+$gsd-health
+$gsd-progress --forensic
+```
+
+Ensure project configuration resolves to:
+
+```bash
+node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set runtime codex
+node "$HOME/.codex/gsd-core/bin/gsd-tools.cjs" query config-set workflow.use_worktrees false
+```
+
+Print and paste the complete reorientation prompt:
+
+```bash
+cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/01-reorient-current-gsd.md
+```
+
+This planning-only step must:
+
+- preserve the brownfield project and blocked incident;
+- preserve integer phases 2–7;
+- insert the exact decimal phase sequence in `03-ROADMAP.md` using current supported GSD
+  phase-management commands;
+- remove stale package-first and automatic post-M5 work;
+- make 7.9 the candidate-freeze phase and A5 the hard stop;
+- avoid product source/dependency changes.
+
+Expected future sequence:
+
+```text
+2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7,
+3, 3.1, 3.2, 3.3,
+4, 4.1, 4.2, 4.3,
+5, 5.1, 5.2, 5.3,
+6, 6.1, 6.2,
+7, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9
+```
+
+Then run `$gsd-progress --forensic` again and inspect `.planning/ROADMAP.md`, `STATE.md`
+and phase directories. Do not proceed if numbering is missing, duplicated, orphaned or
+renumbered. Do not run new-project, new-milestone, onboarding or another full codebase
+map unless `$gsd-health` proves corruption and a separate bounded repair is approved.
+
+## Step 4 — replan Phase 1 in place
+
+Run exactly one form, selected from the recorded installed help:
+
+```text
+# preferred when this installed version documents state/plan validation
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative --validate
+
+# otherwise
+$gsd-plan-phase 1 --ingest docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md --ingest-format narrative
+```
+
+Do not run both forms or infer flag semantics from another release/branch.
+
+Plan-checker verification must remain enabled; do not use `--skip-verify`. The plans must
+preserve Phase 1 numbering, reconcile
+`b185ad1`, separate exact-source replay from current package/native acceptance, classify
+Vite/conformance-tool origins before materialization, enforce the bounded replay attempt
+rule, and include the human stop before Phase 2, and create the ecosystem/upstream registry,
+initial compatibility profile, manifest/exact-build identity interpretation, capability
+ledgers and decision/learning structure required by plan `01-05`.
+
+## Step 5 — independently review and converge Phase 1 plans
+
+Print and paste:
+
+```bash
+cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md
+```
+
+Run:
+
+```text
+$gsd-review --phase 1 --coderabbit
+```
+
+When a Critical/High or blocking Medium finding exists, or an accepted finding changes
+plan semantics:
+
+```text
+$gsd-plan-phase 1 --reviews
+$gsd-review --phase 1 --coderabbit
+```
+
+Use no more than three cycles. Do not execute with any Critical/High finding or a
+Medium finding that threatens the phase outcome, authority, correctness, data integrity,
+security or operability. Every remaining non-blocking Medium/Low finding needs an
+explicit disposition and bounded rationale. Also stop on reviewer failure, source/lock
+mutation, artifact-only replay substitution, automatic Codex worktree assumption or
+product feature work in Phase 1.
+
+Reviewer prompts/fixtures must contain no keys, pairing URIs, credentials, production
+content or unredacted private diagnostics.
+
+## Step 6 — execute and verify only Phase 1
+
+Print and paste:
+
+```bash
+cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/03-execute-phase-1.md
+```
+
+Run exactly one form, selected from the same pinned installed help:
+
+```text
+# when this installed version documents the intended execution validation
+$gsd-execute-phase 1 --validate
+
+# otherwise
+$gsd-execute-phase 1
+```
+
+Do not run both forms. The following `verify-work` gate is required either way.
+
+Use `--wave N` only for actual planned waves and execute them sequentially. Afterward:
+
+```text
+$gsd-verify-work 1
+$gsd-progress --forensic
+```
+
+Before Phase 2, a human inspects separate verdicts for historical replay, current-source
+replacement invariants, current Nix/native acceptance, `b185ad1`, authority/schema/threat
+baseline, the exact compatibility profile and manifest/build-identity interpretation,
+upstream/local-patch/maturity/knowledge baselines, CI/review measurements and
+unresolved/retired claims. Do not cross this gate
+with an automatic next command.
+
+## Step 7 — execute one bounded delivery phase at a time
+
+For each listed phase from `2` through `7.9`:
+
+1. create one contextual issue with one primary outcome;
+2. create one clean manual issue branch/worktree from the integrated base;
+3. run the read-only upstream radar when the phase touches an upstream-owned surface;
+4. discuss and plan only that integer or decimal phase;
+5. independently review and replan until no Critical/High or blocking Medium finding
+   remains and the rest have explicit dispositions;
+6. execute its plans sequentially;
+7. run relevant local, package, security, UI, accessibility and compatibility gates;
+8. run `$gsd-verify-work <phase>` and then `$gsd-extract-learnings <phase>` when the
+   phase-pinned GSD version supports it; treat extraction as raw candidate evidence;
+9. print/paste `prompts/05-phase-closeout.md`, curate extracted items and reconcile
+   decision/profile/negotiation/upstream/learning/education/visibility deltas and update
+   capability ledgers;
+10. for milestone endpoints `2.7`, `3.3`, `4.3`, `5.3`, `6.2` and `7.9`, print/paste
+    `prompts/07-milestone-learning.md` and create the bounded milestone learning digest;
+11. rerun affected checks and perform the serial final PR review on the final SHA including
+    source, tests, profile/registry, closeout and learning changes;
+12. rerun `$gsd-verify-work <phase>` when closeout changed executable or acceptance
+    evidence;
+13. merge its one primary PR before creating the next phase worktree.
+
+Typical shape after recording whether this phase pin supports the optional validation
+flag:
+
+```text
+$gsd-discuss-phase 2
+$gsd-plan-phase 2
+$gsd-review --phase 2 --coderabbit
+$gsd-plan-phase 2 --reviews  # only when blocking findings exist
+$gsd-execute-phase 2
+$gsd-verify-work 2
+$gsd-extract-learnings 2  # when supported; raw candidate evidence
+# curate closeout, final-SHA review, rerun affected verification, then merge
+```
+
+Append `--validate` only to the planning/execution commands for which the pinned installed
+help defines the intended validation semantics; do not paste bracketed pseudo-arguments or
+run both variants.
+
+Use the exact phase section in `03-ROADMAP.md`. Never combine multiple listed phases in
+one primary PR or pull parked capabilities into context without an explicit roadmap
+amendment and independent review.
+
+Before planning any upstream-owned surface, follow `07-ECOSYSTEM-UPSTREAM.md`: verify the
+immutable current pin/profile, inspect the radar delta and decide whether a compatibility
+campaign is required. For a material public contribution, print/paste
+`prompts/06-upstream-contribution.md`, use a dedicated upstream fork/worktree/branch and
+obtain human review before submission. An upstream merge never permits silent Uzel
+adoption or local-patch removal.
+
+## Step 8 — mandatory stop after delivery phase 7.9
+
+Freeze the exact candidate and collect GSD evidence:
+
+```text
+$gsd-verify-work 7.9
+$gsd-code-review 7.9 --depth=deep
+$gsd-secure-phase 7.9
+$gsd-ui-review 7.9
+$gsd-validate-phase 7.9
+$gsd-audit-uat
+$gsd-progress --forensic
+$gsd-milestone-summary
+$gsd-audit-milestone
+```
+
+Print and paste:
+
+```bash
+cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/04-post-m5-audit.md
+```
+
+Follow the twelve-lane `05-POST-M5-AUDIT.md`. Do not run:
+
+```text
+$gsd-complete-milestone
+```
+
+until A5 passes, blocking remediation is re-audited and the owner explicitly approves
+milestone completion and the next programme.
+
+## Stop/recovery conditions
+
+Pause and inspect rather than papering over state when the process loses incident
+history, renumbers the project, cannot identify the integration base, touches the
+blocked worktree unexpectedly, uses flags not confirmed by installed help, enables
+GSD automatic Codex worktrees, cannot run the chosen independent reviewer, mutates
+source/dependencies in a
+planning-only step, leaves roadmap/state inconsistent or advances past the Phase 1 human
+gate.
+
+Preserve the current branch/worktree, run `$gsd-pause-work --report`, then inspect
+`$gsd-health` and `$gsd-progress --forensic`. Repair only the smallest proven state issue.

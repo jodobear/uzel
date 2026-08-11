@@ -1,0 +1,221 @@
+{
+  "counts": {
+    "errors": 0,
+    "files": 36,
+    "markdown_files": 28,
+    "mermaid_diagrams": 22,
+    "payload_files": 33,
+    "warnings": 0,
+    "words": 50101
+  },
+  "errors": [],
+  "markdown_files": [
+    {
+      "bytes": 17079,
+      "mermaid": 2,
+      "path": "00-GSD-INGEST.md",
+      "sha256": "203bcee89c6c22d5d49e661ac52dd682dc7d33d86e007b71d9a0a52de378e82e",
+      "words": 2268
+    },
+    {
+      "bytes": 18256,
+      "mermaid": 1,
+      "path": "01-BASELINE-REPLAY.md",
+      "sha256": "af2f7450fb5f3b82fb4fe5b42f1b456e5af5842004cde113f7f84b9d6037c0a9",
+      "words": 2413
+    },
+    {
+      "bytes": 58351,
+      "mermaid": 10,
+      "path": "02-PRODUCT-ARCHITECTURE.md",
+      "sha256": "69a2d62985c87ff60846b3a8fa787a32aea807d7c788a9da962fb172ff8a674e",
+      "words": 7579
+    },
+    {
+      "bytes": 49744,
+      "mermaid": 1,
+      "path": "03-ROADMAP.md",
+      "sha256": "5a62a893812dc5bb9ddc4ff9e990bf8f1c3a3644992a5c78ad6cee2fda7c7643",
+      "words": 6442
+    },
+    {
+      "bytes": 38286,
+      "mermaid": 2,
+      "path": "04-DELIVERY-QUALITY.md",
+      "sha256": "94234b414fbeefa9f16dc2f881bfc62531668b9479c89555dee9efadcf4fbbd1",
+      "words": 4953
+    },
+    {
+      "bytes": 39419,
+      "mermaid": 1,
+      "path": "05-POST-M5-AUDIT.md",
+      "sha256": "e5a663a815a0c958a08c1cc0e8e01a475bbd5085a6f9be94366b2f5843460c42",
+      "words": 4873
+    },
+    {
+      "bytes": 17613,
+      "mermaid": 0,
+      "path": "06-START-RUNBOOK.md",
+      "sha256": "49f47dc7a03fb918e4542c8734624e5ea634daa2bd65d890d1712c24150e8bcb",
+      "words": 2314
+    },
+    {
+      "bytes": 25827,
+      "mermaid": 1,
+      "path": "07-ECOSYSTEM-UPSTREAM.md",
+      "sha256": "2a19fb3cd53d5eb87d34a756bdbfa7981ca458b13b66c7f76318e732cb297532",
+      "words": 3374
+    },
+    {
+      "bytes": 18753,
+      "mermaid": 1,
+      "path": "08-DECISIONS-LEARNING.md",
+      "sha256": "1794abeefcf7188ddd643b96711429aa35d3b0d6d7c6c970456e23257628fb30",
+      "words": 2389
+    },
+    {
+      "bytes": 23462,
+      "mermaid": 1,
+      "path": "09-PRODUCTION-MATURITY.md",
+      "sha256": "542354b7d254db97ae08315fa7dfe4ed963cb8aee3892f4f547789c0d8de91fd",
+      "words": 2927
+    },
+    {
+      "bytes": 25100,
+      "mermaid": 0,
+      "path": "AUDIT.md",
+      "sha256": "42ee94f4e439d01f97852edd7ecf7dc78f0bf681ca345af8546728616248d789",
+      "words": 3207
+    },
+    {
+      "bytes": 16369,
+      "mermaid": 2,
+      "path": "README.md",
+      "sha256": "3aeb0687edc701c5012b85564209aad3bf855335d4e09e498e38bb9642ed6826",
+      "words": 2148
+    },
+    {
+      "bytes": 4101,
+      "mermaid": 0,
+      "path": "prompts/01-reorient-current-gsd.md",
+      "sha256": "6a9350fad3cd765437508df143ff2dc05c097eb2d0601c942a7ccff8e3e17572",
+      "words": 537
+    },
+    {
+      "bytes": 3946,
+      "mermaid": 0,
+      "path": "prompts/02-review-phase-1.md",
+      "sha256": "db693f23abadf389a1f3a9eeecf59f459d3e10ceb2dceca12d9dfb97460b3b71",
+      "words": 539
+    },
+    {
+      "bytes": 2907,
+      "mermaid": 0,
+      "path": "prompts/03-execute-phase-1.md",
+      "sha256": "b9b03df5f14e0bf9c08b82855d6a76aaa2267b4bf404c7a97a0033758cf0da65",
+      "words": 380
+    },
+    {
+      "bytes": 5201,
+      "mermaid": 0,
+      "path": "prompts/04-post-m5-audit.md",
+      "sha256": "6074f9e36445f7a59c578ec544b3c5b9108ca4635bb3c506a721ee16f3f51b71",
+      "words": 601
+    },
+    {
+      "bytes": 2492,
+      "mermaid": 0,
+      "path": "prompts/05-phase-closeout.md",
+      "sha256": "828a64396542d84a6197dce00826cc2c7ff5644f5ac03aaf352bac24c3f41dcd",
+      "words": 334
+    },
+    {
+      "bytes": 2686,
+      "mermaid": 0,
+      "path": "prompts/06-upstream-contribution.md",
+      "sha256": "3100cff865a2a240bc1de892c525c93ffba95011ca219a1022150cdaa4d98a56",
+      "words": 364
+    },
+    {
+      "bytes": 1908,
+      "mermaid": 0,
+      "path": "prompts/07-milestone-learning.md",
+      "sha256": "789b48590104467e0e583ee60d16c07d32c8377d2865d1c91d2a69e975ebb582",
+      "words": 254
+    },
+    {
+      "bytes": 6457,
+      "mermaid": 0,
+      "path": "reports/ecosystem-baseline-2026-08-10.md",
+      "sha256": "73450553091f26d8519def6989661c052791dd326b7f1b7c787ada9f71bb269e",
+      "words": 853
+    },
+    {
+      "bytes": 928,
+      "mermaid": 0,
+      "path": "templates/ADR.md",
+      "sha256": "b1b31714f7916a590ee1f79944740bc87db6e77f1f181ed8f380a74a6e21df16",
+      "words": 97
+    },
+    {
+      "bytes": 1534,
+      "mermaid": 0,
+      "path": "templates/CAPABILITY-LEDGER.md",
+      "sha256": "c33b873baa6f751f1b2facfee399d0775d8f637b7e99c0877d6623a5997e98d8",
+      "words": 166
+    },
+    {
+      "bytes": 1843,
+      "mermaid": 0,
+      "path": "templates/COMPAT-PROFILE.md",
+      "sha256": "dae6bf5be89939a5fea4c0d43ad67e8f127b698d4d52a998dba8b07847394957",
+      "words": 198
+    },
+    {
+      "bytes": 1093,
+      "mermaid": 0,
+      "path": "templates/LEARNING-NOTE.md",
+      "sha256": "484e02ff6f6b80167fa79c4324b2e730f534d355d17464e5d77f53dd897b02c8",
+      "words": 127
+    },
+    {
+      "bytes": 1909,
+      "mermaid": 0,
+      "path": "templates/MILESTONE-LEARNING.md",
+      "sha256": "1bdd28da724809da50c1ec68d0cd976a74c870a9463e9e507f39c54e998997a1",
+      "words": 224
+    },
+    {
+      "bytes": 1446,
+      "mermaid": 0,
+      "path": "templates/PHASE-CLOSEOUT.md",
+      "sha256": "246b4749324c50309eb9758e57104dc10c4774aa9c0d9fe90fe597e63d165cd5",
+      "words": 153
+    },
+    {
+      "bytes": 1612,
+      "mermaid": 0,
+      "path": "templates/SPEC-INTERPRETATION.md",
+      "sha256": "8d316fba55b0f2e0836ce31ca2038d83f0ed2490c4ab9e5df85f3337c607fe26",
+      "words": 183
+    },
+    {
+      "bytes": 1757,
+      "mermaid": 0,
+      "path": "templates/UPSTREAM-RECORD.md",
+      "sha256": "b39e421694ba3b375b40e4169a5bff1d6cbe9046d1035e2feb78c5a55358bf72",
+      "words": 204
+    }
+  ],
+  "notes": [
+    "Checks an exact archive allowlist and all payload hashes/byte counts.",
+    "Checks Markdown fences, relative links, TOML templates, phase/lane sequences, prompt coverage and locked invariants.",
+    "Checks production maturity, exact-profile, moving-upstream, contribution, learning and disclosure controls across documents.",
+    "Mermaid diagrams are structurally counted; this audit does not render them.",
+    "Source, package, provider, interoperability and platform claims remain implementation evidence gates."
+  ],
+  "revision": 4,
+  "root": "uzel-product-incubation-v4-2026-08-10",
+  "status": "pass",
+  "warnings": []
+}
