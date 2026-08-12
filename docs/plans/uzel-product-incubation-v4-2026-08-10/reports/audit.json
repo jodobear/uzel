@@ -6,7 +6,7 @@
     "mermaid_diagrams": 22,
     "payload_files": 34,
     "warnings": 0,
-    "words": 53910
+    "words": 53963
   },
   "errors": [],
   "markdown_files": [
@@ -46,11 +46,11 @@
       "words": 6491
     },
     {
-      "bytes": 39217,
+      "bytes": 39611,
       "mermaid": 2,
       "path": "04-DELIVERY-QUALITY.md",
-      "sha256": "1dc3f337cf188bbed0297d231f5bc88eca90b36b8b1faf9f14121ab68351e5e9",
-      "words": 5078
+      "sha256": "77febd365a1bd8c40f2850b7a26dab68cb59eee9786b563a7c751588635f902e",
+      "words": 5128
     },
     {
       "bytes": 39700,
@@ -109,11 +109,11 @@
       "words": 553
     },
     {
-      "bytes": 5048,
+      "bytes": 5063,
       "mermaid": 0,
       "path": "prompts/02-review-phase-1.md",
-      "sha256": "11486fc7180702644f3ff94792c744c85e72ed7aeb39f7f88435d32e230337d3",
-      "words": 698
+      "sha256": "2f479c7ef2fa8a1955ea87002c647364e8e3f3e74301e69a7ecede7de6391860",
+      "words": 701
     },
     {
       "bytes": 3255,

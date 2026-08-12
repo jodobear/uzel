@@ -53,19 +53,29 @@ Rules:
 flowchart LR
     C[Delivery-phase context / accepted decisions]
     P[GSD plan]
-    R[Local CodeRabbit plan-review attempt]
     PPR[Plan PR exact SHA]
+    R[Local CodeRabbit plan-review attempt]
     PRX[GitHub Codex plan review]
+    J[Both exact-SHA dispositions]
     X[Sequential execution]
-    L[Local tests + CodeRabbit]
+    L[Local tests]
     PR[Draft PR]
+    IR[Local CodeRabbit implementation review]
     CX[GitHub Codex implementation review]
+    IJ[Both exact-SHA dispositions]
     CI[Required CI/package checks]
     V[GSD verification + human evidence]
     M[Merge]
 
-    C --> P --> R --> PPR --> PRX --> X --> L --> PR --> CX --> CI --> V --> M
-    R -. recorded rate_limit .-> PPR
+    C --> P --> PPR
+    PPR --> R --> J
+    PPR --> PRX --> J
+    R -. recorded rate_limit before findings .-> J
+    J --> X --> L --> PR
+    PR --> IR --> IJ
+    PR --> CX --> IJ
+    IR -. recorded rate_limit before findings .-> IJ
+    IJ --> CI --> V --> M
 ```
 
 Not every documentation-only PR needs native package tests, but every omitted gate must
@@ -846,7 +856,9 @@ A delivery-phase PR may merge only when:
 - schema/migration/rollback evidence exists if affected;
 - security/product/accessibility checks for the slice pass;
 - local review findings are resolved;
-- serial remote reviews are current for the final material SHA;
+- local CodeRabbit and GitHub Codex dispositions are current for the same final material
+  SHA, with only a recorded pre-finding CodeRabbit `rate_limit` permitting green GitHub
+  Codex to satisfy the fallback;
 - required CI/Nix/package gates pass;
 - no unrelated parked capability or speculative public API entered the change;
 - planning/state artifacts are coherent and concise;

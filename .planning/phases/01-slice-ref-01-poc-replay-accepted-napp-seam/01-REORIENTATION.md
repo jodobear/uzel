@@ -56,15 +56,21 @@ freezes one exact candidate; A5 is a mandatory twelve-lane non-implementation st
 |---|---|---|
 | managed Codex | `/home/at/.bun/bin/codex`; `codex-cli 0.147.0` | `134063e133f0b4244fa3b251acf973d4fe4b4aeeacbdc135211bf480f59f1477` |
 | bare `codex` on PATH | `0.92.0` | `57015466038e5af95bc1d3df371fddf12ac441bd336edd9871c3613599ba2b92` |
-| GSD core | `1.8.0` | VERSION file `6754fcea32b88564b0879ceb065063ff5c69d08e65a6046a9f07edb5b324d3e9` |
-| GSD full help | installed | `d2bc66716d6adb43da9b4402b23500851ab64fe439f7e2c44766130d958d5290` |
-| `gsd-tools.cjs` | installed | `d44831d1e2f9c1c1edae70d519b8cd803b5c526bf468c40fd8630e9b735a5923` |
+| GSD core at phase start | `1.8.0` | VERSION file `6754fcea32b88564b0879ceb065063ff5c69d08e65a6046a9f07edb5b324d3e9` |
+| GSD full help at phase start | installed 1.8.0 | `d2bc66716d6adb43da9b4402b23500851ab64fe439f7e2c44766130d958d5290` |
+| `gsd-tools.cjs` at phase start | installed 1.8.0 | `d44831d1e2f9c1c1edae70d519b8cd803b5c526bf468c40fd8630e9b735a5923` |
+| GSD core after owner-authorized `$gsd-update` | `1.10.0` | VERSION file `e91dee3b412922e56d788d757cd30eaaae92b0846323abdb99eeb58b9cfe30c1` |
+| GSD full help after repin | installed 1.10.0 `gsd-tools.cjs --help` | `9c955d584323335249480cf91e8a4e674eac59d328619a4bf7fb058bd2238037` |
+| `gsd-tools.cjs` after repin | installed 1.10.0 | `fae5de4bef757d5043add454990bf0b96746e73ee386b93223985e8843600aff` |
 | CodeRabbit | `0.7.2` | `f9f61ecdb385d3c8d5001ee652dee1d95b3282fd740bd023dc89b18a191d3e97` |
 | Node / npm | `v22.22.0` / `10.9.4` | observed live |
 | Rust / Cargo | `1.89.0` / `1.89.0` | observed live |
 | Nix | `2.34.1` | observed live |
 
-Installed help confirms `plan-phase --ingest --ingest-format --reviews`,
+The owner explicitly invoked `$gsd-update` before rerunning Phase-1 planning. The 1.8.0
+rows remain the phase-start evidence; 1.10.0 is the resulting authorized repin used by
+the revised plans and reviews, not silent drift. Installed 1.10.0 help confirms
+`plan-phase --ingest --ingest-format --reviews`,
 `review --phase --coderabbit`, `phase --insert --edit`, default plan verification and
 post-execution `verify-work`. It does not document `plan-phase --validate`; the runbook
 command therefore omits that stale assumption.

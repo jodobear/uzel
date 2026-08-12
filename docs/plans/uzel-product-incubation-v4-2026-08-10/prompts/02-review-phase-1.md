@@ -4,9 +4,9 @@ Review the generated Uzel Phase 1 plans against the exact repository and v4 base
 contract. Commit and push the complete immutable candidate, then run local CodeRabbit's
 required candidate-review mode and ask GitHub Codex to review that same exact PR SHA. The
 two reviewer runs may overlap, but acceptance waits for both dispositions. Record CodeRabbit CLI/version/result, GitHub Codex review
-identity, base/head SHAs, prompt digest, commands/requests and full findings. If local
-that required local CodeRabbit mode returns a recorded `rate_limit` error before findings,
-green GitHub Codex is the approved fallback and permits continuation. A later or
+identity, base/head SHAs, prompt digest, commands/requests and full findings. Only if that
+required local CodeRabbit mode returns a recorded `rate_limit` error before findings does
+a green GitHub Codex result become the approved fallback and permit continuation. A later or
 alternate-mode rate limit, or any other CodeRabbit failure, does not.
 Claude, OpenCode, remote CodeRabbit and local Codex self-review are not part of this
 programme. Any later commit invalidates review evidence and starts a new review path.

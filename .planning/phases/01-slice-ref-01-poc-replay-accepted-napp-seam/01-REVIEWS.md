@@ -126,3 +126,73 @@ fixed or low-benefit P2 backlog items, and the human execution gate is explicit.
   dispositions before acceptance, and limits fallback to CodeRabbit's required candidate-
   review mode returning `rate_limit` before any finding.
 - No Cycle-4 item was deferred to P2.
+
+## Cycle 5
+
+- Local CodeRabbit CLI `0.7.2` reviewed immutable pushed candidate
+  `732a668df6f775ccce6fb99f04cf15926484f9d8` and completed with twenty findings:
+  seventeen major and three minor.
+- GitHub Codex review `4912791656`, submitted `2026-08-12T03:31:24Z`, reviewed the same
+  exact candidate and reported nine P1 findings. Both results invalidate `732a668`.
+- Review prompt SHA-256 was
+  `11486fc7180702644f3ff94792c744c85e72ed7aeb39f7f88435d32e230337d3`.
+  Local command was `coderabbit review --agent --committed --base-commit
+  21d3a0cbe5306cf6bf1943aba18cef77ed34ba37`. GitHub request evidence is
+  `https://github.com/jodobear/uzel/pull/36#issuecomment-5261901479`; review evidence is
+  `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4912791656`.
+- Accepted fixes cover live incident/tool/claim/disposition validation; safe retained-
+  artifact containment; complete Nix discovery; nonvacuous current-source architecture,
+  manifest, review-stage, package/RCP, negotiation, disclosure, closeout/teaching, and
+  transition-row evidence; plus strict packet/decision/receipt parsing.
+- Historical `01-REAUDIT.md` Napp gating was explicitly superseded, GSD tool evidence was
+  aligned to live `1.10.0`, the pack review diagram/prompt were corrected, and the upstream
+  contribution log became owned evidence.
+- Two review claims were rejected with live evidence: the incident-restoration claim used
+  an unrelated checkout while the actual execution worktree contains the exact commit,
+  ref, clean registered blocked worktree, and archive; serial-only review ordering conflicts
+  with the owner's explicit concurrent same-SHA direction and is unnecessary because
+  acceptance waits for both dispositions. Previously corrected structure-registry inclusion
+  was also retained rather than duplicated.
+- No Cycle-5 item was deferred to P2.
+
+Cycle-5 finding ledger (exactly twenty CR plus nine GH findings; all accepted):
+
+| Lane / ID | Full actionable finding | Disposition |
+|---|---|---|
+| CR-01 | Plan 01 lacked executable live incident validation. | Added no-network fail-closed validator contract. |
+| CR-02 | Claim evidence/blocker schema was not byte-bound. | Added exact manifest/digest and explicit critical-blocker validation. |
+| CR-03 | Historical tool inventory could be empty/incomplete. | Required nonempty categorized six-origin inventory and closure links. |
+| CR-04 | Final `b185ad1` disposition was not mechanically derived. | Required exact claim-set derivation, evidence and limitations. |
+| CR-05 | Retained Plan-02 artifacts lacked safe containment. | Added regular-file, no-symlink-component, canonical-root validation. |
+| CR-06 | Native artifact paths/digests were not exact cross-references. | Added exact retained-artifact manifest coverage and byte checks. |
+| CR-07 | Plan-03 claims could omit citations without a strict absence reason. | Required resolved citations or typed, evidenced absence. |
+| CR-08 | Plan-03 structural registries/cross-links could be empty. | Required nonempty exact registry sets and parsed links. |
+| CR-09 | Plan-04 artifact manifest was not a full bijection. | Required unique command/reviewer/claim ownership and exact byte coverage. |
+| CR-10 | Plan-04 review stages/order were weakly checked. | Required exactly two canonical stages and pushed-SHA-before-review order. |
+| CR-11 | Installed RCP realization/provenance was not exact. | Bound independent installed bytes, package provenance and source profile. |
+| CR-12 | Python integer checks accepted booleans. | Replaced with exact `type(value) is int` checks. |
+| CR-13 | Plan-06 could execute after reviewed-plan drift. | Added external exact reviewed-head/receipt gate. |
+| CR-14 | Plan-07 rows were not structurally sourced. | Required E-derived exact typed transition rows. |
+| CR-15 | Plan-07 JSON accepted duplicate keys. | Added duplicate-key rejection and canonical JSON bytes. |
+| CR-16 | Decision fields accepted duplicates/unknown names. | Added exact field allowlist and duplicate rejection. |
+| CR-17 | Hold could retain invalid attempted-review receipts. | Required every present receipt to validate on hold and approve. |
+| CR-18 | Re-audit described serial review despite owner-approved overlap. | Corrected to concurrent same-pushed-SHA attempts with joined disposition. |
+| CR-19 | Re-audit retained an active historical Napp entry gate. | Marked historical/superseded; made absence capability-scoped. |
+| CR-20 | Prompt contained malformed fallback sentence. | Rewrote exact pre-finding `rate_limit` fallback condition. |
+| GH-01 | `not_yet_packaged` did not prove complete successful Nix discovery. | Required successful complete `flake show` and `eval`; otherwise blocking unavailable verdict. |
+| GH-02 | Negotiation transcript set/vector binding could be empty or detached. | Required nonempty unique transcripts and exact vector-to-transcript links. |
+| GH-03 | Plan-07 mandatory transition rows were not derived from E. | Required E-bound mandatory row derivation and exact set matching. |
+| GH-04 | Review ordering did not push candidate before both reviewers. | Corrected both plan and pack lifecycle to push before concurrent attempts. |
+| GH-05 | Plan-05 did not own canonical upstream contribution ledger update. | Added validated-pack ledger to task ownership and checks. |
+| GH-06 | Plan-01 tool inventory could omit required origins/categories. | Added exact origin enum and required category coverage. |
+| GH-07 | Plan-01 did not validate final preserved-WIP disposition. | Added one evidence-derived WIP disposition contract. |
+| GH-08 | Plan-03 citations were not bound to Plan-02 measured source identity. | Bound citations to exact current Plan-02 source head/tree. |
+| GH-09 | Plan-03 registry families could be empty. | Required nonempty interaction/format/boundary/storage/threat registries. |
+
+Separate review claims outside those twenty-nine reported findings:
+
+| Claim ID | Claim | Disposition |
+|---|---|---|
+| REJ-01 | Restore incident evidence because the review inspected an unrelated checkout. | Rejected: live execution worktree proved exact WIP/parent/ref/clean registered worktree/archive identities; Plan 01 now revalidates them fail-closed at execution. |
+| REJ-02 | Force reviewers to run serially. | Rejected: owner authorized overlap after one pushed immutable SHA; acceptance still waits for both dispositions and any later commit invalidates both. |
+| DUP-01 | Add structure-registry inclusion already present in corrected Plan 03. | Duplicate/no new change: retained existing exact nonempty registry-set contract. |
