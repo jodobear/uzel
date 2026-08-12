@@ -840,7 +840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_rs",
-      "community": 62,
+      "community": 12,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -850,7 +850,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 62,
+      "community": 43,
       "norm_label": "hostileprobestate"
     },
     {
@@ -860,7 +860,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 62,
+      "community": 43,
       "norm_label": "atomicu64"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 62,
+      "community": 12,
       "norm_label": "atomicusize"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 62,
+      "community": 12,
       "norm_label": "liveprobe"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 62,
+      "community": 12,
       "norm_label": "atomicbool"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 62,
+      "community": 12,
       "norm_label": "joinhandle"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 62,
+      "community": 12,
       "norm_label": ".drop()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 62,
+      "community": 12,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 62,
+      "community": 12,
       "norm_label": "hostileprobereport"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 62,
+      "community": 12,
       "norm_label": "beaconattempt"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 62,
+      "community": 12,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 62,
+      "community": 12,
       "norm_label": ".begin()"
     },
     {
@@ -1030,7 +1030,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 62,
+      "community": 12,
       "norm_label": ".attach()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 62,
+      "community": 43,
       "norm_label": ".cancel()"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 62,
+      "community": 43,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 62,
+      "community": 43,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 62,
+      "community": 12,
       "norm_label": ".finish()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 62,
+      "community": 12,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 62,
+      "community": 12,
       "norm_label": ".network_denials()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 62,
+      "community": 12,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 62,
+      "community": 12,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 62,
+      "community": 12,
       "norm_label": "port()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 62,
+      "community": 12,
       "norm_label": "accepted_report()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 62,
+      "community": 12,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1160,7 +1160,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 62,
+      "community": 12,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 62,
+      "community": 12,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 62,
+      "community": 12,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1190,7 +1190,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 62,
+      "community": 12,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -1210,7 +1210,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_surfacelaunch",
-      "community": 62,
+      "community": 43,
       "norm_label": "surfacelaunch"
     },
     {
@@ -1370,7 +1370,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "state",
-      "community": 62,
+      "community": 43,
       "norm_label": "state"
     },
     {
@@ -1420,7 +1420,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_reconcile_runtime",
-      "community": 62,
+      "community": 43,
       "norm_label": "reconcile_runtime()"
     },
     {
@@ -1430,7 +1430,7 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_select_read_identity",
-      "community": 62,
+      "community": 43,
       "norm_label": "select_read_identity()"
     },
     {
@@ -1440,7 +1440,7 @@
       "source_location": "L239",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_runtime_diagnostics",
-      "community": 62,
+      "community": 43,
       "norm_label": "runtime_diagnostics()"
     },
     {
@@ -1450,7 +1450,7 @@
       "source_location": "L250",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_start_fixture",
-      "community": 62,
+      "community": 43,
       "norm_label": "start_fixture()"
     },
     {
@@ -1470,7 +1470,7 @@
       "source_location": "L275",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_cancel_napplet_review",
-      "community": 62,
+      "community": 43,
       "norm_label": "cancel_napplet_review()"
     },
     {
@@ -1480,7 +1480,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_confirm_napplet",
-      "community": 62,
+      "community": 43,
       "norm_label": "confirm_napplet()"
     },
     {
@@ -1490,7 +1490,7 @@
       "source_location": "L313",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_project_surface",
-      "community": 62,
+      "community": 43,
       "norm_label": "project_surface()"
     },
     {
@@ -1510,7 +1510,7 @@
       "source_location": "L335",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_start_hostile_probe",
-      "community": 62,
+      "community": 43,
       "norm_label": "start_hostile_probe()"
     },
     {
@@ -1520,7 +1520,7 @@
       "source_location": "L364",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_stop_fixture",
-      "community": 62,
+      "community": 43,
       "norm_label": "stop_fixture()"
     },
     {
@@ -1530,7 +1530,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_forward_surface_envelope",
-      "community": 62,
+      "community": 43,
       "norm_label": "forward_surface_envelope()"
     },
     {
@@ -1550,7 +1550,7 @@
       "source_location": "L425",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_hostile_native_probe",
-      "community": 62,
+      "community": 43,
       "norm_label": "hostile_native_probe()"
     },
     {
@@ -1560,7 +1560,7 @@
       "source_location": "L431",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_apps_uzel_src_tauri_src_main_finish_hostile_probe",
-      "community": 62,
+      "community": 43,
       "norm_label": "finish_hostile_probe()"
     },
     {
@@ -3350,7 +3350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_rs",
-      "community": 0,
+      "community": 11,
       "norm_label": "lib.rs"
     },
     {
@@ -3390,7 +3390,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 0,
+      "community": 11,
       "norm_label": "surfacemetadata"
     },
     {
@@ -3400,7 +3400,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_catalogcapability",
-      "community": 0,
+      "community": 11,
       "norm_label": "catalogcapability"
     },
     {
@@ -3410,7 +3410,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_nappletreview",
-      "community": 0,
+      "community": 11,
       "norm_label": "nappletreview"
     },
     {
@@ -3430,7 +3430,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_routedenvelope",
-      "community": 0,
+      "community": 11,
       "norm_label": "routedenvelope"
     },
     {
@@ -3440,7 +3440,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_relaydiagnostic",
-      "community": 0,
+      "community": 11,
       "norm_label": "relaydiagnostic"
     },
     {
@@ -3450,7 +3450,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_diagnostics",
-      "community": 0,
+      "community": 11,
       "norm_label": "diagnostics"
     },
     {
@@ -3500,7 +3500,7 @@
       "source_location": "L228",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_protocolerror",
-      "community": 0,
+      "community": 65,
       "norm_label": "protocolerror"
     },
     {
@@ -3520,7 +3520,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodeerror",
-      "community": 0,
+      "community": 65,
       "norm_label": "decodeerror"
     },
     {
@@ -3530,7 +3530,7 @@
       "source_location": "L248",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_fetchedsurface",
-      "community": 0,
+      "community": 20,
       "norm_label": "fetchedsurface"
     },
     {
@@ -3540,7 +3540,7 @@
       "source_location": "L254",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_clienterror",
-      "community": 0,
+      "community": 20,
       "norm_label": "clienterror"
     },
     {
@@ -3560,7 +3560,7 @@
       "source_location": "L280",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_pendingoperation",
-      "community": 0,
+      "community": 20,
       "norm_label": "pendingoperation"
     },
     {
@@ -3570,7 +3570,7 @@
       "source_location": "L294",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror",
-      "community": 0,
+      "community": 20,
       "norm_label": "deliveryerror"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L300",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deliveryerror_into_client",
-      "community": 0,
+      "community": 20,
       "norm_label": ".into_client()"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient",
-      "community": 0,
+      "community": 20,
       "norm_label": "unixclient"
     },
     {
@@ -3640,7 +3640,7 @@
       "source_location": "L314",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_new",
-      "community": 0,
+      "community": 11,
       "norm_label": ".new()"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request",
-      "community": 0,
+      "community": 20,
       "norm_label": ".request()"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L331",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request_attempt",
-      "community": 0,
+      "community": 20,
       "norm_label": ".request_attempt()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L359",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_read_response",
-      "community": 0,
+      "community": 65,
       "norm_label": ".read_response()"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L448",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_fixture",
-      "community": 0,
+      "community": 20,
       "norm_label": ".start_fixture()"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L452",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_named_fixture",
-      "community": 0,
+      "community": 20,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L458",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_start_hostile_probe",
-      "community": 0,
+      "community": 20,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L464",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_review_napplet",
-      "community": 0,
+      "community": 20,
       "norm_label": ".review_napplet()"
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_cancel_napplet_review",
-      "community": 0,
+      "community": 20,
       "norm_label": ".cancel_napplet_review()"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_stop_fixture",
-      "community": 0,
+      "community": 20,
       "norm_label": ".stop_fixture()"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L499",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_retire_catalog_operations",
-      "community": 0,
+      "community": 20,
       "norm_label": ".retire_catalog_operations()"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L509",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_confirm_napplet",
-      "community": 0,
+      "community": 20,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -3800,7 +3800,7 @@
       "source_location": "L539",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface",
-      "community": 0,
+      "community": 20,
       "norm_label": ".fetch_surface()"
     },
     {
@@ -3810,7 +3810,7 @@
       "source_location": "L544",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_surface_response",
-      "community": 0,
+      "community": 20,
       "norm_label": ".fetch_surface_response()"
     },
     {
@@ -3820,7 +3820,7 @@
       "source_location": "L572",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_operation_id_for",
-      "community": 0,
+      "community": 20,
       "norm_label": ".operation_id_for()"
     },
     {
@@ -3830,7 +3830,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_request_replayable",
-      "community": 0,
+      "community": 20,
       "norm_label": ".request_replayable()"
     },
     {
@@ -3840,7 +3840,7 @@
       "source_location": "L618",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_forget_operation",
-      "community": 0,
+      "community": 20,
       "norm_label": ".forget_operation()"
     },
     {
@@ -3850,7 +3850,7 @@
       "source_location": "L625",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_unixclient_fetch_asset",
-      "community": 0,
+      "community": 20,
       "norm_label": ".fetch_asset()"
     },
     {
@@ -3860,7 +3860,7 @@
       "source_location": "L681",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_next_operation_id",
-      "community": 0,
+      "community": 11,
       "norm_label": "next_operation_id()"
     },
     {
@@ -3870,7 +3870,7 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_write_frame",
-      "community": 0,
+      "community": 11,
       "norm_label": "write_frame()"
     },
     {
@@ -3880,7 +3880,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "write",
-      "community": 0,
+      "community": 11,
       "norm_label": "write"
     },
     {
@@ -3900,7 +3900,7 @@
       "source_location": "L704",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_read_frame",
-      "community": 0,
+      "community": 65,
       "norm_label": "read_frame()"
     },
     {
@@ -3910,7 +3910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "read",
-      "community": 0,
+      "community": 65,
       "norm_label": "read"
     },
     {
@@ -3920,7 +3920,7 @@
       "source_location": "L719",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_encode_asset_chunk",
-      "community": 0,
+      "community": 11,
       "norm_label": "encode_asset_chunk()"
     },
     {
@@ -3930,7 +3930,7 @@
       "source_location": "L723",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_decode_asset_chunk",
-      "community": 0,
+      "community": 65,
       "norm_label": "decode_asset_chunk()"
     },
     {
@@ -3940,7 +3940,7 @@
       "source_location": "L727",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_read_exact_or_truncated",
-      "community": 0,
+      "community": 65,
       "norm_label": "read_exact_or_truncated()"
     },
     {
@@ -3950,7 +3950,7 @@
       "source_location": "L752",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_gate_zero_bounds_remain_exact",
-      "community": 0,
+      "community": 11,
       "norm_label": "gate_zero_bounds_remain_exact()"
     },
     {
@@ -3960,7 +3960,7 @@
       "source_location": "L764",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_pending_catalog_operations_are_bounded",
-      "community": 0,
+      "community": 11,
       "norm_label": "pending_catalog_operations_are_bounded()"
     },
     {
@@ -3970,7 +3970,7 @@
       "source_location": "L785",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_deterministic_presend_failures_do_not_retain_catalog_operations",
-      "community": 0,
+      "community": 11,
       "norm_label": "deterministic_presend_failures_do_not_retain_catalog_operations()"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L809",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_frames_round_trip_with_big_endian_length",
-      "community": 0,
+      "community": 11,
       "norm_label": "frames_round_trip_with_big_endian_length()"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L824",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_oversized_frame_is_rejected_before_body_read",
-      "community": 0,
+      "community": 11,
       "norm_label": "oversized_frame_is_rejected_before_body_read()"
     },
     {
@@ -4000,7 +4000,7 @@
       "source_location": "L833",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_maximum_asset_chunk_fits_control_frame",
-      "community": 0,
+      "community": 11,
       "norm_label": "maximum_asset_chunk_fits_control_frame()"
     },
     {
@@ -4010,7 +4010,7 @@
       "source_location": "L848",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_maximum_envelope_with_worst_case_json_escaping_fits_control_frame",
-      "community": 0,
+      "community": 11,
       "norm_label": "maximum_envelope_with_worst_case_json_escaping_fits_control_frame()"
     },
     {
@@ -4020,7 +4020,7 @@
       "source_location": "L875",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_chunked_routed_envelope_reassembles_on_one_connection",
-      "community": 0,
+      "community": 11,
       "norm_label": "chunked_routed_envelope_reassembles_on_one_connection()"
     },
     {
@@ -4030,7 +4030,7 @@
       "source_location": "L926",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_failed_asset_transfer_stops_the_launched_surface",
-      "community": 0,
+      "community": 11,
       "norm_label": "failed_asset_transfer_stops_the_launched_surface()"
     },
     {
@@ -4040,7 +4040,7 @@
       "source_location": "L974",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_review_retry_reuses_operation_after_responses_are_lost",
-      "community": 0,
+      "community": 11,
       "norm_label": "review_retry_reuses_operation_after_responses_are_lost()"
     },
     {
@@ -4050,7 +4050,7 @@
       "source_location": "L1043",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_authoritative_reconciliation_retires_ambiguous_operation_ids",
-      "community": 0,
+      "community": 11,
       "norm_label": "authoritative_reconciliation_retires_ambiguous_operation_ids()"
     },
     {
@@ -4060,7 +4060,7 @@
       "source_location": "L1056",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_protocol_src_lib_confirm_responses_lost_replay_surface_without_a_second_operation",
-      "community": 0,
+      "community": 11,
       "norm_label": "confirm_responses_lost_replay_surface_without_a_second_operation()"
     },
     {
@@ -4720,7 +4720,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tmp_uzel_issue12_timeout_crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 0,
+      "community": 11,
       "norm_label": ".metadata()"
     },
     {
@@ -6220,7 +6220,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_crates_napd_src_server_write_chunked_envelope",
-      "community": 0,
+      "community": 11,
       "norm_label": "write_chunked_envelope()"
     },
     {
@@ -10687,8 +10687,8 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_md",
-      "community": 11,
+      "id": "planning_codebase_conventions",
+      "community": 44,
       "norm_label": "conventions.md"
     },
     {
@@ -10697,8 +10697,8 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "community": 11,
+      "id": "planning_codebase_conventions_coding_conventions",
+      "community": 44,
       "norm_label": "coding conventions"
     },
     {
@@ -10707,8 +10707,8 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_naming_patterns",
-      "community": 11,
+      "id": "planning_codebase_conventions_naming_patterns",
+      "community": 44,
       "norm_label": "naming patterns"
     },
     {
@@ -10717,68 +10717,68 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L32",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_code_style",
-      "community": 11,
+      "id": "planning_codebase_conventions_code_style",
+      "community": 44,
       "norm_label": "code style"
     },
     {
       "label": "Import Organization",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L50",
+      "source_location": "L54",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_import_organization",
-      "community": 11,
+      "id": "planning_codebase_conventions_import_organization",
+      "community": 44,
       "norm_label": "import organization"
     },
     {
       "label": "Error Handling",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L63",
+      "source_location": "L67",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_error_handling",
-      "community": 11,
+      "id": "planning_codebase_conventions_error_handling",
+      "community": 44,
       "norm_label": "error handling"
     },
     {
       "label": "Logging",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L75",
+      "source_location": "L79",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_logging",
-      "community": 11,
+      "id": "planning_codebase_conventions_logging",
+      "community": 44,
       "norm_label": "logging"
     },
     {
       "label": "Comments",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L86",
+      "source_location": "L90",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_comments",
-      "community": 11,
+      "id": "planning_codebase_conventions_comments",
+      "community": 44,
       "norm_label": "comments"
     },
     {
       "label": "Function Design",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L98",
+      "source_location": "L102",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_function_design",
-      "community": 11,
+      "id": "planning_codebase_conventions_function_design",
+      "community": 44,
       "norm_label": "function design"
     },
     {
       "label": "Module Design",
       "file_type": "document",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L112",
+      "source_location": "L116",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_module_design",
-      "community": 11,
+      "id": "planning_codebase_conventions_module_design",
+      "community": 44,
       "norm_label": "module design"
     },
     {
@@ -10877,8 +10877,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_md",
-      "community": 20,
+      "id": "planning_codebase_stack",
+      "community": 61,
       "norm_label": "stack.md"
     },
     {
@@ -10887,8 +10887,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "community": 20,
+      "id": "planning_codebase_stack_technology_stack",
+      "community": 61,
       "norm_label": "technology stack"
     },
     {
@@ -10897,8 +10897,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_languages",
-      "community": 20,
+      "id": "planning_codebase_stack_languages",
+      "community": 61,
       "norm_label": "languages"
     },
     {
@@ -10907,8 +10907,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L20",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_runtime",
-      "community": 20,
+      "id": "planning_codebase_stack_runtime",
+      "community": 61,
       "norm_label": "runtime"
     },
     {
@@ -10917,8 +10917,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L35",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_frameworks",
-      "community": 20,
+      "id": "planning_codebase_stack_frameworks",
+      "community": 61,
       "norm_label": "frameworks"
     },
     {
@@ -10927,8 +10927,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L58",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_key_dependencies",
-      "community": 20,
+      "id": "planning_codebase_stack_key_dependencies",
+      "community": 61,
       "norm_label": "key dependencies"
     },
     {
@@ -10937,8 +10937,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L76",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_configuration",
-      "community": 20,
+      "id": "planning_codebase_stack_configuration",
+      "community": 61,
       "norm_label": "configuration"
     },
     {
@@ -10947,8 +10947,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L92",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_platform_requirements",
-      "community": 20,
+      "id": "planning_codebase_stack_platform_requirements",
+      "community": 61,
       "norm_label": "platform requirements"
     },
     {
@@ -11037,8 +11037,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_md",
-      "community": 12,
+      "id": "planning_codebase_testing",
+      "community": 48,
       "norm_label": "testing.md"
     },
     {
@@ -11047,8 +11047,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "community": 12,
+      "id": "planning_codebase_testing_testing_patterns",
+      "community": 48,
       "norm_label": "testing patterns"
     },
     {
@@ -11057,8 +11057,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_framework",
-      "community": 12,
+      "id": "planning_codebase_testing_test_framework",
+      "community": 48,
       "norm_label": "test framework"
     },
     {
@@ -11067,8 +11067,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L34",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_file_organization",
-      "community": 12,
+      "id": "planning_codebase_testing_test_file_organization",
+      "community": 48,
       "norm_label": "test file organization"
     },
     {
@@ -11077,8 +11077,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L79",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_structure",
-      "community": 12,
+      "id": "planning_codebase_testing_test_structure",
+      "community": 48,
       "norm_label": "test structure"
     },
     {
@@ -11087,8 +11087,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L121",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_mocking",
-      "community": 12,
+      "id": "planning_codebase_testing_mocking",
+      "community": 48,
       "norm_label": "mocking"
     },
     {
@@ -11097,8 +11097,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L163",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_fixtures_and_factories",
-      "community": 12,
+      "id": "planning_codebase_testing_fixtures_and_factories",
+      "community": 48,
       "norm_label": "fixtures and factories"
     },
     {
@@ -11107,8 +11107,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L193",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_coverage",
-      "community": 12,
+      "id": "planning_codebase_testing_coverage",
+      "community": 48,
       "norm_label": "coverage"
     },
     {
@@ -11117,8 +11117,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L210",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_types",
-      "community": 12,
+      "id": "planning_codebase_testing_test_types",
+      "community": 48,
       "norm_label": "test types"
     },
     {
@@ -11127,8 +11127,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L229",
       "_origin": "ast",
-      "id": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_common_patterns",
-      "community": 12,
+      "id": "planning_codebase_testing_common_patterns",
+      "community": 48,
       "norm_label": "common patterns"
     },
     {
@@ -11265,7 +11265,7 @@
       "label": "Commits",
       "file_type": "document",
       "source_file": ".planning/phases/00-lean-process-reset/00-SUMMARY.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "planning_phases_00_lean_process_reset_00_summary_commits",
       "community": 33,
@@ -11275,7 +11275,7 @@
       "label": "Validation",
       "file_type": "document",
       "source_file": ".planning/phases/00-lean-process-reset/00-SUMMARY.md",
-      "source_location": "L28",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "planning_phases_00_lean_process_reset_00_summary_validation",
       "community": 33,
@@ -11305,7 +11305,7 @@
       "label": "Local gate",
       "file_type": "document",
       "source_file": ".planning/phases/00-lean-process-reset/00-VERIFICATION.md",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "planning_phases_00_lean_process_reset_00_verification_local_gate",
       "community": 35,
@@ -11315,7 +11315,7 @@
       "label": "External merge gate",
       "file_type": "document",
       "source_file": ".planning/phases/00-lean-process-reset/00-VERIFICATION.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "planning_phases_00_lean_process_reset_00_verification_external_merge_gate",
       "community": 35,
@@ -12078,7 +12078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_01_validation_md",
-      "community": 41,
+      "community": 9,
       "norm_label": "01-validation.md"
     },
     {
@@ -12178,7 +12178,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_md",
-      "community": 41,
+      "community": 9,
       "norm_label": "02-architecture.md"
     },
     {
@@ -12188,7 +12188,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_poc_architecture",
-      "community": 41,
+      "community": 52,
       "norm_label": "poc architecture"
     },
     {
@@ -12198,7 +12198,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_runtime_topology",
-      "community": 41,
+      "community": 52,
       "norm_label": "runtime topology"
     },
     {
@@ -12208,7 +12208,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_trust_domains",
-      "community": 41,
+      "community": 52,
       "norm_label": "trust domains"
     },
     {
@@ -12218,7 +12218,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_repository_zones",
-      "community": 41,
+      "community": 52,
       "norm_label": "repository zones"
     },
     {
@@ -12228,7 +12228,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_session_start",
-      "community": 41,
+      "community": 52,
       "norm_label": "session start"
     },
     {
@@ -12238,7 +12238,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_accepted_upstream_seam",
-      "community": 41,
+      "community": 52,
       "norm_label": "accepted upstream seam"
     },
     {
@@ -12248,7 +12248,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_shared_nostr_flow",
-      "community": 41,
+      "community": 52,
       "norm_label": "shared nostr flow"
     },
     {
@@ -12258,7 +12258,7 @@
       "source_location": "L171",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_composition_flow",
-      "community": 41,
+      "community": 52,
       "norm_label": "composition flow"
     },
     {
@@ -12268,7 +12268,7 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_02_architecture_ui_boundary",
-      "community": 41,
+      "community": 52,
       "norm_label": "ui boundary"
     },
     {
@@ -12628,7 +12628,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_md",
-      "community": 41,
+      "community": 9,
       "norm_label": "07-source-baseline.md"
     },
     {
@@ -12638,7 +12638,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_source_baseline",
-      "community": 41,
+      "community": 9,
       "norm_label": "source baseline"
     },
     {
@@ -12648,7 +12648,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_verified_facts",
-      "community": 41,
+      "community": 67,
       "norm_label": "verified facts"
     },
     {
@@ -12658,7 +12658,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_napplet_packages",
-      "community": 41,
+      "community": 67,
       "norm_label": "napplet packages"
     },
     {
@@ -12668,7 +12668,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_kehto_204",
-      "community": 41,
+      "community": 67,
       "norm_label": "kehto #204"
     },
     {
@@ -12678,7 +12678,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_nampplets",
-      "community": 41,
+      "community": 67,
       "norm_label": "`nampplets`"
     },
     {
@@ -12688,7 +12688,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_nmp",
-      "community": 41,
+      "community": 67,
       "norm_label": "nmp"
     },
     {
@@ -12698,7 +12698,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_nap_registry",
-      "community": 41,
+      "community": 67,
       "norm_label": "nap registry"
     },
     {
@@ -12708,7 +12708,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_nip_5a_and_nip_5d",
-      "community": 41,
+      "community": 67,
       "norm_label": "nip-5a and nip-5d"
     },
     {
@@ -12718,7 +12718,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_docs_07_source_baseline_decision",
-      "community": 41,
+      "community": 9,
       "norm_label": "decision"
     },
     {
@@ -13238,7 +13238,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_md",
-      "community": 41,
+      "community": 9,
       "norm_label": "preflight.md"
     },
     {
@@ -13248,7 +13248,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_gate_0_preflight_and_slice_01_decision",
-      "community": 41,
+      "community": 54,
       "norm_label": "gate 0 preflight and slice 01 decision"
     },
     {
@@ -13258,7 +13258,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_decision",
-      "community": 41,
+      "community": 54,
       "norm_label": "decision"
     },
     {
@@ -13268,7 +13268,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_gate_results",
-      "community": 41,
+      "community": 54,
       "norm_label": "gate results"
     },
     {
@@ -13278,7 +13278,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_confirmed_assumptions",
-      "community": 41,
+      "community": 54,
       "norm_label": "confirmed assumptions"
     },
     {
@@ -13288,7 +13288,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_rejected_assumptions",
-      "community": 41,
+      "community": 54,
       "norm_label": "rejected assumptions"
     },
     {
@@ -13298,7 +13298,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_required_design_changes",
-      "community": 41,
+      "community": 54,
       "norm_label": "required design changes"
     },
     {
@@ -13308,7 +13308,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_accepted_provisional_risks",
-      "community": 41,
+      "community": 54,
       "norm_label": "accepted provisional risks"
     },
     {
@@ -13318,7 +13318,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_exact_next_steps",
-      "community": 41,
+      "community": 54,
       "norm_label": "exact next steps"
     },
     {
@@ -13328,7 +13328,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_preflight_validated_command_ledger",
-      "community": 41,
+      "community": 54,
       "norm_label": "validated command ledger"
     },
     {
@@ -13808,7 +13808,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_reports_slice_06_preflight_md",
-      "community": 9,
+      "community": 90,
       "norm_label": "slice-06-preflight.md"
     },
     {
@@ -13978,7 +13978,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_templates_fact_md",
-      "community": 41,
+      "community": 9,
       "norm_label": "fact.md"
     },
     {
@@ -13988,7 +13988,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workspace_projects_napplets_jodobear_uzel_uzel_poc_validated_pack_templates_fact_fact_xxx_title",
-      "community": 41,
+      "community": 9,
       "norm_label": "fact-xxx \u2014 title"
     },
     {
@@ -32713,8 +32713,8 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L1",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_md",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
+      "source": "planning_codebase_conventions",
+      "target": "planning_codebase_conventions_coding_conventions",
       "confidence_score": 1.0
     },
     {
@@ -32723,68 +32723,68 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L32",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_code_style",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_code_style",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L86",
+      "source_location": "L90",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_comments",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_comments",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L63",
+      "source_location": "L67",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_error_handling",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_error_handling",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L98",
+      "source_location": "L102",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_function_design",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_function_design",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L50",
+      "source_location": "L54",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_import_organization",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_import_organization",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L75",
+      "source_location": "L79",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_logging",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_logging",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/codebase/CONVENTIONS.md",
-      "source_location": "L112",
+      "source_location": "L116",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_module_design",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_module_design",
       "confidence_score": 1.0
     },
     {
@@ -32793,8 +32793,8 @@
       "source_file": ".planning/codebase/CONVENTIONS.md",
       "source_location": "L5",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_coding_conventions",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_conventions_naming_patterns",
+      "source": "planning_codebase_conventions_coding_conventions",
+      "target": "planning_codebase_conventions_naming_patterns",
       "confidence_score": 1.0
     },
     {
@@ -32883,8 +32883,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L1",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_md",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
+      "source": "planning_codebase_stack",
+      "target": "planning_codebase_stack_technology_stack",
       "confidence_score": 1.0
     },
     {
@@ -32893,8 +32893,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L76",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_configuration",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_configuration",
       "confidence_score": 1.0
     },
     {
@@ -32903,8 +32903,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L35",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_frameworks",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_frameworks",
       "confidence_score": 1.0
     },
     {
@@ -32913,8 +32913,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L58",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_key_dependencies",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_key_dependencies",
       "confidence_score": 1.0
     },
     {
@@ -32923,8 +32923,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L5",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_languages",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_languages",
       "confidence_score": 1.0
     },
     {
@@ -32933,8 +32933,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L92",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_platform_requirements",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_platform_requirements",
       "confidence_score": 1.0
     },
     {
@@ -32943,8 +32943,8 @@
       "source_file": ".planning/codebase/STACK.md",
       "source_location": "L20",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_technology_stack",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_stack_runtime",
+      "source": "planning_codebase_stack_technology_stack",
+      "target": "planning_codebase_stack_runtime",
       "confidence_score": 1.0
     },
     {
@@ -33023,8 +33023,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L1",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_md",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
+      "source": "planning_codebase_testing",
+      "target": "planning_codebase_testing_testing_patterns",
       "confidence_score": 1.0
     },
     {
@@ -33033,8 +33033,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L229",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_common_patterns",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_common_patterns",
       "confidence_score": 1.0
     },
     {
@@ -33043,8 +33043,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L193",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_coverage",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_coverage",
       "confidence_score": 1.0
     },
     {
@@ -33053,8 +33053,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L163",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_fixtures_and_factories",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_fixtures_and_factories",
       "confidence_score": 1.0
     },
     {
@@ -33063,8 +33063,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L121",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_mocking",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_mocking",
       "confidence_score": 1.0
     },
     {
@@ -33073,8 +33073,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L34",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_file_organization",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_test_file_organization",
       "confidence_score": 1.0
     },
     {
@@ -33083,8 +33083,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L5",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_framework",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_test_framework",
       "confidence_score": 1.0
     },
     {
@@ -33093,8 +33093,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L79",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_structure",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_test_structure",
       "confidence_score": 1.0
     },
     {
@@ -33103,8 +33103,8 @@
       "source_file": ".planning/codebase/TESTING.md",
       "source_location": "L210",
       "weight": 1.0,
-      "source": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_testing_patterns",
-      "target": "workspace_projects_napplets_napp_uzel_uzel_integration_phase_01_v4_planning_codebase_testing_test_types",
+      "source": "planning_codebase_testing_testing_patterns",
+      "target": "planning_codebase_testing_test_types",
       "confidence_score": 1.0
     },
     {
@@ -33211,7 +33211,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/00-lean-process-reset/00-SUMMARY.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0,
       "source": "planning_phases_00_lean_process_reset_00_summary_lean_process_reset_summary",
       "target": "planning_phases_00_lean_process_reset_00_summary_commits",
@@ -33231,7 +33231,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/00-lean-process-reset/00-SUMMARY.md",
-      "source_location": "L28",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "planning_phases_00_lean_process_reset_00_summary_lean_process_reset_summary",
       "target": "planning_phases_00_lean_process_reset_00_summary_validation",
@@ -33251,7 +33251,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/00-lean-process-reset/00-VERIFICATION.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0,
       "source": "planning_phases_00_lean_process_reset_00_verification_lean_process_reset_verification",
       "target": "planning_phases_00_lean_process_reset_00_verification_external_merge_gate",
@@ -33261,7 +33261,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/00-lean-process-reset/00-VERIFICATION.md",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "planning_phases_00_lean_process_reset_00_verification_lean_process_reset_verification",
       "target": "planning_phases_00_lean_process_reset_00_verification_local_gate",
@@ -36309,5 +36309,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b230b36a33042e7f5ad6449be429cdf371573aba"
+  "built_at_commit": "c5a5d78188de5d96bb82c02b1b26340afd8bd32c"
 }

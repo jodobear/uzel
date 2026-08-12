@@ -1,11 +1,11 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1786556101.2807977,
+    "mtime": 1786558904.6313374,
     "ast_hash": "424c698dd8a12d0b3276a420eae73fb1",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1786556101.4127991,
+    "mtime": 1786558904.780339,
     "ast_hash": "09bd0a0082e081197e3917f7eda16c4c",
     "semantic_hash": ""
   },
@@ -730,8 +730,8 @@
     "semantic_hash": ""
   },
   ".planning/codebase/CONVENTIONS.md": {
-    "mtime": 1786554729.3802314,
-    "ast_hash": "f080de8e3ef668c15005227e885b1780",
+    "mtime": 1786558865.0279071,
+    "ast_hash": "0f5aecad287f4479fb02b762fd4bb993",
     "semantic_hash": ""
   },
   ".planning/codebase/INTEGRATIONS.md": {
@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   ".planning/codebase/STACK.md": {
-    "mtime": 1786554729.3802314,
-    "ast_hash": "2c293178a7a7f325817fe98d426ae108",
+    "mtime": 1786558864.9509063,
+    "ast_hash": "ba09c93fa321826ec272014c15770337",
     "semantic_hash": ""
   },
   ".planning/codebase/STRUCTURE.md": {
@@ -750,8 +750,8 @@
     "semantic_hash": ""
   },
   ".planning/codebase/TESTING.md": {
-    "mtime": 1786554729.3802314,
-    "ast_hash": "fcb0d3a5ee16cb05e52fcc878357f540",
+    "mtime": 1786558865.1459086,
+    "ast_hash": "72aef2645c80064d66c234ffba9493ca",
     "semantic_hash": ""
   },
   "evidence/phase-01/candidate-qualification.md": {
@@ -775,13 +775,13 @@
     "semantic_hash": ""
   },
   ".planning/phases/00-lean-process-reset/00-SUMMARY.md": {
-    "mtime": 1786555967.7363396,
-    "ast_hash": "73d65edc858bd6a02bd556d93e29b3fd",
+    "mtime": 1786558927.6475875,
+    "ast_hash": "1dc3083da73bbbb1e9044983a726126e",
     "semantic_hash": ""
   },
   ".planning/phases/00-lean-process-reset/00-VERIFICATION.md": {
-    "mtime": 1786555967.871341,
-    "ast_hash": "23c41612dc567737e9a16635ce0f13ea",
+    "mtime": 1786558927.7775888,
+    "ast_hash": "27cb80b5770747823c2f218c2d05e394",
     "semantic_hash": ""
   }
 }
