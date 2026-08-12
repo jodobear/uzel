@@ -1,16 +1,16 @@
 # Graph Report - uzel-lean-reset  (2026-08-12)
 
 ## Corpus Check
-- 143 files · ~106,578 words
+- 143 files · ~106,585 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1435 nodes · 2080 edges · 190 communities (88 shown, 102 thin omitted)
+- 1435 nodes · 2080 edges · 190 communities (87 shown, 103 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1ca944d`
+- Built from commit: `b230b36a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,31 +21,31 @@
 - LinuxRunner
 - Delivery, quality, review and packaging discipline
 - runner.rs
-- Uzel product and incubation architecture
+- Requirements: Uzel
 - EventBuffer
 - .forward_from_surface
-- A5 — mandatory post-M5 whole-system audit
-- M0 / GSD Phase 1 — truthful baseline and replay contract
-- Production engineering dimensions
+- Codebase Concerns
+- Coding Conventions
+- Testing Patterns
 - main.js
 - fixtures.rs
 - compilerOptions
 - package.json
 - scripts
-- Fast-moving ecosystem, compatibility and upstream stewardship
-- Decision, nuance and educational-knowledge system
-- M5 / GSD delivery phases 7, 7.1–7.9 — production-candidate hardening and audit freeze
+- Lean process reset
+- External Integrations
+- Technology Stack
 - default.json
 - acceptance.test.mjs
 - Uzel agent instructions
 - linux-run-smoke.sh
-- GSD ingest — reorient the existing Uzel project in place
-- Phase 01: SLICE-REF-01 — POC Replay & Accepted Napp Seam - Research
+- Renderer acceptance harness
+- candidate-qualification.md
 - tauri.conf.json
 - Bounded slices
 - debian13-live-test.sh
 - projection-failure.js
-- M4.5 / GSD delivery phases 6, 6.1–6.2 — scheduling, recovery and cross-domain composition
+- Path
 - .confirm_napplet
 - Lean process reset summary
 - Upstream contribution ledger
@@ -56,6 +56,7 @@
 - POC status
 - POC scope and acceptance
 - Assumption validation and decision gates
+- files
 - Debian 13 live test
 - ref-candidate-check.py
 - package.json
@@ -72,7 +73,6 @@
 - linux-smoke-script.test.mjs
 - Uzel POC agent instructions
 - Provisional component design
-- hostile_probe.rs
 - Slice 02 preflight
 - Slice 05 preflight — integrated composed demo
 - AcceptSettings
@@ -210,25 +210,25 @@
 10. `HostileProbeState` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `clearObjectUrls()` --indirect_call--> `row()`  [INFERRED]
-  napplets/follow-list/src/main.js → contracts/kind0-profile.test.mjs
-- `createAvatarObserver()` --indirect_call--> `row()`  [INFERRED]
-  napplets/follow-list/src/main.js → contracts/kind0-profile.test.mjs
 - `ConfirmNappletError` --references--> `ClientError`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `ReviewNappletError` --references--> `ClientError`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 - `read_runtime_status()` --references--> `UnixClient`  [EXTRACTED]
   apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `runtime_status()` --references--> `UnixClient`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
+- `reconcile_runtime()` --references--> `UnixClient`  [EXTRACTED]
+  apps/uzel/src-tauri/src/main.rs → crates/napd-protocol/src/lib.rs
 
 ## Import Cycles
 - None detected.
 
-## Communities (190 total, 102 thin omitted)
+## Communities (190 total, 103 thin omitted)
 
 ### Community 0 - "UnixClient"
 Cohesion: 0.06
-Nodes (58): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+50 more)
+Nodes (64): DecodeError, Into, Read, SurfaceLaunch, UnixListener, authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection() (+56 more)
 
 ### Community 1 - "trusted-shell.js"
 Cohesion: 0.25
@@ -240,7 +240,7 @@ Nodes (37): allowedDependencyTargets, allowedGuardedGlobalAccesses, { compile: c
 
 ### Community 3 - "LinuxRunner"
 Cohesion: 0.13
-Nodes (12): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, bounded_diagnostic(), LinuxRunner (+4 more)
+Nodes (13): Debug, Formatter, FromUtf8Error, RuntimeAccountHandle, RuntimeObservation, RuntimeRelayDiagnosticsObservation, artifact_base_url(), bounded_diagnostic() (+5 more)
 
 ### Community 4 - "Delivery, quality, review and packaging discipline"
 Cohesion: 0.11
@@ -250,7 +250,7 @@ Nodes (18): Anti-Patterns, Architectural Constraints, Architecture, Catalog Revi
 Cohesion: 0.13
 Nodes (11): RuntimeRelayLane, absent_surface_cleanup_is_idempotent(), catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), hostile_probe_commits_exact_session_config_before_returning(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), ProductState, relay_lane_name() (+3 more)
 
-### Community 6 - "Uzel product and incubation architecture"
+### Community 6 - "Requirements: Uzel"
 Cohesion: 0.13
 Nodes (14): Blossom and Authoring, Canonical Nix Package, Definition of Done, Later Platforms and Capabilities, Lean Delivery and Review, Local Files, Out of Scope, POC Reference and Napp Seam (+6 more)
 
@@ -262,15 +262,15 @@ Nodes (12): Condvar, Fn, RuntimeEvent, RuntimeObservationFrame, RuntimeObserver,
 Cohesion: 0.21
 Nodes (11): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation (+3 more)
 
-### Community 10 - "A5 — mandatory post-M5 whole-system audit"
+### Community 10 - "Codebase Concerns"
 Cohesion: 0.18
 Nodes (10): Codebase Concerns, Dependencies at Risk, Fragile Areas, Known Bugs, Missing Critical Features, Performance Bottlenecks, Scaling Limits, Security Considerations (+2 more)
 
-### Community 11 - "M0 / GSD Phase 1 — truthful baseline and replay contract"
+### Community 11 - "Coding Conventions"
 Cohesion: 0.20
 Nodes (9): Code Style, Coding Conventions, Comments, Error Handling, Function Design, Import Organization, Logging, Module Design (+1 more)
 
-### Community 12 - "Production engineering dimensions"
+### Community 12 - "Testing Patterns"
 Cohesion: 0.20
 Nodes (9): Common Patterns, Coverage, Fixtures and Factories, Mocking, Test File Organization, Test Framework, Test Structure, Test Types (+1 more)
 
@@ -294,15 +294,15 @@ Nodes (27): svelte, vite, playwright, svelte-check, @sveltejs/vite-plugin-svelte
 Cohesion: 0.06
 Nodes (35): fallow, @napplet/cli, devDependencies, fallow, @napplet/cli, engines, node, name (+27 more)
 
-### Community 18 - "Fast-moving ecosystem, compatibility and upstream stewardship"
+### Community 18 - "Lean process reset"
 Cohesion: 0.22
 Nodes (8): Acceptance checks, Appetite, Boundaries, Dependencies, Lean process reset, No-gos, Outcome, Risks
 
-### Community 19 - "Decision, nuance and educational-knowledge system"
+### Community 19 - "External Integrations"
 Cohesion: 0.22
 Nodes (8): APIs & External Services, Authentication & Identity, CI/CD & Deployment, Data Storage, Environment Configuration, External Integrations, Monitoring & Observability, Webhooks & Callbacks
 
-### Community 20 - "M5 / GSD delivery phases 7, 7.1–7.9 — production-candidate hardening and audit freeze"
+### Community 20 - "Technology Stack"
 Cohesion: 0.25
 Nodes (7): Configuration, Frameworks, Key Dependencies, Languages, Platform Requirements, Runtime, Technology Stack
 
@@ -331,8 +331,8 @@ Cohesion: 0.20
 Nodes (13): CARGO_INCREMENTAL, CARGO_PROFILE_DEV_DEBUG, fail(), record_prebuild(), reexec_with_nix_group(), run_cache_probe(), run_startup_step(), debian13-live-test.sh script (+5 more)
 
 ### Community 32 - ".confirm_napplet"
-Cohesion: 0.29
-Nodes (7): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, artifact_base_url(), read_launched_document(), reconcile_launched_session()
+Cohesion: 0.33
+Nodes (6): BTreeSet, RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot, read_launched_document(), reconcile_launched_session()
 
 ### Community 33 - "Lean process reset summary"
 Cohesion: 0.33
@@ -345,6 +345,10 @@ Nodes (7): Active contributions, Authority and ownership, Entry template, Slice 
 ### Community 35 - "Lean process reset verification"
 Cohesion: 0.50
 Nodes (3): External merge gate, Lean process reset verification, Local gate
+
+### Community 36 - "manifest.json"
+Cohesion: 0.40
+Nodes (4): Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
 
 ### Community 37 - "parse_options"
 Cohesion: 0.33
@@ -386,10 +390,6 @@ Nodes (3): directive(), innerPolicyContent(), outerPolicyContent()
 Cohesion: 0.24
 Nodes (5): createSurfaceHost(), mount(), receive(), unmount(), Window
 
-### Community 53 - "04-execution.md"
-Cohesion: 0.16
-Nodes (5): Slice handoff, Acceptance, Goal, Tasks, Work 06 — hardening and demo acceptance
-
 ### Community 55 - "Tests, quality gates, and demo"
 Cohesion: 0.20
 Nodes (9): Deterministic demo, Final acceptance, Hostile frame, Live demo, Napplet/web, Quality commands, Required test layers, Runtime/Rust (+1 more)
@@ -407,8 +407,8 @@ Cohesion: 0.13
 Nodes (14): pubkey, version, additionalProperties, $id, properties, pubkey, version, pattern (+6 more)
 
 ### Community 62 - "main.rs"
-Cohesion: 0.07
-Nodes (47): AtomicU64, FnMut, From, State, TauriPlugin, Url, HostileProbeState, allowed_navigation() (+39 more)
+Cohesion: 0.05
+Nodes (56): AtomicBool, AtomicU64, AtomicUsize, FnMut, From, JoinHandle, State, TauriPlugin (+48 more)
 
 ### Community 63 - "Slice 03 preflight"
 Cohesion: 0.20
@@ -429,10 +429,6 @@ Nodes (9): Engineering rules, Mission, POC exclusions, Quality gate, Repository 
 ### Community 69 - "Provisional component design"
 Cohesion: 0.22
 Nodes (9): Developer mode, Exact-build fixtures, Identity and Nostr reads, Local daemon protocol, Napplet convention, Provisional component design, Runtime state, Shell UI (+1 more)
-
-### Community 70 - "hostile_probe.rs"
-Cohesion: 0.16
-Nodes (15): AtomicBool, AtomicUsize, JoinHandle, accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport (+7 more)
 
 ### Community 71 - "Slice 02 preflight"
 Cohesion: 0.22
@@ -545,7 +541,7 @@ Nodes (20): Uzel agent instructions, Active, Constraints, Context, Core Value, K
 ## Knowledge Gaps
 - **535 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+530 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **102 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **103 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -557,10 +553,10 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `name`, `private`, `version` to the rest of the system?**
   _535 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `UnixClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.0645045045045045 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05798969072164949 - nodes in this community are weakly interconnected._
 - **Should `check-napplet-imports.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.06155632984901278 - nodes in this community are weakly interconnected._
 - **Should `LinuxRunner` be split into smaller, more focused modules?**
-  _Cohesion score 0.12903225806451613 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1268939393939394 - nodes in this community are weakly interconnected._
 - **Should `Delivery, quality, review and packaging discipline` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
