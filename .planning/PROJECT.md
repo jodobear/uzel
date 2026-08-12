@@ -41,11 +41,9 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 
 ## Context
 
-The brownfield POC already contains the Tauri shell, Svelte presentation, private AF_UNIX daemon protocol, exact-build fixtures, trusted surface host, rich NMP-backed profile/follow paths, NAP-INC profile selection, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. Production baseline `19519c3` is merged; the nested status that still calls PR #30 active is stale, while its Debian 13 visible-acceptance gap remains unresolved. The re-audited plan preserves visible value and makes Nix packaging and lean CI delivery contracts rather than rebuilding the product or front-loading a generic runtime framework.
+The brownfield POC already contains the Tauri shell, Svelte presentation, private AF_UNIX daemon protocol, exact-build fixtures, trusted surface host, rich NMP-backed profile/follow paths, NAP-INC profile selection, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. Production baseline `19519c3` is merged; the nested status that still calls PR #30 active is historical, while its Debian 13 visible-acceptance gap remains unresolved. The lean roadmap preserves visible value and makes Nix packaging and fail-closed delivery outcomes rather than rebuilding the product or front-loading a generic runtime framework.
 
 The first milestone is organized as five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, `SLICE-CI-01`, `SLICE-SOC-01`, and `SLICE-SOC-02`. REF replay/ownership/document admission may proceed before Napp; its adapter lane waits for an accepted candidate. Uzel-only package research and CI measurement may run concurrently, but the canonical package needs the Napp output and final CI needs that package. New Social implementation waits for accepted REF, PKG, and CI gates.
-
-The installed root product-first document pack and GitHub templates are not committed at this audit. They are proposed inputs, not repository authority, until selected, audited, and committed. Committed `.planning/` artifacts and exact source remain authoritative meanwhile.
 
 GitHub issues define scoped delivery outcomes, GSD is the repository-local execution
 record, and GitHub remains merge authority. [`WORKFLOW.md`](../WORKFLOW.md) is the sole
