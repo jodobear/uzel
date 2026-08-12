@@ -1,11 +1,11 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1786558904.6313374,
+    "mtime": 1786561585.1744277,
     "ast_hash": "424c698dd8a12d0b3276a420eae73fb1",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1786558904.780339,
+    "mtime": 1786561585.3184295,
     "ast_hash": "09bd0a0082e081197e3917f7eda16c4c",
     "semantic_hash": ""
   },
@@ -710,13 +710,13 @@
     "semantic_hash": ""
   },
   ".planning/ROADMAP.md": {
-    "mtime": 1786554937.3580797,
-    "ast_hash": "48298a7bd9bd36799b3a8c16ef168810",
+    "mtime": 1786561424.060686,
+    "ast_hash": "c1654eeed754cb2e9c40cc1cd57e0c9d",
     "semantic_hash": ""
   },
   ".planning/STATE.md": {
-    "mtime": 1786556807.4245079,
-    "ast_hash": "72b45f61001a18968f42d1010dc65d2a",
+    "mtime": 1786561424.2446883,
+    "ast_hash": "51f15c358aa5184cbef2c60d06fe3104",
     "semantic_hash": ""
   },
   ".planning/codebase/ARCHITECTURE.md": {
@@ -775,13 +775,13 @@
     "semantic_hash": ""
   },
   ".planning/phases/00-lean-process-reset/00-SUMMARY.md": {
-    "mtime": 1786558927.6475875,
-    "ast_hash": "1dc3083da73bbbb1e9044983a726126e",
+    "mtime": 1786561564.0592003,
+    "ast_hash": "7eeb93b611e396dd66c4b69c1336331a",
     "semantic_hash": ""
   },
   ".planning/phases/00-lean-process-reset/00-VERIFICATION.md": {
-    "mtime": 1786558927.7775888,
-    "ast_hash": "27cb80b5770747823c2f218c2d05e394",
+    "mtime": 1786561564.1382012,
+    "ast_hash": "294bcf29b8be66930e7a4c1d4cdc91ad",
     "semantic_hash": ""
   }
 }
