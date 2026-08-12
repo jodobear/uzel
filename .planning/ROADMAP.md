@@ -13,7 +13,7 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 
 ## Programme gates
 
-- No Phase 1 implementation until revised plans pass Prompt 02 local CodeRabbit and GitHub Codex review.
+- No Phase 1 implementation until revised plans pass Prompt 02: local CodeRabbit plus GitHub Codex, or recorded CodeRabbit rate-limit evidence plus green GitHub Codex.
 - No Phase 2 execution until Phase 1 produces separate replay and current Nix/native
   verdicts, the manifest/exact-build and launch-negotiation profile receives a human
   go/no-go, and the owner approves advancement.
@@ -67,7 +67,7 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Mode:** mvp
 **Depends on:** Nothing; this is the brownfield incident-recovery phase.
 **Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
-**Execution gate:** Revised plans must pass Prompt 02 local CodeRabbit and GitHub Codex review before implementation.
+**Execution gate:** Revised plans must pass Prompt 02 review before implementation; a recorded CodeRabbit rate limit permits green GitHub Codex to satisfy the review gate.
 **Plans:** 5 active plans across 4 waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
 
 **Wave 1**
@@ -88,7 +88,7 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 - [ ] `01-05-PLAN.md` — close ecosystem, compatibility, SIR, capability, fairness and knowledge baselines at a human Phase-2 gate.
 
 **Execution gate:** These plans are not authorized for implementation until the exact
-plan head passes `prompts/02-review-phase-1.md` local-CodeRabbit/GitHub-Codex review and the human
+plan head passes `prompts/02-review-phase-1.md` review, including the explicit CodeRabbit-rate-limit/GitHub-Codex fallback when needed, and the human
 explicitly approves Phase 1 execution.
 
 Required responsibilities:

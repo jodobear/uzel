@@ -1,12 +1,13 @@
 # Prompt — review revised Phase 1 plans
 
 Review the generated Uzel Phase 1 plans against the exact repository and v4 baseline
-contract using exactly two review lanes: local CodeRabbit over the immutable local diff,
-then GitHub Codex over the exact pushed PR SHA. Record CodeRabbit CLI/version, GitHub
-Codex review identity, base/head SHAs, prompt digest, commands/requests and full findings.
+contract. Attempt local CodeRabbit over the immutable local diff, then use GitHub Codex
+over the exact pushed PR SHA. Record CodeRabbit CLI/version/result, GitHub Codex review
+identity, base/head SHAs, prompt digest, commands/requests and full findings. If local
+CodeRabbit returns a recorded `rate_limit` error before findings, green GitHub Codex is
+the approved fallback and permits continuation. No other CodeRabbit failure does.
 Claude, OpenCode, remote CodeRabbit and local Codex self-review are not part of this
-programme. Any accepted-finding commit invalidates both review stages and restarts the
-two-stage chain. Stop if either approved lane cannot review every criterion.
+programme. Any later commit invalidates review evidence and starts a new review path.
 
 Read the v4 ingest, baseline replay and delivery-quality documents; all current Phase 1
 artifacts; exact package-manager/lock/script/Nix/test files; and Git/worktree/evidence
@@ -62,7 +63,8 @@ Classify Critical/High/Medium/Low. Replan with
 cycles. Do not execute with any Critical/High finding or a Medium finding that threatens
 the phase outcome, authority, correctness, data integrity, security or operability.
 Explicitly disposition all remaining non-blocking Medium/Low findings with evidence and
-bounded rationale. Do not execute in this review session.
+bounded rationale. A green GitHub Codex review with recorded CodeRabbit rate-limit
+evidence satisfies this review gate. Do not execute in this review session.
 
 Do not send keys, pairing URIs, credentials, production content or unredacted private
 diagnostics to any reviewer.

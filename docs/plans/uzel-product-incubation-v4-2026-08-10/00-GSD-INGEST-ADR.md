@@ -6,7 +6,7 @@ Accepted.
 
 ## Context
 
-This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independent authority. Source authority: `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`. Source SHA-256: `098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d`. The source remains byte-identical; this projection exists because GSD 1.10.0 narrative ingest recognizes canonical ADR headings but not the source document's programme-specific headings. Supporting contracts remain `01-BASELINE-REPLAY.md`, `02-PRODUCT-ARCHITECTURE.md`, `03-ROADMAP.md`, `04-DELIVERY-QUALITY.md`, `06-START-RUNBOOK.md`, `07-ECOSYSTEM-UPSTREAM.md`, `08-DECISIONS-LEARNING.md`, and `09-PRODUCTION-MATURITY.md`. Owner direction recorded on 2026-08-12 fixes review-tool routing to local CodeRabbit and GitHub Codex only; Claude, OpenCode, remote CodeRabbit and local Codex self-review are not programme review lanes.
+This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independent authority. Source authority: `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`. Source SHA-256: `098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d`. The source remains byte-identical; this projection exists because GSD 1.10.0 narrative ingest recognizes canonical ADR headings but not the source document's programme-specific headings. Supporting contracts remain `01-BASELINE-REPLAY.md`, `02-PRODUCT-ARCHITECTURE.md`, `03-ROADMAP.md`, `04-DELIVERY-QUALITY.md`, `06-START-RUNBOOK.md`, `07-ECOSYSTEM-UPSTREAM.md`, `08-DECISIONS-LEARNING.md`, and `09-PRODUCTION-MATURITY.md`. Owner direction recorded on 2026-08-12 fixes review-tool routing to local CodeRabbit and GitHub Codex only; a recorded CodeRabbit rate limit permits green GitHub Codex to satisfy the gate. Claude, OpenCode, remote CodeRabbit and local Codex self-review are not programme review lanes.
 
 ## Decisions
 
@@ -40,7 +40,7 @@ This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independen
 - D-28 — Preserve `.planning` history, maps, Phase 1 numbering, pause evidence, and integer phases 2 through 7; insert only required decimal phases including 2.7, preserve the exact v4 sequence through 7.9, and do not rerun project creation, milestone creation, onboarding, or mapping absent a separately approved corruption repair.
 - D-29 — Phase 1 planning and execution must not add product features, float/update dependencies, build a broad file/media platform, expose a public API programme, contact upstream, publish external issues/comments/PRs, or claim universal conformance.
 - D-30 — Phase 1 closes only with separate replay and package verdicts, critical-invariant replacement evidence, immutable compatibility-profile/upstream identities, accepted identity/negotiation interpretation, capability/knowledge owners, checkout-independent package evidence or `not_yet_packaged`, measured CI/review evidence, coherent GSD state, and no unresolved blocking review finding.
-- D-31 — Prompt 02 review against the exact plan head is mandatory after planning: local CodeRabbit reviews the immutable local diff, then GitHub Codex reviews the exact pushed PR SHA; any accepted-finding commit invalidates both stages and restarts that two-stage chain. No other AI reviewer is part of this programme, no Phase 1 implementation occurs before both stages pass, and after reading the Phase 1 evidence matrix a human must explicitly approve Phase 2 before it begins.
+- D-31 — Prompt 02 review against the exact plan head is mandatory after planning: attempt local CodeRabbit on the immutable local diff, then GitHub Codex reviews the exact pushed PR SHA. If CodeRabbit returns a recorded `rate_limit` error before findings, green GitHub Codex satisfies the review gate; no other CodeRabbit failure does. Any later commit invalidates review evidence. No other AI reviewer is part of this programme, no Phase 1 implementation occurs before the applicable review path passes, and after reading the Phase 1 evidence matrix a human must explicitly approve Phase 2 before it begins.
 
 ## Out of Scope
 
@@ -82,7 +82,7 @@ This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independen
 ## Success Criteria
 
 - Parser returns accepted status, at least 31 stable decision IDs, explicit scope fences, dependencies, plan sequence, and Phase 1 exit criteria with no programme-specific headings silently unmapped.
-- Generated Phase 1 context names both evidence tracks, all five bounded plans, `b185ad1`, immutable profile/registry work, manifest-identity gate, fairness ownership, the approved two-stage review, and human stop before Phase 2.
+- Generated Phase 1 context names both evidence tracks, all five bounded plans, `b185ad1`, immutable profile/registry work, manifest-identity gate, fairness ownership, the approved review and rate-limit fallback, and human stop before Phase 2.
 - Plan checker remains enabled and every `M0-01` through `M0-05` requirement plus every trackable decision is covered by an executable plan.
 - Original `00-GSD-INGEST.md` remains byte-identical at the recorded SHA-256.
 - Pack checksum, manifest, structural audit, and independent authority-delta review pass before this projection is used for planning.

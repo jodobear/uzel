@@ -14,12 +14,12 @@
     "Passed GSD plan-structure, 31-of-31 decision coverage and independent internal plan-checker validation"
   ],
   "remaining": [
-    "Run Prompt 02 local CodeRabbit and GitHub Codex review",
+    "Run Prompt 02 GitHub Codex review after local CodeRabbit pass or recorded rate limit",
     "Resolve every material review finding",
     "Stop for human go/no-go before implementation"
   ],
   "blockers": [
-    "Phase 1 execution is forbidden until revised plans pass local CodeRabbit and GitHub Codex review plus human approval",
+    "Phase 1 execution is forbidden until GitHub Codex is green after CodeRabbit pass or recorded rate-limit fallback, plus human approval",
     "Napp candidate remains a stop until an exact committed client/events/testkit candidate qualifies"
   ],
   "next_action": "Follow docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md against the exact plan head",

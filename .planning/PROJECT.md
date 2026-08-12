@@ -90,8 +90,9 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
   worktree/branch and one primary PR.
 - GSD automatic worktrees and automatic advancement are disabled under Codex.
 - Plans are reviewed before execution using local CodeRabbit on an immutable diff,
-  followed by GitHub Codex on the exact pushed PR SHA. Any later commit invalidates both
-  stages and restarts that chain before required CI/verification and merge.
+  followed by GitHub Codex on the exact pushed PR SHA. If CodeRabbit returns a recorded
+  rate-limit error before findings, green GitHub Codex review is the approved fallback.
+  Any later commit invalidates review evidence before required CI/verification and merge.
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
 

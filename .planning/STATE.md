@@ -9,7 +9,7 @@ progress:
   completed_phases: 0
   total_plans: 5
   completed_plans: 0
-stopped_at: Phase 1 internally verified; Prompt 02 local CodeRabbit and GitHub Codex review required before execution
+stopped_at: Phase 1 internally verified; Prompt 02 GitHub Codex review required after CodeRabbit pass or recorded rate limit
 current_phase: 01
 current_phase_name: Truthful baseline and execution reset
 last_activity: 2026-08-12
@@ -33,7 +33,7 @@ Do not execute until every material finding is resolved and the human gate passe
 
 - Phase: 1 of 34 — Truthful baseline and execution reset
 - Plans: five active plans across four waves; five superseded plans retained as incident evidence
-- Status: planned; local CodeRabbit, GitHub Codex and human execution approval required
+- Status: planned; CodeRabbit pass or recorded rate limit, green GitHub Codex and human execution approval required
 - Progress: `[..........]` 0%
 
 ## Accumulated Context
@@ -60,7 +60,7 @@ Do not execute until every material finding is resolved and the human gate passe
 
 ### Pending Todos
 
-- Review the revised plans with local CodeRabbit and GitHub Codex under
+- Review the revised plans with local CodeRabbit and GitHub Codex, using green GitHub Codex as the approved fallback only for a recorded CodeRabbit rate limit, under
   `prompts/02-review-phase-1.md`; resolve material findings.
 
 - Stop for human go/no-go before any Phase 1 implementation.

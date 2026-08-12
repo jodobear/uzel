@@ -122,8 +122,9 @@ one contextual issue and primary PR—not a whole product milestone.
 
 ### Review loop
 
-Use exactly local CodeRabbit followed by GitHub Codex on the exact pushed PR SHA.
-`N` may be an integer or decimal delivery phase:
+Attempt local CodeRabbit followed by GitHub Codex on the exact pushed PR SHA. A recorded
+CodeRabbit `rate_limit` error before findings permits green GitHub Codex to satisfy the
+gate. `N` may be an integer or decimal delivery phase:
 
 ```text
 $gsd-review --phase N --coderabbit
@@ -158,8 +159,10 @@ $gsd-execute-phase N
 $gsd-verify-work N
 ```
 
-If local CodeRabbit or GitHub Codex is unavailable, stop. Do not substitute Claude,
-OpenCode, remote CodeRabbit, local Codex self-review or another AI reviewer.
+If CodeRabbit returns `rate_limit` before findings, record it and continue to GitHub
+Codex. Stop on any other CodeRabbit failure or any non-green GitHub Codex result. Do not
+substitute Claude, OpenCode, remote CodeRabbit, local Codex self-review or another AI
+reviewer.
 
 ## Contextual issue and plan contract
 
@@ -723,7 +726,8 @@ test context. Treat that as an explicit outbound data flow:
   content, private relay data, credentials or unredacted diagnostics;
 - fixtures and prompts use synthetic/redacted data;
 - review configuration and exclusions are committed or captured as evidence;
-- either approved reviewer failing/unavailable fails closed;
+- CodeRabbit `rate_limit` before findings activates the GitHub Codex fallback; every
+  other CodeRabbit failure and every non-green GitHub Codex result fails closed;
 - reviewer output is advisory evidence, not authority to weaken source-grounded gates.
 
 ## Code/PR review sequence
@@ -732,21 +736,23 @@ For implementation PRs:
 
 1. implement in the issue-owned branch/worktree;
 2. run focused local tests, lint and relevant package smoke;
-3. run local CodeRabbit CLI and batch-fix valid findings;
+3. run local CodeRabbit CLI and batch-fix valid findings, or record its `rate_limit`
+   result before findings;
 4. perform phase closeout: update affected ledgers/ADRs/spec/upstream/learning records,
    visibility/embargo and contradiction checks, then rerun affected gates;
 5. for a milestone-ending phase, prepare the bounded milestone learning digest;
 6. push/open the draft contextual PR;
 7. request GitHub Codex review on the exact candidate SHA;
-8. batch-fix valid findings and rerun local gates plus local CodeRabbit;
+8. batch-fix valid findings and rerun local gates plus a local CodeRabbit attempt;
 9. request GitHub Codex again on the new exact SHA when any commit followed its review;
 10. run/confirm required CI and package evidence;
 11. verify the exact GSD delivery-phase/contextual-issue acceptance;
 12. merge.
 
-GitHub Codex and local CodeRabbit do not review a moving SHA. Any commit after either
-review invalidates both and restarts the two-stage chain. This includes mechanical,
-formatting, link and documentation-only commits: exact-SHA evidence has no lighter path.
+GitHub Codex and local CodeRabbit do not review a moving SHA. Any commit invalidates
+review evidence and starts a new normal or CodeRabbit-rate-limit fallback path. This
+includes mechanical, formatting, link and documentation-only commits: exact-SHA evidence
+has no lighter path.
 
 ## Public upstream submission review
 

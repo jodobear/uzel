@@ -82,6 +82,6 @@ The following decisions supersede narrower automatic defaults where they conflic
 | What instance/profile scope is accepted? | One instance, one active read profile; record collision behavior. | Full multi-instance implementation in REF-01 |
 | How does migration roll back? | One narrow Rust/Tauri adapter, parity replay, then selective retirement; revert adapter/pin if needed. | Dual state/write or protocol-wide cutover |
 | What documents are authoritative? | Committed `.planning/` plus exact source now; installed root pack becomes authority only after audit/commit. | Treat untracked pack as committed fact |
-| What review process applies? | One bounded issue/PR; local CodeRabbit, Codex, final GitHub CodeRabbit once per semantic candidate. | Review reruns on unchanged inputs or Phase 1 planning ceremony |
+| What review process applies? | One bounded issue/PR; attempt local CodeRabbit, then require green GitHub Codex on the exact PR SHA; recorded CodeRabbit rate limiting permits the GitHub-Codex-only fallback. | Any other reviewer or any CodeRabbit failure other than rate limiting |
 
 Full classifications and readiness verdict: `01-REAUDIT.md`.

@@ -35,7 +35,7 @@
 - **D-15:** Migration uses one axis: preserve current-green POC, qualify exact Napp candidate, adapt the narrow Rust/Tauri boundary, replay parity evidence, then retire only proven-obsolete compatibility code. No dual store, dual write, or big-bang replacement. Rollback is an adapter/pin revert to the preserved POC baseline.
 - **D-16:** The installed product-first root pack is proposed input until its selected files and templates are audited and committed. Planning may cite committed `.planning/` artifacts and this re-audit; implementation may not depend on uncommitted normative files.
 - **D-17:** One plan maps to one repository-qualified issue and bounded PR. Mosaico/GSD handoffs carry exact heads, issue, decisions, evidence paths, blocker, and next probe; they reference canonical documents instead of copying the programme pack.
-- **D-18:** Use exactly two review lanes per immutable candidate: affected local gates, local CodeRabbit, push exact PR SHA, then GitHub Codex. Any later commit invalidates both review stages; enforcement belongs to the later CI slice.
+- **D-18:** Attempt local CodeRabbit on each immutable candidate, then use GitHub Codex on the exact pushed PR SHA. A recorded CodeRabbit `rate_limit` error before findings permits green GitHub Codex to satisfy the gate; no other CodeRabbit failure does. Any later commit invalidates review evidence; enforcement belongs to the later CI slice.
 
 ### the agent's Discretion
 The planner may choose the exact document names, measurement harness layout, and probe grouping, provided every artifact remains exact-source-backed, replayable, bounded, and within this phase boundary.

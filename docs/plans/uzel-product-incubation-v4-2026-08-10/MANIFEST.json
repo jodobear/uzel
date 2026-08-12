@@ -12,9 +12,9 @@
       "sha256": "098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d"
     },
     {
-      "bytes": 13696,
+      "bytes": 13919,
       "path": "00-GSD-INGEST-ADR.md",
-      "sha256": "24f441941df5d4da46d173bf8b4e3c7522cd3a148409a565f5bb7ef25d5bdd3a"
+      "sha256": "cefbd0f53f75458b84eadffad73a7a00e3a79a9de15e643707bf316ed0e2b546"
     },
     {
       "bytes": 18962,
@@ -32,9 +32,9 @@
       "sha256": "1332450ee87ab3384339e763f59ca9c51b7ccd583404547731fa1fbd6e083e7d"
     },
     {
-      "bytes": 37924,
+      "bytes": 38324,
       "path": "04-DELIVERY-QUALITY.md",
-      "sha256": "da79c6aececeed0f1d67c280fbb6d59ce385344b25f70b4ce3dc85222a2031f7"
+      "sha256": "0ed6a472da2f6219696bfb562bbb1db5d69f432c96dfcfe932377cf4797dec1e"
     },
     {
       "bytes": 39700,
@@ -42,9 +42,9 @@
       "sha256": "387dc544cc5ad5f6fe89fe90303ce7a7da565765b51a464b3d5ed84899269b40"
     },
     {
-      "bytes": 24240,
+      "bytes": 24439,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "4283eca1a0260279130ccebe571690874dddf1764704796fd1462b9abf3c74b8"
+      "sha256": "33c8b20b8c0b4396cfe4aa7853d8173c237b5d319686620b93eb0f6273eb6ff3"
     },
     {
       "bytes": 25988,
@@ -77,9 +77,9 @@
       "sha256": "00067496f2c347689437f1bb91c5e16851e8712c55dbcebb35751edc88f24872"
     },
     {
-      "bytes": 4400,
+      "bytes": 4590,
       "path": "prompts/02-review-phase-1.md",
-      "sha256": "ef8e940c4afbd380c7a20db7e9a1712dfc7e5d86219fa4a2a2297435caf05807"
+      "sha256": "961d2bf1a236cd596dbba93cb7ef38099259e1b546d0772eb2a8c9d66de23999"
     },
     {
       "bytes": 3255,
