@@ -13,7 +13,12 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 
 ## Programme gates
 
-- No Phase 1 implementation until revised plans pass Prompt 02: local CodeRabbit plus GitHub Codex, or recorded CodeRabbit rate-limit evidence plus green GitHub Codex.
+- No Phase 1 implementation until the complete immutable plan candidate is pushed and the
+  canonical external Plan-01-06 receipt proves explicit human execution authority, current
+  bytes matching all seven reviewed plan blobs, zero-finding local CodeRabbit pass or
+  recorded pre-finding `rate_limit` with zero findings, and green zero-finding GitHub Codex.
+  Both reviewer lanes may overlap after push; all candidate/input/effective SHAs and GitHub
+  Codex's reviewed SHA must equal the exact reviewed plan head.
 - No Phase 2 execution until Phase 1 produces separate replay and current Nix/native
   verdicts, the manifest/exact-build and launch-negotiation profile receives a human
   go/no-go, and the owner approves advancement.
@@ -67,7 +72,12 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Mode:** mvp
 **Depends on:** Nothing; this is the brownfield incident-recovery phase.
 **Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
-**Execution gate:** Revised plans must pass Prompt 02 review before implementation; a recorded CodeRabbit rate limit permits green GitHub Codex to satisfy the review gate.
+**Execution gate:** Revised plans must pass Prompt 02 on one pushed immutable head. Local
+CodeRabbit and GitHub Codex may overlap only after push. Execution requires Plan `01-06` to
+validate the canonical external receipt proving explicit human authority, current seven-plan
+byte equality, a zero-finding CodeRabbit pass or recorded pre-finding `rate_limit` with zero
+findings, green zero-finding GitHub Codex, and exact reviewed-head equality for every
+candidate/input/effective SHA plus GitHub Codex's reviewed SHA.
 **Plans:** 7 active plans across 7 strictly ordered waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
 
 **Wave 1**
@@ -98,9 +108,32 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 
 - [ ] `01-07-PLAN.md` — commit packet candidate P, stop for immediate hold or exact-P-review-gated approve, and preserve later final-SHA gate.
 
+**Phase 1 closeout gate:** Plan `01-07` ends with its normal summary; it does not own
+post-verification closeout. After all seven summaries exist, the phase orchestrator must run
+the canonical phase verifier and complete `$gsd-verify-work 1`, then block/defer the configured
+supported interactive `confirm_transition` gate. Run `$gsd-extract-learnings 1` and curate its
+candidate evidence through
+`prompts/05-phase-closeout.md`. Create one bounded durable Phase Closeout commit C using
+`templates/PHASE-CLOSEOUT.md`, including every actually affected ADR, SIR, upstream record,
+Learning Note, capability ledger and visibility-aware knowledge index. C may bind only prior
+immutable inputs and their exact bytes; it must not name or hash C, the eventual final candidate
+F, or an external receipt. C must change the closeout artifact plus exactly the required tracking
+paths `.planning/ROADMAP.md`, `.planning/STATE.md` and `.planning/HANDOFF.json`. Those tracking
+bytes must keep Phase 1 current, record `closeout_final_review_pending`, preserve hold or
+conditional-pending effect, and leave Phase 2 unstarted. Freeze F=C. Push F before starting local
+CodeRabbit and GitHub Codex; those
+two exact-F lanes may overlap, but both dispositions must join in the canonical external final
+receipt. No tracked commit may follow F. Until that receipt validates against the unchanged
+live PR head, Phase 1 closeout and merge remain ineffective, conditional approval grants no
+Phase-2 authority, and a hold remains the active stop. No Phase-2 planning or implementation is
+part of this closeout route.
+
 **Execution gate:** These plans are not authorized for implementation until the exact
-plan head passes `prompts/02-review-phase-1.md` review, including the explicit CodeRabbit-rate-limit/GitHub-Codex fallback when needed, and the human
-explicitly approves Phase 1 execution.
+pushed plan head passes `prompts/02-review-phase-1.md` and Plan `01-06` validates its
+canonical external receipt. The only fallback is CodeRabbit's recorded pre-finding
+`rate_limit` with zero findings; GitHub Codex must be green with zero findings, every
+candidate/input/effective/reviewed SHA must equal that head, current bytes must match all
+seven reviewed plan blobs, and the human must explicitly approve Phase 1 execution.
 
 Required responsibilities:
 

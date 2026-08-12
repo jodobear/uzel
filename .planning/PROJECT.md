@@ -88,11 +88,18 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
 - The committed v4 pack is programme input; `.planning/` is live GSD state.
 - After M0, every listed integer or decimal phase is one contextual issue, one manual
   worktree/branch and one primary PR.
-- GSD automatic worktrees and automatic advancement are disabled under Codex.
-- Plans are reviewed before execution using local CodeRabbit on an immutable diff,
-  followed by GitHub Codex on the exact pushed PR SHA. If CodeRabbit returns a recorded
-  rate-limit error before findings, green GitHub Codex review is the approved fallback.
-  Any later commit invalidates review evidence before required CI/verification and merge.
+- GSD automatic worktrees and automatic advancement are disabled under Codex. The supported
+  executable transition block is configured as `mode: interactive` with
+  `gates.confirm_transition: true`; Phase 1 must decline/defer that confirmation after UAT
+  until Prompt-05 curation, closeout C=F and exact-F final review finish.
+- Plans are reviewed only after the complete immutable candidate is committed and pushed.
+  Local CodeRabbit and GitHub Codex may overlap on that exact head, but execution remains
+  blocked until the canonical external receipt required by Plan `01-06` proves explicit
+  human execution authority; current bytes matching the seven reviewed plan blobs; a
+  zero-finding CodeRabbit pass or recorded pre-finding `rate_limit` with zero findings;
+  and a green zero-finding GitHub Codex review. Both lanes' candidate/input/effective SHAs,
+  plus GitHub Codex's reviewed SHA, must equal the exact reviewed head. Any later commit
+  invalidates review evidence before required CI/verification and merge.
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
 

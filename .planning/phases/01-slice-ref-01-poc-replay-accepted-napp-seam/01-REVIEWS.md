@@ -196,3 +196,59 @@ Separate review claims outside those twenty-nine reported findings:
 | REJ-01 | Restore incident evidence because the review inspected an unrelated checkout. | Rejected: live execution worktree proved exact WIP/parent/ref/clean registered worktree/archive identities; Plan 01 now revalidates them fail-closed at execution. |
 | REJ-02 | Force reviewers to run serially. | Rejected: owner authorized overlap after one pushed immutable SHA; acceptance still waits for both dispositions and any later commit invalidates both. |
 | DUP-01 | Add structure-registry inclusion already present in corrected Plan 03. | Duplicate/no new change: retained existing exact nonempty registry-set contract. |
+
+## Cycle 6
+
+- Local CodeRabbit CLI `0.7.2` (executable SHA-256
+  `f9f61ecdb385d3c8d5001ee652dee1d95b3282fd740bd023dc89b18a191d3e97`)
+  reviewed immutable pushed candidate
+  `dd22d21c291d986771fda0ed132208d7cb328e09` from review base
+  `21d3a0cbe5306cf6bf1943aba18cef77ed34ba37` and completed with seventeen
+  material findings. Command: `coderabbit review --agent --committed --base-commit
+  21d3a0cbe5306cf6bf1943aba18cef77ed34ba37`.
+- GitHub Codex review `4913339393`, submitted `2026-08-12T05:38:26Z`, reviewed
+  the same exact candidate and reported seven P1 findings. Request evidence:
+  `https://github.com/jodobear/uzel/pull/36#issuecomment-5262753976`; review
+  evidence: `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4913339393`.
+- Review-prompt SHA-256 was
+  `2f479c7ef2fa8a1955ea87002c647364e8e3f3e74301e69a7ecede7de6391860`.
+  GitHub Codex was polled only after the required 210-second wait windows.
+  Every material finding was accepted; no Cycle-6 finding was waived or deferred.
+- Corrections cover exact runbook archive parity; executable no-network and Graphify
+  evidence; honest package/measurement/status records; complete source/citation/CI
+  registries; authority-derived capability, blocker, replacement and review inventories;
+  exact plan/E/P/decision/closeout ancestry; complete PR-diff and immutable reviewer-output
+  identity; remote receipt reachability; passed teaching witnesses; and a stock-GSD
+  transition confirmation before post-verification closeout. Required tracking is part of
+  closeout commit `C`, then final candidate freezes as `F=C`; no later tracked commit is
+  permitted.
+
+Cycle-6 finding ledger (exactly seventeen CodeRabbit plus seven GitHub Codex findings;
+all accepted):
+
+| Lane / ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| CR-01 | Review-prerequisite membership could be selected by packet rows. | Derive exact prerequisite inventory from authoritative E-bound sources. |
+| CR-02 | Candidate review refs could change between reads. | Fetch and validate immutable refs atomically; recheck remote reachability. |
+| CR-03 | Reviewer status/findings could come from a synthesized summary. | Retain actual immutable output and derive all lane fields from those bytes. |
+| CR-04 | Unknown derived categories defaulted to informational. | Reject every category outside the exact authority-derived enum. |
+| CR-05 | Hold review statuses and receipts were under-specified. | Require exact status enum and a valid receipt for every requested lane. |
+| CR-06 | Retired source facts could bypass structural source-object checks. | Validate exact source object, pointer, ID, status and digest for every row. |
+| CR-07 | Packet records were not equal to authoritative manifest fields. | Require exact field equality and manifest bijection. |
+| CR-08 | Applicable architecture links could be empty. | Require nonempty exact applicable-link sets or evidenced typed inapplicability. |
+| CR-09 | Network evidence did not bind exact probes and local fixtures. | Bind admitted commands, endpoints and expected results to the closure plan. |
+| CR-10 | Citation test IDs did not resolve a source-test registry. | Require exact registry resolution and current source identity. |
+| CR-11 | Capability matrix could omit identity/capability declarations. | Derive both universes from authorities, require set equality, then exact product. |
+| CR-12 | Package status and exit evidence admitted inconsistent shapes. | Enforce fail-closed verdict/exit/output matrices with integer-only statuses. |
+| CR-13 | Evidence-set receipt lacked executor handoff identity. | Bind plan, task, executor handoff and exact normal-commit sequence to E. |
+| CR-14 | CI gates were not exact manifest subjects. | Require unique gate IDs, full fields, subjects and post-mutation byte parity. |
+| CR-15 | Project review-policy documents could drift from plan validators. | Align PROJECT, ROADMAP, STATE and HANDOFF with exact two-lane policy. |
+| CR-16 | Retained raw evidence root lacked complete safe-containment ownership. | Own ignored raw root and reject symlink/root escapes. |
+| CR-17 | Evidence descriptor entries lacked tracked-file and current-byte checks. | Require regular tracked files, no symlink components and worktree/Git equality. |
+| GH-01 | Incident archive validation contradicted the authoritative 8/5 runbook shape. | Require exact eight outer entries and five inner snapshot entries with FD-safe reads. |
+| GH-02 | Closeout evidence was frozen before decision and phase verification. | Move closeout after summaries, canonical verification, completed UAT and learning curation. |
+| GH-03 | Reviewer receipts did not bind the complete PR diff. | Bind repository, PR, live base, merge base, head and canonical diff digest. |
+| GH-04 | Custom receipt refs were not proven remotely reachable. | Push content-addressed refs and validate them from authenticated remote state. |
+| GH-05 | Plan-created validation code omitted mandatory Graphify refresh. | Add executable `graphify update .` ownership and a separate graph-only commit gate. |
+| GH-06 | Measurements were not bound to retained RSS/size artifacts. | Require exact artifact IDs, paths, digests, units and byte parity. |
+| GH-07 | Network-probe evidence was incomplete. | Require exact egress, DNS and declared local-fixture probes with retained output. |

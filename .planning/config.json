@@ -77,6 +77,9 @@
       }
     ]
   },
+  "gates": {
+    "confirm_transition": true
+  },
   "hooks": {
     "context_warnings": true
   },
@@ -89,6 +92,6 @@
   },
   "resolve_model_ids": "omit",
   "runtime": "codex",
-  "mode": "yolo",
+  "mode": "interactive",
   "granularity": "coarse"
 }

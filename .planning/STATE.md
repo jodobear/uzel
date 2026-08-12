@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v4
 milestone_name: Uzel product incubation through M5
 status: planned_review_required
-last_updated: "2026-08-12T01:40:45Z"
+last_updated: "2026-08-12T05:35:33Z"
 progress:
   total_phases: 34
   completed_phases: 0
   total_plans: 7
   completed_plans: 0
-stopped_at: Phase 1 internally verified; Prompt 02 GitHub Codex review required after CodeRabbit pass or recorded rate limit
+stopped_at: Phase 1 internally verified; exact pushed-head Prompt 02 receipt and explicit human execution authority required
 current_phase: 01
 current_phase_name: Truthful baseline and execution reset
 last_activity: 2026-08-12
@@ -28,14 +28,19 @@ shell owns presentation/human decisions, its product service owns durable workfl
 semantics, runtime mediation owns guest/runtime truth, and one exact-pinned replaceable
 canonical engine/provider owns protocol semantics behind Uzel's narrow private adapter.
 
-**Current focus:** Independently review the exact revised Phase 1 plan head with Prompt 02.
-Do not execute until every material finding is resolved and the human gate passes.
+**Current focus:** Commit and push the complete immutable Phase 1 plan candidate, then run
+Prompt 02's local CodeRabbit and GitHub Codex lanes on that exact head; they may overlap
+after push. Do not execute until every material finding is resolved and Plan `01-06`
+validates the canonical external exact-head receipt plus explicit human execution authority.
 
 ## Current Position
 
 - Phase: 1 of 34 — Truthful baseline and execution reset
 - Plans: seven active plans across seven strictly ordered waves; five superseded plans retained as incident evidence
-- Status: planned; CodeRabbit pass or recorded rate limit, green GitHub Codex and human execution approval required
+- Status: planned; exact Plan-01-06 receipt required with current seven-plan byte equality,
+  zero-finding CodeRabbit pass or recorded pre-finding `rate_limit` with zero findings,
+  green zero-finding GitHub Codex, same candidate/input/effective/reviewed head, and explicit
+  human execution approval
 - Progress: `[..........]` 0%
 
 ## Accumulated Context
@@ -50,8 +55,21 @@ Do not execute until every material finding is resolved and the human gate passe
   archive remain preserved. Planning assigns only provisional disposition.
 
 - Runtime is Codex. Automatic GSD worktrees and automatic phase advancement are off.
+- Phase 1 uses the supported executable transition block: `mode: interactive` with
+  `gates.confirm_transition: true`. After all Plan-07 work and its summary, the phase
+  orchestrator must complete the canonical verifier and `$gsd-verify-work 1`, decline/defer
+  that transition confirmation, run `$gsd-extract-learnings 1`, and curate durable
+  closeout through `prompts/05-phase-closeout.md`. Only prior immutable inputs may be bound by
+  the bounded Phase Closeout commit C; C cannot name/hash itself, final F, or the external
+  receipt. C must include the closeout artifact and all three required tracking paths:
+  `.planning/ROADMAP.md`, `.planning/STATE.md`, and `.planning/HANDOFF.json`. Their C bytes keep
+  Phase 1 current with `closeout_final_review_pending`, preserve the selected hold or conditional
+  effect, and leave Phase 2 unstarted. Freeze F=C. F is pushed before the
+  exact-F CodeRabbit/GitHub Codex lanes start, both receipts are joined externally, and no
+  tracked commit follows F.
 - Phase 2 cannot execute before the manifest/exact-build and launch-negotiation profile
-  receives an explicit human go/no-go.
+  receives an explicit human go/no-go and the unchanged-F final-review receipt validates. A
+  hold remains the active stop; conditional approval is ineffective before that receipt.
 
 - Phase 7.9 freezes one exact candidate. A5 is a mandatory twelve-lane
   non-implementation stop, not automatic release or programme continuation.
@@ -62,10 +80,22 @@ Do not execute until every material finding is resolved and the human gate passe
 
 ### Pending Todos
 
-- Review the revised plans with local CodeRabbit and GitHub Codex, using green GitHub Codex as the approved fallback only for a recorded CodeRabbit rate limit, under
-  `prompts/02-review-phase-1.md`; resolve material findings.
+- After committing and pushing one immutable candidate, review it with local CodeRabbit and
+  GitHub Codex under `prompts/02-review-phase-1.md`; the lanes may overlap after push.
+  Resolve material findings. The only fallback is a recorded pre-finding CodeRabbit
+  `rate_limit` with zero findings, together with green zero-finding GitHub Codex on the same
+  candidate/input/effective/reviewed head.
 
-- Stop for human go/no-go before any Phase 1 implementation.
+- Produce the canonical external receipt required by Plan `01-06`, binding the exact reviewed
+  head, all seven reviewed plan blobs/current bytes, reviewer identities/dispositions, and
+  explicit human execution authority. Stop before implementation until it validates.
+
+- On future authorized execution, decline/defer the supported interactive transition confirmation
+  after UAT. Complete post-verification extraction and Prompt-05 curation, commit durable Phase
+  Closeout C together with ROADMAP/STATE/HANDOFF tracking in `closeout_final_review_pending`,
+  freeze/push F=C, then join the overlapping exact-F local CodeRabbit
+  and GitHub Codex lanes in the external final receipt. No tracked commit is permitted after F;
+  no Phase-2 work begins through this route.
 
 ### Blockers and Evidence Gaps
 
@@ -97,8 +127,11 @@ Do not execute until every material finding is resolved and the human gate passe
 
 ## Exact Next Action
 
-Follow `docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md`
-against the exact plan head. Do not run `$gsd-resume-work` or execute Phase 1 in this state.
+Commit and push the complete immutable candidate, then follow
+`docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md` against that
+exact head with the allowed overlapping reviewer lanes. Resolve findings and prepare the
+canonical external Plan-01-06 receipt. Do not run `$gsd-resume-work` or execute Phase 1
+until the exact receipt and human-authority predicates validate.
 
 ## Session Continuity
 
