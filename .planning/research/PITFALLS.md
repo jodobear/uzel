@@ -124,11 +124,11 @@
 
 **Why it happens:** Batched review deliberately reduces repetition; that economy fails if head/input identity is not recorded. Review services can timeout, and merge queue produces a new merge-group SHA.
 
-**How to avoid:** Bind each evidence record to immutable base/head SHA, scope/classification, commands, result, and expiry condition. Attempt local CodeRabbit, then push the exact PR SHA for GitHub Codex. If CodeRabbit records `rate_limit` before findings, green GitHub Codex is the approved fallback; no other reviewer or CodeRabbit failure qualifies. Any later commit invalidates review evidence. GitHub remains merge authority; merge-group full CI uses locked release derivation.
+**How to avoid:** Bind each evidence record to immutable base/head SHA, scope/classification, commands, result, and expiry condition. Freeze and push the exact PR SHA, then run local CodeRabbit's required candidate-review mode and GitHub Codex on it; they may overlap, but acceptance waits for both dispositions. If that CodeRabbit mode records `rate_limit` before findings, green GitHub Codex is the approved fallback; no other reviewer, alternate/later rate limit, or CodeRabbit failure qualifies. Any later commit invalidates review evidence. GitHub remains merge authority; merge-group full CI uses locked release derivation.
 
 **Warning signs:** Review links/output omit head SHA; PR updated after final review; test artifact says branch name only; native result runs a checkout binary; reviewer timeout marked pass; merge queue runs no `merge_group` workflow; another PR's result is cited.
 
-**Recovery / stop condition:** Evidence stale, missing, skipped, cancelled, failed, or timed out is not approval, except that an exact recorded CodeRabbit `rate_limit` result activates the owner-approved GitHub Codex fallback. Stop queue entry, update/freeze final head, rerun applicable deterministic tests and attempt local CodeRabbit, then request GitHub Codex on the new exact SHA. Do not substitute another reviewer.
+**Recovery / stop condition:** Evidence stale, missing, skipped, cancelled, failed, or timed out is not approval, except that an exact pre-finding `rate_limit` result from local CodeRabbit's required immutable-candidate review mode activates the owner-approved GitHub Codex fallback. Stop queue entry, update/freeze and push final head, rerun applicable deterministic tests, then run approved reviewers concurrently or serially on the new exact SHA. Do not substitute another reviewer.
 
 **Phase to address:** `SLICE-CI-01` evidence schema and aggregator; apply to every slice PR and M0 acceptance.
 
@@ -189,7 +189,7 @@
 - [ ] **Social Home:** Local profile/follows/feed remain visible through stale, partial, refreshing, blocked and restart paths — verify fixture state transitions and visible acceptance.
 - [ ] **Trusted composition:** Host/security change preserves exact source mapping, no native/raw-network bridge, CSP/navigation denial — verify hostile real Weston/WebKit, not Chromium mock alone.
 - [ ] **Lean CI:** Required aggregator observed every classified lane on exact PR and merge-group heads — verify deliberate docs, frontend, contract, host/security, lock and unknown-path fixtures.
-- [ ] **Review:** CodeRabbit pass or exact rate-limit evidence, green GitHub Codex and applicable CI cite final head SHA — verify review evidence invalidates after any later commit.
+- [ ] **Review:** local CodeRabbit required immutable-candidate mode passes or records `rate_limit` before findings, green GitHub Codex and applicable CI cite final head SHA — verify alternate/later rate limits do not qualify and any later commit invalidates review evidence.
 
 ## Recovery Strategies
 

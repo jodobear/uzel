@@ -8,11 +8,13 @@
 
 ## Approved review lanes
 
-Only local CodeRabbit followed by GitHub Codex on an exact pushed PR SHA may satisfy
-the plan-review gate. A local CodeRabbit `rate_limit` recorded before findings permits
-green GitHub Codex to satisfy the fallback. Claude, OpenCode, remote CodeRabbit and local
-Codex self-review are prohibited. Any finding-driven commit requires a new exact-head
-attempt and GitHub Codex review.
+Only local CodeRabbit and GitHub Codex on one exact pushed PR SHA may satisfy the
+plan-review gate. They may run concurrently after the candidate is frozen and pushed;
+acceptance waits for both dispositions. A `rate_limit` from local CodeRabbit's required
+immutable-candidate review mode, recorded before findings, permits green GitHub Codex to
+satisfy the fallback. Later or alternate-mode rate limits do not. Claude, OpenCode, remote
+CodeRabbit and local Codex self-review are prohibited. Any finding-driven commit requires
+a new exact-head attempt and GitHub Codex review.
 
 ## Cycle 1
 
@@ -104,3 +106,23 @@ GitHub-Codex exact-head cycles in parallel where safe. The final exact-head resu
 external on GitHub so recording it cannot invalidate the reviewed commit. Phase 1 remains
 unapproved until the approved exact-head review path is satisfied, all material findings are
 fixed or low-benefit P2 backlog items, and the human execution gate is explicit.
+
+## Cycle 4
+
+- Local CodeRabbit CLI `0.7.2` reviewed immutable candidate
+  `40103fac08bf463c2bd111f402c39d5de41b74ac` and completed with twenty material findings.
+- GitHub Codex was requested concurrently on the same exact SHA. It acknowledged the request
+  but had not produced a verdict before accepted CodeRabbit fixes invalidated that candidate;
+  no later `40103fa` result can satisfy the next exact-head gate.
+- Nineteen findings were accepted directly: atomic archive verification; complete package
+  provenance/native evidence; source tree and structure-registry binding; artifact-manifest
+  bijection; capability-versus-review schema; installed RCP and transcript digest checks;
+  source-record digest checks; recursively fail-closed packet, eligibility, receipt and UTC
+  poll validation; pre-finding rate-limit wording; historical research labeling; runbook
+  command order; and prompt/checklist fallback specificity.
+- The proposed serial-only reviewer ordering was rejected as stale against explicit owner
+  direction on `2026-08-12`. Resolution permits local CodeRabbit and GitHub Codex to run
+  concurrently only after one candidate is committed and pushed, requires both same-SHA
+  dispositions before acceptance, and limits fallback to CodeRabbit's required candidate-
+  review mode returning `rate_limit` before any finding.
+- No Cycle-4 item was deferred to P2.

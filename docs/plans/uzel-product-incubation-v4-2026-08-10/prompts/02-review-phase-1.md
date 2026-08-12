@@ -1,12 +1,13 @@
 # Prompt — review revised Phase 1 plans
 
 Review the generated Uzel Phase 1 plans against the exact repository and v4 baseline
-contract. Commit the complete candidate, attempt local CodeRabbit over the immutable
-committed diff ending at that SHA, then push it unchanged and use GitHub Codex over the
-same exact PR SHA. Record CodeRabbit CLI/version/result, GitHub Codex review
+contract. Commit and push the complete immutable candidate, then run local CodeRabbit's
+required candidate-review mode and ask GitHub Codex to review that same exact PR SHA. The
+two reviewer runs may overlap, but acceptance waits for both dispositions. Record CodeRabbit CLI/version/result, GitHub Codex review
 identity, base/head SHAs, prompt digest, commands/requests and full findings. If local
-CodeRabbit returns a recorded `rate_limit` error before findings, green GitHub Codex is
-the approved fallback and permits continuation. No other CodeRabbit failure does.
+that required local CodeRabbit mode returns a recorded `rate_limit` error before findings,
+green GitHub Codex is the approved fallback and permits continuation. A later or
+alternate-mode rate limit, or any other CodeRabbit failure, does not.
 Claude, OpenCode, remote CodeRabbit and local Codex self-review are not part of this
 programme. Any later commit invalidates review evidence and starts a new review path.
 
@@ -65,8 +66,9 @@ Stop only when all material findings are fixed and every remainder is a low-bene
 backlog item with stable ID, source, severity, owner, deferral rationale, bounded Phase-1
 non-impact, and revisit trigger. Do not execute with any Critical/High finding or a Medium finding that threatens
 the phase outcome, authority, correctness, data integrity, security or operability.
-Record every remaining non-blocking finding under that P2 backlog contract. A green GitHub Codex review with recorded CodeRabbit rate-limit
-evidence satisfies this review gate. Do not execute in this review session.
+Record every remaining non-blocking finding under that P2 backlog contract. A green GitHub Codex review with recorded pre-finding `rate_limit`
+evidence from local CodeRabbit's required immutable-candidate review mode satisfies this
+review gate. Do not execute in this review session.
 
 Do not send keys, pairing URIs, credentials, production content or unredacted private
 diagnostics to any reviewer.

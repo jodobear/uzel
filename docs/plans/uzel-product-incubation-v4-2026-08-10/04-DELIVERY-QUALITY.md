@@ -125,9 +125,11 @@ one contextual issue and primary PR—not a whole product milestone.
 
 ### Review loop
 
-Attempt local CodeRabbit followed by GitHub Codex on the exact pushed PR SHA. A recorded
-CodeRabbit `rate_limit` error before findings permits green GitHub Codex to satisfy the
-gate. `N` may be an integer or decimal delivery phase:
+After freezing and pushing the exact candidate, local CodeRabbit's required candidate-review
+mode and GitHub Codex review of that same SHA may run concurrently. Acceptance waits for
+both dispositions. A recorded `rate_limit` error from that CodeRabbit mode before findings
+permits green GitHub Codex to satisfy the gate; later or alternate-mode rate limits do not.
+`N` may be an integer or decimal delivery phase:
 
 ```text
 $gsd-review --phase N --coderabbit
@@ -163,8 +165,9 @@ $gsd-execute-phase N
 $gsd-verify-work N
 ```
 
-If CodeRabbit returns `rate_limit` before findings, record it and continue to GitHub
-Codex. Stop on any other CodeRabbit failure or any non-green GitHub Codex result. Do not
+If CodeRabbit's required candidate-review mode returns `rate_limit` before findings, record
+it and require green GitHub Codex on the same SHA. Stop on any other CodeRabbit failure or
+any non-green GitHub Codex result. Do not
 substitute Claude, OpenCode, remote CodeRabbit, local Codex self-review or another AI
 reviewer.
 
@@ -744,11 +747,13 @@ For implementation PRs:
    visibility/embargo and contradiction checks, then rerun affected gates;
 4. for a milestone-ending phase, prepare the bounded milestone learning digest;
 5. commit the complete candidate and record its exact SHA;
-6. run local CodeRabbit CLI against the immutable committed diff ending at that SHA,
-   batch-fixing valid findings or recording its `rate_limit` result before findings;
-7. push/open the draft contextual PR without changing that candidate SHA;
-8. request GitHub Codex review on the same exact candidate SHA;
-9. record both reviewer results against that SHA in external review evidence;
+6. push/open the draft contextual PR without changing that candidate SHA;
+7. run local CodeRabbit CLI in required candidate-review mode against the immutable
+   committed diff ending at that SHA and request GitHub Codex review on the same exact
+   pushed SHA; these runs may overlap;
+8. batch-fix valid findings, or accept only a CodeRabbit `rate_limit` result emitted by
+   that required mode before any finding, while waiting for GitHub Codex;
+9. record both reviewer dispositions against that SHA in external review evidence;
 10. when either review produces a valid finding, fix it, rerun affected local gates and
     closeout checks, commit a new complete candidate, and restart at step 5;
 11. run/confirm required CI and package evidence, verify the exact GSD

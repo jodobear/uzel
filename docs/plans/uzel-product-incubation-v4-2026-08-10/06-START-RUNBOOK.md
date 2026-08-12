@@ -477,20 +477,20 @@ Print and paste:
 cat docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md
 ```
 
-Run the CodeRabbit diff review:
+Commit the complete plan-review candidate first and record its SHA. Run CodeRabbit locally
+over the immutable committed and pushed plan diff ending at that SHA, and ask GitHub Codex
+to review the same exact PR SHA against the complete
+`prompts/02-review-phase-1.md`. Record CodeRabbit CLI/version/result, GitHub Codex review
+identity, base/head SHAs, prompt digest, commands/requests and full findings. If
+CodeRabbit's required immutable-candidate review mode returns `rate_limit` before findings,
+record that output; green GitHub Codex satisfies the gate. A later or alternate-mode
+rate limit does not. Both reviewers may run concurrently on the frozen pushed candidate,
+but acceptance waits for both dispositions. No other CodeRabbit failure enables
+fallback. Do not use Claude, OpenCode, remote CodeRabbit or local Codex self-review.
 
 ```text
 $gsd-review --phase 1 --coderabbit
 ```
-
-Commit the complete plan-review candidate first and record its SHA. Run CodeRabbit locally
-over the immutable committed plan diff ending at that SHA, then push/open the plan PR
-without changing it and ask GitHub Codex to review the same exact PR SHA against the complete
-`prompts/02-review-phase-1.md`. Record CodeRabbit CLI/version/result, GitHub Codex review
-identity, base/head SHAs, prompt digest, commands/requests and full findings. If
-CodeRabbit returns `rate_limit` before findings, record that output and continue to
-GitHub Codex; green GitHub Codex satisfies the gate. No other CodeRabbit failure enables
-fallback. Do not use Claude, OpenCode, remote CodeRabbit or local Codex self-review.
 
 When a Critical/High or blocking Medium finding exists, or an accepted finding changes
 plan semantics, apply the batch, rerun plan/audit gates, commit a new complete candidate,
@@ -545,9 +545,11 @@ Complete Plan `01-06` first: commit the immutable evidence set, exact manifest, 
 projection as E under ordinary task-atomic commits. Plan `01-07` then generates the complete
 fail-closed transition packet against exact E and commits only that packet as P. A human may
 select `hold-phase-1` immediately after P validates. Before `approve-phase-2` may be offered,
-attempt local CodeRabbit on exact P, push P unchanged, and require green GitHub Codex on P.
-Recorded CodeRabbit `rate_limit` before findings activates the same approved fallback as
-plan review. Any finding-driven commit or change to E, packet inputs, packet, profile,
+push P unchanged, then run local CodeRabbit's required candidate-review mode and GitHub
+Codex on exact P; these runs may overlap, but approval waits for both dispositions.
+Recorded `rate_limit` from that CodeRabbit mode before findings activates the same approved
+fallback as plan review; later or alternate-mode rate limits do not. Any finding-driven
+commit or change to E, packet inputs, packet, profile,
 indexes or evidence restarts E/P generation and review.
 
 The human may inspect the evidence and choose hold without waiting for external review.
@@ -561,8 +563,9 @@ unresolved/retired claims. Do not cross this gate
 with an automatic next command.
 
 After the human decision record and `01-07-SUMMARY.md` are committed, attempt local
-CodeRabbit again, push the new exact SHA, and require green GitHub Codex before merge or
-before an `approve-phase-2` decision becomes effective. This final review may not mutate
+CodeRabbit's required candidate-review mode and GitHub Codex on the new exact pushed SHA;
+the runs may overlap, but both dispositions are required before merge or before an
+`approve-phase-2` decision becomes effective. This final review may not mutate
 the already reviewed evidence paths; any such mutation invalidates transition eligibility
 and returns to the evidence-candidate review above.
 
@@ -585,7 +588,7 @@ For each listed phase from `2` through `7.9`:
    capability ledgers;
 10. for milestone endpoints `2.7`, `3.3`, `4.3`, `5.3`, `6.2` and `7.9`, print/paste
     `prompts/07-milestone-learning.md` and create the bounded milestone learning digest;
-11. rerun affected checks and perform the serial final PR review on the final SHA including
+11. rerun affected checks and perform the concurrent-capable exact-SHA final PR review including
     source, tests, profile/registry, closeout and learning changes;
 12. rerun `$gsd-verify-work <phase>` when closeout changed executable or acceptance
     evidence;

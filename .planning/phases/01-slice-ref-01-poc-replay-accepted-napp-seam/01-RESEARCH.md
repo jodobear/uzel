@@ -14,8 +14,12 @@
 > canonical engine/provider owns its protocol semantics behind Uzel's narrow private adapter.
 > Active plans, `01-CONTEXT.md`, and `01-REORIENTATION.md` control execution.
 
-<user_constraints>
-## User Constraints (from CONTEXT.md)
+<historical_constraints_do_not_execute>
+## Historical pre-v4 constraints — evidence only, not current instructions
+
+The following snapshot is retained to explain earlier plans. It is superseded wholesale
+by current `01-CONTEXT.md`, `01-REORIENTATION.md`, and authoritative v4 D-01 through D-31.
+Do not treat any item in this section as an active gate, owner assignment, or plan input.
 
 ### Locked Decisions
 
@@ -55,7 +59,7 @@ The planner may choose the exact document names, measurement harness layout, and
 - PR-fast, merge-group, and required-check aggregation belong to Phase 3.
 - New profile/resource gaps and Social graph/feed work belong to Phases 4 and 5. Existing rich profile/follow/resource behavior is preservation evidence, not future work to rebuild. New Social implementation remains gated on accepted REF, PKG, and CI evidence.
 - Files, Blossom, signing, wallets, authoring, richer media, ContextVM, Relatr, TUI, WASI, Android, and native napplets remain outside this milestone.
-</user_constraints>
+</historical_constraints_do_not_execute>
 
 <phase_requirements>
 ## Phase Requirements
