@@ -532,13 +532,28 @@ $gsd-verify-work 1
 $gsd-progress --forensic
 ```
 
-Before Phase 2, a human inspects separate verdicts for historical replay, current-source
+Before presenting the Phase-2 transition choice, complete Plan `01-06` Task 1's
+non-self-referential protocol: commit the immutable evidence set and public projection as
+E; generate the complete fail-closed transition packet against E; commit only that packet
+as P; attempt local CodeRabbit on exact P; push P; then require green GitHub Codex on P.
+Recorded CodeRabbit `rate_limit` before findings activates the same approved fallback as
+plan review. Any finding-driven commit or change to E, packet inputs, packet, profile,
+indexes or evidence restarts E/P generation and review.
+
+Only after that evidence-candidate review is green may a human inspect separate verdicts
+for historical replay, current-source
 replacement invariants, current Nix/native baseline plus any `not_yet_packaged` Phase 2
 gate, `b185ad1`, authority/schema/threat
 baseline, the exact compatibility profile and manifest/build-identity interpretation,
 upstream/local-patch/maturity/knowledge baselines, CI/review measurements and
 unresolved/retired claims. Do not cross this gate
 with an automatic next command.
+
+After the human decision record and `01-06-SUMMARY.md` are committed, attempt local
+CodeRabbit again, push the new exact SHA, and require green GitHub Codex before merge or
+before an `approve-phase-2` decision becomes effective. This final review may not mutate
+the already reviewed evidence paths; any such mutation invalidates transition eligibility
+and returns to the evidence-candidate review above.
 
 ## Step 7 — execute one bounded delivery phase at a time
 

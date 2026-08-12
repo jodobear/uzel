@@ -3,17 +3,17 @@ gsd_state_version: 1.0
 milestone: v4
 milestone_name: Uzel product incubation through M5
 status: planned_review_required
-last_updated: "2026-08-11T20:34:20Z"
+last_updated: "2026-08-12T01:40:45Z"
 progress:
   total_phases: 34
   completed_phases: 0
-  total_plans: 5
+  total_plans: 6
   completed_plans: 0
 stopped_at: Phase 1 internally verified; Prompt 02 GitHub Codex review required after CodeRabbit pass or recorded rate limit
 current_phase: 01
 current_phase_name: Truthful baseline and execution reset
 last_activity: 2026-08-12
-last_activity_desc: Created and internally verified five revised Phase 1 plans across four waves
+last_activity_desc: Corrected and internally verified six revised Phase 1 plans across six strictly ordered waves
 ---
 
 # Project State
@@ -23,8 +23,10 @@ last_activity_desc: Created and internally verified five revised Phase 1 plans a
 See `.planning/PROJECT.md` and the authoritative programme ingest at
 `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`.
 
-**Core value:** Uzel delivers visibly useful local-first napplet composition while Napp
-owns runtime authority and one canonical Nostr engine owns Nostr truth.
+**Core value:** Uzel delivers visibly useful local-first napplet composition. Its trusted
+shell owns presentation/human decisions, its product service owns durable workflow
+semantics, runtime mediation owns guest/runtime truth, and one exact-pinned replaceable
+canonical engine/provider owns protocol semantics behind Uzel's narrow private adapter.
 
 **Current focus:** Independently review the exact revised Phase 1 plan head with Prompt 02.
 Do not execute until every material finding is resolved and the human gate passes.
@@ -32,7 +34,7 @@ Do not execute until every material finding is resolved and the human gate passe
 ## Current Position
 
 - Phase: 1 of 34 — Truthful baseline and execution reset
-- Plans: five active plans across four waves; five superseded plans retained as incident evidence
+- Plans: six active plans across six strictly ordered waves; five superseded plans retained as incident evidence
 - Status: planned; CodeRabbit pass or recorded rate limit, green GitHub Codex and human execution approval required
 - Progress: `[..........]` 0%
 
@@ -73,15 +75,16 @@ Do not execute until every material finding is resolved and the human gate passe
 - Current installable package outputs have not yet been proved; record
   `not_yet_packaged` when absent and assign full package acceptance to Phase 2.
 
-- Napp candidate `0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` remains a qualified stop,
-  not an accepted product client/events/testkit seam.
+- Superseded research treated an external Napp candidate as a Phase-1 stop. V4 authority
+  has no such entry condition; absent provider seams block only their owning capability.
 
 - Managed Codex is `0.147.0`; bare `codex` resolves stale Nix `0.92.0` on `PATH`.
 - GSD `1.10.0` accepted the parser-safe ADR projection; the immutable original ingest
   remains programme authority and is digest-bound to that projection.
 
-- Graphify is disabled in project config, so committed `.planning/codebase/` maps were
-  used without mutating the graph.
+- Graphify was queried first during plan correction and located current Uzel shell,
+  Tauri, daemon, runtime, protocol, contract, napplet and candidate-checker owners. No
+  production code changed, so no graph update is required for this planning-only diff.
 
 - Preserved manual/incident worktrees yield expected health warnings; do not prune them.
 

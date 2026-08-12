@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-11T20:34:20Z",
+  "timestamp": "2026-08-12T01:19:57Z",
   "phase": "01",
   "phase_name": "Truthful baseline and execution reset",
   "status": "planned_review_required",
@@ -10,7 +10,9 @@
     "Preserved the blocked replay commit, worktree, safety ref and checksummed archive",
     "Recorded installed tool versions and supported command forms",
     "Completed GSD onboarding and reclaimed shared tmp capacity without removing source or active worktrees",
-    "Created five revised Phase 1 plans across four waves from the digest-bound ADR projection",
+    "Created six revised Phase 1 plans as a strictly ordered six-wave chain from the digest-bound ADR projection",
+    "Revalidated the preserved replay commit, parent, safety ref, clean registered worktree and checksummed portable bundle at the reviewed plan head",
+    "Removed the stale external Napp-candidate stop; v4 authority assigns current Phase 1 ownership to Uzel components and exact-pinned upstream/provider seams",
     "Passed GSD plan-structure, 31-of-31 decision coverage and independent internal plan-checker validation"
   ],
   "remaining": [
@@ -19,8 +21,7 @@
     "Stop for human go/no-go before implementation"
   ],
   "blockers": [
-    "Phase 1 execution is forbidden until GitHub Codex is green after CodeRabbit pass or recorded rate-limit fallback, plus human approval",
-    "Napp candidate remains a stop until an exact committed client/events/testkit candidate qualifies"
+    "Phase 1 execution is forbidden until GitHub Codex is green after CodeRabbit pass or recorded rate-limit fallback, plus human approval"
   ],
   "next_action": "Follow docs/plans/uzel-product-incubation-v4-2026-08-10/prompts/02-review-phase-1.md against the exact plan head",
   "do_not": [

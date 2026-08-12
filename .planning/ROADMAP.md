@@ -68,7 +68,7 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Depends on:** Nothing; this is the brownfield incident-recovery phase.
 **Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
 **Execution gate:** Revised plans must pass Prompt 02 review before implementation; a recorded CodeRabbit rate limit permits green GitHub Codex to satisfy the review gate.
-**Plans:** 5 active plans across 4 waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
+**Plans:** 6 active plans across 6 strictly ordered waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
 
 **Wave 1**
 
@@ -77,15 +77,22 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [ ] `01-02-PLAN.md` — inventory current package outputs and produce separate Nix/native verdicts.
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] `01-03-PLAN.md` — establish current authority, identity, schema, storage, trust and threat baselines.
-
-**Wave 3** *(blocked on both Wave 2 plans)*
-
-- [ ] `01-04-PLAN.md` — measure CI/test/review behavior and pin the exact-SHA review flow.
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] `01-05-PLAN.md` — close ecosystem, compatibility, SIR, capability, fairness and knowledge baselines at a human Phase-2 gate.
+- [ ] `01-04-PLAN.md` — measure CI/test/review behavior and pin the exact-SHA review flow.
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
+- [ ] `01-05-PLAN.md` — close ecosystem, compatibility, SIR, capability, fairness and internal-knowledge baselines.
+
+**Wave 6** *(blocked on Wave 5 completion)*
+
+- [ ] `01-06-PLAN.md` — build/review the fail-closed transition packet, stop for the human decision, and preserve the final-SHA closeout gate.
 
 **Execution gate:** These plans are not authorized for implementation until the exact
 plan head passes `prompts/02-review-phase-1.md` review, including the explicit CodeRabbit-rate-limit/GitHub-Codex fallback when needed, and the human
@@ -343,6 +350,7 @@ explicit human decision before any next programme.
 
 ## Progress
 
-All 34 active phases are pending. Phase 1 has zero executable plans until v4 replanning.
-Historical `01-04-SUMMARY.md` remains accepted incident evidence but does not count as
-completion of the revised phase.
+All 34 active phases are pending. Phase 1 has six revised executable plans, but execution
+remains forbidden until exact-head Prompt-02 review is green and the human explicitly
+approves. Historical `01-04-SUMMARY.superseded.md` remains accepted incident evidence but
+does not count as completion of the revised phase.

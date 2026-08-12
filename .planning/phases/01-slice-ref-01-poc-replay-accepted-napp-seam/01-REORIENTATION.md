@@ -3,7 +3,7 @@
 **Status:** Complete; ready to plan, not ready to execute
 **Date:** 2026-08-11
 **Worktree:** `/workspace/projects/napplets/napp-uzel/uzel-phase-1-v4`
-**Branch/head:** `phase/01-baseline-v4` at `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`
+**Branch/head at reorientation:** `phase/01-baseline-v4` at `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`
 **Authority:** `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`
 
 ## Planning files changed
@@ -71,13 +71,25 @@ command therefore omits that stale assumption.
 
 ## Preserved incident evidence
 
-- WIP `b185ad1b8d9d034d151406b12aa189f5a6be970f`, parent
-  `431e37af5ca86196dbaf08a534a0a7626c4ae32c`
-- clean blocked worktree `/tmp/uzel-01-01-3qGzwY`
-- safety ref `wip/phase-1-replay-b185ad1`
-- portable bundle `/workspace/projects/napplets/napp-uzel/uzel-phase-1-b185ad1/`
-- bundle SHA-256 `2690ff85ed2d561af3592833d6741b92e7cedfb0afdf343db1d140bfde0cba37`
-- `sha256sum -c` and `git bundle verify` passed during reorientation
+Revalidated live on 2026-08-12 before correcting the execution plans:
+
+| Object | Portable identity | Live locator observed during review |
+|---|---|---|
+| WIP commit | `b185ad1b8d9d034d151406b12aa189f5a6be970f`, tree `0e5635a6c2a843438b418de51b3f1240d6d4f52f` | repository object database |
+| Parent | `431e37af5ca86196dbaf08a534a0a7626c4ae32c`, tree `54aebc9bbcdacbc44581ee5b9ead0b62e285c68f` | repository object database |
+| Safety ref | `refs/heads/wip/phase-1-replay-b185ad1` resolves to the WIP commit | repository refs |
+| Blocked worktree | branch `refs/heads/gsd/phase-01-plan-01-replay`, HEAD WIP commit, zero staged/unstaged/untracked paths | `/tmp/uzel-01-01-3qGzwY` |
+| Bundle | SHA-256 `2690ff85ed2d561af3592833d6741b92e7cedfb0afdf343db1d140bfde0cba37`; `git bundle verify` reports complete history and the safety ref | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-b185ad1/b185ad1.bundle` |
+| Metadata | SHA-256 `879f4185d74a33f935ff35464f7bea7215326bfb0d38603edf4b5731136899db` | same archive directory |
+| Checksum manifest | SHA-256 `5feb3508a3f93029c04dbd45f384f27b37e2400a5cd9493f41141bab041b5812` | same archive directory `SHA256SUMS` |
+
+Paths are observations, not portable authority. Plan `01-01` resolves Git objects by
+object/ref identity and the blocked worktree by registered branch plus HEAD. The execution
+operator must set `UZEL_INCIDENT_ARCHIVE_DIR` to the restored/readable directory containing
+the three archive files above; the observed directory is a valid current value. If the
+registered original worktree or any archive file is absent, ambiguous, dirty, or has a
+different digest, execution stops for evidence restoration. It must not synthesize a
+replacement and call it preserved evidence.
 
 Final WIP disposition remains an execution decision based on separate historical replay
 and current package verdicts.
@@ -99,11 +111,19 @@ and current package verdicts.
 - Historical replay and final `b185ad1` disposition require execution evidence.
 - Current Nix/native installable outputs require live inventory; absent outputs must be
   reported `not_yet_packaged`, with full package acceptance assigned to Phase 2.
-- Napp candidate `0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` remains a `stop`.
+- The earlier external Napp candidate stop was stale research from a superseded product
+  model. Current v4 authority contains no Napp-candidate entry condition: Uzel owns the
+  product shell and product-service semantics, runtime mediation owns guest/runtime truth,
+  and the exact-pinned canonical engine/provider owns its protocol semantics behind Uzel's
+  narrow private adapter. Any absent provider seam blocks only its owning capability; it
+  does not block this Phase 1 baseline.
 - Bare and managed Codex versions disagree; use the managed executable for the phase.
 - GSD warns baked agent definitions predate current config; no mid-phase update or model
   override was introduced.
-- Graphify is disabled, so the committed codebase map was used without a graph update.
+- Graphify was queried first during review correction. It identified the current tracer at
+  `scripts/ref-candidate-check.py` and the current executable owners under
+  `apps/uzel/src`, `apps/uzel/src-tauri/src`, `apps/uzel-napd/src`, `crates/napd/src`,
+  `crates/napd-protocol/src`, `contracts/`, and `napplets/`.
 - Preserved manual incident worktrees produce expected non-repairable health warnings.
 
 ## Resolved environment constraint

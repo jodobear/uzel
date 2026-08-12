@@ -53,16 +53,19 @@ Rules:
 flowchart LR
     C[Delivery-phase context / accepted decisions]
     P[GSD plan]
-    R[Local CodeRabbit plan review]
+    R[Local CodeRabbit plan-review attempt]
+    PPR[Plan PR exact SHA]
+    PRX[GitHub Codex plan review]
     X[Sequential execution]
     L[Local tests + CodeRabbit]
     PR[Draft PR]
-    CX[GitHub Codex exact-SHA review]
+    CX[GitHub Codex implementation review]
     CI[Required CI/package checks]
     V[GSD verification + human evidence]
     M[Merge]
 
-    C --> P --> R --> X --> L --> PR --> CX --> CI --> V --> M
+    C --> P --> R --> PPR --> PRX --> X --> L --> PR --> CX --> CI --> V --> M
+    R -. recorded rate_limit .-> PPR
 ```
 
 Not every documentation-only PR needs native package tests, but every omitted gate must
