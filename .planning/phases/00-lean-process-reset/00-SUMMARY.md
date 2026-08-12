@@ -3,7 +3,7 @@
 ## Outcome
 
 Uzel now has one active delivery authority in `WORKFLOW.md`, one minimal execution pointer,
-one contextual issue/branch/worktree/PR, and concise unplanned roadmap outcomes.
+one contextual issue/branch/worktree/PR, and five concise machine-routable roadmap outcomes.
 
 ## Changes
 
@@ -19,6 +19,13 @@ one contextual issue/branch/worktree/PR, and concise unplanned roadmap outcomes.
 - Reconciled active codebase guidance with the locked Nix-plus-pnpm entrypoint.
 - Removed persisted Graphify labels inherited from deleted v4 sources, then refreshed the
   canonical graph separately after the documentation stabilized.
+- Restored canonical GSD phase headings and minimal STATE frontmatter: GSD detects five
+  phases, the active reset state, and Phase 1 as the next routable phase.
+- Refreshed GSD 1.10.0 through its supported global Codex install path so baked agent
+  models match the unchanged project policy; the three detected hooks were backed up and
+  verified byte-identical after reinstall.
+- Filed Graphify numeric-label reclustering instability as backlog issue
+  [#39](https://github.com/jodobear/uzel/issues/39).
 
 ## Commits
 
@@ -31,6 +38,11 @@ one contextual issue/branch/worktree/PR, and concise unplanned roadmap outcomes.
 - `b230b36` — fix the first exact-head Codex documentation findings.
 - `2157719` — refresh graph labels after the first review.
 - `c795c86` — fix the remaining exact-head graph-label and locked-entrypoint findings.
+- `c5a5d78` — finalize the second-candidate review record.
+- `ca08e18` — refresh the graph for the third coherent review candidate.
+- `705897b` — restore concise GSD machine routing.
+- The trailing graph-only commit rebuilds the community map wholesale after this final
+  semantic artifact stabilizes; it is the PR head requested for final reviews.
 
 ## Validation
 
@@ -39,6 +51,6 @@ one contextual issue/branch/worktree/PR, and concise unplanned roadmap outcomes.
 - Exact deletion, preservation, source/lock non-change, state-budget, plan-budget, and
   Graphify stale-node assertions are recorded in `00-VERIFICATION.md`.
 
-The initial and second-candidate GitHub Codex findings were fixed in the branch. Fresh
-same-head GitHub Codex, substantive CodeRabbit, required CI, and final exact-head
+The human authorized one recovery candidate after the three-candidate circuit breaker.
+Fresh same-head GitHub Codex, substantive CodeRabbit, required CI, and final exact-head
 validation remain PR merge gates, not duplicated repository receipts.
