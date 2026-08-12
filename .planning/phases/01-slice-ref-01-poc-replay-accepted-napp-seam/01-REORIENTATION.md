@@ -54,7 +54,7 @@ freezes one exact candidate; A5 is a mandatory twelve-lane non-implementation st
 
 | Tool | Observed version | Executable SHA-256 / note |
 |---|---|---|
-| managed Codex | `0.147.0` | `134063e133f0b4244fa3b251acf973d4fe4b4aeeacbdc135211bf480f59f1477` |
+| managed Codex | `/home/at/.bun/bin/codex`; `codex-cli 0.147.0` | `134063e133f0b4244fa3b251acf973d4fe4b4aeeacbdc135211bf480f59f1477` |
 | bare `codex` on PATH | `0.92.0` | `57015466038e5af95bc1d3df371fddf12ac441bd336edd9871c3613599ba2b92` |
 | GSD core | `1.8.0` | VERSION file `6754fcea32b88564b0879ceb065063ff5c69d08e65a6046a9f07edb5b324d3e9` |
 | GSD full help | installed | `d2bc66716d6adb43da9b4402b23500851ab64fe439f7e2c44766130d958d5290` |

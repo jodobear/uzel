@@ -352,12 +352,17 @@ repo_root="$(git rev-parse --show-toplevel)"
 test "$(realpath "$repo_root")" = "$(realpath "$PWD")"
 test "$(git branch --show-current)" = "$expected_branch"
 test -z "$(git status --porcelain)"
-codex --version
+managed_codex=/home/at/.bun/bin/codex
+managed_codex_sha256=134063e133f0b4244fa3b251acf973d4fe4b4aeeacbdc135211bf480f59f1477
+test -x "$managed_codex"
+test "$(sha256sum "$managed_codex" | cut -d ' ' -f1)" = "$managed_codex_sha256"
+test "$("$managed_codex" --version 2>&amp;1 | tail -n 1)" = "codex-cli 0.147.0"
 ```
 
 Do not infer skill discovery or hook support from a remembered Codex version floor.
-Record the actual Codex, GSD, CodeRabbit, Rust, Node and Nix versions plus installed-help
-output; record the exact guide repository/path/revision/date when a minimum version is
+Record the managed Codex absolute path, version, executable SHA-256 and installed help in
+the frozen evidence before invoking it. Record the actual GSD, CodeRabbit, Rust, Node and
+Nix versions plus installed-help output; record the exact guide repository/path/revision/date when a minimum version is
 cited. Probe required skill discovery and hook behavior directly. Freeze this
 orchestration/toolchain profile for Phase 1; do not update it during planning, execution
 or review. Current installed help, capability probes and the phase pin remain authoritative

@@ -71,10 +71,34 @@ text plus the historical summary path were corrected.
 - Pack manifest, checksums and canonical audit report were regenerated. The original
   `00-GSD-INGEST.md` remains byte-identical at its recorded SHA-256.
 
+## Cycle 3
+
+- Local CodeRabbit CLI `0.7.2` reviewed the immutable committed diff from the same base
+  through `79cfa9e8a0be8e4e53649ada24bd92f3d5c2b67a` and completed with twenty-one
+  findings: one critical and twenty major.
+- Twenty findings were accepted for manual correction. Validators now cover safe archive
+  manifest parsing, exact replay-claim coverage, honest absent package/workflow operations,
+  measured-or-explicitly-unmeasured resources, real Git citation/blob/range resolution,
+  parsed architecture cross-links, local-versus-remote review identities, alias-aware
+  command inventory, pre-finding rate-limit semantics, finalized ledger identity, positive
+  and negative negotiation taxonomy, independent installed-RCP reads, internal-to-public
+  provenance/redaction, exact evidence-set source/exclusion fields, allowlisted transition
+  packet eligibility, immutable review receipts, and mechanically checked 210-second polls.
+- The remaining finding requested a `candidate_head` or `final_review_head` naming this
+  review record's complete containing commit. It is rejected as a Git self-reference: any
+  commit that inserts its own prospective SHA changes that SHA. Exact candidate/final review
+  heads remain external PR review evidence; this record may name only already-existing
+  historical reviewed heads.
+- The managed Codex preflight now resolves `/home/at/.bun/bin/codex` by absolute path and
+  verifies `codex-cli 0.147.0` plus executable SHA-256 before freezing the tool profile.
+- This was the third review cycle. Per the committed three-cycle ceiling, further automated
+  CodeRabbit looping requires an explicit manual programme decision; Phase 1 remains blocked
+  until the final exact-head review contract is satisfied.
+
 ## Current gate
 
-Run independent plan checking, commit and push the complete corrected plan set, retry
-local CodeRabbit on that exact head, then request GitHub Codex review of the same SHA.
-The final review result remains
-on GitHub so recording it cannot invalidate the reviewed commit. Phase 1 remains
-unapproved until that review is green and the human execution gate is explicit.
+Run independent plan checking and commit/push the complete manually corrected plan set.
+Do not begin a fourth automatic CodeRabbit cycle: the programme ceiling requires an explicit
+manual decision. The final exact-head result stays external on GitHub so recording it cannot
+invalidate the reviewed commit. Phase 1 remains unapproved until the approved exact-head
+review path is satisfied and the human execution gate is explicit.
