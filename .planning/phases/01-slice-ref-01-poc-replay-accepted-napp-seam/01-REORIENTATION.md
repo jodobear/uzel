@@ -77,14 +77,21 @@ Revalidated live on 2026-08-12 before correcting the execution plans:
 |---|---|---|
 | WIP commit | `b185ad1b8d9d034d151406b12aa189f5a6be970f`, tree `0e5635a6c2a843438b418de51b3f1240d6d4f52f` | repository object database |
 | Parent | `431e37af5ca86196dbaf08a534a0a7626c4ae32c`, tree `54aebc9bbcdacbc44581ee5b9ead0b62e285c68f` | repository object database |
+| Parent-to-WIP binary diff | SHA-256 `47f2036a0dfd1a0fae699d5ec3be3be5d8d81a56c5673c0d591afe58490dfb6b`; exact added-path set is the four rows below | reproducible from the two commits |
+| Raw replay evidence | `evidence/phase-01/replay-evidence.jsonl`; blob `95835ccba37d7aae5d45273813babcb332866e3a`; SHA-256 `71623dbf4d34f9491d070cdd13b332801ce519d574d5603c5334750bc5800af6` | WIP commit/bundle |
+| Replay manifest and fixed assumptions | `evidence/phase-01/replay-manifest.json`; blob `34d50ef45ea6b43ede7e0872130f65e9ace3cdb2`; SHA-256 `f631b56358083c9481506ff3dc89ccd7373391da7e0cd926a3ec01e12464938b` | WIP commit/bundle |
+| Replay harness | `scripts/phase-01-replay.sh`; blob `e543e4125794eae59722ddf12935fa7b8f3cfd8a`; SHA-256 `469af9c3423c61263887979df70b2588678161c2757b6ad61f669ed5cac6f1d4` | WIP commit/bundle |
+| Replay validator/test contract | `scripts/ref-replay-check.py`; blob `1473a55e15fd868f5eb356056ff80460996bbf91`; SHA-256 `9b02b950852e76d9e9bbf6c53718a371ba82e9c1c4f65f2d6166625eb4668eac` | WIP commit/bundle |
 | Safety ref | `refs/heads/wip/phase-1-replay-b185ad1` resolves to the WIP commit | repository refs |
 | Blocked worktree | branch `refs/heads/gsd/phase-01-plan-01-replay`, HEAD WIP commit, zero staged/unstaged/untracked paths | `/tmp/uzel-01-01-3qGzwY` |
 | Bundle | SHA-256 `2690ff85ed2d561af3592833d6741b92e7cedfb0afdf343db1d140bfde0cba37`; `git bundle verify` reports complete history and the safety ref | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-b185ad1/b185ad1.bundle` |
 | Metadata | SHA-256 `879f4185d74a33f935ff35464f7bea7215326bfb0d38603edf4b5731136899db` | same archive directory |
 | Checksum manifest | SHA-256 `5feb3508a3f93029c04dbd45f384f27b37e2400a5cd9493f41141bab041b5812` | same archive directory `SHA256SUMS` |
 
-Paths are observations, not portable authority. Plan `01-01` resolves Git objects by
-object/ref identity and the blocked worktree by registered branch plus HEAD. The execution
+Paths are observations, not portable authority. The parent-to-WIP change must resolve to
+exactly the four named artifact paths with the recorded blob and byte SHA-256 identities;
+the bundle preserves their bytes, while the metadata records the incident and locators.
+Plan `01-01` resolves Git objects by object/ref identity and the blocked worktree by registered branch plus HEAD. The execution
 operator must set `UZEL_INCIDENT_ARCHIVE_DIR` to the restored/readable directory containing
 the three archive files above; the observed directory is a valid current value. If the
 registered original worktree or any archive file is absent, ambiguous, dirty, or has a
@@ -112,7 +119,9 @@ and current package verdicts.
 - Current Nix/native installable outputs require live inventory; absent outputs must be
   reported `not_yet_packaged`, with full package acceptance assigned to Phase 2.
 - The earlier external Napp candidate stop was stale research from a superseded product
-  model. Current v4 authority contains no Napp-candidate entry condition: Uzel owns the
+  model. In particular, `01-RESEARCH.md`'s local D-01 through D-03 exact-candidate gate,
+  Napp-runtime-authority rule, and REF-01D blocker are historical evidence, not active
+  decisions. Current v4 authority contains no Napp-candidate entry condition: Uzel owns the
   product shell and product-service semantics, runtime mediation owns guest/runtime truth,
   and the exact-pinned canonical engine/provider owns its protocol semantics behind Uzel's
   narrow private adapter. Any absent provider seam blocks only its owning capability; it

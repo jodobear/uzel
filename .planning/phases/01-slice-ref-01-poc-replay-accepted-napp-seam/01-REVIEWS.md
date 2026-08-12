@@ -33,9 +33,9 @@ attempt and GitHub Codex review.
 | Remove superseded Napp blocker | Handoff/reorientation/current plans now follow v4 Uzel shell/product-service/runtime/engine ownership; no external Napp candidate gates Phase 1. |
 | Point authority tracer at real owners | Plan 03 now uses Graphify-located `apps/uzel*`, `crates/napd*`, `contracts`, `napplets` and current checker paths. |
 | Use one CodeRabbit rate-limit enum | Review contracts and verifier use `rate_limit` consistently. |
-| Execute plans sequentially | Plans now form six ordered waves: `01-01` through `01-06`; Plan 06 isolates transition review/decision closeout from Plan 05's compatibility closure. |
-| Reject Phase 2 while blockers remain | Plan 06 now generates a complete fail-closed transition packet; approval is unavailable with missing, stale or unresolved blocker/replacement evidence. |
-| Review final execution evidence | Plan 06 now separates immutable evidence commit E, reviewed packet candidate P, human decision, and final decision/SUMMARY exact-PR-SHA review without self-reference. |
+| Execute plans sequentially | Plans now form seven ordered waves: `01-01` through `01-07`; Plans 06-07 isolate executor-real E then P/review/decision closeout from Plan 05 compatibility closure. |
+| Reject Phase 2 while blockers remain | Plan 07 generates complete fail-closed packet; approve is unavailable with missing, stale or unresolved blocker/replacement evidence, while hold is immediate. |
+| Review final execution evidence | Plan 06 ends with normal Task-2 commit E; Plan 07 ends Task 1 with normal commit P, then separates human decision and later decision/SUMMARY exact-PR-SHA review without self-reference. |
 
 During convergence, an additional internal audit found and corrected three review-path
 defects: GitHub Codex plan review now precedes execution; all review stage SHAs must equal
@@ -48,12 +48,33 @@ with five sequential waves and v4 Uzel ownership. The stale historical
 `01-04-SUMMARY.md` was archived so GSD cannot mistake revised Plan 04 for completed work.
 A follow-up checker pass caught three more execution defects: runbook review timing was
 aligned to the complete E/P candidate; oversized five-task Plan 05 was split into bounded
-Plan 05 compatibility closure and Plan 06 transition closeout; and stale roadmap progress
+Plan 05 compatibility closure, Plan 06 evidence freeze, and Plan 07 transition closeout; and stale roadmap progress
 text plus the historical summary path were corrected.
+
+## Cycle 2
+
+- Local CodeRabbit CLI `0.7.2` reviewed the immutable committed diff from
+  `21d3a0cbe5306cf6bf1943aba18cef77ed34ba37` through
+  `6333179c436a69e5b2397489afab04a0bce4c0b7` and completed with twenty findings:
+  nineteen major and one minor. All were accepted; none was waived.
+- The batch correction makes every evidence validator non-vacuous and schema-bound:
+  preserved incident paths/blob/content/diff identities and replay-attempt count; package
+  verdict-specific outputs; command/measurement/workflow bindings; source citation and
+  architecture/threat/storage cross-links; tool/command/reviewer evidence; per-upstream
+  lifecycle and per-queue pressure controls; distinct source versus packaged RCP hashes;
+  public redaction schema; exact transition-manifest coverage; and separate packet-candidate
+  versus final-PR SHAs.
+- Resume/history text now names seven plans and seven waves, marks the earlier summary and Napp
+  research model non-authoritative, and states the current Uzel/provider ownership rule.
+  Pack review language now names only local CodeRabbit plus GitHub Codex and commits the
+  complete closeout candidate before either exact-SHA review.
+- Pack manifest, checksums and canonical audit report were regenerated. The original
+  `00-GSD-INGEST.md` remains byte-identical at its recorded SHA-256.
 
 ## Current gate
 
-Commit and push the complete corrected plan set, retry local CodeRabbit on that exact
-head, then request GitHub Codex review of the same SHA. The final review result remains
+Run independent plan checking, commit and push the complete corrected plan set, retry
+local CodeRabbit on that exact head, then request GitHub Codex review of the same SHA.
+The final review result remains
 on GitHub so recording it cannot invalidate the reviewed commit. Phase 1 remains
 unapproved until that review is green and the human execution gate is explicit.

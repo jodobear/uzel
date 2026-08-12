@@ -4,6 +4,16 @@
 **Domain:** Brownfield Linux POC preservation, evidence admission, and fail-closed Napp qualification
 **Confidence:** MEDIUM
 
+> **Superseded research snapshot:** This file records the pre-v4 research model and is
+> retained only as brownfield evidence. Its local D-01 through D-18 labels are not the
+> authoritative v4 decision IDs. Every statement below that makes an exact Napp candidate
+> a Phase-1 entry gate, assigns Napp runtime authority, or blocks REF-01D on candidate
+> absence is superseded. Current v4 authority has one rule: an absent provider seam blocks
+> only its owning capability, not the Phase-1 baseline. Uzel owns the product shell and
+> product-service semantics; runtime mediation owns guest/runtime truth; the exact-pinned
+> canonical engine/provider owns its protocol semantics behind Uzel's narrow private adapter.
+> Active plans, `01-CONTEXT.md`, and `01-REORIENTATION.md` control execution.
+
 <user_constraints>
 ## User Constraints (from CONTEXT.md)
 

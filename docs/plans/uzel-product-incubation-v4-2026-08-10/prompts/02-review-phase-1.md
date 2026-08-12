@@ -1,8 +1,9 @@
 # Prompt — review revised Phase 1 plans
 
 Review the generated Uzel Phase 1 plans against the exact repository and v4 baseline
-contract. Attempt local CodeRabbit over the immutable local diff, then use GitHub Codex
-over the exact pushed PR SHA. Record CodeRabbit CLI/version/result, GitHub Codex review
+contract. Commit the complete candidate, attempt local CodeRabbit over the immutable
+committed diff ending at that SHA, then push it unchanged and use GitHub Codex over the
+same exact PR SHA. Record CodeRabbit CLI/version/result, GitHub Codex review
 identity, base/head SHAs, prompt digest, commands/requests and full findings. If local
 CodeRabbit returns a recorded `rate_limit` error before findings, green GitHub Codex is
 the approved fallback and permits continuation. No other CodeRabbit failure does.

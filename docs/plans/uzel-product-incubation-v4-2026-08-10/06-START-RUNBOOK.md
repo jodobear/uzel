@@ -478,8 +478,9 @@ Run the CodeRabbit diff review:
 $gsd-review --phase 1 --coderabbit
 ```
 
-Run CodeRabbit locally over the immutable plan diff, then push/open the plan PR and ask
-GitHub Codex to review the exact PR SHA against the complete
+Commit the complete plan-review candidate first and record its SHA. Run CodeRabbit locally
+over the immutable committed plan diff ending at that SHA, then push/open the plan PR
+without changing it and ask GitHub Codex to review the same exact PR SHA against the complete
 `prompts/02-review-phase-1.md`. Record CodeRabbit CLI/version/result, GitHub Codex review
 identity, base/head SHAs, prompt digest, commands/requests and full findings. If
 CodeRabbit returns `rate_limit` before findings, record that output and continue to
@@ -487,7 +488,8 @@ GitHub Codex; green GitHub Codex satisfies the gate. No other CodeRabbit failure
 fallback. Do not use Claude, OpenCode, remote CodeRabbit or local Codex self-review.
 
 When a Critical/High or blocking Medium finding exists, or an accepted finding changes
-plan semantics:
+plan semantics, apply the batch, rerun plan/audit gates, commit a new complete candidate,
+and restart both approved reviewer stages on that new SHA:
 
 ```text
 $gsd-plan-phase 1 --reviews
@@ -532,16 +534,18 @@ $gsd-verify-work 1
 $gsd-progress --forensic
 ```
 
-Before presenting the Phase-2 transition choice, complete Plan `01-06` Task 1's
-non-self-referential protocol: commit the immutable evidence set and public projection as
-E; generate the complete fail-closed transition packet against E; commit only that packet
-as P; attempt local CodeRabbit on exact P; push P; then require green GitHub Codex on P.
+Complete Plan `01-06` first: commit the immutable evidence set, exact manifest, and public
+projection as E under ordinary task-atomic commits. Plan `01-07` then generates the complete
+fail-closed transition packet against exact E and commits only that packet as P. A human may
+select `hold-phase-1` immediately after P validates. Before `approve-phase-2` may be offered,
+attempt local CodeRabbit on exact P, push P unchanged, and require green GitHub Codex on P.
 Recorded CodeRabbit `rate_limit` before findings activates the same approved fallback as
 plan review. Any finding-driven commit or change to E, packet inputs, packet, profile,
 indexes or evidence restarts E/P generation and review.
 
-Only after that evidence-candidate review is green may a human inspect separate verdicts
-for historical replay, current-source
+The human may inspect the evidence and choose hold without waiting for external review.
+Only after the evidence-candidate review is green may the human choose approve. Present
+separate verdicts for historical replay, current-source
 replacement invariants, current Nix/native baseline plus any `not_yet_packaged` Phase 2
 gate, `b185ad1`, authority/schema/threat
 baseline, the exact compatibility profile and manifest/build-identity interpretation,
@@ -549,7 +553,7 @@ upstream/local-patch/maturity/knowledge baselines, CI/review measurements and
 unresolved/retired claims. Do not cross this gate
 with an automatic next command.
 
-After the human decision record and `01-06-SUMMARY.md` are committed, attempt local
+After the human decision record and `01-07-SUMMARY.md` are committed, attempt local
 CodeRabbit again, push the new exact SHA, and require green GitHub Codex before merge or
 before an `approve-phase-2` decision becomes effective. This final review may not mutate
 the already reviewed evidence paths; any such mutation invalidates transition eligibility

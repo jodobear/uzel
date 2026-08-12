@@ -10,7 +10,7 @@
     "Preserved the blocked replay commit, worktree, safety ref and checksummed archive",
     "Recorded installed tool versions and supported command forms",
     "Completed GSD onboarding and reclaimed shared tmp capacity without removing source or active worktrees",
-    "Created six revised Phase 1 plans as a strictly ordered six-wave chain from the digest-bound ADR projection",
+    "Created seven revised Phase 1 plans as a strictly ordered seven-wave chain from the digest-bound ADR projection",
     "Revalidated the preserved replay commit, parent, safety ref, clean registered worktree and checksummed portable bundle at the reviewed plan head",
     "Removed the stale external Napp-candidate stop; v4 authority assigns current Phase 1 ownership to Uzel components and exact-pinned upstream/provider seams",
     "Passed GSD plan-structure, 31-of-31 decision coverage and independent internal plan-checker validation"

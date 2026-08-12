@@ -720,7 +720,7 @@ unreviewed issue prose. Index generation and visibility-leak fixtures run in CI.
 
 ## External-review data boundary
 
-Local CodeRabbit and Codex/GitHub review may receive source, plan and
+Local CodeRabbit and GitHub Codex review may receive source, plan and
 test context. Treat that as an explicit outbound data flow:
 
 - use only owner-approved reviewer tools, accounts and endpoints;
@@ -739,18 +739,19 @@ For implementation PRs:
 
 1. implement in the issue-owned branch/worktree;
 2. run focused local tests, lint and relevant package smoke;
-3. run local CodeRabbit CLI and batch-fix valid findings, or record its `rate_limit`
-   result before findings;
-4. perform phase closeout: update affected ledgers/ADRs/spec/upstream/learning records,
+3. perform phase closeout: update affected ledgers/ADRs/spec/upstream/learning records,
    visibility/embargo and contradiction checks, then rerun affected gates;
-5. for a milestone-ending phase, prepare the bounded milestone learning digest;
-6. push/open the draft contextual PR;
-7. request GitHub Codex review on the exact candidate SHA;
-8. batch-fix valid findings and rerun local gates plus a local CodeRabbit attempt;
-9. request GitHub Codex again on the new exact SHA when any commit followed its review;
-10. run/confirm required CI and package evidence;
-11. verify the exact GSD delivery-phase/contextual-issue acceptance;
-12. merge.
+4. for a milestone-ending phase, prepare the bounded milestone learning digest;
+5. commit the complete candidate and record its exact SHA;
+6. run local CodeRabbit CLI against the immutable committed diff ending at that SHA,
+   batch-fixing valid findings or recording its `rate_limit` result before findings;
+7. push/open the draft contextual PR without changing that candidate SHA;
+8. request GitHub Codex review on the same exact candidate SHA;
+9. record both reviewer results against that SHA in external review evidence;
+10. when either review produces a valid finding, fix it, rerun affected local gates and
+    closeout checks, commit a new complete candidate, and restart at step 5;
+11. run/confirm required CI and package evidence, verify the exact GSD
+    delivery-phase/contextual-issue acceptance, then merge the unchanged reviewed SHA.
 
 GitHub Codex and local CodeRabbit do not review a moving SHA. Any commit invalidates
 review evidence and starts a new normal or CodeRabbit-rate-limit fallback path. This

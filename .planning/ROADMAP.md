@@ -68,7 +68,7 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 **Depends on:** Nothing; this is the brownfield incident-recovery phase.
 **Requirements:** M0-01, M0-02, M0-03, M0-04, M0-05
 **Execution gate:** Revised plans must pass Prompt 02 review before implementation; a recorded CodeRabbit rate limit permits green GitHub Codex to satisfy the review gate.
-**Plans:** 6 active plans across 6 strictly ordered waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
+**Plans:** 7 active plans across 7 strictly ordered waves. Five `*-PLAN.superseded.md` files remain non-executable evidence.
 
 **Wave 1**
 
@@ -92,7 +92,11 @@ This file is the live GSD roadmap. The committed v4 pack supplies the durable de
 
 **Wave 6** *(blocked on Wave 5 completion)*
 
-- [ ] `01-06-PLAN.md` — build/review the fail-closed transition packet, stop for the human decision, and preserve the final-SHA closeout gate.
+- [ ] `01-06-PLAN.md` — generate public projection and freeze immutable evidence commit E through normal task commits.
+
+**Wave 7** *(blocked on Wave 6 completion)*
+
+- [ ] `01-07-PLAN.md` — commit packet candidate P, stop for immediate hold or exact-P-review-gated approve, and preserve later final-SHA gate.
 
 **Execution gate:** These plans are not authorized for implementation until the exact
 plan head passes `prompts/02-review-phase-1.md` review, including the explicit CodeRabbit-rate-limit/GitHub-Codex fallback when needed, and the human
@@ -350,7 +354,7 @@ explicit human decision before any next programme.
 
 ## Progress
 
-All 34 active phases are pending. Phase 1 has six revised executable plans, but execution
+All 34 active phases are pending. Phase 1 has seven revised executable plans, but execution
 remains forbidden until exact-head Prompt-02 review is green and the human explicitly
 approves. Historical `01-04-SUMMARY.superseded.md` remains accepted incident evidence but
 does not count as completion of the revised phase.

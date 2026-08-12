@@ -43,6 +43,10 @@ completed: 2026-08-09
 status: complete
 ---
 
+# Historical superseded Plan 04 record — non-authoritative
+
+This archived record describes an earlier Napp-qualification experiment only. It is not an active Phase-1 plan, does not satisfy any current Phase-1 gate, does not authorize REF-01D, and must not be used as current Napp ownership, candidate, review, or transition evidence. The Napp handoff below is historical context only; current v4 authority is the active seven-plan chain and its explicit Plan-07 transition closeout gate.
+
 # Phase 01 Plan 04: Napp Qualification and Handoff Summary
 
 **One exact reachable Napp commit is recorded as an evidence-backed stop, with a machine-checkable dependency handoff instead of an invented adapter.**
