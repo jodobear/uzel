@@ -26,6 +26,9 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
   verified byte-identical after reinstall.
 - Filed Graphify numeric-label reclustering instability as backlog issue
   [#39](https://github.com/jodobear/uzel/issues/39).
+- Corrected the review circuit breaker: candidate count signals possible non-convergence
+  but only a repeated material root cause, conflicting reviewer requirements, or no safe
+  disposition requires human judgment.
 
 ## Commits
 
@@ -43,6 +46,8 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
 - `705897b` — restore concise GSD machine routing.
 - The trailing graph-only commit rebuilds the community map wholesale after this final
   semantic artifact stabilizes; it is the PR head requested for final reviews.
+- Candidate 5 advances the minimal state pointer to the remaining review, validation,
+  merge/close, and Phase 1 work; its trailing graph-only commit refreshes canonical output.
 
 ## Validation
 
@@ -51,6 +56,5 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
 - Exact deletion, preservation, source/lock non-change, state-budget, plan-budget, and
   Graphify stale-node assertions are recorded in `00-VERIFICATION.md`.
 
-The human authorized one recovery candidate after the three-candidate circuit breaker.
 Fresh same-head GitHub Codex, substantive CodeRabbit, required CI, and final exact-head
 validation remain PR merge gates, not duplicated repository receipts.

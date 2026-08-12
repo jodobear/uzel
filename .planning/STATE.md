@@ -7,7 +7,7 @@ total_plans_in_phase: 1
 status: review
 progress: 90
 last_activity: 2026-08-13
-last_activity_desc: Recovery candidate authorized after review circuit breaker
+last_activity_desc: Candidate 5 mechanical process correction in review
 ---
 
 # Current execution
@@ -17,4 +17,4 @@ last_activity_desc: Recovery candidate authorized after review circuit breaker
 - Branch/worktree: `chore/lean-process-reset` at `/tmp/uzel-lean-reset`
 - PR: [#38](https://github.com/jodobear/uzel/pull/38)
 - Blocker: none
-- Next action: validate machine routing, rebuild Graphify labels, then reacquire exact-head reviews
+- Next action: obtain exact-head Codex and substantive CodeRabbit approval, run final affected validation, merge and close, then start Phase 1

@@ -67,13 +67,16 @@ Every finding is either `FIXED-NOW` with code/test evidence or
 `DEFERRED-TO-BACKLOG` in a GitHub issue. A deferred item records reviewer and URL, reviewed
 SHA, severity, file/line when applicable, deferral reason, current impact, owner, target
 phase, revisit trigger, and observable acceptance criterion. Even disputed findings enter
-the backlog as `revalidate` until closed with source/runtime evidence. P0/P1 security,
-correctness, data-loss, privacy, or authority findings block merge. No item may outlive its
-target phase; audit all remaining backlog before milestone completion.
+the backlog as `revalidate` until closed with source/runtime evidence. P0/P1 findings and
+acceptance-breaking findings block merge. Safe non-blocking P2/P3 findings may be deferred
+only through the complete backlog contract above. No item may outlive its target phase;
+audit all remaining backlog before milestone completion.
 
-After three coherent review candidates without convergence, stop requesting review and
-ask for human judgment with repeated/new findings and the likely scope, authority,
-architecture, tooling, or reviewer-disagreement cause.
+Candidate count is a diagnostic signal, not an automatic stop. Continue fixing new,
+isolated valid findings coherently. Stop review cycling only when the same material root
+cause remains unresolved across cycles, reviewer requirements materially conflict, or no
+safe autonomous disposition exists. Report the repeated evidence, conflict, or missing
+disposition path when requesting human judgment.
 
 ## Human gates and preservation
 

@@ -15,6 +15,7 @@
 | Canonical graph current | Persisted labels from deleted v4 sources removed; final `graphify update .` follows stabilized closeout docs | PASS |
 | Graphify defect traceable | Issue [#39](https://github.com/jodobear/uzel/issues/39) records reviewer URL, SHA, P1 severity, impact, ownership, revisit trigger, and acceptance | PASS |
 | GSD agent bake current | Official GSD 1.10.0 global Codex reinstall completed; `init progress` emits no stale-bake warning and model policy was not edited | PASS |
+| Review circuit breaker | Candidate count is diagnostic; only repeated material root cause, conflicting requirements, or no safe disposition stops autonomous review work | PASS |
 
 ## Local gate
 
