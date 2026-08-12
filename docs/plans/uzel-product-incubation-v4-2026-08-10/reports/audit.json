@@ -6,16 +6,16 @@
     "mermaid_diagrams": 22,
     "payload_files": 34,
     "warnings": 0,
-    "words": 53075
+    "words": 53097
   },
   "errors": [],
   "markdown_files": [
     {
-      "bytes": 13259,
+      "bytes": 13696,
       "mermaid": 0,
       "path": "00-GSD-INGEST-ADR.md",
-      "sha256": "592cc7e54bc487ead0323ec1b22987af1281c65323c750f17c3ad3cb5949c22b",
-      "words": 1634
+      "sha256": "24f441941df5d4da46d173bf8b4e3c7522cd3a148409a565f5bb7ef25d5bdd3a",
+      "words": 1699
     },
     {
       "bytes": 17339,
@@ -46,11 +46,11 @@
       "words": 6491
     },
     {
-      "bytes": 38395,
+      "bytes": 37924,
       "mermaid": 2,
       "path": "04-DELIVERY-QUALITY.md",
-      "sha256": "3b64084015b6c2282e3ebacbe96db438a90cfbff9082ff5b4e652fdf68f3a82f",
-      "words": 4965
+      "sha256": "da79c6aececeed0f1d67c280fbb6d59ce385344b25f70b4ce3dc85222a2031f7",
+      "words": 4898
     },
     {
       "bytes": 39700,
@@ -60,11 +60,11 @@
       "words": 4916
     },
     {
-      "bytes": 24139,
+      "bytes": 24240,
       "mermaid": 0,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "f0fe8dad2a30239033594742fc7eacc5a1d39acea473a6d767f184fec674cbe9",
-      "words": 3012
+      "sha256": "4283eca1a0260279130ccebe571690874dddf1764704796fd1462b9abf3c74b8",
+      "words": 3028
     },
     {
       "bytes": 25988,
@@ -109,11 +109,11 @@
       "words": 553
     },
     {
-      "bytes": 4367,
+      "bytes": 4400,
       "mermaid": 0,
       "path": "prompts/02-review-phase-1.md",
-      "sha256": "df29e3ea5f2a295c4d15c1239bf1a0c55810389bf565fcfd9ff5a4fa0db6c7bc",
-      "words": 598
+      "sha256": "ef8e940c4afbd380c7a20db7e9a1712dfc7e5d86219fa4a2a2297435caf05807",
+      "words": 606
     },
     {
       "bytes": 3255,

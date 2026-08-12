@@ -89,9 +89,9 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
 - After M0, every listed integer or decimal phase is one contextual issue, one manual
   worktree/branch and one primary PR.
 - GSD automatic worktrees and automatic advancement are disabled under Codex.
-- Plans are independently reviewed before execution; implementation review is serial:
-  local CodeRabbit, remote Codex, remote CodeRabbit, final Codex on the final material
-  SHA, then required CI/verification and merge.
+- Plans are reviewed before execution using local CodeRabbit on an immutable diff,
+  followed by GitHub Codex on the exact pushed PR SHA. Any later commit invalidates both
+  stages and restarts that chain before required CI/verification and merge.
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
 

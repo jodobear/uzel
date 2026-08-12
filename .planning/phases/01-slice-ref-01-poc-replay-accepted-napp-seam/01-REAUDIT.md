@@ -75,7 +75,7 @@
 | Rust/TS CI latency / duplicate gates | Separate evidence realities are necessary: deterministic Chromium does not replace Weston/WebKit; package proof does not replace unit checks. | 5 | Deduplicate orchestration, not distinct evidence. |
 | Rust/TS CI latency / duplicate gates | Proposed `GSD_RUNBOOK.md` says CI/review are delivery-phase tasks while roadmap has a CI phase. Read literally, this conflicts. | 4 | Phase 3 owns shared workflow/aggregator implementation and measurement. Each feature phase still owns its applicable checks/reviews; no separate ceremony phase per PR. |
 | Contextual issue to PR scope | Installed issue/PR templates and issue process specify one issue/one outcome, but they are uncommitted and unenforced. | 1 | Before implementation, adopt/commit the selected product docs/templates or explicitly replace them. Each plan maps to one repository-qualified issue and bounded PR. |
-| Review flow | Proposed workflow already limits review to full local CodeRabbit, semantic Codex, and final GitHub CodeRabbit, with no-change and retry-once rules. | 5 | Use once per immutable semantic candidate; rerun only when material inputs change. Phase 1 planning/docs need no AI-review loop. |
+| Review flow | Owner direction limits review to local CodeRabbit followed by GitHub Codex on the exact pushed PR SHA. | 5 | Use both once per immutable candidate; any later commit invalidates both. Phase 1 implementation stays blocked until both plan-review stages pass. |
 | Review flow | No committed workflow/evidence implementation currently binds reviews and required checks to exact head/merge-group SHA. | 3 | Phase 3 owns enforcement. Do not block POC evidence capture on future GitHub automation. |
 | GSD/Mosaico handoffs/context | Current phase context repeats a large programme library and previously treated all Phase 1 work as blocked by Napp. | 4 | Handoffs should contain exact heads, issue, decisions, evidence paths, blocker, and next probe only. Reference canonical docs; do not copy full packs into prompts. |
 | Migration/rollback/restart/cancel | Existing POC has typed ambiguous outcomes, replay cache, cancellation, cleanup, identity rollback, restart reconciliation, and bounded state. | 5 | Preserve tests and idempotent cleanup. |
@@ -146,8 +146,8 @@ their own later slices, even if research runs concurrently.
 - Clean-checkout cold/warm start, first-frame, RSS, WebView memory, Nix materialization,
   and resource-pressure measurements on named hardware/toolchain.
 - Debian 13 interactive visible acceptance for merged rich-profile fixtures.
-- Current availability and exact-head semantics of local CodeRabbit, remote Codex,
-  GitHub CodeRabbit, and merge queue before Phase 3 planning.
+- Current availability and exact-head semantics of local CodeRabbit, GitHub Codex,
+  and merge queue before Phase 3 planning.
 - Whether Tauri generated permission metadata can be made checkout-location independent
   without requiring a broad clean.
 

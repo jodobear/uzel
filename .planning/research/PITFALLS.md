@@ -120,15 +120,15 @@
 
 ### Pitfall 8: Review evidence belongs to a stale SHA or unavailable reviewer is treated as approval
 
-**What goes wrong:** Local CodeRabbit, Codex, final CodeRabbit, PR-fast, package preflight, or native result covers an earlier head. A material fix changes behavior after review, a skipped/timeout review is accepted as clean, or GSD is assumed to merge without GitHub merge-group evidence.
+**What goes wrong:** Local CodeRabbit, GitHub Codex, PR-fast, package preflight, or native result covers an earlier head. A later commit changes the candidate after review, a skipped/timeout review is accepted as clean, or GSD is assumed to merge without GitHub merge-group evidence.
 
 **Why it happens:** Batched review deliberately reduces repetition; that economy fails if head/input identity is not recorded. Review services can timeout, and merge queue produces a new merge-group SHA.
 
-**How to avoid:** Bind each evidence record to immutable base/head SHA, scope/classification, commands, result, and expiry condition. Follow local CodeRabbit → PR-fast → Codex → final-head PR-fast → final CodeRabbit; rerun according to material semantic change. Retry unavailable review once, then only maintainer final-head substitute where issue permits. GitHub remains merge authority; merge-group full CI uses locked release derivation.
+**How to avoid:** Bind each evidence record to immutable base/head SHA, scope/classification, commands, result, and expiry condition. Follow local CodeRabbit → push exact PR SHA → GitHub Codex. Any later commit invalidates both reviews. No replacement AI reviewer is permitted. GitHub remains merge authority; merge-group full CI uses locked release derivation.
 
 **Warning signs:** Review links/output omit head SHA; PR updated after final review; test artifact says branch name only; native result runs a checkout binary; reviewer timeout marked pass; merge queue runs no `merge_group` workflow; another PR's result is cited.
 
-**Recovery / stop condition:** Evidence stale, missing, skipped, cancelled, failed, or timed out is not approval. Stop queue entry, update/freeze final head, rerun applicable deterministic tests and final-head reviews, then request merge queue again. A material final CodeRabbit fix returns through Codex before another final CodeRabbit; do not loop indefinitely on unavailable service.
+**Recovery / stop condition:** Evidence stale, missing, skipped, cancelled, failed, or timed out is not approval. Stop queue entry, update/freeze final head, rerun applicable deterministic tests and local CodeRabbit, then request GitHub Codex again on the new exact SHA. Do not substitute another reviewer or loop indefinitely on an unavailable service.
 
 **Phase to address:** `SLICE-CI-01` evidence schema and aggregator; apply to every slice PR and M0 acceptance.
 
@@ -189,7 +189,7 @@
 - [ ] **Social Home:** Local profile/follows/feed remain visible through stale, partial, refreshing, blocked and restart paths — verify fixture state transitions and visible acceptance.
 - [ ] **Trusted composition:** Host/security change preserves exact source mapping, no native/raw-network bridge, CSP/navigation denial — verify hostile real Weston/WebKit, not Chromium mock alone.
 - [ ] **Lean CI:** Required aggregator observed every classified lane on exact PR and merge-group heads — verify deliberate docs, frontend, contract, host/security, lock and unknown-path fixtures.
-- [ ] **Review:** Local CodeRabbit, Codex, final CodeRabbit and applicable CI cite final head SHA — verify stale-evidence invalidation after material change.
+- [ ] **Review:** Local CodeRabbit, GitHub Codex and applicable CI cite final head SHA — verify both reviews invalidate after any later commit.
 
 ## Recovery Strategies
 

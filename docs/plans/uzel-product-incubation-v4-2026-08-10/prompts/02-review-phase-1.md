@@ -1,12 +1,12 @@
-# Prompt — independently review revised Phase 1 plans
+# Prompt — review revised Phase 1 plans
 
 Review the generated Uzel Phase 1 plans against the exact repository and v4 baseline
-contract. Run CodeRabbit through `$gsd-review --phase 1 --coderabbit` as supplemental
-diff review, then give this complete prompt to a prompt-capable independent reviewer
-against the exact plan head. Record reviewer CLI/model/version, head, prompt digest,
-command and full findings. CodeRabbit's diff-only mode alone does not satisfy this gate;
-stop if the independent reviewer cannot receive every criterion. The primary Codex
-runtime must not self-certify the plan.
+contract using exactly two review lanes: local CodeRabbit over the immutable local diff,
+then GitHub Codex over the exact pushed PR SHA. Record CodeRabbit CLI/version, GitHub
+Codex review identity, base/head SHAs, prompt digest, commands/requests and full findings.
+Claude, OpenCode, remote CodeRabbit and local Codex self-review are not part of this
+programme. Any accepted-finding commit invalidates both review stages and restarts the
+two-stage chain. Stop if either approved lane cannot review every criterion.
 
 Read the v4 ingest, baseline replay and delivery-quality documents; all current Phase 1
 artifacts; exact package-manager/lock/script/Nix/test files; and Git/worktree/evidence

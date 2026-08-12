@@ -6,7 +6,7 @@ Accepted.
 
 ## Context
 
-This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independent authority. Source authority: `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`. Source SHA-256: `098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d`. The source remains byte-identical; this projection exists because GSD 1.10.0 narrative ingest recognizes canonical ADR headings but not the source document's programme-specific headings. Supporting contracts remain `01-BASELINE-REPLAY.md`, `02-PRODUCT-ARCHITECTURE.md`, `03-ROADMAP.md`, `04-DELIVERY-QUALITY.md`, `06-START-RUNBOOK.md`, `07-ECOSYSTEM-UPSTREAM.md`, `08-DECISIONS-LEARNING.md`, and `09-PRODUCTION-MATURITY.md`.
+This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independent authority. Source authority: `docs/plans/uzel-product-incubation-v4-2026-08-10/00-GSD-INGEST.md`. Source SHA-256: `098a50e58cb77b9363fdb8fab769ae1f592b96bd3efcc33e6b34a6a8e5501f6d`. The source remains byte-identical; this projection exists because GSD 1.10.0 narrative ingest recognizes canonical ADR headings but not the source document's programme-specific headings. Supporting contracts remain `01-BASELINE-REPLAY.md`, `02-PRODUCT-ARCHITECTURE.md`, `03-ROADMAP.md`, `04-DELIVERY-QUALITY.md`, `06-START-RUNBOOK.md`, `07-ECOSYSTEM-UPSTREAM.md`, `08-DECISIONS-LEARNING.md`, and `09-PRODUCTION-MATURITY.md`. Owner direction recorded on 2026-08-12 fixes review-tool routing to local CodeRabbit and GitHub Codex only; Claude, OpenCode, remote CodeRabbit and local Codex self-review are not programme review lanes.
 
 ## Decisions
 
@@ -34,13 +34,13 @@ This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independen
 - D-22 — Plan `01-01` owns incident reconciliation, source/tool/lock inventory, bounded exact-closure replay, hostile egress proof, replay verdict, invariant impact table, and evidence-based `b185ad1` disposition; it must not change product behavior, dependencies, historical source, or locks.
 - D-23 — Plan `01-02` owns current Nix/package/native/store-path/user-service/clean-state/instance-path/version-mismatch/SELinux/timing evidence and depends on `01-01` only for current-source claim mapping, not a green historical verdict.
 - D-24 — Plan `01-03` owns source-grounded authority, identity, schema, state, instance/local-profile, trusted-grant, signer, canonical-engine, guest/browser/daemon/OS threat, parked-capability, and product visual/interaction baselines; implemented facts and planned deltas must stay distinct.
-- D-25 — Plan `01-04` owns measured command, CI lane, timing, cache, bottleneck, focused-test, local CodeRabbit, Codex GitHub review, remote CodeRabbit, final Codex review on the final candidate SHA, naming, unsafe, dependency, and artifact-integrity baselines; do not add speculative affected-crate classification before measurements justify it.
+- D-25 — Plan `01-04` owns measured command, CI lane, timing, cache, bottleneck, focused-test, local CodeRabbit and GitHub Codex review on exact candidate SHAs, naming, unsafe, dependency, and artifact-integrity baselines; Claude, OpenCode, remote CodeRabbit and local Codex self-review are excluded, and speculative affected-crate classification waits for measurements.
 - D-26 — Plan `01-05` owns exact source-pin ecosystem verification, immutable upstream registry and compatibility profile, package/profile-hash binding plan, fail-before-guest capability negotiation and transcript vectors, SIR, interop/version-skew matrix, clean-room fixture and independent-peer gate, maturity ledgers, upstream/local-patch records that separate merge/release/Uzel-adoption/patch-removal states, dedicated upstream fork/worktree/contribution-policy process, terminology/decision/learning/education records, admission/fairness baseline, and read-only upstream radar.
 - D-27 — Execute `01-01` through `01-05` sequentially in the human-created Phase 1 worktree with dependencies `01-01 -> 01-02`, `01-01 -> 01-03`, `01-02 + 01-03 -> 01-04`, and `01-03 + 01-04 -> 01-05`; replay may use one separate disposable checkout.
 - D-28 — Preserve `.planning` history, maps, Phase 1 numbering, pause evidence, and integer phases 2 through 7; insert only required decimal phases including 2.7, preserve the exact v4 sequence through 7.9, and do not rerun project creation, milestone creation, onboarding, or mapping absent a separately approved corruption repair.
 - D-29 — Phase 1 planning and execution must not add product features, float/update dependencies, build a broad file/media platform, expose a public API programme, contact upstream, publish external issues/comments/PRs, or claim universal conformance.
 - D-30 — Phase 1 closes only with separate replay and package verdicts, critical-invariant replacement evidence, immutable compatibility-profile/upstream identities, accepted identity/negotiation interpretation, capability/knowledge owners, checkout-independent package evidence or `not_yet_packaged`, measured CI/review evidence, coherent GSD state, and no unresolved blocking review finding.
-- D-31 — Independent Prompt 02 review against exact plan head is mandatory after planning; CodeRabbit is supplemental, primary Codex cannot self-certify, no Phase 1 implementation occurs before review passes, and after reading the Phase 1 evidence matrix a human must explicitly approve Phase 2 before it begins.
+- D-31 — Prompt 02 review against the exact plan head is mandatory after planning: local CodeRabbit reviews the immutable local diff, then GitHub Codex reviews the exact pushed PR SHA; any accepted-finding commit invalidates both stages and restarts that two-stage chain. No other AI reviewer is part of this programme, no Phase 1 implementation occurs before both stages pass, and after reading the Phase 1 evidence matrix a human must explicitly approve Phase 2 before it begins.
 
 ## Out of Scope
 
@@ -67,7 +67,7 @@ This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independen
 - `02-PRODUCT-ARCHITECTURE.md` defines ownership, authority, identity, state, trust, sandbox, and resource boundaries.
 - `03-ROADMAP.md` defines the delivery-phase map through 7.9 and mandatory A5 stop.
 - `04-DELIVERY-QUALITY.md` defines measured CI, review, validation, rollback, and evidence gates.
-- `06-START-RUNBOOK.md` defines worktree, GSD, independent review, execution, verification, and human-stop sequence.
+- `06-START-RUNBOOK.md` defines worktree, GSD, local-CodeRabbit/GitHub-Codex review, execution, verification, and human-stop sequence.
 - `07-ECOSYSTEM-UPSTREAM.md`, `08-DECISIONS-LEARNING.md`, and `09-PRODUCTION-MATURITY.md` define ecosystem, knowledge, terminology, maturity, and upstream records.
 
 ## Implementation Plan
@@ -82,14 +82,14 @@ This file is a parser-facing projection of `00-GSD-INGEST.md`, not an independen
 ## Success Criteria
 
 - Parser returns accepted status, at least 31 stable decision IDs, explicit scope fences, dependencies, plan sequence, and Phase 1 exit criteria with no programme-specific headings silently unmapped.
-- Generated Phase 1 context names both evidence tracks, all five bounded plans, `b185ad1`, immutable profile/registry work, manifest-identity gate, fairness ownership, independent review, and human stop before Phase 2.
+- Generated Phase 1 context names both evidence tracks, all five bounded plans, `b185ad1`, immutable profile/registry work, manifest-identity gate, fairness ownership, the approved two-stage review, and human stop before Phase 2.
 - Plan checker remains enabled and every `M0-01` through `M0-05` requirement plus every trackable decision is covered by an executable plan.
 - Original `00-GSD-INGEST.md` remains byte-identical at the recorded SHA-256.
 - Pack checksum, manifest, structural audit, and independent authority-delta review pass before this projection is used for planning.
 
 ## Risks
 
-- Projection drift could omit or weaken source authority; checksum binding, stable decision IDs, pack audit, and independent review mitigate it.
+- Projection drift could omit or weaken source authority; checksum binding, stable decision IDs, pack audit, local CodeRabbit and GitHub Codex mitigate it.
 - Historical exact closure or platform may be unavailable; honest non-green verdicts and invariant replacement rules prevent false success.
 - Current package outputs may not exist; `not_yet_packaged` preserves ownership without pulling Phase 2 work into M0.
 - Over-broad M0 planning could import parked product capability; explicit scope fences and plan checker must block it.

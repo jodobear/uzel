@@ -94,7 +94,7 @@ REQUIRED_TEXT: dict[str, list[str]] = {
         "D-01",
         "D-31",
         "not_yet_packaged",
-        "Independent Prompt 02 review",
+        "GitHub Codex reviews the exact pushed PR SHA",
     ],
     "README.md": [
         "production candidate",

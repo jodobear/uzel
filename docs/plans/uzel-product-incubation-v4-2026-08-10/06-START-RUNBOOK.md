@@ -381,7 +381,7 @@ whether the pinned installed help exposes a state/plan `--validate` option for
 present and appropriate; otherwise run the documented form without it. In both cases,
 plan-checker verification remains enabled and `verify-work` remains mandatory. Never use
 `--skip-verify` for this programme without an explicit incident decision and equivalent
-replacement evidence. If equivalent plan checking, independent review, state coherence,
+replacement evidence. If equivalent plan checking, local-CodeRabbit/GitHub-Codex review, state coherence,
 execution or post-execution verification is unavailable, stop and create a bounded
 compatibility/toolchain issue; update in a separate campaign, restart Codex, record the
 new immutable version and repeat preflight.
@@ -478,11 +478,12 @@ Run the CodeRabbit diff review:
 $gsd-review --phase 1 --coderabbit
 ```
 
-CodeRabbit's diff-only mode does not receive this criteria prompt. Separately pass the
-complete `prompts/02-review-phase-1.md` to a prompt-capable independent reviewer against
-the exact Phase 1 plan head. Record reviewer CLI/model/version, plan head, prompt digest,
-command and full findings. CodeRabbit alone does not satisfy this gate. If no independent
-reviewer can receive the complete prompt, stop.
+Run CodeRabbit locally over the immutable plan diff, then push/open the plan PR and ask
+GitHub Codex to review the exact PR SHA against the complete
+`prompts/02-review-phase-1.md`. Record CodeRabbit CLI/version, GitHub Codex review
+identity, base/head SHAs, prompt digest, commands/requests and full findings. Do not use
+Claude, OpenCode, remote CodeRabbit or local Codex self-review. If either approved lane
+cannot review the complete criteria, stop.
 
 When a Critical/High or blocking Medium finding exists, or an accepted finding changes
 plan semantics:
@@ -495,7 +496,7 @@ $gsd-review --phase 1 --coderabbit
 Use no more than three cycles. Do not execute with any Critical/High finding or a
 Medium finding that threatens the phase outcome, authority, correctness, data integrity,
 security or operability. Every remaining non-blocking Medium/Low finding needs an
-explicit disposition and bounded rationale. Also stop on reviewer failure, source/lock
+explicit disposition and bounded rationale. Also stop on either approved reviewer failure, source/lock
 mutation, artifact-only replay substitution, automatic Codex worktree assumption or
 product feature work in Phase 1.
 
@@ -582,7 +583,7 @@ run both variants.
 
 Use the exact phase section in `03-ROADMAP.md`. Never combine multiple listed phases in
 one primary PR or pull parked capabilities into context without an explicit roadmap
-amendment and independent review.
+amendment and local-CodeRabbit/GitHub-Codex review.
 
 Before planning any upstream-owned surface, follow `07-ECOSYSTEM-UPSTREAM.md`: verify the
 immutable current pin/profile, inspect the radar delta and decide whether a compatibility
@@ -627,7 +628,7 @@ milestone completion and the next programme.
 Pause and inspect rather than papering over state when the process loses incident
 history, renumbers the project, cannot identify the integration base, touches the
 blocked worktree unexpectedly, uses flags not confirmed by installed help, enables
-GSD automatic Codex worktrees, cannot run the chosen independent reviewer, mutates
+GSD automatic Codex worktrees, cannot run local CodeRabbit or GitHub Codex, mutates
 source/dependencies in a
 planning-only step, leaves roadmap/state inconsistent or advances past the Phase 1 human
 gate.

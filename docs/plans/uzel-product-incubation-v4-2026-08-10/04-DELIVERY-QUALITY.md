@@ -53,25 +53,23 @@ Rules:
 flowchart LR
     C[Delivery-phase context / accepted decisions]
     P[GSD plan]
-    R[Independent plan review]
+    R[Local CodeRabbit plan review]
     X[Sequential execution]
     L[Local tests + CodeRabbit]
     PR[Draft PR]
-    CX[Codex remote review]
-    CR[CodeRabbit remote review]
-    FC[Final Codex on final SHA]
+    CX[GitHub Codex exact-SHA review]
     CI[Required CI/package checks]
     V[GSD verification + human evidence]
     M[Merge]
 
-    C --> P --> R --> X --> L --> PR --> CX --> CR --> FC --> CI --> V --> M
+    C --> P --> R --> X --> L --> PR --> CX --> CI --> V --> M
 ```
 
 Not every documentation-only PR needs native package tests, but every omitted gate must
 be justified by the change boundary. Security, schema, packaging, dependency and product
 journey changes receive the full relevant sequence.
 
-## Phase planning and independent review
+## Phase planning and approved review
 
 ### Phase-pinned orchestration toolchain
 
@@ -93,11 +91,11 @@ installed version and `$gsd-help --full` output are recorded before planning:
 - `execute-phase` executes the accepted plan and may use an installed validation option
   only when its recorded semantics match the intended gate;
 - `verify-work` remains the explicit post-execution evidence gate in every case;
-- `review --phase N --coderabbit` writes independent review evidence consumable through
+- `review --phase N --coderabbit` writes local review evidence consumable through
   `plan-phase N --reviews`;
 - `extract-learnings N` may produce raw phase learnings after execution.
 
-If the pinned toolchain cannot provide equivalent plan checking, independent review,
+If the pinned toolchain cannot provide equivalent plan checking, local-CodeRabbit/GitHub-Codex review,
 execution, state coherence and post-execution verification, stop and open a bounded
 compatibility/toolchain issue rather than weakening or improvising the gate.
 
@@ -124,8 +122,8 @@ one contextual issue and primary PR—not a whole product milestone.
 
 ### Review loop
 
-Use CodeRabbit as the independent plan reviewer because the primary implementation
-runtime is Codex. `N` may be an integer or decimal delivery phase:
+Use exactly local CodeRabbit followed by GitHub Codex on the exact pushed PR SHA.
+`N` may be an integer or decimal delivery phase:
 
 ```text
 $gsd-review --phase N --coderabbit
@@ -160,9 +158,8 @@ $gsd-execute-phase N
 $gsd-verify-work N
 ```
 
-If CodeRabbit is unavailable, stop and either restore it or explicitly select another
-independent installed reviewer. Do not substitute Codex reviewing its own plan as the
-only external plan gate.
+If local CodeRabbit or GitHub Codex is unavailable, stop. Do not substitute Claude,
+OpenCode, remote CodeRabbit, local Codex self-review or another AI reviewer.
 
 ## Contextual issue and plan contract
 
@@ -717,7 +714,7 @@ unreviewed issue prose. Index generation and visibility-leak fixtures run in CI.
 
 ## External-review data boundary
 
-CodeRabbit, Codex/GitHub review and any replacement reviewer may receive source, plan and
+Local CodeRabbit and Codex/GitHub review may receive source, plan and
 test context. Treat that as an explicit outbound data flow:
 
 - use only owner-approved reviewer tools, accounts and endpoints;
@@ -726,8 +723,7 @@ test context. Treat that as an explicit outbound data flow:
   content, private relay data, credentials or unredacted diagnostics;
 - fixtures and prompts use synthetic/redacted data;
 - review configuration and exclusions are committed or captured as evidence;
-- an explicitly required reviewer failing/unavailable fails closed unless the owner
-  approves a named independent replacement and records the data boundary;
+- either approved reviewer failing/unavailable fails closed;
 - reviewer output is advisory evidence, not authority to weaken source-grounded gates.
 
 ## Code/PR review sequence
@@ -741,23 +737,16 @@ For implementation PRs:
    visibility/embargo and contradiction checks, then rerun affected gates;
 5. for a milestone-ending phase, prepare the bounded milestone learning digest;
 6. push/open the draft contextual PR;
-7. request Codex GitHub review;
-8. batch-fix and rerun local gates;
-9. request remote CodeRabbit review;
-10. batch-fix and rerun local gates;
-11. request final Codex review on the final candidate SHA;
-12. run/confirm required CI and package evidence;
-13. verify the exact GSD delivery-phase/contextual-issue acceptance;
-14. merge.
+7. request GitHub Codex review on the exact candidate SHA;
+8. batch-fix valid findings and rerun local gates plus local CodeRabbit;
+9. request GitHub Codex again on the new exact SHA when any commit followed its review;
+10. run/confirm required CI and package evidence;
+11. verify the exact GSD delivery-phase/contextual-issue acceptance;
+12. merge.
 
-Codex and CodeRabbit do not review the same moving SHA simultaneously. A material change
-after final Codex invalidates that review and requires another final pass. Mechanical
-formatting/doc-only changes may use a documented lighter path when no semantic/security
-behavior changed.
-
-A claim-, policy-, operations- or support-changing documentation edit after final Codex
-invalidates final-SHA review just as a code edit does. Pure typo/link correction may use a
-documented lighter path only when it cannot change meaning.
+GitHub Codex and local CodeRabbit do not review a moving SHA. Any commit after either
+review invalidates both and restarts the two-stage chain. This includes mechanical,
+formatting, link and documentation-only commits: exact-SHA evidence has no lighter path.
 
 ## Public upstream submission review
 
