@@ -93,7 +93,7 @@
 
 **Development:**
 - Use x86_64 Linux with the pinned Nix shell from `flake.nix`; it supplies Rust, Node/Corepack, cargo-tauri, WebKitGTK 4.1, GTK3, Chromium, Weston, Deno, Python, and native build libraries.
-- Install frontend dependencies with `pnpm install --frozen-lockfile`, then use root commands from `package.json`; setup and run sequence is documented in `README.md`.
+- Install frontend dependencies with `nix --extra-experimental-features 'nix-command flakes' develop --command pnpm install --frozen-lockfile`, then invoke root package scripts through the same locked Nix entrypoint; setup and run sequence is documented in `README.md`.
 - Real renderer/native smoke requires Wayland/Weston, WebKitGTK, and an XDG runtime directory as prepared by `scripts/linux-run-smoke.sh`.
 - Debian 13 live acceptance requirements and host packages are encoded in `scripts/debian13-setup.sh`, `scripts/debian13-live-test.sh`, and `DEBIAN13-LIVE-TEST.md`.
 

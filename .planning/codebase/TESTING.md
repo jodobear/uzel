@@ -17,16 +17,16 @@
 
 **Run Commands:**
 ```bash
-pnpm test                 # Node unit/contract tests, napplet tests, Rust tests, pinned-asset audit
-pnpm test:ui              # Deterministic Chromium renderer acceptance
-pnpm test:conformance     # Built follow-list/profile-card Napplet conformance
-pnpm check                # Builds, strict Svelte check, shell build, cargo check
-pnpm lint                 # Clippy -D warnings plus architecture/boundary scanner
-pnpm fallow               # Unused/unlisted/unresolved dependency and file audit
-pnpm smoke                # Focused live Rust probe selected by scripts/smoke.sh
-pnpm smoke:linux          # Real Tauri/WebKit/daemon Linux acceptance
-pnpm smoke:fedora         # Fedora wrapper around real Linux smoke
-pnpm docs:check           # Documentation/link/Mermaid audit
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm test
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm test:ui
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm test:conformance
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm check
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm lint
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm fallow
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:linux
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:fedora
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm docs:check
 ```
 
 No watch-mode script is configured in `package.json` or `apps/uzel/package.json`. No coverage command is configured.
@@ -113,7 +113,7 @@ mod tests {
 - Test malformed/untrusted inputs as tables and require fail-closed results: `contracts/profile-open.test.mjs` and `contracts/kind0-profile.test.mjs`.
 - Test stateful concurrency by retaining explicit release functions rather than timing alone: `napplets/follow-list/tests/model.test.mjs` proves maximum active queue width and queued cancellation.
 - Test native IPC with real local primitives where practical. `crates/napd/src/server.rs` binds a real AF_UNIX socket in `tempfile::TempDir`, spawns the daemon thread, exchanges framed requests, shuts down, and joins the thread.
-- Keep live-network Rust probes explicit and ignored by default using `#[ignore = "requires ..."]` in `crates/napd/src/runner.rs`; deterministic `pnpm test` remains network-independent.
+- Keep live-network Rust probes explicit and ignored by default using `#[ignore = "requires ..."]` in `crates/napd/src/runner.rs`; the deterministic `test` package script remains network-independent.
 - Renderer setup/teardown is suite-wide via `before` and `after` from `node:test` in `apps/uzel/tests/ui/acceptance.test.mjs`. Teardown asserts Vite, browser, browser child tree, and deliberate-fault process groups are gone.
 - Renderer cases use nested `t.test` subtests over fixed `VIEWPORTS` from `apps/uzel/tests/ui/playwright.config.mjs`, and use accessible roles/names rather than CSS selectors for user controls.
 - Preserve UI failure evidence under ignored `.artifacts/ui-acceptance/`, as documented in `apps/uzel/tests/ui/README.md`; do not commit screenshots, traces, DOM dumps, or metadata.
@@ -158,7 +158,7 @@ export function workerLoad(url, WorkerConstructor = globalThis.Worker, timeoutMs
 - Do not replace the trusted surface host or signed napplet HTML in renderer acceptance. `apps/uzel/tests/ui/acceptance.test.mjs` loads checked-in bytes from `fixtures/*/index.html`, verifies their signed path hashes, and drives the real `NMPTrustedShellHost` through the instrumented wrapper in `apps/uzel/tests/ui/fixtures/mock-native.js`.
 - Do not claim native/daemon/NMP/WebKit coverage from the mocked UI harness. `apps/uzel/tests/ui/README.md` assigns those claims to Rust tests and `scripts/linux-run-smoke.sh`.
 - Do not use placeholder-success tests or fake production implementations, per `uzel-poc-validated-pack/AGENTS.md`.
-- Do not bypass Napplet conformance with mocks. Build artifacts and run `pnpm test:conformance` from `package.json` against `napplets/follow-list/dist` and `napplets/profile-card/dist`.
+- Do not bypass Napplet conformance with mocks. The locked `test:conformance` command above builds artifacts and validates `napplets/follow-list/dist` and `napplets/profile-card/dist`.
 
 ## Fixtures and Factories
 
@@ -187,7 +187,7 @@ let socket = temp.path().join("run/uzel.sock");
 - Keep small pure-data factories inside the test file that uses them: `row(...)` in `contracts/kind0-profile.test.mjs` and `response_event(...)` in `crates/napd/src/runner.rs`.
 - Keep portable signed artifacts and Nostr records under `fixtures/`; document fixture meaning in `fixtures/README.md` and fixture-local READMEs such as `fixtures/good-morning/README.md`.
 - Keep renderer-only fake-native state under `apps/uzel/tests/ui/fixtures/mock-native.js`, separate from production code.
-- Verify fixture bytes and pins through `scripts/check-pinned-assets.sh`, which runs as the final part of root `pnpm test` in `package.json`.
+- Verify fixture bytes and pins through `scripts/check-pinned-assets.sh`, which runs as the final part of the root `test` package script.
 - Regenerate signed fixture bytes only through the project process in `scripts/build-signed-napplet-fixtures.sh`; update all coupled event/hash/fixture references together rather than hand-editing one file.
 
 ## Coverage
@@ -217,14 +217,14 @@ Use explicit behavior gaps to add tests in the owning layer instead of chasing a
 **Integration Tests:**
 - `crates/napd/src/server.rs` runs real daemon/client exchanges over AF_UNIX sockets, including asset transfer, INC routing, replay behavior, timeouts, and shutdown.
 - `crates/napd-protocol/src/lib.rs` runs framed client/server exchanges on temporary Unix sockets and verifies lost-response replay and cleanup.
-- Root `pnpm test` in `package.json` composes Node, napplet, Rust, Tauri feature-split, and pinned-asset checks.
-- `pnpm test:conformance` builds and validates portable artifacts using commands declared in `napplets/follow-list/package.json` and `napplets/profile-card/package.json`.
+- The root `test` package script composes Node, napplet, Rust, Tauri feature-split, and pinned-asset checks.
+- The `test:conformance` package script builds and validates portable artifacts using commands declared in `napplets/follow-list/package.json` and `napplets/profile-card/package.json`.
 
 **E2E Tests:**
 - Deterministic renderer E2E uses Chromium/Playwright through `apps/uzel/tests/ui/acceptance.test.mjs`; native/NMP responses are mocked, while Svelte, checked-in napplet bytes, iframes, trusted host, routing, accessible controls, and process cleanup are real.
-- Real Linux E2E uses `scripts/linux-run-smoke.sh`, invoked by `pnpm smoke:linux` in `package.json`, for daemon, Tauri, Weston/WebKit, exact-build, source-binding, hostile-egress, and user-mode evidence.
+- Real Linux E2E uses `scripts/linux-run-smoke.sh`, invoked by the `smoke:linux` package script, for daemon, Tauri, Weston/WebKit, exact-build, source-binding, hostile-egress, and user-mode evidence.
 - Fedora and Debian wrappers live in `scripts/fedora-run-smoke.sh`, `scripts/debian13-live-test.sh`, and `scripts/debian-build-smoke.sh`.
-- Napplet protocol E2E uses released conformance tooling through `pnpm test:conformance`; the hostile fixture is separate under `napplets/hostile-egress/` and `fixtures/hostile-egress/`.
+- Napplet protocol E2E uses released conformance tooling through the `test:conformance` package script; the hostile fixture is separate under `napplets/hostile-egress/` and `fixtures/hostile-egress/`.
 
 ## Common Patterns
 
