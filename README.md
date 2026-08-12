@@ -36,7 +36,7 @@ matrix, evidence layout, and trust limits are documented in
 Run the immutable-digest Debian build smoke from the Fedora host:
 
 ```sh
-bash scripts/debian-build-smoke.sh
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:debian
 ```
 
 Run the real desktop/WebKit acceptance on Debian 13 using the setup, headless,
