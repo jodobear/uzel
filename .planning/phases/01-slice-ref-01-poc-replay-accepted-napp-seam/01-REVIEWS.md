@@ -360,3 +360,41 @@ Cycle-10 GitHub Codex ledger:
 | GH-03 | Task 1 froze selected closure members from Task-3 future native output. | Task 1 now owns candidates/probes/tool pins; Task 3 owns authoritative selected/realized/non-selected outcomes and digests. |
 | GH-04 | An unavailable later probe skipped full validation of successful prefix probes. | Reuse each ecosystem's complete native verifier for every passing prefix before accepting the terminal typed failure. |
 | GH-05 | Closure probes used unpinned global executable names. | Bind absolute executable and launcher-chain paths, versions, and SHA-256s; revalidate every attempted probe, including failures. |
+
+## Cycle 11
+
+- Immutable pushed candidate `df8f7ebe63cfc3c4516b8a83254fef47635bfe4b` was reviewed from
+  live PR merge base `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`.
+- Local CodeRabbit CLI `0.7.2` (executable SHA-256
+  `f9f61ecdb385d3c8d5001ee652dee1d95b3282fd740bd023dc89b18a191d3e97`)
+  ended with recoverable `Connection failed: WebSocket closed` before findings or a
+  qualifying pre-finding `rate_limit`; no approval or fallback was inferred.
+- GitHub Codex request `https://github.com/jodobear/uzel/pull/36#issuecomment-5267092429`
+  produced exact-head review `4916868734`, submitted `2026-08-12T13:13:02Z`, with
+  thirteen P1 inline findings. Review evidence:
+  `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4916868734`.
+- Valid polls occurred at `2026-08-12T13:00:09Z`, `13:03:48Z`, `13:07:22Z`,
+  `13:10:55Z`, and `13:14:52Z`. The `13:14:21Z` observation was only 206 seconds
+  after its predecessor and was excluded. All thirteen findings were accepted; none
+  was waived or deferred.
+- Independent post-fix audits found and corrected additional material false-pass,
+  false-block, stock-GSD topology, evidence-provenance, pack-integrity, and transition
+  defects before this cycle was closed.
+
+Cycle-11 GitHub Codex ledger:
+
+| ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| GH-01 | Cargo, Nix and Deno resolution could use the active checkout instead of the preserved WIP. | Bind every ecosystem probe, launcher, tree and lock byte to a disposable exact preserved-WIP checkout with retained Git observations. |
+| GH-02 | Successful replay did not require the seven platform probes or normalized OS/CPU/libc agreement. | Require the exact seven retained envelopes, parse their stdout, and derive one consistent platform identity. |
+| GH-03 | Measurement rows named artifacts without parsing or recomputing wall time, peak RSS and size. | Add strict retained measurement/runner receipts and recompute every measured value; preserve typed failed-attempt `not_measured` evidence. |
+| GH-04 | Pressure and fairness rows could cite arbitrary tracked files instead of executions. | Bind every row to a strict command receipt with queue/vector/input, argv/cwd, output bytes, exit and observed result. |
+| GH-05 | Lock identity omitted Deno, compatibility, workspace and toolchain inputs. | Independently derive and strict-parse the complete Git-bound lock/workspace/compatibility/toolchain universe. |
+| GH-06 | Positive and negative negotiation vectors were not bound to executed evidence. | Require strict receipts matching inputs, transcripts, argv, exit, guest-start state, exposed domains and result. |
+| GH-07 | Replay prerequisites omitted nested POC instructions, durable status and active work slice. | Read nested `AGENTS.md`, parse `STATUS.md`, derive the exact active `work/*.md`, and bind all three before replay. |
+| GH-08 | Upstream-ledger mutation did not update the nested POC status. | Own one append-only, audit-safe STATUS block with typed commands, evidence, limitations and next action while preserving unrelated bytes. |
+| GH-09 | Upstream registry completeness was self-selected. | Derive normalized dependency, spec, patch, manager, toolchain, remote and submodule identities from immutable source-specific parsers before projection equality. |
+| GH-10 | Boundary/storage completeness was self-selected by generated registries. | Derive the production-only source/AST universe independently, use Graphify only as a byte-bound discovery index, and require exact projections. |
+| GH-11 | SIR-0001 validation accepted only a token. | Parse the complete canonical SIR schema and bind disagreement, interpretations, dissent, evidence, rollback, authority and Phase-2 revisit gate. |
+| GH-12 | Closeout ancestry admitted hidden commits and unconstrained diffs. | Require the exact direct-parent stock/orchestrator chain, including testing and completed UAT stages, with exact per-stage changed paths through `C=F`. |
+| GH-13 | Closeout delta rows were free prose against arbitrary files. | Require admitted source commits, exact Git blob pointers/object digests, structured predicates, observed values and typed dispositions. |
