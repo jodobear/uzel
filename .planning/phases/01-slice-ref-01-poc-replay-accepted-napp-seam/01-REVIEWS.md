@@ -91,14 +91,16 @@ text plus the historical summary path were corrected.
   historical reviewed heads.
 - The managed Codex preflight now resolves `/home/at/.bun/bin/codex` by absolute path and
   verifies `codex-cli 0.147.0` plus executable SHA-256 before freezing the tool profile.
-- This was the third review cycle. Per the committed three-cycle ceiling, further automated
-  CodeRabbit looping requires an explicit manual programme decision; Phase 1 remains blocked
-  until the final exact-head review contract is satisfied.
+- This was the third review cycle. On `2026-08-12` the owner explicitly superseded the
+  former three-cycle ceiling: continue fixing legitimate findings and stop only when all
+  material findings are resolved and every remainder is recorded as a low-benefit P2
+  backlog item with stable ID, source, severity, owner, rationale, bounded Phase-1
+  non-impact, and revisit trigger.
 
 ## Current gate
 
-Run independent plan checking and commit/push the complete manually corrected plan set.
-Do not begin a fourth automatic CodeRabbit cycle: the programme ceiling requires an explicit
-manual decision. The final exact-head result stays external on GitHub so recording it cannot
-invalidate the reviewed commit. Phase 1 remains unapproved until the approved exact-head
-review path is satisfied and the human execution gate is explicit.
+Commit/push the complete corrected plan set and continue approved local-CodeRabbit and
+GitHub-Codex exact-head cycles in parallel where safe. The final exact-head result stays
+external on GitHub so recording it cannot invalidate the reviewed commit. Phase 1 remains
+unapproved until the approved exact-head review path is satisfied, all material findings are
+fixed or low-benefit P2 backlog items, and the human execution gate is explicit.

@@ -32,9 +32,9 @@
       "sha256": "1332450ee87ab3384339e763f59ca9c51b7ccd583404547731fa1fbd6e083e7d"
     },
     {
-      "bytes": 38709,
+      "bytes": 38841,
       "path": "04-DELIVERY-QUALITY.md",
-      "sha256": "fae80e1cd9303c08b954f05adf6a5f403ca422242522ed4b992b359aae11bd9a"
+      "sha256": "3fe3045595aa67a824f7ee41e492f420d498915bed66b1248d02e83f2a39c5f1"
     },
     {
       "bytes": 39700,
@@ -42,9 +42,9 @@
       "sha256": "387dc544cc5ad5f6fe89fe90303ce7a7da565765b51a464b3d5ed84899269b40"
     },
     {
-      "bytes": 26354,
+      "bytes": 26549,
       "path": "06-START-RUNBOOK.md",
-      "sha256": "cb133e81ad786dc41047f4d35a7088d78aa573dc967ca74eafc5514a9dc52c34"
+      "sha256": "fd724753922fdee93954aaf437e0b9331c27cb613624e2aef0aa75f78422d7f2"
     },
     {
       "bytes": 25988,
@@ -77,9 +77,9 @@
       "sha256": "00067496f2c347689437f1bb91c5e16851e8712c55dbcebb35751edc88f24872"
     },
     {
-      "bytes": 4664,
+      "bytes": 4847,
       "path": "prompts/02-review-phase-1.md",
-      "sha256": "1a8b25da36e8da05331b3e5d29134126769b6f5eb3b03363d81cb172f6c431fd"
+      "sha256": "a7bb6ef8eeda067183c94eb1d6b6e23e03eb1bc9dbd5613eae3c2e10c78a7b64"
     },
     {
       "bytes": 3255,

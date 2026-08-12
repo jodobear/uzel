@@ -140,17 +140,18 @@ $gsd-plan-phase N --reviews
 $gsd-review --phase N --coderabbit
 ```
 
-Repeat for at most three review cycles. A rejected finding needs exact source/runtime
-evidence and rationale; do not spend cycles polishing non-blocking style preferences.
-After three cycles, unresolved blocking findings require explicit manual resolution rather
-than another automatic loop. Execution requires:
+Continue correction/review cycles while a legitimate finding materially improves the
+current phase. A rejected finding needs exact source/runtime evidence and rationale; do
+not spend cycles polishing non-blocking style preferences. Stop convergence only when all
+blocking/material findings are resolved and every remainder is an explicit low-benefit P2
+backlog item with stable ID, source, severity, owner, deferral rationale, bounded Phase-1
+non-impact, and revisit trigger. Execution requires:
 
 - plan-checker verification was not skipped;
 - zero unresolved Critical or High findings;
 - zero unresolved Medium findings that threaten the phase outcome, authority,
   correctness, data integrity, security or operability;
-- every remaining non-blocking Medium or Low finding has an explicit accept, defer or
-  reject disposition, owner/rationale and bounded impact;
+- every remaining non-blocking finding is fixed or recorded under that P2 backlog contract;
 - any rejected finding has file/source evidence and rationale in the review artifact;
 - no reviewer/tool failure silently degrades to self-review;
 - the final reviewed plans match the plans about to execute.

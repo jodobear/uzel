@@ -60,11 +60,12 @@ Verify with `file:line` or command evidence:
     optional validation semantics when present and mandatory post-execution `verify-work`.
 
 Classify Critical/High/Medium/Low. Replan with
-`$gsd-plan-phase 1 --reviews`, rerun review, and stop after at most three
-cycles. Do not execute with any Critical/High finding or a Medium finding that threatens
+`$gsd-plan-phase 1 --reviews` while legitimate findings materially improve the phase.
+Stop only when all material findings are fixed and every remainder is a low-benefit P2
+backlog item with stable ID, source, severity, owner, deferral rationale, bounded Phase-1
+non-impact, and revisit trigger. Do not execute with any Critical/High finding or a Medium finding that threatens
 the phase outcome, authority, correctness, data integrity, security or operability.
-Explicitly disposition all remaining non-blocking Medium/Low findings with evidence and
-bounded rationale. A green GitHub Codex review with recorded CodeRabbit rate-limit
+Record every remaining non-blocking finding under that P2 backlog contract. A green GitHub Codex review with recorded CodeRabbit rate-limit
 evidence satisfies this review gate. Do not execute in this review session.
 
 Do not send keys, pairing URIs, credentials, production content or unredacted private

@@ -501,10 +501,12 @@ $gsd-plan-phase 1 --reviews
 $gsd-review --phase 1 --coderabbit
 ```
 
-Use no more than three cycles. Do not execute with any Critical/High finding or a
+Continue cycles for legitimate findings; stop only when all material findings are fixed
+and every remainder is a low-benefit P2 backlog item with stable ID, source, severity,
+owner, deferral rationale, bounded Phase-1 non-impact, and revisit trigger. Do not execute with any Critical/High finding or a
 Medium finding that threatens the phase outcome, authority, correctness, data integrity,
-security or operability. Every remaining non-blocking Medium/Low finding needs an
-explicit disposition and bounded rationale. Stop on GitHub Codex failure or on any
+security or operability. Every remaining non-blocking finding must satisfy that P2 backlog
+contract. Stop on GitHub Codex failure or on any
 CodeRabbit failure other than recorded rate limiting, source/lock mutation, artifact-only
 replay substitution, automatic Codex worktree assumption or product feature work in
 Phase 1.
