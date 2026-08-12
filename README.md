@@ -4,34 +4,28 @@ Linux-only native napplet-runtime proof of concept. The validated scope, archite
 
 ## Development
 
-Enter the pinned environment and install the locked frontend dependencies:
+Use the pinned flake as the normal command entrypoint and install locked frontend
+dependencies:
 
 ```sh
-nix --extra-experimental-features 'nix-command flakes' develop
-pnpm install --frozen-lockfile
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm install --frozen-lockfile
 ```
 
 Start the Linux shell, private AF_UNIX daemon, and pinned exact-build fixture together:
 
 ```sh
-pnpm dev
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm dev
 ```
 
 Run the repository checks, including the Slice 03 napplets:
 
-```sh
-pnpm check
-pnpm test
-pnpm test:ui
-pnpm test:conformance
-pnpm lint
-pnpm format:check
-pnpm docs:check
-pnpm fallow
-pnpm smoke
-pnpm smoke:linux
-pnpm smoke:fedora
+```text
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm <script>
 ```
+
+Useful scripts include `check`, `test`, `test:ui`, `test:conformance`, `lint`,
+`format:check`, `docs:check`, `fallow`, `smoke`, `smoke:linux`, and `smoke:fedora`.
+Delivery policy and validation cadence live only in [`WORKFLOW.md`](WORKFLOW.md).
 
 `pnpm test:ui` drives the real Svelte renderer, checked-in napplet artifacts,
 and trusted surface host through a deterministic mocked native boundary. It

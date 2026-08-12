@@ -47,7 +47,9 @@ The first milestone is organized as five contextual slices: `SLICE-REF-01`, `SLI
 
 The installed root product-first document pack and GitHub templates are not committed at this audit. They are proposed inputs, not repository authority, until selected, audited, and committed. Committed `.planning/` artifacts and exact source remain authoritative meanwhile.
 
-GitHub issues define scoped delivery outcomes, GSD is the repository-local execution record, and GitHub remains merge authority. Each PR carries one visible outcome, declares its CI class, runs bounded local review and PR-fast evidence, and enters the merge queue only after exact-head review evidence is clean.
+GitHub issues define scoped delivery outcomes, GSD is the repository-local execution
+record, and GitHub remains merge authority. [`WORKFLOW.md`](../WORKFLOW.md) is the sole
+delivery-process authority.
 
 ## Constraints
 
@@ -63,8 +65,8 @@ GitHub issues define scoped delivery outcomes, GSD is the repository-local execu
 - **Current scope**: One Uzel instance and one active read profile are the proven baseline; record collisions but defer multi-instance/multi-profile implementation
 - **Migration**: Qualify, adapt one Rust/Tauri boundary, replay parity, then retire compatibility code; no dual store/write and rollback by adapter/pin revert
 - **Naming**: Project-owned identifiers are descriptive and at most 21 characters, with only narrow documented exceptions
-- **Delivery**: One contextual issue, one visible outcome, one owning worktree, one PR; out-of-scope findings move to linked future issues
-- **Review**: Local CodeRabbit, remote Codex, final remote CodeRabbit, exact-head evidence, then merge queue; missing, stale, skipped, failed, or timed-out review is not approval
+- **Delivery and review**: Follow [`WORKFLOW.md`](../WORKFLOW.md); this product document does
+  not duplicate process rules
 
 ## Key Decisions
 
@@ -78,22 +80,5 @@ GitHub issues define scoped delivery outcomes, GSD is the repository-local execu
 | Gate new Social work on an accepted committed Napp candidate and M0 delivery evidence | Prevents private contract invention and protects the existing POC baseline | — Pending |
 | Keep GitHub as merge authority and GSD as execution record | Separates local orchestration from required checks and canonical merge state | — Pending |
 
-## Evolution
-
-This document evolves at phase transitions and milestone boundaries.
-
-**After each phase transition** (via `$gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `$gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
-
 ---
-*Last updated: 2026-08-09 after source-backed milestone re-audit*
+*Last updated: 2026-08-12 during lean-process reset*
