@@ -336,3 +336,27 @@ Cycle-9 GitHub Codex ledger:
 | GH-04 | Citations proved only line existence, not claim-specific behavior. | Bind each fact ID to a structurally parsed source value and an exact test assertion operand/value. |
 | GH-05 | Unavailable closure/platform verdicts could not be recorded without a fictitious replay. | Allow zero replay for typed unavailable outcomes with exact attempted-prefix/unattempted-suffix and retained native failure/cleanup evidence. |
 | GH-06 | Packet source validation imposed blocker/replacement fields on every category. | Validate exact category-specific E-frozen packet-row schemas and keep disposition fields separate. |
+
+## Cycle 10
+
+- Immutable pushed candidate `89ecaae0b8adbb98fde2787aa0fc92a65b692dda` was reviewed from
+  live PR merge base `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`.
+- Local CodeRabbit CLI `0.7.2` again ended with recoverable `Connection failed: WebSocket
+  closed` before findings or qualifying `rate_limit`; no approval was inferred.
+- GitHub Codex request `https://github.com/jodobear/uzel/pull/36#issuecomment-5266690744`
+  produced exact-head review `4916470948`, submitted `2026-08-12T12:28:59Z`, with five P1
+  findings. Review evidence:
+  `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4916470948`.
+- Valid polls occurred at `2026-08-12T12:22:03Z`, `12:25:59Z`, and `12:29:53Z`.
+  Observations at `12:25:31Z` and `12:29:25Z` were early and excluded. All five findings
+  were accepted; none was waived or deferred.
+
+Cycle-10 GitHub Codex ledger:
+
+| ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| GH-01 | Residual-threat eligibility allowed blocking source facts to self-label as P2. | Derive a closed source severity/status/disposition blocking predicate; overlays cannot resolve or downgrade blocking threats. |
+| GH-02 | Post-merge transition could override a reviewed hold. | Make merge and T approve-only; a hold requires corrected E/P/D/F plus fresh exact-head reviews. |
+| GH-03 | Task 1 froze selected closure members from Task-3 future native output. | Task 1 now owns candidates/probes/tool pins; Task 3 owns authoritative selected/realized/non-selected outcomes and digests. |
+| GH-04 | An unavailable later probe skipped full validation of successful prefix probes. | Reuse each ecosystem's complete native verifier for every passing prefix before accepting the terminal typed failure. |
+| GH-05 | Closure probes used unpinned global executable names. | Bind absolute executable and launcher-chain paths, versions, and SHA-256s; revalidate every attempted probe, including failures. |

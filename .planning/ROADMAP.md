@@ -122,8 +122,9 @@ Learning Note, capability ledger and visibility-aware knowledge index. C may bin
 immutable inputs and their exact bytes; it must not name or hash C, the eventual final candidate
 F, or an external receipt. C must change the closeout artifact plus exactly the required tracking
 paths `.planning/ROADMAP.md`, `.planning/STATE.md` and `.planning/HANDOFF.json`. Those tracking
-bytes must keep Phase 1 current, record `closeout_final_review_pending`, preserve hold or
-conditional-pending effect, and leave Phase 2 unstarted. Freeze F=C. Push F before starting local
+bytes must keep Phase 1 current, record `closeout_final_review_pending`, preserve the reviewed
+decision effect, and leave Phase 2 unstarted. A hold F is not merge-eligible; correction requires
+new E/P/D/F and fresh reviews. Freeze F=C. Push F before starting local
 CodeRabbit and GitHub Codex; those two exact-F lanes may run serially or overlap, but both
 dispositions must join in the canonical external final receipt. Before merge, publish its canonical
 bytes once at the content-addressed final-receipt ref and fetch/revalidate its exact locator/OID/SHA-256;
@@ -132,7 +133,7 @@ An unchanged second GitHub comment must attest the observation locator/OID/SHA b
 Also revalidate every transitively referenced final and candidate lane receipt/raw/actual/poll-event ref. No tracked commit may follow F on
 the Phase-1 branch or before merge; target-branch transition T is the sole later tracking route.
 Until that receipt validates against the unchanged live PR head, Phase 1 closeout and merge remain
-ineffective, conditional approval grants no Phase-2 authority, and a hold remains the active stop.
+ineffective, and conditional approval grants no Phase-2 authority. A hold remains a terminal stop for that F.
 The exact external receipt has only `receipt_effect: merge_authorized_only` and
 `post_merge_tracking_transition: required`; stock GSD does not consume it as an overlay and F-tracked
 state remains `closeout_final_review_pending`. After reviewed F merges, a separately human-authorized
@@ -141,8 +142,8 @@ target and PR, validate merged-F ancestry, fetch the frozen final receipt and it
 observation, require observation time before `merged_at`, and revalidate every
 transitively bound final and candidate lane receipt/raw/actual/poll-event ref unchanged, then resume the
 existing completed UAT with supported `$gsd-verify-work 1`. Before that command, immutable fresh
-post-merge authority bytes must bind repo/PR/F/merge, prior decision/effect/authority, and explicit
-transition decision/effect/authority; a hold requires exact fresh override. Fetch and parse its
+post-merge authority bytes must bind repo/PR/F/merge, prior approve decision/effect/authority, and explicit
+transition decision/effect/authority; no hold override exists. Fetch and parse its
 ref/OID/SHA before T starts, freeze that successful observation at its own immutable ref/OID/SHA,
 and bind `authorized_at <= authority_observed_at <= t_started_at` no
 later than every transition commit. T's first commit must directly parent T0 with identical tree
@@ -154,7 +155,7 @@ then a content-addressed external receipt binds the final-receipt path/digest/lo
 ref/OID/SHA and parsed fields, observation/start chronology, first binding commit, ordered T commits,
 changed paths, full diff and pushed target tip. Because T follows merge, it does not invalidate
 exact-F review. No Phase-2 planning or implementation may start before that receipt validates, and
-a hold still requires the exact fresh post-merge override artifact above.
+a hold requires a corrected E/P/D/F cycle and fresh reviews rather than post-merge override.
 
 **Execution gate:** These plans are not authorized for implementation until the exact
 pushed plan head passes `prompts/02-review-phase-1.md` and Plan `01-06` validates its

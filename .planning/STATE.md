@@ -65,8 +65,9 @@ validates the canonical external exact-head receipt plus explicit human executio
   the bounded Phase Closeout commit C; C cannot name/hash itself, final F, or the external
   receipt. C must include the closeout artifact and all three required tracking paths:
   `.planning/ROADMAP.md`, `.planning/STATE.md`, and `.planning/HANDOFF.json`. Their C bytes keep
-  Phase 1 current with `closeout_final_review_pending`, preserve the selected hold or conditional
-  effect, and leave Phase 2 unstarted. Freeze F=C. F is pushed before the
+  Phase 1 current with `closeout_final_review_pending`, preserve the selected effect, and leave
+  Phase 2 unstarted. A hold F cannot merge or enter T; correction requires new E/P/D/F and fresh
+  reviews. Freeze F=C. F is pushed before the
   exact-F CodeRabbit/GitHub Codex lanes start, both receipts are joined externally, and the
   canonical final-receipt bytes are published once and fetched by exact locator/OID/SHA-256, then an
   authenticated observation of that ref/OID/digest is immutably published/fetched while the PR remains
@@ -74,15 +75,15 @@ validates the canonical external exact-head receipt plus explicit human executio
   ref. No tracked commit follows F.
 - Phase 2 cannot execute before the manifest/exact-build and launch-negotiation profile
   receives an explicit human go/no-go and the unchanged-F final-review receipt validates. A
-  hold remains the active stop; conditional approval is ineffective before that receipt.
+  hold remains a terminal stop for that F; conditional approval is ineffective before that receipt.
 - Final receipt is merge-only external evidence, not a stock-GSD state overlay. F-tracked state
   remains `closeout_final_review_pending`. After F merges, future GSD routing must report
   `post_merge_tracking_transition_required` until a separately human-authorized target-branch T
   validates merged-F ancestry, the frozen final-receipt locator/OID/SHA and immutable observation whose
   timestamp precedes `merged_at`, every transitively referenced
   final/candidate lane receipt/raw/actual/poll-event ref, plus immutable fresh authority evidence created
-  after merge. That evidence binds repo/PR/F/merge and prior plus explicit transition decisions;
-  a hold requires exact fresh override; fetch/recheck its ref/OID/SHA before T and freeze that
+  after merge. That evidence binds repo/PR/F/merge and prior approve plus explicit transition decisions;
+  no hold override is permitted; fetch/recheck its ref/OID/SHA before T and freeze that
   successful observation at a separate immutable ref/OID/SHA. Require
   `authorized_at <= authority_observed_at <= t_started_at` no later than every transition commit;
   T's first commit directly parents T0 with identical tree and exact ordered binding trailers, so
@@ -121,7 +122,7 @@ validates the canonical external exact-head receipt plus explicit human executio
   and GitHub Codex lanes in the external final receipt. No tracked commit is permitted after F on
   the Phase-1 branch or before merge;
   that receipt authorizes merge only. After merge, capture/fetch fresh immutable authority evidence
-  (including explicit hold override when applicable), separately authorize target-branch T, preflight
+  only for an approved eligible D/F, separately authorize target-branch T, preflight
   merged-F ancestry/receipt/authority ref, resume `$gsd-verify-work 1`, explicitly confirm its inline transition,
   commit/push tracking, and validate the content-addressed T receipt before any Phase-2 work.
 
