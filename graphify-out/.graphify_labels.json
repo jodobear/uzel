@@ -31,7 +31,11 @@
   "29": "debian13-live-test.sh",
   "30": "projection-failure.js",
   "31": "M4.5 / GSD delivery phases 6, 6.1–6.2 — scheduling, recovery and cross-domain composition",
+  "32": ".confirm_napplet",
+  "33": "Lean process reset summary",
   "34": "Upstream contribution ledger",
+  "35": "Lean process reset verification",
+  "36": "manifest.json",
   "37": "parse_options",
   "38": "App.svelte",
   "39": "POC status",
@@ -99,7 +103,6 @@
   "121": "Work 03 — portable napplets",
   "122": "Work 05 — composed demo",
   "124": "audit_docs.py",
-  "125": "Work 06 — hardening and demo acceptance",
   "126": "fedora-run-smoke.sh",
   "127": "check_sha256",
   "128": "debian-build-smoke.sh",
@@ -126,7 +129,6 @@
   "156": "FACT-012 — bounded multi-surface composition",
   "157": "FACT-013 — hostile Linux child boundary",
   "158": "FACT-014 — public identity, resource, and naddr catalog flow",
-  "159": "files",
   "160": "Box",
   "161": "Error",
   "162": "PathBuf",
@@ -186,8 +188,5 @@
   "216": "VecDeque",
   "217": "Path",
   "230": "Uzel",
-  "232": "Project State",
-  "239": "POC architecture",
-  "240": "Verified facts",
-  "241": "Gate 0 preflight and Slice 01 decision"
+  "232": "Project State"
 }

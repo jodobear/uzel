@@ -1,12 +1,12 @@
 {
   "uzel-poc-validated-pack/audit-results.json": {
-    "mtime": 1786554729.4429536,
-    "ast_hash": "424c698dd8a12d0b3276a420eae73fb1",
+    "mtime": 1786555918.1914084,
+    "ast_hash": "aa05fed59a9dcc66ecf970d3d7d44fa7",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/manifest.json": {
-    "mtime": 1786554729.4434266,
-    "ast_hash": "09bd0a0082e081197e3917f7eda16c4c",
+    "mtime": 1786555918.1963322,
+    "ast_hash": "99d4a9ffe80b1d1de8a732054ae023ef",
     "semantic_hash": ""
   },
   "uzel-poc-validated-pack/scripts/audit_docs.py": {
@@ -772,6 +772,16 @@
   "WORKFLOW.md": {
     "mtime": 1786554936.4430697,
     "ast_hash": "46344a4b4a0a0bcc0c5fda53554a4b2b",
+    "semantic_hash": ""
+  },
+  ".planning/phases/00-lean-process-reset/00-SUMMARY.md": {
+    "mtime": 1786555967.7363396,
+    "ast_hash": "73d65edc858bd6a02bd556d93e29b3fd",
+    "semantic_hash": ""
+  },
+  ".planning/phases/00-lean-process-reset/00-VERIFICATION.md": {
+    "mtime": 1786555967.871341,
+    "ast_hash": "23c41612dc567737e9a16635ce0f13ea",
     "semantic_hash": ""
   }
 }
