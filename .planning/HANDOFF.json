@@ -19,11 +19,13 @@
     "Commit and push one immutable Prompt-02 candidate, then run local CodeRabbit and GitHub Codex serially or concurrently on that exact head and join both zero-finding dispositions",
     "Resolve every material review finding",
     "Create the canonical external Plan-01-06 receipt binding explicit human execution authority, the seven reviewed plan blobs, and same-head reviewer identities and dispositions before implementation",
-    "After future authorized execution produces all seven summaries, complete the canonical verifier and $gsd-verify-work 1, decline/defer the stock transition confirmation supplied by configured mode: interactive, run $gsd-extract-learnings 1, curate Prompt-05 durable closeout, commit bounded Phase Closeout C together with required ROADMAP/STATE/HANDOFF tracking in closeout_final_review_pending, freeze and push F=C, then join overlapping exact-F local CodeRabbit and GitHub Codex dispositions in the external final receipt with no tracked commit after F"
+    "After future authorized execution produces all seven summaries, complete the canonical verifier and $gsd-verify-work 1, decline/defer the stock transition confirmation supplied by configured mode: interactive, run $gsd-extract-learnings 1, curate Prompt-05 durable closeout, commit bounded Phase Closeout C together with required ROADMAP/STATE/HANDOFF tracking in closeout_final_review_pending, freeze and push F=C, then join overlapping exact-F local CodeRabbit and GitHub Codex dispositions in the external merge-only final receipt with no tracked commit after F before merge",
+    "After reviewed F merges, capture immutable authority evidence, fetch/parse it before T, and freeze its observation separately. Require authorized_at <= authority_observed_at <= t_started_at <= every T commit; make first T commit directly parent T0 with identical tree and exact authority/observation locator/OID/SHA trailers plus T start, then resume $gsd-verify-work 1, confirm transition, push tracking, and validate T receipt before Phase-2 planning"
   ],
   "blockers": [
     "Phase 1 execution is forbidden until Plan 01-06 validates the exact canonical external receipt: local CodeRabbit candidate/input/effective SHAs and reviewed_head_sha equal the reviewed plan head for pass or rate_limit; GitHub Codex candidate/input/effective/reviewed SHAs equal that head; CodeRabbit is zero-finding pass or recorded pre-finding rate_limit with zero findings; GitHub Codex is green with zero findings; current seven plan bytes match; and human execution authority is explicit",
-    "Phase 1 closeout, merge, conditional approval, and any Phase-2 authority remain blocked after execution until post-verification learning extraction and Prompt-05 curation produce bounded Phase Closeout C containing required ROADMAP/STATE/HANDOFF tracking, F=C is pushed and receives both approved exact-F zero-finding dispositions, and the canonical external final receipt validates the unchanged live PR head"
+    "Phase 1 closeout and merge remain blocked after execution until post-verification learning extraction and Prompt-05 curation produce bounded Phase Closeout C containing required ROADMAP/STATE/HANDOFF tracking, F=C is pushed and receives both approved exact-F zero-finding dispositions, and the canonical external final receipt validates the unchanged live PR head",
+    "The final receipt authorizes merge only and is not a stock-GSD state overlay; Phase-2 planning/execution remains blocked until fresh immutable post-merge authority evidence and its ref/OID/SHA plus pre-T observation/start chronology validate, then T resumes $gsd-verify-work 1 through explicit confirmation, commits/pushes exact tracking, and validates its external content-addressed receipt"
   ],
   "next_action": "Commit and push the complete immutable plan candidate, then run the Prompt-02 reviewer lanes serially or concurrently on that exact head and join both dispositions, resolve findings, then provide Plan 01-06 its canonical external exact-head receipt",
   "do_not": [
@@ -32,7 +34,8 @@
     "Do not mutate the blocked replay worktree",
     "Do not confirm the stock Phase-1 transition prompt supplied by mode: interactive after verify-work; decline/defer it until durable closeout and required tracking are ready inside C=F",
     "Do not place C, F, or external-receipt self-identity in tracked closeout artifacts",
-    "Do not make a tracked commit after F",
+    "Do not make a tracked commit after F before merge; the only later tracking commit is separately authorized post-merge target-branch transition T outside the Phase-1 PR",
+    "Do not claim stock GSD automatically consumes the external final receipt or that merge marks Phase 1 complete",
     "Do not automatically advance to or begin work on Phase 2"
   ]
 }

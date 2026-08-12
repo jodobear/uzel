@@ -283,3 +283,31 @@ Cycle-7 documentation ledger (three accepted CodeRabbit findings):
 | CR-01 | STATE used bespoke `planned_review_required` frontmatter while its rendered current position said generic `planned`. | Use canonical GSD `planning` frontmatter and render `Planning — external review required` consistently with the active review gate. |
 | CR-02 | PROJECT did not require local CodeRabbit's `reviewed_head_sha` to equal the exact reviewed head on both `pass` and pre-finding `rate_limit`. | Require local CodeRabbit candidate/input/effective SHAs plus `reviewed_head_sha` to equal the exact head for both accepted statuses. |
 | CR-03 | The resumable handoff implied a serial reviewer route and did not state the common push-before-review join gate. | Permit serial or concurrent lanes only after the immutable candidate is pushed, and require acceptance to join both exact-head dispositions. |
+
+## Cycle 8
+
+- Immutable pushed candidate `2ced14a4c6c5a16fbffa4d5940dde1dd6d225918` was reviewed from
+  live PR merge base `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`; full binary-diff
+  SHA-256 was `aea8e6b408653607efa5662241f97c0f2a770eb22a46eb6bf0c58c37d356298f`.
+- Local CodeRabbit CLI `0.7.2` was attempted three times in required committed mode. Each
+  attempt ended with recoverable `Connection failed: WebSocket closed` before any finding or
+  qualifying `rate_limit`. These are transport failures, not approval or fallback evidence.
+- GitHub Codex request `https://github.com/jodobear/uzel/pull/36#issuecomment-5265225485`
+  produced exact-head review `4915386017`, submitted `2026-08-12T10:13:56Z`, with seven P1
+  findings. Review evidence:
+  `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4915386017`.
+- GitHub was first polled at `2026-08-12T10:05:31Z`, 212 seconds after request, then at
+  `10:09:21Z`, `10:13:07Z`, and `10:16:57Z`; every adjacent poll interval exceeded 210
+  seconds. All seven findings were accepted; none was waived or deferred.
+
+Cycle-8 GitHub Codex ledger:
+
+| ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| GH-01 | Realized dependency closure was not set-equal to the complete lock-bound dependency universe. | Independently derive the full Cargo, pnpm and flake lock universe; require exact expected/realized set and digest equality. |
+| GH-02 | Blocking residual threats could bypass approval eligibility. | Derive residual-threat disposition from authoritative sources and block approval unless resolved or validly deferred as P2. |
+| GH-03 | Bounded Phase-2 deferral omitted severity, stable source identity and explicit Phase-1 non-impact. | Enforce one exact P2-only deferral schema with source/evidence, owner, rationale, bounded non-impact and revisit trigger. |
+| GH-04 | Absence of `packages.<system>` incorrectly forced `discovery_unavailable`. | Use absence-safe root flake evaluation; successful complete absence yields an empty package set and `not_yet_packaged`. |
+| GH-05 | Native source-record completeness was compared only to a self-authored universe. | Reconstruct the authoritative source-record universe independently from exact Git source bytes before projection equality. |
+| GH-06 | The 210-second delay incorrectly included pushed-head and CodeRabbit events. | Validate push chronology separately; require 210 seconds only between adjacent GitHub Codex review polls. |
+| GH-07 | Final F remained pending with no stock-GSD-consumable transition after merge. | Keep the final receipt merge-only; require a separate post-merge target-branch bookkeeping transition `T` that verifies merged F and receipt before stock phase completion. Phase 2 remains blocked until T. |

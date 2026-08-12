@@ -72,6 +72,21 @@ validates the canonical external exact-head receipt plus explicit human executio
 - Phase 2 cannot execute before the manifest/exact-build and launch-negotiation profile
   receives an explicit human go/no-go and the unchanged-F final-review receipt validates. A
   hold remains the active stop; conditional approval is ineffective before that receipt.
+- Final receipt is merge-only external evidence, not a stock-GSD state overlay. F-tracked state
+  remains `closeout_final_review_pending`. After F merges, future GSD routing must report
+  `post_merge_tracking_transition_required` until a separately human-authorized target-branch T
+  validates merged-F ancestry and unchanged receipt plus immutable fresh authority evidence created
+  after merge. That evidence binds repo/PR/F/merge and prior plus explicit transition decisions;
+  a hold requires exact fresh override; fetch/recheck its ref/OID/SHA before T and freeze that
+  successful observation at a separate immutable ref/OID/SHA. Require
+  `authorized_at <= authority_observed_at <= t_started_at` no later than every transition commit;
+  T's first commit directly parents T0 with identical tree and exact ordered binding trailers, so
+  late authority publication/observation cannot pass via backdating. T then resumes completed UAT through supported
+  `$gsd-verify-work 1`; its installed inline transition requires explicit human confirmation. T
+  ends with exact tracking commit/push and a content-addressed external receipt binding authority
+  ref/OID/SHA, observation/start chronology, first binding commit, its path,
+  ordered commits, diff and remote tip. Phase 2 cannot be planned or executed before that receipt
+  validates; T is outside this Phase-1 PR and therefore does not invalidate exact-F review.
 
 - Phase 7.9 freezes one exact candidate. A5 is a mandatory twelve-lane
   non-implementation stop, not automatic release or programme continuation.
@@ -98,8 +113,12 @@ validates the canonical external exact-head receipt plus explicit human executio
   after UAT. Complete post-verification extraction and Prompt-05 curation, commit durable Phase
   Closeout C together with ROADMAP/STATE/HANDOFF tracking in `closeout_final_review_pending`,
   freeze/push F=C, then join the overlapping exact-F local CodeRabbit
-  and GitHub Codex lanes in the external final receipt. No tracked commit is permitted after F;
-  no Phase-2 work begins through this route.
+  and GitHub Codex lanes in the external final receipt. No tracked commit is permitted after F on
+  the Phase-1 branch or before merge;
+  that receipt authorizes merge only. After merge, capture/fetch fresh immutable authority evidence
+  (including explicit hold override when applicable), separately authorize target-branch T, preflight
+  merged-F ancestry/receipt/authority ref, resume `$gsd-verify-work 1`, explicitly confirm its inline transition,
+  commit/push tracking, and validate the content-addressed T receipt before any Phase-2 work.
 
 ### Blockers and Evidence Gaps
 

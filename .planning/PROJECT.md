@@ -106,6 +106,24 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
   review before required CI/verification and merge.
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
+- Phase-1 exact-F final receipt is external immutable evidence with exact effect
+  `merge_authorized_only`; stock GSD does not consume it as a state overlay. After reviewed F
+  merges, a separately human-authorized target-branch transition range T must refetch and
+  validate merged-F ancestry plus unchanged receipt, then fetch/recheck immutable authority bytes
+  created strictly after GitHub's merge timestamp. Those bytes bind repo/PR/F/merge, prior
+  decision/effect/authority, and an explicit transition decision/effect/authority; a prior hold
+  requires exact fresh override and can never be inferred from merge or silence. Its immutable ref
+  must be fetched/parsed before T starts and that successful `ls-remote` observation frozen at its
+  own immutable ref/OID/SHA, with `authorized_at <= authority_observed_at <= t_started_at`
+  and T start no later than every transition commit. T's first commit directly parents T0, has an
+  unchanged tree, and exact message trailers binding both artifacts plus T start; this prevents
+  late ref publication from passing through backdated timestamps. T then resumes the completed UAT through the
+  supported `$gsd-verify-work 1` entry. That workflow rechecks completion and invokes installed
+  `transition.md` inline; the human explicitly confirms its interactive prompt. T ends in an exact
+  four-file tracking commit and push, then a content-addressed external T receipt binds authority
+  locator/OID/SHA, its path, range, diff and remote tip and re-fetches the authority ref. T is outside the Phase-1 PR and Plan-01–07 execution, so it does not
+  invalidate F review. Phase 2 cannot be planned or executed before that receipt validates; a hold
+  still needs separate human transition authority.
 
 ## Constraints
 
