@@ -2,7 +2,7 @@
 gsd_state_version: 1.0
 milestone: v4
 milestone_name: Uzel product incubation through M5
-status: planned_review_required
+status: planning
 last_updated: "2026-08-12T05:35:33Z"
 progress:
   total_phases: 34
@@ -37,10 +37,12 @@ validates the canonical external exact-head receipt plus explicit human executio
 
 - Phase: 1 of 34 — Truthful baseline and execution reset
 - Plans: seven active plans across seven strictly ordered waves; five superseded plans retained as incident evidence
-- Status: planned; exact Plan-01-06 receipt required with current seven-plan byte equality,
+- Status: Planning — external review required; exact Plan-01-06 receipt required with current seven-plan byte equality,
   zero-finding CodeRabbit pass or recorded pre-finding `rate_limit` with zero findings,
-  green zero-finding GitHub Codex, same candidate/input/effective/reviewed head, and explicit
-  human execution approval
+  green zero-finding GitHub Codex, local CodeRabbit candidate/input/effective SHAs plus
+  `reviewed_head_sha` equal to the exact reviewed head, GitHub Codex
+  candidate/input/effective/reviewed SHAs equal to that head, and explicit human execution
+  approval
 - Progress: `[..........]` 0%
 
 ## Accumulated Context
@@ -55,8 +57,8 @@ validates the canonical external exact-head receipt plus explicit human executio
   archive remain preserved. Planning assigns only provisional disposition.
 
 - Runtime is Codex. Automatic GSD worktrees and automatic phase advancement are off.
-- Phase 1 uses the supported executable transition block: `mode: interactive` with
-  `gates.confirm_transition: true`. After all Plan-07 work and its summary, the phase
+- Phase 1 uses the supported executable transition block supplied by `mode: interactive`.
+  After all Plan-07 work and its summary, the phase
   orchestrator must complete the canonical verifier and `$gsd-verify-work 1`, decline/defer
   that transition confirmation, run `$gsd-extract-learnings 1`, and curate durable
   closeout through `prompts/05-phase-closeout.md`. Only prior immutable inputs may be bound by
@@ -84,7 +86,9 @@ validates the canonical external exact-head receipt plus explicit human executio
   GitHub Codex under `prompts/02-review-phase-1.md`; the lanes may overlap after push.
   Resolve material findings. The only fallback is a recorded pre-finding CodeRabbit
   `rate_limit` with zero findings, together with green zero-finding GitHub Codex on the same
-  candidate/input/effective/reviewed head.
+  exact head. Local CodeRabbit's candidate/input/effective SHAs and `reviewed_head_sha` must
+  equal that head for `pass` or `rate_limit`; GitHub Codex's
+  candidate/input/effective/reviewed SHAs must also equal it.
 
 - Produce the canonical external receipt required by Plan `01-06`, binding the exact reviewed
   head, all seven reviewed plan blobs/current bytes, reviewer identities/dispositions, and

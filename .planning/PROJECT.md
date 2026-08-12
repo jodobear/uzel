@@ -89,17 +89,21 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
 - After M0, every listed integer or decimal phase is one contextual issue, one manual
   worktree/branch and one primary PR.
 - GSD automatic worktrees and automatic advancement are disabled under Codex. The supported
-  executable transition block is configured as `mode: interactive` with
-  `gates.confirm_transition: true`; Phase 1 must decline/defer that confirmation after UAT
+  executable transition block is configured by `mode: interactive`; Phase 1 must decline/defer
+  the stock transition confirmation after UAT
   until Prompt-05 curation, closeout C=F and exact-F final review finish.
 - Plans are reviewed only after the complete immutable candidate is committed and pushed.
   Local CodeRabbit and GitHub Codex may overlap on that exact head, but execution remains
   blocked until the canonical external receipt required by Plan `01-06` proves explicit
   human execution authority; current bytes matching the seven reviewed plan blobs; a
   zero-finding CodeRabbit pass or recorded pre-finding `rate_limit` with zero findings;
-  and a green zero-finding GitHub Codex review. Both lanes' candidate/input/effective SHAs,
-  plus GitHub Codex's reviewed SHA, must equal the exact reviewed head. Any later commit
-  invalidates review evidence before required CI/verification and merge.
+  and a green zero-finding GitHub Codex review. Local CodeRabbit's candidate/input/effective
+  SHAs and `reviewed_head_sha` must equal the exact reviewed head for both `pass` and
+  `rate_limit`; GitHub Codex's candidate/input/effective/reviewed SHAs must equal that head.
+  Any later plan edit or commit before execution invalidates this plan-review evidence and requires
+  a new plan-review path. Subsequent authorized execution commits do not retroactively invalidate
+  the reviewed plan blobs, but the separately frozen final candidate F must receive its own exact-F
+  review before required CI/verification and merge.
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
 

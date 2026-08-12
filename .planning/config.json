@@ -77,9 +77,6 @@
       }
     ]
   },
-  "gates": {
-    "confirm_transition": true
-  },
   "hooks": {
     "context_warnings": true
   },

@@ -252,3 +252,34 @@ all accepted):
 | GH-05 | Plan-created validation code omitted mandatory Graphify refresh. | Add executable `graphify update .` ownership and a separate graph-only commit gate. |
 | GH-06 | Measurements were not bound to retained RSS/size artifacts. | Require exact artifact IDs, paths, digests, units and byte parity. |
 | GH-07 | Network-probe evidence was incomplete. | Require exact egress, DNS and declared local-fixture probes with retained output. |
+
+## Cycle 7
+
+- Local CodeRabbit CLI `0.7.2` reviewed immutable pushed candidate
+  `ae32a8d0e5931b7cfc3af472a0363d8a2db263b2` from review base
+  `21d3a0cbe5306cf6bf1943aba18cef77ed34ba37` and completed with twenty-three
+  material findings. The approved committed-review command and pinned executable identity
+  were unchanged from Cycle 6.
+- GitHub Codex review `4913693002`, submitted `2026-08-12T06:42:33Z`, reviewed the
+  same exact candidate and reported eight P1 findings. Request evidence:
+  `https://github.com/jodobear/uzel/pull/36#issuecomment-5263176672`; review
+  evidence: `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4913693002`.
+- GitHub Codex was first polled only after 210 seconds, then polled at intervals of at
+  least 210 seconds until its exact-head result appeared. All material findings from both
+  lanes were accepted into the next correction batch; none was waived or deferred.
+- Independent cross-audits found further false-pass and stock-GSD lifecycle defects. They
+  are treated as material Cycle-7 corrections even when not duplicated by an external lane:
+  pre-execution receipt enforcement, live incident and source/package/native derivation,
+  strict JSON and registry universes, stock checkpoint/verification/UAT topology, immutable
+  actual-output and poll evidence, push-before-review observation, and closeout eligibility
+  freshness.
+
+## Cycle 7 documentation follow-up
+
+Cycle-7 documentation ledger (three accepted CodeRabbit findings):
+
+| Lane / ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| CR-01 | STATE used bespoke `planned_review_required` frontmatter while its rendered current position said generic `planned`. | Use canonical GSD `planning` frontmatter and render `Planning — external review required` consistently with the active review gate. |
+| CR-02 | PROJECT did not require local CodeRabbit's `reviewed_head_sha` to equal the exact reviewed head on both `pass` and pre-finding `rate_limit`. | Require local CodeRabbit candidate/input/effective SHAs plus `reviewed_head_sha` to equal the exact head for both accepted statuses. |
+| CR-03 | The resumable handoff implied a serial reviewer route and did not state the common push-before-review join gate. | Permit serial or concurrent lanes only after the immutable candidate is pushed, and require acceptance to join both exact-head dispositions. |
