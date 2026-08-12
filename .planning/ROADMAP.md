@@ -125,7 +125,11 @@ paths `.planning/ROADMAP.md`, `.planning/STATE.md` and `.planning/HANDOFF.json`.
 bytes must keep Phase 1 current, record `closeout_final_review_pending`, preserve hold or
 conditional-pending effect, and leave Phase 2 unstarted. Freeze F=C. Push F before starting local
 CodeRabbit and GitHub Codex; those two exact-F lanes may run serially or overlap, but both
-dispositions must join in the canonical external final receipt. No tracked commit may follow F on
+dispositions must join in the canonical external final receipt. Before merge, publish its canonical
+bytes once at the content-addressed final-receipt ref and fetch/revalidate its exact locator/OID/SHA-256;
+while the PR remains open, publish/fetch an immutable authenticated observation of that ref/OID/digest.
+An unchanged second GitHub comment must attest the observation locator/OID/SHA before merge.
+Also revalidate every transitively referenced final and candidate lane receipt/raw/actual/poll-event ref. No tracked commit may follow F on
 the Phase-1 branch or before merge; target-branch transition T is the sole later tracking route.
 Until that receipt validates against the unchanged live PR head, Phase 1 closeout and merge remain
 ineffective, conditional approval grants no Phase-2 authority, and a hold remains the active stop.
@@ -133,7 +137,9 @@ The exact external receipt has only `receipt_effect: merge_authorized_only` and
 `post_merge_tracking_transition: required`; stock GSD does not consume it as an overlay and F-tracked
 state remains `closeout_final_review_pending`. After reviewed F merges, a separately human-authorized
 target-branch transition range T—outside this Phase-1 PR and Plan-01–07 execution—must refetch the
-target and PR, validate merged-F ancestry and unchanged receipt/evidence refs, then resume the
+target and PR, validate merged-F ancestry, fetch the frozen final receipt and its immutable pre-merge
+observation, require observation time before `merged_at`, and revalidate every
+transitively bound final and candidate lane receipt/raw/actual/poll-event ref unchanged, then resume the
 existing completed UAT with supported `$gsd-verify-work 1`. Before that command, immutable fresh
 post-merge authority bytes must bind repo/PR/F/merge, prior decision/effect/authority, and explicit
 transition decision/effect/authority; a hold requires exact fresh override. Fetch and parse its
@@ -144,7 +150,7 @@ and exact ordered trailers binding both artifact locator/OID/SHA values and T st
 publication cannot pass through backdating. The installed
 workflow then rechecks the completion predicate and invokes `transition.md` inline; the human explicitly confirms the
 interactive prompt. T finishes with an exact ROADMAP/STATE/PROJECT/HANDOFF tracking commit and push,
-then a content-addressed external receipt binds the final-receipt path/digest, authority
+then a content-addressed external receipt binds the final-receipt path/digest/locator/OID, authority
 ref/OID/SHA and parsed fields, observation/start chronology, first binding commit, ordered T commits,
 changed paths, full diff and pushed target tip. Because T follows merge, it does not invalidate
 exact-F review. No Phase-2 planning or implementation may start before that receipt validates, and

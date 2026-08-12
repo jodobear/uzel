@@ -311,3 +311,28 @@ Cycle-8 GitHub Codex ledger:
 | GH-05 | Native source-record completeness was compared only to a self-authored universe. | Reconstruct the authoritative source-record universe independently from exact Git source bytes before projection equality. |
 | GH-06 | The 210-second delay incorrectly included pushed-head and CodeRabbit events. | Validate push chronology separately; require 210 seconds only between adjacent GitHub Codex review polls. |
 | GH-07 | Final F remained pending with no stock-GSD-consumable transition after merge. | Keep the final receipt merge-only; require a separate post-merge target-branch bookkeeping transition `T` that verifies merged F and receipt before stock phase completion. Phase 2 remains blocked until T. |
+
+## Cycle 9
+
+- Immutable pushed candidate `64f2b509926d8a1d42aa3bcaeaae2462d657891d` was reviewed from
+  live PR merge base `1b58778f8b2f9945ef2ab9427cdfa673c04eb908`.
+- Local CodeRabbit CLI `0.7.2` again ended with recoverable `Connection failed: WebSocket
+  closed` before any finding or qualifying `rate_limit`; this transport failure is not approval.
+- GitHub Codex request `https://github.com/jodobear/uzel/pull/36#issuecomment-5265943152`
+  produced exact-head review `4915906240`, submitted `2026-08-12T11:24:19Z`, with six P1
+  findings. Review evidence:
+  `https://github.com/jodobear/uzel/pull/36#pullrequestreview-4915906240`.
+- Valid acceptance polls occurred at `2026-08-12T11:19:00Z`, `11:22:36Z`, and
+  `11:29:57Z`. An intermediate observation at `11:25:59Z` was only 203 seconds after its
+  predecessor and was explicitly excluded. All six findings were accepted; none was waived.
+
+Cycle-9 GitHub Codex ledger:
+
+| ID | Full actionable finding | Corrective disposition |
+|---|---|---|
+| GH-01 | Pnpm realization compared raw/all-platform lock keys to Linux-selected native packages. | Parse semantic lock identities, bind native platform probes, partition selected/non-selected members, and compare only selected native/store identities. |
+| GH-02 | Historical closure-source universe omitted workspace, toolchain, Deno and compatibility inputs. | Derive the complete applicable manifest universe and finite consumer map from exact historical Git/config/source bytes. |
+| GH-03 | Post-merge T was not bound to the same frozen receipt and transitive evidence that authorized merge. | Freeze receipt identity before merge with authenticated observations; T re-fetches it and every referenced candidate/final evidence ref. |
+| GH-04 | Citations proved only line existence, not claim-specific behavior. | Bind each fact ID to a structurally parsed source value and an exact test assertion operand/value. |
+| GH-05 | Unavailable closure/platform verdicts could not be recorded without a fictitious replay. | Allow zero replay for typed unavailable outcomes with exact attempted-prefix/unattempted-suffix and retained native failure/cleanup evidence. |
+| GH-06 | Packet source validation imposed blocker/replacement fields on every category. | Validate exact category-specific E-frozen packet-row schemas and keep disposition fields separate. |

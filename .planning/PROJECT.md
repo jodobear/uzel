@@ -107,9 +107,16 @@ The 38 active requirements in `.planning/REQUIREMENTS.md` map across all 34 phas
 - Every phase closes compatibility, upstream, capability-ledger, decision, terminology,
   learning, education and visibility deltas.
 - Phase-1 exact-F final receipt is external immutable evidence with exact effect
-  `merge_authorized_only`; stock GSD does not consume it as a state overlay. After reviewed F
-  merges, a separately human-authorized target-branch transition range T must refetch and
-  validate merged-F ancestry plus unchanged receipt, then fetch/recheck immutable authority bytes
+  `merge_authorized_only`; before merge its canonical bytes must be published once at the
+  content-addressed final-receipt ref and fetched/revalidated by exact locator/OID/SHA-256; an
+  authenticated canonical observation of that exact ref/OID/digest must itself be published and
+  fetched at an immutable locator/OID/SHA while the PR is still open, then a second immutable
+  GitHub comment must attest that observation locator/OID/SHA before merge. Both artifacts, together
+  with every final and candidate lane receipt/raw/actual/poll-event ref it transitively binds.
+  Stock GSD does not consume it as a state overlay. After reviewed F merges, a separately
+  human-authorized target-branch transition range T must refetch those unchanged transitive refs
+  and the pre-merge observation, require its timestamp before GitHub `merged_at`,
+  validate merged-F ancestry, then fetch/recheck immutable authority bytes
   created strictly after GitHub's merge timestamp. Those bytes bind repo/PR/F/merge, prior
   decision/effect/authority, and an explicit transition decision/effect/authority; a prior hold
   requires exact fresh override and can never be inferred from merge or silence. Its immutable ref
