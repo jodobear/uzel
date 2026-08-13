@@ -42,8 +42,10 @@ their dependency domains. Do not introduce another toolchain or dependency lock.
 4. Work from current integrated base in the issue's dedicated branch/worktree.
 5. Implement the smallest complete vertical slice. During debugging use focused tests,
    affected checks, and narrow probes.
-6. After code stabilizes, run `graphify update .` once and commit canonical graph output
-   separately. Repeat only when later code changes make it stale.
+6. After code stabilizes, run the locked `pnpm graphify:refresh` entrypoint once. It runs
+   the supported `graphify update .` command and excludes machine-local cache state from
+   canonical output. Commit canonical graph output separately. Repeat only when later code
+   changes make it stale.
 7. Run one complete affected candidate validation, complete GSD verification, push, and
    open one linked draft PR.
 8. Request GitHub Codex review on a coherent exact head. Batch-fix valid findings. When

@@ -103,9 +103,9 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 
 **`graphify-out/`:**
 - Purpose: Hold the queryable architecture/code graph required before codebase exploration.
-- Contains: `graph.json`, generated HTML visualization, graph report, labels, manifest, and AST/stat cache.
+- Contains: `graph.json`, generated HTML visualization, graph report, labels, and manifest. Machine-local AST/stat cache is ignored and never committed.
 - Key files: `graphify-out/graph.json`, `graphify-out/GRAPH_REPORT.md`, `graphify-out/graph.html`, `graphify-out/manifest.json`.
-- Boundary: Query `graphify-out/graph.json` first for codebase questions. After code changes, run `graphify update .` and commit refreshed graph separately.
+- Boundary: Query `graphify-out/graph.json` first for codebase questions. After code changes, run the locked `pnpm graphify:refresh` entrypoint and commit refreshed canonical graph output separately.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Own normative POC scope, evidence, source pins, work slices, contribution ledger, and durable status.
@@ -265,7 +265,7 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 - Purpose: Queryable generated code graph and visual/report artifacts.
 - Generated: Yes, by Graphify.
 - Committed: Yes, except dated generated subdirectories ignored by `.gitignore`.
-- Modification rule: Run `graphify update .` after code changes and commit graph refresh separately.
+- Modification rule: Run the locked `pnpm graphify:refresh` entrypoint after code changes and commit graph refresh separately; never commit `graphify-out/cache/`.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Validated scope, evidence, source pins, work workflow, and durable status.

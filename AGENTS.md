@@ -8,7 +8,8 @@ instructions and one `work/*.md` slice only when the active issue assigns bounde
 or evidence work.
 
 For codebase questions, query the existing Graphify graph first. After code stabilizes,
-run `graphify update .` once and commit refreshed canonical graph output separately.
+run the locked `pnpm graphify:refresh` entrypoint once and commit refreshed canonical
+graph output separately. Graphify's machine-local cache is never canonical output.
 
 Every upstream-bound change must use a dedicated branch in the corresponding `jodobear`
 fork and be recorded in

@@ -27,6 +27,7 @@ nix --extra-experimental-features 'nix-command flakes' develop --command pnpm sm
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:linux
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:fedora
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm docs:check
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm test:maintenance
 ```
 
 No watch-mode script is configured in `package.json` or `apps/uzel/package.json`. No coverage command is configured.
@@ -188,7 +189,8 @@ let socket = temp.path().join("run/uzel.sock");
 - Keep portable signed artifacts and Nostr records under `fixtures/`; document fixture meaning in `fixtures/README.md` and fixture-local READMEs such as `fixtures/good-morning/README.md`.
 - Keep renderer-only fake-native state under `apps/uzel/tests/ui/fixtures/mock-native.js`, separate from production code.
 - Verify fixture bytes and pins through `scripts/check-pinned-assets.sh`, which runs as the final part of the root `test` package script.
-- Regenerate signed fixture bytes only through the project process in `scripts/build-signed-napplet-fixtures.sh`; update all coupled event/hash/fixture references together rather than hand-editing one file.
+- Regenerate signed fixture bytes only through the locked `pnpm fixtures:build` entrypoint; update all coupled event/hash/fixture references together rather than hand-editing one file.
+- `pnpm docs:check` is read-only. Refresh the preserved audit result and its manifest only through the explicit `pnpm docs:evidence` entrypoint.
 
 ## Coverage
 

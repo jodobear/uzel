@@ -27,8 +27,8 @@
     },
     {
       "path": "audit-results.json",
-      "bytes": 217,
-      "sha256": "7de2b0521de6ab1e1301930ee1428596af827193debc891f5cdca97264d97d3c"
+      "bytes": 152,
+      "sha256": "c4bb7d5164e6a4770b4d374a472e8712bd429aaf546a76fbdadea495c8df1262"
     },
     {
       "path": "compatibility.lock",
@@ -227,8 +227,8 @@
     },
     {
       "path": "scripts/audit_docs.py",
-      "bytes": 5969,
-      "sha256": "fdf1023e06d59ba932522cf9c2caaaa2eda364295b0053bef7b6d9e84e4e2f7b"
+      "bytes": 6476,
+      "sha256": "6f2dc0cce0adfe8379661702f5a0787a7088eeef038382485f7f0b96c277be92"
     },
     {
       "path": "templates/fact.md",

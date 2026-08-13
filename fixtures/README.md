@@ -13,7 +13,8 @@ Generate Work 03 fixtures only with a disposable test key:
 
 ```sh
 VITE_DEV_PRIVKEY_HEX="$(openssl rand -hex 32)" \
-  bash scripts/build-signed-napplet-fixtures.sh
+  nix --extra-experimental-features 'nix-command flakes' develop --command \
+    pnpm fixtures:build
 ```
 
 The script uses pinned `@napplet/vite-plugin@0.12.0` for single-file builds and
