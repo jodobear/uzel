@@ -67,9 +67,9 @@ LINUX_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_acc
 | Requirement | Bound source / intended evidence | Current result | Evidence path | Owner and revisit trigger | Falsifier |
 | --- | --- | --- | --- | --- | --- |
 | REF-01 exact build, confirmation, launch, render, composition | build/check/test plus exact fixtures, UI acceptance, and live smoke | **passed** — exact builds, confirmation/acceptance, profile/follow rendering, and multi-surface composition completed | command/result table and durable smoke line above; bound source paths | Uzel product owner; rerun after source/pin change | any locked lane or exact-source binding fails |
-| REF-02 trust / denial boundary | UI acceptance, hostile-egress tests, runtime boundary tests, and live smoke | **partial / pending** — current Uzel source binding and denial tests pass; close only after the affected current-boundary validation | 34 UI passes, 21 napplet passes, Rust boundary passes, durable smoke line | Uzel trust-boundary owner | every request is source-bound before Uzel's runtime handles it and denied capabilities remain denied |
-| REF-03 selected read identity, profile/follow render, lifecycle recovery | UI acceptance and Rust lifecycle/reconciliation tests plus live smoke | **partial / pending** — the source-grounded live replay recovered selected identity and cached profile after reopening the same state root, but it observed follows only before restart, reinstalled the fixture after reopening, and exercised ambiguous outcomes only within their original UI sessions | baseline results above plus the 2026-08-14 continuation below | Uzel runtime owner; add one restart replay that observes recovered follows, an already-installed exact build, and an ambiguous outcome after restart | restart loses identity/local projection, duplicates authority, changes exact fixture bytes, or cannot reconcile an ambiguous outcome |
-| REF-04 Chromium plus real Weston/WebKit hostile/recovery/fixture proof | deterministic `test:ui` plus independent real `smoke:linux` | **partial / pending** — Chromium recovery cases and real WebKit hostile/native-denial markers pass independently, but the WebKit smoke does not induce recovery/reconciliation | command/result table and durable smoke line above | Uzel runtime/trust owners; add a bounded real WebKit recovery probe | real WebKit recovery and existing hostile/fixture checks all pass |
+| REF-02 trust / denial boundary | UI acceptance, hostile-egress tests, runtime boundary tests, and live smoke | **passed at `66c4d8e`** — current Uzel source binding and denial paths pass deterministic, Rust, and native probes | affected validation and native marker below | Uzel trust-boundary owner | any request selects a surface/session/principal, receives raw network/native authority, or bypasses trusted host binding |
+| REF-03 selected read identity, profile/follow render, lifecycle recovery | deterministic runner restart plus UI reconciliation/ambiguity scenarios | **passed at `66c4d8e`** — restart preserves identity, exact-build metadata, identical follows, reconciles the unobserved pre-restart surface as inactive, and advances generation | `restart_recovers_identity_installed_build_follows_and_orphan_outcome`; selected Chromium scenarios | Uzel runtime owner | restart loses selected state/build/follows, retains an orphan session, or reuses generation |
+| REF-04 Chromium plus real Weston/WebKit hostile/recovery/fixture proof | selected deterministic `test:ui` plus real `smoke:linux` | **passed at `66c4d8e`** — native WebKit stops both trusted surfaces after hostile proof, relaunches generations 4/5, re-handshakes, and preserves hostile/native denial | affected validation and `UZEL_WEBKIT_RECOVERY_OK` below | Uzel runtime/trust owners | real WebKit replacement, handshake, source binding, or hostile/native denial fails |
 
 No raw smoke logs, credentials, or invoke material were copied into this report. The exact non-secret terminal line above is the durable result; the existing smoke script remains the protected evidence producer.
 
@@ -91,8 +91,6 @@ Build/dependency materialization is separate from runtime measurements. Values b
 ## Unavailable or failed
 
 - **Per-marker startup latency remains unavailable.** The existing smoke producer reports phase and success markers but not individual marker timestamps; the reproducible full-smoke elapsed value is 23 seconds. Owner: later performance instrumentation, only when product scope calls for it.
-- **One source-grounded public-network restart/cache test was explicitly run in the bounded continuation and passed, but REF-03 remains pending.** It proves selected identity and cached profile after reopening, not follows, an already-installed exact build, or an ambiguous outcome recovered after restart. Owner: Uzel runtime validation.
-- **Real WebKit recovery remains unexercised.** The live smoke proves readiness, fixtures, hostile denial, and native isolation but does not induce restart/reconciliation; REF-04 remains pending. Owner: Uzel runtime validation.
 - **Process/WebView pressure remains unavailable.** The smoke's nap-shell and accepted-surface counters describe iframe surfaces inside one configured Tauri window, not WebKit/WebView OS-process pressure. Owner: runtime instrumentation when product scope calls for it.
 - **Current architecture:** Uzel owns product runtime/composition and its private daemon; nampplets and NMP remain exact-pinned source-proven upstreams.
 
@@ -114,20 +112,26 @@ REF-03 restart-state evidence gathered so far:
 - focused Chromium `restart-reconciliation`, `review-ambiguous`, and
   `confirmation-ambiguous`: 6 tests passed across three scenarios.
 
-These focused passes do not complete REF-03. Follows were asserted only before reopening; the
-reopened runner installed its fixture again; and the ambiguous review/confirmation retries stayed
-inside their original UI sessions. The active evidence-only plan preserves source, runners, and
-fixture bytes and favors the existing focused runner surface, so closing those gaps now
-would conflict with the plan boundaries rather than provide authorized evidence. Safe resume
-trigger: add one smallest affected restart replay that observes
-all three missing post-restart outcomes.
+Implementation commit `66c4d8e` closed the remaining observable gaps on current Uzel source:
 
-The locked real Weston/WebKit smoke then passed once with the same durable
-`LINUX_RUN_SMOKE_OK` marker recorded above. This revalidates real-WebKit hostile egress,
-native-bridge denial, fixture loading, teardown, and continued process health, but the existing
-smoke does not induce a failed restart/reconciliation cycle. REF-04 therefore remains pending.
-Plan 01's **Boundaries** and **No-gos** preserve source/runner/test/smoke bytes and forbid a custom
-validator or new harness; completing REF-04 requires extending the active native smoke rather than
-substituting Chromium evidence. Safe resume trigger: on the current source,
-add the smallest affected native
-recovery probe alongside the permitted bounded Uzel seam, then rerun the one locked native smoke.
+- `pnpm check` passed Svelte checks/builds and `cargo check --workspace`.
+- `pnpm test` passed 11 contract tests, 21 napplet tests, 5 shell tests, 31 napd tests
+  (2 public-network tests intentionally ignored), 12 protocol tests, 1 daemon-app test, 12 Tauri
+  tests, and pinned-asset verification.
+- `restart_recovers_identity_installed_build_follows_and_orphan_outcome` passed. The same temporary
+  state root retained the selected identity, one exact installed build and identical follow keys;
+  the unobserved pre-restart surface reconciled inactive; relaunch used a fresh generation.
+- Selected Chromium `ready`, `review-ambiguous`, `confirmation-ambiguous`, and
+  `restart-reconciliation` scenarios passed: 4 scenarios / 9 TAP tests.
+- The real Weston/WebKit smoke passed after hostile proof, stopped both trusted surfaces, relaunched
+  generations 4/5, completed fresh shell handshakes, and emitted:
+
+```text
+UZEL_WEBKIT_RECOVERY_OK before=uzel-follow-list-generation-2,uzel-profile-card-generation-1 after=uzel-follow-list-generation-5,uzel-profile-card-generation-4 source_bound=true
+LINUX_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=5 nap_shell=5 shell_accepted=4 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero recovery=passed user_mode=hidden compositor=weston-headless-gl
+```
+
+An initial selected-Chromium run exposed that the mock native boundary lacked the new
+disabled-by-default probe commands. Production checks and native smoke were already green; the mock
+was updated to return `false`/`null`, and the selected Chromium rerun passed. No unavailable native
+access or remaining REF-02/03/04 failure was hidden.
