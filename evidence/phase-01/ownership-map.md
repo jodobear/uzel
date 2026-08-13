@@ -1,0 +1,32 @@
+# Phase 01 ownership map
+
+**Observed at Uzel HEAD:** `44a2399edcb5cf91fc57ca3b46325f0f01c0c488` on `phase/01-poc-replay-napp-seam`  
+**Method:** read-only inspection of `WORKFLOW.md`, `uzel-poc-validated-pack/compatibility.lock`, `uzel-poc-validated-pack/docs/08-upstream-contributions.md`, `git worktree list --porcelain`, and selected refs.
+
+## Ownership and disposition
+
+| Classification | Concern / seam | Owner | Exact evidence | Disposition | Revisit trigger |
+| --- | --- | --- | --- | --- | --- |
+| Retained Uzel concern | Linux Tauri/Svelte product composition, private daemon client, source-bound surface policy, presentation | `jodobear/uzel` | `WORKFLOW.md`; `.planning/PROJECT.md`; accepted comparison `19519c378c2e775c6ad4b042cfd9aadd89f766b9` | retain; evidence-only slice makes no product change | successful locked replay or later accepted Napp seam |
+| Retained Uzel concern | Exact-build fixture verification, install, permission review, launch, stop/restart behavior | Uzel over reusable runtime facade | `crates/napd/src/fixtures.rs`; `crates/napd/src/runner.rs` | retain exact source bindings; do not replace runtime | fixture/pin change or replay failure after Nix access restored |
+| Napp consumption / extraction need | Neutral committed Napp client, product events, testkit vectors, version/lifecycle/scope/NMP/pin/probe evidence | `jodobear/napp` source authority | `evidence/phase-01/candidate-qualification.md`; `evidence/phase-01/napp-dependency.md` | blocked; consume only after committed qualifying evidence, never infer it from checkout state | Napp owner publishes qualifying committed evidence |
+| Compatibility seam | RuntimeController and exact-pinned nampplets/NMP facades; no duplicate runtime, cache, relay, or persistence truth | nampplets runtime; NMP data plane; Uzel product policy | `compatibility.lock`; upstream ledger | retain pins and one-way owner boundaries | accepted compatible successor plus full Linux probes |
+| Nostr data plane | query, relay, event store, freshness, provenance, diagnostics, signer, publication | `pablof7z/nmp` / pinned NMP | nested AGENTS; upstream ledger | preserve sole NMP ownership; no Uzel/Napp duplicate | authority changes an explicit public facade |
+| Upstream candidate | portable trusted-shell bytes | `jodobear/nampplets` fork candidate `fc68bce0a4793a8618445e234bcc91d69e8b96de` | compatibility lock and upstream ledger | preserve provisional exact evidence; no repin | reviewed successor passes same Linux probes |
+| Upstream candidate | runtime compatibility revision | `jodobear/nampplets` exact pin `e539378ef735ce06651fd94b71e06f9ce757cb13` | compatibility lock | retain; current slice does not upgrade | accepted successor and repeat integrated probes |
+| Upstream authority | protocol messages/lifecycle; manifest/artifact/sandbox; packaged web projection | `napplet/naps`, pinned NIP-5D, `napplet/web` | upstream ledger | Uzel consumes; does not redefine authority | authority revision requires compatibility revalidation |
+| Obsolete POC-only concern | historical nested `STATUS.md` PR #30 active-language and old pass counts | preserved POC evidence | `uzel-poc-validated-pack/STATUS.md` | retain as history, never present it as current baseline success | a current replay produces new evidence |
+| Obsolete POC-only concern | direct adaptation, new adapter proposal, Cargo/lock/runner/fixture edits before Napp admission | no owner granted | Phase 01 CONTEXT and plan | excluded / prohibited | only post-qualification later issue and plan |
+
+## Protected evidence disposition
+
+| Protected ref or worktree | Exact HEAD / branch | Evidence location | Owner | Disposition | Revisit trigger |
+| --- | --- | --- | --- | --- | --- |
+| Current scoped worktree | `44a2399edcb5cf91fc57ca3b46325f0f01c0c488`; `phase/01-poc-replay-napp-seam` | this Phase 01 evidence directory | Issue #42 / Uzel delivery | retain focused worktree; do not switch or repurpose | Phase 01 closure after external Napp prerequisite |
+| Primary incident archive | `763412a3167713b98c6f741641d485d247041934`; `archive/dirty-primary-763412a` | `/workspace/projects/napplets/napp-uzel/uzel` | protected incident owner | preserve; no cleanup, reset, or mutation | explicit incident disposition |
+| Prior replay harness | `b185ad1b8d9d034d151406b12aa189f5a6be970f`; `gsd/phase-01-plan-01-replay`, also `wip/phase-1-replay-b185ad1` | `/tmp/uzel-01-01-3qGzwY` | prior Phase 01 planning owner | preserve as historical harness; no merge or rewrite | explicit replay-harness audit |
+| Prior Phase 01 review pause | `227d1fc43c93fec701b384bdbc2e302ec93c157b`; `phase/01-baseline-v4` | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-v4` | prior review owner | preserve paused exact evidence; not active delivery path | source-authority / review resumption decision |
+| Lean process reset | `eea91162a498b579cf47055013be6912a5f4a85d`; `chore/lean-process-reset` | `/tmp/uzel-lean-reset` | process-reset owner | preserve; no Graphify or planning regeneration in this slice | its independent review/merge decision |
+| Review-fix worktree | `ed71845eb9cba37e8bc9fcbfee142552753e823e`; `chore/lean-process-reset-review-fixes` | `/tmp/uzel-lean-review-fixes` | review-fix owner | preserve unrelated work | exact review completion |
+
+Read-only inspection found no authority to delete, prune, rewrite, repurpose, or merge any listed ref/worktree. This document assigns ownership and revisit triggers only.
