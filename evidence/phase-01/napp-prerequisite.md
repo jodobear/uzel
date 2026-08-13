@@ -75,7 +75,7 @@ The validator resolved that path at the handoff record's `contract_commit` `a6e9
 
 handoff validation: pass
 
-`evidence/phase-01/napp-dependency.md` therefore remains unchanged and no handoff pass is claimed.
+`evidence/phase-01/napp-dependency.md` therefore remains unchanged. The repository-qualified handoff passes; candidate qualification independently remains `stop` and authorizes no seam adoption.
 
 The fixed qualification emitted `.artifacts/phase-01/napp/0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e/tree.bin`. `git check-ignore -v` reports `/.artifacts/` and `git ls-files --error-unmatch` exits `1`: the inventory is ignored, untracked, unstaged, and uncommitted. It is not product evidence.
 

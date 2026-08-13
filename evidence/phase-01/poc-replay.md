@@ -81,7 +81,7 @@ Build/dependency materialization is separate from runtime measurements. Values b
 | --- | --- | --- | --- | --- |
 | Nix materialization / build | install 5 s; build 67 s; check 36 s; all exit `0` | locked install/build/check | Uzel build owner | source, lock, or flake change |
 | Test lane | exit `0`, 25 s; 11 contract, 21 napplet, 5 shell, and 55 Rust tests passed; 2 external-network tests ignored | locked `pnpm test` | Uzel product owner | source or pin change |
-| Startup-to-ready | full smoke exit `0` in 23 s; per-marker startup latency unavailable because producer emits phase markers without timestamps | locked `pnpm smoke:linux` | Uzel runtime owner | smoke timing instrumentation changes |
+| Startup-to-ready | unavailable: producer emits phase markers without timestamps and may compile before launch; 23 s is only total smoke-lane wall time | locked `pnpm smoke:linux` | Uzel runtime owner | direct ready-marker timing is instrumented |
 | Local profile/follow render | 34 deterministic UI cases passed; live smoke accepted 2 shell surfaces | locked UI plus durable smoke line | Uzel product owner | renderer or fixture change |
 | Chromium hostile egress / native bridge | UI suite passed; live hostile denied, sentinel/native zero | locked UI plus durable smoke line | Uzel trust-boundary owner | boundary change |
 | Weston/WebKit process and WebView pressure | one headless Weston compositor; daemon/shell ready; 3 exact-build nap shells; 2 accepted surfaces | durable smoke line | Uzel runtime owner | runtime/compositor change |
