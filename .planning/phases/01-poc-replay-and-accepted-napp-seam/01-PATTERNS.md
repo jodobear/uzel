@@ -58,7 +58,7 @@ if resolved.read_bytes() != committed:
     raise CheckError("record bytes differ from the reviewed HEAD blob")
 ```
 
-Preserve fail-closed result validation ([lines 451-519](../../../scripts/ref-candidate-check.py)): exact schema keys, expected repo/origin/tree, committed record bytes, and invariant snapshots. Existing contract deliberately validates only `result == "stop"`; do not turn Phase 01 revalidation into implicit candidate acceptance.
+Preserve fail-closed result validation ([lines 451-519](../../../scripts/ref-candidate-check.py)): exact schema keys, expected repo/origin/tree, committed record bytes, and invariant snapshots. The existing contract deliberately validates only the immutable `0b75b6b` `result == "stop"` baseline. Only after the Napp owner publishes qualifying committed evidence, narrowly rebind the checker to one exact successor SHA and require a separate fail-closed successor qualification result; never overwrite or reinterpret the historical STOP record.
 
 **CLI / failure boundary** ([lines 687-705](../../../scripts/ref-candidate-check.py)):
 
@@ -71,7 +71,7 @@ except (CheckError, OSError, json.JSONDecodeError) as error:
     return 1
 ```
 
-Keep commands explicit and errors typed. If validator is obsolete after replay, document evidence-backed deletion/disposition; do not broaden it.
+Keep commands explicit and errors typed. Do not parameterize or weaken the checker. The only permitted change is the plan-authorized exact-successor rebind after Napp-owner evidence exists; otherwise, if the validator becomes obsolete, document an evidence-backed disposition.
 
 ---
 
@@ -91,7 +91,7 @@ Committed-object evidence only; sibling working-tree material is excluded.
 <!-- ref-candidate-record:end -->
 ```
 
-Keep one marker-delimited, canonical JSON record; no handwritten fields inside marker. Current record's terminal outcome is a deliberate `stop`: missing committed source-backed admission evidence and a declared safe project probe. Revalidate rather than overwrite that disposition with a speculative seam.
+Keep one marker-delimited, canonical JSON record per candidate; no handwritten fields inside a marker. The current `0b75b6b` record's terminal outcome is a deliberate `stop`: missing committed source-backed admission evidence and a declared safe project probe. Revalidate and preserve that historical disposition. After Napp-owner evidence exists, write a new exact-successor qualification record through the narrowly rebound fail-closed checker rather than overwriting the STOP baseline or accepting a speculative seam.
 
 **Handoff parity rule** ([`scripts/ref-candidate-check.py` lines 522-569](../../../scripts/ref-candidate-check.py)): handoff copies qualification provenance fields and verifies every copied field plus Plan-object parity. Use it only for repository-qualified dependency handoff; it grants neither publication nor adapter implementation.
 
