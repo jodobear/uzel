@@ -16,6 +16,12 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 **Goal**: Replay current accepted behavior, disposition protected incident evidence, and adopt only a qualified Napp consumer seam.
 **Depends on**: Nothing
+**Plans:** 1 current plan
+
+Plans:
+- [ ] 01-01-PLAN.md — First bounded Phase 1 slice: replay/disposition plus the exact committed STOP/prerequisite packet. Phase 1 remains open pending Napp owner/source-authority resolution and qualified committed evidence.
+
+**Future dependency:** A later Phase 1 issue and plan may be created only after `jodobear/napp` publishes committed qualifying evidence. No second plan exists yet; Phase 1 remains open.
 
 - [ ] Accepted behavior is reproducible or honestly dispositioned.
 - [ ] Protected incident evidence receives an explicit final disposition.
