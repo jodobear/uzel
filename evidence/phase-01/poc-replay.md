@@ -126,7 +126,8 @@ The locked real Weston/WebKit smoke then passed once with the same durable
 `LINUX_RUN_SMOKE_OK` marker recorded above. This revalidates real-WebKit hostile egress,
 native-bridge denial, fixture loading, teardown, and continued process health, but the existing
 smoke does not induce a failed restart/reconciliation cycle. REF-04 therefore remains pending.
-Plan boundary lines 43 and 48–49 preserve runner/product bytes and forbid a custom validator before
-Napp qualification; completing REF-04 now would violate the active plan rather than supply missing
-evidence. Safe resume trigger: after the Napp successor qualifies, add the smallest affected native
+Plan 01's **Boundaries** and **No-gos** preserve source/runner/test/smoke bytes and forbid a custom
+validator or new harness before Napp qualification; completing REF-04 now would violate the active
+plan rather than supply missing evidence. Safe resume trigger: after the Napp successor qualifies,
+add the smallest affected native
 recovery probe alongside the permitted bounded Uzel seam, then rerun the one locked native smoke.

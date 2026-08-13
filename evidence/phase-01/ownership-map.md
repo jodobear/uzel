@@ -1,6 +1,6 @@
 # Phase 01 ownership map
 
-**Observed at Uzel HEAD:** `44a2399edcb5cf91fc57ca3b46325f0f01c0c488` on `phase/01-poc-replay-napp-seam`  
+**Initial inventory anchor:** Uzel `44a2399edcb5cf91fc57ca3b46325f0f01c0c488` on `phase/01-poc-replay-napp-seam`; this is a dated historical observation, not the current PR head. Re-resolve PR #43's exact head before any preservation action.
 **Method:** read-only inspection of `WORKFLOW.md`, `uzel-poc-validated-pack/compatibility.lock`, `uzel-poc-validated-pack/docs/08-upstream-contributions.md`, `git worktree list --porcelain`, and selected refs.
 
 ## Ownership and disposition
@@ -28,7 +28,7 @@ so the final-disposition gate remains open pending a human-authorized durable pl
 
 | Protected ref or worktree | Exact HEAD / branch | Evidence location | Owner | Disposition | Revisit trigger |
 | --- | --- | --- | --- | --- | --- |
-| Current scoped worktree | `44a2399edcb5cf91fc57ca3b46325f0f01c0c488`; `phase/01-poc-replay-napp-seam` | this Phase 01 evidence directory | Issue #42 / Uzel delivery | retain focused worktree; do not switch or repurpose | Phase 01 closure after external Napp prerequisite |
+| Current scoped worktree | initial inventory anchor `44a2399edcb5cf91fc57ca3b46325f0f01c0c488`; active branch `phase/01-poc-replay-napp-seam`; current head must be resolved from PR #43 | this Phase 01 evidence directory | Issue #42 / Uzel delivery | retain focused worktree; do not switch or repurpose | before any preservation action, resolve and record PR #43's exact current head |
 | Primary incident archive | `763412a3167713b98c6f741641d485d247041934`; `archive/dirty-primary-763412a` | `/workspace/projects/napplets/napp-uzel/uzel` | protected incident owner | **final: retain indefinitely as read-only forensic archive; exclude from active delivery and never clean/reset/mutate from Phase 01** | none; any destructive housekeeping requires a new human decision |
 | Prior replay harness | `b185ad1b8d9d034d151406b12aa189f5a6be970f`; `gsd/phase-01-plan-01-replay`, also `wip/phase-1-replay-b185ad1` | `/tmp/uzel-01-01-3qGzwY` | prior Phase 01 planning owner | **pending final disposition: protect in place; do not merge, rewrite, delete, or treat as active authority** | human authorizes a non-destructive copy/archive to a durable protected location |
 | Prior Phase 01 review pause | `227d1fc43c93fec701b384bdbc2e302ec93c157b`; `phase/01-baseline-v4` | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-v4` | prior review owner | **final: retain as inactive paused evidence; not active delivery or source authority** | none; any destructive housekeeping requires a new human decision |
