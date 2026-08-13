@@ -10,7 +10,7 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 ### POC Reference and Napp Seam
 
 - [x] **REF-01**: Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from the current merged POC at its exact current pins before any Napp adaptation.
-- [x] **REF-02**: Release reviewer can verify every napplet request is bound to the trusted source-created surface before Napp receives it, with no raw frame network, Tauri bridge, host path, secret, or caller-selected principal.
+- [ ] **REF-02**: Release reviewer can verify every napplet request is bound to the trusted source-created surface before Napp receives it, with no raw frame network, Tauri bridge, host path, secret, or caller-selected principal.
 - [ ] **REF-03**: Operator can restart Uzel and recover selected read identity, installed exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
 - [ ] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
 - [x] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
@@ -107,7 +107,7 @@ Every v1 requirement maps to exactly one roadmap phase.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | REF-01 | Phase 1 | Complete |
-| REF-02 | Phase 1 | Complete |
+| REF-02 | Phase 1 | Pending |
 | REF-03 | Phase 1 | Pending |
 | REF-04 | Phase 1 | Pending |
 | REF-05 | Phase 1 | Complete |
