@@ -4,17 +4,18 @@ current_phase_name: POC replay and accepted Napp seam
 total_phases: 5
 current_plan: 01
 total_plans_in_phase: 1
-status: ready_to_execute
-progress: 0
+status: blocked
+progress: 20
 last_activity: 2026-08-13
-last_activity_desc: First bounded Phase 1 plan verified
+last_activity_desc: Plan 01 completed; REF-07 remains blocked on committed Napp qualifying evidence
 ---
 
 # Current execution
 
 - Phase: 1 — POC replay and accepted Napp seam
 - Issue: [#42](https://github.com/jodobear/uzel/issues/42)
-- Branch/worktree: `phase/01-poc-replay-napp-seam`; `/tmp/uzel-phase-01-replay-seam`
+- Branch/worktree: `agent-phase1-execute-01-01`; `/tmp/uzel-phase-01-replay-seam`
 - PR: draft pending
-- Blocker: REF-07 awaits committed qualifying evidence from `jodobear/napp`; this first slice remains executable through exact STOP disposition
-- Next action: open the draft PR, then execute `01-01-PLAN.md`
+- Plan 01: complete — `01-01-SUMMARY.md` records the exact POC replay and Napp STOP
+- Blocker: REF-07 awaits committed qualifying evidence from `jodobear/napp`; Phase 1 remains open
+- Next action: Napp owner/source-authority resolution and committed qualifying evidence; only then may a later Phase 1 issue and plan be created
