@@ -19,7 +19,7 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 **Plans:** 1 current plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Replay, protected disposition, and REF-03 complete; the same plan remains active for REF-02, REF-04, and REF-07.
+- [ ] 01-01-PLAN.md — Replay and protected disposition complete; the same plan remains active for REF-02, REF-03, REF-04, and REF-07.
 
 **Blocked dependency:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single Phase 1 delivery unit. No second issue, plan, branch, or PR is created; the existing unit resumes only after `jodobear/napp` publishes qualifying committed evidence.
 
