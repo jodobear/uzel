@@ -18,4 +18,4 @@ last_activity_desc: Plan 01 completed; REF-07 remains blocked on committed Napp 
 - PR: [#43](https://github.com/jodobear/uzel/pull/43) (draft)
 - Plan 01: complete — `01-01-SUMMARY.md` records the exact POC replay and Napp STOP
 - Blocker: REF-07 awaits committed qualifying evidence from `jodobear/napp`; Phase 1 remains open
-- Next action: Napp owner/source-authority resolution and committed qualifying evidence; only then may a later Phase 1 issue and plan be created
+- Next action: keep issue #42 and PR #43 blocked until Napp owner/source-authority resolution and qualifying committed evidence; then resume this same Phase 1 delivery unit

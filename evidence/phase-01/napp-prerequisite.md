@@ -87,4 +87,4 @@ Phase 1 status: open
 
 The accepted POC pin remains preserved. Authority owner: `jodobear/napp`. Next action: **Napp owner/source-authority resolution and committed qualifying evidence**.
 
-A later Phase 1 issue and plan may be created only after `jodobear/napp` publishes committed qualifying evidence. No second plan exists yet.
+Issue #42 and PR #43 remain the single Phase 1 delivery unit. No second issue, plan, branch, or PR is created; this unit resumes only after `jodobear/napp` publishes qualifying committed evidence.

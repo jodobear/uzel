@@ -25,7 +25,7 @@ key-files:
 key-decisions:
   - "Record locked Nix materialization failure as unavailable evidence; never infer current runtime success from historical POC reports."
   - "Keep Napp candidate 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e at result stop until its owner publishes committed qualifying evidence."
-requirements-completed: [REF-01, REF-02, REF-03, REF-04, REF-05, REF-06]
+requirements-addressed: [REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07]
 status: complete
 ---
 
@@ -66,7 +66,7 @@ status: complete
 
 ## Deviations from Plan
 
-None — the plan explicitly requires honest failed/unavailable baseline dispositions and a terminal candidate STOP when their required conditions occur.
+None during execution — the accepted plan required honest failed/unavailable baseline dispositions and a terminal candidate STOP when their required conditions occur. After execution, Codex review collapsed the plan's command bodies into the lean `WORKFLOW.md` shape; the exact commands and results remain in the three evidence outputs.
 
 ## Issues Encountered
 
@@ -80,7 +80,7 @@ None.
 ## Next Phase Readiness
 
 - REF-01 through REF-06 evidence obligations are recorded; the runtime replay needs a future writable-Nix execution environment for current run results.
-- REF-07 remains blocked. `jodobear/napp` must publish committed qualifying evidence before a later Phase 1 issue and plan may be created. No second plan exists.
+- REF-01 through REF-04, REF-06, and REF-07 remain pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit until `jodobear/napp` publishes qualifying committed evidence.
 
 ## Self-Check: PASSED
 
