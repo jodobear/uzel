@@ -23,7 +23,7 @@ key-files:
     - evidence/phase-01/napp-prerequisite.md
   modified: []
 key-decisions:
-  - "Run the documented locked dependency prerequisite before the six-command candidate baseline; all six lanes now pass."
+  - "All aggregate lanes pass after locked dependency setup, but REF-03 restart-state and REF-04 real-WebKit recovery coverage remain pending."
   - "Keep Napp candidate 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e at result stop until its owner publishes committed qualifying evidence."
 requirements-addressed: [REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07]
 status: complete
@@ -35,9 +35,9 @@ status: complete
 
 ## Performance
 
-- **Duration:** 6 min
+- **Duration:** 1 h 11 min
 - **Started:** 2026-08-13T16:57:52Z
-- **Completed:** 2026-08-13T17:03:40Z
+- **Completed:** 2026-08-13T18:08:23Z
 - **Tasks:** 2/2
 - **Files modified:** 3 evidence documents
 
@@ -61,7 +61,7 @@ status: complete
 
 ## Decisions Made
 
-- Treat the post-prerequisite exact-head baseline as passing evidence for REF-01 through REF-04 and REF-06; keep its explicitly unsupported measurements unavailable.
+- Treat the aggregate locked baseline as passing evidence for REF-01, REF-02, and REF-06; keep REF-03 pending for source-grounded restart-state replay and REF-04 pending for real WebKit recovery.
 - Keep NMP as sole Nostr owner; keep Napp/nampplets runtime ownership and Uzel product-policy ownership separate.
 - Preserve REF-07 as blocked: issue #42 has no authority to accept or mutate the dirty Napp sibling checkout.
 
@@ -80,8 +80,8 @@ None.
 
 ## Next Phase Readiness
 
-- REF-01 through REF-06 are complete with current source-bound results and explicit measurement limits.
-- REF-07 remains pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit until Napp owner/source-authority evidence qualifies a committed candidate.
+- REF-01, REF-02, REF-05, and REF-06 are complete with current source-bound results and explicit measurement limits.
+- REF-03 and REF-04 remain pending on bounded runtime probes; REF-07 remains pending on Napp owner/source authority. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit.
 
 ## Self-Check: PASSED
 
