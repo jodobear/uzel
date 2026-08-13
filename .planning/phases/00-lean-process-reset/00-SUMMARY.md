@@ -17,8 +17,8 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
   ledger, three Phase 1 temporary evidence paths, protected forensic ref/worktree, and
   portable incident evidence.
 - Reconciled active codebase guidance with the locked Nix-plus-pnpm entrypoint.
-- Removed persisted Graphify labels inherited from deleted v4 sources, then refreshed the
-  canonical graph separately after the documentation stabilized.
+- Replaced tracked `graphify-out/` runtime data and custom maintenance wrappers with the
+  installed `gsd-graphify` contract and canonical `.planning/graphs/` artifacts.
 - Restored canonical GSD phase headings and minimal STATE frontmatter: GSD detects five
   phases, the active reset state, and Phase 1 as the next routable phase.
 - Refreshed GSD 1.10.0 through its supported global Codex install path so baked agent
@@ -29,15 +29,14 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
 - Corrected the review circuit breaker: candidate count signals possible non-convergence
   but only a repeated material root cause, conflicting reviewer requirements, or no safe
   disposition requires human judgment.
-- Added locked package entrypoints for signed-fixture generation, explicit documentation
-  evidence regeneration, and canonical Graphify refresh; fixture payload bytes were not
-  regenerated.
+- Added locked package entrypoints for signed-fixture generation and explicit documentation
+  evidence regeneration; fixture payload bytes were not regenerated.
 - Made `docs:check` read-only and relocation-independent. Its focused test runs the package
   command from a relocated clean repository and proves both a clean tracked tree and
   checkout-independent output.
-- Removed Graphify's machine-local cache from canonical output. The refresh wrapper purges
-  it around the supported update, and focused tests prove two unchanged refreshes do not
-  retain checkout paths or accumulate repositories. Root defect tracking is issue
+- Kept Graphify runtime/cache data out of commits. The installed GSD skill owns build,
+  status, query, diff, and canonical artifact placement; upstream defects remain traceable
+  in issues [#39](https://github.com/jodobear/uzel/issues/39) and
   [#40](https://github.com/jodobear/uzel/issues/40).
 
 ## Commits
@@ -58,27 +57,24 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
   semantic artifact stabilizes; it is the PR head requested for final reviews.
 - Candidate 5 advances the minimal state pointer to the remaining review, validation,
   merge/close, and Phase 1 work; its trailing graph-only commit refreshes canonical output.
-- `d98d340` — make fixture, documentation, and Graphify maintenance workflows portable.
-- `3aad066` — replace machine-local cache and stale labels with fresh canonical graph output.
+- `d98d340` — make fixture and documentation maintenance workflows portable.
+- `3aad066` — historical Graphify recovery, superseded by the installed GSD graph contract.
 - The final closeout commit updates this summary, verification, and resumed worktree pointer
   after those commits stabilized; no product behavior or dependency changed.
-- `260817d` — normalize Graphify manifest metadata and generated refresh guidance, with
-  repeat-refresh clean-tree coverage.
-- The next semantic commit records these review fixes in the preserved POC status and reset
-  closeout; its trailing graph-only commit refreshes every final source location.
+- `260817d` — historical output normalization, removed when the installed GSD graph contract
+  replaced tracked runtime output.
+- The final semantic commit removes obsolete Graphify runtime machinery and updates the
+  workflow; the installed skill then rebuilds canonical `.planning/graphs/` once.
 
 ## Validation
 
 - `nix --extra-experimental-features 'nix-command flakes' develop --command pnpm docs:check`
   — 47 Markdown documents, 78 links, 9 Mermaid blocks, zero errors/warnings.
-- Locked `pnpm test:maintenance` — two focused tests pass: relocated read-only docs checking
-  and repeat Graphify refresh cache cleanup.
-- Canonical graph — 1,462 nodes, 2,450 edges, 129 freshly labeled communities; all seven
-  codebase-document labels map to their own hubs, with no stale v4 or absolute checkout paths.
-- Determinism regression — two unchanged refreshes produce no tracked diff after stripping
-  checkout mtimes; the generated report points only to locked `pnpm graphify:refresh`.
+- Locked `pnpm test:maintenance` — the relocated read-only documentation check passes.
+- Installed `gsd-graphify` build/status/query/diff — canonical `.planning/graphs/` artifacts
+  are fresh and usable; `graphify-out/` remains ignored runtime data.
 - Exact deletion, preservation, source/lock non-change, state-budget, plan-budget, and
-  Graphify stale-node assertions are recorded in `00-VERIFICATION.md`.
+  installed-skill graph assertions are recorded in `00-VERIFICATION.md`.
 
 Fresh same-head GitHub Codex, substantive CodeRabbit, required CI, and final exact-head
 validation remain PR merge gates, not duplicated repository receipts.

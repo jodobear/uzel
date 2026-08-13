@@ -37,15 +37,16 @@ their dependency domains. Do not introduce another toolchain or dependency lock.
 
 1. Read this file, `.planning/STATE.md`, the selected roadmap outcome, its GitHub issue,
    applicable repository instructions, and due review-backlog issues.
-2. Query the existing Graphify graph before source inspection for codebase questions.
+2. Query through `$gsd-graphify query` before source inspection for codebase questions.
 3. Shape and plan only the selected issue; run one plan-check pass.
 4. Work from current integrated base in the issue's dedicated branch/worktree.
 5. Implement the smallest complete vertical slice. During debugging use focused tests,
    affected checks, and narrow probes.
-6. After code stabilizes, run the locked `pnpm graphify:refresh` entrypoint once. It runs
-   the supported `graphify update .` command and excludes machine-local cache state from
-   canonical output. Commit canonical graph output separately. Repeat only when later code
-   changes make it stale.
+6. After a scoped slice passes its focused checks, run `$gsd-graphify status`; run
+   `$gsd-graphify build` once when source is stale. Use `$gsd-graphify query` and
+   `$gsd-graphify diff` thereafter. Keep `graphify-out/` runtime/cache output untracked and
+   retain only the skill's canonical `.planning/graphs/` artifacts. Do not couple Graphify
+   to product builds or regenerate it after every edit or commit.
 7. Run one complete affected candidate validation, complete GSD verification, push, and
    open one linked draft PR.
 8. Request GitHub Codex review on a coherent exact head. Batch-fix valid findings. When

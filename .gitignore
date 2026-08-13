@@ -7,7 +7,6 @@ apps/uzel/src-tauri/gen/
 **/node_modules/
 __pycache__/
 *.log
-graphify-out/20??-??-??/
-graphify-out/cache/
+graphify-out/
 /.playwright-cli/
 /output/playwright/
