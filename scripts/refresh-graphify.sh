@@ -13,4 +13,5 @@ cleanup_cache
 cd "$ROOT"
 graphify update .
 cleanup_cache
+python3 scripts/normalize-graphify-output.py
 python3 scripts/check-graphify-portability.py

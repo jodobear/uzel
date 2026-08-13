@@ -70,10 +70,22 @@ class MaintenanceTests(unittest.TestCase):
             (checkout / "graphify-out").mkdir()
             (checkout / "bin").mkdir()
             shutil.copy2(ROOT / ".gitignore", checkout / ".gitignore")
-            for name in ("refresh-graphify.sh", "check-graphify-portability.py"):
+            for name in (
+                "refresh-graphify.sh",
+                "check-graphify-portability.py",
+                "normalize-graphify-output.py",
+            ):
                 shutil.copy2(ROOT / "scripts" / name, checkout / "scripts" / name)
             (checkout / "graphify-out" / "graph.json").write_text(
                 '{"nodes":[],"links":[]}\n', encoding="utf-8"
+            )
+            (checkout / "graphify-out" / "manifest.json").write_text(
+                '{\n  "README.md": {\n    "ast_hash": "stable",\n    "semantic_hash": ""\n  }\n}\n',
+                encoding="utf-8",
+            )
+            (checkout / "graphify-out" / "GRAPH_REPORT.md").write_text(
+                "Run locked `pnpm graphify:refresh` after code changes.\n",
+                encoding="utf-8",
             )
             fake = checkout / "bin" / "graphify"
             fake.write_text(
@@ -86,7 +98,10 @@ class MaintenanceTests(unittest.TestCase):
                 "cache.parent.mkdir(parents=True, exist_ok=True)\n"
                 "cache.write_text(json.dumps({str(root / 'README.md'): {'size': 1}}))\n"
                 "counter = Path(os.environ['GRAPHIFY_TEST_COUNTER'])\n"
-                "counter.write_text(str(int(counter.read_text()) + 1))\n",
+                "run = int(counter.read_text()) + 1\n"
+                "counter.write_text(str(run))\n"
+                "(root / 'graphify-out/manifest.json').write_text(json.dumps({'README.md': {'mtime': run, 'ast_hash': 'stable', 'semantic_hash': ''}}))\n"
+                "(root / 'graphify-out/GRAPH_REPORT.md').write_text('Run `graphify update .` after code changes (no API cost).\\n')\n",
                 encoding="utf-8",
             )
             fake.chmod(fake.stat().st_mode | stat.S_IXUSR)
