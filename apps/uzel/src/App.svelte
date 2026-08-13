@@ -186,6 +186,9 @@
   let hostileProbeEnabled = false;
   let hostile: SurfaceLaunch | null = null;
   let hostileProbePassed = false;
+  let webkitRecoveryProbeEnabled = false;
+  let webkitRecoveryStarted = false;
+  let webkitRecoveryBefore: string[] = [];
   let runtimeInitializationBusy = false;
   $: shellReady = readyCount === 2 && !shellHandshakeFailed;
   $: runtimeLocked = loaded !== null
@@ -241,6 +244,10 @@
         && verdict.sentinelAccepts === 0
         && verdict.nativeCalls === 0;
       if (!hostileProbePassed) throw new Error('hostile verdict was incomplete');
+      if (webkitRecoveryProbeEnabled && !webkitRecoveryStarted) {
+        webkitRecoveryStarted = true;
+        void runWebkitRecoveryProbe();
+      }
     } catch (error) {
       reportRuntimeFailure('Hostile boundary failed', error);
     }
@@ -303,6 +310,15 @@
       });
       if (readyCount === 2 && !shellHandshakeFailed) {
         status = 'Two exact builds ready through NAP-SHELL';
+        if (webkitRecoveryStarted && webkitRecoveryBefore.length === 2) {
+          const before = webkitRecoveryBefore;
+          webkitRecoveryBefore = [];
+          const after = [profile?.surfaceToken, follow?.surfaceToken]
+            .filter((token): token is string => typeof token === 'string');
+          void invoke('report_webkit_recovery', { before, after }).catch((error) => {
+            failShellHandshake('WebKit recovery probe failed', error);
+          });
+        }
       }
     }
   }
@@ -447,6 +463,7 @@
         unsafeControlsAbsent: document.querySelector('[data-unsafe-fixture-control]') === null,
       });
       hostileProbeEnabled = await invoke<boolean>('hostile_probe_enabled');
+      webkitRecoveryProbeEnabled = await invoke<boolean>('webkit_recovery_probe_enabled');
       if (hostileProbeEnabled) {
         await launchHostileSurface();
       }
@@ -807,6 +824,22 @@
     } catch (error) {
       await retainBaseRecovery(restartPanes, error);
       throw error;
+    }
+  }
+
+  async function runWebkitRecoveryProbe() {
+    const before = [profile?.surfaceToken, follow?.surfaceToken]
+      .filter((token): token is string => typeof token === 'string');
+    if (before.length !== 2) {
+      failShellHandshake('WebKit recovery probe failed', 'two active trusted surfaces are required');
+      return;
+    }
+    webkitRecoveryBefore = before;
+    try {
+      await restartActiveSurfaces();
+    } catch (error) {
+      webkitRecoveryBefore = [];
+      failShellHandshake('WebKit recovery probe failed', error);
     }
   }
 

@@ -378,8 +378,10 @@
         return diagnostics();
       case 'report_user_mode':
       case 'report_shell_accepted':
+      case 'report_webkit_recovery':
         return null;
       case 'hostile_probe_enabled':
+      case 'webkit_recovery_probe_enabled':
         return false;
       case 'review_napplet':
         if (args.coordinate !== fixtureRecords.testNaddr) {

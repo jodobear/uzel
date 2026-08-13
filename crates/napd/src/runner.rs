@@ -1799,6 +1799,87 @@ mod tests {
     }
 
     #[test]
+    fn restart_recovers_identity_installed_build_follows_and_orphan_outcome() {
+        let temp = TempDir::new().unwrap();
+        let first = {
+            let mut runner = LinuxRunner::open(temp.path()).unwrap();
+            runner
+                .set_read_identity(GOOD_MORNING_AUTHOR.to_owned())
+                .unwrap();
+            let launch = runner.start_named_fixture("follow-list").unwrap();
+            let shell = runner
+                .forward_from_surface(&launch.surface_token, br#"{"type":"shell.ready"}"#)
+                .unwrap();
+            assert_eq!(
+                serde_json::from_str::<Value>(&shell.envelope).unwrap()["type"],
+                "shell.init"
+            );
+            let follows = identity_query(&runner, &launch, "getFollows", "before-restart");
+            assert_eq!(follows["type"], "identity.getFollows.result");
+            let snapshot = match runner.controller.snapshot() {
+                RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
+                RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                    panic!("pre-restart snapshot refused: {}", refusal.detail)
+                }
+            };
+            assert_eq!(snapshot.installed_library.total_installed, 1);
+            assert_eq!(
+                snapshot.installed_library.builds[0].coordinate.d_tag,
+                "follow-list"
+            );
+            // Do not stop the surface. Dropping the process models a launch/stop
+            // outcome whose final reply was not observed by the product shell.
+            (launch, follows["pubkeys"].clone())
+        };
+
+        let mut restarted = LinuxRunner::open(temp.path()).unwrap();
+        assert_eq!(
+            restarted.get_read_identity().unwrap().as_deref(),
+            Some(GOOD_MORNING_AUTHOR)
+        );
+        assert!(
+            restarted.active_surfaces().is_empty(),
+            "an unobserved pre-restart surface must reconcile as inactive"
+        );
+        let restored = match restarted.controller.snapshot() {
+            RuntimeSnapshotProjection::Snapshot { snapshot } => snapshot,
+            RuntimeSnapshotProjection::Refused { refusal, .. } => {
+                panic!("post-restart snapshot refused: {}", refusal.detail)
+            }
+        };
+        assert_eq!(restored.installed_library.total_installed, 1);
+        assert_eq!(restored.installed_library.builds.len(), 1);
+        assert_eq!(
+            restored.installed_library.builds[0]
+                .coordinate
+                .aggregate_hash,
+            first.0.aggregate_hash
+        );
+        assert!(
+            restored.installed_library.builds[0]
+                .active_session_ids
+                .is_empty()
+        );
+
+        let second = restarted.start_named_fixture("follow-list").unwrap();
+        assert_ne!(first.0.surface_token, second.surface_token);
+        let shell = restarted
+            .forward_from_surface(&second.surface_token, br#"{"type":"shell.ready"}"#)
+            .unwrap();
+        assert_eq!(
+            serde_json::from_str::<Value>(&shell.envelope).unwrap()["type"],
+            "shell.init"
+        );
+        let follows = identity_query(&restarted, &second, "getFollows", "after-restart");
+        assert_eq!(follows["type"], "identity.getFollows.result");
+        assert_eq!(follows["pubkeys"], first.1);
+        assert_eq!(
+            follows["pubkeys"],
+            identity_query(&restarted, &second, "getFollows", "repeat-after-restart")["pubkeys"]
+        );
+    }
+
+    #[test]
     fn stopped_fixture_relaunches_with_a_new_session_and_surface() {
         let temp = TempDir::new().unwrap();
         let mut runner = LinuxRunner::open(temp.path()).unwrap();
