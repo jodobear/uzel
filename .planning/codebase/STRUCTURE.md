@@ -20,7 +20,7 @@ uzel/
 ├── fixtures/                    # Signed exact-build manifests and generated single-file HTML
 ├── scripts/                     # Dev, boundary, build, smoke, and platform automation
 ├── config/                      # Workspace analysis/tool configuration
-├── graphify-out/                # Committed generated code graph and report
+├── .planning/graphs/            # Canonical GSD knowledge graph artifacts
 ├── uzel-poc-validated-pack/     # Scope, evidence, work slices, source pins, status
 ├── .planning/codebase/          # GSD codebase maps
 ├── Cargo.toml                   # Rust workspace and shared pinned dependencies
@@ -101,11 +101,11 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 - Contains: Fallow dependency/file analysis config.
 - Key files: `config/fallow.jsonc`.
 
-**`graphify-out/`:**
-- Purpose: Hold the queryable architecture/code graph required before codebase exploration.
-- Contains: `graph.json`, generated HTML visualization, graph report, labels, manifest, and AST/stat cache.
-- Key files: `graphify-out/graph.json`, `graphify-out/GRAPH_REPORT.md`, `graphify-out/graph.html`, `graphify-out/manifest.json`.
-- Boundary: Query `graphify-out/graph.json` first for codebase questions. After code changes, run `graphify update .` and commit refreshed graph separately.
+**`.planning/graphs/`:**
+- Purpose: Hold the canonical graph produced and queried by the installed `gsd-graphify` skill.
+- Contains: `graph.json`, generated HTML visualization, graph report, and diff snapshot.
+- Key files: `.planning/graphs/graph.json`, `.planning/graphs/GRAPH_REPORT.md`, `.planning/graphs/graph.html`.
+- Boundary: Use `$gsd-graphify status`, `query`, `diff`, and `build`; never treat `graphify-out/` runtime/cache data as canonical.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Own normative POC scope, evidence, source pins, work slices, contribution ledger, and durable status.
@@ -261,11 +261,11 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 - Committed: Yes.
 - Modification rule: Use only disposable test keys; update all runtime hashes and asset checks together.
 
-**`graphify-out/`:**
-- Purpose: Queryable generated code graph and visual/report artifacts.
-- Generated: Yes, by Graphify.
-- Committed: Yes, except dated generated subdirectories ignored by `.gitignore`.
-- Modification rule: Run `graphify update .` after code changes and commit graph refresh separately.
+**`.planning/graphs/`:**
+- Purpose: Canonical GSD knowledge graph and visual/report artifacts.
+- Generated: Yes, by the installed `gsd-graphify` skill.
+- Committed: Yes, according to the skill contract; `graphify-out/` is ignored runtime data.
+- Modification rule: Build once after a successful scoped slice or when status reports stale; use skill query/diff thereafter.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Validated scope, evidence, source pins, work workflow, and durable status.

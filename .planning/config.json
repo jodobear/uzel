@@ -90,5 +90,8 @@
   "resolve_model_ids": "omit",
   "runtime": "codex",
   "mode": "yolo",
-  "granularity": "coarse"
+  "granularity": "coarse",
+  "graphify": {
+    "enabled": true
+  }
 }

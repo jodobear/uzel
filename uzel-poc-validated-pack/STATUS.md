@@ -35,6 +35,17 @@ known limitation: the newly signed fixture bytes still require visible Debian 13
 next action: push the corrected exact head, request a fresh head-anchored Codex review, merge PR #30 only when that review is clean, then run Debian 13 interactive acceptance before closing #28 and #29.
 ```
 
+## Preserved evidence maintenance — 2026-08-13
+
+```text
+scope: process reset issue #37 / PR #38; no product behavior, fixture payload, dependency, pin, or compatibility change
+commits: dece057e1e2e372d08e2c740608a4df43ae0f815 replaces tracked Graphify runtime output and custom maintenance machinery with the installed gsd-graphify contract
+commands: locked pnpm test:maintenance and pnpm docs:check; explicit pnpm docs:evidence; installed gsd-graphify status/build/query/diff
+evidence: relocated docs:check leaves a clean tracked tree and emits root "."; Graphify runtime output is ignored and the installed skill owns canonical .planning/graphs artifacts
+limitation: Graphify upstream portability defects remain tracked in issues #39 and #40 but no longer govern committed runtime output
+next action: obtain exact-head Codex and substantive CodeRabbit approval, run final affected validation, then merge/close the reset and start Phase 1
+```
+
 ## Accepted provisional risks
 
 ```text

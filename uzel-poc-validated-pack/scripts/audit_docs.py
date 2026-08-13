@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
@@ -8,17 +9,16 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-REPOSITORY_ROOT = ROOT.parent
+DEFAULT_ROOT = Path(__file__).resolve().parents[1]
 
 
-def manifest_paths() -> list[Path]:
-    relative_root = ROOT.relative_to(REPOSITORY_ROOT).as_posix()
+def manifest_paths(root: Path, repository_root: Path) -> list[Path]:
+    relative_root = root.relative_to(repository_root).as_posix()
     listed = subprocess.run(
         [
             "git",
             "-C",
-            str(REPOSITORY_ROOT),
+            str(repository_root),
             "ls-files",
             "--cached",
             "--others",
@@ -32,16 +32,16 @@ def manifest_paths() -> list[Path]:
     )
     if listed.returncode == 0:
         return sorted(
-            REPOSITORY_ROOT / Path(raw.decode("utf-8"))
+            repository_root / Path(raw.decode("utf-8"))
             for raw in listed.stdout.split(b"\0")
             if raw
         )
-    return sorted(path for path in ROOT.rglob("*") if path.is_file())
+    return sorted(path for path in root.rglob("*") if path.is_file())
 
 
-def write_manifest() -> None:
+def write_manifest(root: Path, repository_root: Path) -> None:
     files = []
-    for path in manifest_paths():
+    for path in manifest_paths(root, repository_root):
         if not path.is_file() or path.name == "manifest.json":
             continue
         if "__pycache__" in path.parts or path.suffix == ".pyc":
@@ -49,12 +49,12 @@ def write_manifest() -> None:
         data = path.read_bytes()
         files.append(
             {
-                "path": path.relative_to(ROOT).as_posix(),
+                "path": path.relative_to(root).as_posix(),
                 "bytes": len(data),
                 "sha256": hashlib.sha256(data).hexdigest(),
             }
         )
-    (ROOT / "manifest.json").write_text(
+    (root / "manifest.json").write_text(
         json.dumps({"files": files}, indent=2) + "\n", encoding="utf-8"
     )
 
@@ -63,10 +63,10 @@ def strip_code(text: str) -> str:
     return re.sub(r"```.*?```", "", text, flags=re.S)
 
 
-def main() -> int:
+def audit(root: Path) -> dict[str, object]:
     errors: list[str] = []
     warnings: list[str] = []
-    markdown = sorted(ROOT.rglob("*.md"))
+    markdown = sorted(root.rglob("*.md"))
     words = 0
     links = 0
     mermaid = 0
@@ -75,7 +75,7 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         words += len(re.findall(r"\b\w+[\w'-]*\b", strip_code(text)))
         if not re.search(r"^#\s+", text, flags=re.M):
-            errors.append(f"missing H1: {path.relative_to(ROOT)}")
+            errors.append(f"missing H1: {path.relative_to(root)}")
 
         for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
             links += 1
@@ -85,7 +85,7 @@ def main() -> int:
             resolved = (path.parent / raw).resolve()
             if not resolved.exists():
                 errors.append(
-                    f"broken link: {path.relative_to(ROOT)} -> {target}"
+                    f"broken link: {path.relative_to(root)} -> {target}"
                 )
 
         blocks = re.findall(r"```mermaid\s*\n(.*?)```", text, flags=re.S)
@@ -97,11 +97,11 @@ def main() -> int:
                 first,
             ):
                 errors.append(
-                    f"unknown mermaid start: {path.relative_to(ROOT)}#{idx}: {first}"
+                    f"unknown mermaid start: {path.relative_to(root)}#{idx}: {first}"
                 )
 
         if len(text.split()) > 2200:
-            warnings.append(f"large document: {path.relative_to(ROOT)}")
+            warnings.append(f"large document: {path.relative_to(root)}")
 
     policy_docs = [p for p in markdown if p.name != "AUDIT.md"]
     all_text = "\n".join(p.read_text(encoding="utf-8") for p in policy_docs)
@@ -159,11 +159,11 @@ def main() -> int:
         "config/fallow.jsonc",
     ]
     for rel in required:
-        if not (ROOT / rel).exists():
+        if not (root / rel).exists():
             errors.append(f"missing required file: {rel}")
 
     result = {
-        "root": str(ROOT),
+        "root": ".",
         "markdown_documents": len(markdown),
         "approx_words": words,
         "markdown_links": links,
@@ -171,12 +171,25 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
     }
-    (ROOT / "audit-results.json").write_text(
-        json.dumps(result, indent=2) + "\n", encoding="utf-8"
-    )
-    write_manifest()
+    return result
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--write-evidence", action="store_true")
+    parser.add_argument("--root", type=Path, default=DEFAULT_ROOT)
+    args = parser.parse_args()
+
+    root = args.root.resolve()
+    repository_root = root.parent
+    result = audit(root)
+    if args.write_evidence:
+        (root / "audit-results.json").write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8"
+        )
+        write_manifest(root, repository_root)
     print(json.dumps(result, indent=2))
-    return 1 if errors else 0
+    return 1 if result["errors"] else 0
 
 
 if __name__ == "__main__":

@@ -31,21 +31,25 @@
 
 ## Code Style
 
+Package-script names below refer to entries in `package.json`. Invoke them through the
+locked `nix --extra-experimental-features 'nix-command flakes' develop --command pnpm
+<script>` entrypoint defined by `WORKFLOW.md`.
+
 **Formatting:**
-- Format Rust with the Rust 1.89 `rustfmt` component pinned in `rust-toolchain.toml`. Run `pnpm format:check`, which delegates to `cargo fmt --all -- --check` in `package.json`.
+- Format Rust with the Rust 1.89 `rustfmt` component pinned in `rust-toolchain.toml`. The `format:check` package script delegates to `cargo fmt --all -- --check`.
 - Follow the checked-in JavaScript/TypeScript/Svelte style in `apps/uzel/vite.config.ts` and `apps/uzel/src/preferences.js`: two-space indentation, single-quoted strings, semicolons, trailing commas in multiline literals/calls, and parentheses around multiline expressions.
 - No Prettier, Biome, or JavaScript formatter configuration exists in the tracked root. Preserve local formatting when editing `apps/uzel/src/App.svelte`, `contracts/*.js`, and `napplets/*/src/*.js`; `package.json` only enforces Rust formatting.
 - Use numeric separators for size/count constants: `64 * 1_024` in `crates/napd-protocol/src/lib.rs`, `4_096` in `apps/uzel/src/preferences.js`, and `91_001` in `napplets/hostile-egress/src/probes.js`.
 - Keep reusable Rust crates free of unsafe code where declared: `crates/napd-protocol/src/lib.rs` uses `#![forbid(unsafe_code)]`.
 
 **Linting:**
-- Run `pnpm lint` from `package.json`. It runs `cargo clippy --workspace --all-targets -- -D warnings` and then `pnpm check:boundaries`.
+- The `lint` package script runs `cargo clippy --workspace --all-targets -- -D warnings` and then the `check:boundaries` package script.
 - Treat every Clippy warning as an error. Keep all Rust targets clean under the workspace configuration in `Cargo.toml`.
-- Run `pnpm fallow` with `config/fallow.jsonc`. It rejects unresolved imports, unlisted dependencies, unused files, and unused dependencies while excluding generated/preserved paths such as `graphify-out/**` and `uzel-poc-validated-pack/**`.
+- The `fallow` package script uses `config/fallow.jsonc`. It rejects unresolved imports, unlisted dependencies, unused files, and unused dependencies while excluding generated/preserved paths such as `graphify-out/**` and `uzel-poc-validated-pack/**`.
 - Keep reusable runtime crates independent of UI/platform code. `scripts/check-boundaries.sh` rejects `tauri` or `svelte` references in `crates/**/*.rs` and `crates/**/Cargo.toml`.
 - Keep product napplets on the allowlisted dependency set and without direct browser network authority. `scripts/check-napplet-imports.mjs` parses JS/TS/Svelte/HTML, rejects Uzel/napd/Tauri imports, dynamic imports, network-capable DOM sinks, dynamic code execution, and unapproved dependencies.
 - Access remote content in product napplets through NAP SDKs, as in `napplets/follow-list/src/main.js` (`outboxQuery`, `resourceBytes`) and `napplets/profile-card/src/main.js`; never add `fetch`, `WebSocket`, remote `src`, or comparable browser authority that `scripts/check-napplet-imports.mjs` forbids.
-- Run `pnpm check` from `package.json` for napplet builds, strict Svelte checking through `apps/uzel/tsconfig.json`, the shell build, and `cargo check --workspace`.
+- The `check` package script runs napplet builds, strict Svelte checking through `apps/uzel/tsconfig.json`, the shell build, and `cargo check --workspace`.
 
 ## Import Organization
 
