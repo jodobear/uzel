@@ -1,16 +1,16 @@
 # Graph Report - uzel-phase-01-replay-seam  (2026-08-13)
 
 ## Corpus Check
-- 147 files · ~112,682 words
+- 151 files · ~115,439 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1489 nodes · 2474 edges · 123 communities (95 shown, 28 thin omitted)
+- 1518 nodes · 2499 edges · 132 communities (104 shown, 28 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 26 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2ed93b19`
+- Built from commit: `02ba695e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -131,6 +131,15 @@
 - FACT-013-hostile-linux-boundary.md
 - FACT-014-live-identity-catalog.md
 - manifest.json
+- lib.rs
+- Request
+- Response
+- Phase 01 Plan 01: POC replay and accepted Napp seam Summary
+- ProtocolError
+- Napp external prerequisite
+- Phase 01 POC replay
+- .cancel_napplet_review
+- Phase 01 ownership map
 
 ## God Nodes (most connected - your core abstractions)
 1. `LinuxRunner` - 44 edges
@@ -159,23 +168,23 @@
 ## Import Cycles
 - None detected.
 
-## Communities (123 total, 28 thin omitted)
+## Communities (132 total, 28 thin omitted)
 
 ### Community 0 - "main.rs"
-Cohesion: 0.06
-Nodes (72): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately() (+64 more)
+Cohesion: 0.11
+Nodes (48): allowed_navigation(), ambiguous_confirmation_crosses_as_a_typed_retry_state(), ambiguous_review_crosses_as_a_typed_retry_state(), cancel_napplet_review(), clean_token_snapshot(), confirm_napplet(), ConfirmNappletError, default_socket_path() (+40 more)
 
 ### Community 1 - "main.js"
 Cohesion: 0.06
 Nodes (69): canonicalProfile(), canonicalProfiles(), optionalText(), profileQueryBatches(), profileQueryRequest(), retryProfileQueryRequests(), splitProfileQueryRequest(), A (+61 more)
 
 ### Community 2 - "UnixClient"
-Cohesion: 0.08
-Nodes (49): authoritative_reconciliation_retires_ambiguous_operation_ids(), CatalogCapability, chunked_routed_envelope_reassembles_on_one_connection(), ClientError, confirm_responses_lost_replay_surface_without_a_second_operation(), decode_asset_chunk(), DeliveryError, deterministic_presend_failures_do_not_retain_catalog_operations() (+41 more)
+Cohesion: 0.19
+Nodes (13): ClientError, decode_asset_chunk(), DeliveryError, FetchedSurface, PendingOperation, Arc, Box, BTreeMap (+5 more)
 
 ### Community 3 - "server.rs"
-Cohesion: 0.09
-Nodes (43): Response, active_daemon_socket_is_not_unlinked(), AssetTransfer, bounded_detail(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, DaemonState (+35 more)
+Cohesion: 0.15
+Nodes (24): active_daemon_socket_is_not_unlinked(), daemon_routes_inc_delivery_to_the_other_exact_surface(), daemon_serves_ordered_verified_asset_and_shuts_down(), DaemonServer, exchange(), existing_shared_socket_parent_is_not_chmodded(), incomplete_client_times_out_without_blocking_the_next_request(), oversized_routed_envelope_is_chunked_without_raising_the_frame_limit() (+16 more)
 
 ### Community 4 - "ref-candidate-check.py"
 Cohesion: 0.15
@@ -206,8 +215,8 @@ Cohesion: 0.07
 Nodes (27): dependencies, svelte, @tauri-apps/api, devDependencies, playwright, svelte-check, @sveltejs/vite-plugin-svelte, typescript (+19 more)
 
 ### Community 11 - "runner.rs"
-Cohesion: 0.11
-Nodes (15): absent_surface_cleanup_is_idempotent(), buffered_responses_are_byte_bounded_and_consumed_once(), BufferedEvents, catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), event_bytes(), pending_review_tokens_are_sorted_bounded_and_reconcilable(), relay_lane_name() (+7 more)
+Cohesion: 0.31
+Nodes (7): buffered_responses_are_byte_bounded_and_consumed_once(), BufferedEvents, event_bytes(), response_event(), VecDeque, RuntimeEvent, RuntimeObservationFrame
 
 ### Community 12 - "compilerOptions"
 Cohesion: 0.08
@@ -246,8 +255,8 @@ Cohesion: 0.27
 Nodes (17): default_runtime_root(), default_socket_path(), live_configuration_requires_explicit_live_mode(), main(), next_path(), next_value(), Options, parse_options() (+9 more)
 
 ### Community 21 - ".forward_from_surface"
-Cohesion: 0.20
-Nodes (11): eventually_identity_query(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender(), public_identity_profile_follows_and_picture_cross_only_native_providers(), ResponseExpectation (+3 more)
+Cohesion: 0.13
+Nodes (17): absent_surface_cleanup_is_idempotent(), eventually_identity_query(), hostile_probe_commits_exact_session_config_before_returning(), identity_query(), inc_emit_waits_for_an_inc_event_not_an_unrelated_push(), launch_identity_surface(), payload_identity_cannot_select_surface_or_session(), profile_open_crosses_inc_with_runtime_owned_sender() (+9 more)
 
 ### Community 22 - "package.json"
 Cohesion: 0.11
@@ -258,8 +267,8 @@ Cohesion: 0.12
 Nodes (16): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+8 more)
 
 ### Community 24 - "RunnerError"
-Cohesion: 0.26
-Nodes (7): hostile_probe_commits_exact_session_config_before_returning(), Error, Result, RunnerError, validate_sentinel_url(), FromUtf8Error, RuntimeAccountHandle
+Cohesion: 0.24
+Nodes (10): artifact_base_url(), read_launched_document(), Error, Result, String, RunnerError, StatePersistFailure, validate_sentinel_url() (+2 more)
 
 ### Community 25 - "EventBuffer"
 Cohesion: 0.20
@@ -270,8 +279,8 @@ Cohesion: 0.13
 Nodes (14): additionalProperties, $id, properties, pubkey, version, pattern, type, required (+6 more)
 
 ### Community 27 - "LinuxRunner"
-Cohesion: 0.16
-Nodes (10): LinuxRunner, BTreeMap, Drop, PathBuf, RuntimeMode, StatePersistFailure, Debug, Formatter (+2 more)
+Cohesion: 0.15
+Nodes (14): LinuxRunner, public_naddr_reviews_confirms_and_launches_exact_single_file(), AsRef, BTreeMap, Drop, Path, PathBuf, Self (+6 more)
 
 ### Community 28 - "Requirements: Uzel"
 Cohesion: 0.13
@@ -286,8 +295,8 @@ Cohesion: 0.24
 Nodes (9): diagnostics(), invoke(), isRoutedProfileQuery(), nativeEnvelope(), profileEvent(), profileEventsForQuery(), profileFor(), review() (+1 more)
 
 ### Community 31 - "String"
-Cohesion: 0.21
-Nodes (10): BTreeSet, artifact_base_url(), public_naddr_reviews_confirms_and_launches_exact_single_file(), read_launched_document(), reconcile_launched_session(), String, Vec, RuntimeController (+2 more)
+Cohesion: 0.40
+Nodes (5): BTreeSet, reconcile_launched_session(), RuntimeController, RuntimeSessionSnapshot, RuntimeSnapshot
 
 ### Community 32 - "Phase 1: POC replay and accepted Napp seam - Context"
 Cohesion: 0.15
@@ -462,8 +471,8 @@ Cohesion: 0.29
 Nodes (7): Active issue — #19, Completed issue — #10, Entry evidence, Exit rule, Goal, Work 07 — issue-driven stabilization, Work graph
 
 ### Community 76 - ".open_configured"
-Cohesion: 0.73
-Nodes (3): AsRef, Path, Self
+Cohesion: 0.12
+Nodes (24): accepted_report(), BeaconAttempt, control_accept_is_not_counted_as_a_probe_connection(), exact_surface_cancellation_retires_the_attached_probe(), HostileProbeReport, HostileProbeState, HostileProbeVerdict, later_loopback_connection_is_counted_separately() (+16 more)
 
 ### Community 77 - "Lean process reset summary"
 Cohesion: 0.33
@@ -513,25 +522,61 @@ Nodes (3): External merge gate, Lean process reset verification, Local gate
 Cohesion: 0.50
 Nodes (3): fedora-run-smoke.sh script, UZEL_SMOKE_NAME, UZEL_SMOKE_SUCCESS_MARKER
 
+### Community 123 - "lib.rs"
+Cohesion: 0.16
+Nodes (22): authoritative_reconciliation_retires_ambiguous_operation_ids(), chunked_routed_envelope_reassembles_on_one_connection(), confirm_responses_lost_replay_surface_without_a_second_operation(), deterministic_presend_failures_do_not_retain_catalog_operations(), encode_asset_chunk(), failed_asset_transfer_stops_the_launched_surface(), frames_round_trip_with_big_endian_length(), maximum_asset_chunk_fits_control_frame() (+14 more)
+
+### Community 124 - "Request"
+Cohesion: 0.18
+Nodes (15): Request, AssetTransfer, bounded_detail(), DaemonState, InvalidOperationId, replay_key(), ReplayCache, ReplayEntry (+7 more)
+
+### Community 125 - "Response"
+Cohesion: 0.32
+Nodes (11): CatalogCapability, Diagnostics, NappletReview, RelayDiagnostic, Response, Option, Self, String (+3 more)
+
+### Community 126 - "Phase 01 Plan 01: POC replay and accepted Napp seam Summary"
+Cohesion: 0.17
+Nodes (11): Accomplishments, Decisions Made, Deviations from Plan, Files Created, Issues Encountered, Known Stubs, Next Phase Readiness, Performance (+3 more)
+
+### Community 127 - "ProtocolError"
+Cohesion: 0.38
+Nodes (7): ProtocolError, read_exact_or_truncated(), read_frame(), Error, T, DecodeError, Read
+
+### Community 128 - "Napp external prerequisite"
+Cohesion: 0.29
+Nodes (6): External sibling observation, Fixed qualification, Handoff and inventory disposition, Missing admission categories, Napp external prerequisite, Required next authority
+
+### Community 129 - "Phase 01 POC replay"
+Cohesion: 0.33
+Nodes (5): Exact source and pins, Phase 01 POC replay, REF-01 through REF-04 replay, REF-06 baseline, Unavailable or failed
+
+### Community 130 - ".cancel_napplet_review"
+Cohesion: 0.50
+Nodes (3): catalog_cancellation_is_terminal(), catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens(), pending_review_tokens_are_sorted_bounded_and_reconcilable()
+
+### Community 131 - "Phase 01 ownership map"
+Cohesion: 0.50
+Nodes (3): Ownership and disposition, Phase 01 ownership map, Protected evidence disposition
+
 ## Knowledge Gaps
-- **568 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+563 more)
+- **589 isolated node(s):** `name`, `private`, `version`, `type`, `dev:web` (+584 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LinuxRunner` connect `LinuxRunner` to `UnixClient`, `server.rs`, `runner.rs`, `.open_configured`, `.forward_from_surface`, `RunnerError`, `EventBuffer`, `String`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
-- **Why does `linux_resource_provider()` connect `resource.rs` to `.open_configured`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `NappletReview` connect `UnixClient` to `main.rs`, `LinuxRunner`, `server.rs`, `String`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
+- **Why does `LinuxRunner` connect `LinuxRunner` to `.cancel_napplet_review`, `server.rs`, `.forward_from_surface`, `RunnerError`, `EventBuffer`, `Request`, `Response`, `String`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `linux_resource_provider()` connect `resource.rs` to `LinuxRunner`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `NappletReview` connect `Response` to `main.rs`, `UnixClient`, `lib.rs`, `RunnerError`, `LinuxRunner`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _568 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _589 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `main.rs` be split into smaller, more focused modules?**
-  _Cohesion score 0.057967313585291114 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10522496371552975 - nodes in this community are weakly interconnected._
 - **Should `main.js` be split into smaller, more focused modules?**
   _Cohesion score 0.05759493670886076 - nodes in this community are weakly interconnected._
-- **Should `UnixClient` be split into smaller, more focused modules?**
-  _Cohesion score 0.08329979879275654 - nodes in this community are weakly interconnected._
+- **Should `ref-candidate-check.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.1455505279034691 - nodes in this community are weakly interconnected._
