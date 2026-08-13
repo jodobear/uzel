@@ -29,6 +29,16 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
 - Corrected the review circuit breaker: candidate count signals possible non-convergence
   but only a repeated material root cause, conflicting reviewer requirements, or no safe
   disposition requires human judgment.
+- Added locked package entrypoints for signed-fixture generation, explicit documentation
+  evidence regeneration, and canonical Graphify refresh; fixture payload bytes were not
+  regenerated.
+- Made `docs:check` read-only and relocation-independent. Its focused test runs the package
+  command from a relocated clean repository and proves both a clean tracked tree and
+  checkout-independent output.
+- Removed Graphify's machine-local cache from canonical output. The refresh wrapper purges
+  it around the supported update, and focused tests prove two unchanged refreshes do not
+  retain checkout paths or accumulate repositories. Root defect tracking is issue
+  [#40](https://github.com/jodobear/uzel/issues/40).
 
 ## Commits
 
@@ -48,11 +58,19 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
   semantic artifact stabilizes; it is the PR head requested for final reviews.
 - Candidate 5 advances the minimal state pointer to the remaining review, validation,
   merge/close, and Phase 1 work; its trailing graph-only commit refreshes canonical output.
+- `d98d340` — make fixture, documentation, and Graphify maintenance workflows portable.
+- `3aad066` — replace machine-local cache and stale labels with fresh canonical graph output.
+- The final closeout commit updates this summary, verification, and resumed worktree pointer
+  after those commits stabilized; no product behavior or dependency changed.
 
 ## Validation
 
 - `nix --extra-experimental-features 'nix-command flakes' develop --command pnpm docs:check`
   — 47 Markdown documents, 78 links, 9 Mermaid blocks, zero errors/warnings.
+- Locked `pnpm test:maintenance` — two focused tests pass: relocated read-only docs checking
+  and repeat Graphify refresh cache cleanup.
+- Canonical graph — 1,462 nodes, 2,450 edges, 129 freshly labeled communities; all seven
+  codebase-document labels map to their own hubs, with no stale v4 or absolute checkout paths.
 - Exact deletion, preservation, source/lock non-change, state-budget, plan-budget, and
   Graphify stale-node assertions are recorded in `00-VERIFICATION.md`.
 

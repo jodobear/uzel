@@ -14,7 +14,7 @@ last_activity_desc: Candidate 5 mechanical process correction in review
 
 - Phase: 0 — Lean process reset
 - Issue: [#37](https://github.com/jodobear/uzel/issues/37)
-- Branch/worktree: `chore/lean-process-reset` at `/tmp/uzel-lean-reset`
+- Branch/worktree: PR branch `chore/lean-process-reset`; resumed worktree `/tmp/uzel-lean-review-fixes`
 - PR: [#38](https://github.com/jodobear/uzel/pull/38)
 - Blocker: none
 - Next action: obtain exact-head Codex and substantive CodeRabbit approval, run final affected validation, merge and close, then start Phase 1
