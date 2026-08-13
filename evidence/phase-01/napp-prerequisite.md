@@ -28,7 +28,7 @@ self-test: pass (negative probes rejected before spawn)
 qualification: pass
 ```
 
-The checker used its fixed finite Git grammar, expected repository, expected full commit, and expected terminal result. It did not execute candidate-supplied commands, network probes, or sibling working-tree material. `evidence/phase-01/candidate-qualification.md` and `evidence/phase-01/napp-dependency.md` remain canonical read-only inputs.
+The checker used its fixed finite Git grammar, expected repository, expected full commit, and expected terminal result. It did not execute candidate-supplied commands, network probes, or sibling working-tree material. `evidence/phase-01/candidate-qualification.md` and `evidence/phase-01/napp-dependency.md` remain canonical read-only historical inputs for the `0b75b6b` STOP baseline. The handoff record's embedded `resume_command` is superseded routing, not current authority: a successor resumes the active `01-01-PLAN.md` in issue #42 / PR #43 and must not create another Phase 1 plan.
 
 ## Missing admission categories
 
@@ -75,7 +75,7 @@ The validator resolved that path at the handoff record's `contract_commit` `a6e9
 
 handoff validation: pass
 
-`evidence/phase-01/napp-dependency.md` therefore remains unchanged. The repository-qualified handoff passes; candidate qualification independently remains `stop` and authorizes no seam adoption.
+`evidence/phase-01/napp-dependency.md` therefore remains unchanged. The repository-qualified handoff passes; candidate qualification independently remains `stop` and authorizes no seam adoption. Its `$gsd-plan-phase 1 --research` / new-adapter-plan resume instruction is explicitly retired by the active Plan 01 contract; preserving the immutable JSON does not preserve that stale routing authority.
 
 The fixed qualification emitted `.artifacts/phase-01/napp/0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e/tree.bin`. `git check-ignore -v` reports `/.artifacts/` and `git ls-files --error-unmatch` exits `1`: the inventory is ignored, untracked, unstaged, and uncommitted. It is not product evidence.
 
@@ -87,4 +87,4 @@ Phase 1 status: open
 
 The accepted POC pin remains preserved. Authority owner: `jodobear/napp`. Next action: **Napp owner/source-authority resolution and committed qualifying evidence**.
 
-Issue #42 and PR #43 remain the single Phase 1 delivery unit. No second issue, plan, branch, or PR is created; this unit resumes only after `jodobear/napp` publishes qualifying committed evidence.
+Issue #42 and PR #43 remain the single Phase 1 delivery unit. No second issue, plan, branch, or PR is created. Human-authorized durable preservation may resume independently; qualification, seam, and recovery work resume only after `jodobear/napp` publishes qualifying committed evidence.
