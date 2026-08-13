@@ -332,6 +332,11 @@ fn hostile_probe_enabled() -> bool {
 }
 
 #[tauri::command]
+fn webkit_recovery_probe_enabled() -> bool {
+    env::var("UZEL_RUN_WEBKIT_RECOVERY_PROBE").as_deref() == Ok("1")
+}
+
+#[tauri::command]
 fn start_hostile_probe(
     client: tauri::State<'_, UnixClient>,
     state: tauri::State<'_, HostileProbeState>,
@@ -418,6 +423,30 @@ fn report_shell_accepted(surface_token: String) -> Result<(), String> {
         return Err("shell acceptance surface token is invalid".to_owned());
     }
     println!("UZEL_SHELL_ACCEPTED surface={surface_token}");
+    Ok(())
+}
+
+#[tauri::command]
+fn report_webkit_recovery(
+    client: tauri::State<'_, UnixClient>,
+    before: Vec<String>,
+    after: Vec<String>,
+) -> Result<(), String> {
+    let before = before.into_iter().collect::<BTreeSet<_>>();
+    let after = after.into_iter().collect::<BTreeSet<_>>();
+    if before.len() != 2 || after.len() != 2 || !before.is_disjoint(&after) {
+        return Err("WebKit recovery surface sets are invalid".to_owned());
+    }
+    let status = read_runtime_status(&client)?;
+    let active = status.active_surfaces.into_iter().collect::<BTreeSet<_>>();
+    if !before.is_disjoint(&active) || !after.is_subset(&active) {
+        return Err("WebKit recovery did not replace both trusted surfaces".to_owned());
+    }
+    println!(
+        "UZEL_WEBKIT_RECOVERY_OK before={} after={} source_bound=true",
+        before.into_iter().collect::<Vec<_>>().join(","),
+        after.into_iter().collect::<Vec<_>>().join(",")
+    );
     Ok(())
 }
 
@@ -522,9 +551,11 @@ fn main() {
             confirm_napplet,
             stop_fixture,
             hostile_probe_enabled,
+            webkit_recovery_probe_enabled,
             start_hostile_probe,
             forward_surface_envelope,
             report_shell_accepted,
+            report_webkit_recovery,
             hostile_native_probe,
             finish_hostile_probe,
             report_user_mode

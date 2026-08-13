@@ -37,16 +37,18 @@ their dependency domains. Do not introduce another toolchain or dependency lock.
 
 1. Read this file, `.planning/STATE.md`, the selected roadmap outcome, its GitHub issue,
    applicable repository instructions, and due review-backlog issues.
-2. Query through `$gsd-graphify query` before source inspection for codebase questions.
+2. Use `$gsd-graphify query` as optional local navigation when helpful; inspect Git source
+   directly whenever the graph is absent, stale, unclear, or contradicted by source.
 3. Shape and plan only the selected issue; run one plan-check pass.
 4. Work from current integrated base in the issue's dedicated branch/worktree.
 5. Implement the smallest complete vertical slice. During debugging use focused tests,
    affected checks, and narrow probes.
-6. After a scoped slice passes its focused checks, run `$gsd-graphify status`; run
-   `$gsd-graphify build` once when source is stale. Use `$gsd-graphify query` and
-   `$gsd-graphify diff` thereafter. Keep `graphify-out/` runtime/cache output untracked and
-   retain only the skill's canonical `.planning/graphs/` artifacts. Do not couple Graphify
-   to product builds or regenerate it after every edit or commit.
+6. Treat Graphify as an advisory, disposable local cache. Build on demand when missing or
+   stale, at most once after a stable scoped slice, then use `query`, `status`, or `diff`
+   when helpful. Git source, tests, evidence, requirements, and decisions override graph
+   output. Graph absence, age, provenance, labels, or refresh failure never blocks work,
+   review, or merge. Keep `.planning/graphs/` and `graphify-out/` ignored and uncommitted;
+   do not couple Graphify to product builds or regenerate it after every edit or commit.
 7. Run one complete affected candidate validation, complete GSD verification, push, and
    open one linked draft PR.
 8. Request GitHub Codex review on a coherent exact head. Batch-fix valid findings. When
@@ -58,6 +60,13 @@ their dependency domains. Do not introduce another toolchain or dependency lock.
 10. Close the issue, leave one final GSD summary and verification result, reduce
     `.planning/STATE.md` to the next pointer, promote due backlog, and continue
     automatically through ready phases.
+
+Keep one worktree per active issue/PR. After merge or completion, verify its work is
+committed and its tree is clean, remove rebuildable output, then remove the Git worktree.
+After abandonment, preserve only verified unique human-authored work before removing the
+worktree. Never retain completed worktrees indefinitely or automatically delete dirty or
+user-authored content. Branch/ref cleanup is separate and remains human-gated wherever a
+ref is protected.
 
 Expensive native WebKit/Weston, packaging, and complete conformance gates run only when
 affected and only on stable candidates. Durable manifests, evidence, screenshots, and
@@ -90,8 +99,8 @@ or repository policy requiring human merge approval. Ordinary defects, failed te
 review findings, locked dependency realization, and recoverable tool errors remain
 autonomous work.
 
-Never mutate user-owned dirty work. Preserve protected incident refs, worktrees, and
-portable evidence until their named replay phase verifies them and assigns a final
-disposition. Every upstream-bound change uses a dedicated branch in the corresponding
-`jodobear` fork and is recorded in
+Never mutate user-owned dirty work. Preserve verified unique human-authored input and
+acceptance evidence at its assigned durable destination; Git commits/branches preserve
+completed committed work. Every upstream-bound change uses a dedicated branch in the
+corresponding `jodobear` fork and is recorded in
 `uzel-poc-validated-pack/docs/08-upstream-contributions.md`.

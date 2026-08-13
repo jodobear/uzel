@@ -4,7 +4,7 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 ## Phases
 
-- [ ] **Phase 1: POC replay and accepted Napp seam** — replay accepted behavior and qualify one consumer seam.
+- [ ] **Phase 1: POC replay and runtime recovery** — replay accepted behavior and prove current trusted-runtime recovery.
 - [ ] **Phase 2: Canonical Nix release** — ship one exact-pinned Linux artifact with its compatible runtime.
 - [ ] **Phase 3: Measured fail-closed delivery** — provide scoped evidence and exact merge-head gates.
 - [ ] **Phase 4: Local profile and honest resource state** — preserve local-first value with accessible state truth.
@@ -12,18 +12,26 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 ## Phase Details
 
-### Phase 1: POC replay and accepted Napp seam
+### Phase 1: POC replay and runtime recovery
 
-**Goal**: Replay current accepted behavior, disposition protected incident evidence, and adopt only a qualified Napp consumer seam.
+**Goal**: Replay current accepted behavior, prove source binding/restart/native recovery, and disposition protected incident evidence.
 **Depends on**: Nothing
+**Plans:** 1 current plan
 
-- [ ] Accepted behavior is reproducible or honestly dispositioned.
-- [ ] Protected incident evidence receives an explicit final disposition.
-- [ ] Any adopted Napp seam passes the bounded qualification gate.
+Plans:
+- [ ] 01-01-PLAN.md — acceptance checks complete; exact-head review and merge remain.
+
+**Delivery unit:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single
+Phase 1 delivery unit; no second issue, plan, branch, or PR is created. Current Uzel runtime
+recovery work proceeds without an external framework gate.
+
+- [x] Accepted behavior is reproducible or honestly dispositioned.
+- [x] Protected incident evidence has a final compact durable retention disposition.
+- [x] Current trusted-runtime source binding, restart recovery, and native WebKit recovery pass.
 
 ### Phase 2: Canonical Nix release
 
-**Goal**: Ship one exact-pinned store-path Linux artifact with its compatible Napp runtime.
+**Goal**: Ship one exact-pinned store-path Linux artifact with compatible native runtime dependencies.
 **Depends on**: Phase 1
 
 - [ ] One reproducible Linux artifact is produced from locked inputs.
@@ -39,7 +47,7 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 ### Phase 4: Local profile and honest resource state
 
-**Goal**: Preserve local-first profile value through the accepted seam with accessible stale, partial, and failure truth.
+**Goal**: Preserve local-first profile value through the trusted runtime boundary with accessible stale, partial, and failure truth.
 **Depends on**: Phase 3
 
 - [ ] Local profile value survives unavailable networks.

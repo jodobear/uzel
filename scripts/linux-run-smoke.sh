@@ -138,6 +138,7 @@ export WAYLAND_DISPLAY=wayland-uzel
 export GDK_BACKEND=wayland
 export NO_AT_BRIDGE=1
 export UZEL_RUN_HOSTILE_PROBE=1
+export UZEL_RUN_WEBKIT_RECOVERY_PROBE=1
 
 hostile_markers_are_ordered() {
   local raw_line result_line success_line
@@ -166,6 +167,7 @@ runtime_markers_ready() {
     && rg -q '^UZEL_NAP_SHELL_OK surface=uzel-hostile-egress-generation-3$' "$SMOKE_TMP/uzel.log" \
     && rg -q '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key' "$SMOKE_TMP/uzel.log" \
     && rg -q '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 network_denials=13 sentinel_accepts=0 native_calls=0 source_bound=true$' "$SMOKE_TMP/uzel.log" \
+    && rg -q '^UZEL_WEBKIT_RECOVERY_OK before=uzel-follow-list-generation-2,uzel-profile-card-generation-1 after=uzel-follow-list-generation-5,uzel-profile-card-generation-4 source_bound=true$' "$SMOKE_TMP/uzel.log" \
     && hostile_markers_are_ordered
 }
 
@@ -195,6 +197,7 @@ report_marker_state() {
   report_marker hostile_nap_shell '^UZEL_NAP_SHELL_OK surface=uzel-hostile-egress-generation-3$'
   report_marker hostile_native_rejection '__TAURI_INVOKE_KEY__ expected .* but received invalid-child-key'
   report_marker hostile_probe '^UZEL_HOSTILE_PROBE_OK surface=uzel-hostile-egress-generation-3 network_denials=13 sentinel_accepts=0 native_calls=0 source_bound=true$'
+  report_marker webkit_recovery '^UZEL_WEBKIT_RECOVERY_OK before=uzel-follow-list-generation-2,uzel-profile-card-generation-1 after=uzel-follow-list-generation-5,uzel-profile-card-generation-4 source_bound=true$'
   if hostile_markers_are_ordered; then
     echo 'LINUX_SMOKE_MARKER name=hostile_order status=present' >&2
   else
@@ -274,7 +277,7 @@ while true; do
       report_marker_state
       exit 1
     fi
-    echo "$SUCCESS_MARKER daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_accepted=2 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero user_mode=hidden compositor=weston-headless-gl"
+    echo "$SUCCESS_MARKER daemon=ready shell=ready exact_builds=5 nap_shell=5 shell_accepted=4 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero recovery=passed user_mode=hidden compositor=weston-headless-gl"
     exit 0
   fi
 
