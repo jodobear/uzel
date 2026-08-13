@@ -20,7 +20,6 @@ uzel/
 ├── fixtures/                    # Signed exact-build manifests and generated single-file HTML
 ├── scripts/                     # Dev, boundary, build, smoke, and platform automation
 ├── config/                      # Workspace analysis/tool configuration
-├── .planning/graphs/            # Canonical GSD knowledge graph artifacts
 ├── uzel-poc-validated-pack/     # Scope, evidence, work slices, source pins, status
 ├── .planning/codebase/          # GSD codebase maps
 ├── Cargo.toml                   # Rust workspace and shared pinned dependencies
@@ -100,12 +99,6 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 - Purpose: Hold repository-wide tool configuration not owned by a language ecosystem root file.
 - Contains: Fallow dependency/file analysis config.
 - Key files: `config/fallow.jsonc`.
-
-**`.planning/graphs/`:**
-- Purpose: Hold the canonical graph produced and queried by the installed `gsd-graphify` skill.
-- Contains: `graph.json`, generated HTML visualization, graph report, and diff snapshot.
-- Key files: `.planning/graphs/graph.json`, `.planning/graphs/GRAPH_REPORT.md`, `.planning/graphs/graph.html`.
-- Boundary: Use `$gsd-graphify status`, `query`, `diff`, and `build`; never treat `graphify-out/` runtime/cache data as canonical.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Own normative POC scope, evidence, source pins, work slices, contribution ledger, and durable status.
@@ -260,12 +253,6 @@ This layout describes the git-tracked primary repository. Ignore untracked archi
 - Generated: Partly; napplet HTML/events are produced by `scripts/build-signed-napplet-fixtures.sh`, while documentation and Nostr input fixtures are curated.
 - Committed: Yes.
 - Modification rule: Use only disposable test keys; update all runtime hashes and asset checks together.
-
-**`.planning/graphs/`:**
-- Purpose: Canonical GSD knowledge graph and visual/report artifacts.
-- Generated: Yes, by the installed `gsd-graphify` skill.
-- Committed: Yes, according to the skill contract; `graphify-out/` is ignored runtime data.
-- Modification rule: Build once after a successful scoped slice or when status reports stale; use skill query/diff thereafter.
 
 **`uzel-poc-validated-pack/`:**
 - Purpose: Validated scope, evidence, source pins, work workflow, and durable status.

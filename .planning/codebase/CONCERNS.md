@@ -2,7 +2,7 @@
 
 **Analysis Date:** 2026-08-09
 
-**Scope:** Primary tracked Uzel sources and current Graphify relationships. Generated graph/cache trees, fixture payload bodies, archives, build output, and `jodobear-uzel-2026-08-09-nix-ci-reaudited/` are excluded from concern discovery.
+**Scope:** Primary tracked Uzel sources and current Git relationships. Disposable local graph/cache trees, fixture payload bodies, archives, build output, and `jodobear-uzel-2026-08-09-nix-ci-reaudited/` are excluded from concern discovery.
 
 ## Tech Debt
 

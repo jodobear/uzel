@@ -7,10 +7,11 @@ evidence, not current workflow or automatic final architecture. Read its nested
 instructions and one `work/*.md` slice only when the active issue assigns bounded replay
 or evidence work.
 
-For codebase questions, query through `$gsd-graphify query` first. Run
-`$gsd-graphify build` once after a successful scoped slice, or when
-`$gsd-graphify status` reports stale source. Use the canonical `.planning/graphs/`
-artifacts created by the installed skill; never commit `graphify-out/` runtime noise.
+Graphify is an advisory, disposable local navigation cache. Use `$gsd-graphify query`
+when helpful; build on demand when the local graph is missing or stale, at most once
+after a stable scoped slice. Git source, tests, evidence, requirements, and decisions
+override graph output. Graph absence, age, provenance, labels, or refresh failure never
+blocks execution, review, or merge. Never commit `.planning/graphs/` or `graphify-out/`.
 
 Every upstream-bound change must use a dedicated branch in the corresponding `jodobear`
 fork and be recorded in

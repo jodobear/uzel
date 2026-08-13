@@ -72,7 +72,7 @@ None during execution — the accepted plan required honest failed/unavailable b
 ## Issues Encountered
 
 - Codex identified that the first authorized attempt omitted README's locked dependency prerequisite. After locked install passed without tracked changes, the one real post-prerequisite baseline passed all six lanes; the earlier precondition failure carries no product claim.
-- Final affected-doc validation checked all seven changed Markdown files for H1 structure, relative links, and Mermaid starts (3 links, 0 errors), then passed `git diff --check`, GSD routing, qualification, handoff, and Graphify query checks. The brownfield pack's separate 47-document audit remains scoped only to that pack.
+- Final affected-doc validation checked all seven changed Markdown files for H1 structure, relative links, and Mermaid starts (3 links, 0 errors), then passed `git diff --check`, GSD routing, qualification, and handoff checks. The brownfield pack's separate 47-document audit remains scoped only to that pack.
 
 ## Known Stubs
 
