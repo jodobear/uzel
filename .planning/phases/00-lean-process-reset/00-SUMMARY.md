@@ -62,6 +62,10 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
 - `3aad066` — replace machine-local cache and stale labels with fresh canonical graph output.
 - The final closeout commit updates this summary, verification, and resumed worktree pointer
   after those commits stabilized; no product behavior or dependency changed.
+- `260817d` — normalize Graphify manifest metadata and generated refresh guidance, with
+  repeat-refresh clean-tree coverage.
+- The next semantic commit records these review fixes in the preserved POC status and reset
+  closeout; its trailing graph-only commit refreshes every final source location.
 
 ## Validation
 
@@ -71,6 +75,8 @@ one contextual issue/branch/worktree/PR, and five concise machine-routable roadm
   and repeat Graphify refresh cache cleanup.
 - Canonical graph — 1,462 nodes, 2,450 edges, 129 freshly labeled communities; all seven
   codebase-document labels map to their own hubs, with no stale v4 or absolute checkout paths.
+- Determinism regression — two unchanged refreshes produce no tracked diff after stripping
+  checkout mtimes; the generated report points only to locked `pnpm graphify:refresh`.
 - Exact deletion, preservation, source/lock non-change, state-budget, plan-budget, and
   Graphify stale-node assertions are recorded in `00-VERIFICATION.md`.
 

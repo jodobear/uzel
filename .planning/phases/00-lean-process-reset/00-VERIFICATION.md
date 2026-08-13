@@ -19,6 +19,8 @@
 | Review circuit breaker | Candidate count is diagnostic; only repeated material root cause, conflicting requirements, or no safe disposition stops autonomous review work | PASS |
 | Fixture generation locked | `fixtures/README.md` uses locked `pnpm fixtures:build`; signed fixture payload bytes were not regenerated | PASS |
 | Documentation validation read-only | Locked `pnpm docs:check` emits repository-relative `root: "."`; relocated clean-repository test leaves tracked state unchanged | PASS |
+| Graph output deterministic | Canonical manifest omits checkout mtimes; generated report routes through locked `pnpm graphify:refresh`; repeat unchanged refresh test leaves the tracked tree clean | PASS |
+| Preserved pack self-describing | `uzel-poc-validated-pack/STATUS.md` records maintenance commits, commands, evidence, limitation, and next action | PASS |
 
 ## Local gate
 
