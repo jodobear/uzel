@@ -16,6 +16,6 @@ last_activity_desc: Locked baseline passed; REF-03, REF-04, and REF-07 remain bl
 - Issue: [#42](https://github.com/jodobear/uzel/issues/42)
 - Branch/worktree: `phase/01-poc-replay-napp-seam`; `/tmp/uzel-phase-01-replay-seam`
 - PR: [#43](https://github.com/jodobear/uzel/pull/43) (draft)
-- Plan 01: complete — `01-01-SUMMARY.md` records the exact POC replay and Napp STOP
+- Plan 01: active and blocked — the three evidence outputs record the completed slice; the same plan retains REF-03, REF-04, and REF-07
 - Blocker: REF-03 awaits source-grounded restart-state replay, REF-04 awaits real WebKit recovery, and REF-07 awaits committed qualifying evidence from `jodobear/napp`
 - Next action: complete exact-head reviews, then keep issue #42, PR #43, and Phase 1 open pending these bounded runtime and source-authority prerequisites
