@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "timestamp": "2026-08-13T17:54:19.616Z",
+  "timestamp": "2026-08-13T18:23:02.112Z",
   "nodes": [
     {
       "label": "main.rs",
@@ -839,7 +839,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe",
-      "community": 76,
+      "community": 0,
       "norm_label": "hostile_probe.rs"
     },
     {
@@ -849,7 +849,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate",
-      "community": 76,
+      "community": 0,
       "norm_label": "hostileprobestate"
     },
     {
@@ -859,7 +859,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicu64",
-      "community": 76,
+      "community": 0,
       "norm_label": "atomicu64"
     },
     {
@@ -869,7 +869,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicusize",
-      "community": 76,
+      "community": 0,
       "norm_label": "atomicusize"
     },
     {
@@ -879,7 +879,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_mutex",
-      "community": 76,
+      "community": 0,
       "norm_label": "mutex"
     },
     {
@@ -889,7 +889,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_option",
-      "community": 76,
+      "community": 0,
       "norm_label": "option"
     },
     {
@@ -899,7 +899,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe",
-      "community": 76,
+      "community": 0,
       "norm_label": "liveprobe"
     },
     {
@@ -909,7 +909,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_string",
-      "community": 76,
+      "community": 0,
       "norm_label": "string"
     },
     {
@@ -919,7 +919,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_arc",
-      "community": 76,
+      "community": 0,
       "norm_label": "arc"
     },
     {
@@ -929,7 +929,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "atomicbool",
-      "community": 76,
+      "community": 0,
       "norm_label": "atomicbool"
     },
     {
@@ -939,7 +939,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "joinhandle",
-      "community": 76,
+      "community": 0,
       "norm_label": "joinhandle"
     },
     {
@@ -949,7 +949,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_drop",
-      "community": 76,
+      "community": 0,
       "norm_label": "drop"
     },
     {
@@ -959,7 +959,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_drop",
-      "community": 76,
+      "community": 0,
       "norm_label": ".drop()"
     },
     {
@@ -969,7 +969,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_liveprobe_stop_and_drain",
-      "community": 76,
+      "community": 0,
       "norm_label": ".stop_and_drain()"
     },
     {
@@ -979,7 +979,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_result",
-      "community": 76,
+      "community": 0,
       "norm_label": "result"
     },
     {
@@ -989,7 +989,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport",
-      "community": 76,
+      "community": 0,
       "norm_label": "hostileprobereport"
     },
     {
@@ -999,7 +999,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_beaconattempt",
-      "community": 76,
+      "community": 0,
       "norm_label": "beaconattempt"
     },
     {
@@ -1009,7 +1009,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobeverdict",
-      "community": 76,
+      "community": 0,
       "norm_label": "hostileprobeverdict"
     },
     {
@@ -1019,7 +1019,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_begin",
-      "community": 76,
+      "community": 0,
       "norm_label": ".begin()"
     },
     {
@@ -1029,7 +1029,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_attach",
-      "community": 76,
+      "community": 0,
       "norm_label": ".attach()"
     },
     {
@@ -1039,7 +1039,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel",
-      "community": 76,
+      "community": 0,
       "norm_label": ".cancel()"
     },
     {
@@ -1049,7 +1049,7 @@
       "source_location": "L207",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_cancel_surface",
-      "community": 76,
+      "community": 0,
       "norm_label": ".cancel_surface()"
     },
     {
@@ -1059,7 +1059,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_record_native_call",
-      "community": 76,
+      "community": 0,
       "norm_label": ".record_native_call()"
     },
     {
@@ -1069,7 +1069,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobestate_finish",
-      "community": 76,
+      "community": 0,
       "norm_label": ".finish()"
     },
     {
@@ -1079,7 +1079,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_failed_network_probes",
-      "community": 76,
+      "community": 0,
       "norm_label": ".failed_network_probes()"
     },
     {
@@ -1089,7 +1089,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_rs_vec",
-      "community": 76,
+      "community": 0,
       "norm_label": "vec"
     },
     {
@@ -1099,7 +1099,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_network_denials",
-      "community": 76,
+      "community": 0,
       "norm_label": ".network_denials()"
     },
     {
@@ -1109,7 +1109,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_hostileprobereport_validate_native_boundary",
-      "community": 76,
+      "community": 0,
       "norm_label": ".validate_native_boundary()"
     },
     {
@@ -1119,7 +1119,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_valid_surface_token",
-      "community": 76,
+      "community": 0,
       "norm_label": "valid_surface_token()"
     },
     {
@@ -1129,7 +1129,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_port",
-      "community": 76,
+      "community": 0,
       "norm_label": "port()"
     },
     {
@@ -1139,7 +1139,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_accepted_report",
-      "community": 76,
+      "community": 0,
       "norm_label": "accepted_report()"
     },
     {
@@ -1149,7 +1149,7 @@
       "source_location": "L382",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_control_accept_is_not_counted_as_a_probe_connection",
-      "community": 76,
+      "community": 0,
       "norm_label": "control_accept_is_not_counted_as_a_probe_connection()"
     },
     {
@@ -1159,7 +1159,7 @@
       "source_location": "L391",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_later_loopback_connection_is_counted_separately",
-      "community": 76,
+      "community": 0,
       "norm_label": "later_loopback_connection_is_counted_separately()"
     },
     {
@@ -1169,7 +1169,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_queued_beacon_is_counted_only_with_the_external_sentinel",
-      "community": 76,
+      "community": 0,
       "norm_label": "queued_beacon_is_counted_only_with_the_external_sentinel()"
     },
     {
@@ -1179,7 +1179,7 @@
       "source_location": "L426",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_recorded_accept_loop_failure_rejects_finalization",
-      "community": 76,
+      "community": 0,
       "norm_label": "recorded_accept_loop_failure_rejects_finalization()"
     },
     {
@@ -1189,7 +1189,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "apps_uzel_src_tauri_src_hostile_probe_exact_surface_cancellation_retires_the_attached_probe",
-      "community": 76,
+      "community": 0,
       "norm_label": "exact_surface_cancellation_retires_the_attached_probe()"
     },
     {
@@ -3359,7 +3359,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_request",
-      "community": 2,
+      "community": 3,
       "norm_label": "request"
     },
     {
@@ -4639,7 +4639,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_src_runner",
-      "community": 11,
+      "community": 21,
       "norm_label": "runner.rs"
     },
     {
@@ -4649,7 +4649,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "crates_napd_src_runner_statepersistfailure",
-      "community": 27,
+      "community": 24,
       "norm_label": "statepersistfailure"
     },
     {
@@ -4719,7 +4719,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 21,
+      "community": 2,
       "norm_label": ".metadata()"
     },
     {
@@ -4739,7 +4739,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "crates_napd_src_runner_runtimemode_as_str",
-      "community": 27,
+      "community": 24,
       "norm_label": ".as_str()"
     },
     {
@@ -4749,7 +4749,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "crates_napd_src_runner_relay_lane_name",
-      "community": 11,
+      "community": 21,
       "norm_label": "relay_lane_name()"
     },
     {
@@ -4759,7 +4759,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "runtimerelaylane",
-      "community": 11,
+      "community": 21,
       "norm_label": "runtimerelaylane"
     },
     {
@@ -5079,7 +5079,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "runtimecontroller",
-      "community": 31,
+      "community": 24,
       "norm_label": "runtimecontroller"
     },
     {
@@ -5169,7 +5169,7 @@
       "source_location": "L344",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open",
-      "community": 123,
+      "community": 31,
       "norm_label": ".open()"
     },
     {
@@ -5179,7 +5179,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_asref",
-      "community": 123,
+      "community": 31,
       "norm_label": "asref"
     },
     {
@@ -5189,7 +5189,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_path",
-      "community": 123,
+      "community": 31,
       "norm_label": "path"
     },
     {
@@ -5199,7 +5199,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_self",
-      "community": 123,
+      "community": 31,
       "norm_label": "self"
     },
     {
@@ -5209,7 +5209,7 @@
       "source_location": "L355",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open_live",
-      "community": 123,
+      "community": 31,
       "norm_label": ".open_live()"
     },
     {
@@ -5219,7 +5219,7 @@
       "source_location": "L372",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open_configured",
-      "community": 123,
+      "community": 31,
       "norm_label": ".open_configured()"
     },
     {
@@ -5329,7 +5329,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_persist_product_state",
-      "community": 27,
+      "community": 24,
       "norm_label": ".persist_product_state()"
     },
     {
@@ -5359,7 +5359,7 @@
       "source_location": "L728",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_cancel_napplet_review",
-      "community": 11,
+      "community": 21,
       "norm_label": ".cancel_napplet_review()"
     },
     {
@@ -5369,7 +5369,7 @@
       "source_location": "L748",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_confirm_napplet",
-      "community": 31,
+      "community": 24,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -5399,7 +5399,7 @@
       "source_location": "L1099",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_start_hostile_probe",
-      "community": 24,
+      "community": 21,
       "norm_label": ".start_hostile_probe()"
     },
     {
@@ -5419,7 +5419,7 @@
       "source_location": "L1169",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_stop_fixture",
-      "community": 11,
+      "community": 21,
       "norm_label": ".stop_fixture()"
     },
     {
@@ -5429,7 +5429,7 @@
       "source_location": "L1178",
       "_origin": "ast",
       "id": "crates_napd_src_runner_reconcile_launched_session",
-      "community": 31,
+      "community": 24,
       "norm_label": "reconcile_launched_session()"
     },
     {
@@ -5439,7 +5439,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "runtimesnapshot",
-      "community": 31,
+      "community": 24,
       "norm_label": "runtimesnapshot"
     },
     {
@@ -5449,7 +5449,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "btreeset",
-      "community": 31,
+      "community": 24,
       "norm_label": "btreeset"
     },
     {
@@ -5459,7 +5459,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "runtimesessionsnapshot",
-      "community": 31,
+      "community": 24,
       "norm_label": "runtimesessionsnapshot"
     },
     {
@@ -5469,7 +5469,7 @@
       "source_location": "L1205",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_cancellation_is_terminal",
-      "community": 11,
+      "community": 21,
       "norm_label": "catalog_cancellation_is_terminal()"
     },
     {
@@ -5479,7 +5479,7 @@
       "source_location": "L1209",
       "_origin": "ast",
       "id": "crates_napd_src_runner_read_launched_document",
-      "community": 31,
+      "community": 24,
       "norm_label": "read_launched_document()"
     },
     {
@@ -5489,7 +5489,7 @@
       "source_location": "L1227",
       "_origin": "ast",
       "id": "crates_napd_src_runner_artifact_base_url",
-      "community": 31,
+      "community": 24,
       "norm_label": "artifact_base_url()"
     },
     {
@@ -5499,7 +5499,7 @@
       "source_location": "L1236",
       "_origin": "ast",
       "id": "crates_napd_src_runner_validate_sentinel_url",
-      "community": 24,
+      "community": 21,
       "norm_label": "validate_sentinel_url()"
     },
     {
@@ -5599,7 +5599,7 @@
       "source_location": "L1384",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_surface_base_is_a_bounded_trusted_shell_uuid",
-      "community": 11,
+      "community": 21,
       "norm_label": "catalog_surface_base_is_a_bounded_trusted_shell_uuid()"
     },
     {
@@ -5609,7 +5609,7 @@
       "source_location": "L1393",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens",
-      "community": 11,
+      "community": 21,
       "norm_label": "catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens()"
     },
     {
@@ -5619,7 +5619,7 @@
       "source_location": "L1429",
       "_origin": "ast",
       "id": "crates_napd_src_runner_pending_review_tokens_are_sorted_bounded_and_reconcilable",
-      "community": 11,
+      "community": 21,
       "norm_label": "pending_review_tokens_are_sorted_bounded_and_reconcilable()"
     },
     {
@@ -5629,7 +5629,7 @@
       "source_location": "L1468",
       "_origin": "ast",
       "id": "crates_napd_src_runner_absent_surface_cleanup_is_idempotent",
-      "community": 11,
+      "community": 21,
       "norm_label": "absent_surface_cleanup_is_idempotent()"
     },
     {
@@ -5739,7 +5739,7 @@
       "source_location": "L1718",
       "_origin": "ast",
       "id": "crates_napd_src_runner_hostile_probe_commits_exact_session_config_before_returning",
-      "community": 24,
+      "community": 21,
       "norm_label": "hostile_probe_commits_exact_session_config_before_returning()"
     },
     {
@@ -5749,7 +5749,7 @@
       "source_location": "L1743",
       "_origin": "ast",
       "id": "crates_napd_src_runner_hostile_probe_rejects_non_loopback_or_ambiguous_sentinels",
-      "community": 11,
+      "community": 21,
       "norm_label": "hostile_probe_rejects_non_loopback_or_ambiguous_sentinels()"
     },
     {
@@ -5759,7 +5759,7 @@
       "source_location": "L1764",
       "_origin": "ast",
       "id": "crates_napd_src_runner_nmp_parses_and_persists_the_active_read_identity",
-      "community": 11,
+      "community": 21,
       "norm_label": "nmp_parses_and_persists_the_active_read_identity()"
     },
     {
@@ -5769,7 +5769,7 @@
       "source_location": "L1788",
       "_origin": "ast",
       "id": "crates_napd_src_runner_restarted_daemon_gets_a_new_surface_generation",
-      "community": 11,
+      "community": 21,
       "norm_label": "restarted_daemon_gets_a_new_surface_generation()"
     },
     {
@@ -5779,7 +5779,7 @@
       "source_location": "L1802",
       "_origin": "ast",
       "id": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
-      "community": 11,
+      "community": 21,
       "norm_label": "stopped_fixture_relaunches_with_a_new_session_and_surface()"
     },
     {
@@ -5789,7 +5789,7 @@
       "source_location": "L1821",
       "_origin": "ast",
       "id": "crates_napd_src_runner_identity_activation_rolls_back_when_product_state_cannot_persist",
-      "community": 11,
+      "community": 21,
       "norm_label": "identity_activation_rolls_back_when_product_state_cannot_persist()"
     },
     {
@@ -5799,7 +5799,7 @@
       "source_location": "L1846",
       "_origin": "ast",
       "id": "crates_napd_src_runner_product_state_symlink_is_refused",
-      "community": 11,
+      "community": 21,
       "norm_label": "product_state_symlink_is_refused()"
     },
     {
@@ -5909,7 +5909,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "crates_napd_src_server_replayentry",
-      "community": 2,
+      "community": 3,
       "norm_label": "replayentry"
     },
     {
@@ -11821,10 +11821,20 @@
       "norm_label": "active authority"
     },
     {
+      "label": "Bounded replay evidence, not active workflow authority",
+      "file_type": "document",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_bounded_replay_evidence_not_active_workflow_authority",
+      "community": 32,
+      "norm_label": "bounded replay evidence, not active workflow authority"
+    },
+    {
       "label": "Existing Phase 1 evidence",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L52",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_existing_phase_1_evidence",
       "community": 32,
@@ -11834,7 +11844,7 @@
       "label": "Specific Ideas",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L60",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_specific_ideas",
       "community": 32,
@@ -11844,7 +11854,7 @@
       "label": "Deferred Ideas",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L67",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_deferred_ideas",
       "community": 32,
@@ -12424,7 +12434,7 @@
       "label": "REF-06 baseline",
       "file_type": "document",
       "source_file": "evidence/phase-01/poc-replay.md",
-      "source_location": "L66",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "evidence_phase_01_poc_replay_ref_06_baseline",
       "community": 129,
@@ -12434,7 +12444,7 @@
       "label": "Unavailable or failed",
       "file_type": "document",
       "source_file": "evidence/phase-01/poc-replay.md",
-      "source_location": "L81",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "evidence_phase_01_poc_replay_unavailable_or_failed",
       "community": 129,
@@ -38181,7 +38191,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L67",
+      "source_location": "L69",
       "weight": 1,
       "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_phase_1_poc_replay_and_accepted_napp_seam_context",
       "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_deferred_ideas",
@@ -38211,7 +38221,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L60",
+      "source_location": "L62",
       "weight": 1,
       "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_phase_1_poc_replay_and_accepted_napp_seam_context",
       "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_specific_ideas",
@@ -38271,7 +38281,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
-      "source_location": "L52",
+      "source_location": "L49",
+      "weight": 1,
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_canonical_references",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_bounded_replay_evidence_not_active_workflow_authority",
+      "confidence_score": 1
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-CONTEXT.md",
+      "source_location": "L54",
       "weight": 1,
       "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_canonical_references",
       "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_context_existing_phase_1_evidence",
@@ -38821,7 +38841,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "evidence/phase-01/poc-replay.md",
-      "source_location": "L66",
+      "source_location": "L76",
       "weight": 1,
       "source": "evidence_phase_01_poc_replay_phase_01_poc_replay",
       "target": "evidence_phase_01_poc_replay_ref_06_baseline",
@@ -38831,7 +38851,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "evidence/phase-01/poc-replay.md",
-      "source_location": "L81",
+      "source_location": "L91",
       "weight": 1,
       "source": "evidence_phase_01_poc_replay_phase_01_poc_replay",
       "target": "evidence_phase_01_poc_replay_unavailable_or_failed",
