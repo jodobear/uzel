@@ -1,7 +1,7 @@
 # Phase 01 POC replay
 
-**Execution:** 2026-08-13T17:49:24Z
-**Execution HEAD:** `b307a297bc7d858066de055837cb5aeeb018c7c4` (`phase/01-poc-replay-napp-seam`)
+**Execution:** 2026-08-13T18:05:15Z
+**Execution HEAD:** `d4c83a93d976e099774a18762b096b8eba5bbd7c` (`phase/01-poc-replay-napp-seam`)
 **Accepted comparison commit:** `19519c378c2e775c6ad4b042cfd9aadd89f766b9` — 2026-07-31, `Render rich follow rows and complete canonical profiles (#30)`
 
 This is one source-bound replay attempt, not a byte-identical-HEAD claim and not a reuse of historical pass counts. No source, pin, fixture, runner, lock, or smoke-harness byte changed during it.
@@ -32,7 +32,13 @@ Tool observations: Nix `2.34.1`, Git `2.51.2`, host Node `v22.22.0`, and locked-
 
 ## REF-01 through REF-04 replay
 
-The following locked commands were each run once through an authorized host path, starting at 2026-08-13T17:49:24Z:
+The documented prerequisite first passed through the same locked entrypoint:
+
+```sh
+nix --extra-experimental-features 'nix-command flakes' develop --command pnpm install --frozen-lockfile
+```
+
+It installed the lockfile's 69 packages with pnpm `10.8.0` and changed no tracked file. The following locked baseline commands were then each run once through the authorized host path, starting at 2026-08-13T18:05:15Z:
 
 ```sh
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm build
@@ -43,25 +49,29 @@ nix --extra-experimental-features 'nix-command flakes' develop --command pnpm te
 nix --extra-experimental-features 'nix-command flakes' develop --command pnpm smoke:linux
 ```
 
-All six commands entered Nix and reached pnpm. Exact outcomes were:
+All six commands passed. Exact outcomes were:
 
 | Command | Exit | Elapsed | Current result |
 | --- | ---: | ---: | --- |
-| `pnpm build` | 1 | 2 s | Failed at napplet builds: `vite: command not found`; clean worktree had no `node_modules` |
-| `pnpm check` | 1 | 2 s | Failed at same napplet-build prerequisite before shell/Rust checks |
-| `pnpm test` | 0 | 77 s | Passed contract, napplet, shell, Rust, and pinned-asset checks; 55 Rust tests passed, 2 ignored network tests; `PINNED_ASSETS_OK` |
-| `pnpm test:conformance` | 1 | <1 s | Failed before conformance execution: `napplet-conformance: command not found` |
-| `pnpm test:ui` | 1 | 1 s | Failed before UI cases: package `playwright` missing |
-| `pnpm smoke:linux` | 1 | 12 s | Runtime exited before readiness; all required smoke markers missing; failed logs retained by existing redacting smoke producer |
+| `pnpm build` | 0 | 67 s | Three napplets, shell, and Rust workspace built |
+| `pnpm check` | 0 | 36 s | Napplet builds, shell checks/build, and Rust workspace check passed |
+| `pnpm test` | 0 | 25 s | 11 contract, 21 napplet, 5 shell, and 55 Rust tests passed; 2 external-network Rust tests ignored; `PINNED_ASSETS_OK` |
+| `pnpm test:conformance` | 0 | 5 s | Follow-list and profile-card each CONFORMANT: 6 passed, 0 failed, 4 unmeasured checks skipped |
+| `pnpm test:ui` | 0 | 32 s | 34 deterministic Chromium/UI acceptance tests passed |
+| `pnpm smoke:linux` | 0 | 23 s | Weston/WebKit runtime reached readiness and emitted the exact non-secret success line below |
+
+```text
+LINUX_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_accepted=2 artifact=responded source_bound=multi hostile=denied sentinel=zero native=zero user_mode=hidden compositor=weston-headless-gl
+```
 
 | Requirement | Bound source / intended evidence | Current result | Evidence path | Owner and revisit trigger | Falsifier |
 | --- | --- | --- | --- | --- | --- |
-| REF-01 exact build, confirmation, launch, render, composition | `pnpm build`, `pnpm check`, `pnpm test`; exact fixtures in `crates/napd/src/fixtures.rs` | **failed / partial** — test lane passed, but build and check could not find clean-worktree JS dependencies | current command results above; sources above | Uzel build owner; establish the existing locked dependency-materialization prerequisite before next candidate baseline | clean locked build/check pass and exact fixture flow succeeds |
-| REF-02 trust / denial boundary | `apps/uzel/tests/ui/acceptance.test.mjs`; `scripts/linux-run-smoke.sh` markers `UZEL_HOSTILE_PROBE_OK`, native denial and source binding | **failed / partial** — source-level contract, hostile-egress, and Rust boundary tests passed; UI lacked Playwright and live smoke exited before every marker | current test output; redacted `uzel-poc-validated-pack/reports/probes/linux-failed` from existing producer | Uzel build/runtime owner; restore locked JS dependencies, then investigate smoke startup without reusing this baseline | successful independent UI and live hostile-boundary classes |
-| REF-03 selected read identity, profile/follow render, lifecycle recovery | UI acceptance cases for profile/follow, retry, restart reconciliation; `crates/napd/src/runner.rs` lifecycle | **failed / partial** — unit and Rust lifecycle tests passed, but no UI/runtime render claim exists because Playwright was missing and live readiness failed | current test output and existing test definition | Uzel build/runtime owner; successful locked UI plus live readiness | successful replay finds incorrect identity, duplicate state, or recovery failure |
-| REF-04 Chromium plus real Weston/WebKit hostile/recovery/fixture proof | `pnpm test:ui` is deterministic Chromium class; `pnpm smoke:linux` is real Weston/WebKit class with redacted failed-log handling | **failed** — Chromium cases did not load without Playwright; Weston/WebKit process exited before readiness and all markers were missing | current command output; existing redacted failed-log directory | Uzel build/runtime owner; next candidate must materialize JS dependencies and pass both independent classes | both classes pass their independent marker/check sets |
+| REF-01 exact build, confirmation, launch, render, composition | build/check/test plus exact fixtures, UI acceptance, and live smoke | **passed** — exact builds, confirmation/acceptance, profile/follow rendering, and multi-surface composition completed | command/result table and durable smoke line above; bound source paths | Uzel product owner; rerun after source/pin change | any locked lane or exact-source binding fails |
+| REF-02 trust / denial boundary | UI acceptance, hostile-egress tests, runtime boundary tests, and live smoke | **passed** — source binding stayed multi-surface; hostile access denied; sentinel/native counts stayed zero | 34 UI passes, 21 napplet passes, Rust boundary passes, durable smoke line | Uzel trust-boundary owner; rerun after boundary change | denied capability succeeds or caller selects authority |
+| REF-03 selected read identity, profile/follow render, lifecycle recovery | UI acceptance and Rust lifecycle/reconciliation tests plus live smoke | **passed** — deterministic identity/render/recovery cases and live accepted surfaces completed | test counts and durable smoke line above | Uzel runtime owner; rerun after identity/lifecycle change | wrong identity, duplicate state, or recovery failure |
+| REF-04 Chromium plus real Weston/WebKit hostile/recovery/fixture proof | deterministic `test:ui` plus independent real `smoke:linux` | **passed** — 34 Chromium/UI cases passed and Weston/WebKit reported ready, exact builds, denied hostile access, and zero native leakage | command/result table and durable smoke line above | Uzel runtime/trust owners; rerun after renderer or boundary change | either independent class fails |
 
-No raw smoke logs, credentials, invoke material, or failure artifacts were copied into this report. The existing smoke script remains evidence producer and redacts its protected invoke material before retained failure logs.
+No raw smoke logs, credentials, or invoke material were copied into this report. The exact non-secret terminal line above is the durable result; the existing smoke script remains the protected evidence producer.
 
 ## REF-06 baseline
 
@@ -69,18 +79,17 @@ Build/dependency materialization is separate from runtime measurements. Values b
 
 | Dimension | Observed value | Method / source | Owner | Revisit trigger |
 | --- | --- | --- | --- | --- |
-| Nix materialization / build | Nix and pnpm entered; build/check exit `1` after 2 s each because clean-worktree JS dependencies were absent | locked `pnpm build`, `pnpm check` | Uzel build owner | locked dependency-materialization prerequisite exists and succeeds |
-| Test lane | exit `0`, 77 s; contract/napplet/shell/Rust/pin checks passed | locked `pnpm test` | Uzel product owner | source or pin change |
-| Startup-to-ready | failed after 12 s; runtime exited and all readiness markers were missing | locked `pnpm smoke:linux` | Uzel runtime owner | next frozen candidate after dependency prerequisite is fixed |
-| Local profile/follow render | unavailable; UI cases did not load because Playwright was absent | locked `pnpm test:ui` | Uzel product owner | locked JS dependency materialization succeeds |
-| Chromium hostile egress / native bridge | unavailable; same pre-test Playwright failure | locked `pnpm test:ui` | Uzel trust-boundary owner | locked UI suite executes |
-| Weston/WebKit process and WebView pressure | failed before readiness; output included `/dev/dri/card0` permission warning and cursor warnings, but no sole root cause is claimed | locked `pnpm smoke:linux` | Uzel runtime/environment owners | focused startup diagnosis before next candidate |
-| Resource flow, queue bounds, cancellation | unit-level checks passed; UI/live measurement unavailable | locked `pnpm test` plus failed UI/smoke lanes | Uzel product/runtime owners | UI and live smoke execute successfully |
-| Lifecycle recovery / stop / restart | unit-level checks passed; no successful live measurement | locked `pnpm test` plus failed smoke | Uzel runtime owner | live smoke reaches and verifies recovery markers |
+| Nix materialization / build | install 5 s; build 67 s; check 36 s; all exit `0` | locked install/build/check | Uzel build owner | source, lock, or flake change |
+| Test lane | exit `0`, 25 s; 11 contract, 21 napplet, 5 shell, and 55 Rust tests passed; 2 external-network tests ignored | locked `pnpm test` | Uzel product owner | source or pin change |
+| Startup-to-ready | full smoke exit `0` in 23 s; per-marker startup latency unavailable because producer emits phase markers without timestamps | locked `pnpm smoke:linux` | Uzel runtime owner | smoke timing instrumentation changes |
+| Local profile/follow render | 34 deterministic UI cases passed; live smoke accepted 2 shell surfaces | locked UI plus durable smoke line | Uzel product owner | renderer or fixture change |
+| Chromium hostile egress / native bridge | UI suite passed; live hostile denied, sentinel/native zero | locked UI plus durable smoke line | Uzel trust-boundary owner | boundary change |
+| Weston/WebKit process and WebView pressure | one headless Weston compositor; daemon/shell ready; 3 exact-build nap shells; 2 accepted surfaces | durable smoke line | Uzel runtime owner | runtime/compositor change |
+| Resource flow, queue bounds, cancellation | contract, napplet, UI, and Rust lanes passed their bounded resource/cancellation cases | locked test/UI lanes | Uzel product/runtime owners | resource-path change |
+| Lifecycle recovery / stop / restart | deterministic UI and Rust lifecycle/reconciliation tests passed; live smoke completed | locked test/UI/smoke lanes | Uzel runtime owner | lifecycle change |
 
 ## Unavailable or failed
 
-- **Clean-worktree JS dependency materialization failed acceptance.** Nix provided its toolchain and pnpm entered, but the locked commands do not themselves install workspace dependencies. Build/check/conformance/UI therefore failed on missing `vite`, `napplet-conformance`, or `playwright`. No install or rerun was added to this evidence-only slice. Owner: Uzel build workflow. Revisit trigger: a separately reviewed existing-entrypoint correction or documented locked prerequisite.
-- **Live Linux smoke failed before readiness.** Existing redacting producer retained failed logs; all required markers were missing. GPU/cursor warnings were observed, but this report does not infer a root cause. Owner: Uzel runtime/environment. Revisit trigger: focused startup diagnosis before another frozen candidate baseline.
-- **Current success is limited to `pnpm test`.** Historical POC status and compatibility entries remain sources for pin/probe intent only; they are not current result counts.
-- **No accepted-Napp adaptation is authorized.** This replay failure cannot establish or bypass the external candidate requirement.
+- **Per-marker startup latency remains unavailable.** The existing smoke producer reports phase and success markers but not individual marker timestamps; the reproducible full-smoke elapsed value is 23 seconds. Owner: later performance instrumentation, only when product scope calls for it.
+- **Two public-network Rust tests remain intentionally ignored.** They require relay and HTTPS access; no live-network result is inferred from this local candidate. Owner: integration validation when external-network evidence is authorized.
+- **No accepted-Napp adaptation is authorized.** Successful POC replay does not establish or bypass REF-07's external committed-candidate requirement.

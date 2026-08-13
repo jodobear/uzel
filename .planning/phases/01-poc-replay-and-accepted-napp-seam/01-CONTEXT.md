@@ -45,6 +45,8 @@ Replay the accepted Uzel POC at its exact current pins, give protected incident 
 - `WORKFLOW.md` — lean delivery and exact-head review contract.
 - `.planning/ROADMAP.md` — Phase 1 boundary and outcomes.
 - `.planning/REQUIREMENTS.md` — REF-01 through REF-07 acceptance requirements.
+
+### Bounded replay evidence, not active workflow authority
 - `uzel-poc-validated-pack/AGENTS.md` — POC engineering, trust, and evidence rules.
 - `uzel-poc-validated-pack/STATUS.md` — accepted POC evidence and current limitations.
 - `uzel-poc-validated-pack/work/00-validate.md` — validated command categories.

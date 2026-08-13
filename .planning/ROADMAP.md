@@ -23,8 +23,8 @@ Plans:
 
 **Blocked dependency:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single Phase 1 delivery unit. No second issue, plan, branch, or PR is created; the existing unit resumes only after `jodobear/napp` publishes qualifying committed evidence.
 
-- [ ] Accepted behavior is reproducible or honestly dispositioned.
-- [ ] Protected incident evidence receives an explicit final disposition.
+- [x] Accepted behavior is reproducible or honestly dispositioned.
+- [x] Protected incident evidence receives an explicit final disposition.
 - [ ] Any adopted Napp seam passes the bounded qualification gate.
 
 ### Phase 2: Canonical Nix release

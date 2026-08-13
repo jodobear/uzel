@@ -9,12 +9,12 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 
 ### POC Reference and Napp Seam
 
-- [ ] **REF-01**: Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from the current merged POC at its exact current pins before any Napp adaptation.
-- [ ] **REF-02**: Release reviewer can verify every napplet request is bound to the trusted source-created surface before Napp receives it, with no raw frame network, Tauri bridge, host path, secret, or caller-selected principal.
-- [ ] **REF-03**: Operator can restart Uzel and recover selected read identity, installed exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
-- [ ] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
-- [ ] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
-- [ ] **REF-06**: Maintainer can inspect a small reproducible baseline for startup/ready time, local profile render, process/WebView pressure, resource flow, queue bounds, cancellation, and lifecycle recovery, with build/Nix materialization separated from runtime and unsupported measurements marked unavailable.
+- [x] **REF-01**: Developer can replay exact-build review, confirmation, launch, rich profile/follow rendering, and multi-surface composition from the current merged POC at its exact current pins before any Napp adaptation.
+- [x] **REF-02**: Release reviewer can verify every napplet request is bound to the trusted source-created surface before Napp receives it, with no raw frame network, Tauri bridge, host path, secret, or caller-selected principal.
+- [x] **REF-03**: Operator can restart Uzel and recover selected read identity, installed exact builds, useful local profile/follow state, and ambiguous lifecycle outcomes without duplicate runtime or Nostr state.
+- [x] **REF-04**: Developer can replay deterministic Chromium and real Weston/WebKit hostile-egress, native-bridge denial, recovery, and exact-fixture evidence without regression.
+- [x] **REF-05**: Maintainer can inspect a durable ownership map classifying retained Uzel code, Napp consumption/extraction needs, compatibility seams, upstream candidates, and obsolete POC-only behavior.
+- [x] **REF-06**: Maintainer can inspect a small reproducible baseline for startup/ready time, local profile render, process/WebView pressure, resource flow, queue bounds, cancellation, and lifecycle recovery, with build/Nix materialization separated from runtime and unsupported measurements marked unavailable.
 - [ ] **REF-07**: After one exact committed Napp client/events/testkit candidate passes qualification, Uzel can replay the preserved POC through only that product-facing seam; the repository-qualified dependency handoff exists, but candidate qualification and seam replay remain incomplete.
 
 ### Canonical Nix Package
@@ -106,12 +106,12 @@ Every v1 requirement maps to exactly one roadmap phase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REF-01 | Phase 1 | Pending |
-| REF-02 | Phase 1 | Pending |
-| REF-03 | Phase 1 | Pending |
-| REF-04 | Phase 1 | Pending |
-| REF-05 | Phase 1 | Pending |
-| REF-06 | Phase 1 | Pending |
+| REF-01 | Phase 1 | Complete |
+| REF-02 | Phase 1 | Complete |
+| REF-03 | Phase 1 | Complete |
+| REF-04 | Phase 1 | Complete |
+| REF-05 | Phase 1 | Complete |
+| REF-06 | Phase 1 | Complete |
 | REF-07 | Phase 1 | Pending |
 | PKG-01 | Phase 2 | Pending |
 | PKG-02 | Phase 2 | Pending |

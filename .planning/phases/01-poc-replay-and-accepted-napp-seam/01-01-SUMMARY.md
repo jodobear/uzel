@@ -15,7 +15,7 @@ actuals:
   commits: 2
 tech-stack:
   added: []
-  patterns: [exact-head evidence, fail-closed committed-object qualification, unavailable-not-inferred runtime reporting]
+  patterns: [exact-head evidence, fail-closed committed-object qualification, locked prerequisite then candidate replay]
 key-files:
   created:
     - evidence/phase-01/poc-replay.md
@@ -23,7 +23,7 @@ key-files:
     - evidence/phase-01/napp-prerequisite.md
   modified: []
 key-decisions:
-  - "Record exact locked candidate results: test passes, while clean-worktree JS dependency materialization and Linux smoke readiness fail."
+  - "Run the documented locked dependency prerequisite before the six-command candidate baseline; all six lanes now pass."
   - "Keep Napp candidate 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e at result stop until its owner publishes committed qualifying evidence."
 requirements-addressed: [REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07]
 status: complete
@@ -44,7 +44,7 @@ status: complete
 ## Accomplishments
 
 - Proved the accepted-commit replay path differs only by the locked-entrypoint `fixtures/README.md` documentation change, with fixture/pin parity intact.
-- Re-ran each required baseline command once on exact head `b307a297` through the authorized host path: Nix and pnpm entered, `pnpm test` passed, and the other five lanes produced current actionable failures instead of sandbox preflight errors.
+- Ran the documented locked install, then each required baseline command once on exact head `d4c83a93` through the authorized host path; all six build/check/test/conformance/UI/Linux-smoke lanes passed.
 - Validated `jodobear/napp@0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` with the fixed checker at `result: stop`, preserving sibling checkout exclusion and all nine missing admission categories.
 - Validated the canonical handoff against its recorded contract commit and approved archived plan object; `handoff: pass` does not change the candidate's qualification `stop`.
 
@@ -55,13 +55,13 @@ status: complete
 
 ## Files Created
 
-- `evidence/phase-01/poc-replay.md` — exact preflight, pin bindings, one baseline disposition, and REF-06 unavailable measurements.
+- `evidence/phase-01/poc-replay.md` — exact preflight, pin bindings, passing baseline, and bounded REF-06 measurements.
 - `evidence/phase-01/ownership-map.md` — authority boundaries plus protected ref/worktree disposition.
-- `evidence/phase-01/napp-prerequisite.md` — candidate STOP, missing categories, absent-handoff disposition, and external next action.
+- `evidence/phase-01/napp-prerequisite.md` — candidate STOP, missing categories, validated handoff, and external next action.
 
 ## Decisions Made
 
-- Treat the exact-head locked result as partial: test passes; clean-worktree JS dependency materialization and Linux smoke readiness remain failed candidate gates.
+- Treat the post-prerequisite exact-head baseline as passing evidence for REF-01 through REF-04 and REF-06; keep its explicitly unsupported measurements unavailable.
 - Keep NMP as sole Nostr owner; keep Napp/nampplets runtime ownership and Uzel product-policy ownership separate.
 - Preserve REF-07 as blocked: issue #42 has no authority to accept or mutate the dirty Napp sibling checkout.
 
@@ -71,8 +71,8 @@ None during execution — the accepted plan required honest failed/unavailable b
 
 ## Issues Encountered
 
-- The authorized exact-head retry entered pnpm. Build/check/conformance/UI failed because workspace JS dependencies were absent in the clean worktree; Linux smoke exited before readiness; `pnpm test` passed. The evidence report records exact outcomes, owners, and revisit triggers. No product command was rerun while editing.
-- Final locked `pnpm docs:check` initially met the same sandbox boundary, then passed with authorized Nix database access: 47 Markdown documents, 78 links, 9 Mermaid blocks, zero errors, zero warnings.
+- Codex identified that the first authorized attempt omitted README's locked dependency prerequisite. After locked install passed without tracked changes, the one real post-prerequisite baseline passed all six lanes; the earlier precondition failure carries no product claim.
+- Final affected-doc validation checked all seven changed Markdown files for H1 structure, relative links, and Mermaid starts (3 links, 0 errors), then passed `git diff --check`, GSD routing, qualification, handoff, and Graphify query checks. The brownfield pack's separate 47-document audit remains scoped only to that pack.
 
 ## Known Stubs
 
@@ -80,8 +80,8 @@ None.
 
 ## Next Phase Readiness
 
-- REF-01 through REF-06 evidence obligations are recorded with current results; locked JS dependency materialization and Linux runtime readiness still need correction before candidate acceptance.
-- REF-01 through REF-04, REF-06, and REF-07 remain pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit; Napp owner/source-authority evidence remains an independent external prerequisite.
+- REF-01 through REF-06 are complete with current source-bound results and explicit measurement limits.
+- REF-07 remains pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit until Napp owner/source-authority evidence qualifies a committed candidate.
 
 ## Self-Check: PASSED
 
