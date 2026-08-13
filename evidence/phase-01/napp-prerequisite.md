@@ -65,15 +65,15 @@ This is excluded external state, not candidate qualification evidence. It is rec
 
 ## Handoff and inventory disposition
 
-The current handoff validator requires this archived plan object:
+The handoff validator was invoked with its fixed approved plan path:
 
 ```text
 .planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.superseded.md
 ```
 
-Read-only lookup failed exactly: `fatal: path '.planning/phases/01-slice-ref-01-poc-replay-accepted-napp-seam/01-01-PLAN.superseded.md' does not exist in 'HEAD'` (exit `128`).
+The validator resolved that path at the handoff record's `contract_commit` `a6e9d0f4a76e36bb34cd4afc0202f6d68f92f33e`, verified blob `517238d6db7c1580c95a9e52cf43e3ab972616c6`, checked qualification/handoff parity and mutation snapshots, and returned `handoff: pass`.
 
-handoff validation: unavailable
+handoff validation: pass
 
 `evidence/phase-01/napp-dependency.md` therefore remains unchanged and no handoff pass is claimed.
 

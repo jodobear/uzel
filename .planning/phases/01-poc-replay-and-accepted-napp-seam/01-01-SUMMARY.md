@@ -46,6 +46,7 @@ status: complete
 - Proved the accepted-commit replay path differs only by the locked-entrypoint `fixtures/README.md` documentation change, with fixture/pin parity intact.
 - Ran each required baseline command once; recorded the Nix database-lock failure as current unavailable evidence instead of copying historic pass claims.
 - Validated `jodobear/napp@0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` with the fixed checker at `result: stop`, preserving sibling checkout exclusion and all nine missing admission categories.
+- Validated the canonical handoff against its recorded contract commit and approved archived plan object; `handoff: pass` does not change the candidate's qualification `stop`.
 
 ## Task Commits
 
