@@ -61,6 +61,13 @@ their dependency domains. Do not introduce another toolchain or dependency lock.
     `.planning/STATE.md` to the next pointer, promote due backlog, and continue
     automatically through ready phases.
 
+Keep one worktree per active issue/PR. After merge or completion, verify its work is
+committed and its tree is clean, remove rebuildable output, then remove the Git worktree.
+After abandonment, preserve only verified unique human-authored work before removing the
+worktree. Never retain completed worktrees indefinitely or automatically delete dirty or
+user-authored content. Branch/ref cleanup is separate and remains human-gated wherever a
+ref is protected.
+
 Expensive native WebKit/Weston, packaging, and complete conformance gates run only when
 affected and only on stable candidates. Durable manifests, evidence, screenshots, and
 reports are generated after inputs stabilize, then regenerated only after invalidating
@@ -92,8 +99,8 @@ or repository policy requiring human merge approval. Ordinary defects, failed te
 review findings, locked dependency realization, and recoverable tool errors remain
 autonomous work.
 
-Never mutate user-owned dirty work. Preserve protected incident refs, worktrees, and
-portable evidence until their named replay phase verifies them and assigns a final
-disposition. Every upstream-bound change uses a dedicated branch in the corresponding
-`jodobear` fork and is recorded in
+Never mutate user-owned dirty work. Preserve verified unique human-authored input and
+acceptance evidence at its assigned durable destination; Git commits/branches preserve
+completed committed work. Every upstream-bound change uses a dedicated branch in the
+corresponding `jodobear` fork and is recorded in
 `uzel-poc-validated-pack/docs/08-upstream-contributions.md`.

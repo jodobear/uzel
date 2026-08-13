@@ -19,15 +19,14 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 **Plans:** 1 current plan
 
 Plans:
-- [ ] 01-01-PLAN.md — REF-01 through REF-06 complete; protected disposition remains human-gated.
+- [ ] 01-01-PLAN.md — acceptance checks complete; exact-head review and merge remain.
 
-**Blocked dependencies:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single
-Phase 1 delivery unit; no second issue, plan, branch, or PR is created. Human-authorized
-non-destructive durable preservation may resume independently. Current Uzel runtime recovery work
-proceeds without an external framework gate.
+**Delivery unit:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single
+Phase 1 delivery unit; no second issue, plan, branch, or PR is created. Current Uzel runtime
+recovery work proceeds without an external framework gate.
 
 - [x] Accepted behavior is reproducible or honestly dispositioned.
-- [ ] Protected incident evidence has a final non-destructive retention disposition.
+- [x] Protected incident evidence has a final compact durable retention disposition.
 - [x] Current trusted-runtime source binding, restart recovery, and native WebKit recovery pass.
 
 ### Phase 2: Canonical Nix release

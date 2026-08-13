@@ -4,10 +4,10 @@ current_phase_name: POC replay and runtime recovery
 total_phases: 5
 current_plan: 01
 total_plans_in_phase: 1
-status: blocked
-progress: 86
+status: in_progress
+progress: 95
 last_activity: 2026-08-14
-last_activity_desc: REF-01 through REF-06 pass; protected evidence disposition remains human-gated
+last_activity_desc: REF-01 through REF-06 and protected evidence disposition pass; exact-head reviews remain
 ---
 
 # Current execution
@@ -16,8 +16,8 @@ last_activity_desc: REF-01 through REF-06 pass; protected evidence disposition r
 - Issue: [#42](https://github.com/jodobear/uzel/issues/42)
 - Branch/worktree: `phase/01-poc-replay-napp-seam`; `/tmp/uzel-phase-01-replay-seam`
 - PR: [#43](https://github.com/jodobear/uzel/pull/43) (draft)
-- Plan 01: active — REF-01 through REF-06 complete; protected-evidence disposition remains
+- Plan 01: active — all observable acceptance checks complete; exact-head reviews remain
 - Current authority: Uzel owns product runtime/composition and its private daemon; `jodobear/nampplets` supplies pinned native runtime crates; `pablof7z/nmp` owns Nostr semantics
-- Human-only gate: protected replay/process worktrees under `/tmp` remain preserved in place and cannot be moved, archived, or deleted without authority
+- Evidence disposition: five unique user inputs verified at the protected durable destination; obsolete committed worktrees and rebuildable bulk removed with all refs preserved
 - Validation head: implementation commit `66c4d8e`; full affected tests, selected Chromium scenarios, and real Weston/WebKit recovery passed
-- Next action: freeze the evidence commit for one Codex/CodeRabbit review cycle; Phase 1 remains open until human-authorized protected-evidence disposition
+- Next action: freeze one disposition commit for the Codex/CodeRabbit review cycle, then merge only if both reviews and focused validation pass
