@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "timestamp": "2026-08-13T17:07:54.633Z",
+  "timestamp": "2026-08-13T17:20:55.511Z",
   "nodes": [
     {
       "label": "main.rs",
@@ -3349,7 +3349,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib",
-      "community": 123,
+      "community": 2,
       "norm_label": "lib.rs"
     },
     {
@@ -3359,7 +3359,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_request",
-      "community": 124,
+      "community": 2,
       "norm_label": "request"
     },
     {
@@ -3369,7 +3369,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_string",
-      "community": 125,
+      "community": 2,
       "norm_label": "string"
     },
     {
@@ -3379,7 +3379,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_vec",
-      "community": 125,
+      "community": 2,
       "norm_label": "vec"
     },
     {
@@ -3389,7 +3389,7 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_surfacemetadata",
-      "community": 125,
+      "community": 2,
       "norm_label": "surfacemetadata"
     },
     {
@@ -3399,7 +3399,7 @@
       "source_location": "L101",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_catalogcapability",
-      "community": 125,
+      "community": 2,
       "norm_label": "catalogcapability"
     },
     {
@@ -3409,7 +3409,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_nappletreview",
-      "community": 125,
+      "community": 2,
       "norm_label": "nappletreview"
     },
     {
@@ -3419,7 +3419,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_option",
-      "community": 125,
+      "community": 2,
       "norm_label": "option"
     },
     {
@@ -3429,7 +3429,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_routedenvelope",
-      "community": 123,
+      "community": 2,
       "norm_label": "routedenvelope"
     },
     {
@@ -3439,7 +3439,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_relaydiagnostic",
-      "community": 125,
+      "community": 2,
       "norm_label": "relaydiagnostic"
     },
     {
@@ -3449,7 +3449,7 @@
       "source_location": "L146",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_diagnostics",
-      "community": 125,
+      "community": 2,
       "norm_label": "diagnostics"
     },
     {
@@ -3459,7 +3459,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response",
-      "community": 125,
+      "community": 2,
       "norm_label": "response"
     },
     {
@@ -3469,7 +3469,7 @@
       "source_location": "L219",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_response_error",
-      "community": 125,
+      "community": 2,
       "norm_label": ".error()"
     },
     {
@@ -3479,7 +3479,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "into",
-      "community": 125,
+      "community": 2,
       "norm_label": "into"
     },
     {
@@ -3489,7 +3489,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_self",
-      "community": 125,
+      "community": 2,
       "norm_label": "self"
     },
     {
@@ -3499,7 +3499,7 @@
       "source_location": "L228",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_protocolerror",
-      "community": 127,
+      "community": 2,
       "norm_label": "protocolerror"
     },
     {
@@ -3509,7 +3509,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_error",
-      "community": 127,
+      "community": 2,
       "norm_label": "error"
     },
     {
@@ -3519,7 +3519,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodeerror",
-      "community": 127,
+      "community": 2,
       "norm_label": "decodeerror"
     },
     {
@@ -3639,7 +3639,7 @@
       "source_location": "L314",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_unixclient_new",
-      "community": 123,
+      "community": 2,
       "norm_label": ".new()"
     },
     {
@@ -3649,7 +3649,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_asref",
-      "community": 123,
+      "community": 2,
       "norm_label": "asref"
     },
     {
@@ -3659,7 +3659,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_path",
-      "community": 123,
+      "community": 2,
       "norm_label": "path"
     },
     {
@@ -3859,7 +3859,7 @@
       "source_location": "L681",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_next_operation_id",
-      "community": 123,
+      "community": 2,
       "norm_label": "next_operation_id()"
     },
     {
@@ -3869,7 +3869,7 @@
       "source_location": "L690",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_write_frame",
-      "community": 123,
+      "community": 2,
       "norm_label": "write_frame()"
     },
     {
@@ -3879,7 +3879,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "write",
-      "community": 123,
+      "community": 2,
       "norm_label": "write"
     },
     {
@@ -3889,7 +3889,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_rs_t",
-      "community": 127,
+      "community": 2,
       "norm_label": "t"
     },
     {
@@ -3899,7 +3899,7 @@
       "source_location": "L704",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_frame",
-      "community": 127,
+      "community": 2,
       "norm_label": "read_frame()"
     },
     {
@@ -3909,7 +3909,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "read",
-      "community": 127,
+      "community": 2,
       "norm_label": "read"
     },
     {
@@ -3919,7 +3919,7 @@
       "source_location": "L719",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_encode_asset_chunk",
-      "community": 123,
+      "community": 2,
       "norm_label": "encode_asset_chunk()"
     },
     {
@@ -3939,7 +3939,7 @@
       "source_location": "L727",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_read_exact_or_truncated",
-      "community": 127,
+      "community": 2,
       "norm_label": "read_exact_or_truncated()"
     },
     {
@@ -3949,7 +3949,7 @@
       "source_location": "L752",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_gate_zero_bounds_remain_exact",
-      "community": 123,
+      "community": 2,
       "norm_label": "gate_zero_bounds_remain_exact()"
     },
     {
@@ -3959,7 +3959,7 @@
       "source_location": "L764",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_pending_catalog_operations_are_bounded",
-      "community": 123,
+      "community": 2,
       "norm_label": "pending_catalog_operations_are_bounded()"
     },
     {
@@ -3969,7 +3969,7 @@
       "source_location": "L785",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_deterministic_presend_failures_do_not_retain_catalog_operations",
-      "community": 123,
+      "community": 2,
       "norm_label": "deterministic_presend_failures_do_not_retain_catalog_operations()"
     },
     {
@@ -3979,7 +3979,7 @@
       "source_location": "L809",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_frames_round_trip_with_big_endian_length",
-      "community": 123,
+      "community": 2,
       "norm_label": "frames_round_trip_with_big_endian_length()"
     },
     {
@@ -3989,7 +3989,7 @@
       "source_location": "L824",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_oversized_frame_is_rejected_before_body_read",
-      "community": 123,
+      "community": 2,
       "norm_label": "oversized_frame_is_rejected_before_body_read()"
     },
     {
@@ -3999,7 +3999,7 @@
       "source_location": "L833",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_asset_chunk_fits_control_frame",
-      "community": 123,
+      "community": 2,
       "norm_label": "maximum_asset_chunk_fits_control_frame()"
     },
     {
@@ -4009,7 +4009,7 @@
       "source_location": "L848",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_maximum_envelope_with_worst_case_json_escaping_fits_control_frame",
-      "community": 123,
+      "community": 2,
       "norm_label": "maximum_envelope_with_worst_case_json_escaping_fits_control_frame()"
     },
     {
@@ -4019,7 +4019,7 @@
       "source_location": "L875",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_chunked_routed_envelope_reassembles_on_one_connection",
-      "community": 123,
+      "community": 2,
       "norm_label": "chunked_routed_envelope_reassembles_on_one_connection()"
     },
     {
@@ -4029,7 +4029,7 @@
       "source_location": "L926",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_failed_asset_transfer_stops_the_launched_surface",
-      "community": 123,
+      "community": 2,
       "norm_label": "failed_asset_transfer_stops_the_launched_surface()"
     },
     {
@@ -4039,7 +4039,7 @@
       "source_location": "L974",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_review_retry_reuses_operation_after_responses_are_lost",
-      "community": 123,
+      "community": 2,
       "norm_label": "review_retry_reuses_operation_after_responses_are_lost()"
     },
     {
@@ -4049,7 +4049,7 @@
       "source_location": "L1043",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_authoritative_reconciliation_retires_ambiguous_operation_ids",
-      "community": 123,
+      "community": 2,
       "norm_label": "authoritative_reconciliation_retires_ambiguous_operation_ids()"
     },
     {
@@ -4059,7 +4059,7 @@
       "source_location": "L1056",
       "_origin": "ast",
       "id": "crates_napd_protocol_src_lib_confirm_responses_lost_replay_surface_without_a_second_operation",
-      "community": 123,
+      "community": 2,
       "norm_label": "confirm_responses_lost_replay_surface_without_a_second_operation()"
     },
     {
@@ -4639,7 +4639,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "crates_napd_src_runner",
-      "community": 21,
+      "community": 11,
       "norm_label": "runner.rs"
     },
     {
@@ -4649,7 +4649,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "crates_napd_src_runner_statepersistfailure",
-      "community": 24,
+      "community": 27,
       "norm_label": "statepersistfailure"
     },
     {
@@ -4659,7 +4659,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_string",
-      "community": 24,
+      "community": 31,
       "norm_label": "string"
     },
     {
@@ -4709,7 +4709,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_vec",
-      "community": 27,
+      "community": 31,
       "norm_label": "vec"
     },
     {
@@ -4719,7 +4719,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_runner_surfacelaunch_metadata",
-      "community": 125,
+      "community": 21,
       "norm_label": ".metadata()"
     },
     {
@@ -4739,7 +4739,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "crates_napd_src_runner_runtimemode_as_str",
-      "community": 24,
+      "community": 27,
       "norm_label": ".as_str()"
     },
     {
@@ -4749,7 +4749,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "crates_napd_src_runner_relay_lane_name",
-      "community": 21,
+      "community": 11,
       "norm_label": "relay_lane_name()"
     },
     {
@@ -4759,7 +4759,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "runtimerelaylane",
-      "community": 21,
+      "community": 11,
       "norm_label": "runtimerelaylane"
     },
     {
@@ -5169,7 +5169,7 @@
       "source_location": "L344",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open",
-      "community": 27,
+      "community": 123,
       "norm_label": ".open()"
     },
     {
@@ -5179,7 +5179,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_asref",
-      "community": 27,
+      "community": 123,
       "norm_label": "asref"
     },
     {
@@ -5189,7 +5189,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_path",
-      "community": 27,
+      "community": 123,
       "norm_label": "path"
     },
     {
@@ -5199,7 +5199,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_runner_rs_self",
-      "community": 27,
+      "community": 123,
       "norm_label": "self"
     },
     {
@@ -5209,7 +5209,7 @@
       "source_location": "L355",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open_live",
-      "community": 27,
+      "community": 123,
       "norm_label": ".open_live()"
     },
     {
@@ -5219,7 +5219,7 @@
       "source_location": "L372",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_open_configured",
-      "community": 27,
+      "community": 123,
       "norm_label": ".open_configured()"
     },
     {
@@ -5239,7 +5239,7 @@
       "source_location": "L440",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_active_surfaces",
-      "community": 27,
+      "community": 31,
       "norm_label": ".active_surfaces()"
     },
     {
@@ -5249,7 +5249,7 @@
       "source_location": "L444",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_pending_review_tokens",
-      "community": 27,
+      "community": 31,
       "norm_label": ".pending_review_tokens()"
     },
     {
@@ -5329,7 +5329,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_persist_product_state",
-      "community": 24,
+      "community": 27,
       "norm_label": ".persist_product_state()"
     },
     {
@@ -5349,7 +5349,7 @@
       "source_location": "L674",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_review_napplet",
-      "community": 24,
+      "community": 31,
       "norm_label": ".review_napplet()"
     },
     {
@@ -5359,7 +5359,7 @@
       "source_location": "L728",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_cancel_napplet_review",
-      "community": 130,
+      "community": 11,
       "norm_label": ".cancel_napplet_review()"
     },
     {
@@ -5369,7 +5369,7 @@
       "source_location": "L748",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_confirm_napplet",
-      "community": 24,
+      "community": 31,
       "norm_label": ".confirm_napplet()"
     },
     {
@@ -5389,7 +5389,7 @@
       "source_location": "L965",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_start_named_fixture",
-      "community": 24,
+      "community": 21,
       "norm_label": ".start_named_fixture()"
     },
     {
@@ -5419,7 +5419,7 @@
       "source_location": "L1169",
       "_origin": "ast",
       "id": "crates_napd_src_runner_linuxrunner_stop_fixture",
-      "community": 21,
+      "community": 11,
       "norm_label": ".stop_fixture()"
     },
     {
@@ -5469,7 +5469,7 @@
       "source_location": "L1205",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_cancellation_is_terminal",
-      "community": 130,
+      "community": 11,
       "norm_label": "catalog_cancellation_is_terminal()"
     },
     {
@@ -5479,7 +5479,7 @@
       "source_location": "L1209",
       "_origin": "ast",
       "id": "crates_napd_src_runner_read_launched_document",
-      "community": 24,
+      "community": 31,
       "norm_label": "read_launched_document()"
     },
     {
@@ -5489,7 +5489,7 @@
       "source_location": "L1227",
       "_origin": "ast",
       "id": "crates_napd_src_runner_artifact_base_url",
-      "community": 24,
+      "community": 31,
       "norm_label": "artifact_base_url()"
     },
     {
@@ -5599,7 +5599,7 @@
       "source_location": "L1384",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_surface_base_is_a_bounded_trusted_shell_uuid",
-      "community": 21,
+      "community": 11,
       "norm_label": "catalog_surface_base_is_a_bounded_trusted_shell_uuid()"
     },
     {
@@ -5609,7 +5609,7 @@
       "source_location": "L1393",
       "_origin": "ast",
       "id": "crates_napd_src_runner_catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens",
-      "community": 130,
+      "community": 11,
       "norm_label": "catalog_cancellation_keeps_retryable_reviews_and_discards_terminal_stale_tokens()"
     },
     {
@@ -5619,7 +5619,7 @@
       "source_location": "L1429",
       "_origin": "ast",
       "id": "crates_napd_src_runner_pending_review_tokens_are_sorted_bounded_and_reconcilable",
-      "community": 130,
+      "community": 11,
       "norm_label": "pending_review_tokens_are_sorted_bounded_and_reconcilable()"
     },
     {
@@ -5629,7 +5629,7 @@
       "source_location": "L1468",
       "_origin": "ast",
       "id": "crates_napd_src_runner_absent_surface_cleanup_is_idempotent",
-      "community": 21,
+      "community": 11,
       "norm_label": "absent_surface_cleanup_is_idempotent()"
     },
     {
@@ -5639,7 +5639,7 @@
       "source_location": "L1477",
       "_origin": "ast",
       "id": "crates_napd_src_runner_public_naddr_reviews_confirms_and_launches_exact_single_file",
-      "community": 27,
+      "community": 31,
       "norm_label": "public_naddr_reviews_confirms_and_launches_exact_single_file()"
     },
     {
@@ -5739,7 +5739,7 @@
       "source_location": "L1718",
       "_origin": "ast",
       "id": "crates_napd_src_runner_hostile_probe_commits_exact_session_config_before_returning",
-      "community": 21,
+      "community": 24,
       "norm_label": "hostile_probe_commits_exact_session_config_before_returning()"
     },
     {
@@ -5749,7 +5749,7 @@
       "source_location": "L1743",
       "_origin": "ast",
       "id": "crates_napd_src_runner_hostile_probe_rejects_non_loopback_or_ambiguous_sentinels",
-      "community": 21,
+      "community": 11,
       "norm_label": "hostile_probe_rejects_non_loopback_or_ambiguous_sentinels()"
     },
     {
@@ -5759,7 +5759,7 @@
       "source_location": "L1764",
       "_origin": "ast",
       "id": "crates_napd_src_runner_nmp_parses_and_persists_the_active_read_identity",
-      "community": 21,
+      "community": 11,
       "norm_label": "nmp_parses_and_persists_the_active_read_identity()"
     },
     {
@@ -5769,7 +5769,7 @@
       "source_location": "L1788",
       "_origin": "ast",
       "id": "crates_napd_src_runner_restarted_daemon_gets_a_new_surface_generation",
-      "community": 21,
+      "community": 11,
       "norm_label": "restarted_daemon_gets_a_new_surface_generation()"
     },
     {
@@ -5779,7 +5779,7 @@
       "source_location": "L1802",
       "_origin": "ast",
       "id": "crates_napd_src_runner_stopped_fixture_relaunches_with_a_new_session_and_surface",
-      "community": 21,
+      "community": 11,
       "norm_label": "stopped_fixture_relaunches_with_a_new_session_and_surface()"
     },
     {
@@ -5789,7 +5789,7 @@
       "source_location": "L1821",
       "_origin": "ast",
       "id": "crates_napd_src_runner_identity_activation_rolls_back_when_product_state_cannot_persist",
-      "community": 21,
+      "community": 11,
       "norm_label": "identity_activation_rolls_back_when_product_state_cannot_persist()"
     },
     {
@@ -5799,7 +5799,7 @@
       "source_location": "L1846",
       "_origin": "ast",
       "id": "crates_napd_src_runner_product_state_symlink_is_refused",
-      "community": 21,
+      "community": 11,
       "norm_label": "product_state_symlink_is_refused()"
     },
     {
@@ -5879,7 +5879,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "crates_napd_src_server_assettransfer",
-      "community": 124,
+      "community": 3,
       "norm_label": "assettransfer"
     },
     {
@@ -5889,7 +5889,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_string",
-      "community": 124,
+      "community": 3,
       "norm_label": "string"
     },
     {
@@ -5899,7 +5899,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vec",
-      "community": 124,
+      "community": 3,
       "norm_label": "vec"
     },
     {
@@ -5909,7 +5909,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "crates_napd_src_server_replayentry",
-      "community": 124,
+      "community": 2,
       "norm_label": "replayentry"
     },
     {
@@ -5919,7 +5919,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "crates_napd_src_server_invalidoperationid",
-      "community": 124,
+      "community": 3,
       "norm_label": "invalidoperationid"
     },
     {
@@ -5929,7 +5929,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache",
-      "community": 124,
+      "community": 3,
       "norm_label": "replaycache"
     },
     {
@@ -5939,7 +5939,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_btreemap",
-      "community": 124,
+      "community": 3,
       "norm_label": "btreemap"
     },
     {
@@ -5949,7 +5949,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_vecdeque",
-      "community": 124,
+      "community": 3,
       "norm_label": "vecdeque"
     },
     {
@@ -5959,7 +5959,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_lookup",
-      "community": 124,
+      "community": 3,
       "norm_label": ".lookup()"
     },
     {
@@ -5969,7 +5969,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_option",
-      "community": 124,
+      "community": 3,
       "norm_label": "option"
     },
     {
@@ -5979,7 +5979,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "crates_napd_src_server_replaycache_remember",
-      "community": 124,
+      "community": 3,
       "norm_label": ".remember()"
     },
     {
@@ -5989,7 +5989,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate",
-      "community": 124,
+      "community": 3,
       "norm_label": "daemonstate"
     },
     {
@@ -6019,7 +6019,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_handle",
-      "community": 124,
+      "community": 3,
       "norm_label": ".handle()"
     },
     {
@@ -6029,7 +6029,7 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_asset_chunk",
-      "community": 124,
+      "community": 3,
       "norm_label": ".asset_chunk()"
     },
     {
@@ -6039,7 +6039,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "crates_napd_src_server_daemonstate_stage_surface",
-      "community": 124,
+      "community": 3,
       "norm_label": ".stage_surface()"
     },
     {
@@ -6059,7 +6059,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "surfacelaunch",
-      "community": 124,
+      "community": 3,
       "norm_label": "surfacelaunch"
     },
     {
@@ -6069,7 +6069,7 @@
       "source_location": "L298",
       "_origin": "ast",
       "id": "crates_napd_src_server_replay_key",
-      "community": 124,
+      "community": 3,
       "norm_label": "replay_key()"
     },
     {
@@ -6079,7 +6079,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "crates_napd_src_server_runner_error",
-      "community": 124,
+      "community": 3,
       "norm_label": "runner_error()"
     },
     {
@@ -6089,7 +6089,7 @@
       "source_location": "L319",
       "_origin": "ast",
       "id": "crates_napd_src_server_bounded_detail",
-      "community": 124,
+      "community": 3,
       "norm_label": "bounded_detail()"
     },
     {
@@ -6189,7 +6189,7 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "crates_napd_src_server_handle_stream",
-      "community": 123,
+      "community": 3,
       "norm_label": "handle_stream()"
     },
     {
@@ -6199,7 +6199,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "crates_napd_src_server_rs_unixstream",
-      "community": 123,
+      "community": 3,
       "norm_label": "unixstream"
     },
     {
@@ -6209,7 +6209,7 @@
       "source_location": "L414",
       "_origin": "ast",
       "id": "crates_napd_src_server_write_response",
-      "community": 123,
+      "community": 3,
       "norm_label": "write_response()"
     },
     {
@@ -6219,7 +6219,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "crates_napd_src_server_write_chunked_envelope",
-      "community": 123,
+      "community": 3,
       "norm_label": "write_chunked_envelope()"
     },
     {
@@ -11511,54 +11511,94 @@
       "norm_label": "01-01-plan.md"
     },
     {
-      "label": "Artifacts this plan produces",
+      "label": "Phase 1 Plan 01: POC replay and accepted Napp seam",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L94",
+      "source_location": "L29",
       "_origin": "ast",
-      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_artifacts_this_plan_produces",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
       "community": 78,
-      "norm_label": "artifacts this plan produces"
+      "norm_label": "phase 1 plan 01: poc replay and accepted napp seam"
     },
     {
-      "label": "Permitted generated outputs",
+      "label": "Outcome",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L101",
+      "source_location": "L31",
       "_origin": "ast",
-      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_permitted_generated_outputs",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_outcome",
       "community": 78,
-      "norm_label": "permitted generated outputs"
+      "norm_label": "outcome"
     },
     {
-      "label": "Source Coverage Audit",
+      "label": "Appetite",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L186",
+      "source_location": "L35",
       "_origin": "ast",
-      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_source_coverage_audit",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_appetite",
       "community": 78,
-      "norm_label": "source coverage audit"
+      "norm_label": "appetite"
     },
     {
-      "label": "Trust Boundaries",
+      "label": "Boundaries",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L206",
+      "source_location": "L39",
       "_origin": "ast",
-      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_trust_boundaries",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_boundaries",
       "community": 78,
-      "norm_label": "trust boundaries"
+      "norm_label": "boundaries"
     },
     {
-      "label": "STRIDE Threat Register",
+      "label": "No-gos",
       "file_type": "document",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L214",
+      "source_location": "L46",
       "_origin": "ast",
-      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_stride_threat_register",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_no_gos",
       "community": 78,
-      "norm_label": "stride threat register"
+      "norm_label": "no-gos"
+    },
+    {
+      "label": "Risks",
+      "file_type": "document",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_risks",
+      "community": 78,
+      "norm_label": "risks"
+    },
+    {
+      "label": "Dependencies",
+      "file_type": "document",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_dependencies",
+      "community": 78,
+      "norm_label": "dependencies"
+    },
+    {
+      "label": "Observable acceptance checks",
+      "file_type": "document",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_observable_acceptance_checks",
+      "community": 78,
+      "norm_label": "observable acceptance checks"
+    },
+    {
+      "label": "Execution outputs",
+      "file_type": "document",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_execution_outputs",
+      "community": 78,
+      "norm_label": "execution outputs"
     },
     {
       "label": "01-01-SUMMARY.md",
@@ -37921,50 +37961,90 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L94",
+      "source_location": "L29",
       "weight": 1,
       "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan",
-      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_artifacts_this_plan_produces",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
       "confidence_score": 1
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L101",
+      "source_location": "L35",
       "weight": 1,
-      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan",
-      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_permitted_generated_outputs",
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_appetite",
       "confidence_score": 1
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L186",
+      "source_location": "L39",
       "weight": 1,
-      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan",
-      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_source_coverage_audit",
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_boundaries",
       "confidence_score": 1
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L214",
+      "source_location": "L58",
       "weight": 1,
-      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan",
-      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_stride_threat_register",
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_dependencies",
       "confidence_score": 1
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
-      "source_location": "L206",
+      "source_location": "L73",
       "weight": 1,
-      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan",
-      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_trust_boundaries",
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_execution_outputs",
+      "confidence_score": 1
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L46",
+      "weight": 1,
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_no_gos",
+      "confidence_score": 1
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L64",
+      "weight": 1,
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_observable_acceptance_checks",
+      "confidence_score": 1
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L31",
+      "weight": 1,
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_outcome",
+      "confidence_score": 1
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".planning/phases/01-poc-replay-and-accepted-napp-seam/01-01-PLAN.md",
+      "source_location": "L52",
+      "weight": 1,
+      "source": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_phase_1_plan_01_poc_replay_and_accepted_napp_seam",
+      "target": "planning_phases_01_poc_replay_and_accepted_napp_seam_01_01_plan_risks",
       "confidence_score": 1
     },
     {
