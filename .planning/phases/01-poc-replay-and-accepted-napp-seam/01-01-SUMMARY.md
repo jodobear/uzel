@@ -5,7 +5,7 @@ subsystem: evidence
 tags: [poc-replay, nix, napp, source-authority, ownership]
 requires: []
 provides:
-  - Exact-head POC replay disposition with source/pin preflight and unavailable-runtime evidence
+  - Exact-head POC replay disposition with source/pin preflight and current locked candidate results
   - Ownership map preserving Uzel, NMP, Napp/nampplets, and protected-worktree boundaries
   - Reproducible committed Napp candidate STOP and external prerequisite packet
 affects: [phase-01, napp-adapter, nix-packaging, ci, social-home]
@@ -23,7 +23,7 @@ key-files:
     - evidence/phase-01/napp-prerequisite.md
   modified: []
 key-decisions:
-  - "Record locked Nix materialization failure as unavailable evidence; never infer current runtime success from historical POC reports."
+  - "Record exact locked candidate results: test passes, while clean-worktree JS dependency materialization and Linux smoke readiness fail."
   - "Keep Napp candidate 0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e at result stop until its owner publishes committed qualifying evidence."
 requirements-addressed: [REF-01, REF-02, REF-03, REF-04, REF-05, REF-06, REF-07]
 status: complete
@@ -44,7 +44,7 @@ status: complete
 ## Accomplishments
 
 - Proved the accepted-commit replay path differs only by the locked-entrypoint `fixtures/README.md` documentation change, with fixture/pin parity intact.
-- Ran each required baseline command once; recorded the Nix database-lock failure as current unavailable evidence instead of copying historic pass claims.
+- Re-ran each required baseline command once on exact head `b307a297` through the authorized host path: Nix and pnpm entered, `pnpm test` passed, and the other five lanes produced current actionable failures instead of sandbox preflight errors.
 - Validated `jodobear/napp@0b75b6b4a9ba83598ef8be5ff95dbd40faaf128e` with the fixed checker at `result: stop`, preserving sibling checkout exclusion and all nine missing admission categories.
 - Validated the canonical handoff against its recorded contract commit and approved archived plan object; `handoff: pass` does not change the candidate's qualification `stop`.
 
@@ -61,7 +61,7 @@ status: complete
 
 ## Decisions Made
 
-- Treat `/nix/var/nix/db/big-lock` read-only failure as an unavailable runtime baseline, not a pass or a reason to repeat the six locked baseline commands.
+- Treat the exact-head locked result as partial: test passes; clean-worktree JS dependency materialization and Linux smoke readiness remain failed candidate gates.
 - Keep NMP as sole Nostr owner; keep Napp/nampplets runtime ownership and Uzel product-policy ownership separate.
 - Preserve REF-07 as blocked: issue #42 has no authority to accept or mutate the dirty Napp sibling checkout.
 
@@ -71,7 +71,7 @@ None during execution — the accepted plan required honest failed/unavailable b
 
 ## Issues Encountered
 
-- The one required baseline set could not acquire `/nix/var/nix/db/big-lock` in the sandbox; all six commands failed before `pnpm`. The evidence report records exact commands, cause, owner, and revisit trigger. They were not rerun.
+- The authorized exact-head retry entered pnpm. Build/check/conformance/UI failed because workspace JS dependencies were absent in the clean worktree; Linux smoke exited before readiness; `pnpm test` passed. The evidence report records exact outcomes, owners, and revisit triggers. No product command was rerun while editing.
 - Final locked `pnpm docs:check` initially met the same sandbox boundary, then passed with authorized Nix database access: 47 Markdown documents, 78 links, 9 Mermaid blocks, zero errors, zero warnings.
 
 ## Known Stubs
@@ -80,8 +80,8 @@ None.
 
 ## Next Phase Readiness
 
-- REF-01 through REF-06 evidence obligations are recorded; the runtime replay needs a future writable-Nix execution environment for current run results.
-- REF-01 through REF-04, REF-06, and REF-07 remain pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit until `jodobear/napp` publishes qualifying committed evidence.
+- REF-01 through REF-06 evidence obligations are recorded with current results; locked JS dependency materialization and Linux runtime readiness still need correction before candidate acceptance.
+- REF-01 through REF-04, REF-06, and REF-07 remain pending. Issue #42 and PR #43 stay the single blocked Phase 1 delivery unit; Napp owner/source-authority evidence remains an independent external prerequisite.
 
 ## Self-Check: PASSED
 
