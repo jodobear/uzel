@@ -20,13 +20,27 @@
 
 ## Protected evidence disposition
 
+**Final disposition recorded:** 2026-08-14 at
+`b4eeeb45615c4dcf223c5349a0465cee4f7d3ae2` by read-only inspection. “Retain as protected
+archive” is the final Phase 01 disposition, not a deferred cleanup task. Any later deletion,
+pruning, rewrite, or repurposing is a new human-authorized housekeeping decision outside this
+phase.
+
 | Protected ref or worktree | Exact HEAD / branch | Evidence location | Owner | Disposition | Revisit trigger |
 | --- | --- | --- | --- | --- | --- |
 | Current scoped worktree | `44a2399edcb5cf91fc57ca3b46325f0f01c0c488`; `phase/01-poc-replay-napp-seam` | this Phase 01 evidence directory | Issue #42 / Uzel delivery | retain focused worktree; do not switch or repurpose | Phase 01 closure after external Napp prerequisite |
-| Primary incident archive | `763412a3167713b98c6f741641d485d247041934`; `archive/dirty-primary-763412a` | `/workspace/projects/napplets/napp-uzel/uzel` | protected incident owner | preserve; no cleanup, reset, or mutation | explicit incident disposition |
-| Prior replay harness | `b185ad1b8d9d034d151406b12aa189f5a6be970f`; `gsd/phase-01-plan-01-replay`, also `wip/phase-1-replay-b185ad1` | `/tmp/uzel-01-01-3qGzwY` | prior Phase 01 planning owner | preserve as historical harness; no merge or rewrite | explicit replay-harness audit |
-| Prior Phase 01 review pause | `227d1fc43c93fec701b384bdbc2e302ec93c157b`; `phase/01-baseline-v4` | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-v4` | prior review owner | preserve paused exact evidence; not active delivery path | source-authority / review resumption decision |
-| Lean process reset | `eea91162a498b579cf47055013be6912a5f4a85d`; `chore/lean-process-reset` | `/tmp/uzel-lean-reset` | process-reset owner | preserve; no Graphify or planning regeneration in this slice | its independent review/merge decision |
-| Review-fix worktree | `ed71845eb9cba37e8bc9fcbfee142552753e823e`; `chore/lean-process-reset-review-fixes` | `/tmp/uzel-lean-review-fixes` | review-fix owner | preserve unrelated work | exact review completion |
+| Primary incident archive | `763412a3167713b98c6f741641d485d247041934`; `archive/dirty-primary-763412a` | `/workspace/projects/napplets/napp-uzel/uzel` | protected incident owner | **final: retain indefinitely as read-only forensic archive; exclude from active delivery and never clean/reset/mutate from Phase 01** | none; any destructive housekeeping requires a new human decision |
+| Prior replay harness | `b185ad1b8d9d034d151406b12aa189f5a6be970f`; `gsd/phase-01-plan-01-replay`, also `wip/phase-1-replay-b185ad1` | `/tmp/uzel-01-01-3qGzwY` | prior Phase 01 planning owner | **final: retain as inactive historical harness; no merge, rewrite, or active authority** | none; any destructive housekeeping requires a new human decision |
+| Prior Phase 01 review pause | `227d1fc43c93fec701b384bdbc2e302ec93c157b`; `phase/01-baseline-v4` | `/workspace/projects/napplets/napp-uzel/uzel-phase-1-v4` | prior review owner | **final: retain as inactive paused evidence; not active delivery or source authority** | none; any destructive housekeeping requires a new human decision |
+| Lean process reset | `eea91162a498b579cf47055013be6912a5f4a85d`; `chore/lean-process-reset` | `/tmp/uzel-lean-reset` | process-reset owner | **final: retain as inactive process evidence; no Graphify or planning regeneration** | none; any destructive housekeeping requires a new human decision |
+| Review-fix worktree | `ed71845eb9cba37e8bc9fcbfee142552753e823e`; `chore/lean-process-reset-review-fixes` | `/tmp/uzel-lean-review-fixes` | review-fix owner | **final: retain as inactive unrelated review evidence; do not merge into Phase 01** | none; any destructive housekeeping requires a new human decision |
 
-Read-only inspection found no authority to delete, prune, rewrite, repurpose, or merge any listed ref/worktree. This document assigns ownership and revisit triggers only.
+Primary archive evidence remains unique and intact: clean tracked/index state at
+`763412a3167713b98c6f741641d485d247041934`; five untracked archive inputs; 36-file,
+524-KiB incubation directory; 44-KiB zip SHA-256
+`54324de9fff621366da03e8ec2ef2c26f52a03e9f8f159c8316a8338a77d7f8b`; prompt SHA-256
+values `92366a7e0cd696f46366e9803a9c29452f91a421aedcf3aa42e0dcacc044b873` and
+`21a8ec797184a5b6585e8dd1a257c1e2627ae4c7911c5c3e55d9072ff31b44ce`.
+Read-only inspection found no authority to delete, prune, rewrite, repurpose, or merge any listed
+ref/worktree. Permanent non-active retention closes the Phase 01 disposition gate without a
+destructive action.

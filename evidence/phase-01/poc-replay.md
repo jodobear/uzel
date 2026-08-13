@@ -68,7 +68,7 @@ LINUX_RUN_SMOKE_OK daemon=ready shell=ready exact_builds=3 nap_shell=3 shell_acc
 | --- | --- | --- | --- | --- | --- |
 | REF-01 exact build, confirmation, launch, render, composition | build/check/test plus exact fixtures, UI acceptance, and live smoke | **passed** — exact builds, confirmation/acceptance, profile/follow rendering, and multi-surface composition completed | command/result table and durable smoke line above; bound source paths | Uzel product owner; rerun after source/pin change | any locked lane or exact-source binding fails |
 | REF-02 trust / denial boundary | UI acceptance, hostile-egress tests, runtime boundary tests, and live smoke | **partial / pending** — the pre-Napp POC source binding and denial boundary pass, but no adopted Napp request path exists yet | 34 UI passes, 21 napplet passes, Rust boundary passes, durable smoke line | Uzel trust-boundary owner; replay after qualified Napp seam adoption | every request is source-bound before Napp receives it and denied capabilities remain denied |
-| REF-03 selected read identity, profile/follow render, lifecycle recovery | UI acceptance and Rust lifecycle/reconciliation tests plus live smoke | **partial / pending** — deterministic mock/unit cases pass, but no source-grounded operator restart replay recovers useful local profile/follow state and ambiguous outcomes; the public-network restart test remains ignored | test counts and source paths above | Uzel runtime owner; add an authorized source-grounded restart replay | restart replay recovers all required state without duplicate authority |
+| REF-03 selected read identity, profile/follow render, lifecycle recovery | UI acceptance and Rust lifecycle/reconciliation tests plus live smoke | **passed** — the source-grounded live replay recovered the selected identity and cached profile after reopening the same state root with no relays; the same run proved useful profile/follow state before restart, exact fixtures survived daemon lifecycle, and focused native/protocol/UI reconciliation covered stale surfaces plus ambiguous review/confirmation outcomes | baseline results above plus the 2026-08-14 continuation below | Uzel runtime owner; rerun after lifecycle, state, fixture, or IPC change | restart loses identity/local projection, duplicates authority, changes exact fixture bytes, or cannot reconcile an ambiguous outcome |
 | REF-04 Chromium plus real Weston/WebKit hostile/recovery/fixture proof | deterministic `test:ui` plus independent real `smoke:linux` | **partial / pending** — Chromium recovery cases and real WebKit hostile/native-denial markers pass independently, but the WebKit smoke does not induce recovery/reconciliation | command/result table and durable smoke line above | Uzel runtime/trust owners; add a bounded real WebKit recovery probe | real WebKit recovery and existing hostile/fixture checks all pass |
 
 No raw smoke logs, credentials, or invoke material were copied into this report. The exact non-secret terminal line above is the durable result; the existing smoke script remains the protected evidence producer.
@@ -91,7 +91,34 @@ Build/dependency materialization is separate from runtime measurements. Values b
 ## Unavailable or failed
 
 - **Per-marker startup latency remains unavailable.** The existing smoke producer reports phase and success markers but not individual marker timestamps; the reproducible full-smoke elapsed value is 23 seconds. Owner: later performance instrumentation, only when product scope calls for it.
-- **Two public-network Rust tests remain intentionally ignored.** They require relay and HTTPS access; one is the only source-grounded restart/cache replay, so REF-03 remains pending. Owner: integration validation when external-network evidence is authorized.
+- **One source-grounded public-network restart/cache test was explicitly run in the bounded continuation and passed.** The other public-network test remains outside this affected replay. REF-03 is complete; rerun after lifecycle, state, fixture, or IPC change.
 - **Real WebKit recovery remains unexercised.** The live smoke proves readiness, fixtures, hostile denial, and native isolation but does not induce restart/reconciliation; REF-04 remains pending. Owner: Uzel runtime validation.
 - **Process/WebView pressure remains unavailable.** The smoke's nap-shell and accepted-surface counters describe iframe surfaces inside one configured Tauri window, not WebKit/WebView OS-process pressure. Owner: runtime instrumentation when product scope calls for it.
 - **No accepted-Napp adaptation is authorized.** Successful POC replay does not establish or bypass REF-07's external committed-candidate requirement.
+
+## 2026-08-14 bounded continuation
+
+Continuation ran from `b4eeeb45615c4dcf223c5349a0465cee4f7d3ae2` without changing product,
+fixture, lock, runner, or smoke-harness bytes. Focused direct tests established the missing
+REF-03 restart-state chain:
+
+- `runner::tests::nmp_parses_and_persists_the_active_read_identity`: 1 passed;
+- `runner::tests::restarted_daemon_gets_a_new_surface_generation`: 1 passed;
+- `server::tests::daemon_serves_ordered_verified_asset_and_shuts_down`: 1 passed;
+- `runner::tests::public_identity_profile_follows_and_picture_cross_only_native_providers`
+  with `--ignored --exact`: 1 passed. It first resolved useful public profile/follow state and
+  native image bytes, then reopened the same state root with no relays and recovered the selected
+  identity plus cached profile;
+- `napd-protocol` authoritative reconciliation: 1 passed;
+- Nix-native Tauri reconciliation: 1 passed, stopping each stale snapshot surface exactly once;
+- focused Chromium `restart-reconciliation`, `review-ambiguous`, and
+  `confirmation-ambiguous`: 6 tests passed across three scenarios.
+
+The locked real Weston/WebKit smoke then passed once with the same durable
+`LINUX_RUN_SMOKE_OK` marker recorded above. This revalidates real-WebKit hostile egress,
+native-bridge denial, fixture loading, teardown, and continued process health, but the existing
+smoke does not induce a failed restart/reconciliation cycle. REF-04 therefore remains pending.
+Plan boundary lines 43 and 48–49 preserve runner/product bytes and forbid a custom validator before
+Napp qualification; completing REF-04 now would violate the active plan rather than supply missing
+evidence. Safe resume trigger: after the Napp successor qualifies, add the smallest affected native
+recovery probe alongside the permitted bounded Uzel seam, then rerun the one locked native smoke.
