@@ -4,7 +4,7 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 ## Phases
 
-- [ ] **Phase 1: POC replay and runtime recovery** — replay accepted behavior and prove current trusted-runtime recovery.
+- [x] **Phase 1: POC replay and runtime recovery** — replay accepted behavior and prove current trusted-runtime recovery.
 - [ ] **Phase 2: Canonical Nix release** — ship one exact-pinned Linux artifact with its compatible runtime.
 - [ ] **Phase 3: Measured fail-closed delivery** — provide scoped evidence and exact merge-head gates.
 - [ ] **Phase 4: Local profile and honest resource state** — preserve local-first value with accessible state truth.
@@ -16,14 +16,14 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 
 **Goal**: Replay current accepted behavior, prove source binding/restart/native recovery, and disposition protected incident evidence.
 **Depends on**: Nothing
-**Plans:** 1 current plan
+**Plans:** 1 completed plan
 
 Plans:
-- [ ] 01-01-PLAN.md — acceptance checks complete; exact-head review and merge remain.
+- [x] 01-01-PLAN.md — accepted replay, recovery, evidence disposition, review, and merge complete.
 
-**Delivery unit:** Issue #42, its dedicated branch/worktree, and PR #43 remain the single
-Phase 1 delivery unit; no second issue, plan, branch, or PR is created. Current Uzel runtime
-recovery work proceeds without an external framework gate.
+**Delivery unit:** Issue #42 is closed and PR #43 merged reviewed head `63bd6aa` as
+`577e02b`. The bounded closeout correction records the missing GSD summary, verification,
+and next-phase pointer without reopening Phase 1 implementation.
 
 - [x] Accepted behavior is reproducible or honestly dispositioned.
 - [x] Protected incident evidence has a final compact durable retention disposition.
