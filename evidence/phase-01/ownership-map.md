@@ -36,6 +36,6 @@ Source and destination names, bytes, modes, owners, hashes, and file counts matc
 and after cleanup. Eleven obsolete worktrees were removed through `git worktree remove`;
 `--force` was used only for two dirty Graphify worktrees whose changes were generated
 cache/output or byte-identical to committed `d355965`. Every branch/ref was preserved.
-The active PR #43 worktree remains until exact-head review and merge complete. Rebuildable
+The PR #43 worktree was removed after exact-head review and merge completed. Rebuildable
 primary `target/`, `node_modules/`, `graphify-out/`, and `.artifacts/` were deleted after
-verification; they are not acceptance evidence.
+verification; they are not acceptance evidence. Every branch/ref remains preserved.
