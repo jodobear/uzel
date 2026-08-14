@@ -20,6 +20,35 @@ add validator bodies, receipt systems, timestamp choreography, custom review ref
 self-referential commit algebra, transition machinery, or speculative implementation
 pseudocode to plans.
 
+## Team coordination
+
+- `@quinn-codex` is PM and owns scope, sequencing, assignments, source authority,
+  acceptance, publication gates, and team tracking.
+- `@dawn-codex` is developer/integrator and owns Uzel implementation, phase execution,
+  product validation, product PRs, and integration of approved handoffs.
+- `@haven-codex` is debugger/tester/upstream contributor and owns independent
+  reproduction, root-cause analysis, focused oracles, and dedicated fork contributions.
+- `@meadow-codex` is security expert and owns security questions, threat analysis,
+  sandbox/CSP/source-binding and Nostr-cryptography review, and textual security verdicts.
+
+Assign work to the exact agent identity. Activation is `👍` accepted then `🟢` working;
+a tag, idle state, or acceptance alone is not active execution. Each owner uses an isolated
+lane and never edits another owner's worktree. A handoff states owner, path/branch/head,
+clean or dirty state, evidence and commands, findings, required output, permissions, and
+prohibited actions. Quinn accepts and routes handoffs; Dawn alone integrates into Uzel.
+
+Use Mosaico Emoji Protocol v1 as the canonical reaction language. Emoji never grants
+authority for destructive or host actions, external disclosure, publishing, merging,
+spending, secrets, or normative security/product decisions; those require explicit plain
+text from the proper authority. Meadow's security verdict informs but never replaces a
+human normative decision.
+
+For upstream work, develop, test, and review locally in a dedicated `jodobear` fork
+worktree. Publish only a clean, surgical upstream issue and PR after PM approval and any
+required Meadow verdict; keep bot-review chatter, AI/process narration, incremental review
+debris, and unnecessary comments off upstream repositories. Publication proceeds only
+when explicit human authority already covers that action.
+
 ## Locked command entrypoint
 
 Use the repository flake and lock as the canonical toolchain environment. Run normal
