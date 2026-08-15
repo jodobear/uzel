@@ -95,7 +95,9 @@
           daemon="$out/libexec/uzel-napd"
           shell="$out/libexec/uzel-shell"
           daemon_pid=
+          shell_pid=
           owns_lock=
+          socket_identity=
           runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
           socket="\$runtime_dir/uzel/napd.sock"
           lock_file="\$runtime_dir/uzel-launcher.lock"
@@ -111,16 +113,27 @@
           cleanup() {
             status=\$?
             trap - EXIT INT TERM
+            if [ -n "\$shell_pid" ]; then
+              kill -TERM "\$shell_pid" 2>/dev/null || true
+              wait "\$shell_pid" 2>/dev/null || true
+            fi
             if [ -n "\$daemon_pid" ]; then
               kill -TERM "\$daemon_pid" 2>/dev/null || true
               wait "\$daemon_pid" 2>/dev/null || true
             fi
-            if [ -n "\$owns_lock" ]; then
+            current_socket_identity=
+            if [ -S "\$socket" ]; then
+              current_socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
+            fi
+            if [ -n "\$owns_lock" ] && [ -n "\$socket_identity" ] && \
+                [ "\$current_socket_identity" = "\$socket_identity" ]; then
               ${pkgs.coreutils}/bin/rm -f -- "\$socket"
             fi
             exit "\$status"
           }
-          trap cleanup EXIT INT TERM
+          trap cleanup EXIT
+          trap 'exit 130' INT
+          trap 'exit 143' TERM
 
           "\$daemon" --live \
             --indexer-relay wss://purplepag.es \
@@ -135,14 +148,22 @@
             ${pkgs.coreutils}/bin/sleep 0.1
           done
           [ -S "\$socket" ] || exit 1
+          socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
           if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then
             case "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" in
               *[!0-9]*|"") exit 2 ;;
             esac
-            ${pkgs.coreutils}/bin/sleep "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}"
-            exit 0
+            ${pkgs.coreutils}/bin/sleep "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" &
+          else
+            "\$shell" "\$@" &
           fi
-          "\$shell" "\$@"
+          shell_pid=\$!
+          set +e
+          wait "\$shell_pid"
+          shell_status=\$?
+          set -e
+          shell_pid=
+          exit "\$shell_status"
           EOF
           runHook postInstall
         '';

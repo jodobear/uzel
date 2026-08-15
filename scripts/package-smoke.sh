@@ -52,16 +52,18 @@ printf '%s\n' '#!/usr/bin/env bash' \
 chmod 700 "$tmp/decoy/uzel-napd"
 export UZEL_PACKAGE_DECOY_TOUCHED="$tmp/decoy-executed"
 
-(
-  cd "$tmp"
-  PATH="$tmp/decoy:$PATH" \
-    UZEL_SMOKE_NAME=package \
-    UZEL_SMOKE_LAUNCHER="$store_path/bin/uzel" \
-    UZEL_SMOKE_ARTIFACT_DIR="$failure_dir" \
-    bash "$repo_root/scripts/linux-run-smoke.sh"
-)
-[[ ! -e "$UZEL_PACKAGE_DECOY_TOUCHED" ]] \
-  || { echo 'PACKAGE_SMOKE_FAILED ambient PATH daemon decoy executed' >&2; exit 1; }
+if [[ ${UZEL_PACKAGE_LAUNCHER_ONLY:-0} != 1 ]]; then
+  (
+    cd "$tmp"
+    PATH="$tmp/decoy:$PATH" \
+      UZEL_SMOKE_NAME=package \
+      UZEL_SMOKE_LAUNCHER="$store_path/bin/uzel" \
+      UZEL_SMOKE_ARTIFACT_DIR="$failure_dir" \
+      bash "$repo_root/scripts/linux-run-smoke.sh"
+  )
+  [[ ! -e "$UZEL_PACKAGE_DECOY_TOUCHED" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED ambient PATH daemon decoy executed' >&2; exit 1; }
+fi
 
 wait_for_socket() {
   local socket=$1
@@ -82,7 +84,8 @@ run_lifecycle_probe() {
   local socket="$runtime_dir/uzel/napd.sock"
   local pid=
 
-  mkdir -m 700 "$runtime_dir" "$data_dir"
+  mkdir -p "$runtime_dir" "$data_dir"
+  chmod 700 "$runtime_dir" "$data_dir"
   XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     UZEL_LAUNCHER_TEST_HOLD_SECONDS="$hold_seconds" \
     "$store_path/bin/uzel" >"$tmp/$name.log" 2>&1 &
@@ -100,11 +103,28 @@ repeat_pid=$LIFECYCLE_PID
 wait "$repeat_pid"
 [[ ! -e "$tmp/repeat-runtime/uzel/napd.sock" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED repeated launcher left a socket' >&2; exit 1; }
+run_lifecycle_probe repeat 2
+repeat_pid=$LIFECYCLE_PID
+wait "$repeat_pid"
+[[ ! -e "$tmp/repeat-runtime/uzel/napd.sock" ]] \
+  || { echo 'PACKAGE_SMOKE_FAILED second repeated launcher left a socket' >&2; exit 1; }
 
 run_lifecycle_probe interrupt
 interrupt_pid=$LIFECYCLE_PID
+interrupt_children=()
+for _ in $(seq 1 80); do
+  mapfile -t interrupt_children < <(pgrep -P "$interrupt_pid" || true)
+  [[ ${#interrupt_children[@]} -eq 2 ]] && break
+  sleep 0.1
+done
+[[ ${#interrupt_children[@]} -eq 2 ]] \
+  || { echo 'PACKAGE_SMOKE_FAILED launcher must own daemon and shell child' >&2; exit 1; }
 kill -TERM "$interrupt_pid"
 wait "$interrupt_pid" || true
+for child in "${interrupt_children[@]}"; do
+  ! kill -0 "$child" 2>/dev/null \
+    || { echo "PACKAGE_SMOKE_FAILED child survived interrupt pid=$child" >&2; exit 1; }
+done
 [[ ! -e "$tmp/interrupt-runtime/uzel/napd.sock" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED interrupted launcher left a socket' >&2; exit 1; }
 
@@ -121,10 +141,15 @@ kill -0 "$concurrent_pid"
 kill -TERM "$concurrent_pid"
 wait "$concurrent_pid" || true
 
-run_lifecycle_probe isolated
-isolated_pid=$LIFECYCLE_PID
-kill -TERM "$isolated_pid"
-wait "$isolated_pid" || true
+run_lifecycle_probe isolated-a
+isolated_a_pid=$LIFECYCLE_PID
+run_lifecycle_probe isolated-b
+isolated_b_pid=$LIFECYCLE_PID
+kill -0 "$isolated_a_pid"
+kill -0 "$isolated_b_pid"
+kill -TERM "$isolated_a_pid" "$isolated_b_pid"
+wait "$isolated_a_pid" || true
+wait "$isolated_b_pid" || true
 
 printf 'PACKAGE_SOURCE nampplets=%s trusted_shell=%s embedded_sha256=%s nmp=%s lockfiles=unchanged assets=verified\n' \
   "$NAMPPLETS_REV" "$TRUSTED_SHELL_REV" "$TRUSTED_SHELL_SHA256" "$NMP_REV"

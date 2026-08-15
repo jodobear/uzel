@@ -56,6 +56,11 @@ test('packaged launcher serializes ownership and removes only its exact socket',
   const flake = readFileSync(join(process.cwd(), 'flake.nix'), 'utf8');
   assert.match(flake, /lock_file="\\\$runtime_dir\/uzel-launcher\.lock"/);
   assert.match(flake, /flock -n 9/);
+  assert.match(flake, /shell_pid=\\\$!/);
+  assert.match(flake, /kill -TERM "\\\$shell_pid"/);
+  assert.match(flake, /wait "\\\$shell_pid"/);
+  assert.match(flake, /socket_identity=.*stat -Lc '%d:%i'/);
+  assert.match(flake, /current_socket_identity.*= "\\\$socket_identity"/s);
   assert.match(flake, /rm -f -- "\\\$socket"/);
   assert.doesNotMatch(flake, /rm -rf/);
 });
