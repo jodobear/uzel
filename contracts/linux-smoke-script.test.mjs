@@ -51,3 +51,11 @@ test('native smoke accepts only an exact packaged launcher override', () => {
   assert.match(script, /UZEL_SMOKE_LAUNCHER must be an exact packaged/);
   assert.match(script, /setsid "\$UZEL_SMOKE_LAUNCHER"/);
 });
+
+test('packaged launcher serializes ownership and removes only its exact socket', () => {
+  const flake = readFileSync(join(process.cwd(), 'flake.nix'), 'utf8');
+  assert.match(flake, /lock_file="\\\$runtime_dir\/uzel-launcher\.lock"/);
+  assert.match(flake, /flock -n 9/);
+  assert.match(flake, /rm -f -- "\\\$socket"/);
+  assert.doesNotMatch(flake, /rm -rf/);
+});

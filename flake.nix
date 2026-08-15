@@ -95,6 +95,18 @@
           daemon="$out/libexec/uzel-napd"
           shell="$out/libexec/uzel-shell"
           daemon_pid=
+          owns_lock=
+          runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
+          socket="\$runtime_dir/uzel/napd.sock"
+          lock_file="\$runtime_dir/uzel-launcher.lock"
+
+          umask 077
+          exec 9>"\$lock_file"
+          ${pkgs.util-linux}/bin/flock -n 9 || {
+            echo 'another Uzel launcher owns this runtime directory' >&2
+            exit 1
+          }
+          owns_lock=1
 
           cleanup() {
             status=\$?
@@ -102,6 +114,9 @@
             if [ -n "\$daemon_pid" ]; then
               kill -TERM "\$daemon_pid" 2>/dev/null || true
               wait "\$daemon_pid" 2>/dev/null || true
+            fi
+            if [ -n "\$owns_lock" ]; then
+              ${pkgs.coreutils}/bin/rm -f -- "\$socket"
             fi
             exit "\$status"
           }
@@ -112,8 +127,6 @@
             --app-relay wss://purplepag.es \
             --app-relay wss://nos.lol &
           daemon_pid=\$!
-          runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
-          socket="\$runtime_dir/uzel/napd.sock"
           attempt=0
           while [ "\$attempt" -lt 80 ]; do
             [ -S "\$socket" ] && break
