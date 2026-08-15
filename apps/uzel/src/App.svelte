@@ -21,6 +21,7 @@
     author: string;
     dTag: string;
     aggregateHash: string;
+    artifactDigest: string;
     domains: string[];
     unavailableDomains: string[];
   };
@@ -260,6 +261,10 @@
       artifactHTML: launch.artifactHtml,
       title: launch.title,
       domains: launch.domains,
+      manifestAuthor: launch.author,
+      dTag: launch.dTag,
+      aggregateHash: launch.aggregateHash,
+      artifactDigest: launch.artifactDigest,
       onError: (surfaceToken, detail) => {
         reportRuntimeFailure(`Hostile shell rejected for ${surfaceToken}`, detail);
       },
@@ -339,6 +344,10 @@
       artifactHTML: launch.artifactHtml,
       title: launch.title,
       domains: launch.domains,
+      manifestAuthor: launch.author,
+      dTag: launch.dTag,
+      aggregateHash: launch.aggregateHash,
+      artifactDigest: launch.artifactDigest,
       onReady,
       onError,
     });

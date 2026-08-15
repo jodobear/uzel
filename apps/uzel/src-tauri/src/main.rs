@@ -8,9 +8,10 @@ use std::{
 
 use napd_protocol::{
     ClientError, Diagnostics, FetchedSurface, NappletReview, Request, Response, RoutedEnvelope,
-    UnixClient,
+    UnixClient, VERSION,
 };
 use serde::Serialize;
+use sha2::{Digest, Sha256};
 use tauri::Manager;
 
 mod hostile_probe;
@@ -27,6 +28,7 @@ struct SurfaceLaunch {
     author: String,
     d_tag: String,
     aggregate_hash: String,
+    artifact_digest: String,
     domains: Vec<String>,
     unavailable_domains: Vec<String>,
 }
@@ -311,6 +313,7 @@ fn confirm_napplet(
 }
 
 fn project_surface(fetched: FetchedSurface) -> Result<SurfaceLaunch, String> {
+    let artifact_digest = format!("{:x}", Sha256::digest(&fetched.artifact_bytes));
     let artifact_html = String::from_utf8(fetched.artifact_bytes)
         .map_err(|error| format!("verified artifact is not UTF-8: {error}"))?;
     Ok(SurfaceLaunch {
@@ -321,6 +324,7 @@ fn project_surface(fetched: FetchedSurface) -> Result<SurfaceLaunch, String> {
         author: fetched.surface.author,
         d_tag: fetched.surface.d_tag,
         aggregate_hash: fetched.surface.aggregate_hash,
+        artifact_digest,
         domains: fetched.surface.domains,
         unavailable_domains: fetched.surface.unavailable_domains,
     })
@@ -515,6 +519,9 @@ fn navigation_policy() -> tauri::plugin::TauriPlugin<tauri::Wry> {
 }
 
 fn allowed_navigation(url: &tauri::Url) -> bool {
+    if exact_outer_navigation(url) {
+        return true;
+    }
     match url.scheme() {
         "tauri" => true,
         "about" => matches!(url.path(), "blank" | "srcdoc"),
@@ -530,12 +537,89 @@ fn allowed_navigation(url: &tauri::Url) -> bool {
     }
 }
 
+const OUTER_SHELL_SCHEME: &str = "nmp-shell";
+const OUTER_SHELL_AUTHORITY: &str = "localhost";
+const OUTER_SHELL_PATH: &str = "/trusted-shell.html";
+const OUTER_SHELL_CSP: &str = "default-src 'none'; script-src 'self' 'unsafe-inline' nmp-artifact:; style-src 'self' 'unsafe-inline' nmp-artifact:; frame-src 'self' about:; connect-src 'none'; img-src nmp-artifact: data: blob:; media-src nmp-artifact: data: blob:; font-src nmp-artifact: data:; object-src 'none'; base-uri nmp-artifact:; form-action 'none'; worker-src 'none'";
+const OUTER_SHELL_DOCUMENT: &[u8] =
+    include_bytes!("../../public/trusted-shell/trusted-shell-embedded.html");
+
+fn exact_outer_navigation(url: &tauri::Url) -> bool {
+    url.scheme() == OUTER_SHELL_SCHEME
+        && url.host_str() == Some(OUTER_SHELL_AUTHORITY)
+        && url.port().is_none()
+        && url.path() == OUTER_SHELL_PATH
+        && url.query().is_none()
+        && url.fragment().is_none()
+        && url.username().is_empty()
+        && url.password().is_none()
+}
+
+fn exact_outer_request(method: &tauri::http::Method, uri: &tauri::http::Uri) -> bool {
+    method == tauri::http::Method::GET
+        && uri.scheme_str() == Some(OUTER_SHELL_SCHEME)
+        && uri.authority().map(|value| value.as_str()) == Some(OUTER_SHELL_AUTHORITY)
+        && uri.path() == OUTER_SHELL_PATH
+        && uri.query().is_none()
+}
+
+fn outer_shell_response(
+    method: &tauri::http::Method,
+    uri: &tauri::http::Uri,
+) -> tauri::http::Response<Vec<u8>> {
+    let valid = exact_outer_request(method, uri);
+    tauri::http::Response::builder()
+        .status(if valid {
+            tauri::http::StatusCode::OK
+        } else {
+            tauri::http::StatusCode::NOT_FOUND
+        })
+        .header("Cache-Control", "no-store, private")
+        .header("Content-Security-Policy", OUTER_SHELL_CSP)
+        .header("Content-Type", "text/html; charset=utf-8")
+        .header("X-Content-Type-Options", "nosniff")
+        .body(if valid {
+            OUTER_SHELL_DOCUMENT.to_vec()
+        } else {
+            Vec::new()
+        })
+        .expect("fixed outer-shell response is valid")
+}
+
+fn verify_daemon_compatibility(client: &UnixClient) -> Result<(), String> {
+    let response = client
+        .request(&Request::Hello { version: VERSION })
+        .map_err(|error| format!("UZEL_SHELL_COMPATIBILITY_FAILED {error}"))?;
+    verify_daemon_compatibility_response(response)
+}
+
+fn verify_daemon_compatibility_response(response: Response) -> Result<(), String> {
+    match response {
+        Response::Hello { version } if version == VERSION => {
+            println!("UZEL_SHELL_COMPATIBLE version={VERSION}");
+            Ok(())
+        }
+        Response::Hello { version } => Err(format!(
+            "UZEL_SHELL_COMPATIBILITY_FAILED daemon returned version {version}, expected {VERSION}"
+        )),
+        _ => Err(
+            "UZEL_SHELL_COMPATIBILITY_FAILED daemon returned an unexpected hello response"
+                .to_owned(),
+        ),
+    }
+}
+
 fn main() {
     tauri::Builder::default()
+        .register_uri_scheme_protocol(OUTER_SHELL_SCHEME, |_context, request| {
+            outer_shell_response(request.method(), request.uri())
+        })
         .plugin(navigation_policy())
         .setup(|app| {
             let socket = default_socket_path().map_err(|error| error.to_string())?;
-            app.manage(UnixClient::new(socket));
+            let client = UnixClient::new(socket);
+            verify_daemon_compatibility(&client)?;
+            app.manage(client);
             app.manage(HostileProbeState::default());
             println!("UZEL_SHELL_READY");
             Ok(())
@@ -587,12 +671,95 @@ mod tests {
         assert!(allowed_navigation(
             &tauri::Url::parse("about:srcdoc").unwrap()
         ));
+        assert!(allowed_navigation(
+            &tauri::Url::parse("nmp-shell://localhost/trusted-shell.html").unwrap()
+        ));
+        for alias in [
+            "nmp-shell://localhost/trusted-shell.html?query",
+            "nmp-shell://localhost/trusted-shell.html#fragment",
+            "nmp-shell://localhost:80/trusted-shell.html",
+            "nmp-shell://user@localhost/trusted-shell.html",
+            "nmp-shell://localhost/trusted-shell.html/",
+            "nmp-shell://other/trusted-shell.html",
+        ] {
+            assert!(
+                !allowed_navigation(&tauri::Url::parse(alias).unwrap()),
+                "{alias}"
+            );
+        }
         assert!(!allowed_navigation(
             &tauri::Url::parse("https://example.com/").unwrap()
         ));
         assert!(!allowed_navigation(
             &tauri::Url::parse("http://127.0.0.1:43129/probe").unwrap()
         ));
+    }
+
+    #[test]
+    fn outer_protocol_is_one_exact_get_with_fixed_security_headers() {
+        let exact: tauri::http::Uri = "nmp-shell://localhost/trusted-shell.html".parse().unwrap();
+        let response = outer_shell_response(&tauri::http::Method::GET, &exact);
+        assert_eq!(response.status(), tauri::http::StatusCode::OK);
+        assert_eq!(response.body(), OUTER_SHELL_DOCUMENT);
+        assert_eq!(
+            response.headers()["content-type"],
+            "text/html; charset=utf-8"
+        );
+        assert_eq!(response.headers()["cache-control"], "no-store, private");
+        assert_eq!(response.headers()["x-content-type-options"], "nosniff");
+        assert_eq!(
+            response.headers()["content-security-policy"],
+            OUTER_SHELL_CSP
+        );
+
+        for (method, alias) in [
+            (
+                tauri::http::Method::POST,
+                "nmp-shell://localhost/trusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost/trusted-shell.html?query",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost/trusted-shell.html/",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://other/trusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost/%74rusted-shell.html",
+            ),
+        ] {
+            let uri: tauri::http::Uri = alias.parse().unwrap();
+            let refused = outer_shell_response(&method, &uri);
+            assert_eq!(
+                refused.status(),
+                tauri::http::StatusCode::NOT_FOUND,
+                "{alias}"
+            );
+            assert!(refused.body().is_empty(), "{alias}");
+        }
+    }
+
+    #[test]
+    fn compatible_hello_is_required_before_shell_readiness() {
+        assert!(verify_daemon_compatibility_response(Response::Hello { version: VERSION }).is_ok());
+        assert!(
+            verify_daemon_compatibility_response(Response::Hello {
+                version: VERSION.saturating_add(1),
+            })
+            .unwrap_err()
+            .contains("expected")
+        );
+        assert!(
+            verify_daemon_compatibility_response(Response::Shutdown)
+                .unwrap_err()
+                .contains("unexpected hello")
+        );
     }
 
     #[test]

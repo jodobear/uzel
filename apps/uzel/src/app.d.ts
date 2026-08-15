@@ -12,6 +12,10 @@ declare global {
           artifactHTML: string;
           title: string;
           domains: string[];
+          manifestAuthor: string;
+          dTag: string;
+          aggregateHash: string;
+          artifactDigest: string;
           onReady?: (surfaceId: string) => void;
           onError?: (surfaceId: string, detail: string) => void;
         },
