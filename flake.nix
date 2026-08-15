@@ -96,6 +96,7 @@
           shell="$out/libexec/uzel-shell"
           daemon_pid=
           shell_pid=
+          received_signal=
           owns_lock=
           socket_identity=
           runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
@@ -110,15 +111,36 @@
           }
           owns_lock=1
 
+          signal_children() {
+            signal=\$1
+            if [ -n "\$shell_pid" ]; then
+              kill -s "\$signal" "\$shell_pid" 2>/dev/null || true
+            fi
+            if [ -n "\$daemon_pid" ]; then
+              kill -s "\$signal" "\$daemon_pid" 2>/dev/null || true
+            fi
+          }
+
+          handle_signal() {
+            received_signal=\$1
+            trap - INT TERM
+            signal_children "\$received_signal"
+            case "\$received_signal" in
+              INT) exit 130 ;;
+              TERM) exit 143 ;;
+            esac
+          }
+
           cleanup() {
             status=\$?
             trap - EXIT INT TERM
+            if [ -z "\$received_signal" ]; then
+              signal_children TERM
+            fi
             if [ -n "\$shell_pid" ]; then
-              kill -TERM "\$shell_pid" 2>/dev/null || true
               wait "\$shell_pid" 2>/dev/null || true
             fi
             if [ -n "\$daemon_pid" ]; then
-              kill -TERM "\$daemon_pid" 2>/dev/null || true
               wait "\$daemon_pid" 2>/dev/null || true
             fi
             current_socket_identity=
@@ -132,14 +154,16 @@
             exit "\$status"
           }
           trap cleanup EXIT
-          trap 'exit 130' INT
-          trap 'exit 143' TERM
+          trap 'handle_signal INT' INT
+          trap 'handle_signal TERM' TERM
 
+          set -m
           "\$daemon" --live \
             --indexer-relay wss://purplepag.es \
             --app-relay wss://purplepag.es \
             --app-relay wss://nos.lol &
           daemon_pid=\$!
+          set +m
           attempt=0
           while [ "\$attempt" -lt 80 ]; do
             [ -S "\$socket" ] && break
@@ -149,6 +173,7 @@
           done
           [ -S "\$socket" ] || exit 1
           socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
+          set -m
           if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then
             case "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" in
               *[!0-9]*|"") exit 2 ;;
@@ -158,6 +183,7 @@
             "\$shell" "\$@" &
           fi
           shell_pid=\$!
+          set +m
           set +e
           wait "\$shell_pid"
           shell_status=\$?

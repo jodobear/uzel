@@ -86,10 +86,14 @@ run_lifecycle_probe() {
 
   mkdir -p "$runtime_dir" "$data_dir"
   chmod 700 "$runtime_dir" "$data_dir"
+  # Job control gives the background launcher default INT disposition before
+  # its own traps install; otherwise non-interactive Bash inherits SIGINT ignored.
+  set -m
   XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     UZEL_LAUNCHER_TEST_HOLD_SECONDS="$hold_seconds" \
     "$store_path/bin/uzel" >"$tmp/$name.log" 2>&1 &
   pid=$!
+  set +m
   wait_for_socket "$socket" || { cat "$tmp/$name.log" >&2; return 1; }
   [[ $(stat -c '%a' "$runtime_dir/uzel") == 700 ]] \
     || { echo 'PACKAGE_SMOKE_FAILED socket parent is not private' >&2; return 1; }
@@ -109,24 +113,41 @@ wait "$repeat_pid"
 [[ ! -e "$tmp/repeat-runtime/uzel/napd.sock" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED second repeated launcher left a socket' >&2; exit 1; }
 
-run_lifecycle_probe interrupt
-interrupt_pid=$LIFECYCLE_PID
-interrupt_children=()
-for _ in $(seq 1 80); do
-  mapfile -t interrupt_children < <(pgrep -P "$interrupt_pid" || true)
-  [[ ${#interrupt_children[@]} -eq 2 ]] && break
-  sleep 0.1
-done
-[[ ${#interrupt_children[@]} -eq 2 ]] \
-  || { echo 'PACKAGE_SMOKE_FAILED launcher must own daemon and shell child' >&2; exit 1; }
-kill -TERM "$interrupt_pid"
-wait "$interrupt_pid" || true
-for child in "${interrupt_children[@]}"; do
-  ! kill -0 "$child" 2>/dev/null \
-    || { echo "PACKAGE_SMOKE_FAILED child survived interrupt pid=$child" >&2; exit 1; }
-done
-[[ ! -e "$tmp/interrupt-runtime/uzel/napd.sock" ]] \
-  || { echo 'PACKAGE_SMOKE_FAILED interrupted launcher left a socket' >&2; exit 1; }
+run_signal_probe() {
+  local signal=$1
+  local expected_status=$2
+  local name="signal-${signal,,}"
+  local pid child status
+  local -a children=()
+
+  run_lifecycle_probe "$name"
+  pid=$LIFECYCLE_PID
+  for _ in $(seq 1 80); do
+    mapfile -t children < <(pgrep -P "$pid" || true)
+    [[ ${#children[@]} -eq 2 ]] && break
+    sleep 0.1
+  done
+  [[ ${#children[@]} -eq 2 ]] \
+    || { echo "PACKAGE_SMOKE_FAILED $signal probe needs daemon and shell child" >&2; exit 1; }
+  kill -s "$signal" "$pid"
+  set +e
+  wait "$pid"
+  status=$?
+  set -e
+  [[ $status -eq $expected_status ]] \
+    || { echo "PACKAGE_SMOKE_FAILED $signal launcher status=$status expected=$expected_status" >&2; exit 1; }
+  for child in "${children[@]}"; do
+    ! kill -0 "$child" 2>/dev/null \
+      || { echo "PACKAGE_SMOKE_FAILED $signal child survived pid=$child" >&2; exit 1; }
+  done
+  [[ ! -e "$tmp/$name-runtime/uzel/napd.sock" ]] \
+    || { echo "PACKAGE_SMOKE_FAILED $signal launcher left a socket" >&2; exit 1; }
+  printf 'PACKAGE_SIGNAL_OK signal=%s status=%s children=reaped socket=retired\n' \
+    "$signal" "$status"
+}
+
+run_signal_probe TERM 143
+run_signal_probe INT 130
 
 run_lifecycle_probe concurrent
 concurrent_pid=$LIFECYCLE_PID
@@ -153,6 +174,11 @@ wait "$isolated_b_pid" || true
 
 printf 'PACKAGE_SOURCE nampplets=%s trusted_shell=%s embedded_sha256=%s nmp=%s lockfiles=unchanged assets=verified\n' \
   "$NAMPPLETS_REV" "$TRUSTED_SHELL_REV" "$TRUSTED_SHELL_SHA256" "$NMP_REV"
-printf 'PACKAGE_RUNTIME launcher=%s daemon=absolute shell=absolute decoy=not-executed webkit=weston\n' \
-  "$store_path/bin/uzel"
-echo 'PACKAGE_SMOKE_OK'
+if [[ ${UZEL_PACKAGE_LAUNCHER_ONLY:-0} == 1 ]]; then
+  printf 'PACKAGE_LAUNCHER_ONLY_OK launcher=%s daemon=absolute shell=absolute webkit=not-run\n' \
+    "$store_path/bin/uzel"
+else
+  printf 'PACKAGE_RUNTIME launcher=%s daemon=absolute shell=absolute decoy=not-executed webkit=weston\n' \
+    "$store_path/bin/uzel"
+  echo 'PACKAGE_SMOKE_OK'
+fi
