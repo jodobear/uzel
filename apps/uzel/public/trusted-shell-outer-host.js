@@ -3,13 +3,15 @@
 
   const OUTER_URL = "nmp-shell://localhost/trusted-shell.html";
   const MAX_SURFACES = 16;
-  const MAX_REQUESTS = 4096;
+  const MAX_PENDING_REQUESTS = 64;
   const MOUNT_TIMEOUT_MS = 15000;
   const MAX_ARTIFACT_HTML_BYTES = 8 * 1024 * 1024;
   const HASH = /^[0-9a-f]{64}$/;
   const states = new Map();
   const windows = new Map();
-  let nextRequest = 0;
+  const pendingRequests = new Map();
+  const requestEpochs = Array(MAX_PENDING_REQUESTS).fill(0);
+  let nextRequestSlot = 0;
   let disposed = false;
 
   function plain(value) {
@@ -34,10 +36,30 @@
       !/[\u0000-\u001f\u007f]/.test(value);
   }
 
-  function requestId() {
-    nextRequest += 1;
-    if (nextRequest > MAX_REQUESTS) return null;
-    return `uzel-${nextRequest}`;
+  function request(state, type) {
+    if (pendingRequests.size >= MAX_PENDING_REQUESTS) return null;
+    for (let offset = 0; offset < MAX_PENDING_REQUESTS; offset += 1) {
+      const slot = (nextRequestSlot + offset) % MAX_PENDING_REQUESTS;
+      requestEpochs[slot] += 1;
+      if (!Number.isSafeInteger(requestEpochs[slot])) return null;
+      const id = `uzel-${slot}-${requestEpochs[slot]}`;
+      if (pendingRequests.has(id)) continue;
+      nextRequestSlot = (slot + 1) % MAX_PENDING_REQUESTS;
+      pendingRequests.set(id, Object.freeze({ state, type }));
+      return id;
+    }
+    return null;
+  }
+
+  function retireRequests(state) {
+    for (const [id, pending] of pendingRequests) {
+      if (pending.state === state) pendingRequests.delete(id);
+    }
+  }
+
+  function sourceIntact(state) {
+    return state.frame.contentWindow === state.outerWindow &&
+      state.frame.src === OUTER_URL;
   }
 
   function bindingMatches(binding, state) {
@@ -63,7 +85,7 @@
   }
 
   function post(state, message) {
-    if (!state.frame.contentWindow || state.frame.contentWindow !== state.outerWindow) {
+    if (!sourceIntact(state)) {
       return false;
     }
     state.outerWindow.postMessage(Object.freeze(message), "*");
@@ -74,17 +96,20 @@
     if (states.get(state.surfaceId) !== state) return false;
     states.delete(state.surfaceId);
     windows.delete(state.outerWindow);
+    retireRequests(state);
     global.clearTimeout(state.timer);
     if (notifyOuter) {
-      const unmountId = requestId();
+      const unmountId = request(state, "nmp.outer.unmount");
       if (unmountId) post(state, {
         type: "nmp.outer.unmount",
         requestId: unmountId,
         surfaceId: state.surfaceId,
         session: state.session
       });
-      const disposeId = requestId();
+      if (unmountId) pendingRequests.delete(unmountId);
+      const disposeId = request(state, "nmp.outer.dispose");
       if (disposeId) post(state, { type: "nmp.outer.dispose", requestId: disposeId });
+      if (disposeId) pendingRequests.delete(disposeId);
     }
     state.frame.remove();
     return true;
@@ -166,7 +191,7 @@
     let loads = 0;
     frame.addEventListener("load", () => {
       loads += 1;
-      if (loads > 1) fail(state, "outer-navigation");
+      if (loads > 1 || !sourceIntact(state)) fail(state, "outer-navigation");
     });
     frame.addEventListener("error", () => fail(state, "outer-load-error"));
     states.set(surfaceId, state);
@@ -178,15 +203,18 @@
 
   function receive(surfaceId, envelope) {
     const state = states.get(surfaceId);
-    const id = requestId();
-    if (!state || !state.outerReady || !id) return false;
-    return post(state, {
+    if (!state || !state.outerReady) return false;
+    const id = request(state, "nmp.outer.deliver");
+    if (!id) return false;
+    const posted = post(state, {
       type: "nmp.outer.deliver",
       requestId: id,
       surfaceId,
       session: state.session,
       envelope
     });
+    if (!posted) pendingRequests.delete(id);
+    return posted;
   }
 
   function unmount(surfaceId) {
@@ -196,18 +224,32 @@
 
   function receiveOuterMessage(event) {
     const state = windows.get(event.source);
-    if (!state || states.get(state.surfaceId) !== state || !plain(event.data)) return;
+    if (!state || states.get(state.surfaceId) !== state || !sourceIntact(state) ||
+        !plain(event.data)) return;
     const message = event.data;
     if (exact(message, ["type", "version"]) &&
         message.type === "nmp.outer.ready" && message.version === 1) {
+      if (state.outerReady) {
+        fail(state, "outer-readiness-replay");
+        return;
+      }
       state.outerReady = true;
-      const id = requestId();
+      const id = request(state, "nmp.outer.mount");
       if (!id || !post(state, {
         type: "nmp.outer.mount",
         requestId: id,
         surfaceId: state.surfaceId,
         configuration: state.configuration
       })) fail(state, "outer-mount-refused");
+      return;
+    }
+    if (typeof message.type === "string" && message.type.endsWith(".result") &&
+        validText(message.requestId, 128) && typeof message.ok === "boolean") {
+      const pending = pendingRequests.get(message.requestId);
+      if (!pending || pending.state !== state ||
+          message.type !== `${pending.type}.result`) return;
+      pendingRequests.delete(message.requestId);
+      if (message.ok === false) fail(state, "outer-refused");
       return;
     }
     if (message.type === "nmp.outer.napplet" &&
@@ -245,12 +287,6 @@
         message.type === "nmp.outer.rate-limited" && message.scope === "parent") {
       for (const active of Array.from(states.values())) fail(active, "outer-rate-limited");
       return;
-    }
-    if (typeof message.type === "string" && message.type.endsWith(".result") &&
-        message.ok === false &&
-        (message.surfaceId === null || message.surfaceId === state.surfaceId) &&
-        (message.session === null || message.session === state.session)) {
-      fail(state, "outer-refused");
     }
   }
 

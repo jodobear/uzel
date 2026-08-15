@@ -77,6 +77,21 @@ function target() {
   return { children: [], replaceChildren(...children) { this.children = children; } };
 }
 
+function reply(listeners, frame, request, ok = true) {
+  listeners.get('message')({
+    source: frame.contentWindow,
+    data: {
+      type: `${request.type}.result`,
+      requestId: request.requestId,
+      surfaceId: request.surfaceId ?? null,
+      session: request.session ?? request.configuration?.session ?? null,
+      ok,
+      error: ok ? null : 'refused',
+      binding: null,
+    },
+  });
+}
+
 test('mount uses one exact sandboxed outer URL and a source-bound binding', () => {
   const { window, frames, listeners } = harness();
   const ready = [];
@@ -237,4 +252,74 @@ test('top and immutable outer documents keep separate authority boundaries', asy
     createHash('sha256').update(embedded).digest('hex'),
     'a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3',
   );
+});
+
+test('outer source is one sealed constant sink and replacement invalidates before messages', () => {
+  assert.equal((source.match(/frame\.src\s*=\s*OUTER_URL;/g) ?? []).length, 1);
+  assert.deepEqual(source.match(/frame\.src\s*=(?!=)\s*[^;]+;/g), ['frame.src = OUTER_URL;']);
+  const { window, frames, listeners } = harness();
+  const errors = [];
+  assert.equal(window.NMPTrustedShellHost.mount(
+    'sealed', target(), configuration({ onError: (_id, error) => errors.push(error) }),
+  ), true);
+  const frame = frames[0];
+  frame.src = 'nmp-shell://localhost/other.html';
+  listeners.get('message')({
+    source: frame.contentWindow,
+    data: { type: 'nmp.outer.ready', version: 1 },
+  });
+  assert.equal(frame.posted.length, 0);
+  frame.listeners.get('load')();
+  assert.deepEqual(errors, ['outer-navigation']);
+});
+
+test('request capacity bounds live work, retires, and survives sequential reuse', () => {
+  const { window, frames, listeners } = harness();
+  assert.equal(window.NMPTrustedShellHost.mount('surface', target(), configuration()), true);
+  const frame = frames[0];
+  listeners.get('message')({ source: frame.contentWindow, data: { type: 'nmp.outer.ready', version: 1 } });
+  reply(listeners, frame, frame.posted[0]);
+
+  for (let index = 0; index < 64; index += 1) {
+    assert.equal(window.NMPTrustedShellHost.receive('surface', { index }), true);
+  }
+  assert.equal(window.NMPTrustedShellHost.receive('surface', { overflow: true }), false);
+  reply(listeners, frame, frame.posted.at(-1));
+  assert.equal(window.NMPTrustedShellHost.receive('surface', { retired: true }), true);
+
+  for (const request of frame.posted.filter((item) => item.type === 'nmp.outer.deliver')) {
+    reply(listeners, frame, request);
+  }
+  for (let index = 0; index < 4100; index += 1) {
+    assert.equal(window.NMPTrustedShellHost.receive('surface', { sequential: index }), true);
+    reply(listeners, frame, frame.posted.at(-1));
+  }
+  assert.equal(window.NMPTrustedShellHost.unmount('surface'), true);
+  assert.equal(window.NMPTrustedShellHost.mount(
+    'surface', target(), configuration({ session: 'session-2' }),
+  ), true);
+});
+
+test('stale and replayed results cannot affect a retired or remounted surface', () => {
+  const { window, frames, listeners } = harness();
+  const errors = [];
+  const surface = target();
+  assert.equal(window.NMPTrustedShellHost.mount(
+    'surface', surface, configuration({ onError: (_id, error) => errors.push(error) }),
+  ), true);
+  const oldFrame = frames[0];
+  listeners.get('message')({ source: oldFrame.contentWindow, data: { type: 'nmp.outer.ready', version: 1 } });
+  const oldMount = oldFrame.posted[0];
+  assert.equal(window.NMPTrustedShellHost.unmount('surface'), true);
+  assert.equal(window.NMPTrustedShellHost.mount(
+    'surface', surface, configuration({ session: 'session-2', onError: (_id, error) => errors.push(error) }),
+  ), true);
+  reply(listeners, oldFrame, oldMount, false);
+  assert.deepEqual(errors, []);
+
+  const currentFrame = frames[1];
+  listeners.get('message')({ source: currentFrame.contentWindow, data: { type: 'nmp.outer.ready', version: 1 } });
+  listeners.get('message')({ source: currentFrame.contentWindow, data: { type: 'nmp.outer.ready', version: 1 } });
+  assert.deepEqual(errors, ['outer-readiness-replay']);
+  listeners.get('pagehide')();
 });

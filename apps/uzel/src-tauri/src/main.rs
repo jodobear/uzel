@@ -545,6 +545,9 @@ const OUTER_SHELL_DOCUMENT: &[u8] =
     include_bytes!("../../public/trusted-shell/trusted-shell-embedded.html");
 
 fn exact_outer_navigation(url: &tauri::Url) -> bool {
+    // WebKit/Wry resolves authored spellings before this public callback. The
+    // owned top-level assignment is sealed to one constant; this gate accepts
+    // only its canonical resolved identity. See Phase 02 context decision.
     url.scheme() == OUTER_SHELL_SCHEME
         && url.host_str() == Some(OUTER_SHELL_AUTHORITY)
         && url.port().is_none()
@@ -674,6 +677,15 @@ mod tests {
         assert!(allowed_navigation(
             &tauri::Url::parse("nmp-shell://localhost/trusted-shell.html").unwrap()
         ));
+        for canonical_equivalent in [
+            "nmp-shell://localhost/a/../trusted-shell.html",
+            "nmp-shell://localhost/a/%2e%2e/trusted-shell.html",
+        ] {
+            assert!(
+                allowed_navigation(&tauri::Url::parse(canonical_equivalent).unwrap()),
+                "public URL parsing resolves {canonical_equivalent} to canonical identity"
+            );
+        }
         for alias in [
             "nmp-shell://localhost/trusted-shell.html?query",
             "nmp-shell://localhost/trusted-shell.html#fragment",
@@ -681,6 +693,9 @@ mod tests {
             "nmp-shell://user@localhost/trusted-shell.html",
             "nmp-shell://localhost/trusted-shell.html/",
             "nmp-shell://other/trusted-shell.html",
+            "nmp-shell://localhost//trusted-shell.html",
+            "nmp-shell://localhost/%5ctrusted-shell.html",
+            "nmp-shell://localhost/trusted-shell%5c.html",
         ] {
             assert!(
                 !allowed_navigation(&tauri::Url::parse(alias).unwrap()),
@@ -732,6 +747,26 @@ mod tests {
             (
                 tauri::http::Method::GET,
                 "nmp-shell://localhost/%74rusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost//trusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost/%5ctrusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost/trusted-shell%5c.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://user@localhost/trusted-shell.html",
+            ),
+            (
+                tauri::http::Method::GET,
+                "nmp-shell://localhost:80/trusted-shell.html",
             ),
         ] {
             let uri: tauri::http::Uri = alias.parse().unwrap();

@@ -32,6 +32,25 @@ arbitrary `PATH` discovery.
 - Treat the existing private protocol hello/version rejection as the fail-closed
   compatibility boundary, with a clear launcher or shell diagnostic on failure.
 
+### Canonical outer-document identity
+- **Context:** Public WebKit/Wry/Tauri callbacks expose a resolved URL, so authored
+  dot-segment spelling is unavailable at the native policy boundary.
+- **Decision:** The outer document is Uzel-owned infrastructure. One reviewed
+  `nmp-shell://localhost/trusted-shell.html` constant is assigned at the sole owned
+  pre-parse iframe source sink; native policy accepts only that canonical resolved
+  endpoint. Napplet bytes remain canonical `srcdoc` inside the outer document.
+- **Rationale:** Authority binds to immutable reviewed bytes/digest plus captured Window,
+  surface, session, binding, and lifecycle generation—not discarded URL spelling.
+- **Security consequences:** Reject every distinguishable method, authority, port,
+  userinfo, path, separator/backslash encoding, query, and fragment variant. Literal or
+  encoded dot-segment spellings resolving to the canonical URL are the same identity.
+  Source replacement, reload, navigation, or readiness replay invalidates the mapping.
+- **Rejected alternatives:** Raw-spelling claims at parsed-URL callbacks, dynamic outer
+  URLs, private napplet `src`, Blob/data/document-write transport, and Uzel forks of
+  Nampplets-owned trusted-shell logic.
+- **Revalidation triggers:** Changes to WebKit/Wry/Tauri URL delivery, source assignment,
+  protocol routing, outer bytes/digest, CSP, sandbox, binding, or lifecycle teardown.
+
 ### Reproducible inputs
 - Build frontend and Rust/Tauri outputs from `flake.lock`, `Cargo.lock`, `pnpm-lock.yaml`,
   checked-in fixtures, and the current exact git dependencies without repinning them.
