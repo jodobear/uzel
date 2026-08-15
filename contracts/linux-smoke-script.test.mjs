@@ -45,3 +45,9 @@ test('napd readiness survives shared-log output before the marker', () => {
     false,
   );
 });
+
+test('native smoke accepts only an exact packaged launcher override', () => {
+  assert.match(script, /UZEL_SMOKE_LAUNCHER=\$\{UZEL_SMOKE_LAUNCHER:-\}/);
+  assert.match(script, /UZEL_SMOKE_LAUNCHER must be an exact packaged/);
+  assert.match(script, /setsid "\$UZEL_SMOKE_LAUNCHER"/);
+});

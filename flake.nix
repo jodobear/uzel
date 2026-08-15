@@ -1,5 +1,5 @@
 {
-  description = "Uzel Linux napplet-runtime POC development shell";
+  description = "Uzel exact-pinned Linux package and development shell";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/38a4887411571457d700c51c64a6e49ead2ed5ab";
 
@@ -7,8 +7,161 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      lib = pkgs.lib;
+      pnpmDeps = pkgs.fetchPnpmDeps {
+        pname = "uzel";
+        version = "0.0.0";
+        src = ./.;
+        pnpm = pkgs.pnpm_10;
+        fetcherVersion = 3;
+        hash = "sha256-sY7QJprBZGiQ3LXna5RA+sZLAG7UuC5Z1F3x8tmMC4A=";
+      };
+      uzel = pkgs.rustPlatform.buildRustPackage {
+        pname = "uzel";
+        version = "0.0.0";
+        src = ./.;
+        cargoLock = {
+          lockFile = ./Cargo.lock;
+          outputHashes = {
+            "nmp-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-engine-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-executor-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-grammar-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-resolver-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-router-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-signer-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-store-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-transport-0.1.0" = "sha256-v0/GYb11zNBhxsBTCuKzsJ1KuRthS21+q+b8fN/iY3A=";
+            "nmp-native-artifact-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-catalog-resolver-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-nap-bridge-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-nmp-adapter-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-provider-identity-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-provider-inc-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-provider-link-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-provider-resource-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-providers-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-runtime-app-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-runtime-core-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-runtime-ffi-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-runtime-store-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+            "nmp-native-surface-0.1.0" = "sha256-hRSxPSHBgcxUXjcX5nWvZIIEMZP9urh5HUIAG1LWZts=";
+          };
+        };
+        inherit pnpmDeps;
+
+        nativeBuildInputs = [
+          pkgs.pkg-config
+            pkgs.nodejs_22
+            pkgs.pnpmConfigHook
+            pkgs.pnpm_10
+        ];
+        buildInputs = with pkgs; [
+          gtk3
+          libayatana-appindicator
+          librsvg
+          openssl
+          webkitgtk_4_1
+        ];
+
+        # The shell's frontend is a package input, not a dev-server dependency.
+        buildPhase = ''
+          runHook preBuild
+          pnpm --offline --frozen-lockfile --filter @uzel/shell build
+          cargo build --locked --release --package uzel --package uzel-napd
+          runHook postBuild
+        '';
+
+        doCheck = false;
+        installPhase = ''
+          runHook preInstall
+          install -Dm755 target/release/uzel "$out/libexec/uzel-shell"
+          install -Dm755 target/release/uzel-napd "$out/libexec/uzel-napd"
+          install -Dm644 apps/uzel/src-tauri/icons/icon.png \
+            "$out/share/icons/hicolor/512x512/apps/uzel.png"
+          install -Dm644 -T /dev/stdin "$out/share/applications/uzel.desktop" <<'EOF'
+          [Desktop Entry]
+          Type=Application
+          Name=Uzel
+          Exec=uzel
+          Icon=uzel
+          Categories=Network;
+          Terminal=false
+          EOF
+          install -Dm755 -T /dev/stdin "$out/bin/uzel" <<EOF
+          #!${pkgs.runtimeShell}
+          set -eu
+
+          daemon="$out/libexec/uzel-napd"
+          shell="$out/libexec/uzel-shell"
+          daemon_pid=
+
+          cleanup() {
+            status=\$?
+            trap - EXIT INT TERM
+            if [ -n "\$daemon_pid" ]; then
+              kill -TERM "\$daemon_pid" 2>/dev/null || true
+              wait "\$daemon_pid" 2>/dev/null || true
+            fi
+            exit "\$status"
+          }
+          trap cleanup EXIT INT TERM
+
+          "\$daemon" --live \
+            --indexer-relay wss://purplepag.es \
+            --app-relay wss://purplepag.es \
+            --app-relay wss://nos.lol &
+          daemon_pid=\$!
+          runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
+          socket="\$runtime_dir/uzel/napd.sock"
+          attempt=0
+          while [ "\$attempt" -lt 80 ]; do
+            [ -S "\$socket" ] && break
+            kill -0 "\$daemon_pid" 2>/dev/null || exit 1
+            attempt=\$((attempt + 1))
+            ${pkgs.coreutils}/bin/sleep 0.1
+          done
+          [ -S "\$socket" ] || exit 1
+          if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then
+            case "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" in
+              *[!0-9]*|"") exit 2 ;;
+            esac
+            ${pkgs.coreutils}/bin/sleep "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}"
+            exit 0
+          fi
+          "\$shell" "\$@"
+          EOF
+          runHook postInstall
+        '';
+      };
     in
     {
+      packages.${system} = {
+        inherit uzel;
+        default = uzel;
+      };
+      apps.${system} = {
+        uzel = {
+          type = "app";
+          program = "${uzel}/bin/uzel";
+        };
+        default = {
+          type = "app";
+          program = "${uzel}/bin/uzel";
+        };
+      };
+      checks.${system}.package = pkgs.runCommand "uzel-package-check" {
+        nativeBuildInputs = [ pkgs.coreutils ];
+      } ''
+        test -x ${uzel}/bin/uzel
+        test -x ${uzel}/libexec/uzel-shell
+        test -x ${uzel}/libexec/uzel-napd
+        test -f ${uzel}/share/applications/uzel.desktop
+        test -f ${uzel}/share/icons/hicolor/512x512/apps/uzel.png
+        test "$(find ${uzel}/bin -maxdepth 1 -type f | wc -l)" -eq 1
+        touch "$out"
+      '';
+
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
           cargo-tauri

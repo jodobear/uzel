@@ -22,6 +22,7 @@ FAILED_DIR=${UZEL_SMOKE_ARTIFACT_DIR:-uzel-poc-validated-pack/reports/probes/${S
 EVIDENCE_DIR=${UZEL_SMOKE_EVIDENCE_DIR:-}
 WESTON_PID=
 DEV_PID=
+UZEL_SMOKE_LAUNCHER=${UZEL_SMOKE_LAUNCHER:-}
 
 # Invoked through the trap-called cleanup chain.
 # shellcheck disable=SC2329
@@ -242,7 +243,13 @@ if startup_deadline_expired; then
   exit 1
 fi
 
-setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
+if [[ -n "$UZEL_SMOKE_LAUNCHER" ]]; then
+  [[ "$UZEL_SMOKE_LAUNCHER" == /nix/store/*/bin/uzel ]] \
+    || { echo 'UZEL_SMOKE_LAUNCHER must be an exact packaged /nix/store/.../bin/uzel path' >&2; exit 2; }
+  setsid "$UZEL_SMOKE_LAUNCHER" >"$SMOKE_TMP/uzel.log" 2>&1 &
+else
+  setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
+fi
 DEV_PID=$!
 
 RUNTIME_STARTED_AT=
