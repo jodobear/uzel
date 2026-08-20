@@ -16,3 +16,29 @@ blocks execution, review, or merge. Never commit `.planning/graphs/` or `graphif
 Every upstream-bound change must use a dedicated branch in the corresponding `jodobear`
 fork and be recorded in
 [`uzel-poc-validated-pack/docs/08-upstream-contributions.md`](uzel-poc-validated-pack/docs/08-upstream-contributions.md).
+
+## Code Review Rules
+
+GitHub Codex and CodeRabbit are the default PR reviewers. Apply these rules to the exact
+PR head and report only actionable defects with priority, file/line, failure path, and
+required proof. Do not restate passing tests, narrate process, or raise formatting/style
+comments already enforced mechanically.
+
+- Preserve the canonical NAPS/NIP contracts and every pinned source/digest. A PR may not
+  silently reinterpret source authority, protocol identity, or compatibility evidence.
+- Treat path existence, URL text after parsing, PID liveness, payload identity fields, and
+  caller-provided tokens as correlation, never authority. Establish authority at the owned
+  pre-normalization or post-bind boundary and bind it to exact current identity/state.
+- For process/socket lifecycle changes, challenge pre-existing objects, bind races, stale
+  identity, replacement, remount/restart, interruption, cleanup, and sibling isolation.
+  Foreign objects must survive unchanged; cleanup may remove only proven owned resources.
+- For trusted-shell/WebKit changes, preserve canonical napplet `srcdoc`,
+  `sandbox="allow-scripts"` without `allow-same-origin`, strict outer and earliest inner CSP,
+  exact `MessageEvent.source` and current session binding, bounded typed messages, and zero
+  child Tauri/Nostr authority.
+- Package/runtime evidence must resolve the exact current derivation and store output.
+  Historical or caller-selected closures cannot satisfy current acceptance. Product source
+  filters must include all build inputs while excluding planning, review, cache, graph, and
+  preserved evidence; planning-only edits must not change the product derivation.
+- Prefer deterministic tests for stable invariants. Request focused native evidence only
+  where engine, packaging, lifecycle, or platform behavior cannot be established statically.

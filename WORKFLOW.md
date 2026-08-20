@@ -32,11 +32,15 @@ UI/AI/API design gates, security enforcement, Intel, Graphify, and release taggi
 default-off. Activate one explicitly only when the selected issue needs that specialist;
 do not enable it milestone-wide or retain its artifacts after the question is answered.
 
-GitHub Codex and CodeRabbit are the normal code-review pair. Haven supplies independent
-mechanism/debug review when risk or a reviewer finding requires it. Meadow review is
-mandatory only for changes affecting trust/source authority, CSP or sandboxing, native IPC,
-Nostr cryptography, package provenance, process/socket ownership, secrets, or another
-security boundary. UI work uses focused Playwright interaction, accessibility checks, and
+GitHub Codex and CodeRabbit are the normal code-review pair. Put durable domain invariants
+under `## Code Review Rules` in the applicable `AGENTS.md`; give Codex only a short
+change-specific focus when requesting exact-head review. Do not run Haven or Meadow as a
+routine pre-review. Route Haven only when native/platform behavior needs an independent
+reproducer, a reviewer or CI finding needs root-cause debugging, or a new mechanism needs a
+focused oracle or fork contribution. Route Meadow only for an unresolved material security
+or normative decision, cryptographic/key/secret work, an incident, or a security finding
+that tests and repository rules cannot disposition. Human authority remains required for
+source/spec changes. UI work uses focused Playwright interaction, accessibility checks, and
 screenshots; create a separate UI design contract only for genuinely new interaction design.
 
 The canonical per-phase records are the issue, one plan, one summary, and one verification.
@@ -108,9 +112,11 @@ A planning-only edit must not change the product derivation or invalidate native
    commit `.planning/graphs/` or `graphify-out/`.
 7. Run one complete affected candidate validation, complete GSD verification, push, and
    open one linked draft PR.
-8. Request GitHub Codex review on a coherent exact head. Batch-fix valid findings. When
-   Codex is clean, request CodeRabbit. Any semantic/code change invalidates both approvals;
-   reacquire GitHub Codex then CodeRabbit on the same exact SHA.
+8. Request GitHub Codex review on a coherent exact head, applying `AGENTS.md` Code Review
+   Rules plus a short focus list for the changed boundaries. Batch-fix valid findings. Call
+   Haven or Meadow only on the exception triggers above. When Codex is clean, request
+   CodeRabbit. Any semantic/code change invalidates both approvals; reacquire GitHub Codex
+   then CodeRabbit on the same exact SHA.
 9. Run final complete affected validation once on that approved exact head. Merge only
    when GSD verification, required CI, GitHub Codex, and CodeRabbit are green on that SHA
    and repository policy permits automation.
