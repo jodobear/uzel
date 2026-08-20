@@ -39,6 +39,7 @@ No accepted risks.
 | 2026-08-20 | Existing exact-head Candidate-B and launcher security review at `66ba4fc7` / tree `a37558be` | Meadow SECURITY CLEAN; 5 threats closed, 0 open |
 | 2026-08-20 | Supply-chain and launcher correction review at `f6de2985` / tree `4da72e00` | Meadow SECURITY CLEAN; exact current output binding, filtered package source, and pre-existing path refusal verified |
 | 2026-08-20 | Daemon-origin readiness delta at `a28f331b70beb8b862ef2505ff75416e35884340` / tree `61b7c3c5c113ef255a32a5adec40af4ac0cde6ed` | Meadow SECURITY CLEAN; post-check substitution refused; runtime evidence sufficient without full WebKit repeat |
+| 2026-08-20 | Bounded client-connect availability correction at `45dec03cb618de136a1833fd092e76803dcaa128` / tree `c33338c5db9750a6733f86ea4f9923d35977218b` | No trust-boundary change; saturated-listener deadline, mismatch refusal, launcher lifecycle, and exact-output Weston/WebKit acceptance passed |
 
 ## Sign-off
 
@@ -48,10 +49,11 @@ No accepted risks.
 - [x] Frozen reviewed trusted-shell digest remains
   `a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3`.
 
-**Approval:** verified 2026-08-20 at exact implementation head `a28f331b70beb8b862ef2505ff75416e35884340`,
-tree `61b7c3c5c113ef255a32a5adec40af4ac0cde6ed`, and output
-`/nix/store/3bknmlmyq5ipjdw44cxjjzvlj11jssvh-uzel-0.0.0`. Packaged shell SHA-256 remains
-`9b8c16fe4b0193ce8bb7e166792e39a0d5202aeff6dddbe8b9ab472d25c6ec8d`; packaged daemon
-SHA-256 is `b2d292229f8692f0b6a2676b33bc6e2f5ab5982ecd0746425979db3767c93c3f` after the reviewed
-bind-readiness change. This records-only update changes no security surface; any later
-security-surface change requires fresh Meadow review.
+**Approval:** verified 2026-08-20 at exact implementation head `45dec03cb618de136a1833fd092e76803dcaa128`,
+tree `c33338c5db9750a6733f86ea4f9923d35977218b`, and output
+`/nix/store/37l6jx9wcq8f2bzzpzq48nfmsp7rdzh7-uzel-0.0.0`. Packaged shell SHA-256 is
+`2ea11a4fac775edea14006989c865828687daa6a6e1ede336eb009ec3dbe357d`; packaged daemon
+SHA-256 is `ea6605b9578410a7117e48e9161fb8fe906123821b8698047ca12ade698e0222`. The bounded
+connect correction changes availability behavior only; the trusted-shell digest and all
+reviewed Candidate-B trust invariants remain unchanged. Any later security-surface change
+requires fresh Meadow review.
