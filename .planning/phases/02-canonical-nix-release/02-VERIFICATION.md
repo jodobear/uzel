@@ -10,8 +10,8 @@ behavior_unverified: 0
 
 **Phase Goal:** Ship one exact-pinned store-path Linux artifact with compatible native
 runtime dependencies.
-**Verified implementation head:** `bd39d3a1097420352928ad88a6b73eff3ab468a7`
-**Verified tree:** `24fb8b759b10260800721bc493a9e87b2f8d9712`
+**Verified implementation head:** `aab4eb7c74cc2d4a000c7fe4ab25fdbc4cd54e9e`
+**Verified tree:** `779f5056db82cb780770465d29ec2dc879a3e69a`
 **Status:** passed
 
 ## Goal achievement
@@ -70,8 +70,8 @@ runtime dependencies.
   launcher process grouping: its shell, daemon, and trusted-shell hashes are identical.
   Its focused launcher matrix proves both children share the launcher process group,
   TERM/INT and forced-KILL paths reap them, and ownership negatives remain green. A
-  forced group-oracle mismatch exits nonzero only after launcher, children, and socket
-  retirement.
+  forced child-group mismatch and missing-launcher-group paths each exit nonzero only
+  after launcher, children, and socket retirement.
 
 ## Review and delivery gate
 
