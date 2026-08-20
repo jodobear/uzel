@@ -56,6 +56,9 @@ test('packaged launcher serializes ownership and removes only its exact socket',
   const flake = readFileSync(join(process.cwd(), 'flake.nix'), 'utf8');
   assert.match(flake, /lock_file="\\\$runtime_dir\/uzel-launcher\.lock"/);
   assert.match(flake, /flock -n 9/);
+  assert.match(flake, /if \[ -e "\\\$socket" \] \|\| \[ -L "\\\$socket" \]; then[\s\S]*refuses a pre-existing runtime socket/);
+  assert.match(flake, /kill -0 "\\\$daemon_pid"[\s\S]*\[ -S "\\\$socket" \] && break/);
+  assert.match(flake, /owns_socket=1/);
   assert.match(flake, /shell_pid=\\\$!/);
   assert.match(flake, /trap 'handle_signal INT' INT/);
   assert.match(flake, /trap 'handle_signal TERM' TERM/);
@@ -71,11 +74,35 @@ test('packaged launcher serializes ownership and removes only its exact socket',
   assert.doesNotMatch(flake, /rm -rf/);
 });
 
+test('package input excludes delivery-only state and smoke binds to the current output', () => {
+  const flake = readFileSync(join(process.cwd(), 'flake.nix'), 'utf8');
+  const packageScript = readFileSync(join(process.cwd(), 'scripts/package-smoke.sh'), 'utf8');
+  assert.equal((flake.match(/src = source;/g) ?? []).length, 2);
+  assert.match(flake, /source = lib\.fileset\.toSource/);
+  assert.doesNotMatch(flake, /\.\/\.planning/);
+  assert.match(packageScript, /nix "\$\{NIX_FLAGS\[@\]\}" eval --raw \.#uzel\.outPath/);
+  assert.match(packageScript, /supplied store path does not match the current flake output/);
+});
+
+test('package probes foreign socket ownership and observable version mismatch', () => {
+  const packageScript = readFileSync(join(process.cwd(), 'scripts/package-smoke.sh'), 'utf8');
+  assert.match(packageScript, /run_preexisting_path_probe live-socket/);
+  assert.match(packageScript, /run_preexisting_path_probe stale-socket/);
+  assert.match(packageScript, /run_preexisting_path_probe file/);
+  assert.match(packageScript, /run_preexisting_path_probe symlink/);
+  assert.match(packageScript, /PACKAGE_PREEXISTING_PATH_OK kind=%s owner=preserved identity=preserved launcher=refused/);
+  assert.match(packageScript, /PACKAGE_MISMATCH_OK responder=version-mismatch shell=refused ready=absent/);
+  assert.match(packageScript, /PACKAGE_MISMATCH_ONLY_OK shell=%s webkit=weston compatibility=refused full-smoke=not-run/);
+  assert.match(packageScript, /'result': 'error',[\s\S]*'code': 'version_mismatch'/);
+  assert.match(packageScript, /! rg -q '\^UZEL_SHELL_READY\$'/);
+  assert.match(packageScript, /if \[\[ "\$mismatch_only" == 1 \]\]; then\s+run_mismatch_probe[\s\S]*exit 0\s+fi/);
+});
+
 test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   const packageScript = readFileSync(join(process.cwd(), 'scripts/package-smoke.sh'), 'utf8');
   assert.equal((packageScript.match(/PACKAGE_LAUNCHER_ONLY_OK/g) ?? []).length, 1);
   assert.equal((packageScript.match(/PACKAGE_SMOKE_OK/g) ?? []).length, 1);
-  assert.match(packageScript, /UZEL_PACKAGE_LAUNCHER_ONLY:-0} == 1[\s\S]*PACKAGE_LAUNCHER_ONLY_OK[^\n]*webkit=not-run[\s\S]*else[\s\S]*webkit=weston[\s\S]*PACKAGE_SMOKE_OK/);
+  assert.match(packageScript, /if \[\[ "\$launcher_only" == 1 \]\]; then[\s\S]*PACKAGE_LAUNCHER_ONLY_OK[^\n]*webkit=not-run[\s\S]*else[\s\S]*webkit=weston[\s\S]*PACKAGE_SMOKE_OK/);
   assert.match(packageScript, /run_signal_probe TERM 143/);
   assert.match(packageScript, /run_signal_probe INT 130/);
   assert.match(packageScript, /PACKAGE_SIGNAL_OK signal=%s status=%s children=reaped socket=retired/);

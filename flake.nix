@@ -8,10 +8,25 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
       lib = pkgs.lib;
+      source = lib.fileset.toSource {
+        root = ./.;
+        fileset = lib.fileset.unions [
+          ./Cargo.lock
+          ./Cargo.toml
+          ./package.json
+          ./pnpm-lock.yaml
+          ./pnpm-workspace.yaml
+          ./rust-toolchain.toml
+          ./apps
+          ./crates
+          ./fixtures
+          ./napplets
+        ];
+      };
       pnpmDeps = pkgs.fetchPnpmDeps {
         pname = "uzel";
         version = "0.0.0";
-        src = ./.;
+        src = source;
         pnpm = pkgs.pnpm_10;
         fetcherVersion = 3;
         hash = "sha256-sY7QJprBZGiQ3LXna5RA+sZLAG7UuC5Z1F3x8tmMC4A=";
@@ -19,7 +34,7 @@
       uzel = pkgs.rustPlatform.buildRustPackage {
         pname = "uzel";
         version = "0.0.0";
-        src = ./.;
+        src = source;
         cargoLock = {
           lockFile = ./Cargo.lock;
           outputHashes = {
@@ -98,6 +113,7 @@
           shell_pid=
           received_signal=
           owns_lock=
+          owns_socket=
           socket_identity=
           runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
           socket="\$runtime_dir/uzel/napd.sock"
@@ -110,6 +126,10 @@
             exit 1
           }
           owns_lock=1
+          if [ -e "\$socket" ] || [ -L "\$socket" ]; then
+            echo 'Uzel launcher refuses a pre-existing runtime socket' >&2
+            exit 1
+          fi
 
           signal_children() {
             signal=\$1
@@ -147,7 +167,8 @@
             if [ -S "\$socket" ]; then
               current_socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
             fi
-            if [ -n "\$owns_lock" ] && [ -n "\$socket_identity" ] && \
+            if [ -n "\$owns_lock" ] && [ -n "\$owns_socket" ] && \
+                [ -n "\$socket_identity" ] && \
                 [ "\$current_socket_identity" = "\$socket_identity" ]; then
               ${pkgs.coreutils}/bin/rm -f -- "\$socket"
             fi
@@ -166,13 +187,15 @@
           set +m
           attempt=0
           while [ "\$attempt" -lt 80 ]; do
-            [ -S "\$socket" ] && break
             kill -0 "\$daemon_pid" 2>/dev/null || exit 1
+            [ -S "\$socket" ] && break
             attempt=\$((attempt + 1))
             ${pkgs.coreutils}/bin/sleep 0.1
           done
           [ -S "\$socket" ] || exit 1
+          kill -0 "\$daemon_pid" 2>/dev/null || exit 1
           socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
+          owns_socket=1
           set -m
           if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then
             case "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" in

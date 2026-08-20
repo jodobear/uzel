@@ -8,6 +8,12 @@ readonly TRUSTED_SHELL_SHA256=a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752
 readonly NMP_REV=005dc2a5f12aa414961b313d05ebb021934e385c
 
 repo_root=$(pwd -P)
+launcher_only=${UZEL_PACKAGE_LAUNCHER_ONLY:-0}
+mismatch_only=${UZEL_PACKAGE_MISMATCH_ONLY:-0}
+[[ "$launcher_only" =~ ^[01]$ && "$mismatch_only" =~ ^[01]$ ]] \
+  || { echo 'PACKAGE_SMOKE_FAILED probe modes must be 0 or 1' >&2; exit 2; }
+[[ "$launcher_only" == 0 || "$mismatch_only" == 0 ]] \
+  || { echo 'PACKAGE_SMOKE_FAILED launcher-only and mismatch-only modes are exclusive' >&2; exit 2; }
 
 git diff --exit-code -- Cargo.lock flake.lock pnpm-lock.yaml
 git diff --exit-code -- Cargo.toml
@@ -18,10 +24,16 @@ rg -q "${TRUSTED_SHELL_REV}" apps/uzel/public/trusted-shell/README.md
 rg -q "${TRUSTED_SHELL_SHA256}" apps/uzel/public/trusted-shell/trusted-shell-embedded.sha256
 rg -q "${NMP_REV}" Cargo.lock
 
+expected_store_path=$(nix "${NIX_FLAGS[@]}" eval --raw .#uzel.outPath)
 store_path=${UZEL_PACKAGE_STORE_PATH:-}
-if [[ -z "$store_path" ]]; then
+if [[ -n "$store_path" ]]; then
+  [[ "$store_path" == "$expected_store_path" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED supplied store path does not match the current flake output' >&2; exit 1; }
+else
   store_path=$(nix "${NIX_FLAGS[@]}" build --no-link --print-out-paths .#uzel)
 fi
+[[ "$store_path" == "$expected_store_path" ]] \
+  || { echo 'PACKAGE_SMOKE_FAILED realized store path does not match the current flake output' >&2; exit 1; }
 [[ "$store_path" == /nix/store/*-uzel-* ]] \
   || { echo 'PACKAGE_SMOKE_FAILED store path must identify the realized Uzel closure' >&2; exit 1; }
 [[ -x "$store_path/bin/uzel" ]] \
@@ -52,7 +64,7 @@ printf '%s\n' '#!/usr/bin/env bash' \
 chmod 700 "$tmp/decoy/uzel-napd"
 export UZEL_PACKAGE_DECOY_TOUCHED="$tmp/decoy-executed"
 
-if [[ ${UZEL_PACKAGE_LAUNCHER_ONLY:-0} != 1 ]]; then
+if [[ "$launcher_only" == 0 && "$mismatch_only" == 0 ]]; then
   (
     cd "$tmp"
     PATH="$tmp/decoy:$PATH" \
@@ -74,7 +86,205 @@ wait_for_socket() {
   return 1
 }
 
+run_preexisting_path_probe() {
+  local kind=$1
+  local runtime_dir="$tmp/preexisting-$kind-runtime"
+  local data_dir="$tmp/preexisting-$kind-data"
+  local socket="$runtime_dir/uzel/napd.sock"
+  local server_pid= status owner_alive=1 socket_alive identity_before identity_after diagnostic_present success_absent
+
+  mkdir -p "$runtime_dir/uzel" "$data_dir"
+  chmod 700 "$runtime_dir" "$runtime_dir/uzel" "$data_dir"
+  case "$kind" in
+    live-socket)
+      python3 - "$socket" <<'PY' &
+import json
+import signal
+import socket
+import struct
+import sys
+import time
+
+server = socket.socket(socket.AF_UNIX)
+server.bind(sys.argv[1])
+server.listen(1)
+server.settimeout(0.2)
+signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
+while True:
+    try:
+        connection, _ = server.accept()
+    except TimeoutError:
+        continue
+    prefix = connection.recv(4)
+    if len(prefix) == 4:
+        length = struct.unpack('>I', prefix)[0]
+        request = json.loads(connection.recv(length))
+        if request == {'operation': 'hello', 'version': 0}:
+            response = b'{"result":"hello","version":0}'
+            connection.sendall(struct.pack('>I', len(response)) + response)
+    connection.close()
+PY
+      server_pid=$!
+      wait_for_socket "$socket" || { kill -TERM "$server_pid" 2>/dev/null || true; wait "$server_pid" 2>/dev/null || true; return 1; }
+      ;;
+    stale-socket)
+      python3 - "$socket" <<'PY'
+import socket
+import sys
+
+server = socket.socket(socket.AF_UNIX)
+server.bind(sys.argv[1])
+server.close()
+PY
+      ;;
+    file)
+      : >"$socket"
+      ;;
+    symlink)
+      : >"$runtime_dir/symlink-target"
+      ln -s "$runtime_dir/symlink-target" "$socket"
+      ;;
+    *)
+      echo "PACKAGE_SMOKE_FAILED unknown pre-existing path probe: $kind" >&2
+      exit 2
+      ;;
+  esac
+  identity_before=$(stat -c '%d:%i:%F' "$socket")
+  set +e
+  XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
+    UZEL_LAUNCHER_TEST_HOLD_SECONDS=1 \
+    "$store_path/bin/uzel" >"$tmp/preexisting-$kind.log" 2>&1
+  status=$?
+  set -e
+  socket_alive=0
+  diagnostic_present=0
+  success_absent=0
+  [[ -e "$socket" || -L "$socket" ]] && socket_alive=1
+  if [[ $socket_alive -eq 1 ]]; then
+    identity_after=$(stat -c '%d:%i:%F' "$socket")
+  else
+    identity_after=missing
+  fi
+  rg -q 'refuses a pre-existing runtime socket' "$tmp/preexisting-$kind.log" && diagnostic_present=1
+  ! rg -q '^UZEL_SHELL_READY$|PACKAGE_.*_OK' "$tmp/preexisting-$kind.log" && success_absent=1
+  if [[ -n "$server_pid" ]]; then
+    owner_alive=0
+    kill -0 "$server_pid" 2>/dev/null && owner_alive=1
+    kill -TERM "$server_pid" 2>/dev/null || true
+    wait "$server_pid" 2>/dev/null || true
+  fi
+  rm -f -- "$socket"
+  [[ $status -ne 0 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher accepted a foreign socket' >&2; exit 1; }
+  [[ $owner_alive -eq 1 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher terminated the foreign socket owner' >&2; exit 1; }
+  [[ $socket_alive -eq 1 ]] \
+    || { echo "PACKAGE_SMOKE_FAILED launcher removed the pre-existing $kind path" >&2; exit 1; }
+  [[ "$identity_after" == "$identity_before" ]] \
+    || { echo "PACKAGE_SMOKE_FAILED launcher replaced the pre-existing $kind path" >&2; exit 1; }
+  [[ $diagnostic_present -eq 1 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED foreign socket refusal diagnostic missing' >&2; exit 1; }
+  [[ $success_absent -eq 1 ]] \
+    || { echo "PACKAGE_SMOKE_FAILED pre-existing $kind path reached a success marker" >&2; exit 1; }
+  printf 'PACKAGE_PREEXISTING_PATH_OK kind=%s owner=preserved identity=preserved launcher=refused\n' "$kind"
+}
+
+run_mismatch_probe() {
+  local runtime_dir="$tmp/mismatch-runtime"
+  local data_dir="$tmp/mismatch-data"
+  local socket="$runtime_dir/uzel/napd.sock"
+  local weston_pid responder_pid status responder_status
+
+  mkdir -p "$runtime_dir/uzel" "$data_dir"
+  chmod 700 "$runtime_dir" "$runtime_dir/uzel" "$data_dir"
+  XDG_RUNTIME_DIR="$runtime_dir" weston \
+    --backend=headless --renderer=gl --socket=wayland-uzel-mismatch \
+    --idle-time=0 --no-config --log="$tmp/mismatch-weston.log" &
+  weston_pid=$!
+  wait_for_socket "$runtime_dir/wayland-uzel-mismatch" \
+    || { kill -TERM "$weston_pid" 2>/dev/null || true; wait "$weston_pid" 2>/dev/null || true; return 1; }
+  python3 - "$socket" <<'PY' >"$tmp/mismatch-responder.log" 2>&1 &
+import json
+import socket
+import struct
+import sys
+
+server = socket.socket(socket.AF_UNIX)
+server.bind(sys.argv[1])
+server.listen(1)
+server.settimeout(20)
+connection, _ = server.accept()
+connection.settimeout(20)
+def read_exact(length):
+    chunks = []
+    remaining = length
+    while remaining:
+        chunk = connection.recv(remaining)
+        if not chunk:
+            raise SystemExit('truncated request')
+        chunks.append(chunk)
+        remaining -= len(chunk)
+    return b''.join(chunks)
+
+length = struct.unpack('>I', read_exact(4))[0]
+request = json.loads(read_exact(length))
+if request != {'operation': 'hello', 'version': 0}:
+    raise SystemExit(f'unexpected request: {request!r}')
+response = json.dumps({
+    'result': 'error',
+    'code': 'version_mismatch',
+    'detail': 'injected package probe',
+}, separators=(',', ':')).encode()
+connection.sendall(struct.pack('>I', len(response)) + response)
+connection.close()
+server.close()
+print('MISMATCH_RESPONDER_OK', flush=True)
+PY
+  responder_pid=$!
+  wait_for_socket "$socket" \
+    || { kill -TERM "$responder_pid" "$weston_pid" 2>/dev/null || true; wait "$responder_pid" 2>/dev/null || true; wait "$weston_pid" 2>/dev/null || true; return 1; }
+  set +e
+  timeout --signal=TERM --kill-after=5s 30s env \
+    XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
+    WAYLAND_DISPLAY=wayland-uzel-mismatch GDK_BACKEND=wayland NO_AT_BRIDGE=1 \
+    "$store_path/libexec/uzel-shell" >"$tmp/mismatch-shell.log" 2>&1
+  status=$?
+  for _ in $(seq 1 40); do
+    ! kill -0 "$responder_pid" 2>/dev/null && break
+    sleep 0.1
+  done
+  kill -TERM "$responder_pid" 2>/dev/null || true
+  wait "$responder_pid"
+  responder_status=$?
+  kill -TERM "$weston_pid" 2>/dev/null || true
+  wait "$weston_pid" 2>/dev/null || true
+  set -e
+  [[ $status -ne 0 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED mismatched packaged shell reached success' >&2; exit 1; }
+  [[ $status -ne 124 && $responder_status -eq 0 ]] \
+    || { cat "$tmp/mismatch-responder.log" "$tmp/mismatch-shell.log" >&2; echo 'PACKAGE_SMOKE_FAILED mismatch responder was not exercised' >&2; exit 1; }
+  rg -q '^MISMATCH_RESPONDER_OK$' "$tmp/mismatch-responder.log" \
+    || { cat "$tmp/mismatch-responder.log" "$tmp/mismatch-shell.log" >&2; echo 'PACKAGE_SMOKE_FAILED mismatch responder proof missing' >&2; exit 1; }
+  rg -q 'UZEL_SHELL_COMPATIBILITY_FAILED daemon refused version_mismatch: injected package probe' "$tmp/mismatch-shell.log" \
+    || { cat "$tmp/mismatch-responder.log" "$tmp/mismatch-shell.log" >&2; echo 'PACKAGE_SMOKE_FAILED mismatch diagnostic missing' >&2; exit 1; }
+  ! rg -q '^UZEL_SHELL_READY$' "$tmp/mismatch-shell.log" \
+    || { echo 'PACKAGE_SMOKE_FAILED mismatched packaged shell reached readiness' >&2; exit 1; }
+  printf 'PACKAGE_MISMATCH_OK responder=version-mismatch shell=refused ready=absent\n'
+}
+
 LIFECYCLE_PID=
+
+if [[ "$mismatch_only" == 1 ]]; then
+  run_mismatch_probe
+  printf 'PACKAGE_MISMATCH_ONLY_OK shell=%s webkit=weston compatibility=refused full-smoke=not-run\n' \
+    "$store_path/libexec/uzel-shell"
+  exit 0
+fi
+
+run_preexisting_path_probe live-socket
+run_preexisting_path_probe stale-socket
+run_preexisting_path_probe file
+run_preexisting_path_probe symlink
 
 run_lifecycle_probe() {
   local name=$1
@@ -174,7 +384,7 @@ wait "$isolated_b_pid" || true
 
 printf 'PACKAGE_SOURCE nampplets=%s trusted_shell=%s embedded_sha256=%s nmp=%s lockfiles=unchanged assets=verified\n' \
   "$NAMPPLETS_REV" "$TRUSTED_SHELL_REV" "$TRUSTED_SHELL_SHA256" "$NMP_REV"
-if [[ ${UZEL_PACKAGE_LAUNCHER_ONLY:-0} == 1 ]]; then
+if [[ "$launcher_only" == 1 ]]; then
   printf 'PACKAGE_LAUNCHER_ONLY_OK launcher=%s daemon=absolute shell=absolute webkit=not-run\n' \
     "$store_path/bin/uzel"
 else
