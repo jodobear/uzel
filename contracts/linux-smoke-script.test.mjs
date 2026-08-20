@@ -49,7 +49,11 @@ test('napd readiness survives shared-log output before the marker', () => {
 test('native smoke accepts only an exact packaged launcher override', () => {
   assert.match(script, /UZEL_SMOKE_LAUNCHER=\$\{UZEL_SMOKE_LAUNCHER:-\}/);
   assert.match(script, /UZEL_SMOKE_LAUNCHER must be an exact packaged/);
-  assert.match(script, /setsid "\$UZEL_SMOKE_LAUNCHER"/);
+  assert.match(script, /UZEL_SMOKE_SCRUB_PACKAGE_ENV:-0/);
+  assert.match(script, /launcher_command=\(env -u LD_LIBRARY_PATH/);
+  assert.match(script, /-u LIBGL_DRIVERS_PATH/);
+  assert.match(script, /-u __EGL_VENDOR_LIBRARY_FILENAMES/);
+  assert.match(script, /setsid "\$\{launcher_command\[@\]\}"/);
 });
 
 test('packaged launcher serializes ownership and removes only its exact socket', () => {
@@ -122,5 +126,6 @@ test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   assert.match(packageScript, /PACKAGE_DAEMON_EXIT_OK status=%s hung_shell=killed shell=reaped socket=retired/);
   assert.match(packageScript, /PACKAGE_ENV=\(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS/);
   assert.match(packageScript, /-u LIBGL_DRIVERS_PATH -u __EGL_VENDOR_LIBRARY_FILENAMES/);
-  assert.match(packageScript, /"\$\{PACKAGE_ENV\[@\]\}" PATH="\$tmp\/decoy:\$PATH"/);
+  assert.match(packageScript, /PATH="\$tmp\/decoy:\$PATH"[\s\S]*UZEL_SMOKE_SCRUB_PACKAGE_ENV=1[\s\S]*linux-run-smoke\.sh/);
+  assert.doesNotMatch(packageScript, /"\$\{PACKAGE_ENV\[@\]\}" PATH="\$tmp\/decoy:\$PATH"/);
 });

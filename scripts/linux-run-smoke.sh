@@ -23,6 +23,10 @@ EVIDENCE_DIR=${UZEL_SMOKE_EVIDENCE_DIR:-}
 WESTON_PID=
 DEV_PID=
 UZEL_SMOKE_LAUNCHER=${UZEL_SMOKE_LAUNCHER:-}
+SCRUB_PACKAGE_ENV=${UZEL_SMOKE_SCRUB_PACKAGE_ENV:-0}
+
+[[ "$SCRUB_PACKAGE_ENV" =~ ^[01]$ ]] \
+  || { echo 'UZEL_SMOKE_SCRUB_PACKAGE_ENV must be 0 or 1' >&2; exit 2; }
 
 # Invoked through the trap-called cleanup chain.
 # shellcheck disable=SC2329
@@ -246,7 +250,13 @@ fi
 if [[ -n "$UZEL_SMOKE_LAUNCHER" ]]; then
   [[ "$UZEL_SMOKE_LAUNCHER" == /nix/store/*/bin/uzel ]] \
     || { echo 'UZEL_SMOKE_LAUNCHER must be an exact packaged /nix/store/.../bin/uzel path' >&2; exit 2; }
-  setsid "$UZEL_SMOKE_LAUNCHER" >"$SMOKE_TMP/uzel.log" 2>&1 &
+  launcher_command=("$UZEL_SMOKE_LAUNCHER")
+  if [[ "$SCRUB_PACKAGE_ENV" == 1 ]]; then
+    launcher_command=(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS -u GI_TYPELIB_PATH \
+      -u GIO_EXTRA_MODULES -u GTK_PATH -u LIBGL_DRIVERS_PATH \
+      -u __EGL_VENDOR_LIBRARY_FILENAMES "$UZEL_SMOKE_LAUNCHER")
+  fi
+  setsid "${launcher_command[@]}" >"$SMOKE_TMP/uzel.log" 2>&1 &
 else
   setsid pnpm dev >"$SMOKE_TMP/uzel.log" 2>&1 &
 fi

@@ -85,9 +85,10 @@ export UZEL_PACKAGE_DECOY_TOUCHED="$tmp/decoy-executed"
 if [[ "$launcher_only" == 0 && "$mismatch_only" == 0 ]]; then
   (
     cd "$tmp"
-    "${PACKAGE_ENV[@]}" PATH="$tmp/decoy:$PATH" \
+    PATH="$tmp/decoy:$PATH" \
       UZEL_SMOKE_NAME=package \
       UZEL_SMOKE_LAUNCHER="$store_path/bin/uzel" \
+      UZEL_SMOKE_SCRUB_PACKAGE_ENV=1 \
       UZEL_SMOKE_ARTIFACT_DIR="$failure_dir" \
       bash "$repo_root/scripts/linux-run-smoke.sh"
   )
