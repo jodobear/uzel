@@ -12,7 +12,9 @@ readonly PACKAGE_ENV=(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS -u GI_TYPELIB_PATH
 repo_root=$(pwd -P)
 launcher_only=${UZEL_PACKAGE_LAUNCHER_ONLY:-0}
 mismatch_only=${UZEL_PACKAGE_MISMATCH_ONLY:-0}
-[[ "$launcher_only" =~ ^[01]$ && "$mismatch_only" =~ ^[01]$ ]] \
+force_group_mismatch=${UZEL_PACKAGE_TEST_FORCE_GROUP_MISMATCH:-0}
+[[ "$launcher_only" =~ ^[01]$ && "$mismatch_only" =~ ^[01]$ \
+    && "$force_group_mismatch" =~ ^[01]$ ]] \
   || { echo 'PACKAGE_SMOKE_FAILED probe modes must be 0 or 1' >&2; exit 2; }
 [[ "$launcher_only" == 0 || "$mismatch_only" == 0 ]] \
   || { echo 'PACKAGE_SMOKE_FAILED launcher-only and mismatch-only modes are exclusive' >&2; exit 2; }
@@ -441,11 +443,31 @@ assert_launcher_process_group() {
     || { echo 'PACKAGE_SMOKE_FAILED launcher process group is unavailable' >&2; exit 1; }
   for child in "$@"; do
     child_group=$(ps -o pgid= -p "$child" | tr -d ' ')
+    if [[ "$force_group_mismatch" == 1 ]]; then
+      child_group=forced-mismatch
+    fi
     [[ "$child_group" == "$launcher_group" ]] \
-      || { echo "PACKAGE_SMOKE_FAILED child escaped launcher process group pid=$child" >&2; exit 1; }
+      || { echo "PACKAGE_SMOKE_FAILED child escaped launcher process group pid=$child" >&2; return 1; }
   done
   printf 'PACKAGE_PROCESS_GROUP_OK launcher=%s children=%s scope=shared\n' \
     "$launcher_pid" "$#"
+}
+
+retire_group_mismatch() {
+  local launcher_pid=$1
+  local socket=$2
+  shift 2
+  local child
+
+  kill -TERM "$launcher_pid" 2>/dev/null || true
+  wait "$launcher_pid" 2>/dev/null || true
+  for child in "$@"; do
+    ! kill -0 "$child" 2>/dev/null \
+      || { echo "PACKAGE_SMOKE_FAILED escaped child survived cleanup pid=$child" >&2; exit 1; }
+  done
+  [[ ! -e "$socket" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED group mismatch cleanup left a socket' >&2; exit 1; }
+  echo 'PACKAGE_PROCESS_GROUP_REFUSAL_OK launcher=retired children=reaped socket=retired'
 }
 
 run_signal_probe() {
@@ -464,7 +486,10 @@ run_signal_probe() {
   done
   [[ ${#children[@]} -eq 2 ]] \
     || { echo "PACKAGE_SMOKE_FAILED $signal probe needs daemon and shell child" >&2; exit 1; }
-  assert_launcher_process_group "$pid" "${children[@]}"
+  if ! assert_launcher_process_group "$pid" "${children[@]}"; then
+    retire_group_mismatch "$pid" "$tmp/$name-runtime/uzel/napd.sock" "${children[@]}"
+    exit 1
+  fi
   kill -s "$signal" "$pid"
   set +e
   wait "$pid"
@@ -487,6 +512,7 @@ run_signal_probe INT 130
 
 run_daemon_exit_probe() {
   local pid child daemon_pid= shell_pid= status
+  local socket="$tmp/daemon-exit-runtime/uzel/napd.sock"
   local -a children=()
 
   run_lifecycle_probe daemon-exit
@@ -516,7 +542,10 @@ run_daemon_exit_probe() {
       wait "$pid" 2>/dev/null || true
       exit 1
     }
-  assert_launcher_process_group "$pid" "${children[@]}"
+  if ! assert_launcher_process_group "$pid" "${children[@]}"; then
+    retire_group_mismatch "$pid" "$socket" "${children[@]}"
+    exit 1
+  fi
   kill -STOP "$shell_pid"
   kill -KILL "$daemon_pid"
   set +e
