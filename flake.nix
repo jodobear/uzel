@@ -120,6 +120,10 @@
           socket="\$runtime_dir/uzel/napd.sock"
           lock_file="\$runtime_dir/uzel-launcher.lock"
 
+          # Runtime loader paths are closure-owned; caller values are non-authoritative.
+          export LIBGL_DRIVERS_PATH=${pkgs.mesa}/lib/dri
+          export __EGL_VENDOR_LIBRARY_FILENAMES=${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json
+
           umask 077
           exec 9>"\$lock_file"
           ${pkgs.util-linux}/bin/flock -n 9 || {

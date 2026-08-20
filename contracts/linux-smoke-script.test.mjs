@@ -58,6 +58,8 @@ test('native smoke accepts only an exact packaged launcher override', () => {
 
 test('packaged launcher serializes ownership and removes only its exact socket', () => {
   const flake = readFileSync(join(process.cwd(), 'flake.nix'), 'utf8');
+  assert.match(flake, /export LIBGL_DRIVERS_PATH=\$\{pkgs\.mesa\}\/lib\/dri/);
+  assert.match(flake, /export __EGL_VENDOR_LIBRARY_FILENAMES=\$\{pkgs\.mesa\}\/share\/glvnd\/egl_vendor\.d\/50_mesa\.json/);
   assert.match(flake, /lock_file="\\\$runtime_dir\/uzel-launcher\.lock"/);
   assert.match(flake, /flock -n 9/);
   assert.match(flake, /if \[ -e "\\\$socket" \] \|\| \[ -L "\\\$socket" \]; then[\s\S]*refuses a pre-existing runtime socket/);
