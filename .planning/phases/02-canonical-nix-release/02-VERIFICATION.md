@@ -10,8 +10,8 @@ behavior_unverified: 0
 
 **Phase Goal:** Ship one exact-pinned store-path Linux artifact with compatible native
 runtime dependencies.
-**Verified implementation head:** `a064b775b91ec81e21028e1094545465a4271048`
-**Verified tree:** `c9a4510cabb59effa6b00fc8aabd2e140dd4d0b8`
+**Verified implementation head:** `c3f1eabad530e5b46a4ff46393d1da03dacc573a`
+**Verified tree:** `b9da73407a25fde4a3792cf51676cd3767ba107b`
 **Status:** passed
 
 ## Goal achievement
@@ -46,8 +46,8 @@ runtime dependencies.
 
 ## Exact package evidence
 
-- Output: `/nix/store/djdbqm9jr8pq1d7hs5vwnm6p973pmsk9-uzel-0.0.0`.
-- Derivation: `/nix/store/6g689qygna7snxpc7b46parfvdx6d6wv-uzel-0.0.0.drv`.
+- Output: `/nix/store/4dv904cll8bbir6lmddj40s9vvc03cp0-uzel-0.0.0`.
+- Derivation: `/nix/store/c6jymyach1ym1kaxdbiadnhd3yb3nigi-uzel-0.0.0.drv`.
 - Packaged shell SHA-256:
   `2ea11a4fac775edea14006989c865828687daa6a6e1ede336eb009ec3dbe357d`.
 - Packaged daemon SHA-256:
@@ -60,20 +60,24 @@ runtime dependencies.
   response before `UZEL_SHELL_READY`. The client connect path now has the same bounded
   deadline as framed reads and writes; its positive and saturated-listener tests pass.
 - Package acceptance is bound to committed product inputs and the exact current flake
-  output. Closure inspection requires GTK/WebKit/Mesa, excludes build tools, and rejects
-  symlinked or additional public binaries. Failure logs default to the durable ignored
-  `.artifacts/package-smoke-failure/` path.
-- One affected full packaged Weston/WebKit run passed at this exact output with ambient
-  loader/data paths scrubbed from the packaged process and Mesa paths restored only from
-  the immutable closure. It emitted `PACKAGE_SMOKE_OK`, `LINUX_RUN_SMOKE_OK`, and
-  `UZEL_WEBKIT_RECOVERY_OK`.
+  output. Every Nampplets/NMP source entry must carry its declared revision. Closure
+  inspection consumes the full requisite set, requires GTK/WebKit/Mesa, excludes build
+  tools, and rejects symlinked or additional public binaries. The locked smoke shell now
+  includes `procps`; failure logs default to `.artifacts/package-smoke-failure/`.
+- The immediately preceding closure-owned-Mesa output passed one affected full packaged
+  Weston/WebKit run with ambient loader/data paths scrubbed, emitting `PACKAGE_SMOKE_OK`,
+  `LINUX_RUN_SMOKE_OK`, and `UZEL_WEBKIT_RECOVERY_OK`. The current output changes only the
+  launcher process grouping: its shell, daemon, and trusted-shell hashes are identical.
+  Its focused launcher matrix proves both children share the launcher process group,
+  TERM/INT and forced-KILL paths reap them, and ownership negatives remain green.
 
 ## Review and delivery gate
 
 Haven mechanism review and Meadow security review were CLEAN on the security-relevant
 implementation through `a28f331b`; the later bounded client-connect deadline, paired-child
-supervision, committed-input/closure assertions, and closure-owned Mesa correction passed
-their affected unit and native package gates. PR
+supervision, committed-input/closure assertions, closure-owned Mesa paths, declared smoke
+tools, exact source-revision checks, and process-group containment passed their affected
+unit and native package gates. PR
 [#48](https://github.com/jodobear/uzel/pull/48) carries the phase. Required
 CI, GitHub Codex, CodeRabbit, and final exact-head merge checks remain delivery gates; they
 do not alter this implementation-verification result and must pass before merge.
@@ -84,5 +88,6 @@ do not alter this implementation-verification result and must pass before merge.
 results, reviewed source/digest bindings, the affected launcher/runtime probes, and the
 single stable native package run.
 **Affected validation:** `cargo test -p napd-protocol`, strict package clippy, the Linux
-smoke-script contract, exact Nix package build, launcher-only lifecycle and daemon-exit matrix,
-mismatch-only Weston discriminator, and one exact-output packaged Weston/WebKit run.
+smoke-script contract, exact Nix package build, launcher-only lifecycle/process-group and
+daemon-exit matrix, mismatch-only Weston discriminator, and the affected packaged
+Weston/WebKit run with byte-equivalence proof for the final wrapper-only delta.
