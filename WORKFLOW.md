@@ -144,11 +144,14 @@ semantic changes.
 ## Reviewer findings
 
 P0/P1 and acceptance-breaking findings block merge and are `FIXED-NOW` with focused proof.
-An actionable non-blocking P2/P3 may be deferred only in one concise GitHub issue containing
-the reviewer link, reviewed SHA, impact, owner, target phase, and observable close condition.
-A demonstrably false, outdated, duplicate, or non-actionable finding receives one concise
-evidence-backed PR disposition and no backlog issue. Do not duplicate reviewer text or create
-separate finding summaries. Review only items whose target/revisit condition is now due.
+Reviewer labels are advisory: independently classify impact. A true nitpick or other verified
+non-blocking polish item does not consume current-slice time. Record it once in the single
+`.planning/REVIEW-BACKLOG.md` with reviewer link, reviewed SHA, concise impact, deferral reason,
+and revisit trigger; do not copy the review body. Promote it to a GitHub issue only when it is
+scheduled into a phase. A demonstrably false, outdated, duplicate, or non-actionable finding
+receives one concise evidence-backed PR disposition and no backlog entry. A finding mislabeled
+as a nitpick but affecting correctness, security, accessibility acceptance, compatibility, or
+the selected issue follows its real severity. Review only backlog items now due.
 
 Candidate count is a diagnostic signal, not an automatic stop. Continue fixing new,
 isolated valid findings coherently. Stop review cycling only when the same material root

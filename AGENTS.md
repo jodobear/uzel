@@ -42,3 +42,8 @@ comments already enforced mechanically.
   preserved evidence; planning-only edits must not change the product derivation.
 - Prefer deterministic tests for stable invariants. Request focused native evidence only
   where engine, packaging, lifecycle, or platform behavior cannot be established statically.
+- Reviewer severity labels are advisory. A verified nitpick that does not affect correctness,
+  security, accessibility acceptance, compatibility, or the selected issue never blocks the
+  current slice. Record it once in `.planning/REVIEW-BACKLOG.md`; do not fix it under current
+  delivery pressure or duplicate its full review text. Promote it to an issue only when
+  scheduled. A mislabeled substantive defect still follows normal blocking rules.
