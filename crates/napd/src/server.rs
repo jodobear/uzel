@@ -362,6 +362,10 @@ impl DaemonServer {
         })
     }
 
+    pub fn socket_identity(&self) -> (u64, u64) {
+        (self.socket_identity.device, self.socket_identity.inode)
+    }
+
     pub fn serve(mut self) -> Result<(), ServerError> {
         loop {
             let (mut stream, _) = self.listener.accept().map_err(ServerError::Accept)?;

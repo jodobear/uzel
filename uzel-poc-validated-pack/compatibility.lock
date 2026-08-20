@@ -157,10 +157,17 @@ head = "eb45dfd7335b7f88cb53781984c553581d2b4c34"
 manifest_kinds = [5129, 15129, 35129]
 
 [nampplets]
-repository = "https://github.com/pablof7z/nampplets"
+repository = "https://github.com/jodobear/nampplets"
+reference_repository = "https://github.com/pablof7z/nampplets"
 upstream_base_commit = "839654cd3643b430548765823b783f0b5140b8da"
 candidate_repository = "https://github.com/jodobear/nampplets"
 commit = "e2f69f325a6b45213accdacfcc125e80e0687b4c"
+portable_trusted_shell_merge_commit = "eefa9f9d8aa463b833b4d93723dd770f81408889"
+portable_trusted_shell_accepted_head = "2e6dc9e00b52b67e392b6ffdf0e02c7cb52efedd"
+portable_trusted_shell_sha256 = "a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3"
+portable_trusted_shell_issue = "https://github.com/jodobear/nampplets/issues/12"
+portable_trusted_shell_pr = "https://github.com/jodobear/nampplets/pull/13"
+portable_trusted_shell_status = "merged"
 previous_runtime_commit = "d533a63d519c14470f900323958509cdea1c6479"
 pre_catalog_runtime_commit = "e539378ef735ce06651fd94b71e06f9ce757cb13"
 naddr_upstream_branch = "feat/catalog-naddr-coordinates"

@@ -3,8 +3,11 @@
 use std::{
     env,
     error::Error,
+    fs::OpenOptions,
     io::{self, Write},
     path::PathBuf,
+    thread,
+    time::Duration,
 };
 
 use napd::{DaemonServer, LinuxRunner};
@@ -13,6 +16,7 @@ use napd::{DaemonServer, LinuxRunner};
 struct Options {
     check: bool,
     live: bool,
+    ready_fd: Option<u32>,
     socket: PathBuf,
     runtime_root: PathBuf,
     indexer_relays: Vec<String>,
@@ -40,7 +44,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     } else {
         LinuxRunner::open(&options.runtime_root)?
     };
+    apply_test_pre_bind_delay()?;
     let server = DaemonServer::bind(&options.socket, runner)?;
+    report_launcher_ready(options.ready_fd, server.socket_identity())?;
     println!("UZEL_NAPD_READY role={}", napd::PROCESS_ROLE);
     println!(
         "UZEL_NAPD_ENDPOINT mode={} socket={}",
@@ -55,6 +61,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options, String> {
     let mut check = false;
     let mut live = false;
+    let mut ready_fd = None;
     let mut socket = None;
     let mut runtime_root = None;
     let mut indexer_relays = Vec::new();
@@ -66,6 +73,7 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
         match argument.as_str() {
             "--check" => check = true,
             "--live" => live = true,
+            "--ready-fd" => ready_fd = Some(next_fd(&mut arguments)?),
             "--socket" => socket = Some(next_path(&mut arguments, "--socket")?),
             "--runtime-root" => runtime_root = Some(next_path(&mut arguments, "--runtime-root")?),
             "--indexer-relay" => {
@@ -91,6 +99,7 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
     Ok(Options {
         check,
         live,
+        ready_fd,
         socket: match socket {
             Some(path) => path,
             None if check => PathBuf::new(),
@@ -106,6 +115,50 @@ fn parse_options(arguments: impl IntoIterator<Item = String>) -> Result<Options,
         fallback_relays,
         allowed_local_relay_hosts,
     })
+}
+
+fn next_fd(arguments: &mut impl Iterator<Item = String>) -> Result<u32, String> {
+    next_value(arguments, "--ready-fd")?
+        .parse::<u32>()
+        .ok()
+        .filter(|fd| (3..=1_024).contains(fd))
+        .ok_or_else(|| "--ready-fd requires an integer from 3 through 1024".to_owned())
+}
+
+fn apply_test_pre_bind_delay() -> Result<(), io::Error> {
+    let Some(value) = env::var_os("UZEL_NAPD_TEST_PRE_BIND_DELAY_MS") else {
+        return Ok(());
+    };
+    let milliseconds = value
+        .to_str()
+        .and_then(|value| value.parse::<u64>().ok())
+        .filter(|value| (1..=10_000).contains(value))
+        .ok_or_else(|| {
+            io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "UZEL_NAPD_TEST_PRE_BIND_DELAY_MS must be an integer from 1 through 10000",
+            )
+        })?;
+    thread::sleep(Duration::from_millis(milliseconds));
+    Ok(())
+}
+
+fn report_launcher_ready(
+    ready_fd: Option<u32>,
+    socket_identity: (u64, u64),
+) -> Result<(), io::Error> {
+    let Some(ready_fd) = ready_fd else {
+        return Ok(());
+    };
+    let mut channel = OpenOptions::new()
+        .write(true)
+        .open(format!("/proc/self/fd/{ready_fd}"))?;
+    writeln!(
+        channel,
+        "UZEL_NAPD_BOUND {}:{}",
+        socket_identity.0, socket_identity.1
+    )?;
+    channel.flush()
 }
 
 fn next_value(
@@ -162,6 +215,13 @@ mod tests {
         assert!(parsed.live);
         assert_eq!(parsed.app_relays, ["wss://relay.example"]);
         assert!(parse_options(["--live".to_owned()]).is_ok());
+        assert_eq!(
+            parse_options(["--live".to_owned(), "--ready-fd".to_owned(), "8".to_owned(),])
+                .unwrap()
+                .ready_fd,
+            Some(8)
+        );
+        assert!(parse_options(["--ready-fd".to_owned(), "2".to_owned()]).is_err());
         assert!(
             parse_options([
                 "--live".to_owned(),
