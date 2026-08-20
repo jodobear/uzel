@@ -116,6 +116,7 @@
           owns_socket=
           socket_identity=
           runtime_dir=\''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is required}
+          ready_fifo="\$runtime_dir/uzel-launcher-ready.\$\$"
           socket="\$runtime_dir/uzel/napd.sock"
           lock_file="\$runtime_dir/uzel-launcher.lock"
 
@@ -130,6 +131,10 @@
             echo 'Uzel launcher refuses a pre-existing runtime socket' >&2
             exit 1
           fi
+          ${pkgs.coreutils}/bin/mkfifo -m 600 "\$ready_fifo"
+          exec 8<>"\$ready_fifo"
+          exec 7<"\$ready_fifo"
+          ${pkgs.coreutils}/bin/rm -f -- "\$ready_fifo"
 
           signal_children() {
             signal=\$1
@@ -154,6 +159,7 @@
           cleanup() {
             status=\$?
             trap - EXIT INT TERM
+            exec 7<&- 8>&- 2>/dev/null || true
             if [ -z "\$received_signal" ]; then
               signal_children TERM
             fi
@@ -180,21 +186,20 @@
 
           set -m
           "\$daemon" --live \
+            --ready-fd 8 \
             --indexer-relay wss://purplepag.es \
             --app-relay wss://purplepag.es \
             --app-relay wss://nos.lol &
           daemon_pid=\$!
           set +m
-          attempt=0
-          while [ "\$attempt" -lt 80 ]; do
-            kill -0 "\$daemon_pid" 2>/dev/null || exit 1
-            [ -S "\$socket" ] && break
-            attempt=\$((attempt + 1))
-            ${pkgs.coreutils}/bin/sleep 0.1
-          done
+          exec 8>&-
+          ready_identity=
+          IFS= read -r -t 8 ready_identity <&7 || exit 1
+          exec 7<&-
           [ -S "\$socket" ] || exit 1
           kill -0 "\$daemon_pid" 2>/dev/null || exit 1
           socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
+          [ "\$ready_identity" = "UZEL_NAPD_BOUND \$socket_identity" ] || exit 1
           owns_socket=1
           set -m
           if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then

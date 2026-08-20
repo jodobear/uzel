@@ -86,24 +86,15 @@ wait_for_socket() {
   return 1
 }
 
-run_preexisting_path_probe() {
-  local kind=$1
-  local runtime_dir="$tmp/preexisting-$kind-runtime"
-  local data_dir="$tmp/preexisting-$kind-data"
-  local socket="$runtime_dir/uzel/napd.sock"
-  local server_pid= status owner_alive=1 socket_alive identity_before identity_after diagnostic_present success_absent
-
-  mkdir -p "$runtime_dir/uzel" "$data_dir"
-  chmod 700 "$runtime_dir" "$runtime_dir/uzel" "$data_dir"
-  case "$kind" in
-    live-socket)
-      python3 - "$socket" <<'PY' &
+COMPAT_RESPONDER_PID=
+start_compatible_responder() {
+  local socket=$1
+  python3 - "$socket" <<'PY' &
 import json
 import signal
 import socket
 import struct
 import sys
-import time
 
 server = socket.socket(socket.AF_UNIX)
 server.bind(sys.argv[1])
@@ -124,7 +115,22 @@ while True:
             connection.sendall(struct.pack('>I', len(response)) + response)
     connection.close()
 PY
-      server_pid=$!
+  COMPAT_RESPONDER_PID=$!
+}
+
+run_preexisting_path_probe() {
+  local kind=$1
+  local runtime_dir="$tmp/preexisting-$kind-runtime"
+  local data_dir="$tmp/preexisting-$kind-data"
+  local socket="$runtime_dir/uzel/napd.sock"
+  local server_pid= status owner_alive=1 socket_alive identity_before identity_after diagnostic_present success_absent
+
+  mkdir -p "$runtime_dir/uzel" "$data_dir"
+  chmod 700 "$runtime_dir" "$runtime_dir/uzel" "$data_dir"
+  case "$kind" in
+    live-socket)
+      start_compatible_responder "$socket"
+      server_pid=$COMPAT_RESPONDER_PID
       wait_for_socket "$socket" || { kill -TERM "$server_pid" 2>/dev/null || true; wait "$server_pid" 2>/dev/null || true; return 1; }
       ;;
     stale-socket)
@@ -187,6 +193,54 @@ PY
   [[ $success_absent -eq 1 ]] \
     || { echo "PACKAGE_SMOKE_FAILED pre-existing $kind path reached a success marker" >&2; exit 1; }
   printf 'PACKAGE_PREEXISTING_PATH_OK kind=%s owner=preserved identity=preserved launcher=refused\n' "$kind"
+}
+
+run_postcheck_substitution_probe() {
+  local runtime_dir="$tmp/postcheck-runtime"
+  local data_dir="$tmp/postcheck-data"
+  local socket="$runtime_dir/uzel/napd.sock"
+  local launcher_pid= responder_pid= status= identity_before identity_after
+
+  mkdir -p "$runtime_dir/uzel" "$data_dir"
+  chmod 700 "$runtime_dir" "$runtime_dir/uzel" "$data_dir"
+  XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
+    UZEL_NAPD_TEST_PRE_BIND_DELAY_MS=3000 \
+    UZEL_LAUNCHER_TEST_HOLD_SECONDS=1 \
+    "$store_path/bin/uzel" >"$tmp/postcheck.log" 2>&1 &
+  launcher_pid=$!
+  for _ in $(seq 1 80); do
+    pgrep -P "$launcher_pid" >/dev/null && break
+    kill -0 "$launcher_pid" 2>/dev/null || break
+    sleep 0.05
+  done
+  pgrep -P "$launcher_pid" >/dev/null \
+    || { cat "$tmp/postcheck.log" >&2; echo 'PACKAGE_SMOKE_FAILED delayed daemon did not start' >&2; exit 1; }
+  start_compatible_responder "$socket"
+  responder_pid=$COMPAT_RESPONDER_PID
+  wait_for_socket "$socket" \
+    || { kill -TERM "$launcher_pid" "$responder_pid" 2>/dev/null || true; wait "$launcher_pid" 2>/dev/null || true; wait "$responder_pid" 2>/dev/null || true; return 1; }
+  identity_before=$(stat -c '%d:%i:%F' "$socket")
+  set +e
+  wait "$launcher_pid"
+  status=$?
+  set -e
+  kill -0 "$responder_pid" 2>/dev/null \
+    || { cat "$tmp/postcheck.log" >&2; echo 'PACKAGE_SMOKE_FAILED launcher terminated post-check responder' >&2; exit 1; }
+  [[ -S "$socket" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher removed post-check responder socket' >&2; exit 1; }
+  identity_after=$(stat -c '%d:%i:%F' "$socket")
+  kill -TERM "$responder_pid" 2>/dev/null || true
+  wait "$responder_pid" 2>/dev/null || true
+  rm -f -- "$socket"
+  [[ $status -ne 0 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher accepted post-check responder' >&2; exit 1; }
+  [[ "$identity_after" == "$identity_before" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher replaced post-check responder socket' >&2; exit 1; }
+  rg -q '^Error: ActiveSocket\(' "$tmp/postcheck.log" \
+    || { cat "$tmp/postcheck.log" >&2; echo 'PACKAGE_SMOKE_FAILED post-check refusal diagnostic missing' >&2; exit 1; }
+  ! rg -q '^UZEL_SHELL_READY$|PACKAGE_.*_OK' "$tmp/postcheck.log" \
+    || { echo 'PACKAGE_SMOKE_FAILED post-check substitution reached readiness or success' >&2; exit 1; }
+  printf 'PACKAGE_POSTCHECK_SUBSTITUTION_OK owner=preserved identity=preserved launcher=refused readiness=absent\n'
 }
 
 run_mismatch_probe() {
@@ -285,6 +339,7 @@ run_preexisting_path_probe live-socket
 run_preexisting_path_probe stale-socket
 run_preexisting_path_probe file
 run_preexisting_path_probe symlink
+run_postcheck_substitution_probe
 
 run_lifecycle_probe() {
   local name=$1
