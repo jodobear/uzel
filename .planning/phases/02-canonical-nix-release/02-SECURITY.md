@@ -39,7 +39,7 @@ No accepted risks.
 | 2026-08-20 | Existing exact-head Candidate-B and launcher security review at `66ba4fc7` / tree `a37558be` | Meadow SECURITY CLEAN; 5 threats closed, 0 open |
 | 2026-08-20 | Supply-chain and launcher correction review at `f6de2985` / tree `4da72e00` | Meadow SECURITY CLEAN; exact current output binding, filtered package source, and pre-existing path refusal verified |
 | 2026-08-20 | Daemon-origin readiness delta at `a28f331b70beb8b862ef2505ff75416e35884340` / tree `61b7c3c5c113ef255a32a5adec40af4ac0cde6ed` | Meadow SECURITY CLEAN; post-check substitution refused; runtime evidence sufficient without full WebKit repeat |
-| 2026-08-20 | Delivery corrections through `dfbbe3457d6dbb849e63a49ee75a31317bbb61d3` / tree `66541a264f281d69edf512fd72e1c0082f718ee9` | No trust-boundary change; bounded connect, paired-child supervision, scrubbed package environment, mismatch refusal, launcher lifecycle, and exact-output Weston/WebKit acceptance passed |
+| 2026-08-20 | Delivery corrections through `a064b775b91ec81e21028e1094545465a4271048` / tree `c9a4510cabb59effa6b00fc8aabd2e140dd4d0b8` | No Candidate-B trust-boundary change; committed-input and exact-output binding, closure assertions, bounded peer termination, closure-owned Mesa paths, mismatch refusal, and exact-output Weston/WebKit acceptance passed |
 
 ## Sign-off
 
@@ -49,12 +49,13 @@ No accepted risks.
 - [x] Frozen reviewed trusted-shell digest remains
   `a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3`.
 
-**Approval:** verified 2026-08-20 at exact implementation head `dfbbe3457d6dbb849e63a49ee75a31317bbb61d3`,
-tree `66541a264f281d69edf512fd72e1c0082f718ee9`, and output
-`/nix/store/w6n7fwjk2b2f1qa527k8sfincf39bh68-uzel-0.0.0`. Packaged shell SHA-256 is
+**Approval:** verified 2026-08-20 at exact implementation head `a064b775b91ec81e21028e1094545465a4271048`,
+tree `c9a4510cabb59effa6b00fc8aabd2e140dd4d0b8`, and output
+`/nix/store/djdbqm9jr8pq1d7hs5vwnm6p973pmsk9-uzel-0.0.0`. Packaged shell SHA-256 is
 `2ea11a4fac775edea14006989c865828687daa6a6e1ede336eb009ec3dbe357d`; packaged daemon
 SHA-256 is `ea6605b9578410a7117e48e9161fb8fe906123821b8698047ca12ade698e0222`. The bounded
-connect and paired-child corrections change availability behavior only; scrubbing the
-development loader environment strengthens package provenance. The trusted-shell digest
+connect and paired-child corrections change availability behavior only; exact committed
+input/output binding, closure assertions, and closure-owned loader paths strengthen package
+provenance. The trusted-shell digest
 and all reviewed Candidate-B trust invariants remain unchanged. Any later security-surface
 change requires fresh Meadow review.

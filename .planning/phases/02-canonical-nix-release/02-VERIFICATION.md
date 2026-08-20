@@ -1,6 +1,6 @@
 ---
 phase: 02-canonical-nix-release
-verified: 2026-08-20T15:53:09Z
+verified: 2026-08-20T16:26:55Z
 status: passed
 score: 5/5 must-haves verified
 behavior_unverified: 0
@@ -10,8 +10,8 @@ behavior_unverified: 0
 
 **Phase Goal:** Ship one exact-pinned store-path Linux artifact with compatible native
 runtime dependencies.
-**Verified implementation head:** `dfbbe3457d6dbb849e63a49ee75a31317bbb61d3`
-**Verified tree:** `66541a264f281d69edf512fd72e1c0082f718ee9`
+**Verified implementation head:** `a064b775b91ec81e21028e1094545465a4271048`
+**Verified tree:** `c9a4510cabb59effa6b00fc8aabd2e140dd4d0b8`
 **Status:** passed
 
 ## Goal achievement
@@ -46,30 +46,34 @@ runtime dependencies.
 
 ## Exact package evidence
 
-- Output: `/nix/store/w6n7fwjk2b2f1qa527k8sfincf39bh68-uzel-0.0.0`.
-- Derivation: `/nix/store/zq1brpb7f9vq3z7l3yw6dr56y62vy5jn-uzel-0.0.0.drv`.
+- Output: `/nix/store/djdbqm9jr8pq1d7hs5vwnm6p973pmsk9-uzel-0.0.0`.
+- Derivation: `/nix/store/6g689qygna7snxpc7b46parfvdx6d6wv-uzel-0.0.0.drv`.
 - Packaged shell SHA-256:
   `2ea11a4fac775edea14006989c865828687daa6a6e1ede336eb009ec3dbe357d`.
 - Packaged daemon SHA-256:
   `ea6605b9578410a7117e48e9161fb8fe906123821b8698047ca12ade698e0222`.
 - Focused launcher evidence passed four pre-existing-path refusals, deterministic
   post-check/pre-bind substitution refusal, sequential and concurrent ownership, exact
-  TERM/INT child reaping, unexpected-daemon paired shutdown, and truthful
+  TERM/INT child reaping, bounded TERM-to-KILL peer shutdown, and truthful
   `webkit=not-run` reporting.
 - The focused mismatch-only Weston discriminator refused the injected incompatible Hello
   response before `UZEL_SHELL_READY`. The client connect path now has the same bounded
   deadline as framed reads and writes; its positive and saturated-listener tests pass.
-- Because that correction changed the packaged shell bytes, one affected full packaged
-  Weston/WebKit run was repeated at this exact output with development loader/data paths
-  scrubbed; it emitted `PACKAGE_SMOKE_OK`, `LINUX_RUN_SMOKE_OK`, and
+- Package acceptance is bound to committed product inputs and the exact current flake
+  output. Closure inspection requires GTK/WebKit/Mesa, excludes build tools, and rejects
+  symlinked or additional public binaries. Failure logs default to the durable ignored
+  `.artifacts/package-smoke-failure/` path.
+- One affected full packaged Weston/WebKit run passed at this exact output with ambient
+  loader/data paths scrubbed from the packaged process and Mesa paths restored only from
+  the immutable closure. It emitted `PACKAGE_SMOKE_OK`, `LINUX_RUN_SMOKE_OK`, and
   `UZEL_WEBKIT_RECOVERY_OK`.
 
 ## Review and delivery gate
 
 Haven mechanism review and Meadow security review were CLEAN on the security-relevant
 implementation through `a28f331b`; the later bounded client-connect deadline, paired-child
-supervision, and evidence-environment correction change no trust boundary and passed their
-affected unit and native package gates. PR
+supervision, committed-input/closure assertions, and closure-owned Mesa correction passed
+their affected unit and native package gates. PR
 [#48](https://github.com/jodobear/uzel/pull/48) carries the phase. Required
 CI, GitHub Codex, CodeRabbit, and final exact-head merge checks remain delivery gates; they
 do not alter this implementation-verification result and must pass before merge.
