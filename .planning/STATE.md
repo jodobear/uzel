@@ -1,17 +1,17 @@
 ---
-current_phase: 2
-current_phase_name: Canonical Nix release
-total_phases: 5
-current_plan: 1
-total_plans_in_phase: 1
-status: pending_review
-progress: 20
+current_phase: 3
+current_phase_name: Large-napplet native alpha
+total_phases: 6
+current_plan: 0
+total_plans_in_phase: 0
+status: ready
+progress: 33
 last_activity: 2026-08-20
-last_activity_desc: Phase 2 candidate is under exact-head review in PR #48
+last_activity_desc: Phase 2 merged in PR #48; Phase 3 issue #47 is next
 ---
 
 # Current execution
 
-- Phase: 2 — Canonical Nix release
-- Outcome: ship one exact-pinned Linux artifact with its compatible runtime
-- Next action: resolve exact-head review and merge PR #48 for issue #46
+- Phase: 3 — Large-napplet native alpha
+- Outcome: run one real multi-megabyte exact-build napplet through the packaged runtime with bounded transfer and cleanup
+- Next action: shape and execute issue #47 as one bounded Rage single-player vertical slice

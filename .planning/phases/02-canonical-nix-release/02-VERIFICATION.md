@@ -79,10 +79,10 @@ Haven mechanism review and Meadow security review were CLEAN on the security-rel
 implementation through `a28f331b`; the later bounded client-connect deadline, paired-child
 supervision, committed-input/closure assertions, closure-owned Mesa paths, declared smoke
 tools, exact source-revision checks, and process-group containment passed their affected
-unit and native package gates. PR
-[#48](https://github.com/jodobear/uzel/pull/48) carries the phase. Required
-CI, GitHub Codex, CodeRabbit, and final exact-head merge checks remain delivery gates; they
-do not alter this implementation-verification result and must pass before merge.
+unit and native package gates. PR [#48](https://github.com/jodobear/uzel/pull/48)
+carried the phase. Required CI, GitHub Codex, and substantive CodeRabbit review passed on
+exact head `2c272773`; it merged as `43e983fc` and closed issue #46. This delivery result
+does not alter the recorded implementation-verification evidence.
 
 ## Verification metadata
 

@@ -148,9 +148,9 @@
 ## Dependencies at Risk
 
 **Fork-pinned Nampplets runtime:**
-- Risk: Four critical Rust dependencies pin the same `jodobear/nampplets` SHA `e2f69f...`. The contribution ledger records its provider-push limit branch as an open fork PR requiring a clean upstream port, and the runtime contract remains tied to provisional NAP revisions.
+- Risk: Four critical Rust dependencies pin the same `jodobear/nampplets` SHA `e2f69f...`, while the reviewed trusted-shell bytes come from the separate `jodobear/nampplets` compatibility line. The runtime contract also remains tied to provisional NAP revisions.
 - Impact: Upstream divergence, review-modified successors, or a runtime repin can change permissions, resource bounds, NMP behavior, trusted-shell compatibility, and native acceptance together.
-- Migration plan: Keep the exact SHA until trusted local TLS and upstream compatibility work are complete. Revalidate source, conformance, provider-push limits, signed fixtures, live NMP, and real WebKit before changing `Cargo.toml`, `Cargo.lock`, or `uzel-poc-validated-pack/compatibility.lock`.
+- Migration plan: Keep both exact pins until one separately authorized `jodobear/nampplets` candidate proves provider-push limits, current runtime fixes, and the reviewed trusted-shell invariants together. Revalidate source, conformance, signed fixtures, live NMP, and real WebKit before changing `Cargo.toml`, `Cargo.lock`, or `uzel-poc-validated-pack/compatibility.lock`. `pablof7z/nampplets` is historical read-only provenance, never a publication or port target.
 - Files: `Cargo.toml`, `Cargo.lock`, `uzel-poc-validated-pack/docs/08-upstream-contributions.md`, `uzel-poc-validated-pack/compatibility.lock`
 
 **Provisional NAP/NIP-5D contract line:**

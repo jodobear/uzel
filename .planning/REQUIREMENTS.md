@@ -18,21 +18,18 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 
 ### Canonical Nix Package
 
-- [ ] **PKG-01**: Linux user can build `packages.uzel` and the default package/app from locked inputs on `x86_64-linux`, with the development shell and package-dependent checks exposed by the flake.
-- [ ] **PKG-02**: Release reviewer can prove Cargo resolution, `Cargo.lock`, flake inputs, `flake.lock`, fixtures, and packaged runtime closure identify the same accepted native-runtime and NMP commits.
-- [ ] **PKG-03**: Linux user can start the packaged Uzel artifact from its Nix store path without the checkout, development shell, ambient system packages, or arbitrary daemon discovery from `PATH`.
-- [ ] **PKG-04**: Operator receives a clear failure when packaged Uzel runtime components are incompatible instead of an incompatible daemon starting silently.
-- [ ] **PKG-05**: Release reviewer can inspect package closure contents and size, exact native-runtime/NMP references, desktop assets, and path-relevant package/WebKit smoke evidence.
+- [x] **PKG-01**: Linux user can build `packages.uzel` and the default package/app from locked inputs on `x86_64-linux`, with the development shell and package-dependent checks exposed by the flake.
+- [x] **PKG-02**: Release reviewer can prove Cargo resolution, `Cargo.lock`, flake inputs, `flake.lock`, fixtures, and packaged runtime closure identify the same accepted native-runtime and NMP commits.
+- [x] **PKG-03**: Linux user can start the packaged Uzel artifact from its Nix store path without the checkout, development shell, ambient system packages, or arbitrary daemon discovery from `PATH`.
+- [x] **PKG-04**: Operator receives a clear failure when packaged Uzel runtime components are incompatible instead of an incompatible daemon starting silently.
+- [x] **PKG-05**: Release reviewer can inspect package closure contents and size, exact native-runtime/NMP references, desktop assets, and path-relevant package/WebKit smoke evidence.
 
-### Lean Delivery and Review
+### Large-Napplet Native Runtime
 
-- [ ] **CI-01**: Contributor receives changed-scope PR-fast results for the conservative union of docs, frontend, Rust, contract, native-host/security, and package/toolchain change classes.
-- [ ] **CI-02**: Contributor receives direct formatter, typecheck, unit, Fallow, Rust, and targeted Chromium results only when affected, with uncertain/shared inputs promoted to full scope.
-- [ ] **CI-03**: Packaging/toolchain changes run canonical Nix package preflight on the PR head, while host/source-binding/security/native/package paths run the applicable Weston/WebKit proof.
-- [ ] **CI-04**: Merge queue validates the exact `merge_group` SHA using the canonical Nix package and full required suite before GitHub merges.
-- [ ] **CI-05**: One stable required aggregator fails on missing, cancelled, failed, or unexpectedly skipped classified jobs rather than treating path-filter silence as success.
-- [ ] **CI-06**: Maintainer can inspect measured cold/warm p50/p95, cache restore/save cost, cancellation behavior, and full-workspace versus affected-scope Rust evidence before retaining CI complexity.
-- [ ] **CI-07**: Merge authority can verify local CodeRabbit, remote Codex, final CodeRabbit, PR-fast, applicable preflight, disposition, and zero-blocker evidence is bound to the required exact head SHA.
+- [ ] **RUN-01**: Operator can select one explicit finite artifact-size policy that is enforced consistently across verified read, daemon staging, transfer, and reconstruction.
+- [ ] **RUN-02**: Multi-megabyte verified artifacts cross the private runtime in bounded chunks without being forced through one control frame or one unbounded allocation.
+- [ ] **RUN-03**: Refusal, interruption, timeout, or malformed transfer metadata leaves no active surface, partial artifact, owned process, or socket behind.
+- [ ] **RUN-04**: Linux user can run one real multi-megabyte exact-build napplet under packaged Weston/WebKit while source binding, sandboxing, and child authority denial remain green.
 
 ### Profile and Resource Experience
 
@@ -46,9 +43,16 @@ not authorize a profile/resource rebuild.
 - [ ] **PROF-04**: Keyboard and assistive-technology users can inspect and operate profile/resource state with stable focus, semantic controls, accessible names, and non-disruptive status announcements.
 - [ ] **PROF-05**: Developer can opt into compact pressure, cache, freshness, and failure diagnostics without exposing secrets, authority tokens, raw runtime internals, or creating a second state owner.
 
+### Signed Napplet Install
+
+- [ ] **INST-01**: User can submit raw `naddr1...` and `nostr:naddr1...` forms through one canonical parse, resolve, review, and install path.
+- [ ] **INST-02**: User can inspect exact publisher, coordinate, event, aggregate, artifact, provenance, and requested capabilities before immutable confirmation.
+- [ ] **INST-03**: Invalid input, wrong kind, resolution failure, verification refusal, capability denial, ambiguity, and cleanup failure remain visibly distinct and fail closed.
+- [ ] **INST-04**: One independently published exact-build napplet completes install, launch, interaction, close, and restart reconciliation under real WebKit without direct browser network or native authority.
+
 ### Social Graph, Feed, and Navigation
 
-The merged POC already demonstrates follow rows and source-bound profile selection. Phase 5
+The merged POC already demonstrates follow rows and source-bound profile selection. Phase 6
 adds graph/feed value and revalidates existing composition; it does not recreate existing
 follow/profile paths.
 
@@ -93,9 +97,9 @@ Explicit exclusions prevent first-milestone scope creep.
 ## Definition of Done
 
 - All v1 requirements map to one roadmap phase and have merged, exact-head evidence.
-- Current POC replay and native recovery gates pass before new Social implementation begins; Social work is executable only after REF, PKG, and CI gates are accepted.
+- Current POC replay and native recovery gates pass before new product work; each later phase carries only its affected delivery gates from `WORKFLOW.md`.
 - Exact current nampplets and NMP revisions are pinned consistently in source, locks, fixtures, and the Nix closure.
-- Canonical Nix package, PR-fast, applicable preflight, merge-group full, and review-evidence gates pass without unexpected skips.
+- Canonical Nix package, applicable affected checks, native proof, and exact-head review gates pass without unexpected skips or duplicated receipt machinery.
 - Social Home visibly demonstrates local-first profile/resource and graph/feed composition while preserving source binding, bounded work, recovery, accessibility, and real WebKit evidence.
 - A milestone go/no-go records whether Local Files may begin; no deferred capability is silently pulled into v1.
 
@@ -111,36 +115,37 @@ Every v1 requirement maps to exactly one roadmap phase.
 | REF-04 | Phase 1 | Complete |
 | REF-05 | Phase 1 | Complete |
 | REF-06 | Phase 1 | Complete |
-| PKG-01 | Phase 2 | Pending |
-| PKG-02 | Phase 2 | Pending |
-| PKG-03 | Phase 2 | Pending |
-| PKG-04 | Phase 2 | Pending |
-| PKG-05 | Phase 2 | Pending |
-| CI-01 | Phase 3 | Pending |
-| CI-02 | Phase 3 | Pending |
-| CI-03 | Phase 3 | Pending |
-| CI-04 | Phase 3 | Pending |
-| CI-05 | Phase 3 | Pending |
-| CI-06 | Phase 3 | Pending |
-| CI-07 | Phase 3 | Pending |
+| PKG-01 | Phase 2 | Complete |
+| PKG-02 | Phase 2 | Complete |
+| PKG-03 | Phase 2 | Complete |
+| PKG-04 | Phase 2 | Complete |
+| PKG-05 | Phase 2 | Complete |
+| RUN-01 | Phase 3 | Pending |
+| RUN-02 | Phase 3 | Pending |
+| RUN-03 | Phase 3 | Pending |
+| RUN-04 | Phase 3 | Pending |
 | PROF-01 | Phase 4 | Pending |
 | PROF-02 | Phase 4 | Pending |
 | PROF-03 | Phase 4 | Pending |
 | PROF-04 | Phase 4 | Pending |
 | PROF-05 | Phase 4 | Pending |
-| SOC-01 | Phase 5 | Pending |
-| SOC-02 | Phase 5 | Pending |
-| SOC-03 | Phase 5 | Pending |
-| SOC-04 | Phase 5 | Pending |
-| SOC-05 | Phase 5 | Pending |
-| SOC-06 | Phase 5 | Pending |
+| INST-01 | Phase 5 | Pending |
+| INST-02 | Phase 5 | Pending |
+| INST-03 | Phase 5 | Pending |
+| INST-04 | Phase 5 | Pending |
+| SOC-01 | Phase 6 | Pending |
+| SOC-02 | Phase 6 | Pending |
+| SOC-03 | Phase 6 | Pending |
+| SOC-04 | Phase 6 | Pending |
+| SOC-05 | Phase 6 | Pending |
+| SOC-06 | Phase 6 | Pending |
 
 **Coverage:**
 
-- v1 requirements: 29 total
-- Mapped to phases: 29
+- v1 requirements: 30 total
+- Mapped to phases: 30
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-08-09*
-*Last updated: 2026-08-09 after source-backed milestone re-audit*
+*Last updated: 2026-08-20 after vertical native-runtime reprioritization*
