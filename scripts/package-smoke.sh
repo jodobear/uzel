@@ -13,8 +13,10 @@ repo_root=$(pwd -P)
 launcher_only=${UZEL_PACKAGE_LAUNCHER_ONLY:-0}
 mismatch_only=${UZEL_PACKAGE_MISMATCH_ONLY:-0}
 force_group_mismatch=${UZEL_PACKAGE_TEST_FORCE_GROUP_MISMATCH:-0}
+force_group_lookup_failure=${UZEL_PACKAGE_TEST_FORCE_GROUP_LOOKUP_FAILURE:-0}
 [[ "$launcher_only" =~ ^[01]$ && "$mismatch_only" =~ ^[01]$ \
-    && "$force_group_mismatch" =~ ^[01]$ ]] \
+    && "$force_group_mismatch" =~ ^[01]$ \
+    && "$force_group_lookup_failure" =~ ^[01]$ ]] \
   || { echo 'PACKAGE_SMOKE_FAILED probe modes must be 0 or 1' >&2; exit 2; }
 [[ "$launcher_only" == 0 || "$mismatch_only" == 0 ]] \
   || { echo 'PACKAGE_SMOKE_FAILED launcher-only and mismatch-only modes are exclusive' >&2; exit 2; }
@@ -439,8 +441,11 @@ assert_launcher_process_group() {
   local launcher_group child child_group
 
   launcher_group=$(ps -o pgid= -p "$launcher_pid" | tr -d ' ')
+  if [[ "$force_group_lookup_failure" == 1 ]]; then
+    launcher_group=
+  fi
   [[ -n "$launcher_group" ]] \
-    || { echo 'PACKAGE_SMOKE_FAILED launcher process group is unavailable' >&2; exit 1; }
+    || { echo 'PACKAGE_SMOKE_FAILED launcher process group is unavailable' >&2; return 1; }
   for child in "$@"; do
     child_group=$(ps -o pgid= -p "$child" | tr -d ' ')
     if [[ "$force_group_mismatch" == 1 ]]; then

@@ -133,6 +133,8 @@ test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   assert.match(packageScript, /PACKAGE_PROCESS_GROUP_OK launcher=%s children=%s scope=shared/);
   assert.match(packageScript, /retire_group_mismatch "\$pid" "\$tmp\/\$name-runtime\/uzel\/napd\.sock"/);
   assert.match(packageScript, /PACKAGE_PROCESS_GROUP_REFUSAL_OK launcher=retired children=reaped socket=retired/);
+  assert.match(packageScript, /UZEL_PACKAGE_TEST_FORCE_GROUP_LOOKUP_FAILURE:-0/);
+  assert.match(packageScript, /launcher process group is unavailable[^}]*return 1/);
   assert.match(packageScript, /PACKAGE_SIGNAL_OK signal=%s status=%s children=reaped socket=retired/);
   assert.match(packageScript, /run_daemon_exit_probe/);
   assert.match(packageScript, /PACKAGE_DAEMON_EXIT_OK status=%s hung_shell=killed shell=reaped socket=retired/);
