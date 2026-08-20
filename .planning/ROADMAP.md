@@ -59,7 +59,8 @@ Plans:
 
 **Goal**: Make the packaged native app visibly useful offline and during network failure without duplicating NMP state.
 **Depends on**: Phase 3
-**Primary issues:** #12, #16, #17, and the remaining #18 cleanup cases.
+**Primary issue:** #12. Issues #16, #17, and the remaining #18 cleanup cases are linked
+acceptance inputs, not separate Phase 4 delivery units.
 
 - [ ] Local profile value survives unavailable networks.
 - [ ] Profile resources render as real WebKit pixels with bounded failure and cancellation behavior.

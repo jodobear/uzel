@@ -18,12 +18,10 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 - ✓ Independent profile and follow napplets compose through runtime-mediated NAP-INC routing — existing POC
 - ✓ Deterministic Chromium tests and real Weston/WebKit hostile-egress evidence cover the core trust boundary — existing POC
 - ✓ A pinned Nix development environment supports the current Rust, frontend, Tauri, and WebKit workflow — existing POC
+- ✓ One exact-pinned Nix store-path release runs its compatible private daemon and trusted shell with reviewed native evidence — Phase 2
 
 ### Active
 
-- [ ] Replay the merged POC and record durable Uzel/upstream ownership, state-retention, and resource-bound dispositions
-- [ ] Preserve current acceptance, hostile-isolation, recovery, lifecycle, performance, and resource evidence at Uzel's trusted runtime boundary
-- [ ] Produce a reproducible canonical Nix Uzel package that runs from its store path with the exact compatible native runtime dependencies
 - [ ] Run a real multi-megabyte exact-build napplet through the packaged native runtime with bounded transfer and cleanup
 - [ ] Preserve assigned-profile, avatar/resource, follow-row, and profile-selection value; add only evidenced stale/partial/refreshing/diagnostic gaps
 - [ ] Complete one signed-coordinate review, install, launch, interaction, close, and restart flow under real WebKit
@@ -68,7 +66,7 @@ The first milestone proceeds through six vertical outcomes: replay, package, lar
 | Uzel owns its product runtime and composition policy | Matches current source and avoids an artificial external dependency | ✓ Architecture corrected in Phase 1 |
 | Keep only source-proven upstream authority | Prevents speculative framework and ownership work | ✓ nampplets and NMP proven by Cargo source/lock |
 | Audit upstream changes before adopting them | NAPS governance prose does not require a repin; Kehto 0.31 is a migration, and Nampplets stays on reviewed split pins until one jodobear-only consolidation proves compatibility | ✓ 2026-08-20 audit recorded |
-| Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible dependencies | — Pending |
+| Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible dependencies | ✓ Shipped in PR #48 |
 | Carry the smallest affected delivery gates inside each vertical slice | Review/CI supports product delivery; it is not a standalone product phase | ✓ Roadmap simplified |
 | Keep GitHub as merge authority and GSD as execution record | Separates local orchestration from required checks and canonical merge state | — Pending |
 
