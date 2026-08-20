@@ -20,11 +20,32 @@ mismatch_only=${UZEL_PACKAGE_MISMATCH_ONLY:-0}
 git diff HEAD --quiet -- "${PRODUCT_INPUTS[@]}" \
   || { echo 'PACKAGE_SMOKE_FAILED product inputs differ from committed HEAD' >&2; exit 1; }
 bash scripts/check-pinned-assets.sh
-rg -q "${NAMPPLETS_REV}" Cargo.toml
-rg -q "${NAMPPLETS_REV}" Cargo.lock
+
+require_exact_git_revision() {
+  local file=$1
+  local repository=$2
+  local expected=$3
+  local line revision
+  local -a lines=()
+
+  mapfile -t lines < <(rg -F "$repository" "$file" || true)
+  [[ ${#lines[@]} -gt 0 ]] \
+    || { echo "PACKAGE_SMOKE_FAILED $file lacks $repository sources" >&2; exit 1; }
+  for line in "${lines[@]}"; do
+    [[ "$line" == *"$expected"* ]] \
+      || { echo "PACKAGE_SMOKE_FAILED $file contains mixed $repository revisions" >&2; exit 1; }
+    while IFS= read -r revision; do
+      [[ "$revision" == "$expected" ]] \
+        || { echo "PACKAGE_SMOKE_FAILED $file contains mixed $repository revisions" >&2; exit 1; }
+    done < <(rg -o '[0-9a-f]{40}' <<<"$line")
+  done
+}
+
+require_exact_git_revision Cargo.toml github.com/jodobear/nampplets "$NAMPPLETS_REV"
+require_exact_git_revision Cargo.lock github.com/jodobear/nampplets "$NAMPPLETS_REV"
+require_exact_git_revision Cargo.lock github.com/pablof7z/nmp.git "$NMP_REV"
 rg -q "${TRUSTED_SHELL_REV}" apps/uzel/public/trusted-shell/README.md
 rg -q "${TRUSTED_SHELL_SHA256}" apps/uzel/public/trusted-shell/trusted-shell-embedded.sha256
-rg -q "${NMP_REV}" Cargo.lock
 
 expected_store_path=$(nix "${NIX_FLAGS[@]}" eval --raw .#uzel.outPath)
 store_path=${UZEL_PACKAGE_STORE_PATH:-}
@@ -56,10 +77,10 @@ closure_size=$(nix "${NIX_FLAGS[@]}" path-info --closure-size "$store_path")
 requisites=$(nix-store --query --requisites "$store_path")
 references=$(nix-store --query --references "$store_path")
 for runtime_ref in webkitgtk gtk+3; do
-  printf '%s\n' "$requisites" | rg -F -q -- "-$runtime_ref-" \
+  rg -F -q -- "-$runtime_ref-" <<<"$requisites" \
     || { echo "PACKAGE_SMOKE_FAILED closure lacks $runtime_ref" >&2; exit 1; }
 done
-if printf '%s\n' "$requisites" | rg -q '/nix/store/[^/]*-(rustc|cargo|nodejs|pnpm)(-|$)'; then
+if rg -q '/nix/store/[^/]*-(rustc|cargo|nodejs|pnpm)(-|$)' <<<"$requisites"; then
   echo 'PACKAGE_SMOKE_FAILED closure contains build-only tooling' >&2
   exit 1
 fi

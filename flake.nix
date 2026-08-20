@@ -208,14 +208,12 @@
           trap 'handle_signal INT' INT
           trap 'handle_signal TERM' TERM
 
-          set -m
           "\$daemon" --live \
             --ready-fd 8 \
             --indexer-relay wss://purplepag.es \
             --app-relay wss://purplepag.es \
             --app-relay wss://nos.lol &
           daemon_pid=\$!
-          set +m
           exec 8>&-
           ready_identity=
           IFS= read -r -t 8 ready_identity <&7 || exit 1
@@ -225,7 +223,6 @@
           socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
           [ "\$ready_identity" = "UZEL_NAPD_BOUND \$socket_identity" ] || exit 1
           owns_socket=1
-          set -m
           if [ -n "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS:-}" ]; then
             case "\''${UZEL_LAUNCHER_TEST_HOLD_SECONDS}" in
               *[!0-9]*|"") exit 2 ;;
@@ -235,7 +232,6 @@
             "\$shell" "\$@" &
           fi
           shell_pid=\$!
-          set +m
           set +e
           completed_pid=
           wait -n -p completed_pid "\$shell_pid" "\$daemon_pid"
@@ -307,6 +303,7 @@
           openssl
           pkg-config
           python3
+          procps
           ripgrep
           rustup
           util-linux

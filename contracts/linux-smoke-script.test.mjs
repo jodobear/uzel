@@ -74,8 +74,8 @@ test('packaged launcher serializes ownership and removes only its exact socket',
   assert.match(flake, /trap 'handle_signal TERM' TERM/);
   assert.match(flake, /kill -s "\\\$signal" "\\\$shell_pid"/);
   assert.match(flake, /kill -s "\\\$signal" "\\\$daemon_pid"/);
-  assert.equal((flake.match(/set -m/g) ?? []).length, 2);
-  assert.equal((flake.match(/set \+m/g) ?? []).length, 2);
+  assert.doesNotMatch(flake, /set -m/);
+  assert.doesNotMatch(flake, /set \+m/);
   assert.match(flake, /stop_child\(\)[\s\S]*kill -KILL "\\\$child_pid"[\s\S]*wait "\\\$child_pid"/);
   assert.match(flake, /wait -n -p completed_pid "\\\$shell_pid" "\\\$daemon_pid"/);
   assert.match(flake, /completed_pid.*= "\\\$daemon_pid"[\s\S]*stop_child "\\\$shell_pid" TERM/);
@@ -91,9 +91,15 @@ test('package input excludes delivery-only state and smoke binds to the current 
   assert.equal((flake.match(/src = source;/g) ?? []).length, 2);
   assert.match(flake, /source = lib\.fileset\.toSource/);
   assert.doesNotMatch(flake, /\.\/\.planning/);
+  assert.match(flake, /python3\s+procps\s+ripgrep/);
   assert.match(packageScript, /nix "\$\{NIX_FLAGS\[@\]\}" eval --raw \.#uzel\.outPath/);
   assert.match(packageScript, /supplied store path does not match the current flake output/);
   assert.equal((packageScript.match(/git diff HEAD --quiet -- "\$\{PRODUCT_INPUTS\[@\]\}"/g) ?? []).length, 2);
+  assert.match(packageScript, /require_exact_git_revision Cargo\.toml github\.com\/jodobear\/nampplets/);
+  assert.match(packageScript, /require_exact_git_revision Cargo\.lock github\.com\/jodobear\/nampplets/);
+  assert.match(packageScript, /require_exact_git_revision Cargo\.lock github\.com\/pablof7z\/nmp\.git/);
+  assert.match(packageScript, /rg -F -q -- "-\$runtime_ref-" <<<"\$requisites"/);
+  assert.match(packageScript, /<<<"\$requisites"; then/);
   assert.match(packageScript, /PACKAGE_CLOSURE_ASSERTIONS_OK runtime=gtk-webkit build_tools=absent/);
   assert.match(packageScript, /find "\$store_path\/bin" -mindepth 1 -maxdepth 1/);
   assert.match(packageScript, /\.artifacts\/package-smoke-failure/);
