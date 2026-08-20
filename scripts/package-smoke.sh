@@ -431,6 +431,23 @@ wait "$repeat_pid"
 [[ ! -e "$tmp/repeat-runtime/uzel/napd.sock" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED second repeated launcher left a socket' >&2; exit 1; }
 
+assert_launcher_process_group() {
+  local launcher_pid=$1
+  shift
+  local launcher_group child child_group
+
+  launcher_group=$(ps -o pgid= -p "$launcher_pid" | tr -d ' ')
+  [[ -n "$launcher_group" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED launcher process group is unavailable' >&2; exit 1; }
+  for child in "$@"; do
+    child_group=$(ps -o pgid= -p "$child" | tr -d ' ')
+    [[ "$child_group" == "$launcher_group" ]] \
+      || { echo "PACKAGE_SMOKE_FAILED child escaped launcher process group pid=$child" >&2; exit 1; }
+  done
+  printf 'PACKAGE_PROCESS_GROUP_OK launcher=%s children=%s scope=shared\n' \
+    "$launcher_pid" "$#"
+}
+
 run_signal_probe() {
   local signal=$1
   local expected_status=$2
@@ -447,6 +464,7 @@ run_signal_probe() {
   done
   [[ ${#children[@]} -eq 2 ]] \
     || { echo "PACKAGE_SMOKE_FAILED $signal probe needs daemon and shell child" >&2; exit 1; }
+  assert_launcher_process_group "$pid" "${children[@]}"
   kill -s "$signal" "$pid"
   set +e
   wait "$pid"
@@ -498,6 +516,7 @@ run_daemon_exit_probe() {
       wait "$pid" 2>/dev/null || true
       exit 1
     }
+  assert_launcher_process_group "$pid" "${children[@]}"
   kill -STOP "$shell_pid"
   kill -KILL "$daemon_pid"
   set +e

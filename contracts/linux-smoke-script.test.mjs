@@ -129,6 +129,8 @@ test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   assert.match(packageScript, /if \[\[ "\$launcher_only" == 1 \]\]; then[\s\S]*PACKAGE_LAUNCHER_ONLY_OK[^\n]*webkit=not-run[\s\S]*else[\s\S]*webkit=weston[\s\S]*PACKAGE_SMOKE_OK/);
   assert.match(packageScript, /run_signal_probe TERM 143/);
   assert.match(packageScript, /run_signal_probe INT 130/);
+  assert.match(packageScript, /assert_launcher_process_group "\$pid" "\$\{children\[@\]\}"/);
+  assert.match(packageScript, /PACKAGE_PROCESS_GROUP_OK launcher=%s children=%s scope=shared/);
   assert.match(packageScript, /PACKAGE_SIGNAL_OK signal=%s status=%s children=reaped socket=retired/);
   assert.match(packageScript, /run_daemon_exit_probe/);
   assert.match(packageScript, /PACKAGE_DAEMON_EXIT_OK status=%s hung_shell=killed shell=reaped socket=retired/);
