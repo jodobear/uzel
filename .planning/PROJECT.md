@@ -24,8 +24,9 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 - [ ] Replay the merged POC and record durable Uzel/upstream ownership, state-retention, and resource-bound dispositions
 - [ ] Preserve current acceptance, hostile-isolation, recovery, lifecycle, performance, and resource evidence at Uzel's trusted runtime boundary
 - [ ] Produce a reproducible canonical Nix Uzel package that runs from its store path with the exact compatible native runtime dependencies
-- [ ] Prove measured PR-fast, path-gated native/package preflight, and merge-group full CI lanes with fail-closed review evidence
+- [ ] Run a real multi-megabyte exact-build napplet through the packaged native runtime with bounded transfer and cleanup
 - [ ] Preserve assigned-profile, avatar/resource, follow-row, and profile-selection value; add only evidenced stale/partial/refreshing/diagnostic gaps
+- [ ] Complete one signed-coordinate review, install, launch, interaction, close, and restart flow under real WebKit
 - [ ] Add missing graph/feed/navigation value through source-bound runtime-mediated composition without rebuilding existing follow/profile paths
 
 ### Out of Scope
@@ -42,13 +43,13 @@ Uzel must make local-first napplet composition visibly useful without duplicatin
 
 The brownfield POC contains the Tauri shell, Svelte presentation, Uzel-owned private AF_UNIX daemon, exact-build fixtures, trusted surface host, rich NMP-backed profile/follow paths, NAP-INC profile selection, bounded resource handling, recovery behavior, hostile-frame tests, deterministic Chromium coverage, and real Weston/WebKit smoke evidence. Production baseline `19519c3` is merged. The nested POC pack is bounded replay evidence, not active workflow or architecture authority.
 
-The first milestone has five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, `SLICE-CI-01`, `SLICE-SOC-01`, and `SLICE-SOC-02`. Phase 1 validates the current product boundary before package, CI, and Social work. GitHub issues define delivery outcomes, GSD is the execution record, and [`WORKFLOW.md`](../WORKFLOW.md) is process authority.
+The first milestone proceeds through six vertical outcomes: replay, package, large native napplet, truthful profile, signed install, and Social Home. Delivery checks travel with the slice they protect; there is no separate CI-construction phase. GitHub issues define delivery outcomes, GSD is the execution record, and [`WORKFLOW.md`](../WORKFLOW.md) is process authority.
 
 ## Constraints
 
 - **Product stack**: Tauri 2 + Svelte remains locked
 - **Ownership**: Uzel owns product runtime, composition policy, trusted surfaces, and its private daemon; Rust owns canonical runtime/layout state and Svelte owns presentation
-- **Current upstreams**: `jodobear/nampplets` supplies exact-pinned native runtime crates; `pablof7z/nmp` is Nostr authority; other repositories matter only when current source or a concrete reusable fix proves relevance
+- **Current upstreams**: `napplet/naps` is protocol/spec authority; `jodobear/nampplets` is the only maintained Nampplets contribution target; pinned NMP remains Nostr authority; Kehto is a versioned compatibility/capability reference, not automatic product authority; `pablof7z/nampplets` is historical read-only provenance
 - **Nostr boundary**: NMP is the sole Nostr query, relay, canonical-store, signer, freshness, provenance, and publication plane
 - **Trust**: Every napplet request is bound to a trusted source-created surface before Uzel's runtime handles it; untrusted surfaces receive no Tauri bridge, secrets, host paths, raw network, or caller-selected principal
 - **Dependency pinning**: Cargo and locks identify exact current native-runtime and NMP commits; arbitrary daemon discovery from `PATH` is forbidden
@@ -66,9 +67,10 @@ The first milestone has five contextual slices: `SLICE-REF-01`, `SLICE-PKG-01`, 
 | Preserve and replay the POC instead of rebuilding Uzel | Existing source already proves critical runtime, trust, recovery, profile/follows, and composition behavior | Re-audited at `19519c3`; current replay must close remaining native observations |
 | Uzel owns its product runtime and composition policy | Matches current source and avoids an artificial external dependency | ✓ Architecture corrected in Phase 1 |
 | Keep only source-proven upstream authority | Prevents speculative framework and ownership work | ✓ nampplets and NMP proven by Cargo source/lock |
+| Audit upstream changes before adopting them | NAPS governance prose does not require a repin; Kehto 0.31 is a migration, and Nampplets stays on reviewed split pins until one jodobear-only consolidation proves compatibility | ✓ 2026-08-20 audit recorded |
 | Make Nix the canonical Linux package and release closure | Produces a reproducible artifact with exact compatible dependencies | — Pending |
-| Measure simple full-workspace CI before affected-crate complexity | Complexity must earn its cost through real evidence | — Pending |
+| Carry the smallest affected delivery gates inside each vertical slice | Review/CI supports product delivery; it is not a standalone product phase | ✓ Roadmap simplified |
 | Keep GitHub as merge authority and GSD as execution record | Separates local orchestration from required checks and canonical merge state | — Pending |
 
 ---
-*Last updated: 2026-08-14 during Phase 1 product reorientation*
+*Last updated: 2026-08-20 after vertical native-runtime reprioritization*

@@ -157,6 +157,8 @@ head = "eb45dfd7335b7f88cb53781984c553581d2b4c34"
 manifest_kinds = [5129, 15129, 35129]
 
 [nampplets]
+# Historical source provenance only. All maintained contribution and publication work is
+# confined to jodobear/nampplets unless the human explicitly changes repository authority.
 repository = "https://github.com/jodobear/nampplets"
 reference_repository = "https://github.com/pablof7z/nampplets"
 upstream_base_commit = "839654cd3643b430548765823b783f0b5140b8da"
@@ -175,7 +177,7 @@ naddr_upstream_commit = "d5b9ad6ae9c37bb8aaa395d6908f3a0a9b0e3d17"
 naddr_compat_branch = "uzel/naddr-compat-e539"
 naddr_compat_commit = "2cc404cfb52a4fd8bd227a04569c6228e201df96"
 naddr_fork_pr_url = "https://github.com/jodobear/nampplets/pull/2"
-naddr_upstream_submission = "blocked: upstream repository rejected both fine-grained PAT and connected GitHub app cross-fork PR creation"
+naddr_upstream_submission = "historical only: cross-owner publication was blocked and is no longer an active or future action"
 resource_provider_upstream_branch = "feat/runtime-rust-provider-composition"
 resource_provider_upstream_commit = "488afb674a7279ebc4884e964bfcdfd4fa9e6823"
 resource_provider_compat_branch = "uzel/resource-provider-compat-2cc"
@@ -205,7 +207,7 @@ fork_pull_request = 1
 fork_pr_url = "https://github.com/jodobear/nampplets/pull/1"
 fork_pr_result = "merged after clean exact-head Codex review and green Linux-relevant CI"
 fork_merge_commit = "570a01f8ae85c4dccd5452aa764e97d88c2f6611"
-upstream_pr_result = "cross-owner submission blocked by current fine-grained PAT"
+upstream_pr_result = "historical only: cross-owner submission was blocked and is not an active or future action"
 rust_toolchain = "1.89.0"
 baseline_status = "unratified"
 baseline_file_sha256 = "0d97d277ffce49b464489bdaa883ce64c731d2311e2ad9a35c537747ae3ea393"
