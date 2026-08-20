@@ -18,11 +18,11 @@ Requirements for the first Uzel milestone. Each maps to exactly one roadmap phas
 
 ### Canonical Nix Package
 
-- [ ] **PKG-01**: Linux user can build `packages.uzel` and the default package/app from locked inputs on `x86_64-linux`, with the development shell and package-dependent checks exposed by the flake.
-- [ ] **PKG-02**: Release reviewer can prove Cargo resolution, `Cargo.lock`, flake inputs, `flake.lock`, fixtures, and packaged runtime closure identify the same accepted native-runtime and NMP commits.
-- [ ] **PKG-03**: Linux user can start the packaged Uzel artifact from its Nix store path without the checkout, development shell, ambient system packages, or arbitrary daemon discovery from `PATH`.
-- [ ] **PKG-04**: Operator receives a clear failure when packaged Uzel runtime components are incompatible instead of an incompatible daemon starting silently.
-- [ ] **PKG-05**: Release reviewer can inspect package closure contents and size, exact native-runtime/NMP references, desktop assets, and path-relevant package/WebKit smoke evidence.
+- [x] **PKG-01**: Linux user can build `packages.uzel` and the default package/app from locked inputs on `x86_64-linux`, with the development shell and package-dependent checks exposed by the flake.
+- [x] **PKG-02**: Release reviewer can prove Cargo resolution, `Cargo.lock`, flake inputs, `flake.lock`, fixtures, and packaged runtime closure identify the same accepted native-runtime and NMP commits.
+- [x] **PKG-03**: Linux user can start the packaged Uzel artifact from its Nix store path without the checkout, development shell, ambient system packages, or arbitrary daemon discovery from `PATH`.
+- [x] **PKG-04**: Operator receives a clear failure when packaged Uzel runtime components are incompatible instead of an incompatible daemon starting silently.
+- [x] **PKG-05**: Release reviewer can inspect package closure contents and size, exact native-runtime/NMP references, desktop assets, and path-relevant package/WebKit smoke evidence.
 
 ### Large-Napplet Native Runtime
 
@@ -115,11 +115,11 @@ Every v1 requirement maps to exactly one roadmap phase.
 | REF-04 | Phase 1 | Complete |
 | REF-05 | Phase 1 | Complete |
 | REF-06 | Phase 1 | Complete |
-| PKG-01 | Phase 2 | Pending |
-| PKG-02 | Phase 2 | Pending |
-| PKG-03 | Phase 2 | Pending |
-| PKG-04 | Phase 2 | Pending |
-| PKG-05 | Phase 2 | Pending |
+| PKG-01 | Phase 2 | Complete |
+| PKG-02 | Phase 2 | Complete |
+| PKG-03 | Phase 2 | Complete |
+| PKG-04 | Phase 2 | Complete |
+| PKG-05 | Phase 2 | Complete |
 | RUN-01 | Phase 3 | Pending |
 | RUN-02 | Phase 3 | Pending |
 | RUN-03 | Phase 3 | Pending |

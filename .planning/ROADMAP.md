@@ -5,7 +5,7 @@ Shape and plan only the next selected GitHub issue under [`WORKFLOW.md`](../WORK
 ## Phases
 
 - [x] **Phase 1: POC replay and runtime recovery** — replay accepted behavior and prove current trusted-runtime recovery.
-- [ ] **Phase 2: Canonical Nix release** — ship one exact-pinned Linux artifact with its compatible runtime.
+- [x] **Phase 2: Canonical Nix release** — ship one exact-pinned Linux artifact with its compatible runtime.
 - [ ] **Phase 3: Large-napplet native alpha** — run one real multi-megabyte exact-build napplet through the packaged runtime with bounded transfer and cleanup.
 - [ ] **Phase 4: Truthful native profile** — preserve local-first profile value, rendered resources, reconnect truth, and responsive cleanup.
 - [ ] **Phase 5: Signed napplet install flow** — review, install, launch, and close a signed coordinate through one honest user flow.
@@ -34,9 +34,16 @@ and next-phase pointer without reopening Phase 1 implementation.
 
 **Goal**: Ship one exact-pinned store-path Linux artifact with compatible native runtime dependencies.
 **Depends on**: Phase 1
+**Plans:** 1 completed plan
 
-- [ ] One reproducible Linux artifact is produced from locked inputs.
-- [ ] Runtime compatibility is bound to the artifact.
+Plans:
+- [x] 02-01-PLAN.md — canonical package, runtime compatibility, native recovery, review, and merge complete.
+
+**Delivery unit:** Issue #46 is closed and PR #48 merged reviewed head `2c27277` as
+`43e983f`.
+
+- [x] One reproducible Linux artifact is produced from locked inputs.
+- [x] Runtime compatibility is bound to the artifact.
 
 ### Phase 3: Large-napplet native alpha
 
