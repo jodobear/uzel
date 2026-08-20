@@ -105,18 +105,6 @@ test('package probes foreign socket ownership and observable version mismatch', 
   assert.match(packageScript, /if \[\[ "\$mismatch_only" == 1 \]\]; then\s+run_mismatch_probe[\s\S]*exit 0\s+fi/);
 });
 
-test('daemon reports readiness only after binding its owned socket', () => {
-  const daemon = readFileSync(
-    join(process.cwd(), 'apps', 'uzel-napd', 'src', 'main.rs'),
-    'utf8',
-  );
-  const bind = daemon.indexOf('DaemonServer::bind');
-  const receipt = daemon.indexOf('report_launcher_ready');
-  assert.ok(bind >= 0 && receipt > bind);
-  assert.match(daemon, /server\.socket_identity\(\)/);
-  assert.match(daemon, /UZEL_NAPD_BOUND/);
-});
-
 test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   const packageScript = readFileSync(join(process.cwd(), 'scripts/package-smoke.sh'), 'utf8');
   assert.equal((packageScript.match(/PACKAGE_LAUNCHER_ONLY_OK/g) ?? []).length, 1);

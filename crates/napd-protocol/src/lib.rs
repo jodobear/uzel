@@ -15,6 +15,7 @@ use std::{
 
 use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64};
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
+use socket2::{Domain, SockAddr, Socket, Type};
 
 pub const VERSION: u8 = 0;
 /// Uzel's host-side bound for one runtime envelope before IPC serialization.
@@ -333,7 +334,7 @@ impl UnixClient {
         write_frame(&mut frame, request)
             .map_err(ClientError::from)
             .map_err(DeliveryError::BeforeSend)?;
-        let mut stream = UnixStream::connect(&self.socket_path)
+        let mut stream = connect_with_timeout(&self.socket_path, IPC_TIMEOUT)
             .map_err(ProtocolError::Io)
             .map_err(ClientError::from)
             .map_err(DeliveryError::BeforeSend)?;
@@ -678,6 +679,12 @@ impl UnixClient {
     }
 }
 
+fn connect_with_timeout(socket_path: &Path, timeout: Duration) -> std::io::Result<UnixStream> {
+    let socket = Socket::new(Domain::UNIX, Type::STREAM, None)?;
+    socket.connect_timeout(&SockAddr::unix(socket_path)?, timeout)?;
+    Ok(socket.into())
+}
+
 fn next_operation_id() -> String {
     let sequence = NEXT_OPERATION_ID.fetch_add(1, Ordering::Relaxed);
     let timestamp = SystemTime::now()
@@ -742,11 +749,36 @@ mod tests {
         os::unix::net::UnixListener,
         sync::atomic::{AtomicU64, Ordering},
         thread,
+        time::Instant,
     };
 
     use super::*;
 
     static NEXT_SOCKET: AtomicU64 = AtomicU64::new(0);
+
+    #[test]
+    fn unix_connect_is_bounded_when_listener_queue_is_full() {
+        let unique = NEXT_SOCKET.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "uzel-napd-protocol-connect-timeout-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&root).unwrap();
+        let path = root.join("napd.sock");
+        let listener = Socket::new(Domain::UNIX, Type::STREAM, None).unwrap();
+        listener.bind(&SockAddr::unix(&path).unwrap()).unwrap();
+        listener.listen(0).unwrap();
+        let queued = connect_with_timeout(&path, Duration::from_secs(1)).unwrap();
+
+        let started = Instant::now();
+        connect_with_timeout(&path, Duration::from_millis(50)).unwrap_err();
+        assert!(started.elapsed() < Duration::from_secs(1));
+
+        drop(queued);
+        drop(listener);
+        fs::remove_file(path).unwrap();
+        fs::remove_dir(root).unwrap();
+    }
 
     #[test]
     fn gate_zero_bounds_remain_exact() {
