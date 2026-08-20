@@ -10,8 +10,8 @@ behavior_unverified: 0
 
 **Phase Goal:** Ship one exact-pinned store-path Linux artifact with compatible native
 runtime dependencies.
-**Verified implementation head:** `c3f1eabad530e5b46a4ff46393d1da03dacc573a`
-**Verified tree:** `b9da73407a25fde4a3792cf51676cd3767ba107b`
+**Verified implementation head:** `bd39d3a1097420352928ad88a6b73eff3ab468a7`
+**Verified tree:** `24fb8b759b10260800721bc493a9e87b2f8d9712`
 **Status:** passed
 
 ## Goal achievement
@@ -69,7 +69,9 @@ runtime dependencies.
   `LINUX_RUN_SMOKE_OK`, and `UZEL_WEBKIT_RECOVERY_OK`. The current output changes only the
   launcher process grouping: its shell, daemon, and trusted-shell hashes are identical.
   Its focused launcher matrix proves both children share the launcher process group,
-  TERM/INT and forced-KILL paths reap them, and ownership negatives remain green.
+  TERM/INT and forced-KILL paths reap them, and ownership negatives remain green. A
+  forced group-oracle mismatch exits nonzero only after launcher, children, and socket
+  retirement.
 
 ## Review and delivery gate
 

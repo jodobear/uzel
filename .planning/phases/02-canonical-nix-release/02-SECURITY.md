@@ -40,7 +40,7 @@ No accepted risks.
 | 2026-08-20 | Supply-chain and launcher correction review at `f6de2985` / tree `4da72e00` | Meadow SECURITY CLEAN; exact current output binding, filtered package source, and pre-existing path refusal verified |
 | 2026-08-20 | Daemon-origin readiness delta at `a28f331b70beb8b862ef2505ff75416e35884340` / tree `61b7c3c5c113ef255a32a5adec40af4ac0cde6ed` | Meadow SECURITY CLEAN; post-check substitution refused; runtime evidence sufficient without full WebKit repeat |
 | 2026-08-20 | Delivery corrections through `a064b775b91ec81e21028e1094545465a4271048` / tree `c9a4510cabb59effa6b00fc8aabd2e140dd4d0b8` | No Candidate-B trust-boundary change; committed-input and exact-output binding, closure assertions, bounded peer termination, closure-owned Mesa paths, mismatch refusal, and exact-output Weston/WebKit acceptance passed |
-| 2026-08-20 | Review corrections through `c3f1eabad530e5b46a4ff46393d1da03dacc573a` / tree `b9da73407a25fde4a3792cf51676cd3767ba107b` | No trust-boundary change; locked smoke tooling, complete closure matching, all-source revision validation, and launcher process-group containment verified on the exact output |
+| 2026-08-20 | Review corrections through `bd39d3a1097420352928ad88a6b73eff3ab468a7` / tree `24fb8b759b10260800721bc493a9e87b2f8d9712` | No trust-boundary change; locked smoke tooling, complete closure matching, all-source revision validation, launcher process-group containment, and fail-closed oracle cleanup verified on the exact output |
 
 ## Sign-off
 
@@ -50,8 +50,8 @@ No accepted risks.
 - [x] Frozen reviewed trusted-shell digest remains
   `a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3`.
 
-**Approval:** verified 2026-08-20 at exact implementation head `c3f1eabad530e5b46a4ff46393d1da03dacc573a`,
-tree `b9da73407a25fde4a3792cf51676cd3767ba107b`, and output
+**Approval:** verified 2026-08-20 at exact implementation head `bd39d3a1097420352928ad88a6b73eff3ab468a7`,
+tree `24fb8b759b10260800721bc493a9e87b2f8d9712`, and output
 `/nix/store/4dv904cll8bbir6lmddj40s9vvc03cp0-uzel-0.0.0`. Packaged shell SHA-256 is
 `2ea11a4fac775edea14006989c865828687daa6a6e1ede336eb009ec3dbe357d`; packaged daemon
 SHA-256 is `ea6605b9578410a7117e48e9161fb8fe906123821b8698047ca12ade698e0222`. The bounded
