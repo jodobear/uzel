@@ -6,7 +6,8 @@ readonly NAMPPLETS_REV=e2f69f325a6b45213accdacfcc125e80e0687b4c
 readonly TRUSTED_SHELL_REV=eefa9f9d8aa463b833b4d93723dd770f81408889
 readonly TRUSTED_SHELL_SHA256=a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3
 readonly NMP_REV=005dc2a5f12aa414961b313d05ebb021934e385c
-readonly PACKAGE_ENV=(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS -u GI_TYPELIB_PATH -u GIO_EXTRA_MODULES -u GTK_PATH)
+readonly PRODUCT_INPUTS=(Cargo.lock Cargo.toml package.json pnpm-lock.yaml pnpm-workspace.yaml rust-toolchain.toml apps crates fixtures napplets flake.nix flake.lock)
+readonly PACKAGE_ENV=(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS -u GI_TYPELIB_PATH -u GIO_EXTRA_MODULES -u GTK_PATH -u LIBGL_DRIVERS_PATH -u __EGL_VENDOR_LIBRARY_FILENAMES)
 
 repo_root=$(pwd -P)
 launcher_only=${UZEL_PACKAGE_LAUNCHER_ONLY:-0}
@@ -16,8 +17,8 @@ mismatch_only=${UZEL_PACKAGE_MISMATCH_ONLY:-0}
 [[ "$launcher_only" == 0 || "$mismatch_only" == 0 ]] \
   || { echo 'PACKAGE_SMOKE_FAILED launcher-only and mismatch-only modes are exclusive' >&2; exit 2; }
 
-git diff --exit-code -- Cargo.lock flake.lock pnpm-lock.yaml
-git diff --exit-code -- Cargo.toml
+git diff HEAD --quiet -- "${PRODUCT_INPUTS[@]}" \
+  || { echo 'PACKAGE_SMOKE_FAILED product inputs differ from committed HEAD' >&2; exit 1; }
 bash scripts/check-pinned-assets.sh
 rg -q "${NAMPPLETS_REV}" Cargo.toml
 rg -q "${NAMPPLETS_REV}" Cargo.lock
@@ -35,13 +36,16 @@ else
 fi
 [[ "$store_path" == "$expected_store_path" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED realized store path does not match the current flake output' >&2; exit 1; }
+git diff HEAD --quiet -- "${PRODUCT_INPUTS[@]}" \
+  || { echo 'PACKAGE_SMOKE_FAILED product inputs changed during realization' >&2; exit 1; }
 [[ "$store_path" == /nix/store/*-uzel-* ]] \
   || { echo 'PACKAGE_SMOKE_FAILED store path must identify the realized Uzel closure' >&2; exit 1; }
 [[ -x "$store_path/bin/uzel" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED public packaged launcher is missing' >&2; exit 1; }
 [[ -x "$store_path/libexec/uzel-shell" && -x "$store_path/libexec/uzel-napd" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED private shell or daemon is missing' >&2; exit 1; }
-[[ $(find "$store_path/bin" -maxdepth 1 -type f | wc -l) -eq 1 ]] \
+[[ $(find "$store_path/bin" -mindepth 1 -maxdepth 1 | wc -l) -eq 1 \
+    && -f "$store_path/bin/uzel" && ! -L "$store_path/bin/uzel" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED only bin/uzel may be public' >&2; exit 1; }
 [[ -f "$store_path/share/applications/uzel.desktop" ]] \
   || { echo 'PACKAGE_SMOKE_FAILED desktop file is missing' >&2; exit 1; }
@@ -51,13 +55,26 @@ fi
 closure_size=$(nix "${NIX_FLAGS[@]}" path-info --closure-size "$store_path")
 requisites=$(nix-store --query --requisites "$store_path")
 references=$(nix-store --query --references "$store_path")
+for runtime_ref in webkitgtk gtk+3; do
+  printf '%s\n' "$requisites" | rg -q "/nix/store/[^/]*-$runtime_ref-" \
+    || { echo "PACKAGE_SMOKE_FAILED closure lacks $runtime_ref" >&2; exit 1; }
+done
+if printf '%s\n' "$requisites" | rg -q '/nix/store/[^/]*-(rustc|cargo|nodejs|pnpm)(-|$)'; then
+  echo 'PACKAGE_SMOKE_FAILED closure contains build-only tooling' >&2
+  exit 1
+fi
 printf 'PACKAGE_CLOSURE store_path=%s closure_size=%s\n' "$store_path" "$closure_size"
+echo 'PACKAGE_CLOSURE_ASSERTIONS_OK runtime=gtk-webkit build_tools=absent'
 printf '%s\n' "$requisites" | sort | sed 's#^#PACKAGE_REQUISITE #'
 printf '%s\n' "$references" | sort | sed 's#^#PACKAGE_REFERENCE #'
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-failure_dir=${UZEL_PACKAGE_FAILURE_DIR:-"$tmp/failure"}
+failure_dir=${UZEL_PACKAGE_FAILURE_DIR:-"$repo_root/.artifacts/package-smoke-failure"}
+case "$failure_dir" in
+  /*) ;;
+  *) failure_dir="$repo_root/$failure_dir" ;;
+esac
 mkdir -m 700 "$tmp/decoy"
 printf '%s\n' '#!/usr/bin/env bash' \
   'touch "${UZEL_PACKAGE_DECOY_TOUCHED:?}"' \
@@ -434,9 +451,18 @@ run_daemon_exit_probe() {
 
   run_lifecycle_probe daemon-exit
   pid=$LIFECYCLE_PID
-  mapfile -t children < <(pgrep -P "$pid" || true)
+  for _ in $(seq 1 80); do
+    mapfile -t children < <(pgrep -P "$pid" || true)
+    [[ ${#children[@]} -eq 2 ]] && break
+    sleep 0.1
+  done
   [[ ${#children[@]} -eq 2 ]] \
-    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit probe needs daemon and shell child' >&2; exit 1; }
+    || {
+      echo 'PACKAGE_SMOKE_FAILED daemon-exit probe needs daemon and shell child' >&2
+      kill -TERM "$pid" 2>/dev/null || true
+      wait "$pid" 2>/dev/null || true
+      exit 1
+    }
   for child in "${children[@]}"; do
     case $(readlink -f "/proc/$child/exe") in
       */uzel-napd) daemon_pid=$child ;;
@@ -444,7 +470,13 @@ run_daemon_exit_probe() {
     esac
   done
   [[ -n "$daemon_pid" && -n "$shell_pid" ]] \
-    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit probe could not identify both children' >&2; exit 1; }
+    || {
+      echo 'PACKAGE_SMOKE_FAILED daemon-exit probe could not identify both children' >&2
+      kill -TERM "$pid" 2>/dev/null || true
+      wait "$pid" 2>/dev/null || true
+      exit 1
+    }
+  kill -STOP "$shell_pid"
   kill -KILL "$daemon_pid"
   set +e
   wait "$pid"
@@ -456,7 +488,7 @@ run_daemon_exit_probe() {
     || { echo 'PACKAGE_SMOKE_FAILED daemon-exit shell child survived' >&2; exit 1; }
   [[ ! -e "$tmp/daemon-exit-runtime/uzel/napd.sock" ]] \
     || { echo 'PACKAGE_SMOKE_FAILED daemon-exit launcher left a socket' >&2; exit 1; }
-  printf 'PACKAGE_DAEMON_EXIT_OK status=%s shell=reaped socket=retired\n' "$status"
+  printf 'PACKAGE_DAEMON_EXIT_OK status=%s hung_shell=killed shell=reaped socket=retired\n' "$status"
 }
 
 run_daemon_exit_probe

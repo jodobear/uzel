@@ -70,10 +70,9 @@ test('packaged launcher serializes ownership and removes only its exact socket',
   assert.match(flake, /kill -s "\\\$signal" "\\\$daemon_pid"/);
   assert.equal((flake.match(/set -m/g) ?? []).length, 2);
   assert.equal((flake.match(/set \+m/g) ?? []).length, 2);
-  assert.match(flake, /if \[ -z "\\\$received_signal" \]; then\s+signal_children TERM/s);
-  assert.match(flake, /wait "\\\$shell_pid"/);
+  assert.match(flake, /stop_child\(\)[\s\S]*kill -KILL "\\\$child_pid"[\s\S]*wait "\\\$child_pid"/);
   assert.match(flake, /wait -n -p completed_pid "\\\$shell_pid" "\\\$daemon_pid"/);
-  assert.match(flake, /completed_pid.*= "\\\$daemon_pid"[\s\S]*kill -TERM "\\\$shell_pid"/);
+  assert.match(flake, /completed_pid.*= "\\\$daemon_pid"[\s\S]*stop_child "\\\$shell_pid" TERM/);
   assert.match(flake, /socket_identity=.*stat -Lc '%d:%i'/);
   assert.match(flake, /current_socket_identity.*= "\\\$socket_identity"/s);
   assert.match(flake, /rm -f -- "\\\$socket"/);
@@ -88,6 +87,10 @@ test('package input excludes delivery-only state and smoke binds to the current 
   assert.doesNotMatch(flake, /\.\/\.planning/);
   assert.match(packageScript, /nix "\$\{NIX_FLAGS\[@\]\}" eval --raw \.#uzel\.outPath/);
   assert.match(packageScript, /supplied store path does not match the current flake output/);
+  assert.equal((packageScript.match(/git diff HEAD --quiet -- "\$\{PRODUCT_INPUTS\[@\]\}"/g) ?? []).length, 2);
+  assert.match(packageScript, /PACKAGE_CLOSURE_ASSERTIONS_OK runtime=gtk-webkit build_tools=absent/);
+  assert.match(packageScript, /find "\$store_path\/bin" -mindepth 1 -maxdepth 1/);
+  assert.match(packageScript, /\.artifacts\/package-smoke-failure/);
 });
 
 test('package probes foreign socket ownership and observable version mismatch', () => {
@@ -116,7 +119,8 @@ test('launcher-only evidence cannot claim packaged WebKit execution', () => {
   assert.match(packageScript, /run_signal_probe INT 130/);
   assert.match(packageScript, /PACKAGE_SIGNAL_OK signal=%s status=%s children=reaped socket=retired/);
   assert.match(packageScript, /run_daemon_exit_probe/);
-  assert.match(packageScript, /PACKAGE_DAEMON_EXIT_OK status=%s shell=reaped socket=retired/);
+  assert.match(packageScript, /PACKAGE_DAEMON_EXIT_OK status=%s hung_shell=killed shell=reaped socket=retired/);
   assert.match(packageScript, /PACKAGE_ENV=\(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS/);
+  assert.match(packageScript, /-u LIBGL_DRIVERS_PATH -u __EGL_VENDOR_LIBRARY_FILENAMES/);
   assert.match(packageScript, /"\$\{PACKAGE_ENV\[@\]\}" PATH="\$tmp\/decoy:\$PATH"/);
 });

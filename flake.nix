@@ -146,6 +146,29 @@
             fi
           }
 
+          stop_child() {
+            child_pid=\$1
+            initial_signal=\$2
+            [ -n "\$child_pid" ] || return 0
+            if [ -n "\$initial_signal" ]; then
+              kill -s "\$initial_signal" "\$child_pid" 2>/dev/null || true
+            fi
+            attempt=0
+            child_state=
+            while kill -0 "\$child_pid" 2>/dev/null && [ "\$attempt" -lt 50 ]; do
+              if [ -r "/proc/\$child_pid/stat" ]; then
+                read -r _ _ child_state _ < "/proc/\$child_pid/stat" || true
+                [ "\$child_state" = Z ] && break
+              fi
+              ${pkgs.coreutils}/bin/sleep 0.1
+              attempt=\$((attempt + 1))
+            done
+            if kill -0 "\$child_pid" 2>/dev/null && [ "\$child_state" != Z ]; then
+              kill -KILL "\$child_pid" 2>/dev/null || true
+            fi
+            wait "\$child_pid" 2>/dev/null || true
+          }
+
           handle_signal() {
             received_signal=\$1
             trap - INT TERM
@@ -160,15 +183,12 @@
             status=\$?
             trap - EXIT INT TERM
             exec 7<&- 8>&- 2>/dev/null || true
-            if [ -z "\$received_signal" ]; then
-              signal_children TERM
-            fi
-            if [ -n "\$shell_pid" ]; then
-              wait "\$shell_pid" 2>/dev/null || true
-            fi
-            if [ -n "\$daemon_pid" ]; then
-              wait "\$daemon_pid" 2>/dev/null || true
-            fi
+            cleanup_signal=
+            [ -n "\$received_signal" ] || cleanup_signal=TERM
+            stop_child "\$shell_pid" "\$cleanup_signal"
+            stop_child "\$daemon_pid" "\$cleanup_signal"
+            shell_pid=
+            daemon_pid=
             current_socket_identity=
             if [ -S "\$socket" ]; then
               current_socket_identity=\$(${pkgs.coreutils}/bin/stat -Lc '%d:%i' "\$socket")
@@ -219,15 +239,13 @@
           set -e
           if [ "\$completed_pid" = "\$shell_pid" ]; then
             shell_pid=
-            kill -TERM "\$daemon_pid" 2>/dev/null || true
-            wait "\$daemon_pid" 2>/dev/null || true
+            stop_child "\$daemon_pid" TERM
             daemon_pid=
             exit "\$completed_status"
           fi
           if [ "\$completed_pid" = "\$daemon_pid" ]; then
             daemon_pid=
-            kill -TERM "\$shell_pid" 2>/dev/null || true
-            wait "\$shell_pid" 2>/dev/null || true
+            stop_child "\$shell_pid" TERM
             shell_pid=
             [ "\$completed_status" -ne 0 ] || completed_status=1
             exit "\$completed_status"
@@ -261,7 +279,9 @@
         test -x ${uzel}/libexec/uzel-napd
         test -f ${uzel}/share/applications/uzel.desktop
         test -f ${uzel}/share/icons/hicolor/512x512/apps/uzel.png
-        test "$(find ${uzel}/bin -maxdepth 1 -type f | wc -l)" -eq 1
+        test "$(find ${uzel}/bin -mindepth 1 -maxdepth 1 | wc -l)" -eq 1
+        test -f ${uzel}/bin/uzel
+        test ! -L ${uzel}/bin/uzel
         touch "$out"
       '';
 
