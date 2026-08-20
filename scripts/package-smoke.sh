@@ -56,7 +56,7 @@ closure_size=$(nix "${NIX_FLAGS[@]}" path-info --closure-size "$store_path")
 requisites=$(nix-store --query --requisites "$store_path")
 references=$(nix-store --query --references "$store_path")
 for runtime_ref in webkitgtk gtk+3; do
-  printf '%s\n' "$requisites" | rg -q "/nix/store/[^/]*-$runtime_ref-" \
+  printf '%s\n' "$requisites" | rg -F -q -- "-$runtime_ref-" \
     || { echo "PACKAGE_SMOKE_FAILED closure lacks $runtime_ref" >&2; exit 1; }
 done
 if printf '%s\n' "$requisites" | rg -q '/nix/store/[^/]*-(rustc|cargo|nodejs|pnpm)(-|$)'; then
