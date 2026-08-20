@@ -6,6 +6,7 @@ readonly NAMPPLETS_REV=e2f69f325a6b45213accdacfcc125e80e0687b4c
 readonly TRUSTED_SHELL_REV=eefa9f9d8aa463b833b4d93723dd770f81408889
 readonly TRUSTED_SHELL_SHA256=a3e6c18e8724329332bd15a039282a8a0bcf5ec93577b97752f46721df80fba3
 readonly NMP_REV=005dc2a5f12aa414961b313d05ebb021934e385c
+readonly PACKAGE_ENV=(env -u LD_LIBRARY_PATH -u XDG_DATA_DIRS -u GI_TYPELIB_PATH -u GIO_EXTRA_MODULES -u GTK_PATH)
 
 repo_root=$(pwd -P)
 launcher_only=${UZEL_PACKAGE_LAUNCHER_ONLY:-0}
@@ -67,7 +68,7 @@ export UZEL_PACKAGE_DECOY_TOUCHED="$tmp/decoy-executed"
 if [[ "$launcher_only" == 0 && "$mismatch_only" == 0 ]]; then
   (
     cd "$tmp"
-    PATH="$tmp/decoy:$PATH" \
+    "${PACKAGE_ENV[@]}" PATH="$tmp/decoy:$PATH" \
       UZEL_SMOKE_NAME=package \
       UZEL_SMOKE_LAUNCHER="$store_path/bin/uzel" \
       UZEL_SMOKE_ARTIFACT_DIR="$failure_dir" \
@@ -159,7 +160,7 @@ PY
   set +e
   XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     UZEL_LAUNCHER_TEST_HOLD_SECONDS=1 \
-    "$store_path/bin/uzel" >"$tmp/preexisting-$kind.log" 2>&1
+    "${PACKAGE_ENV[@]}" "$store_path/bin/uzel" >"$tmp/preexisting-$kind.log" 2>&1
   status=$?
   set -e
   socket_alive=0
@@ -206,7 +207,7 @@ run_postcheck_substitution_probe() {
   XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     UZEL_NAPD_TEST_PRE_BIND_DELAY_MS=3000 \
     UZEL_LAUNCHER_TEST_HOLD_SECONDS=1 \
-    "$store_path/bin/uzel" >"$tmp/postcheck.log" 2>&1 &
+    "${PACKAGE_ENV[@]}" "$store_path/bin/uzel" >"$tmp/postcheck.log" 2>&1 &
   launcher_pid=$!
   for _ in $(seq 1 80); do
     pgrep -P "$launcher_pid" >/dev/null && break
@@ -301,7 +302,7 @@ PY
   timeout --signal=TERM --kill-after=5s 30s env \
     XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     WAYLAND_DISPLAY=wayland-uzel-mismatch GDK_BACKEND=wayland NO_AT_BRIDGE=1 \
-    "$store_path/libexec/uzel-shell" >"$tmp/mismatch-shell.log" 2>&1
+    "${PACKAGE_ENV[@]}" "$store_path/libexec/uzel-shell" >"$tmp/mismatch-shell.log" 2>&1
   status=$?
   for _ in $(seq 1 40); do
     ! kill -0 "$responder_pid" 2>/dev/null && break
@@ -354,16 +355,29 @@ run_lifecycle_probe() {
   # Job control gives the background launcher default INT disposition before
   # its own traps install; otherwise non-interactive Bash inherits SIGINT ignored.
   set -m
-  XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
+  "${PACKAGE_ENV[@]}" XDG_RUNTIME_DIR="$runtime_dir" XDG_DATA_HOME="$data_dir" \
     UZEL_LAUNCHER_TEST_HOLD_SECONDS="$hold_seconds" \
     "$store_path/bin/uzel" >"$tmp/$name.log" 2>&1 &
   pid=$!
   set +m
-  wait_for_socket "$socket" || { cat "$tmp/$name.log" >&2; return 1; }
-  [[ $(stat -c '%a' "$runtime_dir/uzel") == 700 ]] \
-    || { echo 'PACKAGE_SMOKE_FAILED socket parent is not private' >&2; return 1; }
-  [[ $(stat -c '%a' "$socket") == 600 ]] \
-    || { echo 'PACKAGE_SMOKE_FAILED socket is not private' >&2; return 1; }
+  if ! wait_for_socket "$socket"; then
+    cat "$tmp/$name.log" >&2
+    kill -TERM "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+    return 1
+  fi
+  if [[ $(stat -c '%a' "$runtime_dir/uzel") != 700 ]]; then
+    echo 'PACKAGE_SMOKE_FAILED socket parent is not private' >&2
+    kill -TERM "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+    return 1
+  fi
+  if [[ $(stat -c '%a' "$socket") != 600 ]]; then
+    echo 'PACKAGE_SMOKE_FAILED socket is not private' >&2
+    kill -TERM "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+    return 1
+  fi
   LIFECYCLE_PID=$pid
 }
 
@@ -414,9 +428,42 @@ run_signal_probe() {
 run_signal_probe TERM 143
 run_signal_probe INT 130
 
+run_daemon_exit_probe() {
+  local pid child daemon_pid= shell_pid= status
+  local -a children=()
+
+  run_lifecycle_probe daemon-exit
+  pid=$LIFECYCLE_PID
+  mapfile -t children < <(pgrep -P "$pid" || true)
+  [[ ${#children[@]} -eq 2 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit probe needs daemon and shell child' >&2; exit 1; }
+  for child in "${children[@]}"; do
+    case $(readlink -f "/proc/$child/exe") in
+      */uzel-napd) daemon_pid=$child ;;
+      *) shell_pid=$child ;;
+    esac
+  done
+  [[ -n "$daemon_pid" && -n "$shell_pid" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit probe could not identify both children' >&2; exit 1; }
+  kill -KILL "$daemon_pid"
+  set +e
+  wait "$pid"
+  status=$?
+  set -e
+  [[ $status -ne 0 ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit launcher succeeded' >&2; exit 1; }
+  ! kill -0 "$shell_pid" 2>/dev/null \
+    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit shell child survived' >&2; exit 1; }
+  [[ ! -e "$tmp/daemon-exit-runtime/uzel/napd.sock" ]] \
+    || { echo 'PACKAGE_SMOKE_FAILED daemon-exit launcher left a socket' >&2; exit 1; }
+  printf 'PACKAGE_DAEMON_EXIT_OK status=%s shell=reaped socket=retired\n' "$status"
+}
+
+run_daemon_exit_probe
+
 run_lifecycle_probe concurrent
 concurrent_pid=$LIFECYCLE_PID
-if XDG_RUNTIME_DIR="$tmp/concurrent-runtime" XDG_DATA_HOME="$tmp/concurrent-data" \
+if "${PACKAGE_ENV[@]}" XDG_RUNTIME_DIR="$tmp/concurrent-runtime" XDG_DATA_HOME="$tmp/concurrent-data" \
   UZEL_LAUNCHER_TEST_HOLD_SECONDS=1 "$store_path/bin/uzel" >"$tmp/concurrent-second.log" 2>&1; then
   echo 'PACKAGE_SMOKE_FAILED concurrent launcher reused private socket' >&2
   kill -TERM "$concurrent_pid" 2>/dev/null || true

@@ -213,11 +213,26 @@
           shell_pid=\$!
           set +m
           set +e
-          wait "\$shell_pid"
-          shell_status=\$?
+          completed_pid=
+          wait -n -p completed_pid "\$shell_pid" "\$daemon_pid"
+          completed_status=\$?
           set -e
-          shell_pid=
-          exit "\$shell_status"
+          if [ "\$completed_pid" = "\$shell_pid" ]; then
+            shell_pid=
+            kill -TERM "\$daemon_pid" 2>/dev/null || true
+            wait "\$daemon_pid" 2>/dev/null || true
+            daemon_pid=
+            exit "\$completed_status"
+          fi
+          if [ "\$completed_pid" = "\$daemon_pid" ]; then
+            daemon_pid=
+            kill -TERM "\$shell_pid" 2>/dev/null || true
+            wait "\$shell_pid" 2>/dev/null || true
+            shell_pid=
+            [ "\$completed_status" -ne 0 ] || completed_status=1
+            exit "\$completed_status"
+          fi
+          exit 1
           EOF
           runHook postInstall
         '';
